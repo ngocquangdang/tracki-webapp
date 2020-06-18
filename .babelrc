@@ -6,17 +6,17 @@
       {
         "root": ["./"],
         "alias": {
-          "@Actions": "./src/Actions",
-          "@Components": "./src/Components",
-          "@Definitions": "./src/Definitions",
-          "@Interfaces": "./src/Interfaces",
+          "@Actions": "./src/actions",
+          "@Components": "./src/components",
+          "@Definitions": "./src/definitions",
+          "@Interfaces": "./src/interfaces",
           "@Pages": "./pages",
-          "@Reducers": "./src/Redux/Reducers",
-          "@Redux": "./src/Redux",
-          "@Services": "./src/Services",
+          "@Reducers": "./src/reducers",
+          "@Store": "./src/store",
+          "@Services": "./src/services",
           "@Server": "./server",
           "@Static": "./public/static",
-          "@Styled": "./src/Styled"
+          "@Styled": "./src/styled"
         }
       }
     ],
