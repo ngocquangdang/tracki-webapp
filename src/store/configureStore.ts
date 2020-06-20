@@ -1,10 +1,11 @@
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import createSagaMiddleware from 'redux-saga';
+import { createWrapper } from 'next-redux-wrapper';
 
 import createReducer from '@Reducers';
 
-export const configureStore = (initialState = {}) => {
+const configureStore = (initialState = {}) => {
   const reduxSagaMonitorOptions = {};
 
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
@@ -37,3 +38,5 @@ export const configureStore = (initialState = {}) => {
   console.log('storeExtend', storeExtend);
   return storeExtend;
 };
+
+export const wrapper = createWrapper(configureStore);
