@@ -8,6 +8,7 @@
         "alias": {
           "@Actions": "./src/actions",
           "@Components": "./src/components",
+          "@Containers": "./src/containers",
           "@Definitions": "./src/definitions",
           "@Interfaces": "./src/interfaces",
           "@Pages": "./pages",
@@ -16,7 +17,8 @@
           "@Services": "./src/services",
           "@Server": "./server",
           "@Static": "./public/static",
-          "@Styled": "./src/styled"
+          "@Styled": "./src/styled",
+          "@Utils": "./src/utils"
         }
       }
     ],

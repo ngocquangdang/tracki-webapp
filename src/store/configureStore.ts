@@ -35,7 +35,6 @@ const configureStore = (initialState = {}) => {
     });
   }
 
-  console.log('storeExtend', storeExtend);
   return storeExtend;
 };
 

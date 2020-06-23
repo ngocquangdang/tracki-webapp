@@ -18,6 +18,8 @@
       "@Actions": ["src/actions"],
       "@Components/*": ["src/components/*"],
       "@Components": ["src/components"],
+      "@Containers/*": ["src/containers/*"],
+      "@Containers": ["src/containers"],
       "@Definitions/*": ["src/definitions/*"],
       "@Definitions": ["src/definitions"],
       "@Interfaces": ["src/interfaces"],
@@ -32,7 +34,9 @@
       "@Services/*": ["src/services/*"],
       "@Static/*": ["public/static/*"],
       "@Styled/*": ["src/styled/*"],
-      "@Test/*": ["test/*"]
+      "@Test/*": ["test/*"],
+      "@Utils": ["utils"],
+      "@Utils/*": ["utils/*"]
     }
   },
   "exclude": [
