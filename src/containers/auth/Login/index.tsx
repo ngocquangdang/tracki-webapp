@@ -1,28 +1,33 @@
-import React from 'react';
-import { NextPage } from 'next';
+import React, { memo } from 'react';
 
-import { withTranslation } from '@Server/i18n';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
-  t,
-  i18n,
-}) => {
-  ``;
+import { useInjectReducer } from '@Utils/injectReducer';
+import { useInjectSaga } from '@Utils/injectSaga';
 
-  return <div>Hihihihi</div>;
-};
+// import Layout from 'components/Layout';
+// import Features from 'components/Features';
+// import Showcases from 'components/Showcases';
 
-Home.getInitialProps = async (
-  ctx: ReduxNextPageContext
-): Promise<IHomePage.InitialProps> => {
-  await ctx.store.dispatch(
-    HomeActions.GetApod({
-      params: { hd: true },
-    })
-  );
-  return { namespacesRequired: ['common'] };
-};
+import saga from './store/sagas';
+import reducer from './store/reducers';
+import { loginRequestAction } from './store/actions';
 
-const Extended = withTranslation('common')(Home);
+export function Login({}) {
+  useInjectSaga({ key: 'login', saga });
+  useInjectReducer({ key: 'login', reducer });
 
-export default Extended;
+  return <>Hihihihihi</>;
+}
+
+const mapStateToProps = createStructuredSelector({});
+
+export function mapDispatchToProps(dispatch: any) {
+  return { getShowcases: () => dispatch(loginRequestAction()) };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withConnect, memo)(Login);
