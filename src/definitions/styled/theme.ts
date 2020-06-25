@@ -1,9 +1,27 @@
-import { DefaultTheme } from 'styled-components';
+import {
+  Theme as DefaultTheme,
+  createMuiTheme,
+  responsiveFontSizes
+} from '@material-ui/core/styles';
+import { red, yellow } from '@material-ui/core/colors';
 
-const theme: DefaultTheme = {
-  colors: {
-    primary: '#2c3e50',
+const theme: DefaultTheme = responsiveFontSizes(createMuiTheme({
+  palette: {
+    primary: {
+      main: yellow[500],
+    },
+    secondary: {
+      main: '#19857b',
+    },
+    error: {
+      main: red.A400,
+    },
+    background: {
+      default: '#fff',
+    },
   },
-};
+}));
 
-export { theme };
+export {
+  theme
+};
