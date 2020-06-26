@@ -3,15 +3,15 @@ import {
   createMuiTheme,
   responsiveFontSizes
 } from '@material-ui/core/styles';
-import { red, yellow } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
 
 const theme: DefaultTheme = responsiveFontSizes(createMuiTheme({
   palette: {
     primary: {
-      main: yellow[500],
+      main: '#168449',
     },
     secondary: {
-      main: '#19857b',
+      main: '#999999',
     },
     error: {
       main: red.A400,
@@ -19,7 +19,16 @@ const theme: DefaultTheme = responsiveFontSizes(createMuiTheme({
     background: {
       default: '#fff',
     },
+    text: {
+      primary: '#fff',
+      secondary: '#999999 '
+    },
   },
+  typography: {
+    button: {
+      textTransform: 'capitalize',
+    },
+  }
 }));
 
 export {
