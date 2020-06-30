@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
+import { TextField, FormControl } from '@material-ui/core';
 
 const Container = styled.div`
   display: flex;
@@ -13,46 +13,69 @@ const Container = styled.div`
 const Logo = styled.img`
   width: 155px;
   height: 45px;
-`;
-const Title = styled.h2`
-  font-size: 28px;
-  color: #333;
-  font-weight: 300;
+  margin-bottom: 2em;
 `;
 const SubTitle = styled.div`
   font-size: 18px;
   color: #333;
+  margin: 8px 0;
+  @media (max-width: 959.95px){
+    display: none;
+  }
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
+const Label = styled.a`
+  text-decoration: underline;
+  &:hover {
+    color: #168449;
+    cursor: pointer;
+  }
+  @media (max-width: 959.95px){
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: #168449;
+  }
+`;
+const GroupButton = styled.div`
+  margin: 25px 0;
+`
+const Line = styled.div`
+  display: none;
+  text-align: center;
+  &::before,
+  &::after {
+    display: inline-block;
+    content: '';
+    border-top: 1px solid black;
+    width: 100%;
+    margin: 0.6rem 0;
+  }
+  @media (max-width: 959.95px){
+    display: flex;
+    margin: 50px 0 65px;
+  }
+`;
 
-const InputText = withStyles(theme => ({
-  root: {
-    '& .MuiInputBase-root': {
-      color: '#000',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#000',
-      },
-      '&:hover fieldset': {
-        borderColor: '#000',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.primary.main,
-        color: '#000',
-      },
-    },
-  },
-}))(TextField);
+const Footer = styled.div`
+  margin: 8px 0;
+  width: 100%;
+`;
+const Contact = styled.div``;
+const Item = styled.span``;
 
 const useStyles = makeStyles(theme => ({
+  position: {
+    position: 'relative',
+  },
+
   margin: {
-    marginTop: 16,
-    marginBottom: 16,
+    marginTop: 15,
+    marginBottom: 15,
   },
   btn: {
     '&': {
@@ -67,11 +90,12 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  'btn-cancel': {
+  'btn-black': {
     '&': {
       borderColor: '#000',
       color: '#000',
       padding: 14,
+      width: '100%',
     },
     '&:hover': {
       backgroundColor: '#333',
@@ -80,4 +104,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export { Container, Logo, Title, SubTitle, Form, InputText, useStyles };
+export {
+  Container,
+  Logo,
+  SubTitle,
+  Form,
+  Label,
+  Footer,
+  Contact,
+  Item,
+  Line,
+  GroupButton,
+  useStyles,
+};

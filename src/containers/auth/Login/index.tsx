@@ -13,6 +13,7 @@ import View from './view'
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { loginRequestAction } from './store/actions';
+import { withTranslation } from '@Server/i18n';
 
 export function Login(props: any) {
   useInjectSaga({ key: 'auth', saga });
@@ -29,4 +30,4 @@ export function mapDispatchToProps(dispatch: any) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo)(Login);
+export default compose(withConnect, memo, withTranslation(['auth']))(Login);

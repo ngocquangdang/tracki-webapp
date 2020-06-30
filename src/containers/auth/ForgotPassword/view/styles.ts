@@ -8,7 +8,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 50%;
-  padding: 0 5%;
+  padding: 0 15px;
 `;
 const Logo = styled.img`
   margin-bottom: 2em;
