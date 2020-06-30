@@ -25,7 +25,7 @@
       "@Interfaces": ["src/interfaces"],
       "@Interfaces/*": ["src/interfaces/*"],
       "@Layouts": ["src/layouts/*"],
-      "@Pages/*": ["pages/*"],
+      "@Pages/*": ["src/pages/*"],
       "@Reducers": ["src/reducers"],
       "@Reducers/*": ["src/reducers/*"],
       "@Store": ["src/store"],
@@ -36,8 +36,8 @@
       "@Static/*": ["public/static/*"],
       "@Styled/*": ["src/styled/*"],
       "@Test/*": ["test/*"],
-      "@Utils": ["utils"],
-      "@Utils/*": ["utils/*"]
+      "@Utils": ["src/utils"],
+      "@Utils/*": ["src/utils/*"]
     }
   },
   "exclude": [
