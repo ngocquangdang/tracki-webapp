@@ -8,27 +8,16 @@ import {
   Logo,
   SubTitle,
   Form,
-  InputText,
   Label,
   Footer,
-  Contact,
-  Item,
-  Line,
   GroupButton,
   useStyles,
-  FormPassword,
-} from './styles';
-import {
-  Button,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-import ILoginPage from '../interfaces';
+} from './stylesWeb';
 
-import TextFieldComp from '../../../../comps/inputs/TextField';
+import { Button } from '@material-ui/core';
+import ILoginPage from '../../interfaces';
+
+import TextFieldComp from '../../../../../comps/inputs/TextField';
 import PasswordFieldComp from 'src/comps/inputs/PasswordField';
 
 interface StateLogin {
@@ -41,7 +30,6 @@ export default function Login(props: ILoginPage.IProps) {
   const [values, setValues] = useState<StateLogin>({
     email: '',
     password: '',
-
   });
 
   const handleChange = (data: any) => {
@@ -52,7 +40,7 @@ export default function Login(props: ILoginPage.IProps) {
 
   return (
     <AuthLayout>
-      <Container className={classes.media}>
+      <Container>
         <Logo src="images/logo.png" alt=""></Logo>
         <Form>
           <TextFieldComp
@@ -82,16 +70,12 @@ export default function Login(props: ILoginPage.IProps) {
           </Link>
         </Form>
         <Footer>
-          <Line>OR</Line>
           <GroupButton>
             <SubTitle>{t('new_to_tracki')}?</SubTitle>
             <Button className={`${classes['btn-black']}`} variant="outlined">
               {t('create_account')}
             </Button>
           </GroupButton>
-          <Contact>
-            <Item></Item>
-          </Contact>
         </Footer>
       </Container>
     </AuthLayout>
