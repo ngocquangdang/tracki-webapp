@@ -1,14 +1,15 @@
-import React, { memo, useState } from 'react';
-
+import React, { useState } from 'react';
 import Link from 'next/link';
+
 import { AuthLayout } from '@Layouts';
+import { TextInput, PasswordInput } from '@Components/inputs';
+import { Button } from '@Components/buttons';
 
 import {
   Container,
   Logo,
   SubTitle,
   Form,
-  InputText,
   Label,
   Footer,
   Contact,
@@ -16,67 +17,48 @@ import {
   Line,
   GroupButton,
   useStyles,
-  FormPassword,
 } from './styles';
-import {
-  Button,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
 import ILoginPage from '../interfaces';
 
-import TextFieldComp from '../../../../comps/inputs/TextField';
-import PasswordFieldComp from 'src/comps/inputs/PasswordField';
 
-interface StateLogin {
-  email: string;
-  password: string;
-}
 export default function Login(props: ILoginPage.IProps) {
   const { t } = props;
   const classes = useStyles();
-  const [values, setValues] = useState<StateLogin>({
+  const [values, setValues] = useState<ILoginPage.IStateLogin>({
     email: '',
     password: '',
-
   });
 
   const handleChange = (data: any) => {
     setValues({ ...values, ...data });
   };
 
-  console.log('___VAL', values);
-
   return (
     <AuthLayout>
-      <Container className={classes.media}>
-        <Logo src="images/logo.png" alt=""></Logo>
+      <Container>
+        <Logo src="images/logo.png" alt=""/>
         <Form>
-          <TextFieldComp
+          <TextInput
             className={`${classes.margin}`}
-            label="Email"
+            label={t('email')}
             name="email"
             value={values.email}
             onChange={handleChange}
             variant="outlined"
           />
-          <PasswordFieldComp
+          <PasswordInput
             className={`${classes.margin}`}
-            label="Password"
+            label={t('password')}
             name="password"
             value={values.password}
             onChange={handleChange}
-          ></PasswordFieldComp>
+          />
           <Button
-            className={`${classes.margin} ${classes.btn}`}
+            classes={`${classes.margin} ${classes.btn}`}
+            text={t('log_in')}
             color="primary"
             variant="outlined"
-          >
-            {t('log_in')}
-          </Button>
+          />
           <Link href="/forgot-password">
             <Label>{t('forgot_password')}?</Label>
           </Link>
@@ -85,9 +67,11 @@ export default function Login(props: ILoginPage.IProps) {
           <Line>OR</Line>
           <GroupButton>
             <SubTitle>{t('new_to_tracki')}?</SubTitle>
-            <Button className={`${classes['btn-black']}`} variant="outlined">
-              {t('create_account')}
-            </Button>
+            <Button
+              classes={classes.blackBtn}
+              variant="outlined"
+              text={t('create_account')}
+            />
           </GroupButton>
           <Contact>
             <Item></Item>

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { TextField, FormControl } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Container = styled.div`
   display: flex;
@@ -11,8 +10,6 @@ const Container = styled.div`
   padding: 0 5%;
 `;
 const Logo = styled.img`
-  width: 155px;
-  height: 45px;
   margin-bottom: 2em;
 `;
 const SubTitle = styled.div`
@@ -41,9 +38,11 @@ const Label = styled.a`
     color: #168449;
   }
 `;
+
 const GroupButton = styled.div`
   margin: 25px 0;
-`
+`;
+
 const Line = styled.div`
   display: none;
   text-align: center;
@@ -72,7 +71,6 @@ const useStyles = makeStyles(theme => ({
   position: {
     position: 'relative',
   },
-
   margin: {
     marginTop: 15,
     marginBottom: 15,
@@ -90,7 +88,7 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  'btn-black': {
+  blackBtn: {
     '&': {
       borderColor: '#000',
       color: '#000',
