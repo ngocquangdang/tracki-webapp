@@ -9,5 +9,5 @@ docker rm tracki-frontend
 echo "##### Pull image from docker registry....."
 docker pull $3
 echo "##### Run image....."
-docker run -d --name tracki-frontend -p 3000:3000 --restart unless-stopped $3
+docker run -d --name tracki-frontend -p 3001:3000 --restart unless-stopped $3
 echo "##### Successfully"
