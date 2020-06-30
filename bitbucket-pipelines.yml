@@ -29,12 +29,7 @@ definitions:
           - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER "ls -al"
           - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
           - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
-          - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER $DOCKER_IMAGE_NAME mtrk2021/tracki-frontend:$TAG
-
-          # - scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
-          # - ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
-          # - ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER $DOCKER_IMAGE_NAME mtrk2021/tracki-frontend:$TAG
-          # - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER "ls -al"
+          - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER mtrk2021/tracki-frontend:$TAG
         services:
           - docker
         size: 2x
