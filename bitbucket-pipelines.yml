@@ -2,7 +2,7 @@ image: node:10.15.3
 
 definitions:
   docker:
-    memory: 3072
+    memory: 5072
   caches:
     nextcache: .next/cache
   steps:
@@ -44,6 +44,7 @@ pipelines:
     - step:
         <<: *build-and-push-to-docker-registry
         deployment: develop
+
 #  branches:
 #    develop:
 #      - step: *run-test
