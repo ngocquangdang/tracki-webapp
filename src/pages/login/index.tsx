@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
 import LoginContainer from '@Containers/auth/Login';
-import ILoginPage from './interfaces';
+import ILoginPage from '@Containers/auth/Login/interfaces';
 
 const Login: NextPage = () => {
   return <LoginContainer />;

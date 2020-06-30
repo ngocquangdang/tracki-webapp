@@ -1,9 +1,9 @@
 import { WithTranslation } from 'next-i18next';
 
 declare namespace IForgotPage {
-  export interface IProps extends WithTranslation {}
+  interface IProps extends WithTranslation {}
 
-  export interface InitialProps {
+  interface InitialProps {
     namespacesRequired: string[];
   }
 }

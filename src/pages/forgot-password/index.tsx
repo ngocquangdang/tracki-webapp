@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
 import ForgotContainer from '@Containers/auth/ForgotPassword';
-import IForgotPage from './interfaces';
+import IForgotPage from '@Containers/auth/ForgotPassword/interfaces';
 
 const Forgot: NextPage = () => {
   return <ForgotContainer />;

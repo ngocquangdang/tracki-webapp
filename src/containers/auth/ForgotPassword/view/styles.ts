@@ -7,20 +7,19 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 45%;
+  width: 50%;
   padding: 0 5%;
 `;
 const Logo = styled.img`
-  width: 155px;
-  height: 45px;
+  margin-bottom: 2em;
 `;
 const Title = styled.h2`
-  font-size: 28px;
+  font-size: 24px;
   color: #333;
   font-weight: 300;
 `;
 const SubTitle = styled.div`
-  font-size: 18px;
+  font-size: 14px;
   color: #333;
   text-align: center;
 `;
@@ -52,7 +51,7 @@ const InputText = withStyles(theme => ({
 
 const useStyles = makeStyles(theme => ({
   media: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: '100%'
     }
   },

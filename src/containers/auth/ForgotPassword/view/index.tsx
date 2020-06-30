@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React from 'react';
+import { Button } from '@material-ui/core';
+import Link from 'next/link';
 
 import { AuthLayout } from '@Layouts';
-
 import {
   Container,
   Logo,
@@ -11,25 +12,23 @@ import {
   InputText,
   useStyles,
 } from './styles';
-import { Button } from '@material-ui/core';
+import IForgotPage from '../interfaces';
 
-export default function ForgotPassword({}) {
+function ForgotPassword(props: IForgotPage.IProps) {
+  const { t } = props;
   const classes = useStyles();
 
   return (
     <AuthLayout>
       <Container className={classes.media}>
         <Logo src='images/logo.png' alt=''></Logo>
-        <Title>Forgotten Password</Title>
+        <Title>{t('forgot_password')}</Title>
         <SubTitle>
-          {' '}
-          Enter the email address associated with your account and we will send
-          you instructions how to reset your password
+          {t('forgot_password_description')}
         </SubTitle>
         <Form>
           <InputText
             className={classes.margin}
-            id="outlined-basic"
             label="Email"
             variant="outlined"
           />
@@ -38,13 +37,17 @@ export default function ForgotPassword({}) {
             color="primary"
             variant="outlined"
           >
-            reset password
+            {t('reset_password')}
           </Button>
-          <Button className={`${classes["btn-cancel"]}`} variant="outlined">
-            cancel
+          <Link href="/login">
+            <Button className={`${classes["btn-cancel"]}`} variant="outlined">
+              {t('cancel')}
           </Button>
+          </Link>
         </Form>
       </Container>
     </AuthLayout>
   );
 }
+
+export default ForgotPassword;

@@ -15,8 +15,8 @@ import reducer from './store/reducers';
 import { loginRequestAction } from './store/actions';
 
 export function Login(props: any) {
-  useInjectSaga({ key: 'login', saga });
-  useInjectReducer({ key: 'login', reducer });
+  useInjectSaga({ key: 'auth', saga });
+  useInjectReducer({ key: 'auth', reducer });
 
   return <View {...props}/>;
 }

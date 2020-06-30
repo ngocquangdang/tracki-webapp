@@ -12,7 +12,7 @@ const Row = styled.div`
   height: 100%;
 `
 const Background = styled.div`
-  width: 55%;
+  width: 50%;
   background: url('images/turntable.jpg');
 `
 
