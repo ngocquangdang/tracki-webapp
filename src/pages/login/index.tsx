@@ -10,9 +10,9 @@ const Login: NextPage = () => {
 };
 
 Login.getInitialProps = async (): Promise<ILoginPage.InitialProps> => {
-  return { namespacesRequired: ['common'] };
+  return { namespacesRequired: ['auth'] };
 };
 
-const Extended = withTranslation('common')(Login);
+const Extended = withTranslation('auth')(Login);
 
 export default Extended;

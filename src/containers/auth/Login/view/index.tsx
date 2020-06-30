@@ -1,49 +1,82 @@
-import React, { memo } from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 import { AuthLayout } from '@Layouts';
+import { TextInput, PasswordInput } from '@Components/inputs';
+import { Button } from '@Components/buttons';
 
 import {
   Container,
   Logo,
-  Title,
   SubTitle,
   Form,
-  InputText,
+  Label,
+  Footer,
+  Contact,
+  Item,
+  Line,
+  GroupButton,
   useStyles,
 } from './styles';
-import { Button } from '@material-ui/core';
+import ILoginPage from '../interfaces';
 
-export default function Login({}) {
+
+export default function Login(props: ILoginPage.IProps) {
+  const { t } = props;
   const classes = useStyles();
+  const [values, setValues] = useState<ILoginPage.IStateLogin>({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (data: any) => {
+    setValues({ ...values, ...data });
+  };
 
   return (
     <AuthLayout>
       <Container>
-        <Logo src='images/logo.png' alt=''></Logo>
-        <Title>Forgotten Password</Title>
-        <SubTitle>
-          {' '}
-          Enter the email address associated with your account and we will send
-          you instructions how to reset your password
-        </SubTitle>
+        <Logo src="images/logo.png" alt=""/>
         <Form>
-          <InputText
-            className={classes.margin}
-            id="outlined-basic"
-            label="Email"
+          <TextInput
+            className={`${classes.margin}`}
+            label={t('email')}
+            name="email"
+            value={values.email}
+            onChange={handleChange}
             variant="outlined"
           />
+          <PasswordInput
+            className={`${classes.margin}`}
+            label={t('password')}
+            name="password"
+            value={values.password}
+            onChange={handleChange}
+          />
           <Button
-            className={`${classes.margin}, ${classes.btn}`}
+            classes={`${classes.margin} ${classes.btn}`}
+            text={t('log_in')}
             color="primary"
             variant="outlined"
-          >
-            reset password
-          </Button>
-          <Button className={`${classes["btn-cancel"]}`} variant="outlined">
-            cancel
-          </Button>
+          />
+          <Link href="/forgot-password">
+            <Label>{t('forgot_password')}?</Label>
+          </Link>
         </Form>
+        <Footer>
+          <Line>OR</Line>
+          <GroupButton>
+            <SubTitle>{t('new_to_tracki')}?</SubTitle>
+            <Button
+              classes={classes.blackBtn}
+              variant="outlined"
+              text={t('create_account')}
+            />
+          </GroupButton>
+          <Contact>
+            <Item></Item>
+          </Contact>
+        </Footer>
       </Container>
     </AuthLayout>
   );

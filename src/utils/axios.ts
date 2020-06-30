@@ -17,9 +17,6 @@ class AxiosClient {
       throw new Error('Cannot initialize Axios client single instance');
     }
 
-    console.log('____process.env.API_URL', process.env.NEXT_PUBLIC_API_URL);
-    
-
     this.axiosClient = axios.create({
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
