@@ -1,0 +1,52 @@
+image: node:10.15.3
+
+definitions:
+  docker:
+    memory: 3072
+  caches:
+    nextcache: .next/cache
+  steps:
+    - step: &run-test
+        name: Test and Build
+        caches:
+          - node
+          - nextcache
+        script:
+          - npm install -g yarn
+          - yarn build
+        artifacts:
+          - ./
+    - step: &build-and-push-to-docker-registry
+        name: Push to Docker Registry
+        script:
+          - export TAG="${BITBUCKET_COMMIT::7}"
+          - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+          - docker build -t mtrk2021/tracki-frontend:$TAG .
+          - docker push mtrk2021/tracki-frontend:$TAG
+          - apt-get update -qq && apt-get install -y -qq sshpass
+          - mkdir -p /root/.ssh
+          - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
+          - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER "ls -al"
+        services:
+          - docker
+        caches:
+          - docker
+
+pipelines:
+  default:
+    - step: *run-test
+    - step:
+        <<: *build-and-push-to-docker-registry
+        deployment: develop
+#  branches:
+#    develop:
+#      - step: *run-test
+#      - step:
+#          <<: *build-and-push-to-docker-registry
+#          deployment: develop
+#    master:
+#      - step: *run-test
+#      - step:
+#          <<: *build-and-push-to-docker-registry
+#          deployment: production
+#          trigger: manual
