@@ -6,6 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import { MenuProps } from '@material-ui/core/Menu'
 import {
   Menu as MenuIcon,
   Clear as ClearIcon,
@@ -25,7 +26,7 @@ const StyledMenu = withStyles({
       padding: 0
     },
   },
-})((props) => (
+})((props: MenuProps) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
@@ -43,9 +44,9 @@ const StyledMenu = withStyles({
 
 export default function CustomizedMenus() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
