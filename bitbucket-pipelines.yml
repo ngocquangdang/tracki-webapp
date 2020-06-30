@@ -2,7 +2,7 @@ image: node:10.15.3
 
 definitions:
   docker:
-    memory: 5072
+    memory: 4096
   caches:
     nextcache: .next/cache
   steps:
@@ -35,6 +35,7 @@ definitions:
           # - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER "ls -al"
         services:
           - docker
+        size: 2x
         caches:
           - docker
 
