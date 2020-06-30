@@ -1,0 +1,49 @@
+image: node:10.15.3
+
+definitions:
+  caches:
+    nextcache: .next/cache
+  steps:
+    - step: &build-test
+        name: Build and test
+        caches:
+          - node
+          - nextcache
+        script:
+          - npm install -g yarn
+          - yarn
+          - yarn build
+          - ls -al
+        artifacts:
+          - ./
+    - step: &testartifacts
+        name: Push to Docker Registry
+        script:
+          - ls -al
+          -  export TAG="${BITBUCKET_COMMIT::7}"
+          - echo $TAG
+    - step: &push-to-docker-registry
+        name: Push to Docker Registry
+        script:
+          - ls -al
+          - export TAG="${BITBUCKET_COMMIT::7}"
+          - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+          - docker build -t mtrk2021/tracki-frontend:$TAG .
+          - docker push mtrk2021/tracki-frontend:$TAG
+        services:
+          - docker
+
+pipelines:
+  default:
+    - step: *build-test
+    - step: *testartifacts
+  branches:
+    develop:
+      - step: *build-test
+      - step: *push-to-docker-registry
+    master:
+      - step: *build-test
+      - step:
+          <<: *push-to-docker-registry
+          deployment: production
+          trigger: manual
