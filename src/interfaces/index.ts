@@ -1,1 +1,1 @@
-export type { AppWithStore, ReduxNextPageContext } from './pages/App';
+export type { AppWithStore, ReduxNextPageContext, ActionType, PayloadType } from './pages/App';

@@ -1,28 +1,34 @@
 import * as types from '../definitions';
+import { PayloadType } from '@Interfaces';
 
-export function getProfileRequested(): any {
+export function getProfileRequested() {
   return {
     type: types.GET_PROFILE_REQUESTED,
   };
 }
 
-export function getProfileSucceed(profile: any): any {
+export function getProfileSucceed(payload: PayloadType) {
   return {
     type: types.GET_PROFILE_SUCCEED,
-    profile,
+    payload,
   };
 }
 
-export function getProfileFailed(errors: any): any {
+export function getProfileFailed(payload: PayloadType) {
   return {
     type: types.GET_PROFILE_FAILED,
-    errors,
+    payload,
   };
 }
 
-export function pageLoadingProgressChange(payload: any): any {
+export function showLoadingAction() {
   return {
-    type: types.PAGE_LOADING_PROGRESS_CHANGE,
-    payload,
+    type: types.SHOW_LOADING,
+  };
+}
+
+export function hideLoadingAction() {
+  return {
+    type: types.HIDE_LOADING,
   };
 }

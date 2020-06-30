@@ -83,6 +83,9 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.contrastText,
     },
   },
+  text: {
+    textAlign: 'center'
+  }
 }));
 
 export { Container, Logo, Title, SubTitle, Form, InputText, useStyles };

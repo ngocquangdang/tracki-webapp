@@ -5,14 +5,12 @@ import { withTranslation } from '@Server/i18n';
 import ForgotContainer from '@Containers/auth/ForgotPassword';
 import IForgotPage from '@Containers/auth/ForgotPassword/interfaces';
 
-const Forgot: NextPage = () => {
-  return <ForgotContainer />;
+const Forgot: NextPage = (props: IForgotPage.IProps) => {
+  return <ForgotContainer {...props}/>;
 };
 
 Forgot.getInitialProps = async (): Promise<IForgotPage.InitialProps> => {
-  return { namespacesRequired: ['common'] };
+  return { namespacesRequired: ['auth'] };
 };
 
-const Extended = withTranslation('common')(Forgot);
-
-export default Extended;
+export default withTranslation(['auth'])(Forgot);
