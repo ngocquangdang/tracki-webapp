@@ -12,11 +12,11 @@ import View from './view'
 
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { loginRequestAction } from './store/actions';
+import { forgotRequestAction } from './store/actions';
 
-export function Login(props: any) {
-  useInjectSaga({ key: 'login', saga });
-  useInjectReducer({ key: 'login', reducer });
+export function ForgotPassword(props: any) {
+  useInjectSaga({ key: 'forgot', saga });
+  useInjectReducer({ key: 'forgot', reducer });
 
   return <View {...props}/>;
 }
@@ -24,9 +24,9 @@ export function Login(props: any) {
 const mapStateToProps = createStructuredSelector({});
 
 export function mapDispatchToProps(dispatch: any) {
-  return { getShowcases: () => dispatch(loginRequestAction()) };
+  return { getShowcases: () => dispatch(forgotRequestAction()) };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo)(Login);
+export default compose(withConnect, memo)(ForgotPassword);
