@@ -12,6 +12,7 @@
           "@Definitions": "./src/definitions",
           "@Interfaces": "./src/interfaces",
           "@Pages": "./pages",
+          "@Layouts": "./src/layouts",
           "@Reducers": "./src/reducers",
           "@Store": "./src/store",
           "@Services": "./src/services",

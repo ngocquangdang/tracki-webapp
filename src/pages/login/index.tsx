@@ -3,16 +3,16 @@ import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
 import LoginContainer from '@Containers/auth/Login';
-import ILoginPage from './interfaces';
+import ILoginPage from '@Containers/auth/Login/interfaces';
 
 const Login: NextPage = () => {
   return <LoginContainer />;
 };
 
 Login.getInitialProps = async (): Promise<ILoginPage.InitialProps> => {
-  return { namespacesRequired: ['common'] };
+  return { namespacesRequired: ['auth'] };
 };
 
-const Extended = withTranslation('common')(Login);
+const Extended = withTranslation('auth')(Login);
 
 export default Extended;

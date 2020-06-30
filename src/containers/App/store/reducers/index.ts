@@ -16,12 +16,14 @@ const appReducer = (state = initialState, action: any) =>
         break;
       }
       case types.GET_PROFILE_FAILED:
-        draft.errors = action.errors;
+        draft.errors = action.payload.errors;
         break;
-      case types.PAGE_LOADING_PROGRESS_CHANGE: {
-        draft.isLoading = action.payload.status;
+      case types.SHOW_LOADING:
+        draft.isLoading = true;
         break;
-      }
+      case types.HIDE_LOADING:
+        draft.isLoading = false;
+        break;
       default:
         break;
     }

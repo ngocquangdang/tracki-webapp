@@ -1,9 +1,13 @@
 import React from 'react';
 
-export default () => {
+import { MainLayout } from '@Layouts';
+
+const Home = (props: any) => {
   return (
-    <>
-      <div>Test</div>
-    </>
+    <MainLayout {...props}>
+      Home content
+    </MainLayout>
   );
 };
+
+export default Home;

@@ -24,6 +24,7 @@
       "@Definitions": ["src/definitions"],
       "@Interfaces": ["src/interfaces"],
       "@Interfaces/*": ["src/interfaces/*"],
+      "@Layouts": ["src/layouts/*"],
       "@Pages/*": ["pages/*"],
       "@Reducers": ["src/reducers"],
       "@Reducers/*": ["src/reducers/*"],
