@@ -23,7 +23,7 @@ definitions:
           - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
           - docker build -t mtrk2021/tracki-frontend:$TAG .
           - docker push mtrk2021/tracki-frontend:$TAG
-          - apt-get update -qq && apt-get install -y -qq sshpass
+          - apk add --update --no-cache openssh sshpass
           - mkdir -p /root/.ssh
           - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
           - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
