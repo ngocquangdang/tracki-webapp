@@ -32,8 +32,8 @@ const useStyles = makeStyles(theme => ({
   },
   errorRoot: {
     right: 0,
-    marginRight: 0
-  }
+    marginRight: 0,
+  },
 }));
 
 export { TextInput, useStyles };

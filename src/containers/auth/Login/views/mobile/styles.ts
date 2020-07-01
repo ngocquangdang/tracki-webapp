@@ -50,6 +50,8 @@ const Line = styled.div`
   }
 `;
 
+const Message = styled.p``;
+
 const Footer = styled.div`
   width: 100%;
 `;
@@ -93,6 +95,10 @@ const useStyles = makeStyles(theme => ({
   textBtn: {
     height: 36,
   },
+  errorText: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
+  },
 }));
 
 export {
@@ -102,6 +108,7 @@ export {
   Label,
   Footer,
   Contact,
+  Message,
   Line,
   GroupButton,
   useStyles,

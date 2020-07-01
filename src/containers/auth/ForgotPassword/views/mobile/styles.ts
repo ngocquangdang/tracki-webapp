@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Container = styled.div`
   display: flex;
@@ -22,6 +22,7 @@ const Title = styled.h2`
 const SubTitle = styled.div`
   font-size: 14px;
   color: #333;
+  margin: 1em;
   text-align: center;
 `;
 const Form = styled.form`
@@ -37,7 +38,7 @@ const Header = styled.div`
   padding: 15px;
   width: 100%;
   top: 0;
-`
+`;
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -58,8 +59,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   text: {
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
 export { Container, Logo, Title, SubTitle, Form, Header, useStyles };

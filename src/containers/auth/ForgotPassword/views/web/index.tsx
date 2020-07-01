@@ -4,27 +4,29 @@ import { Typography } from '@material-ui/core';
 
 import { AuthLayout } from '@Layouts';
 import Button from '@Components/buttons/Button';
-import {TextInput} from '@Components/inputs';
+import { TextInput } from '@Components/inputs';
 
-import {
-  Container,
-  Logo,
-  Title,
-  SubTitle,
-  Form,
-  useStyles,
-} from './styles';
-import IForgotPage from '../interfaces';
+import { Container, Logo, Title, SubTitle, Form, useStyles } from './styles';
+import IForgotPage from '../../interfaces';
 
 function ForgotPassword(props: IForgotPage.IProps) {
-  const { t, errors, email, isRequesting, forgotRequestAction, confirmCodeRequestAction } = props;
+  const {
+    t,
+    errors,
+    email,
+    isRequesting,
+    forgotRequestAction,
+    confirmCodeRequestAction,
+  } = props;
   const classes = useStyles();
   const ref = createRef();
   const [emailInput, updateEmailInput] = useState('');
   const [codeInput, updateCodeInput] = useState('');
 
   const handleChangeInput = (key: string) => ({ target }: any) => {
-    key === 'email' ? updateEmailInput(target.value) : updateCodeInput(target.value);
+    key === 'email'
+      ? updateEmailInput(target.value)
+      : updateCodeInput(target.value);
   };
 
   const handleSubmit = (e: any) => {
@@ -37,23 +39,24 @@ function ForgotPassword(props: IForgotPage.IProps) {
 
   return (
     <AuthLayout>
-      <Container className={classes.media}>
-        <Logo src='images/logo.png' alt=''></Logo>
+      <Container>
+        <Logo src="images/logo.png" alt="" />
         <Title>{t('auth:forgot_password')}</Title>
-        {!email && (
-          <SubTitle>
-            {t('auth:forgot_password_description')}
-          </SubTitle>
-        )}
+        {!email && <SubTitle>{t('auth:forgot_password_description')}</SubTitle>}
         <Form onSubmit={handleSubmit}>
           {email ? (
             <>
-              <Typography className={classes.text}>{t('auth:sent_email_to', { text: email })}</Typography>
-              <Typography className={classes.text}>{t('auth:sent_email_description')}</Typography>
+              <Typography className={classes.text}>
+                {t('auth:sent_email_to', { text: email })}
+              </Typography>
+              <Typography className={classes.text}>
+                {t('auth:sent_email_description')}
+              </Typography>
               <TextInput
                 className={classes.margin}
                 label={t('auth:code')}
                 value={codeInput}
+                errorInput={errors.code}
                 onChange={handleChangeInput('code')}
                 variant="outlined"
               />
@@ -62,6 +65,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
             <TextInput
               className={classes.margin}
               label={t('auth:email')}
+              errorInput={errors.email}
               value={emailInput}
               onChange={handleChangeInput('email')}
               variant="outlined"
@@ -77,7 +81,12 @@ function ForgotPassword(props: IForgotPage.IProps) {
             variant="outlined"
           />
           <Link href="/login">
-            <Button className={`${classes["btn-cancel"]}`} ref={ref} variant="outlined" text={t('common:cancel')} />
+            <Button
+              classes={classes.cancelBtn}
+              ref={ref}
+              variant="outlined"
+              text={t('common:cancel')}
+            />
           </Link>
         </Form>
       </Container>

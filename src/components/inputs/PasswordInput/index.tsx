@@ -21,13 +21,7 @@ interface Props {
 }
 
 export default function PasswordFieldComp(props: Props) {
-  const {
-    value,
-    onChange,
-    className,
-    label,
-    errorInput,
-  } = props;
+  const { value, onChange, className, label, errorInput } = props;
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
 
@@ -35,12 +29,18 @@ export default function PasswordFieldComp(props: Props) {
     setShowPassword(!showPassword);
   };
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
-  
+
   return (
-    <FormPassword className={`${classes.inputWrapper}  ${className || ''}`} variant="outlined" error={!!errorInput}>
+    <FormPassword
+      className={`${classes.inputWrapper} ${className || ''}`}
+      variant="outlined"
+      error={!!errorInput}
+    >
       <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
       <OutlinedInput
         type={showPassword ? 'text' : 'password'}

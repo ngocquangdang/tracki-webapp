@@ -10,7 +10,11 @@ import { withTranslation } from '@Server/i18n';
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { loginRequestAction } from './store/actions';
-import { makeSelectErrors, makeSelectIsRequesting } from './store/selectors';
+import {
+  makeSelectErrors,
+  makeSelectIsRequesting,
+  makeSelectErrorMessage,
+} from './store/selectors';
 import ILoginPage from './interfaces';
 
 const WebView = dynamic(() => import('./views/web'));
@@ -35,10 +39,12 @@ function Login(props: ILoginPage.IProps) {
 const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectIsRequesting(),
+  errorMessage: makeSelectErrorMessage(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  loginRequestAction: (data: ILoginPage.IStateLogin) => dispatch(loginRequestAction(data))
+  loginRequestAction: (data: ILoginPage.IStateLogin) =>
+    dispatch(loginRequestAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

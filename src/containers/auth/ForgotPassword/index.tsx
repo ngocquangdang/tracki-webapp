@@ -1,5 +1,4 @@
 import React, { memo, useState, useEffect } from 'react';
-
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -9,8 +8,6 @@ import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { PayloadType } from '@Interfaces';
 
-const WebView = dynamic(() => import('./views/web'));
-const MobileView = dynamic(() => import('./views/mobile'));
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { forgotRequestAction, confirmCodeRequestAction } from './store/actions';
@@ -20,6 +17,9 @@ import {
   makeSelectEmail,
 } from './store/selectors';
 import IForgotPage from './interfaces';
+
+const WebView = dynamic(() => import('./views/web'));
+const MobileView = dynamic(() => import('./views/mobile'));
 
 function ForgotPassword(props: IForgotPage.IProps) {
   useInjectSaga({ key: 'auth', saga });

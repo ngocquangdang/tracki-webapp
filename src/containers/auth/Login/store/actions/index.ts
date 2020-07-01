@@ -5,7 +5,7 @@ import ILoginPage from '../../interfaces';
 export function loginRequestAction(data: ILoginPage.IStateLogin) {
   return {
     type: types.LOGIN_REQUESTED,
-    payload: { data }
+    payload: { data },
   };
 }
 

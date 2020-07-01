@@ -4,16 +4,24 @@ import { TextInput, useStyles } from './styles';
 
 interface Props {
   value: string | number;
-  name: string;
+  name?: string;
   onChange?(data: any): any;
-  className: string;
+  className?: string;
   label: string;
   errorInput?: string;
   [data: string]: any;
 }
 
 function TextFieldComp(props: Props) {
-  const { name, value, label, errorInput, onChange, className, ...rest } = props;
+  const {
+    name,
+    value,
+    label,
+    errorInput,
+    onChange,
+    className,
+    ...rest
+  } = props;
   const classes = useStyles();
 
   return (

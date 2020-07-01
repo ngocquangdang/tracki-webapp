@@ -35,23 +35,6 @@ const GroupButton = styled.div`
   margin: 25px 0;
 `;
 
-const Line = styled.div`
-  display: none;
-  text-align: center;
-  &::before,
-  &::after {
-    display: inline-block;
-    content: '';
-    border-top: 1px solid black;
-    width: 100%;
-    margin: 0.6rem 0;
-  }
-  @media (max-width: 959.95px) {
-    display: flex;
-    margin: 50px 0 65px;
-  }
-`;
-
 const Footer = styled.div`
   margin: 8px 0;
   width: 100%;

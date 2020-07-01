@@ -23,7 +23,7 @@ const forgotPasswordReducer = (
       case types.CONFIRM_CODE_FAILED:
       case types.FORGOT_PASSWORD_FAILED:
         draft.isRequesting = false;
-        draft.errors = payload.errors;
+        draft.errors = payload;
         break;
       case types.CONFIRM_CODE_SUCCEED:
         draft.isRequesting = false;

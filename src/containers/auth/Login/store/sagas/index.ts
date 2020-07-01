@@ -21,7 +21,7 @@ function* loginSaga(action: ActionType) {
       ),
     };
     if (data.message_key === 'exception_user_nameNotFound') {
-      toast.error(data.message)
+      toast.error(data.message);
     }
     yield put(loginFailAction(payload));
   }

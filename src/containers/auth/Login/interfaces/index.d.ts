@@ -2,12 +2,10 @@ import { WithTranslation } from 'next-i18next';
 
 declare namespace ILoginPage {
   interface IProps extends WithTranslation {
+    errorMessage: string;
     errors: {
-      message: string;
-      errors: {
-        username: string;
-        password: string;
-      };
+      username: string;
+      password: string;
     };
     isRequesting: boolean;
     loginRequestAction(data: IStateLogin): void;

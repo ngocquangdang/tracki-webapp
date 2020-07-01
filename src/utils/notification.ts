@@ -25,33 +25,35 @@ class Notifications {
   }
 
   success(message: string, title?: string, options: object = {}) {
-    this.notificationClient.success(title, message, merge(
-      options,
-      this.notificationClient.options
-    ));
+    this.notificationClient.success(
+      title,
+      message,
+      merge(options, this.notificationClient.options)
+    );
   }
 
   info(message: string, title?: string, options: object = {}) {
-    this.notificationClient.success(title, message, merge(
-      options,
-      this.notificationClient.options
-    ));
+    this.notificationClient.success(
+      title,
+      message,
+      merge(options, this.notificationClient.options)
+    );
   }
 
   error(message: string, title?: string, options: object = {}) {
-    console.log('___error', message);
-
-    this.notificationClient.error(title, message, merge(
-      options,
-      this.notificationClient.options
-    ));
+    this.notificationClient.error(
+      title,
+      message,
+      merge(options, this.notificationClient.options)
+    );
   }
 
   warning(message: string, title?: string, options: object = {}) {
-    this.notificationClient.warning(title, message, merge(
-      options,
-      this.notificationClient.options
-    ));
+    this.notificationClient.warning(
+      title,
+      message,
+      merge(options, this.notificationClient.options)
+    );
   }
 
   removeAll() {

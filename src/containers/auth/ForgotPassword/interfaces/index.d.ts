@@ -4,7 +4,10 @@ import { PayloadType } from '@Interfaces';
 
 declare namespace IForgotPage {
   interface IProps extends WithTranslation {
-    errors: object;
+    errors: {
+      code: string;
+      email: string;
+    };
     isRequesting: boolean;
     email: string;
     forgotRequestAction(data: PayloadType): void;

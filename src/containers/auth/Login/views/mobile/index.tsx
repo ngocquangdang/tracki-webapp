@@ -5,16 +5,8 @@ import { AuthLayout } from '@Layouts';
 import ILoginPage from '../../interfaces';
 
 import Button from '@Components/buttons/Button';
-import {
-  Container,
-  Logo,
-  Footer,
-  Contact,
-  Line,
-  useStyles,
-} from './styles';
+import { Container, Logo, Footer, Contact, Line, useStyles } from './styles';
 import LoginForm from '../form';
-
 
 export default function Login(props: ILoginPage.IProps) {
   const { t } = props;
@@ -24,7 +16,7 @@ export default function Login(props: ILoginPage.IProps) {
     <AuthLayout>
       <Container>
         <Logo src="images/logo.png" alt="" />
-        <LoginForm {...props}/>
+        <LoginForm {...props} />
         <Footer>
           <Line>{t('or')}</Line>
           <Link href="/create-account">

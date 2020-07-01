@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Typography, IconButton } from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
@@ -15,7 +15,7 @@ import {
   Header,
   useStyles,
 } from './styles';
-import IForgotPage from '../interfaces';
+import IForgotPage from '../../interfaces';
 
 function ForgotPassword(props: IForgotPage.IProps) {
   const {
@@ -27,7 +27,6 @@ function ForgotPassword(props: IForgotPage.IProps) {
     confirmCodeRequestAction,
   } = props;
   const classes = useStyles();
-  const ref = createRef();
   const [emailInput, updateEmailInput] = useState('');
   const [codeInput, updateCodeInput] = useState('');
 
@@ -49,11 +48,11 @@ function ForgotPassword(props: IForgotPage.IProps) {
     <AuthLayout>
       <Header>
         <Link href="/login">
-          <IconButton style={{padding: 0}}>
-          <KeyboardArrowLeft />
+          <IconButton style={{ padding: 0 }}>
+            <KeyboardArrowLeft />
           </IconButton>
         </Link>
-        <Logo src="images/logo.png" alt=""></Logo>
+        <Logo src="images/logo.png" alt="" />
       </Header>
       <Container>
         <Title>{t('auth:forgot_password')}</Title>
@@ -68,6 +67,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
               </Typography>
               <TextInput
                 label={t('auth:code')}
+                errorInput={errors.code}
                 value={codeInput}
                 onChange={handleChangeInput('code')}
                 variant="outlined"
@@ -77,6 +77,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
             <TextInput
               label={t('auth:email')}
               value={emailInput}
+              errorInput={errors.email}
               onChange={handleChangeInput('email')}
               variant="outlined"
             />
