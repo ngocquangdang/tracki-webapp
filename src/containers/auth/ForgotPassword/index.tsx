@@ -35,4 +35,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo)(ForgotPassword);
+export default compose(withConnect, memo)(ForgotPassword) as React.ComponentType;
