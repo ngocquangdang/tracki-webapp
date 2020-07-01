@@ -13,7 +13,8 @@ definitions:
           - node
           - nextcache
         script:
-          - echo "Run Test here"
+          - yarn
+          - yarn lint
         artifacts:
           - ./
     - step: &build-and-push-to-docker-registry

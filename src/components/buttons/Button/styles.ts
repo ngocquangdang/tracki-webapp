@@ -5,6 +5,6 @@ export default makeStyles({
     marginLeft: 6,
     width: 16,
     height: 16,
-    color: 'white'
-  }
-})
+    color: 'white',
+  },
+});

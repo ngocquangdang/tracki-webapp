@@ -52,8 +52,8 @@ const InputText = withStyles(theme => ({
 const useStyles = makeStyles(theme => ({
   media: {
     [theme.breakpoints.down('md')]: {
-      width: '100%'
-    }
+      width: '100%',
+    },
   },
   margin: {
     marginTop: 16,
@@ -84,8 +84,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   text: {
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
 export { Container, Logo, Title, SubTitle, Form, InputText, useStyles };

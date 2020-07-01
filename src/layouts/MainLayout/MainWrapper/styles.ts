@@ -6,6 +6,4 @@ const Container = styled.div`
   background: #f2f2f2;
 `;
 
-export {
-  Container
-}
+export { Container };

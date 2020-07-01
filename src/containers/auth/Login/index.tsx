@@ -7,12 +7,12 @@ import dynamic from 'next/dynamic';
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { withTranslation } from '@Server/i18n';
-
-const WebView = dynamic(() => import('./views/web'));
-const MobileView = dynamic(() => import('./views/mobile'));
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { loginRequestAction } from './store/actions';
+
+const WebView = dynamic(() => import('./views/web'));
+const MobileView = dynamic(() => import('./views/mobile'));
 
 export function Login(props: any) {
   useInjectSaga({ key: 'auth', saga });
@@ -38,4 +38,8 @@ export function mapDispatchToProps(dispatch: any) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo, withTranslation(['auth']))(Login) as React.ComponentType;
+export default compose(
+  withConnect,
+  memo,
+  withTranslation(['auth'])
+)(Login) as React.ComponentType;

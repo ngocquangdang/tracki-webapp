@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "react-app",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "react/prop-types": "off",
+    "react/jsx-indent": [2, 2, { "checkAttributes": false }],
+    "react/jsx-indent-props": [2, 2],
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off",
+    "no-multi-assign": "off",
+    "import/extensions": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "plugins": ["import", "jest-dom"]
+}

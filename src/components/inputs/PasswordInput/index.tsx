@@ -26,8 +26,8 @@ export default function PasswordFieldComp(props: any) {
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
 
-  const onHandleChange =  (e: any) => onChange({ [name]: e.target.value });
-  
+  const onHandleChange = (e: any) => onChange({ [name]: e.target.value });
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -38,7 +38,10 @@ export default function PasswordFieldComp(props: any) {
     event.preventDefault();
   };
   return (
-    <FormPassword className={`${classes.inputWrapper}  ${className || ''}`} variant="outlined">
+    <FormPassword
+      className={`${classes.inputWrapper}  ${className || ''}`}
+      variant="outlined"
+    >
       <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
       <OutlinedInput
         type={showPassword ? 'text' : 'password'}

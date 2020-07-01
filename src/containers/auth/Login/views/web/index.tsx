@@ -32,7 +32,7 @@ export default function Login(props: ILoginPage.IProps) {
   return (
     <AuthLayout>
       <Container>
-        <Logo src="images/logo.png" alt=""/>
+        <Logo src="images/logo.png" alt="" />
         <Form>
           <TextInput
             className={`${classes.margin}`}
