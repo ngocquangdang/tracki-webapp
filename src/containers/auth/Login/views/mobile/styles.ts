@@ -31,13 +31,22 @@ const Line = styled.div`
   display: flex;
   text-align: center;
   margin: 40px 0 55px;
+  color: #1a1a1a;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-transform: uppercase;
   &::before,
   &::after {
     display: inline-block;
     content: '';
-    border-top: 1px solid black;
+    border-top: 1px solid #e0e0e0;
     width: 100%;
-    margin: 0.6rem 0;
+  }
+  &::before {
+    margin: 0.6rem 0.5rem 0.6rem 0;
+  }
+  &::after {
+    margin: 0.6rem 0 0.6rem 0.5rem;
   }
 `;
 
@@ -57,16 +66,16 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 15,
   },
   btn: {
-    '&': {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-      marginBottom: 16,
-      padding: 14,
-      '&:hover': {
-        backgroundColor: theme.palette.secondary,
-        color: theme.palette.primary.main,
-        borderColor: theme.palette.primary.main,
-      },
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    marginBottom: '1em',
+    marginTop: '3em',
+    padding: 14,
+
+    '&:hover': {
+      backgroundColor: theme.palette.secondary,
+      color: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
     },
   },
   blackBtn: {

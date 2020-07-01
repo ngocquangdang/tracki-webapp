@@ -1,25 +1,34 @@
 
-import React from 'react'
+import React from 'react';
 
-import {TextInput, useStyles} from './styles'
+import { TextInput, useStyles } from './styles';
 
-function TextFieldComp(props:any) {
-  const { name, value, label, errorInput, onChange, className, ...rest} = props;
+interface Props {
+  value: string | number;
+  name: string;
+  onChange?(data: any): any;
+  className: string;
+  label: string;
+  errorInput?: string;
+  [data: string]: any;
+}
+
+function TextFieldComp(props: Props) {
+  const { name, value, label, errorInput, onChange, className, ...rest } = props;
   const classes = useStyles();
 
-  const onHandleChange = (e: any) => onChange({ [name]: e.target.value });
-
-  return(
+  return (
     <TextInput
       error={!!errorInput}
       helperText={errorInput}
       className={`${classes.inputWrapper} ${className || ''}`}
       label={label}
       value={value}
-      onChange={onHandleChange}
+      onChange={onChange}
+      FormHelperTextProps={{ classes: { root: classes.errorRoot } }}
       {...rest}
     />
-  )
+  );
 }
 
 
