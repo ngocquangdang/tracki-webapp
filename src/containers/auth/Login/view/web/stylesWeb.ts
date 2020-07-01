@@ -10,8 +10,6 @@ const Container = styled.div`
   padding: 0 5%;
 `;
 const Logo = styled.img`
-  width: 155px;
-  height: 45px;
   margin-bottom: 2em;
 `;
 const SubTitle = styled.div`
@@ -32,9 +30,27 @@ const Label = styled.a`
     cursor: pointer;
   }
 `;
+
 const GroupButton = styled.div`
   margin: 25px 0;
-`
+`;
+
+const Line = styled.div`
+  display: none;
+  text-align: center;
+  &::before,
+  &::after {
+    display: inline-block;
+    content: '';
+    border-top: 1px solid black;
+    width: 100%;
+    margin: 0.6rem 0;
+  }
+  @media (max-width: 959.95px){
+    display: flex;
+    margin: 50px 0 65px;
+  }
+`;
 
 const Footer = styled.div`
   margin: 8px 0;
@@ -59,7 +75,7 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  'btn-black': {
+  blackBtn: {
     '&': {
       borderColor: '#000',
       color: '#000',

@@ -24,14 +24,12 @@ export function Login(props: any) {
   useEffect(() => {
     const {width} = window.screen
     setWidth(width);
-  });
+  }, []);
 
   if (width > 959.95) {
     return <WebView {...props} />;
   }
-  else{
-     return <MobileView {...props} />;
-  }
+  return <MobileView {...props} />;
  
 }
 
@@ -43,4 +41,4 @@ export function mapDispatchToProps(dispatch: any) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo, withTranslation(['auth']))(Login);
+export default compose(withConnect, memo, withTranslation(['auth']))(Login) as React.ComponentType;

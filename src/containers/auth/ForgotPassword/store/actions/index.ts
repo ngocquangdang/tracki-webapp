@@ -1,21 +1,44 @@
+import { PayloadType } from '@Interfaces';
 import * as types from '../definitions';
 
-export function forgotRequestAction(): any {
+export function forgotRequestAction(payload: PayloadType) {
   return {
     type: types.FORGOT_PASSWORD_REQUESTED,
+    payload
   };
 }
 
-export function forgotSuccessAction(profile: any): any {
+export function forgotSuccessAction(payload: PayloadType) {
   return {
     type: types.FORGOT_PASSWORD_SUCCEED,
-    profile,
+    payload,
   };
 }
 
-export function forgotFailAction(errors: any): any {
+export function forgotFailAction(payload: PayloadType) {
   return {
     type: types.FORGOT_PASSWORD_FAILED,
-    errors,
+    payload,
+  };
+}
+
+export function confirmCodeRequestAction(payload: PayloadType) {
+  return {
+    type: types.CONFIRM_CODE_REQUESTED,
+    payload
+  };
+}
+
+export function confirmCodeSuccessAction(payload: PayloadType) {
+  return {
+    type: types.CONFIRM_CODE_SUCCEED,
+    payload,
+  };
+}
+
+export function confirmCodeFailAction(payload: PayloadType) {
+  return {
+    type: types.CONFIRM_CODE_FAILED,
+    payload,
   };
 }

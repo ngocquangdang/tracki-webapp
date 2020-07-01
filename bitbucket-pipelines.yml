@@ -1,0 +1,51 @@
+image: node:10.15.3
+
+definitions:
+  docker:
+    memory: 4096
+  caches:
+    nextcache: .next/cache
+  steps:
+    - step: &run-test
+        name: Test and Build
+        caches:
+          - node
+          - nextcache
+        script:
+          - echo "Run Test here"
+        artifacts:
+          - ./
+    - step: &build-and-push-to-docker-registry
+        name: Push to Docker Registry
+        script:
+          - export TAG="${BITBUCKET_COMMIT::7}"
+          - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+          - docker build -t mtrk2021/tracki-frontend:$TAG .
+          - docker push mtrk2021/tracki-frontend:$TAG
+          - apt-get update -qq && apt-get install -y -qq sshpass
+          - mkdir -p /root/.ssh
+          - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
+          - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
+          - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
+          - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER mtrk2021/tracki-frontend:$TAG
+        services:
+          - docker
+        size: 2x
+        caches:
+          - docker
+
+pipelines:
+  default:
+    - step: *run-test
+  branches:
+    develop:
+      - step: *run-test
+      - step:
+          <<: *build-and-push-to-docker-registry
+          deployment: develop
+    master:
+      - step: *run-test
+      - step:
+          <<: *build-and-push-to-docker-registry
+          deployment: production
+          trigger: manual

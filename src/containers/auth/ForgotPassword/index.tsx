@@ -6,27 +6,33 @@ import { createStructuredSelector } from 'reselect';
 
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
-import { withTranslation } from '@Server/i18n'
+import { PayloadType } from '@Interfaces';
 
-import View from './view'
+import View from './view';
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { forgotRequestAction } from './store/actions';
+import { forgotRequestAction, confirmCodeRequestAction } from './store/actions';
+import { makeSelectErrors, makeSelectIsRequesting, makeSelectEmail } from './store/selectors';
 import IForgotPage from './interfaces';
 
-export function ForgotPassword(props: IForgotPage.IProps) {
+function ForgotPassword(props: IForgotPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
 
-  return <View {...props}/>;
+  return <View {...props} />;
 }
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  errors: makeSelectErrors(),
+  isRequesting: makeSelectIsRequesting(),
+  email: makeSelectEmail(),
+});
 
-export function mapDispatchToProps(dispatch: any) {
-  return { getShowcases: () => dispatch(forgotRequestAction()) };
-}
+const mapDispatchToProps = (dispatch: any) => ({
+  forgotRequestAction: (data: PayloadType) => dispatch(forgotRequestAction(data)),
+  confirmCodeRequestAction: (data: PayloadType) => dispatch(confirmCodeRequestAction(data))
+});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect, memo, withTranslation('auth'))(ForgotPassword);
+export default compose(withConnect, memo)(ForgotPassword);
