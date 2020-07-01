@@ -3,7 +3,7 @@ import NextDocument, { DocumentContext } from 'next/document';
 import { AppInitialProps } from 'next/app';
 import AppClient from 'next/client';
 import { ServerStyleSheet as StyledComponentSheets } from 'styled-components';
-import { ServerStyleSheets as MaterialUiServerStyleSheets, } from '@material-ui/core/styles';
+import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/core/styles';
 
 class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
@@ -16,7 +16,7 @@ class Document extends NextDocument {
         originalRenderPage({
           enhanceApp: (App: AppClient) => (props: AppInitialProps) =>
             styledComponentSheet.collectStyles(
-              materialUiSheets.collect(<App {...props} />),
+              materialUiSheets.collect(<App {...props} />)
             ),
         });
       const initialProps = await NextDocument.getInitialProps(ctx);
@@ -24,7 +24,7 @@ class Document extends NextDocument {
       return {
         ...initialProps,
         styles: [
-          <React.Fragment key="styles" >
+          <React.Fragment key="styles">
             {initialProps.styles}
             {materialUiSheets.getStyleElement()}
             {styledComponentSheet.getStyleElement()}
@@ -34,7 +34,7 @@ class Document extends NextDocument {
     } finally {
       styledComponentSheet.seal();
     }
-  };
+  }
 }
 
 export default Document;

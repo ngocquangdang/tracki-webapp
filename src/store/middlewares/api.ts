@@ -19,7 +19,6 @@ const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
     const { message, code, message_key } = payloadAction;
     if (code === '400') {
       console.log('___400 ERROR', message);
-
     }
     if (code === '403' && message_key === 'exception_user_nameNotActivated') {
       console.log('___404 ERROR', message);

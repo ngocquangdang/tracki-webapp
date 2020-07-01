@@ -5,7 +5,7 @@ const CONFIRM_CODE_ENDPOINT = `${FORGOT_PW_ENDPOINT}/match`;
 
 export const forgotPassword = (payload: any) => {
   console.log('___axiosClient', axiosClient);
-  
+
   return axiosClient.post(FORGOT_PW_ENDPOINT, payload);
 };
 

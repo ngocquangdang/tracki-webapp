@@ -1,5 +1,5 @@
-import {  withStyles, makeStyles } from '@material-ui/core/styles';
-import { TextField, } from '@material-ui/core';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { TextField } from '@material-ui/core';
 
 const TextInput = withStyles(theme => ({
   root: {
@@ -36,6 +36,4 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export {
-  TextInput, useStyles,
-}
+export { TextInput, useStyles };

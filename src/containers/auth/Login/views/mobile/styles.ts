@@ -91,8 +91,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   textBtn: {
-    height: 36
-  }
+    height: 36,
+  },
 }));
 
 export {

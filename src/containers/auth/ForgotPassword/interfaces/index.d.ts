@@ -1,6 +1,6 @@
 import { WithTranslation } from 'next-i18next';
 
-import {PayloadType} from '@Interfaces'
+import { PayloadType } from '@Interfaces';
 
 declare namespace IForgotPage {
   interface IProps extends WithTranslation {

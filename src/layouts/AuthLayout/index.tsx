@@ -6,7 +6,7 @@ export default function AuthLayout(props: any) {
   const classes = useStyles();
   return (
     <Container>
-      <Row >
+      <Row>
         <Background className={classes.media} />
         {props.children}
       </Row>

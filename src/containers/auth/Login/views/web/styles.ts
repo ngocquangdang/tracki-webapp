@@ -17,7 +17,6 @@ const SubTitle = styled.div`
   font-size: 18px;
   color: #333;
   margin: 8px 0;
-
 `;
 const Form = styled.form`
   display: flex;
@@ -47,7 +46,7 @@ const Line = styled.div`
     width: 100%;
     margin: 0.6rem 0;
   }
-  @media (max-width: 959.95px){
+  @media (max-width: 959.95px) {
     display: flex;
     margin: 50px 0 65px;
   }

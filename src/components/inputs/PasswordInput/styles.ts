@@ -33,4 +33,4 @@ const useStyles = makeStyles(theme => ({
     top: 55
   }
 }));
-export {FormPassword, useStyles}
+export { FormPassword, useStyles };

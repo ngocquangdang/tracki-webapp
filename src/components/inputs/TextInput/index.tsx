@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { TextInput, useStyles } from './styles';
@@ -30,6 +29,5 @@ function TextFieldComp(props: Props) {
     />
   );
 }
-
 
 export default TextFieldComp;

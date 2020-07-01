@@ -22,4 +22,3 @@ export interface ActionType {
 export interface PayloadType {
   [data: string]: any;
 }
-
