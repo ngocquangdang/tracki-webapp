@@ -2,8 +2,9 @@ import {
   showLoadingAction,
   hideLoadingAction,
 } from '@Containers/App/store/actions';
+import { ActionType } from '@Interfaces';
 
-const apiMiddleware = store => next => action => {
+const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
   const { type: actionType, payload: payloadAction } = action;
   if (actionType.includes('REQUESTED')) {
     store.dispatch(showLoadingAction());
