@@ -1,28 +1,26 @@
 import React, { memo, useState, useEffect } from 'react';
-
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import dynamic from 'next/dynamic';
 
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
+import { withTranslation } from '@Server/i18n';
 
-import WebView from './view/web';
-import MobileView from './view/mobile';
-
+const WebView = dynamic(() => import('./views/web'));
+const MobileView = dynamic(() => import('./views/mobile'));
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { loginRequestAction } from './store/actions';
-import { withTranslation } from '@Server/i18n';
 
 export function Login(props: any) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
-
   const [width, setWidth] = useState<number>(0);
 
   useEffect(() => {
-    const {width} = window.screen
+    const { width } = window.screen;
     setWidth(width);
   }, []);
 
@@ -30,7 +28,6 @@ export function Login(props: any) {
     return <WebView {...props} />;
   }
   return <MobileView {...props} />;
- 
 }
 
 const mapStateToProps = createStructuredSelector({});

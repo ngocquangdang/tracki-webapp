@@ -14,9 +14,7 @@ import {
   Footer,
   GroupButton,
   useStyles,
-} from './stylesWeb';
-
-// import { Button } from '@material-ui/core';
+} from './styles';
 import ILoginPage from '../../interfaces';
 
 export default function Login(props: ILoginPage.IProps) {

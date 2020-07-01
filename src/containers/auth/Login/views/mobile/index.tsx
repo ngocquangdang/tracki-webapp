@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { Button } from '@material-ui/core';
-
 import { AuthLayout } from '@Layouts';
 import ILoginPage from '../../interfaces';
 
-import TextFieldComp from '../../../../../comps/inputs/TextField';
-import PasswordFieldComp from 'src/comps/inputs/PasswordField';
+import { TextInput, PasswordInput } from '@Components/inputs';
+import Button from '@Components/buttons/Button';
 import {
   Container,
   Logo,
@@ -18,7 +16,7 @@ import {
   Line,
   GroupButton,
   useStyles,
-} from './stylesMobile';
+} from './styles';
 
 interface StateLogin {
   email: string;
@@ -39,9 +37,9 @@ export default function Login(props: ILoginPage.IProps) {
   return (
     <AuthLayout>
       <Container>
-        <Logo src="images/logo.png" alt=""></Logo>
+        <Logo src="images/logo.png" alt="" />
         <Form>
-          <TextFieldComp
+          <TextInput
             className={`${classes.margin}`}
             label="Email"
             name="email"
@@ -49,34 +47,35 @@ export default function Login(props: ILoginPage.IProps) {
             onChange={handleChange}
             variant="outlined"
           />
-          <PasswordFieldComp
+          <PasswordInput
             className={`${classes.margin}`}
             label="Password"
             name="password"
             value={values.password}
             onChange={handleChange}
-          ></PasswordFieldComp>
+          />
           <Button
             className={`${classes.margin} ${classes.btn}`}
             color="primary"
             variant="outlined"
-          >
-            {t('log_in')}
-          </Button>
+            text={t('log_in')}
+          />
           <Link href="/forgot-password">
             <Label>{t('forgot_password')}?</Label>
           </Link>
         </Form>
         <Footer>
-          <Line>OR</Line>
+          <Line>{' ' + t('or') + ' '}</Line>
           <GroupButton>
-            <Button className={`${classes['btn-black']}`} variant="outlined">
-              {t('create_account')}
-            </Button>
+            <Button
+              className={classes.blackBtn}
+              variant="outlined"
+              text={t('create_account')}
+            />
           </GroupButton>
           <Contact>
-            <Button color="primary">{t('call_us')}</Button>
-            <Button color="primary">{t('chat_us')}</Button>
+            <Button color="primary" text={t('call_us')} className={classes.textBtn} />
+            <Button color="primary" text={t('chat_us')} className={classes.textBtn} />
           </Contact>
         </Footer>
       </Container>

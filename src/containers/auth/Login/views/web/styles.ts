@@ -6,13 +6,18 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 50%;
+  margin: auto;
   padding: 0 5%;
 `;
 const Logo = styled.img`
-  width: 100px;
-  height: 30px;
   margin-bottom: 2em;
+`;
+const SubTitle = styled.div`
+  font-size: 18px;
+  color: #333;
+  margin: 8px 0;
+
 `;
 const Form = styled.form`
   display: flex;
@@ -20,17 +25,20 @@ const Form = styled.form`
   width: 100%;
 `;
 const Label = styled.a`
-  text-decoration: none;
-  color: #168449;
-  text-align: center;
+  text-decoration: underline;
+  &:hover {
+    color: #168449;
+    cursor: pointer;
+  }
 `;
+
 const GroupButton = styled.div`
   margin: 25px 0;
 `;
+
 const Line = styled.div`
-  display: flex;
+  display: none;
   text-align: center;
-  margin: 40px 0 55px;
   &::before,
   &::after {
     display: inline-block;
@@ -39,15 +47,15 @@ const Line = styled.div`
     width: 100%;
     margin: 0.6rem 0;
   }
+  @media (max-width: 959.95px){
+    display: flex;
+    margin: 50px 0 65px;
+  }
 `;
 
 const Footer = styled.div`
+  margin: 8px 0;
   width: 100%;
-`;
-const Contact = styled.div`
-  display: flex;
-  justify-content: space-between;
-  height: 40%;
 `;
 
 const useStyles = makeStyles(theme => ({
@@ -68,7 +76,7 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  'btn-black': {
+  blackBtn: {
     '&': {
       borderColor: '#000',
       color: '#000',
@@ -85,11 +93,10 @@ const useStyles = makeStyles(theme => ({
 export {
   Container,
   Logo,
+  SubTitle,
   Form,
   Label,
   Footer,
-  Contact,
-  Line,
   GroupButton,
   useStyles,
 };
