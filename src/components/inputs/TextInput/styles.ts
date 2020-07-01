@@ -30,6 +30,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: 15,
     marginBottom: 15,
   },
+  errorRoot: {
+    right: 0,
+    marginRight: 0
+  }
 }));
 
 export { TextInput, useStyles };

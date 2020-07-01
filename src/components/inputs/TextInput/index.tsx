@@ -2,19 +2,19 @@ import React from 'react';
 
 import { TextInput, useStyles } from './styles';
 
-function TextFieldComp(props: any) {
-  const {
-    name,
-    value,
-    label,
-    errorInput,
-    onChange,
-    className,
-    ...rest
-  } = props;
-  const classes = useStyles();
+interface Props {
+  value: string | number;
+  name: string;
+  onChange?(data: any): any;
+  className: string;
+  label: string;
+  errorInput?: string;
+  [data: string]: any;
+}
 
-  const onHandleChange = (e: any) => onChange({ [name]: e.target.value });
+function TextFieldComp(props: Props) {
+  const { name, value, label, errorInput, onChange, className, ...rest } = props;
+  const classes = useStyles();
 
   return (
     <TextInput
@@ -23,7 +23,8 @@ function TextFieldComp(props: any) {
       className={`${classes.inputWrapper} ${className || ''}`}
       label={label}
       value={value}
-      onChange={onHandleChange}
+      onChange={onChange}
+      FormHelperTextProps={{ classes: { root: classes.errorRoot } }}
       {...rest}
     />
   );

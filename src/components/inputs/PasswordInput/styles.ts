@@ -25,5 +25,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: 15,
     marginBottom: 15,
   },
+  error: {
+    right: 0,
+    marginRight: 0,
+    textAlign: 'right',
+    position: 'absolute',
+    top: 55
+  }
 }));
 export { FormPassword, useStyles };

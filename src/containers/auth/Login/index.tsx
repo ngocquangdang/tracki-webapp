@@ -10,11 +10,13 @@ import { withTranslation } from '@Server/i18n';
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { loginRequestAction } from './store/actions';
+import { makeSelectErrors, makeSelectIsRequesting } from './store/selectors';
+import ILoginPage from './interfaces';
 
 const WebView = dynamic(() => import('./views/web'));
 const MobileView = dynamic(() => import('./views/mobile'));
 
-export function Login(props: any) {
+function Login(props: ILoginPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
   const [width, setWidth] = useState<number>(0);
@@ -30,11 +32,14 @@ export function Login(props: any) {
   return <MobileView {...props} />;
 }
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  errors: makeSelectErrors(),
+  isRequesting: makeSelectIsRequesting(),
+});
 
-export function mapDispatchToProps(dispatch: any) {
-  return { getShowcases: () => dispatch(loginRequestAction()) };
-}
+const mapDispatchToProps = (dispatch: any) => ({
+  loginRequestAction: (data: ILoginPage.IStateLogin) => dispatch(loginRequestAction(data))
+});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
