@@ -12,14 +12,12 @@ import {
   Form,
   Label,
   Footer,
-  Contact,
-  Item,
-  Line,
   GroupButton,
   useStyles,
-} from './styles';
-import ILoginPage from '../interfaces';
+} from './stylesWeb';
 
+// import { Button } from '@material-ui/core';
+import ILoginPage from '../../interfaces';
 
 export default function Login(props: ILoginPage.IProps) {
   const { t } = props;
@@ -64,7 +62,6 @@ export default function Login(props: ILoginPage.IProps) {
           </Link>
         </Form>
         <Footer>
-          <Line>OR</Line>
           <GroupButton>
             <SubTitle>{t('new_to_tracki')}?</SubTitle>
             <Button
@@ -73,9 +70,6 @@ export default function Login(props: ILoginPage.IProps) {
               text={t('create_account')}
             />
           </GroupButton>
-          <Contact>
-            <Item></Item>
-          </Contact>
         </Footer>
       </Container>
     </AuthLayout>

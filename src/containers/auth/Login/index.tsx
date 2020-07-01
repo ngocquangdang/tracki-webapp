@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -7,8 +7,8 @@ import { createStructuredSelector } from 'reselect';
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
 
-
-import View from './view'
+import WebView from './view/web';
+import MobileView from './view/mobile';
 
 import saga from './store/sagas';
 import reducer from './store/reducers';
@@ -19,7 +19,18 @@ export function Login(props: any) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
 
-  return <View {...props}/>;
+  const [width, setWidth] = useState<number>(0);
+
+  useEffect(() => {
+    const {width} = window.screen
+    setWidth(width);
+  }, []);
+
+  if (width > 959.95) {
+    return <WebView {...props} />;
+  }
+  return <MobileView {...props} />;
+ 
 }
 
 const mapStateToProps = createStructuredSelector({});
