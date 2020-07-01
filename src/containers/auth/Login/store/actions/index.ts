@@ -16,9 +16,9 @@ export function loginSuccessAction(profile: PayloadType) {
   };
 }
 
-export function loginFailAction(erros: PayloadType) {
+export function loginFailAction(errors: PayloadType) {
   return {
     type: types.LOGIN_FAILED,
-    payload: { erros },
+    payload: { errors },
   };
 }

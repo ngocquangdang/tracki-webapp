@@ -3,6 +3,7 @@ import {
   hideLoadingAction,
 } from '@Containers/App/store/actions';
 import { ActionType } from '@Interfaces';
+import toast from '@Utils/notification';
 
 const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
   const { type: actionType, payload: payloadAction } = action;
@@ -25,6 +26,7 @@ const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
     }
     if (code === '500') {
       console.log('___500 ERROR', message);
+      toast.error(message);
     }
   }
 

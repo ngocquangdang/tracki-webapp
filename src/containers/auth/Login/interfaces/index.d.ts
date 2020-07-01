@@ -3,9 +3,11 @@ import { WithTranslation } from 'next-i18next';
 declare namespace ILoginPage {
   interface IProps extends WithTranslation {
     errors: {
-      username: string;
-      password: string;
       message: string;
+      errors: {
+        username: string;
+        password: string;
+      };
     };
     isRequesting: boolean;
     loginRequestAction(data: IStateLogin): void;

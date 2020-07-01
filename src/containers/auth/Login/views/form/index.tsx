@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { Formik } from 'formik';
 import Link from 'next/link';
 
 import { TextInput, PasswordInput } from '@Components/inputs';
 import Button from '@Components/buttons/Button';
-import LoginSchema from '../../schema'
-import ILoginPage from '../../interfaces'
+import LoginSchema from '../../schema';
+import ILoginPage from '../../interfaces';
 
 import {
   Form,
@@ -19,10 +19,10 @@ const initialValuesForm = {
 };
 
 function LoginForm(props: ILoginPage.IProps) {
-  const { t, loginRequestAction, errors } = props
-  const classes = useStyles()
-  
-  const submitForm = (values: ILoginPage.IStateLogin) => loginRequestAction(values)
+  const { t, loginRequestAction, errors } = props;
+  const classes = useStyles();
+
+  const submitForm = (values: ILoginPage.IStateLogin) => loginRequestAction(values);
 
   return (
     <Formik
@@ -66,9 +66,9 @@ function LoginForm(props: ILoginPage.IProps) {
             <Label>{t('forgot_password')}?</Label>
           </Link>
         </Form>
-      )}
+        )}
     </Formik>
-  )
+  );
 }
 
 export default LoginForm;
