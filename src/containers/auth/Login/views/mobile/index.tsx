@@ -74,8 +74,16 @@ export default function Login(props: ILoginPage.IProps) {
             />
           </GroupButton>
           <Contact>
-            <Button color="primary" text={t('call_us')} className={classes.textBtn} />
-            <Button color="primary" text={t('chat_us')} className={classes.textBtn} />
+            <Button
+              color="primary"
+              text={t('call_us')}
+              className={classes.textBtn}
+            />
+            <Button
+              color="primary"
+              text={t('chat_us')}
+              className={classes.textBtn}
+            />
           </Contact>
         </Footer>
       </Container>

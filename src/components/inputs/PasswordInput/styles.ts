@@ -26,4 +26,4 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 15,
   },
 }));
-export {FormPassword, useStyles}
+export { FormPassword, useStyles };

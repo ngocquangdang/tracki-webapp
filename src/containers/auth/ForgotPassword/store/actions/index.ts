@@ -4,7 +4,7 @@ import * as types from '../definitions';
 export function forgotRequestAction(payload: PayloadType) {
   return {
     type: types.FORGOT_PASSWORD_REQUESTED,
-    payload
+    payload,
   };
 }
 
@@ -25,7 +25,7 @@ export function forgotFailAction(payload: PayloadType) {
 export function confirmCodeRequestAction(payload: PayloadType) {
   return {
     type: types.CONFIRM_CODE_REQUESTED,
-    payload
+    payload,
   };
 }
 

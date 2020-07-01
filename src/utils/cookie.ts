@@ -44,9 +44,7 @@ class CookieHandler {
       const partsPop = parts.pop();
 
       if (partsPop)
-        return this.cryptoHandler.decrypt(partsPop
-          .split(';')
-          .shift()); // Decrypt for get original value
+        return this.cryptoHandler.decrypt(partsPop.split(';').shift()); // Decrypt for get original value
     }
     return '';
   }

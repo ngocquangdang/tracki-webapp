@@ -1,15 +1,22 @@
+import React from 'react';
 
-import React from 'react'
+import { TextInput, useStyles } from './styles';
 
-import {TextInput, useStyles} from './styles'
-
-function TextFieldComp(props:any) {
-  const { name, value, label, errorInput, onChange, className, ...rest} = props;
+function TextFieldComp(props: any) {
+  const {
+    name,
+    value,
+    label,
+    errorInput,
+    onChange,
+    className,
+    ...rest
+  } = props;
   const classes = useStyles();
 
   const onHandleChange = (e: any) => onChange({ [name]: e.target.value });
 
-  return(
+  return (
     <TextInput
       error={!!errorInput}
       helperText={errorInput}
@@ -19,8 +26,7 @@ function TextFieldComp(props:any) {
       onChange={onHandleChange}
       {...rest}
     />
-  )
+  );
 }
-
 
 export default TextFieldComp;

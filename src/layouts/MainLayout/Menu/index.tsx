@@ -1,12 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  Menu,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
-import { MenuProps } from '@material-ui/core/Menu'
+import { Button, Menu, ListItemIcon, ListItemText } from '@material-ui/core';
+import { MenuProps } from '@material-ui/core/Menu';
 import {
   Menu as MenuIcon,
   Clear as ClearIcon,
@@ -14,16 +9,16 @@ import {
   Block as BlockIcon,
   Assignment as AssignmentIcon,
   PlayArrow as PlayIcon,
-  PowerSettingsNew as LogoutIcon
+  PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
 
-import { useStyles, StyledMenuItem } from './styles'
+import { useStyles, StyledMenuItem } from './styles';
 
 const StyledMenu = withStyles({
   paper: {
     boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
     '& ul': {
-      padding: 0
+      padding: 0,
     },
   },
 })((props: MenuProps) => (
@@ -91,7 +86,10 @@ export default function CustomizedMenus() {
           <ListItemIcon className={classes.menuItemIcon}>
             <PlayIcon className={classes.menuIcon} />
           </ListItemIcon>
-          <ListItemText primary="Video Tutorials" className={classes.menuText} />
+          <ListItemText
+            primary="Video Tutorials"
+            className={classes.menuText}
+          />
         </StyledMenuItem>
         <StyledMenuItem>
           <ListItemIcon className={classes.menuItemIcon}>

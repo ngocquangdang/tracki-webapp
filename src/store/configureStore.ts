@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createWrapper } from 'next-redux-wrapper';
 
 import createReducer from '@Reducers';
-import apiMiddleWare from './middlewares/api'
+import apiMiddleWare from './middlewares/api';
 
 const configureStore = (initialState = {}) => {
   const reduxSagaMonitorOptions = {};

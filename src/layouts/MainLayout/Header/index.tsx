@@ -17,41 +17,41 @@ const routes = [
   {
     label: 'View Trackers',
     icon: <NearMeIcon />,
-    link: '/'
+    link: '/',
   },
   {
     label: 'Notifications',
     icon: <NotificationsIcon />,
-    link: '/notifications'
+    link: '/notifications',
   },
   {
     label: 'Dashboard',
     icon: <SpeedIcon />,
-    link: '/dashboard'
+    link: '/dashboard',
   },
   {
     label: 'Tracking',
     icon: <LocationIcon />,
-    link: '/tracking'
+    link: '/tracking',
   },
   {
     label: 'Reports',
     icon: <BarChartIcon />,
-    link: '/reports'
+    link: '/reports',
   },
   {
     label: 'Contacts',
     icon: <ContactsIcon />,
-    link: '/contacts'
+    link: '/contacts',
   },
   {
     label: 'Settings',
     icon: <SettingsIcon />,
-    link: '/settings'
+    link: '/settings',
   },
 ];
 
-type MenuType = { icon: JSX.Element, label: string, link: string; };
+type MenuType = { icon: JSX.Element; label: string; link: string };
 
 export default function Header() {
   const classes = useStyles();
@@ -86,9 +86,7 @@ export default function Header() {
             <div className={classes.logoWrapper}>
               <img src={'images/logo.png'} alt="" className={classes.logo} />
             </div>
-            <div className={classes.row}>
-              {routes.map(renderMenuButton)}
-            </div>
+            <div className={classes.row}>{routes.map(renderMenuButton)}</div>
           </div>
           <Menu />
         </Toolbar>

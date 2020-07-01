@@ -16,14 +16,23 @@ import {
 import IForgotPage from '../interfaces';
 
 function ForgotPassword(props: IForgotPage.IProps) {
-  const { t, errors, email, isRequesting, forgotRequestAction, confirmCodeRequestAction } = props;
+  const {
+    t,
+    errors,
+    email,
+    isRequesting,
+    forgotRequestAction,
+    confirmCodeRequestAction,
+  } = props;
   const classes = useStyles();
   const ref = createRef();
   const [emailInput, updateEmailInput] = useState('');
   const [codeInput, updateCodeInput] = useState('');
 
   const handleChangeInput = (key: string) => ({ target }: any) => {
-    key === 'email' ? updateEmailInput(target.value) : updateCodeInput(target.value);
+    key === 'email'
+      ? updateEmailInput(target.value)
+      : updateCodeInput(target.value);
   };
 
   const handleSubmit = (e: any) => {
@@ -37,18 +46,18 @@ function ForgotPassword(props: IForgotPage.IProps) {
   return (
     <AuthLayout>
       <Container className={classes.media}>
-        <Logo src='images/logo.png' alt=''></Logo>
+        <Logo src="images/logo.png" alt=""></Logo>
         <Title>{t('auth:forgot_password')}</Title>
-        {!email && (
-          <SubTitle>
-            {t('auth:forgot_password_description')}
-          </SubTitle>
-        )}
+        {!email && <SubTitle>{t('auth:forgot_password_description')}</SubTitle>}
         <Form onSubmit={handleSubmit}>
           {email ? (
             <>
-              <Typography className={classes.text}>{t('auth:sent_email_to', { text: email })}</Typography>
-              <Typography className={classes.text}>{t('auth:sent_email_description')}</Typography>
+              <Typography className={classes.text}>
+                {t('auth:sent_email_to', { text: email })}
+              </Typography>
+              <Typography className={classes.text}>
+                {t('auth:sent_email_description')}
+              </Typography>
               <InputText
                 className={classes.margin}
                 label={t('auth:code')}
@@ -76,7 +85,12 @@ function ForgotPassword(props: IForgotPage.IProps) {
             variant="outlined"
           />
           <Link href="/login">
-            <Button className={`${classes["btn-cancel"]}`} ref={ref} variant="outlined" text={t('common:cancel')} />
+            <Button
+              className={`${classes['btn-cancel']}`}
+              ref={ref}
+              variant="outlined"
+              text={t('common:cancel')}
+            />
           </Link>
         </Form>
       </Container>

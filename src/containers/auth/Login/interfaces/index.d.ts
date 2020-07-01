@@ -7,7 +7,6 @@ declare namespace ILoginPage {
     namespacesRequired: string[];
   }
 
-
   interface IStateLogin {
     email: string;
     password: string;

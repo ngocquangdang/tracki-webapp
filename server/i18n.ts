@@ -7,11 +7,11 @@ const NextI18NextInstance = new NextI18Next({
   otherLanguages: ['es', 'tr'],
   interpolation: {
     escapeValue: false, // react already safes from xss,
-      format: function (value, format) {
-        if (format === 'uppercase') return value.toUpperCase();
-        return value;
-      },
-  }
+    format: (value, format) => {
+      if (format === 'uppercase') return value.toUpperCase();
+      return value;
+    },
+  },
 });
 
 export const { appWithTranslation, withTranslation } = NextI18NextInstance;
