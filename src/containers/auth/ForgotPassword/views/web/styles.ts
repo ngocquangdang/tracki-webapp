@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Container = styled.div`
   display: flex;
