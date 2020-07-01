@@ -3,7 +3,7 @@ image: node:12-alpine
 definitions:
   services:
     docker:
-      memory: 8192
+      memory: 7168
   caches:
     nextcache: .next/cache
   steps:
