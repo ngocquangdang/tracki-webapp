@@ -13,9 +13,6 @@
     "no-multi-assign": "off",
     "import/extensions": "off"
   },
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
@@ -23,7 +20,13 @@
     "import/resolver": {
       "typescript": {}
     },
-    "endOfLine":"auto"
+    "endOfLine":"auto",
+    "eslint.workingDirectories": [
+      {
+        "directory": "./tsconfig.json",
+        "changeProcessCWD": true
+      }
+    ]
   },
   "plugins": ["import", "jest-dom"]
 }
