@@ -30,6 +30,7 @@ const TextInput = withStyles(theme => ({
       top: '-5px',
       '&.Mui-focused': {
         top: 0,
+        marginTop: 6,
       },
     },
     '& .MuiOutlinedInput-input': {
@@ -55,6 +56,7 @@ const TextInput = withStyles(theme => ({
         top: '-5px',
         '&.Mui-focused': {
           top: 0,
+          marginTop: 6,
         },
       },
       '& .MuiOutlinedInput-input': {
