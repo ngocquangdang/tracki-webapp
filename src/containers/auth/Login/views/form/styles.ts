@@ -6,17 +6,13 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50%;
-  margin: auto;
+  width: 100%;
   padding: 0 5%;
 `;
 const Logo = styled.img`
+  width: 100px;
+  height: 30px;
   margin-bottom: 2em;
-`;
-const SubTitle = styled.div`
-  font-size: 18px;
-  color: #333;
-  margin: 8px 0;
 `;
 const Form = styled.form`
   display: flex;
@@ -24,22 +20,52 @@ const Form = styled.form`
   width: 100%;
 `;
 const Label = styled.a`
-  text-decoration: underline;
-  &:hover {
-    color: #168449;
-    cursor: pointer;
+  text-decoration: none;
+  color: #168449;
+  text-align: center;
+  margin: 10px 0;
+`;
+const GroupButton = styled.div`
+  margin: 10px 0;
+`;
+const Line = styled.div`
+  display: flex;
+  text-align: center;
+  margin: 40px 0 55px;
+  color: #1a1a1a;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  &::before,
+  &::after {
+    display: inline-block;
+    content: '';
+    border-top: 1px solid #e0e0e0;
+    width: 100%;
+  }
+  &::before {
+    margin: 0.6rem 0.5rem 0.6rem 0;
+  }
+  &::after {
+    margin: 0.6rem 0 0.6rem 0.5rem;
   }
 `;
-
-const GroupButton = styled.div`
-  margin: 25px 0;
+const SwitchGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
+const Message = styled.p``;
 
 const Footer = styled.div`
-  margin: 8px 0;
   width: 100%;
 `;
-
+const Contact = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 40%;
+  align-items: flex-end;
+`;
 const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
@@ -48,9 +74,9 @@ const useStyles = makeStyles(theme => ({
   btn: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    marginTop: '3em',
     marginBottom: '1em',
     padding: 14,
+
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
@@ -69,15 +95,25 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.contrastText,
     },
   },
+  textBtn: {
+    height: 36,
+  },
+  errorText: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
+  },
 }));
 
 export {
   Container,
   Logo,
-  SubTitle,
   Form,
   Label,
   Footer,
+  Contact,
+  Message,
+  Line,
   GroupButton,
+  SwitchGroup,
   useStyles,
 };

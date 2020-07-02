@@ -34,6 +34,7 @@ function TextFieldComp(props: Props) {
       onChange={onChange}
       FormHelperTextProps={{ classes: { root: classes.errorRoot } }}
       {...rest}
+      size="small"
     />
   );
 }
