@@ -11,15 +11,16 @@ const Row = styled.div`
   height: 100%;
 `;
 const Background = styled.div`
-  width: 40%;
+  width: 45%;
   background: url('images/turntable.jpg');
   position: relative;
+  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.75);
 `;
 const Description = styled.div`
   position: absolute;
   display: block;
   top: 40%;
-  padding: 0 10%;
+  padding: 0 29%;
   width: 100%;
   text-align: center;
   color: #ffffff;
@@ -43,6 +44,14 @@ const Layout = styled.div`
   backdrop-filter: blur(50px);
   background-color: #1d222e;
 `;
+const Content = styled.div`
+  width: 55%;
+  position: relative;
+  height: 100%;
+  @media (max-width: 955.59px) {
+    width: 100%;
+  }
+`;
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -61,5 +70,6 @@ export {
   Logo,
   Title,
   SubLogo,
+  Content,
   useStyles,
 };

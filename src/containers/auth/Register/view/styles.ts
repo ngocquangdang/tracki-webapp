@@ -1,13 +1,20 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  height: 100%;
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: auto;
-  width: 60%;
+  width: 100%;
   height: 100%;
   max-width: 400px;
 `;
@@ -31,6 +38,16 @@ const InfoText = styled.p`
   letter-spacing: normal;
   text-align: left;
   color: #1a1a1a;
+  @media (max-width: 955.95px) {
+    text-align: center;
+  }
+`;
+
+const InfoTextTerm = styled.span`
+  @media (max-width: 767px) {
+    display: inline-block;
+
+  }
 `;
 
 const Header = styled.header`
@@ -45,7 +62,6 @@ const Header = styled.header`
 const Title = styled.h1`
   font-size: 40px;
   color: #1a1a1a;
-  line-height: 0.55;
   letter-spacing: normal;
   text-align: center;
   margin-top: 0;
@@ -81,6 +97,10 @@ const Footer = styled.div`
   bottom: 0;
   display: flex;
   justify-content: center;
+  @media (max-width: 955.59px) {
+    display: flex;
+    width: calc(100% - 30px);
+  }
 `;
 const Text = styled.span``;
 
@@ -156,6 +176,8 @@ export {
   GroupButton,
   Info,
   InfoText,
+  Content,
   Text,
+  InfoTextTerm,
   useStyles,
 };

@@ -6,10 +6,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 60%;
-  @media (max-width: 955.59px) {
-    width: 100%;
-  }
+  width: 100%;
+  height: 100%;
 `;
 
 const Content = styled.div`
@@ -24,11 +22,17 @@ const Content = styled.div`
   }
 `;
 const Title = styled.h2`
+  color: #1a1a1a;
+  font-size: 40px;
+  margin: 0;
+  height: 48px;
   @media (max-width: 955.59px) {
     display: none;
   }
 `;
-const Description = styled.span`
+const Description = styled.p`
+  color: #1a1a1a;
+  margin: 15px 0;
   @media (max-width: 955.59px) {
     display: none;
   }
@@ -60,6 +64,7 @@ const GroupButton = styled.div`
   }
 `;
 const Signature = styled.div`
+  color: #1a1a1a;
   @media (max-width: 955.59px) {
     display: none;
   }
@@ -91,11 +96,8 @@ const Line = styled.div`
 const Footer = styled.div`
   display: flex;
   position: absolute;
-  width: 60%;
+  width: 100%;
   bottom: 0;
-  @media (max-width: 955.59px) {
-    width: 100%;
-  }
 `;
 const Contact = styled.div`
   width: 100%;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, CircularProgress } from '@material-ui/core';
 
-import useStyles from './styles';
+import { ButtonStyle, useStyles } from './styles';
 
 type Props = {
   text: string;
@@ -17,8 +17,7 @@ const ButtonComp = React.forwardRef((props: Props, ref) => {
   const { text, classes, onClick, isLoading, disabled, ...rest } = props;
 
   return (
-    <Button
-      style={{ fontSize: 16 }}
+    <ButtonStyle
       className={classes || ''}
       onClick={onClick}
       disabled={isLoading || disabled}
@@ -26,7 +25,7 @@ const ButtonComp = React.forwardRef((props: Props, ref) => {
     >
       {text}
       {isLoading && <CircularProgress size="sm" className={styles.loading} />}
-    </Button>
+    </ButtonStyle>
   );
 });
 
