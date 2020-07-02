@@ -46,6 +46,10 @@ export default function PasswordFieldComp(props: Props) {
         type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={onChange}
+        classes={{ root: classes.heightInput }}
+        // InputProps={{
+        //   className: classes.heightInput,
+        // }}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

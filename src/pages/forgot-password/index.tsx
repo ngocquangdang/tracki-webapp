@@ -3,13 +3,13 @@ import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
 import ForgotContainer from '@Containers/auth/ForgotPassword';
-import IForgotPage from '@Containers/auth/ForgotPassword/interfaces';
+import { IPage } from '@Interfaces';
 
 const Forgot: NextPage = props => {
   return <ForgotContainer {...props} />;
 };
 
-Forgot.getInitialProps = async (): Promise<IForgotPage.InitialProps> => {
+Forgot.getInitialProps = async (): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['auth'] };
 };
 

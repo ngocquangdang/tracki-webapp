@@ -23,9 +23,10 @@ const Label = styled.a`
   text-decoration: none;
   color: #168449;
   text-align: center;
+  margin: 10px 0;
 `;
 const GroupButton = styled.div`
-  margin: 25px 0;
+  margin: 10px 0;
 `;
 const Line = styled.div`
   display: flex;
@@ -49,7 +50,12 @@ const Line = styled.div`
     margin: 0.6rem 0 0.6rem 0.5rem;
   }
 `;
-
+const SwitchGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #1a1a1a;
+`;
 const Message = styled.p``;
 
 const Footer = styled.div`
@@ -61,7 +67,6 @@ const Contact = styled.div`
   height: 40%;
   align-items: flex-end;
 `;
-
 const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
@@ -71,9 +76,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     marginBottom: '1em',
-    marginTop: '3em',
-    padding: 14,
-
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
@@ -84,7 +86,6 @@ const useStyles = makeStyles(theme => ({
     '&': {
       borderColor: '#000',
       color: '#000',
-      padding: 14,
       width: '100%',
     },
     '&:hover': {
@@ -111,5 +112,6 @@ export {
   Message,
   Line,
   GroupButton,
+  SwitchGroup,
   useStyles,
 };

@@ -11,12 +11,20 @@ body {
 }
 
 body {
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
+  color: #1a1a1a;
   margin: 0;
 }
 
 #__next {
   width: 100vw;
   height: 100vh;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
 }
