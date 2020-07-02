@@ -3,13 +3,13 @@ import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
 import LoginContainer from '@Containers/auth/Login';
-import ILoginPage from '@Containers/auth/Login/interfaces';
+import { IPage } from '@Interfaces';
 
 const Login: NextPage = props => {
   return <LoginContainer {...props} />;
 };
 
-Login.getInitialProps = async (): Promise<ILoginPage.InitialProps> => {
+Login.getInitialProps = async (): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['auth'] };
 };
 

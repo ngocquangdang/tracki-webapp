@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Row, Background, useStyles } from './styles';
+import { Container, Row, Background, Content, useStyles } from './styles';
 
 export default function AuthLayout(props: any) {
   const classes = useStyles();
@@ -8,7 +8,7 @@ export default function AuthLayout(props: any) {
     <Container>
       <Row>
         <Background className={classes.media} />
-        {props.children}
+        <Content>{props.children}</Content>
       </Row>
     </Container>
   );

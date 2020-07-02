@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  'btn-cancel': {
+  cancelBtn: {
     '&': {
       borderColor: '#000',
       color: '#000',
