@@ -3,72 +3,29 @@ import { withStyles, FormControl, makeStyles } from '@material-ui/core';
 const FormPassword = withStyles(theme => ({
   root: {
     '& .MuiInputBase-root': {
-      color: '#000',
       height: '50px',
-      '& .MuiInputAdornment-root > .MuiIconButton-edgeEnd': {
-        marginRight: 0,
-        marginBottom: 5,
+      color: '#1a1a1a',
+    },
+    '& .MuiInputLabel-outlined': {
+      transform: 'translate(14px, 17px) scale(1)',
+      '&.MuiInputLabel-shrink': {
+        transform: 'translate(14px, -6px) scale(0.7)',
       },
     },
-    '& .MuiOutlinedInput-root': {
-      padding: '15.6px 10px',
-
-      '& fieldset': {
-        borderColor: '#000',
-        height: '50px',
-      },
-      '&:hover fieldset': {
-        borderColor: '#000',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.primary.main,
-        color: '#000',
-      },
-    },
-
     '& > .MuiFormHelperText-root.Mui-error': {
       position: 'absolute',
       top: '50px',
     },
-    '& .MuiInputLabel-formControl': {
-      top: '-5px',
-      '&.Mui-focused': {
-        top: 0,
-      },
-    },
     '& .MuiOutlinedInput-input': {
-      padding: '15.6px 10px',
-    },
-    [theme.breakpoints.down('sm')]: {
-      '& .MuiInputBase-root': {
-        color: '#000',
-        height: '45px',
-      },
-      '& .MuiOutlinedInput-root': {
-        padding: '15.6px 10px',
-        '& fieldset': {
-          borderColor: '#000',
-          height: '45px',
-        },
-      },
-      '& > .MuiFormHelperText-root.Mui-error': {
-        position: 'absolute',
-        top: '45px',
-      },
-      '& .MuiInputLabel-formControl': {
-        top: '-5px',
-        '&.Mui-focused': {
-          top: 0,
-        },
-      },
-      '& .MuiOutlinedInput-input': {
-        padding: '15.6px 10px',
-      },
+      padding: '15.5px 14px',
     },
   },
 }))(FormControl);
 
 const useStyles = makeStyles(theme => ({
+  heightInput: {
+    height: 50,
+  },
   inputWrapper: {
     marginTop: 15,
     marginBottom: 15,
