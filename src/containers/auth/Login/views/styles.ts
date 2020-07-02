@@ -6,13 +6,41 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 60%;
+  @media (max-width: 955.59px) {
+    width: 100%;
+  }
+`;
+
+const Content = styled.div`
   width: 100%;
-  padding: 0 5%;
+  max-width: 400px;
+  text-align: center;
+  @media (max-width: 955.59px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+`;
+const Title = styled.h2`
+  @media (max-width: 955.59px) {
+    display: none;
+  }
+`;
+const Description = styled.span`
+  @media (max-width: 955.59px) {
+    display: none;
+  }
 `;
 const Logo = styled.img`
+  display: none;
   width: 100px;
   height: 30px;
   margin-bottom: 2em;
+  @media (max-width: 955.59px) {
+    display: block;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -25,8 +53,18 @@ const Label = styled.a`
   text-align: center;
 `;
 const GroupButton = styled.div`
-  margin: 25px 0;
+  @media (max-width: 955.59px) {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
 `;
+const Signature = styled.div`
+  @media (max-width: 955.59px) {
+    display: none;
+  }
+`;
+
 const Line = styled.div`
   display: flex;
   text-align: center;
@@ -39,7 +77,7 @@ const Line = styled.div`
   &::after {
     display: inline-block;
     content: '';
-    border-top: 1px solid #e0e0e0;
+    border-top: 2px solid #e0e0e0;
     width: 100%;
   }
   &::before {
@@ -50,19 +88,33 @@ const Line = styled.div`
   }
 `;
 
-const Message = styled.p``;
-
 const Footer = styled.div`
-  width: 100%;
+  display: flex;
+  position: absolute;
+  width: 60%;
+  bottom: 0;
+  @media (max-width: 955.59px) {
+    width: 100%;
+  }
 `;
 const Contact = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  height: 40%;
-  align-items: flex-end;
+  align-items: center;
+  padding: 0 50px;
+  @media (max-width: 955.59px) {
+    padding: 0 15px;
+  }
 `;
 
 const useStyles = makeStyles(theme => ({
+  backBtn: {
+    color: '#4b4f56',
+    '& span svg': {
+      fontSize: '36px !important',
+    },
+  },
   margin: {
     marginTop: 15,
     marginBottom: 15,
@@ -70,10 +122,9 @@ const useStyles = makeStyles(theme => ({
   btn: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    marginBottom: '1em',
     marginTop: '3em',
+    marginBottom: '1rem',
     padding: 14,
-
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
@@ -92,12 +143,25 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.contrastText,
     },
   },
-  textBtn: {
-    height: 36,
-  },
   errorText: {
     textAlign: 'center',
     color: theme.palette.error.main,
+  },
+  logo: {
+    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+    },
+  },
+  infoIcon: {
+    margin: 'auto 10px auto 0',
+    fontSize: 40,
+    color: theme.palette.primary.main,
+  },
+  link: {
+    textDecoration: 'none',
+    cursor: 'pointer',
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -108,8 +172,11 @@ export {
   Label,
   Footer,
   Contact,
-  Message,
   Line,
   GroupButton,
+  Signature,
+  Title,
+  Description,
+  Content,
   useStyles,
 };

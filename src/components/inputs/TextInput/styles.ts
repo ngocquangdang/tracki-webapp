@@ -20,7 +20,7 @@ const TextInput = withStyles(theme => ({
     },
     '& > .MuiFormHelperText-root.Mui-error': {
       position: 'absolute',
-      top: '55px',
+      top: '40px',
     },
   },
 }))(TextField);
