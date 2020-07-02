@@ -54,6 +54,7 @@ const SwitchGroup = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  color: #1a1a1a;
 `;
 const Message = styled.p``;
 
@@ -76,7 +77,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.contrastText,
     marginBottom: '1em',
     padding: 14,
-
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,

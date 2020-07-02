@@ -5,10 +5,14 @@ const TextInput = withStyles(theme => ({
   root: {
     '& .MuiInputBase-root': {
       color: '#000',
+      height: '50px',
     },
     '& .MuiOutlinedInput-root': {
+      padding: '15.6px 10px',
+
       '& fieldset': {
         borderColor: '#000',
+        height: '50px',
       },
       '&:hover fieldset': {
         borderColor: '#000',
@@ -20,7 +24,42 @@ const TextInput = withStyles(theme => ({
     },
     '& > .MuiFormHelperText-root.Mui-error': {
       position: 'absolute',
-      top: '40px',
+      top: '50px',
+    },
+    '& .MuiInputLabel-formControl': {
+      top: '-5px',
+      '&.Mui-focused': {
+        top: 0,
+      },
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '15.6px 10px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      '& .MuiInputBase-root': {
+        color: '#000',
+        height: '45px',
+      },
+      '& .MuiOutlinedInput-root': {
+        padding: '15.6px 10px',
+        '& fieldset': {
+          borderColor: '#000',
+          height: '45px',
+        },
+      },
+      '& > .MuiFormHelperText-root.Mui-error': {
+        position: 'absolute',
+        top: '45px',
+      },
+      '& .MuiInputLabel-formControl': {
+        top: '-5px',
+        '&.Mui-focused': {
+          top: 0,
+        },
+      },
+      '& .MuiOutlinedInput-input': {
+        padding: '15.6px 10px',
+      },
     },
   },
 }))(TextField);

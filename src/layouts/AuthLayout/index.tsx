@@ -6,6 +6,7 @@ import {
   Background,
   Layout,
   Description,
+  Content,
   Logo,
   Title,
   SubLogo,
@@ -28,7 +29,7 @@ export default function AuthLayout(props: any) {
             </SubLogo>
           </Description>
         </Background>
-        {props.children}
+        <Content>{props.children}</Content>
       </Row>
     </Container>
   );

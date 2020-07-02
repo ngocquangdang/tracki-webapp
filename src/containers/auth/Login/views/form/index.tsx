@@ -13,6 +13,7 @@ import { Switch } from '@material-ui/core';
 const initialValuesForm = {
   username: '',
   password: '',
+  remember_me: true,
 };
 
 function LoginForm(props: ILoginPage.IProps) {
@@ -60,9 +61,10 @@ function LoginForm(props: ILoginPage.IProps) {
           <SwitchGroup>
             <span>{t('auth:remember_me')}</span>
             <Switch
-              // checked={state.checkedA}
+              checked={values.remember_me}
+              value={values.remember_me}
               onChange={handleChange}
-              name="checkedA"
+              name="remember_me"
               color="primary"
             />
           </SwitchGroup>

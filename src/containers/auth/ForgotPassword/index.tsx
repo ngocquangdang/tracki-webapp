@@ -18,24 +18,13 @@ import {
 } from './store/selectors';
 import IForgotPage from './interfaces';
 
-const WebView = dynamic(() => import('./views/web'));
-const MobileView = dynamic(() => import('./views/mobile'));
+import View from './views';
 
 function ForgotPassword(props: IForgotPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
 
-  const [width, setWidth] = useState<number>(0);
-
-  useEffect(() => {
-    const { width } = window.screen;
-    setWidth(width);
-  }, []);
-
-  if (width > 959.95) {
-    return <WebView {...props} />;
-  }
-  return <MobileView {...props} />;
+  return <View {...props} />;
 }
 
 const mapStateToProps = createStructuredSelector({

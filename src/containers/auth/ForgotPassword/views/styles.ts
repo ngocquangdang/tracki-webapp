@@ -6,8 +6,21 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50%;
-  padding: 0 5%;
+  width: 55%;
+  @media (max-width: 955.59px) {
+    width: 100%;
+  }
+`;
+const Content = styled.div`
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  @media (max-width: 955.59px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
 `;
 const Logo = styled.img`
   margin-bottom: 2em;
@@ -29,6 +42,37 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const GroupButton = styled.div`
+  @media (max-width: 955.59px) {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+`;
+const Signature = styled.div`
+  @media (max-width: 955.59px) {
+    display: none;
+  }
+`;
+const Footer = styled.div`
+  display: flex;
+  position: absolute;
+  width: 55%;
+  bottom: 0;
+  @media (max-width: 955.59px) {
+    width: 100%;
+  }
+`;
+const Contact = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  @media (max-width: 955.59px) {
+    padding: 0 15px;
+  }
+`;
 const useStyles = makeStyles(theme => ({
   media: {
     [theme.breakpoints.down('md')]: {
@@ -68,4 +112,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export { Container, Logo, Title, SubTitle, Form, useStyles };
+export {
+  Container,
+  Footer,
+  Contact,
+  GroupButton,
+  Signature,
+  Logo,
+  Content,
+  Title,
+  SubTitle,
+  Form,
+  useStyles,
+};
