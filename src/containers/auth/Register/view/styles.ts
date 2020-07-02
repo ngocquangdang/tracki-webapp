@@ -46,7 +46,6 @@ const InfoText = styled.p`
 const InfoTextTerm = styled.span`
   @media (max-width: 767px) {
     display: inline-block;
-
   }
 `;
 

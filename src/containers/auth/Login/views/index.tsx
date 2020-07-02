@@ -37,7 +37,7 @@ export default function Login(props: ILoginPage.IProps) {
             <Button
               className={classes.blackBtn}
               variant="outlined"
-              text={t('auth:create_account')}
+              text={t('auth:create_new_tracki_account')}
             />
           </Link>
         </Content>

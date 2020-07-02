@@ -1,8 +1,7 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import dynamic from 'next/dynamic';
 
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
