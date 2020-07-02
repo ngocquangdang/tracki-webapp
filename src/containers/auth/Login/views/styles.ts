@@ -126,7 +126,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.contrastText,
     marginTop: '3em',
     marginBottom: '1rem',
-    padding: 14,
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
@@ -137,7 +136,7 @@ const useStyles = makeStyles(theme => ({
     '&': {
       borderColor: '#000',
       color: '#000',
-      padding: 14,
+
       width: '100%',
     },
     '&:hover': {

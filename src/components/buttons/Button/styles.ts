@@ -14,9 +14,6 @@ const ButtonStyle = withStyles(theme => ({
   root: {
     fontSize: 16,
     height: 50,
-    '& > .MuiButton-label': {
-      marginTop: '-5px',
-    },
   },
 }))(Button);
 
