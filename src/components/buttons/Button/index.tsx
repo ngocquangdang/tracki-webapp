@@ -18,6 +18,7 @@ const ButtonComp = React.forwardRef((props: Props, ref) => {
 
   return (
     <Button
+      style={{ fontSize: 16 }}
       className={classes || ''}
       onClick={onClick}
       disabled={isLoading || disabled}
