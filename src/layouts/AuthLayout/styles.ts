@@ -14,6 +14,11 @@ const Background = styled.div`
   width: 50%;
   background: url('images/turntable.jpg');
 `;
+const Content = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+`;
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -23,4 +28,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export { Container, Row, Background, useStyles };
+export { Container, Row, Background, Content, useStyles };
