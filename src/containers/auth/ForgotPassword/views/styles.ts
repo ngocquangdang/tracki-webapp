@@ -24,6 +24,7 @@ const Content = styled.div`
 `;
 const Logo = styled.img`
   height: 36px;
+  margin: auto 0;
 `;
 const Title = styled.h2`
   font-size: 24px;
