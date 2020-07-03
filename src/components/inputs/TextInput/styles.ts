@@ -7,6 +7,14 @@ const TextInput = withStyles(theme => ({
       height: '50px',
       color: '#1a1a1a',
     },
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: '#1a1a1a',
+      },
+      '&.Mui-focused fieldset': {
+        border: '1px solid #1a1a1a',
+      },
+    },
     '& .MuiInputLabel-outlined': {
       transform: 'translate(14px, 17px) scale(1)',
       '&.MuiInputLabel-shrink': {

@@ -1,6 +1,7 @@
 import React, { createRef, useState } from 'react';
 import Link from 'next/link';
 import { Typography } from '@material-ui/core';
+import { FiChevronLeft } from 'react-icons/fi';
 
 import { AuthLayout } from '@Layouts';
 import Button from '@Components/buttons/Button';
@@ -17,6 +18,7 @@ import {
   Content,
   Title,
   SubTitle,
+  Header,
   useStyles,
 } from './styles';
 import IForgotPage from '../interfaces';
@@ -52,6 +54,17 @@ function ForgotPassword(props: IForgotPage.IProps) {
   return (
     <AuthLayout>
       <Container>
+        <Header>
+          <Link href="/login">
+            <Button
+              variant="text"
+              classes={classes.backBtn}
+              startIcon={<FiChevronLeft size={28} />}
+              text={t('back')}
+            />
+          </Link>
+          <Logo src="images/logo.png" className={classes.logo} alt="" />
+        </Header>
         <Content>
           <Logo src="images/logo.png" alt="" />
           <Title>{t('auth:forgot_password')}</Title>
@@ -79,7 +92,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
             ) : (
               <TextInput
                 className={classes.margin}
-                label={t('auth:email')}
+                label="Email"
                 errorInput={errors.email}
                 value={emailInput}
                 onChange={handleChangeInput('email')}

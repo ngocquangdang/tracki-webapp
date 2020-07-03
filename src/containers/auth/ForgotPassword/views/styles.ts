@@ -6,10 +6,10 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 55%;
-  @media (max-width: 955.59px) {
-    width: 100%;
-  }
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
 `;
 const Content = styled.div`
   width: 100%;
@@ -23,17 +23,27 @@ const Content = styled.div`
   }
 `;
 const Logo = styled.img`
-  margin-bottom: 2em;
+  height: 36px;
 `;
 const Title = styled.h2`
   font-size: 24px;
   color: #333;
   font-weight: 300;
+  margin: 15px 0;
 `;
+const Header = styled.header`
+  position: absolute;
+  top: 0;
+  display: flex;
+  width: 100%;
+  padding: 8px 10px;
+  justify-content: space-between;
+`;
+
 const SubTitle = styled.div`
   font-size: 14px;
   color: #333;
-  margin: 1em;
+  margin-bottom: 13px;
   text-align: center;
 `;
 const Form = styled.form`
@@ -57,7 +67,7 @@ const Signature = styled.div`
 const Footer = styled.div`
   display: flex;
   position: absolute;
-  width: 55%;
+  width: 100%;
   bottom: 0;
   @media (max-width: 955.59px) {
     width: 100%;
@@ -74,25 +84,29 @@ const Contact = styled.div`
   }
 `;
 const useStyles = makeStyles(theme => ({
+  backBtn: {
+    color: '#4b4f56',
+    '& span svg': {
+      fontSize: '36px !important',
+    },
+  },
   media: {
     [theme.breakpoints.down('md')]: {
       width: '100%',
     },
   },
   margin: {
-    marginTop: 16,
-    marginBottom: 16,
+    marginTop: 15,
+    marginBottom: 15,
   },
   btn: {
-    '&': {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-      marginBottom: 16,
-      '&:hover': {
-        backgroundColor: theme.palette.secondary,
-        color: theme.palette.primary.main,
-        borderColor: theme.palette.primary.main,
-      },
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    margin: '1rem 0',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary,
+      color: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
     },
   },
   cancelBtn: {
@@ -103,6 +117,12 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: '#333',
       color: theme.palette.primary.contrastText,
+    },
+  },
+  logo: {
+    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
     },
   },
   text: {
@@ -121,5 +141,6 @@ export {
   Title,
   SubTitle,
   Form,
+  Header,
   useStyles,
 };

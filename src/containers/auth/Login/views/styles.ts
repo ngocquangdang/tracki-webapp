@@ -76,6 +76,7 @@ const Line = styled.div`
   margin: 40px 0 55px;
   color: #1a1a1a;
   line-height: 1.19;
+  width: 100%;
   letter-spacing: normal;
   text-transform: uppercase;
   &::before,
@@ -84,6 +85,7 @@ const Line = styled.div`
     content: '';
     border-top: 2px solid #e0e0e0;
     width: 100%;
+    height: 2px;
   }
   &::before {
     margin: 0.6rem 0.5rem 0.6rem 0;

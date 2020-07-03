@@ -1,10 +1,24 @@
-import { withStyles, FormControl, makeStyles } from '@material-ui/core';
+import styled from 'styled-components';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { TextField } from '@material-ui/core';
 
-const FormPassword = withStyles(theme => ({
+const FormInput = styled.div`
+  position: relative;
+`;
+
+const TextInput = withStyles(theme => ({
   root: {
     '& .MuiInputBase-root': {
       height: '50px',
       color: '#1a1a1a',
+    },
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: '#1a1a1a',
+      },
+      '&.Mui-focused fieldset': {
+        border: '1px solid #1a1a1a',
+      },
     },
     '& .MuiInputLabel-outlined': {
       transform: 'translate(14px, 17px) scale(1)',
@@ -15,12 +29,16 @@ const FormPassword = withStyles(theme => ({
     '& > .MuiFormHelperText-root.Mui-error': {
       position: 'absolute',
       top: '50px',
+      right: 0,
+    },
+    '& .MuiFormHelperText-root': {
+      marginRight: '0px',
     },
     '& .MuiOutlinedInput-input': {
       padding: '15.5px 14px',
     },
   },
-}))(FormControl);
+}))(TextField);
 
 const useStyles = makeStyles(theme => ({
   heightInput: {
@@ -29,6 +47,7 @@ const useStyles = makeStyles(theme => ({
   inputWrapper: {
     marginTop: 15,
     marginBottom: 15,
+    width: '100%',
   },
   error: {
     right: 0,
@@ -37,5 +56,11 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 55,
   },
+  icon: {
+    position: 'absolute',
+    right: 14,
+    top: 16,
+  },
 }));
-export { FormPassword, useStyles };
+
+export { FormInput, TextInput, useStyles };
