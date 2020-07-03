@@ -1,19 +1,6 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 0 5%;
-`;
-const Logo = styled.img`
-  width: 100px;
-  height: 30px;
-  margin-bottom: 2em;
-`;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -24,32 +11,9 @@ const Label = styled.a`
   color: #168449;
   text-align: center;
   margin: 10px 0;
+  cursor: pointer;
 `;
-const GroupButton = styled.div`
-  margin: 10px 0;
-`;
-const Line = styled.div`
-  display: flex;
-  text-align: center;
-  margin: 40px 0 55px;
-  color: #1a1a1a;
-  line-height: 1.19;
-  letter-spacing: normal;
-  text-transform: uppercase;
-  &::before,
-  &::after {
-    display: inline-block;
-    content: '';
-    border-top: 1px solid #e0e0e0;
-    width: 100%;
-  }
-  &::before {
-    margin: 0.6rem 0.5rem 0.6rem 0;
-  }
-  &::after {
-    margin: 0.6rem 0 0.6rem 0.5rem;
-  }
-`;
+
 const SwitchGroup = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -58,15 +22,6 @@ const SwitchGroup = styled.div`
 `;
 const Message = styled.p``;
 
-const Footer = styled.div`
-  width: 100%;
-`;
-const Contact = styled.div`
-  display: flex;
-  justify-content: space-between;
-  height: 40%;
-  align-items: flex-end;
-`;
 const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
@@ -102,16 +57,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export {
-  Container,
-  Logo,
-  Form,
-  Label,
-  Footer,
-  Contact,
-  Message,
-  Line,
-  GroupButton,
-  SwitchGroup,
-  useStyles,
-};
+export { Form, Label, useStyles, Message, SwitchGroup };

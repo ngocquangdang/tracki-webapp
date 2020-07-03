@@ -20,6 +20,8 @@ const Container = styled.div`
 `;
 const Logo = styled.img`
   object-fit: contain;
+  height: 36px;
+  margin: auto 0;
 `;
 const Info = styled.div`
   display: flex;
