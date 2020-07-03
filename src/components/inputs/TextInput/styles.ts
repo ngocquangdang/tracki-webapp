@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
   inputWrapper: {
     marginTop: 15,
     marginBottom: 15,
+    width: '100%',
   },
   errorRoot: {
     right: 0,
