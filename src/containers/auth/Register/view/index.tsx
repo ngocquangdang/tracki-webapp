@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { InfoRounded as InfoIcon } from '@material-ui/icons';
-import { Entypo } from 'react-web-vector-icons';
+import { FiChevronLeft } from 'react-icons/fi';
 
 import { AuthLayout } from '@Layouts';
 import { Button } from '@Components/buttons';
@@ -35,7 +35,7 @@ function RegisterView(props: IRegisterPage.IProps) {
             <Button
               variant="text"
               classes={classes.backBtn}
-              startIcon={<Entypo name="chevron-thin-left" size={20} />}
+              startIcon={<FiChevronLeft size={28} />}
               text={t('back')}
             />
           </Link>
