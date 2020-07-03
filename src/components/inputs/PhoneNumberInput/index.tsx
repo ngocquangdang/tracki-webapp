@@ -21,13 +21,16 @@ export default function PhoneNumberInputComp(props: Props) {
   return (
     <PhoneNumber>
       <PhoneNumberInput
+        className={classes.height}
         label={label}
         name="region"
-        className={classes.color}
         defaultCountry={defaultCountry}
         onChange={onChange}
         style={{ color: '#1a1a1a' }}
         disabled
+        SelectProps={{
+          native: true,
+        }}
         {...rest}
       />
       <TextInput

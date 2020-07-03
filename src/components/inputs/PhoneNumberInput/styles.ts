@@ -19,17 +19,21 @@ const PhoneNumber = styled.div`
 
 const PhoneNumberInput = withStyles(theme => ({
   root: {
-    '& .MuiPopover-root': {
-      '& > .MuiMenu-paper': {
-        color: '#1a1a1a',
-      },
+    '.MuiFormControl-root  > .MuiInputBase-root': {
+      height: '50px',
+      color: '#1a1a1a',
     },
   },
 }))(MuiPhoneNumber);
 
 const useStyles = makeStyles(theme => ({
-  color: {
-    color: '#1a1a1a',
-  }
-}))
+  height: {
+    '& >  .MuiInputBase-root': {
+      height: '50px',
+      '& > .MuiMenu-paper': {
+        maxHeight: '30%',
+      },
+    },
+  },
+}));
 export { PhoneNumber, PhoneNumberInput, useStyles };

@@ -11,7 +11,7 @@ interface Props {
   open: boolean;
   handleClose?(): void;
   children: any;
-  title?: string
+  title?: string;
 }
 export default function TransitionsModal(props: Props) {
   const { open, handleClose, title, ...rest } = props;
@@ -35,7 +35,7 @@ export default function TransitionsModal(props: Props) {
         <div className={classes.paper}>
           <Header>
             <Title>{title}</Title>
-            <IconButton style={{padding: 0}} onClick={handleClose}>
+            <IconButton style={{ padding: 0 }} onClick={handleClose}>
               <Close></Close>
             </IconButton>
           </Header>

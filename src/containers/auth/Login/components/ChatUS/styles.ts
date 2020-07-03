@@ -4,10 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const Form = styled.div`
   width: 100%;
   max-width: 457px;
-  padding: 30px;
   margin: auto;
   background-color: #ffffff;
-  border: 1px solid #707070;
   border-radius: 4px;
 `;
 const PhoneNumber = styled.div`
@@ -37,7 +35,6 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,
       marginBottom: 16,
-      padding: 14,
       width: '100%',
       '&:hover': {
         backgroundColor: theme.palette.secondary,

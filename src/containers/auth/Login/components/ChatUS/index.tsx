@@ -7,8 +7,6 @@ import { Form, useStyles } from './styles';
 import ChatUsSchema from '../schema';
 import IChatUsPage from './interfaces';
 
-// const PhoneNumberInput = dynamic(() => import('@Components/inputs'));
-
 const initialValuesForm = {
   name: '',
   email: '',
@@ -22,9 +20,6 @@ export default function ChatUs(props: IChatUsPage.IProps) {
   const submitForm = (values: IChatUsPage.IStateChatUs) =>
     chatUsRequestAction(values);
 
-  // const handleOnChange = (value: any) => {
-  //   console.log('handleOnChange -> value', value);
-  // };
   return (
     <Formik
       className={classes.container}
@@ -41,24 +36,6 @@ export default function ChatUs(props: IChatUsPage.IProps) {
             onChange={handleChange}
             variant="outlined"
           />
-          {/* <PhoneNumber>
-            <MuiPhoneNumber
-              label="Phone Number"
-              name="region"
-              defaultCountry={'us'}
-              onChange={handleOnChange}
-              variant="outlined"
-              style={{ color: '#1a1a1a' }}
-              disabled
-            />
-            <TextInput
-              label=""
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              variant="outlined"
-            />
-          </PhoneNumber> */}
           <PhoneNumberInput
             label="Phone Number"
             defaultCountry={'us'}
