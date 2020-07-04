@@ -24,8 +24,8 @@ export default function AuthLayout(props: any) {
             <Logo src="images/logo-white.png" alt="" />
             <Title>3G Real-Time Worldwide GPS Tracker</Title>
             <SubLogo>
-              There is no easier way to track people, cars or property in real
-              time.
+              There is no easier way to track people, <br /> cars or property in
+              real time.
             </SubLogo>
           </Description>
         </Background>

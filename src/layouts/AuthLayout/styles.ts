@@ -20,7 +20,6 @@ const Description = styled.div`
   position: absolute;
   display: block;
   top: 40%;
-  padding: 0 29%;
   width: 100%;
   text-align: center;
   color: #ffffff;

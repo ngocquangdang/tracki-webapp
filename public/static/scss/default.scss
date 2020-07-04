@@ -32,3 +32,22 @@ input:-webkit-autofill:active {
 #country-menu ul li {
   color: #1a1a1a !important;
 }
+.react-tel-input > input {
+  height: 50px;
+  width: 143px !important;
+  color: gray;
+  border-color: gray;
+  &.form-control:disabled {
+    border-color: gray;
+    color: gray;
+  }
+  &.form-control:focus {
+    border-color: gray;
+    color: gray;
+    box-shadow: 0 0 0 0;
+  }
+  & + div.flag-dropdown::before {
+    content: 'Phone Number' !important;
+    color: gray !important;
+  }
+}

@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 4,
       padding: '30px',
       border: '1px solid #707070',
+      outline: 'none',
       [theme.breakpoints.down('md')]: {
         padding: '15px',
       },

@@ -1,7 +1,8 @@
 import React from 'react';
-
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/material.css';
 import { TextInput } from '../index';
-import { PhoneNumber, PhoneNumberInput, useStyles } from './styles';
+import { PhoneNumber } from './styles';
 
 interface Props {
   value: string | number;
@@ -16,21 +17,14 @@ interface Props {
 
 export default function PhoneNumberInputComp(props: Props) {
   const { value, label, defaultCountry, onChange, ...rest } = props;
-  const classes = useStyles();
 
   return (
     <PhoneNumber>
-      <PhoneNumberInput
-        className={classes.height}
-        label={label}
-        name="region"
-        defaultCountry={defaultCountry}
+      <PhoneInput
+        country={'us'}
+        enableSearch
+        enableAreaCodes
         onChange={onChange}
-        style={{ color: '#1a1a1a' }}
-        disabled
-        SelectProps={{
-          native: true,
-        }}
         {...rest}
       />
       <TextInput
