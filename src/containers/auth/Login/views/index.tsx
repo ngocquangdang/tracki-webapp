@@ -20,7 +20,6 @@ import {
 import ILoginPage from '../interfaces';
 import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
-// import { Modal } from '@material-ui/core';
 import Modal from '@Components/modals';
 
 export default function Login(props: ILoginPage.IProps) {
@@ -69,7 +68,7 @@ export default function Login(props: ILoginPage.IProps) {
           handleClose={handleCloseModal}
           title={t('live_chat_support')}
         >
-          <ChatUs />
+          <ChatUs {...props} />
         </Modal>
       </Container>
     </AuthLayout>

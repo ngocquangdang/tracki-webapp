@@ -23,6 +23,17 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.isRequesting = false;
         draft.errors = {};
         break;
+      case types.CHATUS_REQUESTED:
+        draft.isRequesting = true;
+        break;
+      case types.CHATUS_FAILED:
+        draft.isRequesting = false;
+        draft.errors = payload.errors;
+        break;
+      case types.CHATUS_SUCCEED:
+        draft.isRequesting = false;
+        draft.errors = {};
+        break;
       default:
         break;
     }

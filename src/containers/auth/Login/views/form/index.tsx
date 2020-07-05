@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { TextInput } from '@Components/inputs';
 import Button from '@Components/buttons/Button';
-import LoginSchema from '../../schema';
+import { LoginSchema } from '../../schema';
 import ILoginPage from '../../interfaces';
 
 import { Form, Label, useStyles, Message, SwitchGroup } from './styles';

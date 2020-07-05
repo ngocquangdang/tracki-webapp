@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Form = styled.div`
+const Form = styled.form`
   width: 100%;
   max-width: 457px;
   margin: auto;
