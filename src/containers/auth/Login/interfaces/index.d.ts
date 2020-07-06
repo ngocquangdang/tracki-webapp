@@ -6,9 +6,12 @@ declare namespace ILoginPage {
     errors: {
       username: string;
       password: string;
+      name: string;
+      phonenumber: string;
     };
     isRequesting: boolean;
     loginRequestAction(data: IStateLogin): void;
+    chatusRequestAction(data: IStateChatUs): void;
   }
 
   interface InitialProps {
@@ -18,6 +21,12 @@ declare namespace ILoginPage {
   interface IStateLogin {
     username: string;
     password: string;
+  }
+
+  interface IStateChatUs {
+    username: string;
+    phonenumber: string;
+    name: string;
   }
 }
 

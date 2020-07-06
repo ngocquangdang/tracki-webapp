@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { AuthLayout } from '@Layouts';
@@ -19,11 +19,20 @@ import {
 } from './styles';
 import ILoginPage from '../interfaces';
 import LoginForm from './form';
+import ChatUs from '../components/ChatUS';
+import Modal from '@Components/modals';
 
 export default function Login(props: ILoginPage.IProps) {
   const { t } = props;
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
   return (
     <AuthLayout>
       <Container>
@@ -46,10 +55,21 @@ export default function Login(props: ILoginPage.IProps) {
             <Signature>© 2020 Tracki. All rights reserved.</Signature>
             <GroupButton>
               <Button color="primary" text={t('call_us')} />
-              <Button color="primary" text={t('chat_us')} />
+              <Button
+                color="primary"
+                text={t('chat_us')}
+                onClick={handleOpenModal}
+              />
             </GroupButton>
           </Contact>
         </Footer>
+        <Modal
+          open={open}
+          handleClose={handleCloseModal}
+          title={t('live_chat_support')}
+        >
+          <ChatUs {...props} />
+        </Modal>
       </Container>
     </AuthLayout>
   );

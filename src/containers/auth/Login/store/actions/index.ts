@@ -9,6 +9,13 @@ export function loginRequestAction(data: ILoginPage.IStateLogin) {
   };
 }
 
+export function chatusRequestAction(data: ILoginPage.IStateChatUs) {
+  return {
+    type: types.CHATUS_REQUESTED,
+    payload: { data },
+  };
+}
+
 export function loginSuccessAction(profile: PayloadType) {
   return {
     type: types.LOGIN_SUCCEED,

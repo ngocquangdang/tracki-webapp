@@ -28,3 +28,55 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-background-clip: text;
 }
+
+#country-menu ul li {
+  color: #1a1a1a !important;
+}
+.react-tel-input {
+  & > input {
+    height: 50px;
+    width: 143px !important;
+    color: gray;
+    border-color: gray;
+    pointer-events: none;
+    &.form-control:disabled {
+      border-color: gray;
+      color: gray;
+    }
+    &.form-control:focus {
+      border-color: gray;
+      color: gray;
+      box-shadow: 0 0 0 0;
+    }
+    & + div.flag-dropdown::before {
+      content: 'Phone Number' !important;
+      color: gray !important;
+      left: 8px;
+    }
+  }
+}
+.react-tel-input > .flag-dropdown {
+  & .selected-flag {
+    width: 105px;
+    .arrow {
+      border-left-width: 5px !important;
+      border-right-width: 5px !important;
+      border-top: 5px solid #555;
+    }
+    .arrow {
+      top: 50%;
+      left: 105px;
+      width: 11px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #555;
+      margin: 0;
+      &.up {
+        border-bottom: 5px solid #555;
+        &:focus {
+          border-top: 5px solid #555;
+        }
+      }
+    }
+  }
+}
