@@ -22,6 +22,9 @@ const Logo = styled.img`
   object-fit: contain;
   height: 36px;
   margin: auto 0;
+  @media (max-width: 959.95px) {
+    height: 29px;
+  }
 `;
 const Info = styled.div`
   display: flex;
@@ -40,7 +43,7 @@ const InfoText = styled.p`
   letter-spacing: normal;
   text-align: left;
   color: #1a1a1a;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     text-align: center;
   }
 `;
@@ -98,7 +101,7 @@ const Footer = styled.div`
   bottom: 0;
   display: flex;
   justify-content: center;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     display: flex;
     width: calc(100% - 30px);
   }

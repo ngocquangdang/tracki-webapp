@@ -40,13 +40,13 @@ export default function SettingLayout(props: Props) {
         <NavLink>
           <LinkItem>
             <Link href="/home">
-              <a>Home</a>
+              <a href>Home</a>
             </Link>
           </LinkItem>
           {url.map((url, index: number) => (
             <LinkItem>
               <Link href={url.pathname} key={index}>
-                <a>{url.name}</a>
+                <a href>{url.name}</a>
               </Link>
             </LinkItem>
           ))}

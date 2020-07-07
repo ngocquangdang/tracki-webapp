@@ -14,7 +14,7 @@ const Content = styled.div`
   width: 100%;
   max-width: 400px;
   text-align: center;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,14 +26,14 @@ const Title = styled.h2`
   font-size: 40px;
   margin: 0;
   height: 48px;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     display: none;
   }
 `;
 const Description = styled.p`
   color: #1a1a1a;
   margin: 15px 0;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     display: none;
   }
 `;
@@ -42,7 +42,7 @@ const Logo = styled.img`
   width: 100px;
   height: 30px;
   margin-bottom: 2em;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     display: block;
   }
 `;
@@ -57,7 +57,7 @@ const Label = styled.a`
   text-align: center;
 `;
 const GroupButton = styled.div`
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -65,7 +65,7 @@ const GroupButton = styled.div`
 `;
 const Signature = styled.div`
   color: #1a1a1a;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     display: none;
   }
 `;
@@ -107,7 +107,7 @@ const Contact = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 50px;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     padding: 0 15px;
   }
 `;

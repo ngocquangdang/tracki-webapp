@@ -4,12 +4,17 @@ import { withStyles, FormControl } from '@material-ui/core';
 const SelectGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
+  @media (max-width: 959.95px) {
+    flex-flow: wrap-reverse;
+  }
 `;
 const Title = styled.p`
   margin-right: 40px;
 `;
 const Form = styled.div`
-  padding: 7px 15px;
+  @media (max-width: 959.95px) {
+    padding: 7px 15px;
+  }
 `;
 
 const SelectForm = withStyles(theme => ({

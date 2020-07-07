@@ -24,7 +24,11 @@ const Description = styled.div`
   text-align: center;
   color: #ffffff;
 `;
-const Logo = styled.img``;
+const Logo = styled.img`
+  @media (max-width: 959.95px) {
+    height: 29px;
+  }
+`;
 const Title = styled.div`
   font-size: 16px;
   margin: 20px;
@@ -47,7 +51,7 @@ const Content = styled.div`
   width: 55%;
   position: relative;
   height: 100%;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.59px) {
     width: 100%;
   }
 `;

@@ -2,7 +2,9 @@ import { makeStyles } from '@material-ui/core';
 import styled from 'styled-components';
 
 const Form = styled.div`
-  padding: 7px 15px;
+  @media (max-width: 959.95px) {
+    padding: 7px 15px;
+  }
 `;
 
 const useStyles = makeStyles(theme => ({

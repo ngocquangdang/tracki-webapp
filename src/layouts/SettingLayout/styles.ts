@@ -7,7 +7,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 650px;
   padding: 32px 0 90px;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     margin: 0;
     max-width: 100%;
     width: 100%;
@@ -16,14 +16,14 @@ const Container = styled.div`
 `;
 const HeaderWeb = styled.header`
   text-align: center;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     display: none;
   }
 `;
 const HeaderMobile = styled.header`
   display: none;
   text-align: center;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     display: flex;
     justify-content: space-between;
     padding: 13px 15px;
@@ -42,7 +42,7 @@ const Title = styled.h1`
   margin-left: 9px;
 `;
 const Content = styled.div`
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     width: 100%;
   }
 `;
@@ -51,6 +51,7 @@ const LinkItem = styled.li`
     text-decoration: none;
     color: #1a1a1a;
     font-weight: 300;
+    cursor: pointer;
   }
   &::after {
     content: '>';
@@ -78,6 +79,9 @@ const Logo = styled.img`
   object-fit: contain;
   height: 36px;
   margin: auto 0;
+  @media (max-width: 959.95px) {
+    height: 29px;
+  }
 `;
 const useStyles = makeStyles(theme => ({
   icon: {

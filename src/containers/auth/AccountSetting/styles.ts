@@ -13,7 +13,7 @@ const Content = styled.form`
   width: 100%;
   height: 100%;
   max-width: 650px;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     max-width: inherit;
     padding: 0;
   }
@@ -26,7 +26,7 @@ const Title = styled.h2`
   font-size: 24px;
   color: #1a1a1a;
   margin: 12px 0;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     display: flex;
     font-size: 13px;
     padding: 0 15px;
@@ -46,13 +46,13 @@ const SwitchGroup = styled.div`
   align-items: center;
   color: #1a1a1a;
   margin: 4px 0;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     padding: 0 15px;
   }
 `;
 const Line = styled.hr`
   margin: 30px 0;
-  @media (max-width: 955.95px) {
+  @media (max-width: 959.95px) {
     display: none;
   }
 `;
@@ -68,7 +68,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 15,
   },
   padding: {
-    padding: '0 15px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 15px',
+    },
   },
   btn: {
     backgroundColor: theme.palette.primary.main,
@@ -114,7 +116,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.main,
   },
   media: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: '0 15px',
     },
   },
