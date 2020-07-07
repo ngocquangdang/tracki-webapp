@@ -1,9 +1,19 @@
 import { PayloadType } from '@Interfaces';
 import * as types from '../definitions';
 
-export function registerRequestAction(payload: PayloadType) {
+export function registerRequestAction(payload: PayloadType, callback: any) {
   return {
     type: types.REGISTER_REQUESTED,
+    payload: {
+      data: payload,
+      callback,
+    },
+  };
+}
+
+export function updateStore(payload: PayloadType) {
+  return {
+    type: types.UPDATE_STORE,
     payload,
   };
 }

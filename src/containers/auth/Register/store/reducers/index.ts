@@ -6,6 +6,15 @@ import * as types from '../definitions';
 // The initial state of the Login container
 export const initialState = {
   errors: {},
+  formData: {
+    username: '',
+    password: '',
+    confirm_password: '',
+    first_name: '',
+    last_name: '',
+    phone: '',
+    zip: '',
+  },
   isRequesting: false,
 };
 
@@ -26,6 +35,9 @@ const registerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.RESET_AUTH_ERRORS:
         draft.errors = {};
         draft.isRequesting = false;
+        break;
+      case types.UPDATE_STORE:
+        draft.formData = payload;
         break;
       default:
         break;

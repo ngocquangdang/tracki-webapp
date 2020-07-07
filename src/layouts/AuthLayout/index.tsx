@@ -15,6 +15,8 @@ import {
 
 export default function AuthLayout(props: any) {
   const classes = useStyles();
+  const { isShowBG } = props;
+  if (isShowBG === false) return props.children;
   return (
     <Container>
       <Row>

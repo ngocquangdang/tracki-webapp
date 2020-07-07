@@ -33,6 +33,7 @@
     "http-proxy-middleware": "^1.0.4",
     "immer": "^7.0.4",
     "invariant": "^2.2.4",
+    "libphonenumber-js": "^1.7.54",
     "lodash": "^4.17.15",
     "next": "9.4.4",
     "next-auth": "^2.2.0",
