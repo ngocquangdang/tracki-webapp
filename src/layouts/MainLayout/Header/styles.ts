@@ -4,6 +4,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#fff',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    }
   },
   wrapper: {
     display: 'flex',

@@ -1,27 +1,48 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
-const Content = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 15px;
-  height: 100%;
-`;
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
+  background-color: #fafafa;
+`;
+const Content = styled.form`
+  padding: 51px 162px;
+  border-radius: 4px;
+  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
+  border: solid 1px var(--e-0-e-0-e-0-border-color);
+  background-color: #ffffff;
   width: 100%;
   height: 100%;
-  max-width: 400px;
+  max-width: 650px;
+  @media (max-width: 955.95px) {
+    max-width: inherit;
+    padding: 0;
+  }
 `;
-const Logo = styled.img`
-  object-fit: contain;
-  height: 36px;
-  margin: auto 0;
+
+const Title = styled.h2`
+  font-size: 24px;
+  color: #1a1a1a;
+  margin: 12px 0;
+  @media (max-width: 955.95px) {
+    display: flex;
+    font-size: 13px;
+    padding: 0 15px;
+    margin: 0;
+    height: 50px;
+    text-align: start;
+    justify-content: start;
+    align-items: center;
+    color: #666666;
+    background: #f4f5f6;
+    text-transform: uppercase;
+  }
+`;
+const PasswordForm = styled.div``;
+const Line = styled.hr`
+  margin: 30px 0;
+  @media (max-width: 955.95px) {
+    display: none;
+  }
 `;
 const Info = styled.div`
   display: flex;
@@ -32,7 +53,7 @@ const Info = styled.div`
   padding: 10px;
 `;
 const InfoText = styled.p`
-  font-size: 16px;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -44,68 +65,6 @@ const InfoText = styled.p`
     text-align: center;
   }
 `;
-
-const InfoTextTerm = styled.span`
-  @media (max-width: 767px) {
-    display: inline-block;
-  }
-`;
-
-const Header = styled.header`
-  position: absolute;
-  top: 0;
-  display: flex;
-  width: 100%;
-  padding: 8px 10px;
-  justify-content: space-between;
-`;
-
-const Title = styled.h1`
-  font-size: 40px;
-  color: #1a1a1a;
-  letter-spacing: normal;
-  text-align: center;
-  margin-top: 0;
-`;
-
-const SubTitle = styled.div`
-  font-size: 22px;
-  color: #1a1a1a;
-  margin-top: 1rem;
-  text-align: center;
-`;
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 1em;
-`;
-const Label = styled.a`
-  text-decoration: underline;
-  &:hover {
-    color: #168449;
-    cursor: pointer;
-  }
-`;
-
-const GroupButton = styled.div`
-  margin: 25px 0;
-`;
-
-const Footer = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  @media (max-width: 955.95px) {
-    display: flex;
-    width: calc(100% - 30px);
-  }
-`;
-const Text = styled.span``;
-
-const Message = styled.p``;
 
 const useStyles = makeStyles(theme => ({
   backBtn: {
@@ -122,7 +81,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     marginTop: '3em',
-    marginBottom: '1rem',
+    width: '100%',
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
@@ -160,23 +119,19 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     color: theme.palette.primary.main,
   },
+  media: {
+    [theme.breakpoints.down('md')]: {
+      padding: '0 15px',
+    },
+  },
 }));
-
 export {
   Container,
-  Logo,
+  Content,
   Title,
-  SubTitle,
-  Form,
-  Header,
-  Label,
-  Footer,
-  Message,
-  GroupButton,
+  Line,
+  PasswordForm,
   Info,
   InfoText,
-  Content,
-  Text,
-  InfoTextTerm,
   useStyles,
 };
