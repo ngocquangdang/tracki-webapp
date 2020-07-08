@@ -13,4 +13,13 @@ const makeSelectIsRequesting = () => {
   return createSelector(authState, state => state.isRequesting);
 };
 
-export { makeSelectErrors, makeSelectIsRequesting, makeSelectErrorMessage };
+const selectFormData = () => {
+  return createSelector(authState, state => state.formData);
+};
+
+export {
+  makeSelectErrors,
+  makeSelectIsRequesting,
+  makeSelectErrorMessage,
+  selectFormData,
+};
