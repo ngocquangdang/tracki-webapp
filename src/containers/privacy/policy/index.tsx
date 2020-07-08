@@ -195,8 +195,8 @@ export default function PolicyContainer() {
           If you purchase a product on a Tracki website, then Tracki will
           collect your name, mailing address and telephone number. We do not
           view or store your payment card information a third party, Shopify
-          processes customer payment card details.&nbsp; Their privacy policy
-          can be seen here https://www.shopify.com/legal/privacy.
+          processes customer payment card details. Their privacy policy can be
+          seen here <a href="https://www.shopify.com/legal/privacy">privacy</a>.
         </p>
         <p>
           If you buy a device connectivity for Tracki device, it is being billed

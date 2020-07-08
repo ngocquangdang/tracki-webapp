@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdLock } from 'react-icons/md';
@@ -25,18 +25,21 @@ import TabPanel from './tabPanel';
 const Policy = dynamic(() => import('./policy'));
 const Term = dynamic(() => import('./term'));
 
+interface PrivacyState {
+  value: number;
+}
 export default function PrivacyContainer(props: any) {
   const { t } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState<PrivacyState>(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue: any) => {
     setValue(newValue);
   };
   return (
     <Container>
       <Header>
-        <Link href="/login">
+        <Link href="/create-account">
           <Button
             variant="text"
             classes={classes.backBtn}

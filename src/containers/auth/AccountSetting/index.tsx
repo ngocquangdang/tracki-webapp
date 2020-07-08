@@ -18,19 +18,41 @@ import LoginDetail from './form/logindetail';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 
+interface SettingState {
+  options: {
+    value: string;
+    content: string;
+  }[];
+  email_notif: boolean;
+  app_notif: boolean;
+}
 export default function AccountSetting(props: any) {
   const classes = useStyles();
   const { t } = props;
-  const [Options, setOption] = useState([
-    {
-      value: '10',
-      content: 'ten',
-    },
-    {
-      value: '20',
-      content: 'twenty',
-    },
-  ]);
+  const [values, setValue] = useState<SettingState>({
+    options: [
+      {
+        value: '10',
+        content: 'ten',
+      },
+      {
+        value: '20',
+        content: 'twenty',
+      },
+    ],
+    email_notif: true,
+    app_notif: true,
+  });
+  const onChangeEmailNotif = () =>
+    setValue({
+      ...values,
+      email_notif: !values.email_notif,
+    });
+  const onChangeAppNotif = () =>
+    setValue({
+      ...values,
+      app_notif: !values.app_notif,
+    });
   return (
     <Container>
       <Content>
@@ -49,25 +71,28 @@ export default function AccountSetting(props: any) {
           <SwitchGroup>
             <span>{t('auth:email_notification')}</span>
             <Switch
-              // checked={values.remember_me}
-              // value={values.remember_me}
-              // onChange={handleChange}
-              name="remember_me"
+              checked={values.email_notif}
+              value={values.email_notif}
+              onChange={onChangeEmailNotif}
+              name="email_notif"
               color="primary"
             />
           </SwitchGroup>
           <SwitchGroup>
             <span>{t('auth:app_notification')}</span>
             <Switch
-              // checked={values.remember_me}
-              // value={values.remember_me}
-              // onChange={handleChange}
-              name="remember_me"
+              checked={values.app_notif}
+              value={values.app_notif}
+              onChange={onChangeAppNotif}
+              name="app_notif"
               color="primary"
             />
           </SwitchGroup>
           <div className={classes.media}>
-            <SelectOption label={t('auth:select_language')} option={Options} />
+            <SelectOption
+              label={t('auth:select_language')}
+              option={values.options}
+            />
           </div>
         </Notification>
         <div className={classes.media}>

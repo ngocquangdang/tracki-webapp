@@ -20,9 +20,12 @@ const Header = styled.header`
   width: 100%;
   padding: 8px 10px;
   justify-content: space-between;
+  @media (max-width: 955.59px) {
+    background: #ffffff;
+  }
 `;
 const Wrapper = styled.div`
-  padding-top: 72px;
+  padding-top: 66px;
 `;
 const Content = styled.div`
   width: 100%;
@@ -65,13 +68,26 @@ const Paragraph = styled.p`
 const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#4b4f56 !important',
+    padding: 0,
     '& span svg': {
       fontSize: '36px !important',
+    },
+    [theme.breakpoints.down(375)]: {
+      fontSize: '16px !important',
+      padding: 0,
+      '& span svg': {
+        width: 20,
+        height: 20,
+      },
     },
   },
   logo: {
     [theme.breakpoints.down('sm')]: {
       display: 'block',
+    },
+    [theme.breakpoints.down(375)]: {
+      height: 26,
+      width: 90,
     },
   },
   arrow: {
