@@ -32,11 +32,7 @@ export default function PhoneNumberInputComp(props: Props) {
         country={defaultCountry}
         enableSearch
         enableAreaCodes
-<<<<<<< HEAD
-        onChange={onchange}
-=======
         onChange={onChangeInput}
->>>>>>> develop
         {...rest}
         inputProps={{ disabled: true }}
       />
