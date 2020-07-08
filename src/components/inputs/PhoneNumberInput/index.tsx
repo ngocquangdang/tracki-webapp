@@ -16,15 +16,23 @@ interface Props {
 }
 
 export default function PhoneNumberInputComp(props: Props) {
-  const { value, label, defaultCountry, onChange, ...rest } = props;
-  const onchange = v => console.log(v);
+  const {
+    value,
+    label,
+    defaultCountry,
+    onChange,
+    onChangeInput,
+    errorInput,
+    ...rest
+  } = props;
+
   return (
     <PhoneNumber>
       <PhoneInput
-        country={'us'}
+        country={defaultCountry}
         enableSearch
         enableAreaCodes
-        onChange={onchange}
+        onChange={onChangeInput}
         {...rest}
         inputProps={{ disabled: true }}
       />
@@ -34,6 +42,7 @@ export default function PhoneNumberInputComp(props: Props) {
         value={value}
         onChange={onChange}
         variant="outlined"
+        errorInput={errorInput}
       />
     </PhoneNumber>
   );

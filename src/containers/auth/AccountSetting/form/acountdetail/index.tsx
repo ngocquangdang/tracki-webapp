@@ -19,12 +19,16 @@ export default function AccountDetail(props: any) {
     value: 'pkh',
     option: [
       {
-        value: '10',
-        content: 'ten',
+        value: 'mm/dd/yyyy',
+        content: 'default',
       },
       {
-        value: '20',
-        content: 'twenty',
+        value: 'mm/dd/yyyy',
+        content: 'mm/dd/yyyy',
+      },
+      {
+        value: 'dd/mm/yyyy',
+        content: 'dd/mm/yyyy',
       },
     ],
   });

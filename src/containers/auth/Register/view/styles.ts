@@ -16,7 +16,23 @@ const Container = styled.div`
   margin: auto;
   width: 100%;
   height: 100%;
+  max-width: ${(props: { isTitle?: boolean; isSucces?: boolean }) =>
+    props.isTitle ? '460px' : props.isSucces ? '452px' : '400px'};
+`;
+const ContainerForm = styled.div`
   max-width: 400px;
+`;
+const ContainerText = styled.div`
+  max-width: 410px;
+  text-align: center;
+`;
+const TextGmail = styled.div`
+  font-weight: 600;
+`;
+const CheckIcon = styled.div`
+  width: 132.6px;
+  height: 132.6px;
+  background-color: #168449;
 `;
 const Logo = styled.img`
   object-fit: contain;
@@ -39,11 +55,13 @@ const InfoText = styled.p`
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.5;
+  line-height: ${(props: { isDescription?: boolean }) =>
+    props.isDescription ? '1.25' : '1.5'};
   letter-spacing: normal;
   text-align: left;
-  color: #1a1a1a;
-  @media (max-width: 959.95px) {
+  color: ${(props: { isDescription?: boolean }) =>
+    props.isDescription ? '#999999' : '#1a1a1a'};
+  @media (max-width: 955.95px) {
     text-align: center;
   }
 `;
@@ -64,11 +82,14 @@ const Header = styled.header`
 `;
 
 const Title = styled.h1`
-  font-size: 40px;
+  font-size: ${(props: { isStep1?: boolean }) =>
+    props.isStep1 ? '40px' : '34px'};
   color: #1a1a1a;
   letter-spacing: normal;
   text-align: center;
   margin-top: 0;
+  margin-bottom: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
+    props.isStep1 ? null : props.isStep5 ? '' : '0px'};
 `;
 
 const SubTitle = styled.div`
@@ -132,6 +153,17 @@ const useStyles = makeStyles(theme => ({
       borderColor: theme.palette.primary.main,
     },
   },
+  btnContinue: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    marginTop: '1em',
+    marginBottom: '1rem',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary,
+      color: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
+    },
+  },
   blackBtn: {
     '&': {
       borderColor: '#000',
@@ -163,6 +195,12 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     color: theme.palette.primary.main,
   },
+  checkIcon: {
+    width: '132.6px',
+    height: '132.6px',
+    color: theme.palette.primary.main,
+    marginBottom: '32px',
+  },
 }));
 
 export {
@@ -181,5 +219,9 @@ export {
   Content,
   Text,
   InfoTextTerm,
+  ContainerForm,
+  CheckIcon,
+  ContainerText,
+  TextGmail,
   useStyles,
 };

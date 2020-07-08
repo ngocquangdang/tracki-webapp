@@ -51,6 +51,7 @@ const Content = styled.div`
   width: 55%;
   position: relative;
   height: 100%;
+  background: #ffffff;
   @media (max-width: 959.59px) {
     width: 100%;
   }

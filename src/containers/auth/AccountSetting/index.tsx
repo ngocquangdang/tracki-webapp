@@ -32,12 +32,16 @@ export default function AccountSetting(props: any) {
   const [values, setValue] = useState<SettingState>({
     options: [
       {
-        value: '10',
-        content: 'ten',
+        value: 'null',
+        content: '-- Select Language --',
       },
       {
-        value: '20',
-        content: 'twenty',
+        value: 'en',
+        content: 'English (USA)',
+      },
+      {
+        value: 'sp',
+        content: 'Spanish',
       },
     ],
     email_notif: true,
