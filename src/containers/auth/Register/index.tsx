@@ -10,11 +10,12 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { registerRequestAction } from './store/actions';
-
+import { updateStore } from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectErrorMessage,
+  selectFormData,
 } from './store/selectors';
 import IRegisterPage from './interfaces';
 
@@ -31,11 +32,14 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectIsRequesting(),
   errorMessage: makeSelectErrorMessage(),
+  formData: selectFormData(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  registerRequestAction: (data: IRegisterPage.RegisterState) =>
-    dispatch(registerRequestAction(data)),
+  registerRequestAction: (data: IRegisterPage.RegisterState, callback: any) =>
+    dispatch(registerRequestAction(data, callback)),
+  updateStore: (data: IRegisterPage.RegisterFormStep1) =>
+    dispatch(updateStore(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
