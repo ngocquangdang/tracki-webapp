@@ -4,7 +4,7 @@ import { Title, Paragraph } from './styles';
 export default function TermContainer() {
   return (
     <>
-      <Title style={{ display: 'inline' }}>Last Updated:</Title>
+      <Title style={{ display: 'inline' }}>Last Updated: </Title>
       <span>1 December 2018</span>
       <Paragraph>
         THIS TERMS OF USE AGREEMENT (THE “AGREEMENT”) ESTABLISHES THE TERMS AND
@@ -23,7 +23,7 @@ export default function TermContainer() {
         AGREEMENT. THIS AGREEMENT WAS LAST MODIFIED AS OF THE DATE INDICATED
         ABOVE.
       </Paragraph>
-      <Title>1. Use of Web Site, Mobile Applications, and our Service</Title>
+      <Title>1. Use of Web Site, Mobile Applications, and our Service.</Title>
       <p>
         <strong>a. </strong>The <strong>“Service” </strong>is Tracki’s mobile
         applications and website located at Tracki.com , as each may be updated,
@@ -52,7 +52,7 @@ export default function TermContainer() {
         Privacy Policy. By accepting this Agreement, you acknowledge your
         agreement with Tracki’s Privacy Policy.
       </p>
-      <Title>2. Registration, Accounts, Passwords and Security</Title>
+      <Title>2. Registration, Accounts, Passwords and Security. </Title>
       <p>
         <strong>a. </strong>{' '}
         <span style={{ textDecoration: 'underline' }}>Tracki Members.</span> In
@@ -102,7 +102,7 @@ export default function TermContainer() {
           password.
         </p>
       </p>
-      <Title>3. Your Responsibilities</Title>
+      <Title>3. Your Responsibilities.</Title>
       <p>
         <strong>a. </strong> You may use the Service solely for lawful,
         non-commercial purposes, as intended through the provided functionality
@@ -232,7 +232,7 @@ export default function TermContainer() {
           this Agreement.
         </p>
       </p>
-      <Title>4. Consent to Electronic Communications</Title>
+      <Title>4. Consent to Electronic Communications.</Title>
       <p>
         <p>
           <strong>a. </strong>
@@ -275,7 +275,7 @@ export default function TermContainer() {
           delays or message failures.
         </p>
       </p>
-      <Title>5. Content Submitted to THE COMPANY</Title>
+      <Title>5. Content Submitted to THE COMPANY.</Title>
       <p>
         <p>
           <strong> a.</strong>By sending or transmitting to us information,
@@ -338,7 +338,7 @@ export default function TermContainer() {
           who breach these representations and warranties.
         </p>
       </p>
-      <Title>6. Term and Termination</Title>
+      <Title>6. Term and Termination.</Title>
       <p>
         <p>
           <strong>a. </strong>
@@ -375,7 +375,7 @@ export default function TermContainer() {
           expiration or termination.
         </p>
       </p>
-      <Title>7. Ownership</Title>
+      <Title>7. Ownership.</Title>
       <p>
         <p>
           <strong>a. </strong>

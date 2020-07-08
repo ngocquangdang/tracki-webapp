@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdLock } from 'react-icons/md';
 import { GoNote } from 'react-icons/go';
+import { AiOutlineArrowUp } from 'react-icons/ai';
 import Link from 'next/link';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,6 +14,8 @@ import {
   Header,
   Content,
   Wrapper,
+  TopButton,
+  Paragraph,
   TabStyle,
   useStyles,
 } from './styles';
@@ -65,6 +68,10 @@ export default function PrivacyContainer(props: any) {
           </TabPanel>
         </Content>
       </Wrapper>
+      <TopButton onClick={() => window.scrollTo(0, 0)}>
+        <AiOutlineArrowUp className={classes.arrow} />
+        <Paragraph>Back to Top</Paragraph>
+      </TopButton>
     </Container>
   );
 }

@@ -201,7 +201,10 @@ export default function PolicyContainer() {
         <p>
           If you buy a device connectivity for Tracki device, it is being billed
           by Brain Tree, a PayPal company, you can find their privacy policy
-          here: https://www.braintreepayments.com/legal/braintree-privacy-policy
+          here:{' '}
+          <a href="https://www.braintreepayments.com/legal/braintree-privacy-policy">
+            braintree-privacy-policy
+          </a>
         </p>
         <p>PURPOSE AND LEGAL GROUND 6:</p>
         <p>

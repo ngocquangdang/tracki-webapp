@@ -31,19 +31,52 @@ const Content = styled.div`
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px var(--e-0-e-0-e-0-border-color);
   background-color: #ffffff;
+  @media (max-width: 959.95px) {
+    margin: auto;
+  }
+`;
+const TopButton = styled.button`
+  outline: none;
+  position: fixed;
+  background: #168449;
+  top: 85%;
+  right: 15px;
+  border: 0;
+  display: flex;
+  color: #ffffff;
+  padding: 16px;
+  border-radius: 100px;
+  text-decoration: none;
+  cursor: pointer;
+`;
+const Paragraph = styled.p`
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-align: center;
+  margin: 0;
+  @media (max-width: 959.95px) {
+    display: none;
+  }
 `;
 const useStyles = makeStyles(theme => ({
   backBtn: {
-    color: '#4b4f56',
+    color: '#4b4f56 !important',
     '& span svg': {
       fontSize: '36px !important',
     },
   },
-
   logo: {
     [theme.breakpoints.down('sm')]: {
       display: 'block',
     },
+  },
+  arrow: {
+    width: 18,
+    height: 18,
   },
   border: {
     borderRadius: 0,
@@ -58,4 +91,14 @@ const TabStyle = withStyles(theme => ({
     },
   },
 }))(Tab);
-export { Container, Logo, Header, Wrapper, Content, TabStyle, useStyles };
+export {
+  Container,
+  Logo,
+  Header,
+  Wrapper,
+  Content,
+  TopButton,
+  Paragraph,
+  TabStyle,
+  useStyles,
+};
