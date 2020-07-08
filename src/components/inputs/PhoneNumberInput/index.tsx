@@ -34,6 +34,7 @@ export default function PhoneNumberInputComp(props: Props) {
         enableAreaCodes
         onChange={onChangeInput}
         {...rest}
+        inputProps={{ disabled: true }}
       />
       <TextInput
         label=""

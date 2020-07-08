@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, Toolbar, AppBar } from '@material-ui/core';
+import { AiOutlineDashboard } from 'react-icons/ai';
 import {
   NearMe as NearMeIcon,
   Notifications as NotificationsIcon,
-  Speed as SpeedIcon,
   LocationOn as LocationIcon,
   Contacts as ContactsIcon,
   BarChart as BarChartIcon,
@@ -26,7 +26,7 @@ const routes = [
   },
   {
     label: 'Dashboard',
-    icon: <SpeedIcon />,
+    icon: <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />,
     link: '/dashboard',
   },
   {

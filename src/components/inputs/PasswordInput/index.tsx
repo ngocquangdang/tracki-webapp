@@ -8,7 +8,7 @@ interface Props {
   value: string | number;
   name: string;
   onChange?(data: any): any;
-  className: string;
+  className?: string;
   label: string;
   errorInput?: string;
   [data: string]: any;

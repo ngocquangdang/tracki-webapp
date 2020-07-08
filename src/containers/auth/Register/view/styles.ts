@@ -38,6 +38,9 @@ const Logo = styled.img`
   object-fit: contain;
   height: 36px;
   margin: auto 0;
+  @media (max-width: 959.95px) {
+    height: 29px;
+  }
 `;
 const Info = styled.div`
   display: flex;
@@ -119,7 +122,7 @@ const Footer = styled.div`
   bottom: 0;
   display: flex;
   justify-content: center;
-  @media (max-width: 955.59px) {
+  @media (max-width: 959.95px) {
     display: flex;
     width: calc(100% - 30px);
   }
@@ -165,7 +168,6 @@ const useStyles = makeStyles(theme => ({
     '&': {
       borderColor: '#000',
       color: '#000',
-
       width: '100%',
     },
     '&:hover': {

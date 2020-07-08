@@ -6,9 +6,15 @@ const PhoneNumber = styled.div`
     flex: 2;
     margin: auto;
     margin-right: 10px;
+    @media (max-width: 959.95px) {
+      flex: 1;
+    }
   }
   & > :nth-child(2) {
     flex: 3;
+    @media (max-width: 959.95px) {
+      flex: 5;
+    }
   }
 `;
 
