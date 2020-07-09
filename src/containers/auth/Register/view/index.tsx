@@ -8,7 +8,7 @@ import {
   Header,
   useStyles,
   Logo,
-  InfoText,
+  InforTextFooter,
   Content,
   Text,
   Footer,
@@ -22,9 +22,10 @@ import RegisterStep4 from './RegisterStep4';
 import RegisterStep5 from './RegisterStep5';
 
 function RegisterView(props: IRegisterPage.IProps) {
-  const { t, errors } = props;
+  const { t, errors, errorMessageKey } = props;
   const classes = useStyles();
   const [step, updateStep] = useState(1);
+
   useEffect(() => {
     if (errors.password || errors.username) {
       updateStep(1);
@@ -40,6 +41,9 @@ function RegisterView(props: IRegisterPage.IProps) {
     }
   }, [errors]);
   const onChangeStep = (step: number) => () => updateStep(step);
+  const onChangeStep4 = () => {
+    errorMessageKey === 'exception_user_exist' ? updateStep(1) : updateStep(5);
+  };
   const renderStep = () => {
     switch (step) {
       case 2:
@@ -47,7 +51,7 @@ function RegisterView(props: IRegisterPage.IProps) {
       case 3:
         return <RegisterStep3 {...props} onNextStep={onChangeStep(4)} />;
       case 4:
-        return <RegisterStep4 {...props} onNextStep={onChangeStep(5)} />;
+        return <RegisterStep4 {...props} onNextStep={onChangeStep4} />;
       case 5:
         return <RegisterStep5 {...props} />;
       default:
@@ -56,27 +60,30 @@ function RegisterView(props: IRegisterPage.IProps) {
   };
 
   return (
-    <AuthLayout isShowBG={step === 1 ? true : false}>
+    <AuthLayout isShowBG={step === 1}>
       <Content>
-        <Header>
-          <Link href="/create-account">
-            <Button
-              variant="text"
-              classes={classes.backBtn}
-              startIcon={<FiChevronLeft size={28} />}
-              text={t('back')}
+        {(step === 1 || step === 2) && (
+          <Header>
+            <Link href={step === 1 ? '/login' : 'create-account'}>
+              <Button
+                variant="text"
+                classes={classes.backBtn}
+                startIcon={<FiChevronLeft size={28} />}
+                text={t('back')}
+                onClick={() => updateStep(1)}
+              />
+            </Link>
+            <Logo
+              src="images/logo.png"
+              className={step === 1 ? classes.logo : classes.logo2}
+              alt=""
             />
-          </Link>
-          <Logo
-            src="images/logo.png"
-            className={step === 1 ? classes.logo : ''}
-            alt=""
-          />
-        </Header>
+          </Header>
+        )}
         {renderStep()}
         {step === 1 && (
           <Footer>
-            <InfoText>
+            <InforTextFooter>
               {t('register_account_description')}{' '}
               <InfoTextTerm>
                 <Link href="/privacy">
@@ -87,7 +94,7 @@ function RegisterView(props: IRegisterPage.IProps) {
                   <Text className={classes.link}>{t('privacy_policy')}</Text>
                 </Link>
               </InfoTextTerm>
-            </InfoText>
+            </InforTextFooter>
           </Footer>
         )}
       </Content>

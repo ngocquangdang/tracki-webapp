@@ -26,7 +26,7 @@ function RegisterFormStep3(props: IRegisterPage.IProps) {
 
   return (
     <Formik
-      initialValues={initialValuesForm}
+      initialValues={formData || initialValuesForm}
       onSubmit={submitForm}
       validationSchema={SingUpSchemaStep3}
     >
@@ -52,8 +52,10 @@ function RegisterFormStep3(props: IRegisterPage.IProps) {
               onBlur={handleBlur('phone')}
               value={values.phone}
               errorInput={
-                errorsForm.phone && touched.phone && !isValidPhone
+                errorsForm.phone && touched.phone
                   ? t(errorsForm.phone)
+                  : values.phone && !isValidPhone
+                  ? t('auth:wrong_phone_format')
                   : errors.phone
               }
               searchStyle={{ width: '93%', height: '35px' }}

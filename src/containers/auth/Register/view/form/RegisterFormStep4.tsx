@@ -6,7 +6,7 @@ import Button from '@Components/buttons/Button';
 import { SingUpSchemaStep4 } from '../../schema';
 import IRegisterPage from '../../interfaces';
 
-import { Form, useStyles, InfoText } from '../styles';
+import { Form, useStyles, InfoText, Message } from '../styles';
 
 const initialValuesForm = {
   zip: '',
@@ -20,17 +20,23 @@ function RegisterFormStep4(props: IRegisterPage.IProps) {
     errors,
     onNextStep,
     formData,
+    errorMessage,
+    errorMessageKey,
   } = props;
   const classes = useStyles();
 
   const submitForm = (values: IRegisterPage.RegisterFormStep4) => {
     updateStore({ ...formData, ...values });
+    if (errorMessageKey === 'exception_user_exist') {
+      onNextStep();
+      return;
+    }
     registerRequestAction({ ...formData, ...values }, onNextStep);
   };
 
   return (
     <Formik
-      initialValues={initialValuesForm}
+      initialValues={formData || initialValuesForm}
       onSubmit={submitForm}
       validationSchema={SingUpSchemaStep4}
     >
@@ -58,6 +64,9 @@ function RegisterFormStep4(props: IRegisterPage.IProps) {
           <InfoText isDescription>
             {t('auth:create_account_step_4_description')}
           </InfoText>
+          {errorMessage && (
+            <Message className={classes.errorText}>{errorMessage}</Message>
+          )}
           <Button
             className={`${classes.margin} ${classes.btnContinue}`}
             color="primary"

@@ -24,7 +24,7 @@ function RegisterFormStep2(props: IRegisterPage.IProps) {
 
   return (
     <Formik
-      initialValues={initialValuesForm}
+      initialValues={formData || initialValuesForm}
       onSubmit={submitForm}
       validationSchema={SingUpSchemaStep2}
     >

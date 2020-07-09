@@ -37,6 +37,7 @@ declare namespace IRegisterPage {
     errors: RegisterState;
     isRequesting: boolean;
     errorMessage: string;
+    errorMessageKey: string;
     registerRequestAction(data: RegisterState, callback): void;
     updateStore(data: RegisterFormStep1): void;
     onNextStep(): void;

@@ -15,6 +15,7 @@ import {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectErrorMessage,
+  makeSelectErrorMessageKey,
   selectFormData,
 } from './store/selectors';
 import IRegisterPage from './interfaces';
@@ -32,6 +33,7 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectIsRequesting(),
   errorMessage: makeSelectErrorMessage(),
+  errorMessageKey: makeSelectErrorMessageKey(),
   formData: selectFormData(),
 });
 
