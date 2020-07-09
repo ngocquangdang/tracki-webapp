@@ -61,6 +61,25 @@ const InfoText = styled.p`
   @media (max-width: 955.95px) {
     text-align: center;
   }
+  @media (max-width: 420px) {
+    text-align: left;
+    font-size: 12px;
+  }
+`;
+
+const InforTextFooter = styled(InfoText)`
+  @media (max-width: 420px) {
+    text-align: center;
+    font-size: 12px;
+  }
+`;
+
+const InfoTextLogin = styled(InfoText)`
+  @media (max-width: 420px) {
+    text-align: center;
+    font-size: 12px;
+    max-width: 158px;
+  }
 `;
 
 const InfoTextTerm = styled.span`
@@ -84,9 +103,27 @@ const Title = styled.h1`
   color: #1a1a1a;
   letter-spacing: normal;
   text-align: center;
-  margin-top: 0;
   margin-bottom: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
     props.isStep1 ? null : props.isStep5 ? '' : '0px'};
+  @media (max-width: 420px) {
+    margin-bottom: 20px;
+    font-size: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
+      props.isStep1 ? '30px' : props.isStep5 ? '32px' : '24px'};
+    max-width: 330px;
+  }
+`;
+
+const TitleZipCode = styled(Title)`
+  @media (max-width: 420px) {
+    font-weight: normal;
+  }
+`;
+
+const TitleRegisterName = styled(Title)`
+  @media (max-width: 420px) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -94,12 +131,21 @@ const SubTitle = styled.div`
   color: #1a1a1a;
   margin-top: 1rem;
   text-align: center;
+  @media (max-width: 420px) {
+    font-size: 16px;
+    max-width: 236px;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 1em;
+  @media (max-width: 420px) {
+    margin-top: 0;
+  }
 `;
 const Label = styled.a`
   text-decoration: underline;
@@ -138,12 +184,20 @@ const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
     marginBottom: 15,
+    [theme.breakpoints.down(420)]: {
+      marginTop: 0,
+      marginBottom: 15,
+      height: '45px',
+    },
   },
   btn: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     marginTop: '3em',
     marginBottom: '1rem',
+    [theme.breakpoints.down(420)]: {
+      marginTop: '2em',
+    },
     '&:hover': {
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
@@ -182,6 +236,18 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       display: 'block',
     },
+    [theme.breakpoints.down('sm')]: {
+      display: 'block',
+      width: '90.5px',
+      height: '26px',
+    },
+  },
+  logo2: {
+    display: 'block',
+    [theme.breakpoints.down(420)]: {
+      width: '90.5px',
+      height: '26px',
+    },
   },
   infoIcon: {
     margin: 'auto 10px auto 0',
@@ -192,12 +258,18 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     cursor: 'pointer',
     color: theme.palette.primary.main,
+    [theme.breakpoints.down(420)]: {
+      width: '158px',
+    },
   },
   checkIcon: {
     width: '132.6px',
     height: '132.6px',
     color: theme.palette.primary.main,
     marginBottom: '32px',
+    [theme.breakpoints.down(420)]: {
+      marginBottom: '0',
+    },
   },
 }));
 
@@ -205,6 +277,8 @@ export {
   Container,
   Logo,
   Title,
+  TitleRegisterName,
+  TitleZipCode,
   SubTitle,
   Form,
   Header,
@@ -214,6 +288,8 @@ export {
   GroupButton,
   Info,
   InfoText,
+  InfoTextLogin,
+  InforTextFooter,
   Content,
   Text,
   InfoTextTerm,

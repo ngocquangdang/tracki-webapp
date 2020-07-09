@@ -26,7 +26,7 @@ function RegisterFormStep5(props: IRegisterPage.IProps) {
             type="submit"
             isLoading={props.isRequesting}
             variant="outlined"
-            text={t('auth:continue')}
+            text={t('auth:continue_with_setup')}
           />
         </Form>
       )}

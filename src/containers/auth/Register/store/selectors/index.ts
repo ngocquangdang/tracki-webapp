@@ -13,6 +13,9 @@ const makeSelectIsRequesting = () => {
   return createSelector(authState, state => state.isRequesting);
 };
 
+const makeSelectErrorMessageKey = () =>
+  createSelector(authState, state => state.errors.message_key);
+
 const selectFormData = () => {
   return createSelector(authState, state => state.formData);
 };
@@ -21,5 +24,6 @@ export {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectErrorMessage,
+  makeSelectErrorMessageKey,
   selectFormData,
 };
