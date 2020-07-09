@@ -68,9 +68,10 @@ const NavLink = styled.ul`
   list-style: none;
   margin: 0;
   padding: 15px 0;
+  cursor: pointer;
   & > ${LinkItem}:last-child {
     font-weight: 500;
-    & > a {
+    & > span {
       font-weight: 500;
     }
     &::after {

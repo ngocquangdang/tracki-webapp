@@ -76,6 +76,7 @@ class AxiosClient {
   }
 
   async setHeader(userToken = null) {
+    console.log('AxiosClient -> setHeader -> userToken', userToken);
     this.axiosClient.defaults.headers.common.Authorization = `Bearer ${userToken}`;
   }
 
