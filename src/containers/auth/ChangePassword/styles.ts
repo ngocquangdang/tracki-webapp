@@ -25,7 +25,7 @@ const Title = styled.h2`
   margin: 12px 0;
   @media (max-width: 959.95px) {
     display: flex;
-    font-size: 13px;
+    font-size: 15px;
     padding: 0 15px;
     margin: 0;
     height: 50px;
@@ -53,7 +53,7 @@ const Info = styled.div`
   padding: 10px;
 `;
 const InfoText = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

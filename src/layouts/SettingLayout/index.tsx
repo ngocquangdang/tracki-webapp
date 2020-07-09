@@ -53,7 +53,6 @@ export default function SettingLayout(props: Props) {
         </NavLink>
       </HeaderWeb>
       <HeaderMobile>
-        {/* <Link href="/login"> */}
         {url.slice(-1).map((url, index: number) => (
           <Button
             key={index}
@@ -64,8 +63,6 @@ export default function SettingLayout(props: Props) {
             onClick={() => Router.back()}
           />
         ))}
-
-        {/* </Link> */}
         <Logo src="images/logo.png" className={classes.logo} alt="" />
       </HeaderMobile>
       <Content>{props.children}</Content>

@@ -13,15 +13,12 @@ interface Props {
 
 export default function SelectOption(props: Props) {
   const { option, label, ...rest } = props;
+  const handleChange = value =>
+    console.log('---------------------', value.target.value);
   return (
     <SelectForm variant="outlined" {...rest}>
       <InputLabel htmlFor="outlined-age-native-simple">{label}</InputLabel>
-      <Select
-        native
-        // value={state.age}
-        // onChange={handleChange}
-        label={label}
-      >
+      <Select native onChange={handleChange} label={label}>
         {option.map((item, index: number) => (
           <option value={item.value} key={index}>
             {item.content}

@@ -79,11 +79,11 @@ function RegisterView(props: IRegisterPage.IProps) {
             <InfoText>
               {t('register_account_description')}{' '}
               <InfoTextTerm>
-                <Link href="/terms">
+                <Link href="/privacy">
                   <Text className={classes.link}>{t('terms')}</Text>
                 </Link>
                 {' ' + t('and') + ' '}
-                <Link href="/privacy-policy">
+                <Link href="/privacy">
                   <Text className={classes.link}>{t('privacy_policy')}</Text>
                 </Link>
               </InfoTextTerm>

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core';
-// import { FaAngleLeft } from 'react-icons/fa';
 
 const Container = styled.div`
   margin: auto;
@@ -29,6 +28,10 @@ const HeaderMobile = styled.header`
     padding: 13px 15px;
     backdrop-filter: blur(30px);
     background: #ffffff;
+  }
+  @media (max-width: 375px) {
+    height: 56px;
+    padding: 0 15px;
   }
 `;
 const GroupTitle = styled.div`
@@ -92,14 +95,28 @@ const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#4b4f56',
     width: 'fit-content !important',
+    padding: 0,
     '& span svg': {
       fontSize: '36px !important',
+    },
+    [theme.breakpoints.down(375)]: {
+      fontSize: '16px !important',
+      margin: 'auto 0',
+      padding: 0,
+      '& span svg': {
+        width: 20,
+        height: 20,
+      },
     },
   },
   logo: {
     display: 'none',
     [theme.breakpoints.down('sm')]: {
       display: 'block',
+    },
+    [theme.breakpoints.down(375)]: {
+      height: 26,
+      width: 90,
     },
   },
 }));

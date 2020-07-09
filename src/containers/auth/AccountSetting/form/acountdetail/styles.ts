@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { withStyles, FormControl } from '@material-ui/core';
+import { withStyles, FormControl, makeStyles } from '@material-ui/core';
 
 const SelectGroup = styled.div`
   display: flex;
@@ -10,13 +10,22 @@ const SelectGroup = styled.div`
 `;
 const Title = styled.p`
   margin-right: 40px;
+  @media (max-width: 375px) {
+    font-size: 14px;
+  }
 `;
 const Form = styled.div`
   @media (max-width: 959.95px) {
     padding: 7px 15px;
   }
 `;
-
+const useStyles = makeStyles(theme => ({
+  fontSize: {
+    [theme.breakpoints.down(375)]: {
+      fontSize: 15,
+    },
+  },
+}));
 const SelectForm = withStyles(theme => ({
   root: {
     '&.MuiFormControl-root': {
@@ -49,4 +58,4 @@ const SelectForm = withStyles(theme => ({
     },
   },
 }))(FormControl);
-export { SelectGroup, Title, Form, SelectForm };
+export { SelectGroup, Title, Form, SelectForm, useStyles };

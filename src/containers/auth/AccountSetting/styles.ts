@@ -28,7 +28,7 @@ const Title = styled.h2`
   margin: 12px 0;
   @media (max-width: 959.95px) {
     display: flex;
-    font-size: 13px;
+    font-size: 16px;
     padding: 0 15px;
     margin: 0;
     height: 50px;
@@ -38,6 +38,9 @@ const Title = styled.h2`
     color: #666666;
     background: #f4f5f6;
     text-transform: uppercase;
+  }
+  @media (max-width: 375px) {
+    font-size: 14px;
   }
 `;
 const SwitchGroup = styled.div`
@@ -57,12 +60,6 @@ const Line = styled.hr`
   }
 `;
 const useStyles = makeStyles(theme => ({
-  backBtn: {
-    color: '#4b4f56',
-    '& span svg': {
-      fontSize: '36px !important',
-    },
-  },
   margin: {
     marginTop: 15,
     marginBottom: 15,
@@ -87,7 +84,6 @@ const useStyles = makeStyles(theme => ({
     '&': {
       borderColor: '#000',
       color: '#000',
-
       width: '100%',
     },
     '&:hover': {
@@ -99,21 +95,10 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: theme.palette.error.main,
   },
-  logo: {
-    display: 'none',
-    [theme.breakpoints.down('sm')]: {
-      display: 'block',
+  fontSize: {
+    [theme.breakpoints.down(375)]: {
+      fontSize: 15,
     },
-  },
-  infoIcon: {
-    margin: 'auto 10px auto 0',
-    fontSize: 40,
-    color: theme.palette.primary.main,
-  },
-  link: {
-    textDecoration: 'none',
-    cursor: 'pointer',
-    color: theme.palette.primary.main,
   },
   media: {
     [theme.breakpoints.down('sm')]: {

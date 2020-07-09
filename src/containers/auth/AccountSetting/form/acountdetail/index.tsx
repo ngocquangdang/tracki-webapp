@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { TextInput, PhoneNumberInput } from '@Components/inputs';
-import { SelectGroup, Title, Form } from './styles';
+import { SelectGroup, Title, Form, useStyles } from './styles';
 import SelectOption from '@Components/selections';
 
 interface IState {
@@ -14,7 +14,7 @@ interface IState {
 
 export default function AccountDetail(props: any) {
   const { t } = props;
-
+  const classes = useStyles();
   const [state, setState] = useState<IState>({
     value: 'pkh',
     option: [
@@ -68,11 +68,13 @@ export default function AccountDetail(props: any) {
             value="pkh"
             control={<Radio color="primary" />}
             label="PKH"
+            className={classes.fontSize}
           />
           <FormControlLabel
             value="mph"
             control={<Radio color="primary" />}
             label="MPH"
+            className={classes.fontSize}
           />
         </RadioGroup>
         <SelectOption label={t('auth:date_format')} option={state.option} />
