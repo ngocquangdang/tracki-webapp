@@ -8,7 +8,7 @@ import withConditionalRedirect from './withConditionalRedirect';
  */
 export default function withoutAuth<P>(
   WrappedComponent: NextPage<P>,
-  location = '/profile'
+  location = '/home'
 ): NextPage<P> {
   return withConditionalRedirect({
     WrappedComponent,
@@ -18,7 +18,8 @@ export default function withoutAuth<P>(
       return useIsAuthenticated();
     },
     serverCondition: function withoutAuthServerCondition(ctx) {
-      return !!ctx.req?.cookies.session;
+      // return !!ctx.req?.cookies.token;
+      return false;
     },
   });
 }

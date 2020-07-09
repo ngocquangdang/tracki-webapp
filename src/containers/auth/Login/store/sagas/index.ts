@@ -4,7 +4,7 @@ import Router from 'next/router';
 import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';
 import AxiosClient from '@Utils/axios';
-import LocalStorage from '@Utils/localStorage';
+import CookieInstance from '@Utils/cookie';
 
 import { loginSuccessAction, loginFailAction } from '../actions';
 import * as apiServices from '../../services';
@@ -14,15 +14,21 @@ function* loginSaga(action: ActionType) {
   try {
     const response = yield call(apiServices.login, action.payload.data);
 
+    console.log('1111');
     if (response.status) {
-      const localStorage = new LocalStorage();
-
+      console.log('11112222');
       yield put(loginSuccessAction(response.data));
-      localStorage.setItem('token', response.data.access_token);
+      console.log('11112222');
+
+      CookieInstance.setCookie('token', response.data.access_token);
+      console.log('11112222');
+
       AxiosClient.setHeader(response.data.access_token);
-      Router.push({
-        pathname: '/home',
-      });
+      console.log('11112222');
+
+      console.log('vkll', Router.push('/home'));
+      yield call(Router.push('/home'));
+      console.log('hi');
     } else {
       //
     }

@@ -15,7 +15,7 @@ interface IState {
 export default function AccountDetail(props: any) {
   const { t } = props;
   const classes = useStyles();
-  const [state, setState] = useState<IState>({
+  const [state] = useState<IState>({
     value: 'pkh',
     option: [
       {

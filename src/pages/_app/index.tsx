@@ -12,7 +12,6 @@ import {
   AppInitialPropsWithAuth,
 } from '@Interfaces';
 import { wrapper } from '@Store';
-// import LocalStorage from '@Utils/localStorage';
 import { AuthProvider } from '../../providers/Auth';
 
 import '@Static/scss/main.scss';
@@ -30,8 +29,7 @@ class WebApp extends App<AppWithStore> {
     const request = ctx.req as CookieMessage;
     if (request) {
       request.cookies = cookie.parse(request.headers.cookie || '');
-      console.log('request', request.cookies['next-i18next']);
-      authenticated = !!request.cookies['next-i18next'];
+      authenticated = !!request.cookies['token'];
     }
     return { pageProps, authenticated };
   }
@@ -44,9 +42,6 @@ class WebApp extends App<AppWithStore> {
 
   render() {
     const { Component, pageProps, authenticated } = this.props;
-
-    // const localStorage = new LocalStorage();
-    // const authenticated = localStorage.checkItem('token');
 
     return (
       <Provider
@@ -65,17 +60,5 @@ class WebApp extends App<AppWithStore> {
     );
   }
 }
-
-// WebApp.getInitialProps = async (
-//   appContext
-// ): Promise<AppInitialProps & AppWithStore> => {
-//   const localStorage = new LocalStorage();
-//   const authenticated = localStorage.checkItem('token');
-
-//   // Call the page's `getInitialProps` and fill `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
-
-//   return { ...appProps, authenticated };
-// };
 
 export default wrapper.withRedux(appWithTranslation(WebApp));

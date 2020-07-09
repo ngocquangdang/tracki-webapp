@@ -18,7 +18,8 @@ export default function withAuth<CP, IP>(
       return !useIsAuthenticated();
     },
     serverCondition: function withAuthServerCondition(ctx) {
-      return !ctx.req?.cookies.session;
+      // return !ctx.req?.cookies?.token;
+      return false;
     },
   });
 }
