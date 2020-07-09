@@ -29,7 +29,14 @@ function LoginForm(props: ILoginPage.IProps) {
       onSubmit={submitForm}
       validationSchema={LoginSchema}
     >
-      {({ values, errors: errorsForm, handleChange, handleSubmit }) => (
+      {({
+        values,
+        errors: errorsForm,
+        handleChange,
+        handleSubmit,
+        handleBlur,
+        touched,
+      }) => (
         <Form onSubmit={handleSubmit}>
           <TextInput
             className={classes.margin}
@@ -39,8 +46,11 @@ function LoginForm(props: ILoginPage.IProps) {
             value={values.username}
             onChange={handleChange('username')}
             errorInput={
-              errorsForm.username ? t(errorsForm.username) : errors.username
+              errorsForm.username && touched.username
+                ? t(errorsForm.username)
+                : errors.username
             }
+            onBlur={handleBlur('username')}
             variant="outlined"
           />
           <TextInput
@@ -49,10 +59,13 @@ function LoginForm(props: ILoginPage.IProps) {
             name="password"
             type="password"
             errorInput={
-              errorsForm.password ? t(errorsForm.password) : errors.password
+              errorsForm.password && touched.password
+                ? t(errorsForm.password)
+                : undefined
             }
             value={values.password}
             onChange={handleChange('password')}
+            onBlur={handleBlur('password')}
             variant="outlined"
           />
           {errorMessage && (

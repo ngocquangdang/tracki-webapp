@@ -4,7 +4,7 @@ import { withTranslation } from '@Server/i18n';
 
 import { MainLayout, SettingLayout } from '@Layouts';
 import { IPage } from '@Interfaces';
-import SettingContainer from '@Containers/auth/AccountSetting';
+import SettingContainer from '@Containers/AccountSetting';
 
 interface State {
   url: {
