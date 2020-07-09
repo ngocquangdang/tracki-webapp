@@ -14,21 +14,13 @@ function* loginSaga(action: ActionType) {
   try {
     const response = yield call(apiServices.login, action.payload.data);
 
-    console.log('1111');
     if (response.status) {
-      console.log('11112222');
       yield put(loginSuccessAction(response.data));
-      console.log('11112222');
-
       CookieInstance.setCookie('token', response.data.access_token);
-      console.log('11112222');
-
       AxiosClient.setHeader(response.data.access_token);
-      console.log('11112222');
-
-      console.log('vkll', Router.push('/home'));
-      yield call(Router.push('/home'));
-      console.log('hi');
+      Router.push({
+        pathname: '/home',
+      });
     } else {
       //
     }
