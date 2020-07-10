@@ -3,8 +3,14 @@ import mapboxgl from 'mapbox-gl';
 import { MapBox } from './style';
 import DeviceMarker from './DeviceMarker';
 
+interface Props {
+  fullWidth: boolean;
+}
 class Map extends Component {
   map: any;
+  props: {
+    fullWidth: boolean;
+  };
 
   state = {
     isInitiatedMap: false,
@@ -42,6 +48,13 @@ class Map extends Component {
       );
     }
   };
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.fullWidth !== this.props.fullWidth) {
+      setTimeout(() => {
+        this.map.resize();
+      }, 1000);
+    }
+  }
 
   render() {
     return <MapBox id="map">{this.renderCasesMarker()}</MapBox>;

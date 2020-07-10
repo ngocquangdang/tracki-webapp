@@ -10,7 +10,6 @@ import * as types from '../definitions';
 function* getUserSaga(action: ActionType) {
   try {
     const { data } = yield call(apiServices.getUser);
-    console.log('______________________saga');
     yield put(getUserSuccessAction(data));
   } catch (error) {
     const { data = {} } = { ...error };

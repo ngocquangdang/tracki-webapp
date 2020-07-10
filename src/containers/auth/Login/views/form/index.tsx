@@ -17,12 +17,18 @@ const initialValuesForm = {
 };
 
 function LoginForm(props: ILoginPage.IProps) {
-  const { t, loginRequestAction, errors, errorMessage } = props;
+  const {
+    t,
+    loginRequestAction,
+    resetErrorAction,
+    errors,
+    errorMessage,
+  } = props;
   const classes = useStyles();
 
   const submitForm = (values: ILoginPage.IStateLogin) =>
     loginRequestAction(values);
-
+  // const resetError = () => resetErrorMessage();
   return (
     <Formik
       initialValues={initialValuesForm}
@@ -40,7 +46,7 @@ function LoginForm(props: ILoginPage.IProps) {
         <Form onSubmit={handleSubmit}>
           <TextInput
             className={classes.margin}
-            label="Email Address"
+            label={t('auth:email_address')}
             name="username"
             type="text"
             value={values.username}
@@ -55,7 +61,7 @@ function LoginForm(props: ILoginPage.IProps) {
           />
           <TextInput
             className={classes.margin}
-            label="Password"
+            label={t('password')}
             name="password"
             type="password"
             errorInput={
@@ -88,9 +94,12 @@ function LoginForm(props: ILoginPage.IProps) {
             isLoading={props.isRequesting}
             variant="outlined"
             text={t('auth:login')}
+            onClick={() => resetErrorAction()}
           />
           <Link href="/forgot-password">
-            <Label>{t('forgot_password')}?</Label>
+            <Label onClick={() => resetErrorAction()}>
+              {t('forgot_password')}?
+            </Label>
           </Link>
         </Form>
       )}

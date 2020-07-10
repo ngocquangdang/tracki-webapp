@@ -34,6 +34,10 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.isRequesting = false;
         draft.errors = {};
         break;
+      case types.RESET_ERROR_MESSAGE:
+        draft.isRequesting = false;
+        draft.errors = {};
+        break;
       default:
         break;
     }

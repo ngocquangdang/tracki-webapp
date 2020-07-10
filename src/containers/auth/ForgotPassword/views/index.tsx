@@ -31,6 +31,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
     isRequesting,
     forgotRequestAction,
     confirmCodeRequestAction,
+    resetErrorAction,
   } = props;
   const classes = useStyles();
   const ref = createRef();
@@ -49,6 +50,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
       return confirmCodeRequestAction({ email, code: codeInput });
     }
     forgotRequestAction({ email: emailInput });
+    resetErrorAction();
   };
 
   return (

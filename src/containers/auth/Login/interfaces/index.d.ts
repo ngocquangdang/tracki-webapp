@@ -12,6 +12,7 @@ declare namespace ILoginPage {
     isRequesting: boolean;
     loginRequestAction(data: IStateLogin): void;
     chatusRequestAction(data: IStateChatUs): void;
+    resetErrorAction(): void;
   }
 
   interface InitialProps {

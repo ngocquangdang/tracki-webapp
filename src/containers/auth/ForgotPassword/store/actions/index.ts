@@ -42,3 +42,7 @@ export function confirmCodeFailAction(payload: PayloadType) {
     payload,
   };
 }
+
+export function resetErrorMessage() {
+  return { type: types.RESET_ERROR_MESSAGE };
+}

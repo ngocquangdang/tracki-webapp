@@ -1,16 +1,24 @@
 import { createSelector } from 'reselect';
 import { initialState } from '../reducers';
 
-const authState = (state: any) => state.auth || initialState;
+const userState = (state: any) => state.user || initialState;
+
+const makeSelectUserProfile = () =>
+  createSelector(userState, state => state.profile || {});
 
 const makeSelectErrors = () =>
-  createSelector(authState, state => state.errors.errors || {});
+  createSelector(userState, state => state.errors.errors || {});
 
 const makeSelectErrorMessage = () =>
-  createSelector(authState, state => state.errors.message);
+  createSelector(userState, state => state.errors.message);
 
 const makeSelectIsRequesting = () => {
-  return createSelector(authState, state => state.isRequesting);
+  return createSelector(userState, state => state.isRequesting);
 };
 
-export { makeSelectErrors, makeSelectIsRequesting, makeSelectErrorMessage };
+export {
+  makeSelectErrors,
+  makeSelectIsRequesting,
+  makeSelectErrorMessage,
+  makeSelectUserProfile,
+};

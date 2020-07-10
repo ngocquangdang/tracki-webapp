@@ -12,6 +12,7 @@ declare namespace IForgotPage {
     email: string;
     forgotRequestAction(data: PayloadType): void;
     confirmCodeRequestAction(data: PayloadType): void;
+    resetErrorAction(): void;
   }
 
   interface InitialProps {

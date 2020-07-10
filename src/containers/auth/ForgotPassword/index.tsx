@@ -9,7 +9,11 @@ import { PayloadType } from '@Interfaces';
 
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { forgotRequestAction, confirmCodeRequestAction } from './store/actions';
+import {
+  forgotRequestAction,
+  confirmCodeRequestAction,
+  resetErrorMessage,
+} from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
@@ -37,6 +41,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(forgotRequestAction(data)),
   confirmCodeRequestAction: (data: PayloadType) =>
     dispatch(confirmCodeRequestAction(data)),
+  resetErrorAction: () => resetErrorMessage(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

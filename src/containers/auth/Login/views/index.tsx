@@ -23,12 +23,13 @@ import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 
 export default function Login(props: ILoginPage.IProps) {
-  const { t } = props;
+  const { t, resetErrorAction } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleOpenModal = () => {
     setOpen(true);
+    resetErrorAction();
   };
   const handleCloseModal = () => {
     setOpen(false);
@@ -47,6 +48,7 @@ export default function Login(props: ILoginPage.IProps) {
               className={classes.blackBtn}
               variant="outlined"
               text={t('auth:create_new_tracki_account')}
+              onClick={() => resetErrorAction()}
             />
           </Link>
         </Content>

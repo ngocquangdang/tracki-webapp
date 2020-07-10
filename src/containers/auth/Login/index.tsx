@@ -8,7 +8,7 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import { withTranslation } from '@Server/i18n';
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { loginRequestAction } from './store/actions';
+import { loginRequestAction, resetErrorMessage } from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
@@ -34,6 +34,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch: any) => ({
   loginRequestAction: (data: ILoginPage.IStateLogin) =>
     dispatch(loginRequestAction(data)),
+  resetErrorAction: () => dispatch(resetErrorMessage()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

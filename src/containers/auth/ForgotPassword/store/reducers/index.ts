@@ -38,6 +38,10 @@ const forgotPasswordReducer = (
         draft.errors = {};
         draft.isRequesting = false;
         break;
+      case types.RESET_ERROR_MESSAGE:
+        draft.isRequesting = false;
+        draft.errors = {};
+        break;
       default:
         break;
     }

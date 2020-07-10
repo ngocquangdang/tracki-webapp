@@ -20,6 +20,9 @@ const Content = styled.div`
     align-items: center;
     padding: 15px;
   }
+  @media (max-width: 767.95) and (min-height: 439.95px) {
+    margin-top: 100px;
+  }
 `;
 const Title = styled.h2`
   color: #1a1a1a;
@@ -100,6 +103,9 @@ const Footer = styled.div`
   position: absolute;
   width: 100%;
   bottom: 0;
+  @media (max-width: 767.95px) {
+    position: static;
+  }
 `;
 const Contact = styled.div`
   width: 100%;
@@ -135,13 +141,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   blackBtn: {
-    '&': {
-      borderColor: '#ccd0d5',
-      backgroundColor: '#f5f6f7',
-      color: '#4b4f56',
-      boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.14)',
-      width: '100%',
-    },
+    color: '#000',
+    border: 'solid 1px #ccd0d5',
+    backgroundColor: '#f5f6f7',
+    width: '100%',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.14)',
     '&:hover': {
       backgroundColor: '#333',
       color: theme.palette.primary.contrastText,
