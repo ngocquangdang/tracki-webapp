@@ -10,9 +10,8 @@ import { Button } from '@material-ui/core';
 import { BsFillCaretLeftFill } from 'react-icons/bs';
 import { BsFillCaretRightFill } from 'react-icons/bs';
 
-const ListTracker = dynamic(()=> import('./trackers'));
-const ListGeoFence = dynamic(()=> import('./geofence'));
-
+const ListTracker = dynamic(() => import('./trackers'));
+const ListGeoFence = dynamic(() => import('./geofence'));
 
 export default function SideBar(props: any) {
   const classes = useStyles();

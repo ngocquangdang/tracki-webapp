@@ -18,7 +18,9 @@ class AxiosClient {
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        // 'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': '*',
+        Accept: '*/*',
       },
     });
 
@@ -76,7 +78,6 @@ class AxiosClient {
   }
 
   async setHeader(userToken = null) {
-    console.log('AxiosClient -> setHeader -> userToken', userToken);
     this.axiosClient.defaults.headers.common.Authorization = `Bearer ${userToken}`;
   }
 
@@ -89,6 +90,10 @@ class AxiosClient {
   }
 
   post(resource: string, data: object, config = {}) {
+    console.log(
+      'assign(config, this.axiosClient.defaults.headers)',
+      assign(config, this.axiosClient.defaults.headers)
+    );
     return this.axiosClient.post(
       `${resource}`,
       data,
