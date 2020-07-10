@@ -1,10 +1,9 @@
-import Cryptr from 'cryptr';
+import CryptoJS from 'crypto-js';
 
 const singletonEnforcer = Symbol();
 
 class CookieHandler {
   secretKey: any;
-  cryptoHandler: any;
 
   static cookieHandlerInstance: any;
 
@@ -14,7 +13,6 @@ class CookieHandler {
     }
 
     this.secretKey = 'trackipro';
-    this.cryptoHandler = new Cryptr(this.secretKey);
   }
 
   static get instance() {
@@ -29,7 +27,10 @@ class CookieHandler {
     const date = new Date();
     date.setMinutes(date.getMinutes() + minutesExpired);
     const expires = `expires=${date.toUTCString()}`;
-    const encryptedValue = this.cryptoHandler.encrypt(value); // Encrypt original value
+    const encryptedValue = CryptoJS.AES.encrypt(
+      value,
+      this.secretKey
+    ).toString(); // Encrypt original value
     document.cookie = `${name}=${encryptedValue};${expires};path=/`;
   }
 
@@ -43,8 +44,12 @@ class CookieHandler {
     if (parts.length === 2) {
       const partsPop = parts.pop();
 
-      if (partsPop)
-        return this.cryptoHandler.decrypt(partsPop.split(';').shift()); // Decrypt for get original value
+      if (partsPop) {
+        const encryptedValue = partsPop.split(';').shift() as string;
+        return CryptoJS.AES.decrypt(encryptedValue, this.secretKey).toString(
+          CryptoJS.enc.Utf8
+        ); // Decrypt for get original value
+      }
     }
     return '';
   }

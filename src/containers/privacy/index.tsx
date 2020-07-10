@@ -25,13 +25,10 @@ import TabPanel from './tabPanel';
 const Policy = dynamic(() => import('./policy'));
 const Term = dynamic(() => import('./term'));
 
-interface PrivacyState {
-  value: number;
-}
 export default function PrivacyContainer(props: any) {
   const { t } = props;
   const classes = useStyles();
-  const [value, setValue] = useState<PrivacyState>(0);
+  const [value, setValue] = useState<any>(0);
 
   const handleChange = (event, newValue: any) => {
     setValue(newValue);

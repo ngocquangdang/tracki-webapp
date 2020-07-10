@@ -18,12 +18,15 @@ class AxiosClient {
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
       },
     });
 
-    // if (CookieHandlerInstanfce.checkCookie(process.env.COOKIE_NAME)) {
-    //   this.setHeader(CookieHandlerInstanfce.getCookie(process.env.COOKIE_NAME));
+    // if (
+    //   CookieHandlerInstanfce.checkCookie(process.env.COOKIE_NAME || 'token')
+    // ) {
+    //   this.setHeader(
+    //     CookieHandlerInstanfce.getCookie(process.env.COOKIE_NAME || 'token')
+    //   );
     // }
 
     this.axiosClient.interceptors.request.use(
@@ -75,8 +78,7 @@ class AxiosClient {
     return this.axiosClientInstance;
   }
 
-  async setHeader(userToken = null) {
-    console.log('AxiosClient -> setHeader -> userToken', userToken);
+  setHeader(userToken = null) {
     this.axiosClient.defaults.headers.common.Authorization = `Bearer ${userToken}`;
   }
 
@@ -89,6 +91,10 @@ class AxiosClient {
   }
 
   post(resource: string, data: object, config = {}) {
+    console.log(
+      'assign(config, this.axiosClient.defaults.headers)',
+      assign(config, this.axiosClient.defaults.headers)
+    );
     return this.axiosClient.post(
       `${resource}`,
       data,

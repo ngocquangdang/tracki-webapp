@@ -136,9 +136,10 @@ const useStyles = makeStyles(theme => ({
   },
   blackBtn: {
     '&': {
-      borderColor: '#000',
-      color: '#000',
-
+      borderColor: '#ccd0d5',
+      backgroundColor: '#f5f6f7',
+      color: '#4b4f56',
+      boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.14)',
       width: '100%',
     },
     '&:hover': {

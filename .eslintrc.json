@@ -2,7 +2,8 @@
   "extends": [
     "react-app",
     "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "eslint:recommended"
   ],
   "rules": {
     "react/prop-types": "off",
@@ -11,7 +12,11 @@
     "import/prefer-default-export": "off",
     "import/no-cycle": "off",
     "no-multi-assign": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "no-prototype-builtins": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
   },
   "settings": {
     "import/parsers": {
@@ -20,7 +25,7 @@
     "import/resolver": {
       "typescript": {}
     },
-    "endOfLine":"auto",
+    "endOfLine": "auto",
     "eslint.workingDirectories": [
       {
         "directory": "./tsconfig.json",

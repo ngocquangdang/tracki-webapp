@@ -1,8 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 
-import './style.scss';
-
 interface Props {
   map: any;
   lat: any;

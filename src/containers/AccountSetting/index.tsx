@@ -9,7 +9,6 @@ import { withTranslation } from '@Server/i18n';
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import { getUserRequestAction } from './store/actions';
-
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
@@ -23,10 +22,12 @@ function SettingContainer(props: UserDetail.IProps) {
   useInjectSaga({ key: 'user', saga });
   useInjectReducer({ key: 'user', reducer });
 
+  const { getUserRequest } = props;
+
   useEffect(() => {
-    const { getUserRequestAction } = props;
-    getUserRequestAction({});
-  }, []);
+    getUserRequest();
+  }, [getUserRequest]);
+
   return <View {...props} />;
 }
 
@@ -37,7 +38,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getUserRequestAction: (data: UserDetail.IStateUser) =>
+  getUserRequest: (data: UserDetail.IStateUser) =>
     dispatch(getUserRequestAction(data)),
 });
 
