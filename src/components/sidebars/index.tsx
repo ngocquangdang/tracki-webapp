@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import TabPanel from './tabPanel';
 import Slide from '@material-ui/core/Slide';
-import { Content, TabStyle, useStyles } from './styles';
+import { Content, Container, TabStyle, useStyles } from './styles';
 import { Button } from '@material-ui/core';
 import { BsFillCaretLeftFill } from 'react-icons/bs';
 import { BsFillCaretRightFill } from 'react-icons/bs';
@@ -14,6 +14,7 @@ const ListTracker = dynamic(() => import('./trackers'));
 const ListGeoFence = dynamic(() => import('./geofence'));
 
 export default function SideBar(props: any) {
+  const { opened, onChange } = props;
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -21,24 +22,32 @@ export default function SideBar(props: any) {
     setValue(newValue);
   };
 
-  const [checked, setChecked] = React.useState(false);
+  // const [opened, setopened] = useState(false);
 
-  const handleChangee = () => {
-    setChecked(prev => !prev);
-  };
+  // const handleChangee = () => {
+  //   setopened(prev => !prev);
+  // };
+
   return (
-    <div>
-      <Button onClick={handleChangee} className={classes.btnIcon}>
+    <Container opened>
+      <Button
+        onClick={() => onChange()}
+        className={`${classes.btnIcon} ${classes.absoluteFirst}`}
+        style={{ zIndex: opened ? 0 : 1 }}
+      >
         <BsFillCaretRightFill />
       </Button>
       <Slide
         direction="right"
-        in={checked}
+        in={opened}
         mountOnEnter
         unmountOnExit
-        style={{ position: 'absolute', top: 64, height: 'calc(100% - 64px)' }}
+        style={{
+          position: 'relative',
+          background: '#ffffff',
+        }}
       >
-        <Content>
+        <Content style={{ display: opened ? 'block' : 'none' }}>
           <Paper className={classes.border}>
             <Tabs
               value={value}
@@ -52,7 +61,7 @@ export default function SideBar(props: any) {
               <TabStyle label="Geo-Fence" />
             </Tabs>
             <Button
-              onClick={handleChangee}
+              onClick={() => onChange()}
               className={`${classes.absolute} ${classes.btnIcon}`}
             >
               <BsFillCaretLeftFill />
@@ -74,6 +83,6 @@ export default function SideBar(props: any) {
           </TabPanel>
         </Content>
       </Slide>
-    </div>
+    </Container>
   );
 }

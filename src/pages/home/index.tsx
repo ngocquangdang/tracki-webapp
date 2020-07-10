@@ -4,12 +4,13 @@ import { withTranslation } from '@Server/i18n';
 
 import { IPage } from '@Interfaces';
 import { MainLayout } from '@Layouts';
-import Map from '@Containers/Map';
 import withAuth from '@Components/hocs/withAuth';
-const Home: NextPage = (props: any) => {
+import View from '@Containers/home';
+
+const Home: NextPage = props => {
   return (
     <MainLayout {...props}>
-      <Map />
+      <View />
     </MainLayout>
   );
 };
