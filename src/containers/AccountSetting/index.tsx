@@ -23,10 +23,12 @@ function SettingContainer(props: UserDetail.IProps) {
   useInjectSaga({ key: 'user', saga });
   useInjectReducer({ key: 'user', reducer });
 
+  const { getUserRequestAction } = props;
+
   useEffect(() => {
-    const { getUserRequestAction } = props;
     getUserRequestAction({});
-  }, []);
+  }, [getUserRequestAction]);
+
   return <View {...props} />;
 }
 

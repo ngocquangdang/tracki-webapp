@@ -1,7 +1,10 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
+import Router from 'next/router';
 
 import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';
+import AxiosClient from '@Utils/axios';
+import CookieInstance from '@Utils/cookie';
 
 import { loginSuccessAction, loginFailAction } from '../actions';
 import * as apiServices from '../../services';
@@ -9,8 +12,18 @@ import * as types from '../definitions';
 
 function* loginSaga(action: ActionType) {
   try {
-    const { data } = yield call(apiServices.login, action.payload.data);
-    yield put(loginSuccessAction(data));
+    const response = yield call(apiServices.login, action.payload.data);
+
+    if (response.status) {
+      yield put(loginSuccessAction(response.data));
+      CookieInstance.setCookie('token', response.data.access_token);
+      AxiosClient.setHeader(response.data.access_token);
+      Router.push({
+        pathname: '/home',
+      });
+    } else {
+      //
+    }
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

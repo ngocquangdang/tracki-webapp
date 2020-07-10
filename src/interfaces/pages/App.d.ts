@@ -8,6 +8,7 @@ interface AppStore extends Store {
 
 export interface AppWithStore extends AppInitialProps {
   store: AppStore;
+  authenticated: boolean;
 }
 
 export interface ReduxNextPageContext extends NextPageContext {
