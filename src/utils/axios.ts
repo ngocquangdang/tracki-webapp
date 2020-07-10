@@ -18,14 +18,15 @@ class AxiosClient {
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
         'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Origin': '*',
-        Accept: '*/*',
       },
     });
 
-    // if (CookieHandlerInstanfce.checkCookie(process.env.COOKIE_NAME)) {
-    //   this.setHeader(CookieHandlerInstanfce.getCookie(process.env.COOKIE_NAME));
+    // if (
+    //   CookieHandlerInstanfce.checkCookie(process.env.COOKIE_NAME || 'token')
+    // ) {
+    //   this.setHeader(
+    //     CookieHandlerInstanfce.getCookie(process.env.COOKIE_NAME || 'token')
+    //   );
     // }
 
     this.axiosClient.interceptors.request.use(
@@ -77,7 +78,7 @@ class AxiosClient {
     return this.axiosClientInstance;
   }
 
-  async setHeader(userToken = null) {
+  setHeader(userToken = null) {
     this.axiosClient.defaults.headers.common.Authorization = `Bearer ${userToken}`;
   }
 

@@ -1,5 +1,4 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import Router from 'next/router';
 
 import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';
@@ -16,7 +15,10 @@ function* loginSaga(action: ActionType) {
 
     if (response.status) {
       yield put(loginSuccessAction(response.data));
-      CookieInstance.setCookie('token', response.data.access_token);
+      CookieInstance.setCookie(
+        process.env.COOKIE_NAME || 'token',
+        response.data.access_token
+      );
       AxiosClient.setHeader(response.data.access_token);
       window.location.replace('/home');
     } else {

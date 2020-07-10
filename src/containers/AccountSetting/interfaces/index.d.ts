@@ -11,7 +11,7 @@ declare namespace UserDatails {
       date_format: string;
     };
     isRequesting: boolean;
-    getUserRequestAction(data: IStateLogin): void;
+    getUserRequest: any;
   }
 
   interface InitialProps {

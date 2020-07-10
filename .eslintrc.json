@@ -20,7 +20,7 @@
     "import/resolver": {
       "typescript": {}
     },
-    "endOfLine":"auto",
+    "endOfLine": "auto",
     "eslint.workingDirectories": [
       {
         "directory": "./tsconfig.json",

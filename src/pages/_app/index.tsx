@@ -12,6 +12,9 @@ import {
   AppInitialPropsWithAuth,
 } from '@Interfaces';
 import { wrapper } from '@Store';
+import axiosClient from '@Utils/axios';
+import cookieClient from '@Utils/cookie';
+
 import { AuthProvider } from '../../providers/Auth';
 
 import '@Static/scss/main.scss';
@@ -29,15 +32,32 @@ class WebApp extends App<AppWithStore> {
     const request = ctx.req as CookieMessage;
     if (request) {
       request.cookies = cookie.parse(request.headers.cookie || '');
-      authenticated = !!request.cookies['token'];
+      authenticated = !!request.cookies[process.env.COOKIE_NAME || 'token'];
+      console.log(
+        'request',
+        request.cookies[process.env.COOKIE_NAME || 'token']
+      );
     }
     return { pageProps, authenticated };
   }
 
   componentDidMount() {
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles && jssStyles.parentNode)
+    const { authenticated } = this.props;
+
+    if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
+    }
+
+    if (authenticated) {
+      console.log('test');
+      if (cookieClient.checkCookie(process.env.COOKIE_NAME || 'token')) {
+        console.log('test22222');
+        axiosClient.setHeader(
+          cookieClient.getCookie(process.env.COOKIE_NAME || 'token')
+        );
+      }
+    }
   }
 
   render() {

@@ -4,7 +4,6 @@ const singletonEnforcer = Symbol();
 
 class CookieHandler {
   secretKey: any;
-  // cryptoHandler: any;
 
   static cookieHandlerInstance: any;
 
@@ -14,7 +13,6 @@ class CookieHandler {
     }
 
     this.secretKey = 'trackipro';
-    // this.cryptoHandler = CryptoJS(this.secretKey);
   }
 
   static get instance() {
@@ -48,7 +46,9 @@ class CookieHandler {
 
       if (partsPop) {
         const encryptedValue = partsPop.split(';').shift() as string;
-        return CryptoJS.AES.decrypt(encryptedValue, this.secretKey); // Decrypt for get original value
+        return CryptoJS.AES.decrypt(encryptedValue, this.secretKey).toString(
+          CryptoJS.enc.Utf8
+        ); // Decrypt for get original value
       }
     }
     return '';

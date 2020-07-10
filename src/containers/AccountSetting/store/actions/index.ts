@@ -3,7 +3,6 @@ import * as types from '../definitions';
 import UserDetail from '../../interfaces';
 
 export function getUserRequestAction(data?: UserDetail.IStateUser) {
-  console.log('___________action');
   return {
     type: types.USER_REQUESTED,
     payload: { data },
