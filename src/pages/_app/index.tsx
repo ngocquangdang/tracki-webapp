@@ -33,10 +33,6 @@ class WebApp extends App<AppWithStore> {
     if (request) {
       request.cookies = cookie.parse(request.headers.cookie || '');
       authenticated = !!request.cookies[process.env.COOKIE_NAME || 'token'];
-      console.log(
-        'request',
-        request.cookies[process.env.COOKIE_NAME || 'token']
-      );
     }
     return { pageProps, authenticated };
   }
@@ -50,9 +46,7 @@ class WebApp extends App<AppWithStore> {
     }
 
     if (authenticated) {
-      console.log('test');
       if (cookieClient.checkCookie(process.env.COOKIE_NAME || 'token')) {
-        console.log('test22222');
         axiosClient.setHeader(
           cookieClient.getCookie(process.env.COOKIE_NAME || 'token')
         );
