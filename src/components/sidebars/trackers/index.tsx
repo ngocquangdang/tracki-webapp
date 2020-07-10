@@ -1,6 +1,5 @@
-import React from 'react';
-import { GoPrimitiveDot } from 'react-icons/go';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import React, { useState, useEffect } from 'react';
+
 import { FiPlus } from 'react-icons/fi';
 
 import {
@@ -10,20 +9,40 @@ import {
   // SearchInput,
   // TextInput,
   ListItem,
-  Card,
-  Item,
-  Image,
-  ItemInfo,
-  Name,
-  Time,
-  CardDetail,
-  TimeActive,
   useStyles,
 } from './styles';
 import { Button } from '@Components/buttons';
+import Device from '@Components/DeviceCard';
+
+const listDevice = [
+  {
+    name: 'Steve Rodgers truck',
+    time: 'Last Updated: 3 days ago',
+    id: 1,
+  },
+  {
+    name: 'Steve Rodgers truckter',
+    time: 'Last Updated: 3 days ago',
+    id: 2,
+  },
+];
 
 export default function ListTracker() {
   const classes = useStyles();
+  const [item, setItem] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setItem(!item);
+    }, 1000);
+  }, [item]);
+
+  // fake loading
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   return (
     <Container>
@@ -38,36 +57,9 @@ export default function ListTracker() {
           />
         </SearchInput> */}
         <ListItem>
-          <Card>
-            <Item>
-              <Image src="images/tracki-device.png" alt="" />
-              <ItemInfo>
-                <Name>Steve Rodgers truck</Name>
-                <Time>
-                  <GoPrimitiveDot className={classes.icon} />
-                  <TimeActive>Last Updated: 3 days ago</TimeActive>
-                </Time>
-              </ItemInfo>
-            </Item>
-            <CardDetail>
-              <BsThreeDotsVertical />
-            </CardDetail>
-          </Card>
-          <Card>
-            <Item>
-              <Image src="images/tracki-device.png" alt="" />
-              <ItemInfo>
-                <Name>Steve Rodgers truck</Name>
-                <Time>
-                  <GoPrimitiveDot className={classes.icon} />
-                  <TimeActive>Last Updated: 3 days ago</TimeActive>
-                </Time>
-              </ItemInfo>
-            </Item>
-            <CardDetail>
-              <BsThreeDotsVertical />
-            </CardDetail>
-          </Card>
+          {listDevice.map(i => (
+            <Device device={i} key={i.id} isLoading={isLoading} />
+          ))}
         </ListItem>
       </Content>
       <Footer>

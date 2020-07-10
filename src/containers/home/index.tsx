@@ -5,7 +5,7 @@ import Map from '@Containers/Map';
 import { Container, MapView } from './styles';
 
 export default function HomeContainer() {
-  const [isOpenSidebar, setOpenSidebar] = useState(false);
+  const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const handleChangee = () => {
     setOpenSidebar(!isOpenSidebar);
