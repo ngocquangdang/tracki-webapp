@@ -36,7 +36,7 @@ export default function SideBar(props: any) {
         in={checked}
         mountOnEnter
         unmountOnExit
-        className={classes.absolutemain}
+        style={{ position: 'absolute', top: 64, height: 'calc(100% - 64px)' }}
       >
         <Content>
           <Paper className={classes.border}>

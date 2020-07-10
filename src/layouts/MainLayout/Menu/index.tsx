@@ -57,7 +57,7 @@ export default function CustomizedMenus() {
         classes={{ root: classes.btnRoot, label: classes.btnLabel }}
         onClick={handleClick}
       >
-        {Boolean(anchorEl) ? <ClearIcon /> : <MenuIcon />} Menu
+        {anchorEl ? <ClearIcon /> : <MenuIcon />} Menu
       </Button>
       <StyledMenu
         anchorEl={anchorEl}
