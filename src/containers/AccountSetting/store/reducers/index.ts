@@ -21,7 +21,7 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = payload.errors;
         break;
       case types.USER_SUCCEED:
-        draft.profile = payload;
+        draft.profile = payload.profile;
         draft.isRequesting = false;
         draft.errors = {};
         break;

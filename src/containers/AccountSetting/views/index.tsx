@@ -28,7 +28,7 @@ interface SettingState {
 }
 export default function AccountSetting(props: any) {
   const classes = useStyles();
-  const { t } = props;
+  const { t, profile } = props;
   const [values, setValue] = useState<SettingState>({
     options: [
       {
@@ -47,16 +47,21 @@ export default function AccountSetting(props: any) {
     email_notif: true,
     app_notif: true,
   });
+
   const onChangeEmailNotif = () =>
     setValue({
       ...values,
       email_notif: !values.email_notif,
     });
+
   const onChangeAppNotif = () =>
     setValue({
       ...values,
       app_notif: !values.app_notif,
     });
+
+  console.log('profile', profile);
+
   return (
     <Container>
       <Content>
