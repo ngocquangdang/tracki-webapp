@@ -7,8 +7,6 @@ import {
   Container,
   Content,
   Footer,
-  SearchInput,
-  TextInput,
   ListItem,
   Card,
   Item,

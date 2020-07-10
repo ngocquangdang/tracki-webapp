@@ -9,7 +9,7 @@ import {
 } from './styles';
 
 interface Props {
-  children: Element;
+  children: any;
   value?: number;
   index?: number;
   placeholder: string;
