@@ -13,6 +13,7 @@ import {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectErrorMessage,
+  makeSelectUserProfile,
 } from './store/selectors';
 import UserDetail from './interfaces';
 
@@ -35,6 +36,7 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectIsRequesting(),
   errorMessage: makeSelectErrorMessage(),
+  profile: makeSelectUserProfile(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

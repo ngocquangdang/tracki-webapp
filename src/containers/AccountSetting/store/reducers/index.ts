@@ -5,6 +5,7 @@ import { ActionType } from '@Interfaces';
 
 // The initial state of the Login container
 export const initialState = {
+  profile: {},
   errors: {},
   isRequesting: false,
 };
@@ -20,6 +21,7 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = payload.errors;
         break;
       case types.USER_SUCCEED:
+        draft.profile = payload.profile;
         draft.isRequesting = false;
         draft.errors = {};
         break;
