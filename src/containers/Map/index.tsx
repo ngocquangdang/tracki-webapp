@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { MapBox } from './style';
-import CaseMarker from './CaseMarker';
+import DeviceMarker from './DeviceMarker';
 
 class Map extends Component {
   map: any;
+
+  state = {
+    isInitiatedMap: false,
+  };
 
   componentDidMount() {
     mapboxgl.accessToken =
@@ -21,29 +25,26 @@ class Map extends Component {
         padding: 20,
       },
     });
-    setTimeout(() => {
-      this.map.flyTo({
-        center: [108.178898, 16.061922],
-        essential: true,
-        zoom: 10,
-      });
-    }, 3000);
+    this.setState({ isInitiatedMap: true });
   }
 
+  renderCasesMarker = () => {
+    if (this.state.isInitiatedMap) {
+      return (
+        <DeviceMarker
+          map={this.map}
+          device={{
+            lat: 16.057426,
+            lng: 108.212479,
+            imageURL: 'images/image-device.png',
+          }}
+        />
+      );
+    }
+  };
+
   render() {
-    return (
-      <MapBox
-        id="map"
-        style={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          width: '100%',
-        }}
-      >
-        <CaseMarker map={this.map} lat="16.053962" lng="08.216041" />
-      </MapBox>
-    );
+    return <MapBox id="map">{this.renderCasesMarker()}</MapBox>;
   }
 }
 
