@@ -3,8 +3,14 @@ import mapboxgl from 'mapbox-gl';
 import { MapBox } from './style';
 import CaseMarker from './CaseMarker';
 
+interface Props {
+  fullWidth: boolean;
+}
 class Map extends Component {
   map: any;
+  props: {
+    fullWidth: boolean;
+  };
 
   componentDidMount() {
     mapboxgl.accessToken =
@@ -28,6 +34,14 @@ class Map extends Component {
         zoom: 10,
       });
     }, 3000);
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.fullWidth !== this.props.fullWidth) {
+      setTimeout(() => {
+        this.map.resize();
+      }, 1000);
+    }
   }
 
   render() {

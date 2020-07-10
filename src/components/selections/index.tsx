@@ -13,7 +13,7 @@ interface Props {
 
 export default function SelectOption(props: Props) {
   const { option, label, ...rest } = props;
-  const handleChange = value =>
+  const handleChange = (value: any) =>
     console.log('---------------------', value.target.value);
   return (
     <SelectForm variant="outlined" {...rest}>

@@ -39,6 +39,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: 15,
     marginBottom: 15,
     width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 10,
+      marginBottom: 10,
+    },
   },
   errorRoot: {
     right: 0,
