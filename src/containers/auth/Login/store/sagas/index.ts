@@ -1,5 +1,4 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import Router from 'next/router';
 
 import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';

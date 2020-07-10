@@ -13,7 +13,7 @@ interface State {
   }[];
 }
 
-const AccountSetting: NextPage = props => {
+const AccountSetting: NextPage = (props: any) => {
   const { t } = props;
   const url = [{ pathname: '/settings', name: `${t('auth:account_setting')}` }];
   return (
