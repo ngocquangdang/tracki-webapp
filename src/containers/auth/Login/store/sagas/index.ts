@@ -18,9 +18,7 @@ function* loginSaga(action: ActionType) {
       yield put(loginSuccessAction(response.data));
       CookieInstance.setCookie('token', response.data.access_token);
       AxiosClient.setHeader(response.data.access_token);
-      Router.push({
-        pathname: '/home',
-      });
+      window.location.replace('/home');
     } else {
       //
     }
