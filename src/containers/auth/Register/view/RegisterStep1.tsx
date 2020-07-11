@@ -11,6 +11,9 @@ import {
   InfoText,
   InfoTextLogin,
   Text,
+  Footer,
+  InforTextFooter,
+  InfoTextTerm,
 } from './styles';
 import { Slide } from '@material-ui/core';
 import IRegisterPage from '../interfaces';
@@ -36,6 +39,20 @@ function RegisterStep1(props: IRegisterPage.IProps) {
             <Text className={classes.link}>{t('login_here')}</Text>
           </Link>
         </InfoTextLogin>
+        <Footer>
+          <InforTextFooter>
+            {t('register_account_description')}{' '}
+            <InfoTextTerm>
+              <Link href="/privacy">
+                <Text className={classes.link}>{t('terms')}</Text>
+              </Link>
+              {' ' + t('and') + ' '}
+              <Link href="/privacy">
+                <Text className={classes.link}>{t('privacy_policy')}</Text>
+              </Link>
+            </InfoTextTerm>
+          </InforTextFooter>
+        </Footer>
       </Container>
     </Slide>
   );
