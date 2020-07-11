@@ -31,10 +31,13 @@ class DeviceMarker extends React.Component<Props> {
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
-        <div style='background-color:#fff;' class='marker-pin'>
-          <img src=${imageURL} class='image-device'></img>
-        </div>  
-        <div class='icon-red'><div>`;
+        <div class='icon-red'>
+          <span class='inner'></span>
+          <div class='marker-pin'>
+            <img src=${imageURL} class='image-device'></img>
+          </div>
+        <div>
+        `;
       this.deviceMarker = new mapboxgl.Marker(elm)
         .setLngLat([lng, lat])
         .addTo(map);
