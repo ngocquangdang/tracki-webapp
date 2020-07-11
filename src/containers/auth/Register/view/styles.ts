@@ -15,7 +15,7 @@ const Container = styled.div`
   align-items: center;
   margin: auto;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   max-width: ${(props: { isTitle?: boolean; isSucces?: boolean }) =>
     props.isTitle ? '460px' : props.isSucces ? '452px' : '400px'};
 `;
@@ -71,7 +71,8 @@ const InfoText = styled.p`
 `;
 
 const InforTextFooter = styled(InfoText)`
-  @media (max-width: 420px) {
+  text-align: center;
+  @media (max-width: 600px) {
     text-align: center;
     font-size: 12px;
   }
@@ -108,12 +109,13 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
     props.isStep1 ? null : props.isStep5 ? '' : '0px'};
-  @media (max-width: 420px) {
+  @media (max-width: 600px) {
     margin-bottom: 20px;
     font-size: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
       props.isStep1 ? '30px' : props.isStep5 ? '32px' : '24px'};
     max-width: 330px;
   }
+  margin-top: ${(props: { isStep1?: boolean }) => (props.isStep1 ? '40%' : '')};
 `;
 
 const TitleZipCode = styled(Title)`
@@ -164,10 +166,9 @@ const GroupButton = styled.div`
 
 const Footer = styled.div`
   width: 100%;
-  position: absolute;
-  bottom: 0;
   display: flex;
   justify-content: center;
+  margin-top: 40px;
   @media (max-width: 959.95px) {
     display: flex;
     width: calc(100% - 30px);

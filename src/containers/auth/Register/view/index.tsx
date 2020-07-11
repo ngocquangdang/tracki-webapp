@@ -4,16 +4,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { AuthLayout } from '@Layouts';
 import { Button } from '@Components/buttons';
 
-import {
-  Header,
-  useStyles,
-  Logo,
-  InforTextFooter,
-  Content,
-  Text,
-  Footer,
-  InfoTextTerm,
-} from './styles';
+import { Header, useStyles, Logo, Content } from './styles';
 import IRegisterPage from '../interfaces';
 import RegisterStep1 from './RegisterStep1';
 import RegisterStep2 from './RegisterStep2';
@@ -81,22 +72,6 @@ function RegisterView(props: IRegisterPage.IProps) {
           </Header>
         )}
         {renderStep()}
-        {step === 1 && (
-          <Footer>
-            <InforTextFooter>
-              {t('register_account_description')}{' '}
-              <InfoTextTerm>
-                <Link href="/privacy">
-                  <Text className={classes.link}>{t('terms')}</Text>
-                </Link>
-                {' ' + t('and') + ' '}
-                <Link href="/privacy">
-                  <Text className={classes.link}>{t('privacy_policy')}</Text>
-                </Link>
-              </InfoTextTerm>
-            </InforTextFooter>
-          </Footer>
-        )}
       </Content>
     </AuthLayout>
   );
