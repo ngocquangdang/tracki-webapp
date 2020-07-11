@@ -30,8 +30,8 @@ class Map extends Component<Props, STATE> {
       maxZoom: 13,
       zoom: 13,
       bounds: [
-        [102.170435826, 8.59975962975],
-        [109.33526981, 23.3520633001],
+        [123.986206, 10.287471],
+        [123.986206, 10.287471],
       ],
       fitBoundsOptions: {
         padding: 20,
@@ -44,12 +44,27 @@ class Map extends Component<Props, STATE> {
     if (this.state.isInitiatedMap) {
       return (
         <DeviceMarker
-          key={1}
+          key={560218420}
           map={this.map}
           device={{
-            lat: 16.057426,
-            lng: 108.212479,
-            imageURL: 'images/image-device.png',
+            status: 'active',
+            age: 314023,
+            gps: false,
+            device_id: 560218420,
+            device_name: 'Ayala Ayala',
+            icon_url: 'images/image-device.png',
+            settings_id: 728617,
+            icon_version: 1588171186000,
+            type_id: 12,
+            type: 'Universal',
+            location_id: -1,
+            lat: 10.287471,
+            lng: 123.986206,
+            speed: 0,
+            battery: 15,
+            is_triangulated: false,
+            location_type: 'GSM',
+            time: 1594137961,
           }}
         />
       );
