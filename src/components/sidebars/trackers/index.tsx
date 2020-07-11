@@ -32,16 +32,18 @@ export default function ListTracker() {
   const [item, setItem] = useState(false);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setItem(!item);
     }, 1000);
+    return () => clearTimeout(timeout);
   }, [item]);
 
   // fake loading
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setLoading(false);
     }, 3000);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (

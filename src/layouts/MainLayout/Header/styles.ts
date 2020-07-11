@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   logoWrapper: {
-    width: 240,
+    width: 378,
     alignSelf: 'center',
   },
   logo: {

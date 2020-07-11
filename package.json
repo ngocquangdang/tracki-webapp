@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "patch-package",
     "dev": "nodemon next dev",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "cross-env NODE_ENV=production node dist/index.js",
@@ -102,6 +103,8 @@
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "nodemon": "^2.0.4",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "react-app": "^1.1.2",

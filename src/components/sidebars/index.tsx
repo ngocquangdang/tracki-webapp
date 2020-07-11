@@ -22,16 +22,10 @@ export default function SideBar(props: any) {
     setValue(newValue);
   };
 
-  // const [opened, setopened] = useState(false);
-
-  // const handleChangee = () => {
-  //   setopened(prev => !prev);
-  // };
-
   return (
     <Container opened>
       <Button
-        onClick={() => onChange()}
+        onClick={onChange}
         className={`${classes.btnIcon} ${classes.absoluteFirst}`}
         style={{ zIndex: opened ? 0 : 1 }}
       >
@@ -45,6 +39,7 @@ export default function SideBar(props: any) {
         style={{
           position: 'relative',
           background: '#ffffff',
+          borderRight: '2px solid #ddd',
         }}
       >
         <Content style={{ display: opened ? 'block' : 'none' }}>
@@ -57,11 +52,11 @@ export default function SideBar(props: any) {
               centered
               className={classes.heightTab}
             >
-              <TabStyle label="Trackers" />
-              <TabStyle label="Geo-Fence" />
+              <TabStyle label="Trackers" key={1} />
+              <TabStyle label="Geo-Fence" key={2} />
             </Tabs>
             <Button
-              onClick={() => onChange()}
+              onClick={onChange}
               className={`${classes.absolute} ${classes.btnIcon}`}
             >
               <BsFillCaretLeftFill />

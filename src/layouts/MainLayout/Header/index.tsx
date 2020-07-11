@@ -71,8 +71,8 @@ export default function Header() {
   const renderMenuButton = ({ icon, label, link }: MenuType) => {
     const isActive = link === currentLink;
     return (
-      <Item>
-        <Link href={link} key={label}>
+      <Item key={label}>
+        <Link href={link}>
           <LinkStyle
             onClick={onClickLink(link)}
             color={isActive ? 'primary' : 'secondary'}

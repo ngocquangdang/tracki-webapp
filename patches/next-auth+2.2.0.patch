@@ -1,0 +1,13 @@
+diff --git a/node_modules/next-auth/dist/server/lib/cookie.js b/node_modules/next-auth/dist/server/lib/cookie.js
+index 0f6e838..55ac718 100644
+--- a/node_modules/next-auth/dist/server/lib/cookie.js
++++ b/node_modules/next-auth/dist/server/lib/cookie.js
+@@ -15,6 +15,8 @@ var set = function set(res, name, value) {
+   }
+ 
+   var setCookieHeader = res.getHeader('Set-Cookie') || [];
++  // If not an array (i.e. a string with a single cookie) convert it into an array
++  if (!Array.isArray(setCookieHeader)) { setCookieHeader = [setCookieHeader]; }
+   setCookieHeader.push(_serialize(name, String(stringValue), options));
+   res.setHeader('Set-Cookie', setCookieHeader);
+ };

@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.main,
   },
   skeleton: {
-    backgroundColor: '#c0c0c0',
+    backgroundColor: '#f2f2f2',
   },
 }));
 const TextInput = withStyles(theme => ({
