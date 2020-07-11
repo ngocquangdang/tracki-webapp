@@ -44,6 +44,7 @@ class Map extends Component<Props, STATE> {
     if (this.state.isInitiatedMap) {
       return (
         <DeviceMarker
+          key={1}
           map={this.map}
           device={{
             lat: 16.057426,

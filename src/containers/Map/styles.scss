@@ -1,24 +1,25 @@
 .custom-div-icon {
+  .image-device {
+    position: absolute;
+    width: 45px;
+    font-size: 22px;
+    left: 0;
+    right: 0;
+    margin: 12px -16px -12px 12px;
+    z-index: 3;
+    text-align: center;
+    transform: rotate(45deg);
+  }
   .marker-pin {
     width: 65px;
     height: 65px;
-    border-radius: 50% 50% 50% 0;
-    background: #c30b82;
+    background-color:#fff;
     position: absolute;
+    font-size: 22px;
     transform: rotate(-45deg);
-    left: 50%;
-    top: 50%;
-    margin: -15px 0 0 -15px;
-    z-index: 2;
-    .image-device {
-      width: 44px;
-      z-index: 3;
-      height: 38px;
-      object-fit: contain;
-      position: absolute;
-      margin: 11px -12px -20px 12px;
-      transform: rotate(45deg);
-    }
+    left: -113%;
+    bottom: 110%;
+    border-radius: 50% 50% 50% 0;
     &::after {
       content: '';
       width: 56px;
@@ -29,15 +30,20 @@
       border-radius: 50%;
     }
   }
-
   .icon-red {
     width: 20px;
-    height: 18px;
+    height: 20px;
     border-radius: 50%;
-    background-color: #e60000;
+    background-color: #f4433675;
     padding: 4px;
-    position: absolute;
-    margin: 53px 6px 6px 8px;
-    border: solid 4px rgba(230, 0, 0, 0.5);
+    position: relative;
+    .inner {
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-radius: 6px;
+      background-color: #f44336;
+    }
+    
   }
 }
