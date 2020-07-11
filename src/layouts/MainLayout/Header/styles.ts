@@ -1,4 +1,11 @@
-import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Link } from '@material-ui/core';
+
+const Item = styled.li`
+  list-style: none;
+  text-decoration: none;
+`;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,6 +44,10 @@ const useStyles = makeStyles(theme => ({
     },
     '& svg': {
       marginBottom: 4,
+      display: 'block',
+      alignAtems: 'center',
+      textAlign: 'center',
+      margin: 'auto',
     },
     '&:not(svg)': {
       fontSize: 13,
@@ -48,4 +59,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default useStyles;
+const LinkStyle = withStyles(theme => ({
+  root: {
+    display: 'block',
+    textAlign: 'center',
+  },
+}))(Link);
+export { useStyles, LinkStyle, Item };

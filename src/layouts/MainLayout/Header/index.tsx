@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link, Toolbar, AppBar } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Toolbar, AppBar } from '@material-ui/core';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import {
   NearMe as NearMeIcon,
@@ -11,13 +12,13 @@ import {
 } from '@material-ui/icons';
 
 import Menu from '../Menu';
-import useStyles from './styles';
+import { useStyles, LinkStyle, Item } from './styles';
 
 const routes = [
   {
     label: 'View Trackers',
     icon: <NearMeIcon />,
-    link: '/',
+    link: '/home',
   },
   {
     label: 'Notifications',
@@ -55,8 +56,14 @@ type MenuType = { icon: JSX.Element; label: string; link: string };
 
 export default function Header() {
   const classes = useStyles();
-  const [currentLink, setCurrentLink] = useState(routes[0].link);
+  const [currentLink, setCurrentLink] = useState('');
+  console.log('Header -> currentLink', currentLink);
 
+  useEffect(() => {
+    let link = '';
+    link = window.location.pathname;
+    setCurrentLink(link);
+  }, [currentLink]);
   const onClickLink = (link: string) => () => {
     setCurrentLink(link);
   };
@@ -64,17 +71,29 @@ export default function Header() {
   const renderMenuButton = ({ icon, label, link }: MenuType) => {
     const isActive = link === currentLink;
     return (
-      <Link
-        component="button"
-        href={link}
-        key={label}
-        color={isActive ? 'primary' : 'secondary'}
-        underline="none"
-        onClick={onClickLink(link)}
-        classes={{ button: classes.linkBtn }}
-      >
-        {icon} {label}
-      </Link>
+      <Item>
+        <Link href={link} key={label}>
+          <LinkStyle
+            onClick={onClickLink(link)}
+            color={isActive ? 'primary' : 'secondary'}
+            className={classes.linkBtn}
+            underline="none"
+          >
+            {icon} {label}
+          </LinkStyle>
+        </Link>
+      </Item>
+      // <Link
+      // component="button"
+      //   href={link}
+      //   key={label}
+      //   color={isActive ? 'primary' : 'secondary'}
+      //   underline="none"
+      //   onClick={onClickLink(link)}
+      //   classes={{ button: classes.linkBtn }}
+      // >
+      //   {icon} {label}
+      // </Link>
     );
   };
 
