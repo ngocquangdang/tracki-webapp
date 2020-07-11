@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Typography } from '@material-ui/core';
 import { FiChevronLeft } from 'react-icons/fi';
@@ -34,7 +34,6 @@ function ForgotPassword(props: IForgotPage.IProps) {
     resetErrorAction,
   } = props;
   const classes = useStyles();
-  const ref = createRef();
   const [emailInput, updateEmailInput] = useState('');
   const [codeInput, updateCodeInput] = useState('');
 
