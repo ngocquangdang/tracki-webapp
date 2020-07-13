@@ -5,6 +5,7 @@ import { SignUpSchema } from '../../schema';
 import IRegisterPage from '../../interfaces';
 
 import { Form, useStyles } from '../styles';
+import Link from 'next/link';
 
 const initialValuesForm = {};
 
@@ -20,14 +21,16 @@ function RegisterFormStep5(props: IRegisterPage.IProps) {
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Button
-            className={`${classes.margin} ${classes.btnContinue}`}
-            color="primary"
-            type="submit"
-            isLoading={props.isRequesting}
-            variant="outlined"
-            text={t('auth:continue_with_setup')}
-          />
+          <Link href="/login">
+            <Button
+              className={`${classes.margin} ${classes.btnContinue}`}
+              color="primary"
+              type="submit"
+              isLoading={props.isRequesting}
+              variant="outlined"
+              text={t('auth:continue_with_setup')}
+            />
+          </Link>
         </Form>
       )}
     </Formik>
