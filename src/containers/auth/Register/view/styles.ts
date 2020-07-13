@@ -188,11 +188,6 @@ const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
     marginBottom: 15,
-    [theme.breakpoints.down(420)]: {
-      marginTop: 0,
-      marginBottom: 15,
-      height: '45px',
-    },
   },
   btn: {
     backgroundColor: theme.palette.primary.main,

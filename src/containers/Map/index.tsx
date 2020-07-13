@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-import { MapBox } from './style';
+import { MapBox, NavigationControl } from './style';
 import DeviceMarker from './DeviceMarker';
+import './styles.scss';
 
 interface Props {
   fullWidth: boolean;
@@ -36,6 +37,7 @@ class Map extends Component<Props, STATE> {
       fitBoundsOptions: {
         padding: 20,
       },
+      attributionControl: false,
     });
     this.setState({ isInitiatedMap: true });
   }
@@ -80,7 +82,12 @@ class Map extends Component<Props, STATE> {
   }
 
   render() {
-    return <MapBox id="map">{this.renderDeviceMarker()}</MapBox>;
+    return (
+      <MapBox id="map">
+        <NavigationControl></NavigationControl>
+        {this.renderDeviceMarker()}
+      </MapBox>
+    );
   }
 }
 
