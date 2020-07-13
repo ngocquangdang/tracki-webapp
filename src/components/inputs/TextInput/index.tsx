@@ -35,7 +35,6 @@ function TextFieldComp(props: Props) {
         className: classes.heightInput,
       }}
       inputProps={{
-        autoComplete: 'new-password',
         form: {
           autoComplete: 'off',
         },

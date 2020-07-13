@@ -44,7 +44,9 @@ export default function PrivacyContainer(props: any) {
             text={t('back')}
           />
         </Link>
-        <Logo src="images/logo.png" className={classes.logo} alt="" />
+        <Link href="/">
+          <Logo src="images/logo.png" className={classes.logo} alt="" />
+        </Link>
       </Header>
       <Wrapper>
         <Content>

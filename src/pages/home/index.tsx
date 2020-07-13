@@ -1,22 +1,38 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
-
+import { NextPageContext } from 'next';
 import { IPage } from '@Interfaces';
-import { MainLayout } from '@Layouts';
+import { MainLayout, MainLayoutMobile } from '@Layouts';
 import withAuth from '@Components/hocs/withAuth';
 import View from '@Containers/home';
 
 const Home: NextPage = props => {
+  const isMobile = Boolean(
+    props.userAgent.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
   return (
-    <MainLayout {...props}>
-      <View />
-    </MainLayout>
+    <Fragment>
+      {isMobile ? (
+        <MainLayoutMobile>
+          <View />
+        </MainLayoutMobile>
+      ) : (
+        <MainLayout {...props}>
+          <View />
+        </MainLayout>
+      )}
+    </Fragment>
   );
 };
 
-Home.getInitialProps = async (): Promise<IPage.InitialProps> => {
-  return { namespacesRequired: ['auth'] };
+Home.getInitialProps = async ({
+  req,
+}: NextPageContext): Promise<IPage.InitialProps> => {
+  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
+  return { namespacesRequired: ['auth'], userAgent };
 };
 
 export default withAuth(withTranslation('auth')(Home));
