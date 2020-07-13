@@ -34,6 +34,11 @@ const Title = styled.h2`
   color: #333;
   font-weight: 300;
   margin: 15px 0;
+  @media (max-width: 959.59px) {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 37px;
+  }
 `;
 const Header = styled.header`
   position: absolute;
@@ -49,6 +54,9 @@ const SubTitle = styled.div`
   color: #333;
   margin-bottom: 13px;
   text-align: center;
+  @media (max-width: 959.59px) {
+    text-align: left;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -129,8 +137,33 @@ const useStyles = makeStyles(theme => ({
       display: 'block',
     },
   },
+  logo2: {
+    display: 'block',
+    margin: 'auto',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  desc1: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+  },
+  desc2: {
+    display: 'block',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
   text: {
     textAlign: 'center',
+  },
+  text2: {
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      textAlign: 'left',
+    },
   },
 }));
 

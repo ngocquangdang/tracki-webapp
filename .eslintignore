@@ -1,1 +1,3 @@
 public/static/fonts
+*.scss
+*.css
