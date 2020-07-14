@@ -7,12 +7,17 @@ declare namespace IForgotPage {
     errors: {
       code: string;
       email: string;
+      password: string;
     };
     isRequesting: boolean;
     email: string;
+    code: string;
+    password: string;
     forgotRequestAction(data: PayloadType): void;
     confirmCodeRequestAction(data: PayloadType): void;
+    confirmPasswordRequestAction(data: PayloadType): void;
     resetErrorAction(): void;
+    resetStore(): void;
   }
 
   interface InitialProps {

@@ -7,6 +7,8 @@ import * as types from '../definitions';
 export const initialState = {
   errors: {},
   email: null,
+  code: null,
+  password: null,
   isRequesting: false,
 };
 
@@ -27,6 +29,7 @@ const forgotPasswordReducer = (
         break;
       case types.CONFIRM_CODE_SUCCEED:
         draft.isRequesting = false;
+        draft.code = payload.code;
         draft.errors = {};
         break;
       case types.FORGOT_PASSWORD_SUCCEED:
@@ -40,6 +43,13 @@ const forgotPasswordReducer = (
         break;
       case types.RESET_ERROR_MESSAGE:
         draft.isRequesting = false;
+        draft.errors = {};
+        break;
+      case types.RESET_STORE:
+        draft.isRequesting = false;
+        draft.email = null;
+        draft.code = null;
+        draft.password = null;
         draft.errors = {};
         break;
       default:

@@ -35,14 +35,36 @@ export function confirmCodeSuccessAction(payload: PayloadType) {
     payload,
   };
 }
-
 export function confirmCodeFailAction(payload: PayloadType) {
   return {
     type: types.CONFIRM_CODE_FAILED,
     payload,
   };
 }
+export function resetPasswordRequestAction(payload: PayloadType) {
+  return {
+    type: types.RESET_PASSWORD_REQUESTED,
+    payload,
+  };
+}
+
+export function resetPasswordSuccessAction(payload: PayloadType) {
+  return {
+    type: types.RESET_PASSWORD_SUCCEED,
+    payload,
+  };
+}
+export function resetPasswordFailAction(payload: PayloadType) {
+  return {
+    type: types.RESET_PASSWORD_FAILED,
+    payload,
+  };
+}
 
 export function resetErrorMessage() {
   return { type: types.RESET_ERROR_MESSAGE };
+}
+
+export function resetStore() {
+  return { type: types.RESET_STORE };
 }

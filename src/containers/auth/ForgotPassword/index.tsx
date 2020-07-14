@@ -13,11 +13,15 @@ import {
   forgotRequestAction,
   confirmCodeRequestAction,
   resetErrorMessage,
+  resetPasswordRequestAction,
+  resetStore,
 } from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectEmail,
+  makeSelectPassword,
+  makeSelectCode,
 } from './store/selectors';
 import IForgotPage from './interfaces';
 
@@ -34,6 +38,8 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectIsRequesting(),
   email: makeSelectEmail(),
+  password: makeSelectPassword(),
+  code: makeSelectCode(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -41,7 +47,10 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(forgotRequestAction(data)),
   confirmCodeRequestAction: (data: PayloadType) =>
     dispatch(confirmCodeRequestAction(data)),
-  resetErrorAction: () => resetErrorMessage(),
+  confirmPasswordRequestAction: (data: PayloadType) =>
+    dispatch(resetPasswordRequestAction(data)),
+  resetErrorAction: () => dispatch(resetErrorMessage()),
+  resetStore: () => dispatch(resetStore()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
