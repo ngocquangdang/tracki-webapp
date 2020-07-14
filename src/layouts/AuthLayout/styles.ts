@@ -52,7 +52,7 @@ const Content = styled.div`
   position: relative;
   height: 100%;
   background: #ffffff;
-  overflow: scroll;
+  overflow-y: scroll;
   @media (max-width: 959.59px) {
     width: 100%;
   }

@@ -82,17 +82,6 @@ export default function Header() {
           </LinkStyle>
         </Link>
       </Item>
-      // <Link
-      // component="button"
-      //   href={link}
-      //   key={label}
-      //   color={isActive ? 'primary' : 'secondary'}
-      //   underline="none"
-      //   onClick={onClickLink(link)}
-      //   classes={{ button: classes.linkBtn }}
-      // >
-      //   {icon} {label}
-      // </Link>
     );
   };
 

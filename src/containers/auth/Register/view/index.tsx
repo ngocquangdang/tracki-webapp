@@ -64,11 +64,13 @@ function RegisterView(props: IRegisterPage.IProps) {
                 onClick={() => updateStep(1)}
               />
             </Link>
-            <Logo
-              src="images/logo.png"
-              className={step === 1 ? classes.logo : classes.logo2}
-              alt=""
-            />
+            <Link href="/">
+              <Logo
+                src="images/logo.png"
+                className={step === 1 ? classes.logo : classes.logo2}
+                alt=""
+              />
+            </Link>
           </Header>
         )}
         {renderStep()}
