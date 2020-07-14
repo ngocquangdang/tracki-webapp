@@ -8,15 +8,9 @@ import IRegisterPage from '../../interfaces';
 
 import { Form, useStyles, InfoText } from '../styles';
 
-const initialValuesForm = {
-  first_name: '',
-  last_name: '',
-};
-
 function RegisterFormStep2(props: IRegisterPage.IProps) {
   const { t, updateStore, errors, onNextStep, formData } = props;
   const classes = useStyles();
-
   const submitForm = (values: IRegisterPage.RegisterFormStep2) => {
     updateStore({ ...formData, ...values });
     onNextStep();
@@ -24,7 +18,7 @@ function RegisterFormStep2(props: IRegisterPage.IProps) {
 
   return (
     <Formik
-      initialValues={formData || initialValuesForm}
+      initialValues={formData}
       onSubmit={submitForm}
       validationSchema={SingUpSchemaStep2}
     >

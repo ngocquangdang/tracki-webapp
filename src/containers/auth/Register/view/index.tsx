@@ -11,9 +11,10 @@ import RegisterStep2 from './RegisterStep2';
 import RegisterStep3 from './RegisterStep3';
 import RegisterStep4 from './RegisterStep4';
 import RegisterStep5 from './RegisterStep5';
+import RegisterStep6 from './RegisterStep6';
 
 function RegisterView(props: IRegisterPage.IProps) {
-  const { t, errors, errorMessageKey } = props;
+  const { t, errors, resetFormData } = props;
   const classes = useStyles();
   const [step, updateStep] = useState(1);
 
@@ -32,8 +33,12 @@ function RegisterView(props: IRegisterPage.IProps) {
     }
   }, [errors]);
   const onChangeStep = (step: number) => () => updateStep(step);
-  const onChangeStep4 = () => {
-    errorMessageKey === 'exception_user_exist' ? updateStep(1) : updateStep(5);
+  const onChangeStep4 = (isSuccess: boolean) => {
+    !isSuccess ? updateStep(6) : updateStep(5);
+  };
+  const handleChangeStep = (step: number) => () => {
+    resetFormData();
+    updateStep(step);
   };
   const renderStep = () => {
     switch (step) {
@@ -45,6 +50,8 @@ function RegisterView(props: IRegisterPage.IProps) {
         return <RegisterStep4 {...props} onNextStep={onChangeStep4} />;
       case 5:
         return <RegisterStep5 {...props} />;
+      case 6:
+        return <RegisterStep6 {...props} onNextStep={handleChangeStep(1)} />;
       default:
         return <RegisterStep1 {...props} onNextStep={onChangeStep(2)} />;
     }
@@ -53,9 +60,9 @@ function RegisterView(props: IRegisterPage.IProps) {
   return (
     <AuthLayout isShowBG={step === 1}>
       <Content>
-        {(step === 1 || step === 2) && (
+        {(step === 1 || step === 2 || step === 6) && (
           <Header>
-            <Link href={step === 1 ? '/login' : 'create-account'}>
+            <Link href={step === 1 ? '/login' : '/create-account'}>
               <Button
                 variant="text"
                 classes={classes.backBtn}

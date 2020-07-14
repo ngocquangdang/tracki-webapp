@@ -28,6 +28,10 @@ const registerReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.isRequesting = false;
         draft.errors = payload;
         break;
+      case types.RESET_FORM_DATA:
+        draft.errors = {};
+        draft.formData = { ...initialState.formData };
+        break;
       case types.REGISTER_SUCCEED:
         draft.isRequesting = false;
         draft.errors = {};
@@ -37,7 +41,10 @@ const registerReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.isRequesting = false;
         break;
       case types.UPDATE_STORE:
-        draft.formData = payload;
+        draft.formData = {
+          ...state.formData,
+          ...payload,
+        };
         break;
       default:
         break;
