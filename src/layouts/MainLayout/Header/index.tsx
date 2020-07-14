@@ -57,7 +57,6 @@ type MenuType = { icon: JSX.Element; label: string; link: string };
 export default function Header() {
   const classes = useStyles();
   const [currentLink, setCurrentLink] = useState('');
-  console.log('Header -> currentLink', currentLink);
 
   useEffect(() => {
     let link = '';

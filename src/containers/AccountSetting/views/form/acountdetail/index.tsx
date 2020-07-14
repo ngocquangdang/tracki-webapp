@@ -13,13 +13,14 @@ interface IState {
 }
 
 export default function AccountDetail(props: any) {
-  const { t } = props;
+  const { t, userProfile, handleChange } = props;
+  console.log('AccountDetail -> userProfile', userProfile);
   const classes = useStyles();
   const [state] = useState<IState>({
     value: 'pkh',
     option: [
       {
-        value: 'mm/dd/yyyy',
+        value: 'DEFAULT',
         content: 'default',
       },
       {
@@ -38,20 +39,22 @@ export default function AccountDetail(props: any) {
       <TextInput
         label={t('first_name')}
         name="first_name"
-        value=""
+        value={userProfile.first_name}
+        onChange={handleChange('first_name')}
         variant="outlined"
       />
       <TextInput
         label={t('last_name')}
         name="last_name"
-        value=""
+        value={userProfile.last_name}
+        onChange={handleChange('last_name')}
         variant="outlined"
       />
       <PhoneNumberInput
         label="Phone Number"
         defaultCountry={'us'}
         variant="outlined"
-        // onChange={handleChange}
+        onChange={handleChange('phone')}
         value=""
         searchStyle={{ width: '93%', height: '35px' }}
       />

@@ -7,14 +7,14 @@ import { Form, useStyles } from './styles';
 
 export default function LoginDetail(props: any) {
   const classes = useStyles();
-  const { t } = props;
+  const { t, profile } = props;
 
   return (
     <Form>
       <TextInput
         label={t('email_address')}
         name="username"
-        value=""
+        value={profile.email}
         variant="outlined"
         disabled
       />

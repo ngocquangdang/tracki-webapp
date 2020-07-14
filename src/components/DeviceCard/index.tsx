@@ -1,5 +1,6 @@
 import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
+import moment from 'moment';
 
 import { GoPrimitiveDot } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -22,14 +23,7 @@ export default function Device(props: any) {
 
   if (isLoading) {
     return (
-      <Card
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          marginBottom: 6,
-          height: '70px',
-        }}
-      >
+      <Card>
         <Skeleton
           variant="circle"
           animation="wave"
@@ -55,16 +49,18 @@ export default function Device(props: any) {
       </Card>
     );
   }
-
+  console.log(device.time);
   return (
     <Card key={device.id}>
       <Item>
-        <Image src="images/tracki-device.png" alt="" />
+        <Image src={device.icon_url || 'images/tracki-device.png'} alt="" />
         <ItemInfo>
-          <Name>{device.name}</Name>
+          <Name>{device.device_name}</Name>
           <Time>
             <GoPrimitiveDot className={classes.icon} />
-            <TimeActive>{device.time}</TimeActive>
+            <TimeActive>
+              Last Updated: {moment(device.time * 1000).fromNow()}
+            </TimeActive>
           </Time>
         </ItemInfo>
       </Item>

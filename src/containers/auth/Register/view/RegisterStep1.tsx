@@ -43,7 +43,7 @@ function RegisterStep1(props: IRegisterPage.IProps) {
           <InforTextFooter>
             {t('register_account_description')}{' '}
             <InfoTextTerm>
-              <Link href="/privacy">
+              <Link href="/terms">
                 <Text className={classes.link}>{t('terms')}</Text>
               </Link>
               {' ' + t('and') + ' '}

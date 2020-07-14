@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdLock } from 'react-icons/md';
@@ -25,18 +26,22 @@ import TabPanel from './tabPanel';
 const Policy = dynamic(() => import('./policy'));
 const Term = dynamic(() => import('./term'));
 
-export default function PrivacyContainer(props: any) {
-  const { t } = props;
+function TermsAndPrivacy(props: any) {
+  const { t, router } = props;
   const classes = useStyles();
-  const [value, setValue] = useState<any>(0);
+  const [value, setValue] = useState(router.pathname.includes('terms') ? 1 : 0);
 
   const handleChange = (event, newValue: any) => {
     setValue(newValue);
+    window.history.pushState({}, null, newValue ? '/terms' : '/privacy');
   };
+
+  const scrollToTop = () => window.scrollTo(0, 0);
+
   return (
     <Container>
       <Header>
-        <Link href="/create-account">
+        <Link href="/">
           <Button
             variant="text"
             classes={classes.backBtn}
@@ -44,7 +49,9 @@ export default function PrivacyContainer(props: any) {
             text={t('back')}
           />
         </Link>
-        <Logo src="images/logo.png" className={classes.logo} alt="" />
+        <Link href="/">
+          <Logo src="images/logo.png" className={classes.logo} alt="" />
+        </Link>
       </Header>
       <Wrapper>
         <Content>
@@ -68,10 +75,12 @@ export default function PrivacyContainer(props: any) {
           </TabPanel>
         </Content>
       </Wrapper>
-      <TopButton onClick={() => window.scrollTo(0, 0)}>
+      <TopButton onClick={scrollToTop}>
         <AiOutlineArrowUp className={classes.arrow} />
         <Paragraph>Back to Top</Paragraph>
       </TopButton>
     </Container>
   );
 }
+
+export default withRouter(TermsAndPrivacy);

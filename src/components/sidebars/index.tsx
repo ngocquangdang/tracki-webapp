@@ -10,7 +10,7 @@ import { Button } from '@material-ui/core';
 import { BsFillCaretLeftFill } from 'react-icons/bs';
 import { BsFillCaretRightFill } from 'react-icons/bs';
 
-const ListTracker = dynamic(() => import('./trackers'));
+// const ListTracker = dynamic(() => import('./trackers'));
 const ListGeoFence = dynamic(() => import('./geofence'));
 
 export default function SideBar(props: any) {
@@ -23,7 +23,7 @@ export default function SideBar(props: any) {
   };
 
   return (
-    <Container opened>
+    <Container opened={opened}>
       <Button
         onClick={onChange}
         className={`${classes.btnIcon} ${classes.absoluteFirst}`}
@@ -55,19 +55,14 @@ export default function SideBar(props: any) {
               <TabStyle label="Trackers" key={1} />
               <TabStyle label="Geo-Fence" key={2} />
             </Tabs>
-            <Button
-              onClick={onChange}
-              className={`${classes.absolute} ${classes.btnIcon}`}
-            >
-              <BsFillCaretLeftFill />
-            </Button>
           </Paper>
           <TabPanel
             value={value}
             index={0}
             placeholder="Search devices by name or ID"
           >
-            <ListTracker />
+            {/* <ListTracker /> */}
+            {props.children}
           </TabPanel>
           <TabPanel
             value={value}
@@ -76,6 +71,12 @@ export default function SideBar(props: any) {
           >
             <ListGeoFence />
           </TabPanel>
+          <Button
+            onClick={onChange}
+            className={`${classes.absolute} ${classes.btnIcon}`}
+          >
+            <BsFillCaretLeftFill />
+          </Button>
         </Content>
       </Slide>
     </Container>

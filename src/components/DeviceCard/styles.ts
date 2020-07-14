@@ -20,6 +20,8 @@ const Card = styled.li`
   align-items: center;
   padding: 11px 0;
   border-bottom: 1px solid #f5f5f5;
+  margin-bottom: 6px;
+  height: 70px;
 `;
 const Item = styled.div`
   display: flex;
