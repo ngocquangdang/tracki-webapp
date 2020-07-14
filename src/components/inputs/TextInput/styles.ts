@@ -12,7 +12,10 @@ const TextInput = withStyles(theme => ({
         borderColor: '#1a1a1a',
       },
       '&.Mui-focused fieldset': {
-        border: '1px solid #1a1a1a',
+        border: `2px solid ${theme.palette.primary.main}`,
+      },
+      '&.Mui-error fieldset': {
+        border: `2px solid ${theme.palette.error.main}`,
       },
     },
     '& .MuiInputLabel-outlined': {

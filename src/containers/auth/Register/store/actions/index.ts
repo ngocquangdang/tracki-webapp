@@ -31,3 +31,9 @@ export function registerFailAction(payload: PayloadType) {
     payload,
   };
 }
+
+export function resetFormData() {
+  return {
+    type: types.RESET_FORM_DATA,
+  };
+}

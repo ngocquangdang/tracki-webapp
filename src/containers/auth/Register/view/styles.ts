@@ -7,6 +7,7 @@ const Content = styled.div`
   align-items: center;
   padding: 0 15px;
   height: 100%;
+  overflow-y: overlay;
 `;
 const Container = styled.div`
   display: flex;
@@ -214,6 +215,18 @@ const useStyles = makeStyles(theme => ({
       borderColor: theme.palette.primary.main,
     },
   },
+  btnFullWidth: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    marginTop: '1em',
+    marginBottom: '1rem',
+    width: '100%',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary,
+      color: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
+    },
+  },
   blackBtn: {
     '&': {
       borderColor: '#000',
@@ -268,6 +281,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down(420)]: {
       marginBottom: '0',
     },
+  },
+  fullWidthButton: {
+    width: '100%',
   },
 }));
 

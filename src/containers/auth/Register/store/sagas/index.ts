@@ -8,7 +8,7 @@ import * as types from '../definitions';
 function* registerSaga(action: ActionType) {
   try {
     yield call(apiServices.register, action.payload.data);
-    yield action.payload.callback();
+    yield action.payload.callback(true);
     yield put(registerSuccessAction(action.payload));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -19,6 +19,7 @@ function* registerSaga(action: ActionType) {
         {}
       ),
     };
+    yield action.payload.callback(false);
     yield put(registerFailAction(payload));
   }
 }

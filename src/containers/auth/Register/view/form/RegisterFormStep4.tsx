@@ -8,10 +8,6 @@ import IRegisterPage from '../../interfaces';
 
 import { Form, useStyles, InfoText, Message } from '../styles';
 
-const initialValuesForm = {
-  zip: '',
-};
-
 function RegisterFormStep4(props: IRegisterPage.IProps) {
   const {
     t,
@@ -24,7 +20,6 @@ function RegisterFormStep4(props: IRegisterPage.IProps) {
     errorMessageKey,
   } = props;
   const classes = useStyles();
-
   const submitForm = (values: IRegisterPage.RegisterFormStep4) => {
     updateStore({ ...formData, ...values });
     if (errorMessageKey === 'exception_user_exist') {
@@ -36,7 +31,7 @@ function RegisterFormStep4(props: IRegisterPage.IProps) {
 
   return (
     <Formik
-      initialValues={formData || initialValuesForm}
+      initialValues={formData}
       onSubmit={submitForm}
       validationSchema={SingUpSchemaStep4}
     >
