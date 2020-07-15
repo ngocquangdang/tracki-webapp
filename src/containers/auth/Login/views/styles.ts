@@ -13,6 +13,7 @@ const Container = styled.div`
 const Content = styled.div`
   width: 100%;
   max-width: 400px;
+  margin-top: auto;
   text-align: center;
   @media (max-width: 959.59px) {
     display: flex;
@@ -100,12 +101,17 @@ const Line = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   bottom: 0;
-  @media (max-width: 767.95px) {
+  margin-top: auto;
+  /* @media (max-width: 767.95px) {
     position: static;
-  }
+  } */
+  /* @media (max-height: 755.98px) {
+    position: static;
+    margin-top: auto;
+  } */
 `;
 const Contact = styled.div`
   width: 100%;

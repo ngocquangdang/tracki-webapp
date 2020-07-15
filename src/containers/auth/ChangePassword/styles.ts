@@ -124,6 +124,9 @@ const useStyles = makeStyles(theme => ({
       padding: '0 15px',
     },
   },
+  display: {
+    display: 'none',
+  },
 }));
 export {
   Container,

@@ -3,14 +3,14 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';
 
-import { getUserSuccessAction, getUserFailAction } from '../actions';
+import { getDeviceSuccessAction, getDeviceFailAction } from '../actions';
 import * as apiServices from '../../services';
 import * as types from '../definitions';
 
 function* getUserSaga(action: ActionType) {
   try {
-    const { data } = yield call(apiServices.getUser);
-    yield put(getUserSuccessAction(data));
+    const { data } = yield call(apiServices.getDevice);
+    yield put(getDeviceSuccessAction(data));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -23,10 +23,10 @@ function* getUserSaga(action: ActionType) {
     if (data.message_key === 'exception_user_nameNotFound') {
       toast.error(data.message);
     }
-    yield put(getUserFailAction(payload));
+    yield put(getDeviceFailAction(payload));
   }
 }
 
 export default function* getUserWatcher() {
-  yield takeLatest(types.USER_REQUESTED, getUserSaga);
+  yield takeLatest(types.DEVICE_REQUESTED, getUserSaga);
 }

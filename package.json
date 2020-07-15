@@ -42,6 +42,7 @@
     "libphonenumber-js": "^1.7.54",
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.11.1",
+    "moment": "^2.27.0",
     "next": "9.4.4",
     "next-auth": "^2.2.0",
     "next-compose-plugins": "^2.2.0",

@@ -9,11 +9,12 @@ const Container = styled.div`
   margin: auto;
   width: 100%;
   height: 100%;
-  max-width: 400px;
+  /* max-width: 400px; */
 `;
 const Content = styled.div`
   width: 100%;
   max-width: 400px;
+  margin-top: 100px;
   text-align: center;
   @media (max-width: 959.59px) {
     display: flex;
@@ -84,6 +85,9 @@ const Footer = styled.div`
   @media (max-width: 959.59px) {
     width: 100%;
   }
+  @media (max-height: 521.98px) {
+    position: static;
+  }
 `;
 const Contact = styled.div`
   width: 100%;
@@ -93,6 +97,27 @@ const Contact = styled.div`
   padding: 0 50px;
   @media (max-width: 959.59px) {
     padding: 0 15px;
+  }
+`;
+const Info = styled.div`
+  display: flex;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  border: solid 1px #fefefe;
+  background-color: #ffffff;
+  padding: 10px;
+`;
+const InfoText = styled.p`
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #1a1a1a;
+  @media (max-width: 959.95px) {
+    text-align: center;
   }
 `;
 const useStyles = makeStyles(theme => ({
@@ -165,6 +190,11 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'left',
     },
   },
+  infoIcon: {
+    margin: 'auto 10px auto 0',
+    fontSize: 40,
+    color: theme.palette.primary.main,
+  },
 }));
 
 export {
@@ -179,5 +209,7 @@ export {
   SubTitle,
   Form,
   Header,
+  Info,
+  InfoText,
   useStyles,
 };

@@ -13,5 +13,16 @@ const makeSelectIsRequesting = () => {
 const makeSelectEmail = () => {
   return createSelector(authState, state => state.email);
 };
-
-export { makeSelectErrors, makeSelectIsRequesting, makeSelectEmail };
+const makeSelectPassword = () => {
+  return createSelector(authState, state => state.password);
+};
+const makeSelectCode = () => {
+  return createSelector(authState, state => state.code);
+};
+export {
+  makeSelectErrors,
+  makeSelectIsRequesting,
+  makeSelectEmail,
+  makeSelectPassword,
+  makeSelectCode,
+};

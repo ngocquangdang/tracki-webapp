@@ -2,15 +2,18 @@ import React from 'react';
 import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
-import PrivacyContainer from '@Containers/privacy';
+import TermsAndPrivacy from '@Containers/TermsAndPrivacy';
 import { IPage } from '@Interfaces';
 
-const Privacy: NextPage = props => {
-  return <PrivacyContainer {...props} />;
+const TermsAndPrivacyPage: NextPage = props => {
+  console.log('prkkkkops', props);
+  return <TermsAndPrivacy {...props} />;
 };
 
-Privacy.getInitialProps = async (): Promise<IPage.InitialProps> => {
+TermsAndPrivacyPage.getInitialProps = async (
+  props
+): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['auth'] };
 };
 
-export default withTranslation('auth')(Privacy);
+export default withTranslation('auth')(TermsAndPrivacyPage);

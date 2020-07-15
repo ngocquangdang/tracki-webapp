@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { Typography } from '@material-ui/core';
 import { FiChevronLeft } from 'react-icons/fi';
 
 import { AuthLayout } from '@Layouts';
 import Button from '@Components/buttons/Button';
-import { TextInput } from '@Components/inputs';
 
 import {
   Container,
   Footer,
   Contact,
-  Form,
   GroupButton,
   Signature,
   Logo,
@@ -22,35 +19,19 @@ import {
   useStyles,
 } from './styles';
 import IForgotPage from '../interfaces';
+import EmailFrom from './form/EmailForm';
+import CodeFrom from './form/CodeForm';
+import ForgotPasswordForm from './form/ChangePasswordForm';
 
 function ForgotPassword(props: IForgotPage.IProps) {
-  const {
-    t,
-    errors,
-    email,
-    isRequesting,
-    forgotRequestAction,
-    confirmCodeRequestAction,
-    resetErrorAction,
-  } = props;
+  const { t, email, code, resetStore } = props;
   const classes = useStyles();
-  const [emailInput, updateEmailInput] = useState('');
-  const [codeInput, updateCodeInput] = useState('');
 
-  const handleChangeInput = (key: string) => ({ target }: any) => {
-    key === 'email'
-      ? updateEmailInput(target.value)
-      : updateCodeInput(target.value);
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (email) {
-      return confirmCodeRequestAction({ email, code: codeInput });
-    }
-    forgotRequestAction({ email: emailInput });
-    resetErrorAction();
-  };
+  useEffect(() => {
+    return () => {
+      resetStore();
+    };
+  }, []);
 
   return (
     <AuthLayout>
@@ -64,7 +45,9 @@ function ForgotPassword(props: IForgotPage.IProps) {
               text={t('back')}
             />
           </Link>
-          <Logo src="images/logo.png" className={classes.logo} alt="" />
+          <Link href="/login">
+            <Logo src="images/logo.png" className={classes.logo} alt="" />
+          </Link>
         </Header>
         <Content>
           <Logo src="images/logo.png" alt="" className={classes.logo2} />
@@ -74,49 +57,20 @@ function ForgotPassword(props: IForgotPage.IProps) {
               {t('auth:forgot_password_description')}
             </SubTitle>
           )}
-          <Form onSubmit={handleSubmit}>
-            {email ? (
-              <>
-                <Typography className={classes.text}>
-                  {t('auth:sent_email_to', { text: email })}
-                </Typography>
-                <Typography className={classes.text2}>
-                  {t('auth:sent_email_description')}
-                </Typography>
-                <TextInput
-                  className={classes.margin}
-                  label={t('auth:code')}
-                  value={codeInput}
-                  errorInput={errors.code}
-                  onChange={handleChangeInput('code')}
-                  variant="outlined"
-                />
-              </>
+          <div>
+            {email && code ? (
+              <ForgotPasswordForm {...props} />
+            ) : email ? (
+              <CodeFrom {...props} />
             ) : (
-              <TextInput
-                className={classes.margin}
-                label="Email"
-                errorInput={errors.email}
-                value={emailInput}
-                onChange={handleChangeInput('email')}
-                variant="outlined"
-              />
+              <EmailFrom {...props} />
             )}
             {!email && (
               <SubTitle className={classes.desc2}>
                 {t('auth:forgot_password_description')}
               </SubTitle>
             )}
-            <Button
-              classes={`${classes.margin}, ${classes.btn}`}
-              text={t(email ? 'auth:confirm_code' : 'auth:reset_password')}
-              isLoading={isRequesting}
-              color="primary"
-              onClick={handleSubmit}
-              type="submit"
-              variant="outlined"
-            />
-          </Form>
+          </div>
         </Content>
         <Footer>
           <Contact>
