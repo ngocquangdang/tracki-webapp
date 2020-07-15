@@ -6,7 +6,7 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 15px;
-  height: 100%;
+  min-height: 100%;
   overflow-y: overlay;
 `;
 const Container = styled.div`
@@ -110,11 +110,12 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
     props.isStep1 ? null : props.isStep5 ? '' : '0px'};
-  @media (max-width: 600px) {
+  @media (max-width: 959.95px) {
     margin-bottom: 20px;
     font-size: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
       props.isStep1 ? '30px' : props.isStep5 ? '32px' : '24px'};
     max-width: 330px;
+    margin-top: 30%;
   }
   margin-top: ${(props: { isStep1?: boolean }) => (props.isStep1 ? '40%' : '')};
 `;
