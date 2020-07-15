@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     [theme.breakpoints.down('sm')]: {
       display: 'block',
-      backgroundColor: '#168449',
+      backgroundColor: theme.palette.primary.main,
       color: '#fff',
       height: '56px',
     },

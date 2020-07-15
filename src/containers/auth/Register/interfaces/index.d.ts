@@ -40,7 +40,8 @@ declare namespace IRegisterPage {
     errorMessageKey: string;
     registerRequestAction(data: RegisterState, callback): void;
     updateStore(data: RegisterFormStep1): void;
-    onNextStep(): void;
+    onNextStep(isSuccess?: boolean): void;
+    resetFormData(): void;
     formData: RegisterState;
   }
 }

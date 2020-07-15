@@ -6,7 +6,8 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 15px;
-  height: 100%;
+  min-height: 100%;
+  overflow-y: overlay;
 `;
 const Container = styled.div`
   display: flex;
@@ -109,11 +110,12 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
     props.isStep1 ? null : props.isStep5 ? '' : '0px'};
-  @media (max-width: 600px) {
+  @media (max-width: 959.95px) {
     margin-bottom: 20px;
     font-size: ${(props: { isStep1?: boolean; isStep5?: boolean }) =>
       props.isStep1 ? '30px' : props.isStep5 ? '32px' : '24px'};
     max-width: 330px;
+    margin-top: 30%;
   }
   margin-top: ${(props: { isStep1?: boolean }) => (props.isStep1 ? '40%' : '')};
 `;
@@ -214,6 +216,18 @@ const useStyles = makeStyles(theme => ({
       borderColor: theme.palette.primary.main,
     },
   },
+  btnFullWidth: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    marginTop: '1em',
+    marginBottom: '1rem',
+    width: '100%',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary,
+      color: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
+    },
+  },
   blackBtn: {
     '&': {
       borderColor: '#000',
@@ -268,6 +282,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down(420)]: {
       marginBottom: '0',
     },
+  },
+  fullWidthButton: {
+    width: '100%',
   },
 }));
 

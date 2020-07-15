@@ -9,7 +9,7 @@ import { useInjectSaga } from '@Utils/injectSaga';
 
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { registerRequestAction } from './store/actions';
+import { registerRequestAction, resetFormData } from './store/actions';
 import { updateStore } from './store/actions';
 import {
   makeSelectErrors,
@@ -23,8 +23,8 @@ import IRegisterPage from './interfaces';
 const View = dynamic(() => import('./view'));
 
 function Register(props: IRegisterPage.IProps) {
-  useInjectSaga({ key: 'auth', saga });
-  useInjectReducer({ key: 'auth', reducer });
+  useInjectSaga({ key: 'register', saga });
+  useInjectReducer({ key: 'register', reducer });
 
   return <View {...props} />;
 }
@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(registerRequestAction(data, callback)),
   updateStore: (data: IRegisterPage.RegisterFormStep1) =>
     dispatch(updateStore(data)),
+  resetFormData: () => dispatch(resetFormData()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

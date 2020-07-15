@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { NextPage } from 'next';
+import { compose } from 'redux';
 import { withTranslation } from '@Server/i18n';
 import { NextPageContext } from 'next';
 import { IPage } from '@Interfaces';
@@ -7,9 +8,9 @@ import { MainLayout, MainLayoutMobile } from '@Layouts';
 import withAuth from '@Components/hocs/withAuth';
 import View from '@Containers/home';
 
-const Home: NextPage = props => {
+const Home: NextPage<IPage.InitialProps> = props => {
   const isMobile = Boolean(
-    props.userAgent.match(
+    props.userAgent?.match(
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
@@ -35,4 +36,4 @@ Home.getInitialProps = async ({
   return { namespacesRequired: ['auth'], userAgent };
 };
 
-export default withAuth(withTranslation('auth')(Home));
+export default compose(withAuth, withTranslation('auth'))(Home);
