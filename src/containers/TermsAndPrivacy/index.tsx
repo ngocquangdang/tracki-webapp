@@ -33,7 +33,7 @@ function TermsAndPrivacy(props: any) {
 
   const handleChange = (event, newValue: any) => {
     setValue(newValue);
-    window.history.pushState({}, null, newValue ? '/terms' : '/privacy');
+    window.history.pushState({}, '', newValue ? '/terms' : '/privacy');
   };
 
   const scrollToTop = () => window.scrollTo(0, 0);
