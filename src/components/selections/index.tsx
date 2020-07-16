@@ -9,16 +9,26 @@ interface Props {
     content: string;
   }[];
   label: string;
+  defaultValues: string;
+  name: string;
+  onChangeOption(value: string): void;
 }
 
 export default function SelectOption(props: Props) {
-  const { option, label, ...rest } = props;
-  const handleChange = (value: any) =>
-    console.log('---------------------', value.target.value);
+  const { option, label, defaultValues, onChangeOption, ...rest } = props;
+  const handleChange = (value: any) => {
+    onChangeOption(value.target.value);
+  };
   return (
     <SelectForm variant="outlined" {...rest}>
       <InputLabel htmlFor="outlined-age-native-simple">{label}</InputLabel>
-      <Select native onChange={handleChange} label={label}>
+      <Select
+        native
+        // name={name}
+        onChange={handleChange}
+        label={label}
+        value={defaultValues}
+      >
         {option.map((item, index: number) => (
           <option value={item.value} key={index}>
             {item.content}

@@ -33,10 +33,10 @@ export function updateUserRequestAction(
   };
 }
 
-export function updateUserSuccessAction(profile?: PayloadType) {
+export function updateUserSuccessAction(global?: PayloadType) {
   return {
     type: types.UPDATE_USERS_SUCCEED,
-    payload: { profile },
+    payload: { global },
   };
 }
 

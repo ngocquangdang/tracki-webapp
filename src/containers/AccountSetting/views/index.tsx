@@ -40,7 +40,6 @@ interface SettingState {
 export default function AccountSetting(props: any) {
   const classes = useStyles();
   const { t, profile, errors, isRequesting, updateUSerRequestAction } = props;
-  console.log('AccountSetting -> profile', profile);
 
   const [state] = useState<SettingState>({
     language: [
@@ -83,14 +82,13 @@ export default function AccountSetting(props: any) {
     date_format: '',
     language: 'en',
   });
-
   useEffect(() => {
     updateUserProfile({
       email: profile.email || '',
       first_name: profile?.preferences?.first_name || '',
       last_name: profile?.preferences?.last_name || '',
-      email_notifications: profile.preferences?.email_notifications || true,
-      push_notifications: profile.preferences?.push_notifications || true,
+      email_notifications: profile.preferences?.email_notifications,
+      push_notifications: profile.preferences?.push_notifications,
       speed_unit: profile?.preferences?.speed_unit || 'kph',
       date_format: profile?.preferences?.date_format || 'DEFAULT',
       language: profile.preferences?.language || 'en',
@@ -119,6 +117,7 @@ export default function AccountSetting(props: any) {
         initialValues={userProfile}
         onSubmit={onSubmitForm}
         validationSchema={UserSchema}
+        enableReinitialize
       >
         {({
           values,
@@ -247,8 +246,8 @@ export default function AccountSetting(props: any) {
                 <SwitchGroup>
                   <span>{t('auth:app_notification')}</span>
                   <Switch
-                    checked={!!values.push_notifications}
-                    value={!!values.push_notifications}
+                    checked={values.push_notifications}
+                    value={values.push_notifications}
                     onChange={e =>
                       setFieldValue('push_notifications', e.target.checked)
                     }
