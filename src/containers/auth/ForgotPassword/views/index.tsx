@@ -31,7 +31,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
     return () => {
       resetStore();
     };
-  }, []);
+  }, [resetStore]);
 
   return (
     <AuthLayout>

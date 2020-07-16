@@ -28,7 +28,6 @@ function* forgotPasswordSaga(action: ActionType) {
 
 function* confirmCodeSaga(action: ActionType) {
   try {
-    console.log('________________action', action.payload);
     yield call(apiServices.confirmCode, action.payload);
     yield put(confirmCodeSuccessAction(action.payload));
   } catch (error) {
@@ -43,7 +42,6 @@ function* confirmCodeSaga(action: ActionType) {
 
 function* resetPasswordSaga(action: ActionType) {
   try {
-    console.log('___________confirm pass', action.payload);
     yield call(apiServices.resetPassword, action.payload);
     yield put(resetPasswordSuccessAction(action.payload));
     yield Router.push('/login');

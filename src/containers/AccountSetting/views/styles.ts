@@ -18,8 +18,16 @@ const Content = styled.form`
     padding: 0;
   }
 `;
-const AccountForm = styled.div``;
-const LoginForm = styled.div``;
+const AccountForm = styled.div`
+  @media (max-width: 959.95px) {
+    padding: 0 15px;
+  }
+`;
+const LoginForm = styled.div`
+  @media (max-width: 959.95px) {
+    padding: 0 15px;
+  }
+`;
 const Notification = styled.div``;
 
 const Title = styled.h2`
@@ -43,6 +51,10 @@ const Title = styled.h2`
     font-size: 14px;
   }
 `;
+const SubTitle = styled.p`
+  font-size: 14px;
+`;
+
 const SwitchGroup = styled.div`
   display: flex;
   justify-content: space-between;
@@ -59,6 +71,24 @@ const Line = styled.hr`
     display: none;
   }
 `;
+const SelectGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @media (max-width: 959.95px) {
+    flex-flow: wrap-reverse;
+  }
+`;
+const Loading = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
@@ -72,7 +102,7 @@ const useStyles = makeStyles(theme => ({
   btn: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    marginTop: '3em',
+    margin: '10px 0',
     width: '100%',
     '&:hover': {
       backgroundColor: theme.palette.secondary,
@@ -113,7 +143,10 @@ export {
   LoginForm,
   Notification,
   Title,
+  SubTitle,
   SwitchGroup,
   Line,
+  SelectGroup,
+  Loading,
   useStyles,
 };
