@@ -3,43 +3,36 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { useInjectReducer } from '@Utils/injectReducer';
-import { useInjectSaga } from '@Utils/injectSaga';
 import { withTranslation } from '@Server/i18n';
-import saga from './trackers/store/sagas';
-import reducer from './trackers/store/reducers';
-import { getDeviceRequestAction } from './trackers/store/actions';
+
 import {
-  makeSelectErrors,
-  makeSelectIsRequesting,
-  makeSelectErrorMessage,
-  makeSelectDivices,
-} from './trackers/store/selectors';
+  makeSelectProfile,
+  makeSelectTrackers,
+  makeSelectTrackerIds,
+} from '@Containers/App/store/selectors';
 
 import View from './views';
+// import DevicePage from './interfaces';
+import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 
-function SettingContainer(props: any) {
-  useInjectSaga({ key: 'device', saga });
-  useInjectReducer({ key: 'device', reducer });
-
-  const { getDevcieRequest } = props;
+function HomeContainer(props: any) {
+  const { fetchUserRequestedAction } = props;
 
   useEffect(() => {
-    getDevcieRequest();
-  }, [getDevcieRequest]);
+    fetchUserRequestedAction();
+  }, [fetchUserRequestedAction]);
 
   return <View {...props} />;
 }
 
 const mapStateToProps = createStructuredSelector({
-  errors: makeSelectErrors(),
-  isRequesting: makeSelectIsRequesting(),
-  errorMessage: makeSelectErrorMessage(),
-  devices: makeSelectDivices(),
+  profile: makeSelectProfile(),
+  trackers: makeSelectTrackers(),
+  trackerIds: makeSelectTrackerIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getDevcieRequest: (data: any) => dispatch(getDeviceRequestAction(data)),
+  fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -48,4 +41,4 @@ export default compose(
   withConnect,
   memo,
   withTranslation(['auth'])
-)(SettingContainer) as React.ComponentType;
+)(HomeContainer) as React.ComponentType;

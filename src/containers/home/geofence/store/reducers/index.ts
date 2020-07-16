@@ -5,7 +5,7 @@ import { ActionType } from '@Interfaces';
 
 // The initial state of the Login container
 export const initialState = {
-  trackers: {},
+  geo_fence: {},
   errors: {},
   isRequesting: false,
 };
@@ -13,15 +13,15 @@ export const initialState = {
 const loginReducer = (state = initialState, { type, payload }: ActionType) =>
   produce(state, draft => {
     switch (type) {
-      case types.DEVICE_REQUESTED:
+      case types.GEO_FENCE_REQUESTED:
         draft.isRequesting = true;
         break;
-      case types.DEVICE_FAILED:
+      case types.GEO_FENCE_FAILED:
         draft.isRequesting = false;
         draft.errors = payload.errors;
         break;
-      case types.DEVICE_SUCCEED:
-        draft.trackers = payload.global?.device;
+      case types.GEO_FENCE_SUCCEED:
+        draft.geo_fence = payload.geo_fence;
         draft.isRequesting = false;
         draft.errors = {};
         break;

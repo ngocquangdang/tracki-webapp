@@ -12,7 +12,10 @@ export const initialState = {
   isRequesting: false,
 };
 
-const loginReducer = (state = initialState, { type, payload }: ActionType) =>
+const UserProfileReducer = (
+  state = initialState,
+  { type, payload }: ActionType
+) =>
   produce(state, draft => {
     switch (type) {
       case types.USER_REQUESTED:
@@ -23,7 +26,7 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = payload.errors;
         break;
       case types.USER_SUCCEED:
-        draft.profile = payload?.global;
+        draft.profile = payload?.profile;
         draft.isRequesting = false;
         draft.errors = {};
         break;
@@ -37,7 +40,7 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.UPDATE_USERS_SUCCEED:
         draft.profile.preferences = {
           ...state.profile.preferences,
-          ...payload?.global.preferences,
+          ...payload?.profile.preferences,
         };
         draft.isRequesting = false;
         draft.errors = {};
@@ -47,4 +50,4 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
     }
   });
 
-export default loginReducer;
+export default UserProfileReducer;

@@ -1,10 +1,10 @@
 import { PayloadType } from '@Interfaces';
 import * as types from '../definitions';
 
-export function getDeviceRequestAction(data: any) {
+export function getDeviceRequestAction(accountId: number) {
   return {
     type: types.DEVICE_REQUESTED,
-    payload: { data },
+    payload: { accountId },
   };
 }
 

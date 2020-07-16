@@ -9,10 +9,10 @@ export function getUserRequestAction(data?: UserDetail.IStateUser) {
   };
 }
 
-export function getUserSuccessAction(global?: PayloadType) {
+export function getUserSuccessAction(profile?: PayloadType) {
   return {
     type: types.USER_SUCCEED,
-    payload: { global },
+    payload: { profile },
   };
 }
 

@@ -20,8 +20,8 @@ import UserDetail from './interfaces';
 import View from './views';
 
 function SettingContainer(props: UserDetail.IProps) {
-  useInjectSaga({ key: 'global', saga });
-  useInjectReducer({ key: 'global', reducer });
+  useInjectSaga({ key: 'profile', saga });
+  useInjectReducer({ key: 'profile', reducer });
 
   const { getUserRequestAction } = props;
 

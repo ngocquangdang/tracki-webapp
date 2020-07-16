@@ -1,8 +1,6 @@
 import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
-import moment from 'moment';
 
-import { GoPrimitiveDot } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
 import {
@@ -11,15 +9,14 @@ import {
   Image,
   ItemInfo,
   Name,
-  Time,
   CardDetail,
-  TimeActive,
   useStyles,
 } from './styles';
+import { Switch } from '@material-ui/core';
 
 export default function Device(props: any) {
   const classes = useStyles();
-  const { device, isLoading } = props;
+  const { device, isLoading, active, handleChange } = props;
 
   if (isLoading) {
     return (
@@ -51,17 +48,17 @@ export default function Device(props: any) {
   }
 
   return (
-    <Card key={device.device_id}>
+    <Card key={device.id}>
       <Item>
         <Image src={device.icon_url || 'images/tracki-device.png'} alt="" />
         <ItemInfo>
           <Name>{device.device_name}</Name>
-          <Time>
-            <GoPrimitiveDot className={classes.icon} />
-            <TimeActive>
-              Last Updated: {moment(device.time * 1000).fromNow()}
-            </TimeActive>
-          </Time>
+          <Switch
+            name="active"
+            checked={active}
+            onChange={handleChange}
+            color="primary"
+          />
         </ItemInfo>
       </Item>
       <CardDetail>

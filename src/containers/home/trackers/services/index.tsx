@@ -1,7 +1,8 @@
 import axiosClient from '@Utils/axios';
 
-const DEVICE_DETAIL = '/v4/accounts/108384/devices/details';
+const DEVICE_DETAIL = '/v4/accounts';
 
-export const getDevice = async () => {
-  return axiosClient.get(DEVICE_DETAIL);
+export const getDevice = async (id: number) => {
+  const url = `${DEVICE_DETAIL}/${id}/devices/details`;
+  return axiosClient.get(url);
 };

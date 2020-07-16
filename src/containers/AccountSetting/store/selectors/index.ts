@@ -7,10 +7,10 @@ const makeSelectUserProfile = () =>
   createSelector(userState, state => state.profile || {});
 
 const makeSelectErrors = () =>
-  createSelector(userState, state => state.errors.errors || {});
+  createSelector(userState, state => state.errors?.errors || {});
 
 const makeSelectErrorMessage = () =>
-  createSelector(userState, state => state.errors.message);
+  createSelector(userState, state => state.errors?.message);
 
 const makeSelectIsRequesting = () => {
   return createSelector(userState, state => state.isRequesting);
