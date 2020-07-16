@@ -27,7 +27,7 @@ const listDevice = [
   },
 ];
 
-export default function ListDevice(props: any) {
+export default function ListDeviceTrackerPC(props: any) {
   const { devices, isLoading } = props;
   const classes = useStyles();
 

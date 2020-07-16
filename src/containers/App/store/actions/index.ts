@@ -32,3 +32,18 @@ export function hideLoadingAction() {
     type: types.HIDE_LOADING,
   };
 }
+
+export const fetchDevicesRequestedAction = (accountId: number) => ({
+  type: types.GET_DEVICES_REQUESTED,
+  payload: { accountId },
+});
+
+export const fetchDevicesSucceedAction = (devices: object) => ({
+  type: types.GET_DEVICES_SUCCEED,
+  payload: { devices },
+});
+
+export const fetchDevicesFailedAction = (error: object) => ({
+  type: types.GET_DEVICES_FAILED,
+  payload: { error },
+});

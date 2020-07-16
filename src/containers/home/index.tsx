@@ -16,19 +16,36 @@ import {
   makeSelectDivices,
 } from './trackers/store/selectors';
 
-import View from './views';
-
-function SettingContainer(props: any) {
+import { ViewHomePC, ViewHomeMobile } from './views';
+import { MainLayoutMobile, MainLayout } from '@Layouts';
+interface Props {
+  userAgent?: string;
+  getDevcieRequest: any;
+}
+function SettingContainer(props: Props) {
   useInjectSaga({ key: 'device', saga });
   useInjectReducer({ key: 'device', reducer });
+  const { getDevcieRequest, userAgent } = props;
 
-  const { getDevcieRequest } = props;
+  const isMobile = Boolean(
+    userAgent?.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
 
   useEffect(() => {
     getDevcieRequest();
   }, [getDevcieRequest]);
 
-  return <View {...props} />;
+  return isMobile ? (
+    <MainLayoutMobile>
+      <ViewHomeMobile />
+    </MainLayoutMobile>
+  ) : (
+    <MainLayout>
+      <ViewHomePC />
+    </MainLayout>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({

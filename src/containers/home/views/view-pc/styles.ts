@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   position: relative;
-  @media (min-width: 959.95px) {
+  @media only screen and (min-width: 959.95px) {
     height: calc(100vh - 64px);
   }
   width: 100%;
@@ -12,8 +12,8 @@ const Container = styled.div`
   }
 `;
 
-export const ContainerSideBar = styled.div`
-  @media (max-width: 959.95px) {
+const ContainerSideBar = styled.div`
+  @media only screen and (max-width: 959.95px) {
     display: none;
   }
 `;
@@ -27,4 +27,4 @@ const MapView = styled.div`
     width: 100%;
   }
 `;
-export { Container, MapView };
+export { Container, MapView, ContainerSideBar };

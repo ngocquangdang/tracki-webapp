@@ -6,7 +6,7 @@ import { useStyles } from '../styles';
 import Link from 'next/link';
 
 function RegisterFormStep5(props: IRegisterPage.IProps) {
-  const { t } = props;
+  const { t, resetFormData } = props;
   const classes = useStyles();
 
   return (
@@ -18,6 +18,7 @@ function RegisterFormStep5(props: IRegisterPage.IProps) {
         isLoading={props.isRequesting}
         variant="outlined"
         text={t('auth:continue_with_setup')}
+        onClick={resetFormData}
       />
     </Link>
   );

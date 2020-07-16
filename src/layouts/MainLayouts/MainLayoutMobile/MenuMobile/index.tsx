@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, useStyles, LinkStyle, Item } from './styles';
 import {
@@ -38,10 +38,9 @@ const routes = [
 
 type MenuType = { icon: JSX.Element; label: string; link: string };
 
-export default function MenuMobile() {
+export default function MenuMobile(props: any) {
   const classes = useStyles();
   const [currentLink, setCurrentLink] = useState('');
-
   useEffect(() => {
     let link = '';
     link = window.location.pathname;
@@ -68,9 +67,5 @@ export default function MenuMobile() {
       </Item>
     );
   };
-  return (
-    <Fragment>
-      <Menu>{routes.map(renderMenuButton)}</Menu>
-    </Fragment>
-  );
+  return <Menu>{routes.map(renderMenuButton)}</Menu>;
 }

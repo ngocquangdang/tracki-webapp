@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { GoPrimitiveDot } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-
+import SettingsIcon from '@material-ui/icons/Settings';
 import {
   Card,
   Item,
@@ -19,7 +19,7 @@ import {
 
 export default function Device(props: any) {
   const classes = useStyles();
-  const { device, isLoading } = props;
+  const { device, isLoading, isMobile } = props;
 
   if (isLoading) {
     return (
@@ -49,7 +49,6 @@ export default function Device(props: any) {
       </Card>
     );
   }
-  console.log(device.time);
   return (
     <Card key={device.id}>
       <Item>
@@ -65,7 +64,11 @@ export default function Device(props: any) {
         </ItemInfo>
       </Item>
       <CardDetail>
-        <BsThreeDotsVertical />
+        {isMobile ? (
+          <BsThreeDotsVertical />
+        ) : (
+          <SettingsIcon className={classes.iconSetting} />
+        )}
       </CardDetail>
     </Card>
   );

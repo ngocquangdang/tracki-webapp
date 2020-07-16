@@ -9,4 +9,16 @@ const makeSelectProfileGlobal = () =>
 const makeSelectLoading = () =>
   createSelector(selectGlobal, state => state.isLoading);
 
-export { makeSelectProfileGlobal, makeSelectLoading };
+const makeSelectDivices = () =>
+  createSelector(selectGlobal, state => state.device || {});
+
+const makeSelectIsRequesting = () => {
+  return createSelector(selectGlobal, state => state.isRequesting);
+};
+
+export {
+  makeSelectProfileGlobal,
+  makeSelectLoading,
+  makeSelectIsRequesting,
+  makeSelectDivices,
+};
