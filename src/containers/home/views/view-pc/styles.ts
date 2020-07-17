@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     background: 'linear-gradient(rgba(0,0,0,0.5) -50%, rgba(0,0,0,0) 8%)',
   },
   heightTab: {
-    height: '100%'
+    height: '100%',
   },
   tabItem: {
     // width: '100%'
