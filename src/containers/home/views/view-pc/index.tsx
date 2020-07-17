@@ -38,8 +38,8 @@ export default function HomeContainer(props: any) {
             centered
             className={classes.heightTab}
           >
-            <TabStyle label="Trackers" key={1} />
-            <TabStyle label="Geo-Fence" key={2} />
+            <TabStyle label="Trackers" key={1} className={classes.tabItem} />
+            <TabStyle label="Geo-Fence" key={2} className={classes.tabItem} />
           </Tabs>
         </Paper>
         <TabPanel
