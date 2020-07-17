@@ -11,7 +11,7 @@ const Content = styled.div`
   max-width: 400px;
   top: 0;
   box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px var(--e-0-e-0-e-0-border-color);
+  border: solid 1px #e0e0e0;
   /* background-color: #ffffff; */
   @media (max-width: 959.95px) {
     margin: auto;
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
   },
   absolute: {
     position: 'absolute !important' as any,
-    left: 400,
+    left: 399,
     top: 0,
     color: 'black',
     zIndex: 1,
@@ -77,9 +77,8 @@ const useStyles = makeStyles(theme => ({
     color: '#1a1a1a',
     width: 26,
     height: 55,
-    background: '#f5f5f5',
+    background: '#fff',
     borderRadius: 0,
-    borderLeft: '1px solid #D4D4D4',
     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
     minWidth: 'auto',
     '&:hover': {

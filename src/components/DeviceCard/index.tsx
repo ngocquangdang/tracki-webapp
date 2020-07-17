@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import { GoPrimitiveDot } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import SettingsIcon from '@material-ui/icons/Settings';
 import {
   Card,
   Item,
@@ -66,13 +65,7 @@ export default function Device(props: any) {
           </Time>
         </ItemInfo>
       </Item>
-      <CardDetail>
-        {isMobile ? (
-          <BsThreeDotsVertical />
-        ) : (
-          <SettingsIcon className={classes.iconSetting} />
-        )}
-      </CardDetail>
+      <CardDetail>{isMobile && <BsThreeDotsVertical />}</CardDetail>
     </Card>
   );
 }

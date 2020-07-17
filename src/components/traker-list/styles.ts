@@ -3,6 +3,7 @@ import { TextField, withStyles, makeStyles } from '@material-ui/core';
 const Container = styled.div``;
 const Content = styled.div`
   color: #1a1a1a;
+  box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.12);
 `;
 const Title = styled.span`
   font-weight: 500;

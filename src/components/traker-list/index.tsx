@@ -53,7 +53,7 @@ function ListDeviceTrackerMobile(props: any) {
             onFocus={handleFocusInput}
             onBlur={handleBlurInput}
             isFullWidth={isFullWidth}
-          ></SearchInput>
+          />
         </Search>
       </SearchBar>
       <Content>

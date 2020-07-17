@@ -26,7 +26,7 @@ export default function SideBar(props: any) {
         style={{
           position: 'relative',
           background: '#ffffff',
-          borderRight: '2px solid #ddd',
+          borderRight: '1px solid #rgba(0,0,0,0.12)',
         }}
       >
         <Content style={{ display: opened ? 'block' : 'none' }}>

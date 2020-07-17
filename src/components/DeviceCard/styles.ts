@@ -21,7 +21,7 @@ const Card = styled.li`
   border-bottom: 1px solid #e0e0e0;
   height: 70px;
   &:last-child {
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: none;
   }
 `;
 const Item = styled.div`

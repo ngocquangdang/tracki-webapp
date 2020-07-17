@@ -67,9 +67,12 @@ const useStyles = makeStyles(theme => ({
   },
   heightTab: {
     height: '100%',
+    '& div div': {
+      height: '100%',
+    },
   },
   tabItem: {
-    // width: '100%'
+    width: '50%',
   },
   relative: {
     position: 'relative',
@@ -77,7 +80,7 @@ const useStyles = makeStyles(theme => ({
   },
   absolute: {
     position: 'absolute',
-    left: 400,
+    left: 398,
     top: 0,
     color: 'black',
     zIndex: 1,
@@ -89,14 +92,10 @@ const useStyles = makeStyles(theme => ({
     color: '#1a1a1a',
     width: 26,
     height: 55,
-    background: '#f5f5f5',
+    backgroundColor: '#fff',
     borderRadius: 0,
-    borderLeft: '1px solid #D4D4D4',
     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
     minWidth: 'auto',
-    '&:hover': {
-      background: '#ffffff',
-    },
   },
 }));
 
