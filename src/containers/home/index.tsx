@@ -9,18 +9,27 @@ import {
   makeSelectProfile,
   makeSelectTrackers,
   makeSelectTrackerIds,
+  makeSelectTrackerId,
 } from '@Containers/App/store/selectors';
 
 import { ViewHomePC, ViewHomeMobile } from './views';
 import { MainLayoutMobile, MainLayout } from '@Layouts';
-import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import {
+  fetchUserRequestedAction,
+  selectedSingleTrackerRequestAction,
+  resetSelectedTrackerIdAction,
+} from '@Containers/App/store/actions';
+
 interface Props {
   userAgent?: string;
-  fetchUserRequestedAction: any;
+  fetchUserRequestedAction(): void;
+  selectedTrackerId: number | null;
+  selectedTrackerAction(): void;
+  resetSelectedSingleTrackerAction(): void;
 }
+
 function HomeContainer(props: Props) {
   const { userAgent, fetchUserRequestedAction, ...rest } = props;
-
   const isMobile = Boolean(
     userAgent?.match(
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
@@ -48,12 +57,16 @@ function HomeContainer(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
+  selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
+  selectedTrackerAction: (id: number) =>
+    dispatch(selectedSingleTrackerRequestAction(id)),
+  onResetSelectedTrackerID: () => dispatch(resetSelectedTrackerIdAction()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

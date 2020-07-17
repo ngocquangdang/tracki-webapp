@@ -60,6 +60,7 @@ function normalizeDevices(data: { devices: Array<any> }) {
       trackers: {},
       trackerIds: [],
       trackerPlans: {},
+      selectedTrackerId: null,
     }
   );
   return tracker;

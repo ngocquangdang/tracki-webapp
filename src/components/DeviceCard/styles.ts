@@ -12,6 +12,7 @@ const Card = styled.li`
   &:last-child {
     border-bottom: none;
   }
+  cursor: pointer;
 `;
 
 const Item = styled.div`

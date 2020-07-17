@@ -9,12 +9,20 @@ import Tabs from '@material-ui/core/Tabs';
 import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
 
 import { Container, TabStyle, MapView, useStyles } from './styles';
+import SingleTracker from '@Components/SingleTracker';
 
 const ListDevice = dynamic(() => import('../../trackers'));
 const ListGeoFence = dynamic(() => import('../../geofence'));
 
 export default function HomeContainer(props: any) {
-  const { trackers, trackerIds, isRequesting } = props;
+  const {
+    trackers,
+    trackerIds,
+    isRequesting,
+    selectedTrackerId,
+    selectedTrackerAction,
+    onResetSelectedTrackerID,
+  } = props;
   const classes = useStyles();
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const [currentTab, setTab] = useState(0);
@@ -29,41 +37,58 @@ export default function HomeContainer(props: any) {
   return (
     <Container>
       <SideBar opened={isOpenSidebar} onChange={handleChangee}>
-        <Paper className={classes.border}>
-          <Tabs
-            value={currentTab}
-            onChange={onChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            className={classes.heightTab}
-          >
-            <TabStyle label="Trackers" key={1} className={classes.tabItem} />
-            <TabStyle label="Geo-Fence" key={2} className={classes.tabItem} />
-          </Tabs>
-        </Paper>
-        <TabPanel
-          value={currentTab}
-          index={0}
-          placeholder="Search devices by name or ID"
-        >
-          <ListDevice
-            isLoading={isRequesting}
-            trackers={trackers}
-            trackerIds={trackerIds}
+        {selectedTrackerId ? (
+          <SingleTracker
+            tracker={trackers[selectedTrackerId]}
+            onClickBack={onResetSelectedTrackerID}
           />
-        </TabPanel>
-        <TabPanel
-          value={currentTab}
-          index={1}
-          placeholder="Search geo-fences by name"
-        >
-          <ListGeoFence
-            isLoading={isRequesting}
-            geo_fence={trackers?.geo_fence || []}
-            deviceIds={trackerIds || []}
-          />
-        </TabPanel>
+        ) : (
+          <>
+            <Paper className={classes.border}>
+              <Tabs
+                value={currentTab}
+                onChange={onChangeTab}
+                indicatorColor="primary"
+                textColor="primary"
+                centered
+                className={classes.heightTab}
+              >
+                <TabStyle
+                  label="Trackers"
+                  key={1}
+                  className={classes.tabItem}
+                />
+                <TabStyle
+                  label="Geo-Fence"
+                  key={2}
+                  className={classes.tabItem}
+                />
+              </Tabs>
+            </Paper>
+            <TabPanel
+              value={currentTab}
+              index={0}
+              placeholder="Search devices by name or ID"
+            >
+              <ListDevice
+                trackers={trackers}
+                trackerIds={trackerIds}
+                selectedTrackerAction={selectedTrackerAction}
+              />
+            </TabPanel>
+            <TabPanel
+              value={currentTab}
+              index={1}
+              placeholder="Search geo-fences by name"
+            >
+              <ListGeoFence
+                isLoading={isRequesting}
+                geo_fence={trackers?.geo_fence || []}
+                deviceIds={trackerIds || []}
+              />
+            </TabPanel>{' '}
+          </>
+        )}
       </SideBar>
       <MapView fullWidth={!isOpenSidebar}>
         <Map
