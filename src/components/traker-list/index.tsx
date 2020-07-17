@@ -6,12 +6,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from '@Server/i18n';
 import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
+import { searchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
   makeSelectLoading,
   makeSelectTrackerIds,
   makeSelectTrackers,
 } from '@Containers/App/store/selectors';
-
+import { debounce } from 'lodash';
 import { FiPlus } from 'react-icons/fi';
 
 import {
@@ -27,13 +28,27 @@ import {
 import { Button } from '@Components/buttons';
 import Device from '@Components/DeviceCard';
 
-function ListDeviceTrackerMobile(props: any) {
+interface Props {
+  isLoading: boolean;
+  trackers: object;
+  isMobile?: boolean;
+  t(key: string, format?: object): string;
+  trackerIds: Array<number>;
+  searchTrackersRequest(key: string | null): void;
+}
+
+function ListDeviceTrackerMobile(props: Props) {
   const classes = useStyles();
   const [isFullWidth, setWidthSearch] = useState(false);
-  const { isLoading, trackers, t, trackerIds } = props;
+  const { trackers, t, trackerIds, searchTrackersRequest, isMobile } = props;
 
   const handleFocusInput = () => setWidthSearch(true);
   const handleBlurInput = () => setWidthSearch(false);
+
+  const debounceSearch = debounce(
+    (v: string | null) => searchTrackersRequest(v),
+    300
+  );
 
   return (
     <Container>
@@ -53,14 +68,17 @@ function ListDeviceTrackerMobile(props: any) {
             onFocus={handleFocusInput}
             onBlur={handleBlurInput}
             isFullWidth={isFullWidth}
+            onChange={event => debounceSearch(event.target.value)}
           ></SearchInput>
         </Search>
       </SearchBar>
       <Content>
-        {trackerIds &&
-          trackerIds.map(i => (
-            <Device device={trackers[i]} key={i} isLoading={isLoading} />
-          ))}
+        {trackerIds
+          ? trackerIds.map(id => (
+              // eslint-disable-next-line react/jsx-indent
+              <Device key={id} tracker={trackers[id]} isMobile={isMobile} />
+            ))
+          : [1, 2].map(i => <Device key={i} isLoading isMobile={isMobile} />)}
       </Content>
       <Footer>
         <Button
@@ -82,7 +100,10 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getDevcieRequest: (data: any) => dispatch(fetchTrackersRequestedAction(data)),
+  getTrackerRequest: (data: any) =>
+    dispatch(fetchTrackersRequestedAction(data)),
+  searchTrackersRequest: (search: string | null) =>
+    dispatch(searchTrackersRequestedAction(search)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

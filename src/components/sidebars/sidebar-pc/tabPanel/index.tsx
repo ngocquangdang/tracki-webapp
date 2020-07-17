@@ -28,7 +28,9 @@ export default function TabPanel(props: Props) {
               variant="outlined"
               color="secondary"
               type="search"
-              InputProps={{ classes: { input: classes.input } }}
+              InputProps={{
+                classes: { root: classes.inputRoot, input: classes.input },
+              }}
             />
           </SearchInput>
           <Content>{children}</Content>

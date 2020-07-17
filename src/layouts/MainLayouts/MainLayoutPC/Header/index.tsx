@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { Toolbar, AppBar } from '@material-ui/core';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import {
@@ -11,78 +10,77 @@ import {
   Settings as SettingsIcon,
 } from '@material-ui/icons';
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
 import Menu from '../Menu';
-import { useStyles, LinkStyle, Item } from './styles';
+import { useStyles } from './styles';
+
+type ROUTE = {
+  index: number;
+  icon: JSX.Element;
+  label: string;
+  link: string;
+};
 
 const routes = [
   {
+    index: 0,
     label: 'View Trackers',
     icon: <NearMeIcon />,
     link: '/home',
   },
   {
+    index: 1,
     label: 'Notifications',
     icon: <NotificationsIcon />,
     link: '/notifications',
   },
   {
+    index: 2,
     label: 'Dashboard',
     icon: <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />,
     link: '/dashboard',
   },
   {
+    index: 3,
     label: 'Tracking',
     icon: <LocationIcon />,
     link: '/tracking',
   },
   {
+    index: 4,
     label: 'Reports',
     icon: <BarChartIcon />,
     link: '/reports',
   },
   {
+    index: 5,
     label: 'Contacts',
     icon: <ContactsIcon />,
     link: '/contacts',
   },
   {
+    index: 6,
     label: 'Settings',
     icon: <SettingsIcon />,
     link: '/settings',
   },
 ];
 
-type MenuType = { icon: JSX.Element; label: string; link: string };
-
 export default function Header() {
   const classes = useStyles();
   const [currentLink, setCurrentLink] = useState('');
+  const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
     let link = '';
     link = window.location.pathname;
     setCurrentLink(link);
   }, [currentLink]);
-  const onClickLink = (link: string) => () => {
-    setCurrentLink(link);
-  };
 
-  const renderMenuButton = ({ icon, label, link }: MenuType) => {
-    const isActive = link === currentLink;
-    return (
-      <Item key={label}>
-        <Link href={link}>
-          <LinkStyle
-            onClick={onClickLink(link)}
-            color={isActive ? 'primary' : 'secondary'}
-            className={classes.linkBtn}
-            underline="none"
-          >
-            {icon} {label}
-          </LinkStyle>
-        </Link>
-      </Item>
-    );
+  const onClickTab = (r: ROUTE) => () => {
+    setCurrentTab(r.index);
   };
 
   return (
@@ -93,7 +91,27 @@ export default function Header() {
             <div className={classes.logoWrapper}>
               <img src={'images/logo.png'} alt="" className={classes.logo} />
             </div>
-            <div className={classes.row}>{routes.map(renderMenuButton)}</div>
+            <Tabs
+              value={currentTab}
+              indicatorColor="primary"
+              textColor="primary"
+              aria-label="tabs menu"
+              classes={{ root: classes.tabRoot }}
+            >
+              {routes.map(r => (
+                <Tab
+                  key={r.index}
+                  value={r.index}
+                  onClick={onClickTab(r)}
+                  icon={r.icon}
+                  label={r.label}
+                  classes={{
+                    root: classes.tabItemRoot,
+                    labelIcon: classes.tabIcon,
+                  }}
+                />
+              ))}
+            </Tabs>
           </div>
           <Menu />
         </Toolbar>

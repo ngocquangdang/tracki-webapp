@@ -60,3 +60,19 @@ export const logoutFailedAction = () => {
     type: types.LOGOUT_FAILED,
   };
 };
+export const searchTrackersRequestedAction = (search: string | null) => ({
+  type: types.SEARCH_TRACKERS_REQUESTED,
+  payload: { search },
+});
+
+export const searchTrackersSucceedAction = (
+  trackerIds: Array<number | string>
+) => ({
+  type: types.SEARCH_TRACKERS_SUCCEED,
+  payload: { trackerIds },
+});
+
+export const searchTrackersFailedAction = (error: object) => ({
+  type: types.SEARCH_TRACKERS_FAILED,
+  payload: { error },
+});

@@ -1,9 +1,10 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, select } from 'redux-saga/effects';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
 import CookieInstance from '@Utils/cookie';
+import { makeSelectTrackers } from '../selectors';
 
 function* fetchProfileSaga() {
   try {
@@ -75,8 +76,26 @@ export function* logoutSaga() {
   }
   yield put(actions.logoutFailedAction());
 }
+function* searchTrackersSaga(action) {
+  try {
+    const trackers = yield select(makeSelectTrackers());
+    const searchKey = action.payload.search || '';
+    const newIds = Object.keys(trackers).filter(id =>
+      trackers[id].device_name.toLowerCase().includes(searchKey.toLowerCase())
+    );
+    yield put(actions.searchTrackersSucceedAction(newIds));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: { email: data.message },
+    };
+    yield put(actions.searchTrackersFailedAction(payload));
+  }
+}
 export default function* appWatcher() {
   yield takeLatest(types.GET_PROFILE_REQUESTED, fetchProfileSaga);
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.LOGOUT_REQUESTED, logoutSaga);
+  yield takeLatest(types.SEARCH_TRACKERS_REQUESTED, searchTrackersSaga);
 }

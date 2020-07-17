@@ -24,7 +24,14 @@ export interface AppInitialPropsWithAuth {
 
 export interface GlobalTypes {
   profile: object | null;
-  tracker: object | null;
+  tracker: {
+    trackers: object | null;
+    trackerIds: Array<number | string> | null;
+    trackerPlans: object | null;
+    [data: string]: any;
+  };
   isLoading: boolean;
   errors: object | null;
 }
+
+export type { ITracker } from './tracker';
