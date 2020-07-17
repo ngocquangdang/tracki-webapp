@@ -96,6 +96,6 @@ function* searchTrackersSaga(action) {
 export default function* appWatcher() {
   yield takeLatest(types.GET_PROFILE_REQUESTED, fetchProfileSaga);
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
-  yield takeLatest(types.LOGOUT_REQUESTED, logoutSaga);
+  yield takeLatest(types.LOGOUT, logoutSaga);
   yield takeLatest(types.SEARCH_TRACKERS_REQUESTED, searchTrackersSaga);
 }

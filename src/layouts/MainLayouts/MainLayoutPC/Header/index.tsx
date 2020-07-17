@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Route from 'next/router';
 import { Toolbar, AppBar } from '@material-ui/core';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import {
@@ -81,6 +82,7 @@ export default function Header() {
 
   const onClickTab = (r: ROUTE) => () => {
     setCurrentTab(r.index);
+    Route.push(r.link);
   };
 
   return (

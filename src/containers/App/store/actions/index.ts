@@ -45,7 +45,7 @@ export const fetchTrackersFailedAction = (error: object) => ({
 
 export const logoutRequestAction = () => {
   return {
-    type: types.LOGOUT_REQUESTED,
+    type: types.LOGOUT,
   };
 };
 
