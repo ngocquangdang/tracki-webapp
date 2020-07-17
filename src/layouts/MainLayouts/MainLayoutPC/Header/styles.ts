@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     objectFit: 'contain',
-    height: 24,
+    height: 35.4,
   },
   btnRoot: {
     color: theme.palette.secondary.main,

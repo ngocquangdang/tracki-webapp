@@ -29,6 +29,7 @@ const MapView = styled.div`
     width: 100%;
   }
 `;
+
 const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#4b4f56 !important',
@@ -65,7 +66,10 @@ const useStyles = makeStyles(theme => ({
     background: 'linear-gradient(rgba(0,0,0,0.5) -50%, rgba(0,0,0,0) 8%)',
   },
   heightTab: {
-    minHeight: 55,
+    height: '100%'
+  },
+  tabItem: {
+    // width: '100%'
   },
   relative: {
     position: 'relative',
@@ -95,13 +99,17 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
 const TabStyle = withStyles(theme => ({
   wrapper: {
     flexDirection: 'row',
+    fontWeight: 300,
+    fontSize: 18,
     '& > *:first-child': {
       marginBottom: '0 !important',
       marginRight: '6px',
     },
   },
 }))(Tab);
+
 export { Container, TabStyle, MapView, ContainerSideBar, useStyles };
