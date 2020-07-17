@@ -19,7 +19,7 @@ import {
 
 export default function Device(props: any) {
   const classes = useStyles();
-  const { tracker, isLoading, isMobile } = props;
+  const { tracker, isLoading, isMobile, onClickTracker } = props;
 
   if (isLoading) {
     return (
@@ -50,7 +50,7 @@ export default function Device(props: any) {
     );
   }
   return (
-    <Card key={tracker.device_id} isMobile={isMobile}>
+    <Card key={tracker.device_id} isMobile={isMobile} onClick={onClickTracker}>
       <Item>
         <ImageWrapper>
           <Image src={tracker.icon_url || 'images/image-device.png'} alt="" />

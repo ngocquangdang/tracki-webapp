@@ -59,3 +59,10 @@ export const searchTrackersFailedAction = (error: object) => ({
   type: types.SEARCH_TRACKERS_FAILED,
   payload: { error },
 });
+
+export const selectedSingleTrackerRequestAction = (
+  selectedTrackerId: number
+) => ({
+  type: types.SELECTED_TRACKERS_REQUESTED,
+  payload: { selectedTrackerId },
+});

@@ -9,10 +9,11 @@ import Device from '@Components/DeviceCard';
 interface Props {
   trackers: object;
   trackerIds: Array<string | number>;
+  selectedSingleTracker: any;
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds } = props;
+  const { trackers, trackerIds, selectedSingleTracker } = props;
   const classes = useStyles();
 
   return (
@@ -20,7 +21,14 @@ export default function ListDevice(props: Props) {
       <Content>
         <ListItem>
           {trackerIds
-            ? trackerIds.map(i => <Device tracker={trackers[i]} key={i} />)
+            ? trackerIds.map(i => (
+                // eslint-disable-next-line react/jsx-indent
+                <Device
+                  key={i}
+                  tracker={trackers[i]}
+                  onClickTracker={() => selectedSingleTracker(i)}
+                />
+              ))
             : [1, 2].map(i => <Device key={i} isLoading />)}
         </ListItem>
       </Content>

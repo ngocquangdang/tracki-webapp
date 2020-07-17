@@ -9,14 +9,19 @@ import {
   makeSelectProfile,
   makeSelectTrackers,
   makeSelectTrackerIds,
+  makeSelectSingleTrackerId,
 } from '@Containers/App/store/selectors';
 
 import { ViewHomePC, ViewHomeMobile } from './views';
 import { MainLayoutMobile, MainLayout } from '@Layouts';
-import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import {
+  fetchUserRequestedAction,
+  selectedSingleTrackerRequestAction,
+} from '@Containers/App/store/actions';
 interface Props {
   userAgent?: string;
-  fetchUserRequestedAction: any;
+  fetchUserRequestedAction(): void;
+  selectedSingleTracker(): void;
 }
 function HomeContainer(props: Props) {
   const { userAgent, fetchUserRequestedAction, ...rest } = props;
@@ -50,10 +55,13 @@ const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
+  selectedTrackerId: makeSelectSingleTrackerId(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
+  selectedSingleTracker: (id: number) =>
+    dispatch(selectedSingleTrackerRequestAction(id)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
