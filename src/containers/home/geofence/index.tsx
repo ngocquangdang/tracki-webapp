@@ -9,12 +9,12 @@ const listGeoFence = [
   {
     name: 'Steve Rodgers truck',
     active: true,
-    id: 1,
+    device_id: 1,
   },
   {
     name: 'Steve Rodgers truckter',
     active: false,
-    id: 2,
+    device_id: 2,
   },
 ];
 

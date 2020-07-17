@@ -1,33 +1,21 @@
 import styled from 'styled-components';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
-import { withStyles, makeStyles } from '@material-ui/core';
 
-const Container = styled.div`
-  display: flex;
-  position: relative;
-  @media (min-width: 959.95px) {
-    height: calc(100vh - 64px);
-  }
+const Content = styled.div`
   width: 100%;
+  max-width: 400px;
+  top: 0;
+  box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.12);
+  border: solid 1px var(--e-0-e-0-e-0-border-color);
+  background-color: #ffffff;
   @media (max-width: 959.95px) {
-    height: calc(100vh - 101px);
+    margin: auto;
   }
 `;
-
-export const ContainerSideBar = styled.div`
-  @media (max-width: 959.95px) {
-    display: none;
-  }
-`;
-
-const MapView = styled.div`
-  position: relative;
-  height: 100%;
-  width: ${(props: { fullWidth?: boolean }) =>
-    props.fullWidth ? '100%' : 'calc(100% - 320px)'};
-  @media (max-width: 959.95px) {
-    width: 100%;
-  }
+const Sidebar = styled.div`
+  position: absolute;
+  width: 100%;
 `;
 const useStyles = makeStyles(theme => ({
   backBtn: {
@@ -61,8 +49,6 @@ const useStyles = makeStyles(theme => ({
   border: {
     borderRadius: 0,
     height: 55,
-    boxShadow: '0 3px 4px 0 rgba(0, 0, 0, 0.12)',
-    background: 'linear-gradient(rgba(0,0,0,0.5) -50%, rgba(0,0,0,0) 8%)',
   },
   heightTab: {
     minHeight: 55,
@@ -73,22 +59,17 @@ const useStyles = makeStyles(theme => ({
   },
   absolute: {
     position: 'absolute',
-    left: 400,
+    right: -25,
     top: 0,
     color: 'black',
-    zIndex: 1,
-  },
-  absoluteFirst: {
-    position: 'absolute',
   },
   btnIcon: {
     color: '#1a1a1a',
     width: 26,
     height: 55,
-    background: '#f5f5f5',
+    background: '#ffffff',
     borderRadius: 0,
-    borderLeft: '1px solid #D4D4D4',
-    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+    boxShadow: '3px 0 4px 0 rgba(0, 0, 0, 0.12)',
     minWidth: 'auto',
     '&:hover': {
       background: '#ffffff',
@@ -104,4 +85,5 @@ const TabStyle = withStyles(theme => ({
     },
   },
 }))(Tab);
-export { Container, TabStyle, MapView, useStyles };
+
+export { Content, TabStyle, Sidebar, useStyles };

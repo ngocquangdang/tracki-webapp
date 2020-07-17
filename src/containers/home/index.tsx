@@ -11,18 +11,35 @@ import {
   makeSelectTrackerIds,
 } from '@Containers/App/store/selectors';
 
-import View from './views';
-// import DevicePage from './interfaces';
+import { ViewHomePC, ViewHomeMobile } from './views';
+import { MainLayoutMobile, MainLayout } from '@Layouts';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+interface Props {
+  userAgent?: string;
+  fetchUserRequestedAction: any;
+}
+function HomeContainer(props: Props) {
+  const { userAgent, fetchUserRequestedAction } = props;
 
-function HomeContainer(props: any) {
-  const { fetchUserRequestedAction } = props;
+  const isMobile = Boolean(
+    userAgent?.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
 
   useEffect(() => {
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 
-  return <View {...props} />;
+  return isMobile ? (
+    <MainLayoutMobile>
+      <ViewHomeMobile />
+    </MainLayoutMobile>
+  ) : (
+    <MainLayout>
+      <ViewHomePC />
+    </MainLayout>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({

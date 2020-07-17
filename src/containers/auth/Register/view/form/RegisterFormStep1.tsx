@@ -33,18 +33,20 @@ function RegisterFormStep1(props: IRegisterPage.IProps) {
       }) => (
         <Form onSubmit={handleSubmit}>
           <TextInput
+            id="username"
             className={classes.margin}
             label={t('auth:email_address')}
             name="username"
             value={values.username}
-            onChange={handleChange('username')}
-            onBlur={handleBlur('username')}
+            onChange={handleChange}
+            onBlur={handleBlur}
             errorInput={
               errorsForm.username && touched.username
                 ? t(errorsForm.username)
                 : errors.username
             }
             variant="outlined"
+            autoComplete="off"
           />
           <PasswordInput
             className={classes.margin}

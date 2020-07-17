@@ -45,6 +45,7 @@ function LoginForm(props: ILoginPage.IProps) {
       }) => (
         <Form onSubmit={handleSubmit}>
           <TextInput
+            id="username"
             className={classes.margin}
             label={t('auth:email_address')}
             name="username"
@@ -58,8 +59,10 @@ function LoginForm(props: ILoginPage.IProps) {
             }
             onBlur={handleBlur('username')}
             variant="outlined"
+            autoComplete="off"
           />
           <TextInput
+            id="password"
             className={classes.margin}
             label={t('password')}
             name="password"
@@ -73,6 +76,7 @@ function LoginForm(props: ILoginPage.IProps) {
             onChange={handleChange('password')}
             onBlur={handleBlur('password')}
             variant="outlined"
+            autoComplete="off"
           />
           {errorMessage && (
             <Message className={classes.errorText}>{errorMessage}</Message>

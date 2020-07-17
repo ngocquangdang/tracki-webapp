@@ -34,11 +34,6 @@ function TextFieldComp(props: Props) {
       InputProps={{
         className: classes.heightInput,
       }}
-      inputProps={{
-        form: {
-          autoComplete: 'off',
-        },
-      }}
       onChange={onChange}
       FormHelperTextProps={{ classes: { root: classes.errorRoot } }}
       InputLabelProps={{ shrink: true }}

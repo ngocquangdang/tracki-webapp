@@ -18,13 +18,12 @@ const Card = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 11px 0;
   border-bottom: 1px solid #f5f5f5;
-  height: 70px;
 `;
 const Item = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 10px;
 `;
 const Image = styled.img`
   width: 50px;
@@ -35,15 +34,8 @@ const Image = styled.img`
   object-fit: contain;
   margin-right: 16px;
 `;
-const ItemInfo = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 172px;
-`;
+const ItemInfo = styled.div``;
 const Name = styled.p`
-  overflow: hidden;
-  text-overflow: ellipsis;
   margin: 4px 0;
   font-size: 14px;
 `;
@@ -53,9 +45,7 @@ const Time = styled.div`
   font-size: 12px;
   color: #b7b7b7;
 `;
-const CardDetail = styled.div`
-  margin-right: 10px;
-`;
+const CardDetail = styled.div``;
 const TimeActive = styled.span`
   font-size: 12px;
   color: #b7b7b7;
@@ -85,14 +75,8 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.contrastText,
     },
   },
-  iconSetting: {
-    color: '#666666',
-  },
   icon: {
     color: theme.palette.primary.main,
-  },
-  skeleton: {
-    backgroundColor: '#f2f2f2',
   },
 }));
 const TextInput = withStyles(theme => ({
