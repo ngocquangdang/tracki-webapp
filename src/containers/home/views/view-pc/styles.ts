@@ -5,19 +5,8 @@ import { withStyles, makeStyles } from '@material-ui/core';
 const Container = styled.div`
   display: flex;
   position: relative;
-  @media only screen and (min-width: 959.95px) {
-    height: calc(100vh - 64px);
-  }
+  height: calc(100vh - 64px);
   width: 100%;
-  @media (max-width: 959.95px) {
-    height: calc(100vh - 101px);
-  }
-`;
-
-const ContainerSideBar = styled.div`
-  @media only screen and (max-width: 959.95px) {
-    display: none;
-  }
 `;
 
 const MapView = styled.div`
@@ -68,9 +57,6 @@ const useStyles = makeStyles(theme => ({
   heightTab: {
     height: '100%',
   },
-  tabItem: {
-    // width: '100%'
-  },
   relative: {
     position: 'relative',
     top: 0,
@@ -112,4 +98,4 @@ const TabStyle = withStyles(theme => ({
   },
 }))(Tab);
 
-export { Container, TabStyle, MapView, ContainerSideBar, useStyles };
+export { Container, TabStyle, MapView, useStyles };

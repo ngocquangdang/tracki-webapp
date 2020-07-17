@@ -8,3 +8,8 @@ export const LOGOUT_REQUESTED = 'Tracki/App/LOGOUT_REQUESTED';
 export const LOGOUT_SUCCEED = 'Tracki/App/LOGOUT_SUCCEED';
 export const SHOW_LOADING = 'Tracki/App/SHOW_LOADING';
 export const HIDE_LOADING = 'Tracki/App/HIDE_LOADING';
+export const SEARCH_TRACKERS_REQUESTED =
+  'TrackiMobile/App/SEARCH_TRACKERS_REQUESTED';
+export const SEARCH_TRACKERS_SUCCEED =
+  'TrackiMobile/App/SEARCH_TRACKERS_SUCCEED';
+export const SEARCH_TRACKERS_FAILED = 'TrackiMobile/App/SEARCH_TRACKERS_FAILED';

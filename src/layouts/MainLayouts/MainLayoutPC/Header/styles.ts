@@ -11,9 +11,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#fff',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
   },
   wrapper: {
     display: 'flex',
