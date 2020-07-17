@@ -27,7 +27,6 @@ const Card = styled.li`
 const Item = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 15px;
 `;
 const ImageWrapper = styled.div`
   width: 50px;
@@ -60,6 +59,7 @@ const Time = styled.div`
   align-items: center;
   font-size: 12px;
   color: #b7b7b7;
+  margin-left: -3px;
 `;
 const CardDetail = styled.div`
   margin-right: 15px;

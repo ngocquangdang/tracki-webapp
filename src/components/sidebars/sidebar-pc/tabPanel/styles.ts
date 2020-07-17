@@ -5,7 +5,7 @@ const Container = styled.div``;
 const SearchInput = styled.div``;
 
 const Content = styled.div`
-  padding: 15px;
+  padding: 0 15px;
 `;
 const useStyles = makeStyles(theme => ({
   inputRoot: {
