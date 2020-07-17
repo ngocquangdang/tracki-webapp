@@ -31,6 +31,7 @@ import Device from '@Components/DeviceCard';
 interface Props {
   isLoading: boolean;
   trackers: object;
+  isMobile?: boolean;
   t(key: string, format?: object): string;
   trackerIds: Array<number>;
   searchTrackersRequest(key: string | null): void;
@@ -39,7 +40,7 @@ interface Props {
 function ListDeviceTrackerMobile(props: Props) {
   const classes = useStyles();
   const [isFullWidth, setWidthSearch] = useState(false);
-  const { isLoading, trackers, t, trackerIds, searchTrackersRequest } = props;
+  const { trackers, t, trackerIds, searchTrackersRequest, isMobile } = props;
 
   const handleFocusInput = () => setWidthSearch(true);
   const handleBlurInput = () => setWidthSearch(false);
@@ -72,10 +73,12 @@ function ListDeviceTrackerMobile(props: Props) {
         </Search>
       </SearchBar>
       <Content>
-        {trackerIds &&
-          trackerIds.map(i => (
-            <Device device={trackers[i]} key={i} isLoading={isLoading} />
-          ))}
+        {trackerIds
+          ? trackerIds.map(id => (
+              // eslint-disable-next-line react/jsx-indent
+              <Device key={id} tracker={trackers[id]} isMobile={isMobile} />
+            ))
+          : [1, 2].map(i => <Device key={i} isLoading isMobile={isMobile} />)}
       </Content>
       <Footer>
         <Button
@@ -97,7 +100,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getDevcieRequest: (data: any) => dispatch(fetchTrackersRequestedAction(data)),
+  getTrackerRequest: (data: any) =>
+    dispatch(fetchTrackersRequestedAction(data)),
   searchTrackersRequest: (search: string | null) =>
     dispatch(searchTrackersRequestedAction(search)),
 });

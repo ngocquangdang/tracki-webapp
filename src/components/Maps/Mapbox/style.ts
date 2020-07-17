@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 
-const MapBox = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-`;
 const NavigationControl = styled.div`
   position: absolute;
   bottom: 0;
@@ -16,4 +10,4 @@ const NavigationControl = styled.div`
   height: 100%;
 `;
 
-export { MapBox, NavigationControl };
+export { NavigationControl };

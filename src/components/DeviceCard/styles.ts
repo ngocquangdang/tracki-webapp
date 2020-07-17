@@ -20,23 +20,30 @@ const Card = styled.li`
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
   height: 70px;
+  padding-left: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '12px' : 0};
   &:last-child {
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: none;
   }
 `;
+
 const Item = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 15px;
+`;
+const ImageWrapper = styled.div`
+  width: 50px;
+  border-radius: 25px;
+  height: 50px;
+  display: flex;
+  background: #168449;
+  margin-right: 16px;
 `;
 const Image = styled.img`
-  width: 50px;
-  height: 50px;
-  padding: 6px;
-  background: #168449;
-  border-radius: 100px;
+  width: 34px;
+  height: 34px;
+  margin: auto;
   object-fit: contain;
-  margin-right: 16px;
 `;
 const ItemInfo = styled.div`
   white-space: nowrap;
@@ -55,6 +62,7 @@ const Time = styled.div`
   align-items: center;
   font-size: 12px;
   color: #b7b7b7;
+  margin-left: -3px;
 `;
 const CardDetail = styled.div`
   margin-right: 15px;
@@ -122,6 +130,7 @@ export {
   SearchInput,
   TextInput,
   ListItem,
+  ImageWrapper,
   Card,
   Item,
   Image,

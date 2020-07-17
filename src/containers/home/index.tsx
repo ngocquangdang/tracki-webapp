@@ -19,7 +19,7 @@ interface Props {
   fetchUserRequestedAction: any;
 }
 function HomeContainer(props: Props) {
-  const { userAgent, fetchUserRequestedAction } = props;
+  const { userAgent, fetchUserRequestedAction, ...rest } = props;
 
   const isMobile = Boolean(
     userAgent?.match(
@@ -31,13 +31,17 @@ function HomeContainer(props: Props) {
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 
-  return isMobile ? (
-    <MainLayoutMobile>
-      <ViewHomeMobile />
-    </MainLayoutMobile>
-  ) : (
+  if (isMobile) {
+    return (
+      <MainLayoutMobile>
+        <ViewHomeMobile {...rest} />
+      </MainLayoutMobile>
+    );
+  }
+
+  return (
     <MainLayout>
-      <ViewHomePC />
+      <ViewHomePC {...rest} />
     </MainLayout>
   );
 }

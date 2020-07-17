@@ -5,11 +5,18 @@ const Container = styled.div``;
 const SearchInput = styled.div``;
 
 const Content = styled.div`
-  padding: 15px;
+  padding: 0 15px;
 `;
 const useStyles = makeStyles(theme => ({
+  inputRoot: {
+    borderColor: '#e0e0e0',
+    borderRadius: 6,
+  },
   input: {
+    fontSize: 15,
+    lineHeight: 18,
     '&::placeholder': {
+      color: '#b7b7b7',
       textAlign: 'center',
     },
   },
