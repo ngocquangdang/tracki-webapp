@@ -20,7 +20,8 @@ const useStyles = makeStyles(theme => ({
     color: '#999',
   },
   menuRightLabel: {
-    fontSize: 9,
+    fontSize: 10.5,
+    fontWeight: 300,
     color: '#999',
   },
   menuItemIcon: {
