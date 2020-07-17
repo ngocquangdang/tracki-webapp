@@ -12,57 +12,12 @@ const Content = styled.div`
   top: 0;
   box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #e0e0e0;
-  /* background-color: #ffffff; */
-  @media (max-width: 959.95px) {
+  display: ${(props: { isOpen: boolean }) => (props.isOpen ? 'block' : 'none')}
+    @media (max-width: 959.95px) {
     margin: auto;
   }
 `;
-const Sidebar = styled.div`
-  position: absolute;
-  width: 100%;
-`;
 const useStyles = makeStyles(theme => ({
-  backBtn: {
-    color: '#4b4f56 !important',
-    padding: 0,
-    '& span svg': {
-      fontSize: '36px !important',
-    },
-    [theme.breakpoints.down(375)]: {
-      fontSize: '16px !important',
-      padding: 0,
-      '& span svg': {
-        width: 20,
-        height: 20,
-      },
-    },
-  },
-  logo: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'block',
-    },
-    [theme.breakpoints.down(375)]: {
-      height: 26,
-      width: 90,
-    },
-  },
-  arrow: {
-    width: 18,
-    height: 18,
-  },
-  border: {
-    borderRadius: 0,
-    height: 55,
-    boxShadow: '0 3px 4px 0 rgba(0, 0, 0, 0.12)',
-    background: 'linear-gradient(rgba(0,0,0,0.5) -50%, rgba(0,0,0,0) 8%)',
-  },
-  heightTab: {
-    minHeight: 55,
-  },
-  relative: {
-    position: 'relative',
-    top: 0,
-  },
   absolute: {
     position: 'absolute !important' as any,
     left: 399,
@@ -87,4 +42,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export { Container, Content, Sidebar, useStyles };
+export { Container, Content, useStyles };

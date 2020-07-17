@@ -10,19 +10,6 @@ const Item = styled.li`
   list-style: none;
   text-decoration: none;
 `;
-
-const SearchHeader = styled.div`
-  display: flex;
-  height: 34px;
-  padding: 10px;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #1a1a1a;
-  border-bottom: 1px solid #e0e0e0;
-`;
-const DeviceTrackers = styled.div`
-  color:'#1a1a1a;
-`;
 const MenuButton = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,13 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
   },
   linkBtn: {
     display: 'flex',
@@ -82,13 +62,4 @@ const LinkStyle = withStyles(theme => ({
   },
 }))(Link);
 
-export {
-  useStyles,
-  SearchHeader,
-  LinkStyle,
-  Item,
-  Icon,
-  Label,
-  DeviceTrackers,
-  MenuButton,
-};
+export { useStyles, LinkStyle, Item, Icon, Label, MenuButton };

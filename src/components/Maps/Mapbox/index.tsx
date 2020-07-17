@@ -45,7 +45,6 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     const { trackers } = this.props;
     if (this.state.isInitiatedMap) {
       if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
-        console.log('00000', Object.values(trackers));
         this.isFirstFitBounce = true;
         const coords = Object.values(trackers).map(({ lat, lng }) => ({
           lat,
