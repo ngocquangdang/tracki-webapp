@@ -1,58 +1,66 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-
+import SearchIcon from '@material-ui/icons/Search';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from '@Server/i18n';
-import { fetchDevicesRequestedAction } from '@Containers/App/store/actions';
+import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
   makeSelectLoading,
-  makeSelectDivices,
+  makeSelectTrackerIds,
+  makeSelectTrackers,
 } from '@Containers/App/store/selectors';
 
 import { FiPlus } from 'react-icons/fi';
-import SearchIcon from '@material-ui/icons/Search';
 
-import { Container, Content, Footer, SearchBar, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  SearchBar,
+  SearchInput,
+  Search,
+  Title,
+  useStyles,
+} from './styles';
 import { Button } from '@Components/buttons';
 import Device from '@Components/DeviceCard';
 
-const listDevice = [
-  {
-    device_name: 'Steve Rodgers truck',
-    time: 'Last Updated: 3 days ago',
-    id: 1,
-  },
-  {
-    device_name: 'Steve Rodgers truckter',
-    time: 'Last Updated: 3 days ago',
-    id: 2,
-  },
-  {
-    device_name: 'Steve Rodgers truck truckkkkkkkkkk',
-    time: 'Last Updated: 3 days ago',
-    id: 3,
-  },
-  {
-    device_name: 'Steve Rodgers truckteraaaaaaaaaaaaaaaaaaaaaaaa',
-    time: 'Last Updated: 3 days ago',
-    id: 4,
-  },
-];
-
 function ListDeviceTrackerMobile(props: any) {
   const classes = useStyles();
-  // const { isLoading, devices } = props;
+  const [isFullWidth, setWidthSearch] = useState(false);
+  const { isLoading, trackers, t, trackerIds } = props;
+
+  const handleFocusInput = () => setWidthSearch(true);
+  const handleBlurInput = () => setWidthSearch(false);
+
   return (
     <Container>
       <SearchBar>
-        My Trackers
-        <SearchIcon className={classes.iconSearch} />
+        <Title isFullWidth={isFullWidth}>My Trackers</Title>
+        <Search>
+          {isFullWidth ? (
+            <ArrowBackIosIcon
+              className={classes.iconSearch}
+              onClick={handleBlurInput}
+            />
+          ) : (
+            <SearchIcon className={classes.iconSearch} />
+          )}
+          <SearchInput
+            placeholder={`${t('common:search')}`}
+            onFocus={handleFocusInput}
+            onBlur={handleBlurInput}
+            isFullWidth={isFullWidth}
+          ></SearchInput>
+        </Search>
       </SearchBar>
       <Content>
-        {listDevice.map(i => (
-          <Device device={i} key={i.id} isLoading />
-        ))}
+        {trackerIds &&
+          trackerIds.map(i => (
+            <Device device={trackers[i]} key={i} isLoading={isLoading} />
+          ))}
       </Content>
       <Footer>
         <Button
@@ -69,11 +77,12 @@ function ListDeviceTrackerMobile(props: any) {
 
 const mapStateToProps = createStructuredSelector({
   isLoading: makeSelectLoading(),
-  devices: makeSelectDivices(),
+  trackers: makeSelectTrackers(),
+  trackerIds: makeSelectTrackerIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getDevcieRequest: (data: any) => dispatch(fetchDevicesRequestedAction(data)),
+  getDevcieRequest: (data: any) => dispatch(fetchTrackersRequestedAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -81,5 +90,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo,
-  withTranslation(['auth'])
+  withTranslation(['auth', 'common'])
 )(ListDeviceTrackerMobile) as React.ComponentType;
