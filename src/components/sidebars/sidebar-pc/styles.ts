@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
 const Container = styled.div`
   width: ${(props: { opened?: boolean }) => (props.opened ? 400 : 0)};
@@ -64,14 +64,14 @@ const useStyles = makeStyles(theme => ({
     top: 0,
   },
   absolute: {
-    position: 'absolute',
+    position: 'absolute !important' as any,
     left: 400,
     top: 0,
     color: 'black',
     zIndex: 1,
   },
   absoluteFirst: {
-    position: 'absolute',
+    position: 'absolute !important' as any,
   },
   btnIcon: {
     color: '#1a1a1a',

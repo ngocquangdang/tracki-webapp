@@ -81,7 +81,7 @@ const IconSearch = styled.div`
   color: #9a9a9a;
 `;
 const DeviceTrackers = styled.div`
-  color:'#1a1a1a;
+  color: #1a1a1a;
 `;
 const Search = styled.div`
   display: flex;

@@ -11,9 +11,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#fff',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
   },
   wrapper: {
     display: 'flex',
@@ -28,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     objectFit: 'contain',
-    height: 24,
+    height: 35.4,
   },
   btnRoot: {
     color: theme.palette.secondary.main,
