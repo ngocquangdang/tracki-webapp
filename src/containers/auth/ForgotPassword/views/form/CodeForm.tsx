@@ -16,7 +16,6 @@ export default function CodeFrom(props: IForgotPage.IProps) {
   const classes = useStyles();
   const submitForm = (value: any) => {
     if (email) {
-      console.log(value);
       return confirmCodeRequestAction({ email, code: value.code });
     }
   };

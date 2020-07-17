@@ -8,7 +8,7 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import { withTranslation } from '@Server/i18n';
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { getUserRequestAction } from './store/actions';
+import { getUserRequestAction, updateUserRequestAction } from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
@@ -20,14 +20,14 @@ import UserDetail from './interfaces';
 import View from './views';
 
 function SettingContainer(props: UserDetail.IProps) {
-  useInjectSaga({ key: 'user', saga });
-  useInjectReducer({ key: 'user', reducer });
+  useInjectSaga({ key: 'profile', saga });
+  useInjectReducer({ key: 'profile', reducer });
 
-  const { getUserRequest } = props;
+  const { getUserRequestAction } = props;
 
   useEffect(() => {
-    getUserRequest();
-  }, [getUserRequest]);
+    getUserRequestAction();
+  }, [getUserRequestAction]);
 
   return <View {...props} />;
 }
@@ -40,8 +40,9 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getUserRequest: (data: UserDetail.IStateUser) =>
-    dispatch(getUserRequestAction(data)),
+  getUserRequestAction: () => dispatch(getUserRequestAction()),
+  updateUSerRequestAction: (data: UserDetail.IStateUser, id: number) =>
+    dispatch(updateUserRequestAction(data, id)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

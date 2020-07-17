@@ -21,3 +21,10 @@ export interface CookiesPageContext extends NextPageContext {
 export interface AppInitialPropsWithAuth {
   authenticated: boolean;
 }
+
+export interface GlobalTypes {
+  profile: object | null;
+  tracker: object | null;
+  isLoading: boolean;
+  errors: object | null;
+}

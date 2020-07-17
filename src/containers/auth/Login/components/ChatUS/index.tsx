@@ -14,7 +14,6 @@ const initialValuesForm = {
 };
 
 export default function ChatUs(props: ILoginPage.IProps) {
-  console.log('ChatUs -> props', props);
   const { chatusRequestAction, resetErrorAction, t } = props;
   const classes = useStyles();
   const submitForm = (values: ILoginPage.IStateChatUs) =>

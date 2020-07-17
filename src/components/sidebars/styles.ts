@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Container = styled.div`
   width: ${(props: { opened?: boolean }) => (props.opened ? 400 : 0)};
@@ -88,14 +87,5 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-const TabStyle = withStyles(theme => ({
-  wrapper: {
-    flexDirection: 'row',
-    '& > *:first-child': {
-      marginBottom: '0 !important',
-      marginRight: '6px',
-    },
-  },
-}))(Tab);
 
-export { Container, Content, TabStyle, Sidebar, useStyles };
+export { Container, Content, Sidebar, useStyles };
