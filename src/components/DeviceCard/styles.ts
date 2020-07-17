@@ -20,10 +20,13 @@ const Card = styled.li`
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
   height: 70px;
+  padding-left: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '12px' : 0};
   &:last-child {
     border-bottom: none;
   }
 `;
+
 const Item = styled.div`
   display: flex;
   align-items: center;

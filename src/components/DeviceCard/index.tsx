@@ -19,11 +19,11 @@ import {
 
 export default function Device(props: any) {
   const classes = useStyles();
-  const { device, isLoading, isMobile } = props;
+  const { tracker, isLoading, isMobile } = props;
 
   if (isLoading) {
     return (
-      <Card>
+      <Card isMobile={isMobile}>
         <Skeleton
           variant="circle"
           animation="wave"
@@ -50,17 +50,17 @@ export default function Device(props: any) {
     );
   }
   return (
-    <Card key={device.device_id}>
+    <Card key={tracker.device_id} isMobile={isMobile}>
       <Item>
         <ImageWrapper>
-          <Image src={device.icon_url || 'images/image-device.png'} alt="" />
+          <Image src={tracker.icon_url || 'images/image-device.png'} alt="" />
         </ImageWrapper>
         <ItemInfo>
-          <Name>{device.device_name}</Name>
+          <Name>{tracker.device_name}</Name>
           <Time>
             <GoPrimitiveDot className={classes.icon} />
             <TimeActive>
-              Last Updated: {moment(device.time * 1000).fromNow()}
+              Last Updated: {moment(tracker.time * 1000).fromNow()}
             </TimeActive>
           </Time>
         </ItemInfo>
