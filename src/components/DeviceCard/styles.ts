@@ -26,14 +26,19 @@ const Item = styled.div`
   align-items: center;
   margin-left: 10px;
 `;
-const Image = styled.img`
+const ImageWrapper = styled.div`
   width: 50px;
+  border-radius: 25px;
   height: 50px;
-  padding: 6px;
+  display: flex;
   background: #168449;
-  border-radius: 100px;
-  object-fit: contain;
   margin-right: 16px;
+`;
+const Image = styled.img`
+  width: 34px;
+  height: 34px;
+  margin: auto;
+  object-fit: contain;
 `;
 const ItemInfo = styled.div`
   white-space: nowrap;
@@ -119,6 +124,7 @@ export {
   SearchInput,
   TextInput,
   ListItem,
+  ImageWrapper,
   Card,
   Item,
   Image,

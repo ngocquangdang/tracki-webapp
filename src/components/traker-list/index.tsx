@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { withTranslation } from '@Server/i18n';
-import { fetchDevicesRequestedAction } from '@Containers/App/store/actions';
+import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
   makeSelectLoading,
-  makeSelectDivices,
+  makeSelectTrackers,
+  makeSelectTrackerIds,
 } from '@Containers/App/store/selectors';
 
 import { FiPlus } from 'react-icons/fi';
@@ -17,32 +18,10 @@ import { Container, Content, Footer, SearchBar, useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import Device from '@Components/DeviceCard';
 
-const listDevice = [
-  {
-    device_name: 'Steve Rodgers truck',
-    time: 'Last Updated: 3 days ago',
-    id: 1,
-  },
-  {
-    device_name: 'Steve Rodgers truckter',
-    time: 'Last Updated: 3 days ago',
-    id: 2,
-  },
-  {
-    device_name: 'Steve Rodgers truck truckkkkkkkkkk',
-    time: 'Last Updated: 3 days ago',
-    id: 3,
-  },
-  {
-    device_name: 'Steve Rodgers truckteraaaaaaaaaaaaaaaaaaaaaaaa',
-    time: 'Last Updated: 3 days ago',
-    id: 4,
-  },
-];
-
 function ListDeviceTrackerMobile(props: any) {
   const classes = useStyles();
-  // const { isLoading, devices } = props;
+  const { trackers, trackerIds } = props;
+
   return (
     <Container>
       <SearchBar>
@@ -50,9 +29,9 @@ function ListDeviceTrackerMobile(props: any) {
         <SearchIcon className={classes.iconSearch} />
       </SearchBar>
       <Content>
-        {listDevice.map(i => (
-          <Device device={i} key={i.id} isLoading />
-        ))}
+        {trackerIds
+          ? trackerIds.map(id => <Device key={id} tracker={trackers[id]} />)
+          : [1, 2].map(i => <Device key={i} isLoading />)}
       </Content>
       <Footer>
         <Button
@@ -69,11 +48,13 @@ function ListDeviceTrackerMobile(props: any) {
 
 const mapStateToProps = createStructuredSelector({
   isLoading: makeSelectLoading(),
-  devices: makeSelectDivices(),
+  trackers: makeSelectTrackers(),
+  trackerIds: makeSelectTrackerIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getDevcieRequest: (data: any) => dispatch(fetchDevicesRequestedAction(data)),
+  getTrackerRequest: (data: any) =>
+    dispatch(fetchTrackersRequestedAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

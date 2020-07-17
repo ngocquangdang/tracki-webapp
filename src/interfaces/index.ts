@@ -28,3 +28,5 @@ export interface GlobalTypes {
   isLoading: boolean;
   errors: object | null;
 }
+
+export type { ITracker } from './tracker';

@@ -15,6 +15,7 @@ import {
   CardDetail,
   TimeActive,
   useStyles,
+  ImageWrapper,
 } from './styles';
 
 export default function Device(props: any) {
@@ -52,7 +53,9 @@ export default function Device(props: any) {
   return (
     <Card key={device.device_id}>
       <Item>
-        <Image src={device.icon_url || 'images/tracki-device.png'} alt="" />
+        <ImageWrapper>
+          <Image src={device.icon_url || 'images/image-device.png'} alt="" />
+        </ImageWrapper>
         <ItemInfo>
           <Name>{device.device_name}</Name>
           <Time>
