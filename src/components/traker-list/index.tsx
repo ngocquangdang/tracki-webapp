@@ -1,32 +1,60 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-
+import SearchIcon from '@material-ui/icons/Search';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from '@Server/i18n';
 import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
   makeSelectLoading,
-  makeSelectTrackers,
   makeSelectTrackerIds,
+  makeSelectTrackers,
 } from '@Containers/App/store/selectors';
 
 import { FiPlus } from 'react-icons/fi';
-import SearchIcon from '@material-ui/icons/Search';
 
-import { Container, Content, Footer, SearchBar, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  SearchBar,
+  SearchInput,
+  Search,
+  Title,
+  useStyles,
+} from './styles';
 import { Button } from '@Components/buttons';
 import Device from '@Components/DeviceCard';
 
 function ListDeviceTrackerMobile(props: any) {
   const classes = useStyles();
-  const { trackers, trackerIds } = props;
+  const [isFullWidth, setWidthSearch] = useState(false);
+  const { trackers, t, trackerIds } = props;
+
+  const handleFocusInput = () => setWidthSearch(true);
+  const handleBlurInput = () => setWidthSearch(false);
 
   return (
     <Container>
       <SearchBar>
-        My Trackers
-        <SearchIcon className={classes.iconSearch} />
+        <Title isFullWidth={isFullWidth}>My Trackers</Title>
+        <Search>
+          {isFullWidth ? (
+            <ArrowBackIosIcon
+              className={classes.iconSearch}
+              onClick={handleBlurInput}
+            />
+          ) : (
+            <SearchIcon className={classes.iconSearch} />
+          )}
+          <SearchInput
+            placeholder={`${t('common:search')}`}
+            onFocus={handleFocusInput}
+            onBlur={handleBlurInput}
+            isFullWidth={isFullWidth}
+          ></SearchInput>
+        </Search>
       </SearchBar>
       <Content>
         {trackerIds
@@ -62,5 +90,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo,
-  withTranslation(['auth'])
+  withTranslation(['auth', 'common'])
 )(ListDeviceTrackerMobile) as React.ComponentType;

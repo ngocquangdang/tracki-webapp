@@ -18,13 +18,16 @@ const Card = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
   height: 70px;
+  &:last-child {
+    border-bottom: 1px solid #f5f5f5;
+  }
 `;
 const Item = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 15px;
 `;
 const ImageWrapper = styled.div`
   width: 50px;
@@ -59,7 +62,7 @@ const Time = styled.div`
   color: #b7b7b7;
 `;
 const CardDetail = styled.div`
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 const TimeActive = styled.span`
   font-size: 12px;

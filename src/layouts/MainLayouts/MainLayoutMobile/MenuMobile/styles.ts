@@ -15,17 +15,12 @@ const Content = styled.div`
 `;
 
 const Menu = styled.div`
-  @media (max-width: 959.95px) {
-    display: flex;
-    flex-direction: row;
-    background-color: #168449;
-    height: 45px;
-    width: 100%;
-    justify-content: space-around;
-  },
-  @media (min-width: 959.95px){
-    display: none;
-  },
+  display: flex;
+  flex-direction: row;
+  background-color: #168449;
+  height: 45px;
+  width: 100%;
+  justify-content: space-around;
 `;
 
 const useStyles = makeStyles(theme => ({
