@@ -9,6 +9,7 @@ import { NavigationControl } from './style';
 
 class Map extends Component<IMap.IProps, IMap.IState> {
   map: any;
+  isFirstFitBounce: boolean;
 
   constructor(props) {
     super(props);
@@ -42,7 +43,16 @@ class Map extends Component<IMap.IProps, IMap.IState> {
 
   renderMarkers = () => {
     const { trackers } = this.props;
-    if (this.state.isInitiatedMap && trackers) {
+    if (this.state.isInitiatedMap) {
+      if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
+        this.isFirstFitBounce = true;
+        const coords = Object.values(trackers).map(({ lat, lng }) => ({
+          lat,
+          lng,
+        }));
+        window.mapEvents.setFitBounds(coords);
+      }
+
       return Object.values(trackers).map(tracker => (
         <TrackerMarker
           key={tracker.device_id}

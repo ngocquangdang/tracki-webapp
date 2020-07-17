@@ -15,6 +15,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     fontSize: 12,
   },
+  menuRightIcon: {
+    fontSize: '2.8em',
+    color: '#999',
+  },
+  menuRightLabel: {
+    fontSize: 9,
+    color: '#999',
+  },
   menuItemIcon: {
     minWidth: 32,
   },
@@ -23,8 +31,10 @@ const useStyles = makeStyles(theme => ({
   },
   menuText: {
     '& span': {
-      fontSize: '0.8rem',
+      fontSize: 14,
       fontWeight: 300,
+      lineHeight: 17,
+      color: '#666',
     },
   },
 }));

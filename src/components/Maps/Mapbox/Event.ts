@@ -27,7 +27,7 @@ class MapBoxEvent {
     this.mapApi.zoomTo(nextZoom);
   };
 
-  setFitBounds = (coordinates, callback) => {
+  setFitBounds = (coordinates: Array<any>, callback) => {
     const newCoordinates = coordinates.map(({ lat, lng }) => [lng, lat]);
     const bounds = newCoordinates.reduce(
       (result, coord) => result.extend(coord),

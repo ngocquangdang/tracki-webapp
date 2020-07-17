@@ -6,7 +6,12 @@ import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import Device from '@Components/DeviceCard';
 
-export default function ListDevice(props: any) {
+interface Props {
+  trackers: object;
+  trackerIds: Array<string | number>;
+}
+
+export default function ListDevice(props: Props) {
   const { trackers, trackerIds } = props;
   const classes = useStyles();
 
