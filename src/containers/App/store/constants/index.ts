@@ -6,5 +6,6 @@ export const GET_PROFILE_SUCCEED = 'Tracki/App/GET_PROFILE_SUCCEED';
 export const GET_PROFILE_FAILED = 'Tracki/App/GET_PROFILE_FAILED';
 export const LOGOUT_REQUESTED = 'Tracki/App/LOGOUT_REQUESTED';
 export const LOGOUT_SUCCEED = 'Tracki/App/LOGOUT_SUCCEED';
+export const LOGOUT_FAILED = 'Tracki/App/LOGOUT_FAILED';
 export const SHOW_LOADING = 'Tracki/App/SHOW_LOADING';
 export const HIDE_LOADING = 'Tracki/App/HIDE_LOADING';

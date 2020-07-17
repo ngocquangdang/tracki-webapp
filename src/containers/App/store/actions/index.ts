@@ -42,3 +42,21 @@ export const fetchTrackersFailedAction = (error: object) => ({
   type: types.GET_TRACKERS_FAILED,
   payload: { error },
 });
+
+export const logoutRequestAction = () => {
+  return {
+    type: types.LOGOUT_REQUESTED,
+  };
+};
+
+export const logoutSucceedAction = () => {
+  return {
+    type: types.LOGOUT_SUCCEED,
+  };
+};
+
+export const logoutFailedAction = () => {
+  return {
+    type: types.LOGOUT_FAILED,
+  };
+};

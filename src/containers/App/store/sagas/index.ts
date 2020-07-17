@@ -3,6 +3,7 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
+import CookieInstance from '@Utils/cookie';
 
 function* fetchProfileSaga() {
   try {
@@ -63,7 +64,19 @@ function normalizeDevices(data: { devices: Array<any> }) {
   );
   return tracker;
 }
+export function* logoutSaga() {
+  // const res = yield call(apiServices.logout);
+  const res = true;
+  CookieInstance.removeCookie(process.env.COOKIE_NAME || 'token');
+  if (res) {
+    yield put(actions.logoutSucceedAction());
+    window.location.replace('/');
+    return;
+  }
+  yield put(actions.logoutFailedAction());
+}
 export default function* appWatcher() {
   yield takeLatest(types.GET_PROFILE_REQUESTED, fetchProfileSaga);
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
+  yield takeLatest(types.LOGOUT_REQUESTED, logoutSaga);
 }
