@@ -40,8 +40,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getUserRequestAction: (data: UserDetail.IStateUser) =>
-    dispatch(getUserRequestAction(data)),
+  getUserRequestAction: () => dispatch(getUserRequestAction()),
   updateUSerRequestAction: (data: UserDetail.IStateUser, id: number) =>
     dispatch(updateUserRequestAction(data, id)),
 });

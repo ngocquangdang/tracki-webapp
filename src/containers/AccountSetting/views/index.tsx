@@ -22,6 +22,7 @@ import {
   Line,
   SelectGroup,
   Loading,
+  Layout,
   useStyles,
 } from './styles';
 import UserDatails from '../interfaces';
@@ -105,9 +106,12 @@ export default function AccountSetting(props: any) {
 
   if (!userProfile.email) {
     return (
-      <Loading>
-        <CircularProgress />
-      </Loading>
+      <>
+        <Layout />
+        <Loading>
+          <CircularProgress />
+        </Loading>
+      </>
     );
   }
 

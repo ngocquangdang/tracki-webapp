@@ -1,5 +1,4 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { normalize, schema } from 'normalizr';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
@@ -26,19 +25,7 @@ function* fetchTrackersSaga(action) {
       apiServices.fetchTrackers,
       action.payload.accountId
     );
-    const trackerEntity = new schema.Entity(
-      'trackers',
-      {},
-      { idAttribute: 'device_id' }
-    );
-    const {
-      entities: { trackers },
-      result: { devices: trackerIds },
-    } = normalize(data, { devices: [trackerEntity] });
-    const tracker = {
-      trackers,
-      trackerIds,
-    };
+    const tracker = normalizeDevices(data);
 
     yield put(actions.fetchTrackersSucceedAction(tracker));
   } catch (error) {
@@ -50,7 +37,32 @@ function* fetchTrackersSaga(action) {
     yield put(actions.fetchTrackersFailedAction(payload));
   }
 }
-
+function normalizeDevices(data: { devices: Array<any> }) {
+  const newDevices = data?.devices || [];
+  const tracker = newDevices.reduce(
+    (result, d) => {
+      const { current_device_plan, active_device_plans, ...rest } = d;
+      const trackerPlans = active_device_plans.reduce((arr, i) => {
+        result.trackerPlans[i.id] = i;
+        return [...arr, i.id];
+      }, []);
+      result.trackers[d.device_id] = {
+        ...rest,
+        current_device_plan: current_device_plan.id,
+        active_device_plans: trackerPlans,
+      };
+      result.trackerPlans[current_device_plan.id] = current_device_plan;
+      result.trackerIds.push(d.device_id);
+      return result;
+    },
+    {
+      trackers: {},
+      trackerIds: [],
+      trackerPlans: {},
+    }
+  );
+  return tracker;
+}
 export default function* appWatcher() {
   yield takeLatest(types.GET_PROFILE_REQUESTED, fetchProfileSaga);
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);

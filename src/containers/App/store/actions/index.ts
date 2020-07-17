@@ -31,10 +31,10 @@ export const fetchTrackersRequestedAction = (accountId: number) => ({
   payload: { accountId },
 });
 
-export const fetchTrackersSucceedAction = (trackers: object) => {
+export const fetchTrackersSucceedAction = (tracker: object) => {
   return {
     type: types.GET_TRACKERS_SUCCEED,
-    payload: { trackers },
+    payload: { tracker },
   };
 };
 

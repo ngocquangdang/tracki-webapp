@@ -49,8 +49,8 @@ export default function HomeContainer(props: any) {
         >
           <ListDevice
             isLoading={isRequesting}
-            trackers={trackers || []}
-            trackerIds={trackerIds || []}
+            trackers={trackers}
+            trackerIds={trackerIds}
           />
         </TabPanel>
         <TabPanel

@@ -2,15 +2,7 @@ import React from 'react';
 
 import { FiPlus } from 'react-icons/fi';
 
-import {
-  Container,
-  Content,
-  Footer,
-  // SearchInput,
-  // TextInput,
-  ListItem,
-  useStyles,
-} from './styles';
+import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import Device from '@Components/DeviceCard';
 
@@ -28,16 +20,16 @@ const listDevice = [
 ];
 
 export default function ListDevice(props: any) {
-  const { trackers, trackerIds, isLoading } = props;
+  const { trackers, trackerIds } = props;
   const classes = useStyles();
 
   return (
     <Container>
       <Content>
         <ListItem>
-          {isLoading
-            ? listDevice.map(i => <Device device={i} key={i.id} isLoading />)
-            : trackerIds.map(i => <Device device={trackers[i]} key={i} />)}
+          {trackerIds
+            ? trackerIds.map(i => <Device device={trackers[i]} key={i} />)
+            : listDevice.map(i => <Device device={i} key={i.id} isLoading />)}
         </ListItem>
       </Content>
       <Footer>

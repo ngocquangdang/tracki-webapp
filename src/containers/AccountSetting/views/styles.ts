@@ -89,6 +89,18 @@ const Loading = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const Layout = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-color: #1d222e;
+`;
+
 const useStyles = makeStyles(theme => ({
   margin: {
     marginTop: 15,
@@ -148,5 +160,6 @@ export {
   Line,
   SelectGroup,
   Loading,
+  Layout,
   useStyles,
 };

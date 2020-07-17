@@ -6,7 +6,11 @@ import * as types from '../constants';
 export const initialState: GlobalTypes = {
   isLoading: false,
   profile: null,
-  tracker: null,
+  tracker: {
+    trackers: {},
+    trackerIds: null,
+    trackerPlans: {},
+  },
   errors: null,
 };
 
@@ -24,7 +28,7 @@ const appReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       }
       case types.GET_TRACKERS_SUCCEED:
-        draft.tracker = payload?.trackers;
+        draft.tracker = payload?.tracker;
         break;
       case types.GET_PROFILE_REQUESTED:
       case types.GET_TRACKERS_REQUESTED:

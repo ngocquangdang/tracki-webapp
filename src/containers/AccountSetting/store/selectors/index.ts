@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { initialState } from '../reducers';
 
-const userState = (state: any) => state.global || initialState;
+const userState = (state: any) => state.profile || initialState;
 
 const makeSelectUserProfile = () =>
   createSelector(userState, state => state.profile || {});
