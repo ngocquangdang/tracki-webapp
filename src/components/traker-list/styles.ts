@@ -1,16 +1,29 @@
 import styled from 'styled-components';
 import { TextField, withStyles, makeStyles } from '@material-ui/core';
-
 const Container = styled.div``;
 const Content = styled.div`
   color: #1a1a1a;
+`;
+const Title = styled.span`
+  font-weight: 500;
+  display: ${(props: { isFullWidth: boolean }) =>
+    props.isFullWidth ? 'none' : 'flex'};
 `;
 const Footer = styled.div`
   display: flex;
   align-items: center;
   color: #666666;
 `;
-const SearchInput = styled.div``;
+const SearchInput = styled.input`
+  width: ${(props: { isFullWidth: boolean }) =>
+    props.isFullWidth ? '98%' : '55px'};
+  box-sizing: border-box;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white;
+  outline: none;
+`;
 const ListItem = styled.ul`
   padding: 0;
   margin: 0;
@@ -70,6 +83,9 @@ const IconSearch = styled.div`
 const DeviceTrackers = styled.div`
   color:'#1a1a1a;
 `;
+const Search = styled.div`
+  display: flex;
+`;
 const useStyles = makeStyles(theme => ({
   input: {
     '&::placeholder': {
@@ -98,6 +114,11 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.main,
   },
   iconSearch: {
+    width: '15px',
+    height: '15px',
+    color: '#9a9a9a',
+  },
+  iconBack: {
     width: '15px',
     height: '15px',
     color: '#9a9a9a',
@@ -137,5 +158,7 @@ export {
   SearchBar,
   DeviceTrackers,
   IconSearch,
+  Search,
+  Title,
   useStyles,
 };
