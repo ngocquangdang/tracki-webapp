@@ -15,7 +15,7 @@ export default function ListDevice(props: any) {
       <Content>
         <ListItem>
           {trackerIds
-            ? trackerIds.map(i => <Device device={trackers[i]} key={i} />)
+            ? trackerIds.map(i => <Device tracker={trackers[i]} key={i} />)
             : [1, 2].map(i => <Device key={i} isLoading />)}
         </ListItem>
       </Content>
