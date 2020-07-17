@@ -34,13 +34,6 @@ const useStyles = makeStyles(theme => ({
     objectFit: 'contain',
     height: 35.4,
   },
-  btnRoot: {
-    color: theme.palette.secondary.main,
-  },
-  btnLabel: {
-    flexDirection: 'column',
-    fontSize: 12,
-  },
 }));
 
 export { useStyles };

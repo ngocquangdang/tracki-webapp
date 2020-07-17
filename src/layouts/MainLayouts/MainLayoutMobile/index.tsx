@@ -5,6 +5,7 @@ import { Content, useStyles } from './styles';
 import MenuMobile from './MenuMobile';
 import { SideBarMobile } from '@Components/sidebars';
 import ListDeviceTrakerMobile from '@Components/traker-list';
+
 function MainLayoutMobile(props: any) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);

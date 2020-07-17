@@ -8,11 +8,11 @@ import './styles.scss';
 interface Props {
   fullWidth: boolean;
 }
-interface STATE {
+interface State {
   isInitiatedMap: boolean;
 }
 
-class Map extends Component<Props, STATE> {
+class Map extends Component<Props, State> {
   map: any;
 
   constructor(props: Props) {
