@@ -3,29 +3,23 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { useInjectReducer } from '@Utils/injectReducer';
-import { useInjectSaga } from '@Utils/injectSaga';
 import { withTranslation } from '@Server/i18n';
-import saga from './trackers/store/sagas';
-import reducer from './trackers/store/reducers';
-import { getDeviceRequestAction } from './trackers/store/actions';
+
 import {
-  makeSelectErrors,
-  makeSelectIsRequesting,
-  makeSelectErrorMessage,
-  makeSelectDivices,
-} from './trackers/store/selectors';
+  makeSelectProfile,
+  makeSelectTrackers,
+  makeSelectTrackerIds,
+} from '@Containers/App/store/selectors';
 
 import { ViewHomePC, ViewHomeMobile } from './views';
 import { MainLayoutMobile, MainLayout } from '@Layouts';
+import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 interface Props {
   userAgent?: string;
-  getDevcieRequest: any;
+  fetchUserRequestedAction: any;
 }
-function SettingContainer(props: Props) {
-  useInjectSaga({ key: 'device', saga });
-  useInjectReducer({ key: 'device', reducer });
-  const { getDevcieRequest, userAgent } = props;
+function HomeContainer(props: Props) {
+  const { userAgent, fetchUserRequestedAction } = props;
 
   const isMobile = Boolean(
     userAgent?.match(
@@ -34,8 +28,8 @@ function SettingContainer(props: Props) {
   );
 
   useEffect(() => {
-    getDevcieRequest();
-  }, [getDevcieRequest]);
+    fetchUserRequestedAction();
+  }, [fetchUserRequestedAction]);
 
   return isMobile ? (
     <MainLayoutMobile>
@@ -49,14 +43,13 @@ function SettingContainer(props: Props) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  errors: makeSelectErrors(),
-  isRequesting: makeSelectIsRequesting(),
-  errorMessage: makeSelectErrorMessage(),
-  devices: makeSelectDivices(),
+  profile: makeSelectProfile(),
+  trackers: makeSelectTrackers(),
+  trackerIds: makeSelectTrackerIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getDevcieRequest: (data: any) => dispatch(getDeviceRequestAction(data)),
+  fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -65,4 +58,4 @@ export default compose(
   withConnect,
   memo,
   withTranslation(['auth'])
-)(SettingContainer) as React.ComponentType;
+)(HomeContainer) as React.ComponentType;

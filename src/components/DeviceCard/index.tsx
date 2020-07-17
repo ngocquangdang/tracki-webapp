@@ -50,7 +50,7 @@ export default function Device(props: any) {
     );
   }
   return (
-    <Card key={device.id}>
+    <Card key={device.device_id}>
       <Item>
         <Image src={device.icon_url || 'images/tracki-device.png'} alt="" />
         <ItemInfo>

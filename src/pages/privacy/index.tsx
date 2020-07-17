@@ -6,7 +6,6 @@ import TermsAndPrivacy from '@Containers/TermsAndPrivacy';
 import { IPage } from '@Interfaces';
 
 const TermsAndPrivacyPage: NextPage = props => {
-  console.log('prkkkkops', props);
   return <TermsAndPrivacy {...props} />;
 };
 

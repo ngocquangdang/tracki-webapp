@@ -1,62 +1,45 @@
-import React from 'react';
-import Link from 'next/link';
-import { InfoRounded as InfoIcon } from '@material-ui/icons';
+import React, { memo } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import { useInjectReducer } from '@Utils/injectReducer';
+import { useInjectSaga } from '@Utils/injectSaga';
+import { PayloadType } from '@Interfaces';
+
+import saga from './store/sagas';
+import reducer from './store/reducers';
+import { updatePasswordRequestAction } from './store/actions';
 import {
-  Container,
-  Content,
-  Title,
-  Line,
-  PasswordForm,
-  Info,
-  InfoText,
-  useStyles,
-} from './styles';
-import { Button } from '@Components/buttons';
-import { PasswordInput } from '@Components/inputs';
+  makeSelectErrors,
+  makeSelectIsRequesting,
+  makeSelectPassword,
+} from './store/selections';
+import IForgotPage from './interfaces';
 
-export default function ChangePassword(props: any) {
-  const classes = useStyles();
-  const { t } = props;
-  return (
-    <Container>
-      <Content>
-        <PasswordForm>
-          <Title>{t('auth:current_password')}</Title>
-          <div className={classes.media}>
-            <PasswordInput
-              label={t('auth:enter_current_password')}
-              value=""
-              name="password"
-            />
-            <Line />
-          </div>
-          <Title>{t('auth:new_password')}</Title>
-          <div className={classes.media}>
-            <PasswordInput
-              label={t('auth:new_password')}
-              value=""
-              name="password"
-            />
-            <PasswordInput
-              label={t('auth:confirm_new_password')}
-              value=""
-              name="password"
-            />{' '}
-            <Info>
-              <InfoIcon className={classes.infoIcon} />
-              <InfoText>{t('password_tips')}</InfoText>
-            </Info>
-            <Link href="/create-account">
-              <Button
-                className={classes.btn}
-                variant="outlined"
-                text={t('auth:change_password')}
-              />
-            </Link>
-          </div>
-        </PasswordForm>
-      </Content>
-    </Container>
-  );
+import View from './views';
+
+function ForgotPassword(props: IForgotPage.IProps) {
+  useInjectSaga({ key: 'auth', saga });
+  useInjectReducer({ key: 'auth', reducer });
+
+  return <View {...props} />;
 }
+
+const mapStateToProps = createStructuredSelector({
+  errors: makeSelectErrors(),
+  isRequesting: makeSelectIsRequesting(),
+  password: makeSelectPassword(),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  updatePasswordRequestAction: (data: PayloadType) =>
+    dispatch(updatePasswordRequestAction(data)),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  memo
+)(ForgotPassword) as React.ComponentType;

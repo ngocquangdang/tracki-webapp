@@ -1,49 +1,44 @@
-import * as types from '../definitions';
-import { PayloadType } from '@Interfaces';
+import * as types from '../constants';
 
-export function getProfileRequested() {
+export const showLoadingAction = () => ({
+  type: types.SHOW_LOADING,
+});
+
+export const hideLoadingAction = () => ({
+  type: types.HIDE_LOADING,
+});
+
+export const fetchUserRequestedAction = () => {
   return {
     type: types.GET_PROFILE_REQUESTED,
   };
-}
+};
 
-export function getProfileSucceed(payload: PayloadType) {
+export const fetchUserSucceedAction = (profile: object) => {
   return {
     type: types.GET_PROFILE_SUCCEED,
-    payload,
+    payload: { profile },
   };
-}
+};
 
-export function getProfileFailed(payload: PayloadType) {
-  return {
-    type: types.GET_PROFILE_FAILED,
-    payload,
-  };
-}
+export const fetchUserFailedAction = (error: object) => ({
+  type: types.GET_PROFILE_FAILED,
+  payload: { error },
+});
 
-export function showLoadingAction() {
-  return {
-    type: types.SHOW_LOADING,
-  };
-}
-
-export function hideLoadingAction() {
-  return {
-    type: types.HIDE_LOADING,
-  };
-}
-
-export const fetchDevicesRequestedAction = (accountId: number) => ({
-  type: types.GET_DEVICES_REQUESTED,
+export const fetchTrackersRequestedAction = (accountId: number) => ({
+  type: types.GET_TRACKERS_REQUESTED,
   payload: { accountId },
 });
 
-export const fetchDevicesSucceedAction = (devices: object) => ({
-  type: types.GET_DEVICES_SUCCEED,
-  payload: { devices },
-});
+export const fetchTrackersSucceedAction = (tracker: object) => {
+  return {
+    type: types.GET_TRACKERS_SUCCEED,
+    payload: { tracker },
+  };
+};
 
-export const fetchDevicesFailedAction = (error: object) => ({
-  type: types.GET_DEVICES_FAILED,
+export const fetchTrackersFailedAction = (error: object) => ({
+  type: types.GET_TRACKERS_FAILED,
   payload: { error },
 });

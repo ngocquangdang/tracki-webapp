@@ -4,8 +4,6 @@ const FORGOT_PW_ENDPOINT = '/internal/v1/user/mobile/password/reset';
 const CONFIRM_CODE_ENDPOINT = `${FORGOT_PW_ENDPOINT}/match`;
 const RESET_PW_ENDPOINT = '/internal/v1/user/mobile/password/reset';
 export const forgotPassword = (payload: any) => {
-  console.log('___axiosClient', axiosClient);
-
   return axiosClient.post(FORGOT_PW_ENDPOINT, payload);
 };
 

@@ -4,14 +4,15 @@ declare namespace UserDatails {
   interface IProps extends WithTranslation {
     errorMessage: string;
     errors: {
-      first_name: string;
-      last_name: string;
+      firstName: string;
+      lastName: string;
       password: string;
       phone: string;
       date_format: string;
     };
     isRequesting: boolean;
-    getUserRequest: any;
+    getUserRequestAction(): void;
+    updateUSerRequestAction(): void;
   }
 
   interface InitialProps {
@@ -19,11 +20,15 @@ declare namespace UserDatails {
   }
 
   interface IStateUser {
-    username: string;
-    password: string;
+    email: string;
     first_name: string;
     last_name: string;
-    phone: string;
+    // phone: string;
+    email_notifications: boolean;
+    push_notifications: boolean;
+    speed_unit: string;
+    date_format: string;
+    language: string;
   }
 }
 
