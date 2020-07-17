@@ -6,7 +6,7 @@ import {
   Menu as MenuIcon,
   Clear as ClearIcon,
   Call as CallIcon,
-  Block as BlockIcon,
+  Lock as LockIcon,
   Assignment as AssignmentIcon,
   PlayArrow as PlayIcon,
   PowerSettingsNew as LogoutIcon,
@@ -20,7 +20,9 @@ const StyledMenu = withStyles({
   paper: {
     boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
     '& ul': {
-      padding: 0,
+      '& li': {
+        height: 33,
+      },
     },
   },
 })((props: MenuProps) => (
@@ -63,7 +65,14 @@ function CustomizedMenus(props: any) {
         classes={{ root: classes.btnRoot, label: classes.btnLabel }}
         onClick={handleClick}
       >
-        {anchorEl ? <ClearIcon /> : <MenuIcon />} Menu
+        <>
+          {anchorEl ? (
+            <ClearIcon className={classes.menuRightIcon} />
+          ) : (
+            <MenuIcon className={classes.menuRightIcon} />
+          )}
+          <span className={classes.menuRightLabel}>MENU</span>
+        </>
       </Button>
       <StyledMenu
         anchorEl={anchorEl}
@@ -78,7 +87,7 @@ function CustomizedMenus(props: any) {
         </StyledMenuItem>
         <StyledMenuItem>
           <ListItemIcon className={classes.menuItemIcon}>
-            <BlockIcon className={classes.menuIcon} />
+            <LockIcon className={classes.menuIcon} />
           </ListItemIcon>
           <ListItemText primary="Privacy Policy" className={classes.menuText} />
         </StyledMenuItem>
