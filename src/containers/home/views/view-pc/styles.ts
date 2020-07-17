@@ -5,7 +5,7 @@ import { withStyles, makeStyles } from '@material-ui/core';
 const Container = styled.div`
   display: flex;
   position: relative;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 70px);
   width: 100%;
 `;
 
