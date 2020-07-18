@@ -26,7 +26,7 @@ function MainLayoutMobile(props: any) {
         />
       </div>
       <SideBarMobile open={open} handleOpenSideBar={handleOpenSideBar}>
-        <ListDeviceTrakerMobile isMobile />
+        <ListDeviceTrakerMobile />
       </SideBarMobile>
       <div className={open ? classes.blurHeader : ''}>
         <Content
