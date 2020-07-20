@@ -37,7 +37,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       zoom: this.state.mapZoom,
       maxZoom: 13,
       fitBoundsOptions: { padding: 20 },
-      attributionControl: false,
+      attributionControl: true,
       bounds: [
         [123.986206, 10.287471],
         [123.986206, 10.287471],
@@ -45,6 +45,16 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     });
     this.setState({ isInitiatedMap: true });
     window.mapEvents = new MapEvent('mapbox', this.map);
+    const geolocate = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    this.map.addControl(geolocate);
+    window.mapEvents.getUseLocation = () => {
+      geolocate.trigger();
+    };
     this.props.initMapCallback();
   }
 

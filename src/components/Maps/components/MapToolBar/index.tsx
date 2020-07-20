@@ -16,6 +16,9 @@ import {
 export default function MapToolBars() {
   const classes = useStyles();
   const onZoomClick = (zoom: number) => () => window.mapEvents.onZoom(zoom);
+  const getCurrentLocation = () => {
+    window.mapEvents.getUseLocation();
+  };
 
   return (
     <ToolBar>
@@ -27,7 +30,7 @@ export default function MapToolBars() {
           <AiOutlineMinus onClick={onZoomClick(-0.5)} />
         </ZoomIn>
       </ZoomButton>
-      <IconButton>
+      <IconButton onClick={getCurrentLocation}>
         <MdMyLocation />
       </IconButton>
       <IconButton>

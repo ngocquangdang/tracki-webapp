@@ -40,6 +40,10 @@ class DroneMapEvent {
     this.map.setFitBounds(coordinates, callback);
 
   getBounds = () => this.map.getBounds();
+
+  getUseLocation() {
+    console.log('getUseLocation');
+  }
 }
 
 export default DroneMapEvent;

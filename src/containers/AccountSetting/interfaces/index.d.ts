@@ -23,7 +23,8 @@ declare namespace UserDatails {
     email: string;
     first_name: string;
     last_name: string;
-    // phone: string;
+    phone_code: string;
+    phone: string;
     email_notifications: boolean;
     push_notifications: boolean;
     speed_unit: string;

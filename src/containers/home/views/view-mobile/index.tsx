@@ -2,7 +2,8 @@ import React from 'react';
 import Map from '@Components/Maps';
 
 import { Container, MapView } from './styles';
-import MapToolBarMobile from '@Components/Maps/components/MapToolBarMobile';
+import MapToolBarMobile from '@Components/Maps/components/MapToolBarMobile/TopToolbar';
+import MapToolBarMobile2 from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 
 export default function ViewHomeMobile(props: any) {
   const { trackers, trackerIds } = props;
@@ -16,6 +17,7 @@ export default function ViewHomeMobile(props: any) {
           trackers={trackers}
           trackerIds={trackerIds}
         />
+        <MapToolBarMobile2 />
       </MapView>
     </Container>
   );
