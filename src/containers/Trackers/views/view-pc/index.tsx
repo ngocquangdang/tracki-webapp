@@ -22,6 +22,7 @@ export default function HomeContainer(props: any) {
     selectedTrackerId,
     selectedTrackerAction,
     onResetSelectedTrackerID,
+    searchTrackersRequest,
   } = props;
   const classes = useStyles();
   const [isOpenSidebar, setOpenSidebar] = useState(true);
@@ -76,6 +77,7 @@ export default function HomeContainer(props: any) {
               value={currentTab}
               index={0}
               placeholder="Search devices by name or ID"
+              searchTrackersRequest={searchTrackersRequest}
             >
               <ListDevice
                 trackers={trackers}
@@ -87,6 +89,7 @@ export default function HomeContainer(props: any) {
               value={currentTab}
               index={1}
               placeholder="Search geo-fences by name"
+              searchTrackersRequest={searchTrackersRequest}
             >
               <ListGeoFence
                 isLoading={isRequesting}

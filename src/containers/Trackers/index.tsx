@@ -14,6 +14,7 @@ import {
   fetchUserRequestedAction,
   resetSelectedTrackerIdAction,
   selectedSingleTrackerRequestAction,
+  searchTrackersRequestedAction,
 } from '@Containers/App/store/actions';
 
 import View from './view';
@@ -43,6 +44,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   selectedTrackerAction: (id: number) =>
     dispatch(selectedSingleTrackerRequestAction(id)),
+  searchTrackersRequest: (search: string | null) =>
+    dispatch(searchTrackersRequestedAction(search)),
   onResetSelectedTrackerID: () => dispatch(resetSelectedTrackerIdAction()),
 });
 

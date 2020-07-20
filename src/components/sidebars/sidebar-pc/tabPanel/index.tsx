@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { debounce } from 'lodash';
 import {
   Container,
   Content,
@@ -13,11 +13,22 @@ interface Props {
   value?: number;
   index?: number;
   placeholder: string;
+  searchTrackersRequest: any;
 }
 export default function TabPanel(props: Props) {
   const classes = useStyles();
-  const { children, value, index, placeholder, ...other } = props;
-
+  const {
+    children,
+    value,
+    index,
+    placeholder,
+    searchTrackersRequest,
+    ...other
+  } = props;
+  const debounceSearch = debounce(
+    (v: string | null) => searchTrackersRequest(v),
+    300
+  );
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (
@@ -31,6 +42,7 @@ export default function TabPanel(props: Props) {
               InputProps={{
                 classes: { root: classes.inputRoot, input: classes.input },
               }}
+              onChange={event => debounceSearch(event.target.value)}
             />
           </SearchInput>
           <Content>{children}</Content>
