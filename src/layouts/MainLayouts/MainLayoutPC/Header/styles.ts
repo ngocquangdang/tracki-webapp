@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
   logoWrapper: {
     width: 376,
     paddingLeft: 14,
+    cursor: 'pointer',
     alignSelf: 'center',
   },
   logo: {

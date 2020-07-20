@@ -86,7 +86,7 @@ export default function HomeContainer(props: any) {
                 geo_fence={trackers?.geo_fence || []}
                 deviceIds={trackerIds || []}
               />
-            </TabPanel>{' '}
+            </TabPanel>
           </>
         )}
       </SideBar>
