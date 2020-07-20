@@ -2,7 +2,7 @@ import React from 'react';
 import Map from '@Components/Maps';
 
 import { Container, MapView } from './styles';
-// import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
+import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 
 export default function ViewHomeMobile(props: any) {
@@ -10,7 +10,7 @@ export default function ViewHomeMobile(props: any) {
   return (
     <Container>
       <MapView>
-        {/* {selectedTrackerId && <TopToolBar />} */}
+        {selectedTrackerId && <TopToolBar />}
         <Map
           fullWidth={true}
           mapType="mapbox"
