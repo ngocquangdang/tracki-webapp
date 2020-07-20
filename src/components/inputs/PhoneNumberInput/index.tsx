@@ -10,7 +10,7 @@ interface Props {
   onChange?(data: any): any;
   className?: string;
   label?: string;
-  defaultCountry?: string;
+  defaultCountry?: string | number;
   errorInput?: string;
   [data: string]: any;
 }

@@ -28,6 +28,7 @@ export interface GlobalTypes {
     trackers: object | null;
     trackerIds: Array<number | string> | null;
     trackerPlans: object | null;
+    selectedTrackerId: number | null;
     [data: string]: any;
   };
   isLoading: boolean;

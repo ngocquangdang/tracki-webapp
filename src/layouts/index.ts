@@ -1,3 +1,2 @@
-export { MainLayout, MainLayoutMobile } from './MainLayouts';
+export { MainLayout } from './MainLayouts';
 export { default as AuthLayout } from './AuthLayout';
-export { default as SettingLayout } from './SettingLayout';

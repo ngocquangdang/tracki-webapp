@@ -19,7 +19,11 @@ import { AuthProvider } from '../../providers/Auth';
 
 import '@Static/scss/main.scss';
 
-class WebApp extends App<AppWithStore> {
+class WebApp extends App<AppWithStore, { isMobile: boolean }> {
+  state = {
+    isMobile: false,
+  };
+
   static async getInitialProps({
     Component,
     ctx,
@@ -52,10 +56,15 @@ class WebApp extends App<AppWithStore> {
         );
       }
     }
+    // detect size of mobile view
+    if (window.outerWidth < 959.6) {
+      this.setState({ isMobile: true });
+    }
   }
 
   render() {
     const { Component, pageProps, authenticated } = this.props;
+    const { isMobile } = this.state;
 
     return (
       <Provider
@@ -67,7 +76,7 @@ class WebApp extends App<AppWithStore> {
       >
         <AuthProvider authenticated={authenticated}>
           <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+            <Component {...pageProps} isMobile={isMobile} />
           </ThemeProvider>
         </AuthProvider>
       </Provider>
