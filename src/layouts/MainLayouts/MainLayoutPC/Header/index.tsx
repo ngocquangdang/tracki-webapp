@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Route from 'next/router';
+import nextRoute from 'next/router';
 import { Toolbar, AppBar } from '@material-ui/core';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import {
@@ -75,14 +75,15 @@ export default function Header() {
   const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
-    let link = '';
-    link = window.location.pathname;
+    const link = window.location.pathname;
+    const tabIndex = routes.findIndex(r => r.link === link);
     setCurrentLink(link);
+    setCurrentTab(tabIndex);
   }, [currentLink]);
 
   const onClickTab = (r: ROUTE) => () => {
     setCurrentTab(r.index);
-    Route.push(r.link);
+    nextRoute.push(r.link);
   };
 
   return (
@@ -90,7 +91,10 @@ export default function Header() {
       <AppBar position="static" color="transparent">
         <Toolbar className={classes.wrapper}>
           <div className={classes.row}>
-            <div className={classes.logoWrapper}>
+            <div
+              className={classes.logoWrapper}
+              onClick={onClickTab(routes[0])}
+            >
               <img src={'images/logo.png'} alt="" className={classes.logo} />
             </div>
             <Tabs

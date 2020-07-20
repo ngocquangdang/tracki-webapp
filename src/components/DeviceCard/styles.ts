@@ -1,19 +1,6 @@
 import styled from 'styled-components';
-import { TextField, withStyles, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
-const Container = styled.div``;
-const Content = styled.div``;
-const Footer = styled.div`
-  display: flex;
-  align-items: center;
-  color: #666666;
-`;
-const SearchInput = styled.div``;
-const ListItem = styled.ul`
-  padding: 0;
-  margin: 0;
-  list-style: none;
-`;
 const Card = styled.li`
   display: flex;
   justify-content: space-between;
@@ -76,15 +63,6 @@ const useStyles = makeStyles(theme => ({
     '&::placeholder': {
       textAlign: 'center',
     },
-    // '&::-webkit-input-placeholder': {
-    //   fontFamily: 'FontAwesome',
-    //   fontWeight: 'normal',
-    //   overflow: 'visible',
-    //   verticalAlign: 'top',
-    //   display: 'inline-block !important',
-    //   paddingLeft: '5px',
-    //   paddingTop: '2px',
-    // },
   },
   btn: {
     backgroundColor: '#f5f5f5',
@@ -106,30 +84,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#f2f2f2',
   },
 }));
-const TextInput = withStyles(theme => ({
-  root: {
-    width: '100%',
-    '& .MuiInputBase-root': {
-      height: '50px',
-      color: '#1a1a1a',
-    },
-    '& .MuiOutlinedInput-root': {
-      '&:hover fieldset': {
-        borderColor: '#1a1a1a',
-      },
-    },
-    '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
-    },
-  },
-}))(TextField);
 export {
-  Container,
-  Content,
-  Footer,
-  SearchInput,
-  TextInput,
-  ListItem,
   ImageWrapper,
   Card,
   Item,

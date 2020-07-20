@@ -48,11 +48,7 @@ export default function HomeContainer(props: any) {
           index={0}
           placeholder="Search devices by name or ID"
         >
-          <ListDevice
-            isLoading={isRequesting}
-            trackers={trackers}
-            trackerIds={trackerIds}
-          />
+          <ListDevice trackers={trackers} trackerIds={trackerIds} />
         </TabPanel>
         <TabPanel
           value={currentTab}

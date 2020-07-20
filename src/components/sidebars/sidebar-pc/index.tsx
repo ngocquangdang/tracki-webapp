@@ -29,7 +29,7 @@ export default function SideBar(props: any) {
           borderRight: '1px solid #rgba(0,0,0,0.12)',
         }}
       >
-        <Content style={{ display: opened ? 'block' : 'none' }}>
+        <Content isOpen={opened}>
           {props.children}
           <Button
             onClick={onChange}

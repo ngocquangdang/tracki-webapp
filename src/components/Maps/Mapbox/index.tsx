@@ -7,6 +7,12 @@ import IMap from '../interface';
 
 import { NavigationControl } from './style';
 
+declare global {
+  interface Window {
+    mapEvents: any;
+  }
+}
+
 class Map extends Component<IMap.IProps, IMap.IState> {
   map: any;
   isFirstFitBounce: boolean;
@@ -18,6 +24,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       mapCenter: [123.986206, 10.287471],
       mapZoom: 13,
     };
+    this.isFirstFitBounce = false;
   }
 
   componentDidMount() {
@@ -45,7 +52,6 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     const { trackers } = this.props;
     if (this.state.isInitiatedMap && trackers) {
       if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
-        console.log('00000', Object.values(trackers));
         this.isFirstFitBounce = true;
         const coords = Object.values(trackers).map(({ lat, lng }) => ({
           lat,

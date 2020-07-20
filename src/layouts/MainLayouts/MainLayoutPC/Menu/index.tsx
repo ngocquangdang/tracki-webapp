@@ -71,7 +71,7 @@ function CustomizedMenus(props: any) {
           ) : (
             <MenuIcon className={classes.menuRightIcon} />
           )}
-          <span className={classes.menuRightLabel}>MENU</span>
+          <span className={classes.menuRightLabel}>Menu</span>
         </>
       </Button>
       <StyledMenu

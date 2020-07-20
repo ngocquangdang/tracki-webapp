@@ -31,7 +31,6 @@ import Device from '@Components/DeviceCard';
 interface Props {
   isLoading: boolean;
   trackers: object;
-  isMobile?: boolean;
   t(key: string, format?: object): string;
   trackerIds: Array<number>;
   searchTrackersRequest(key: string | null): void;
@@ -40,7 +39,7 @@ interface Props {
 function ListDeviceTrackerMobile(props: Props) {
   const classes = useStyles();
   const [isFullWidth, setWidthSearch] = useState(false);
-  const { trackers, t, trackerIds, searchTrackersRequest, isMobile } = props;
+  const { trackers, t, trackerIds, searchTrackersRequest } = props;
 
   const handleFocusInput = () => setWidthSearch(true);
   const handleBlurInput = () => setWidthSearch(false);
@@ -76,9 +75,9 @@ function ListDeviceTrackerMobile(props: Props) {
         {trackerIds
           ? trackerIds.map(id => (
               // eslint-disable-next-line react/jsx-indent
-              <Device key={id} tracker={trackers[id]} isMobile={isMobile} />
+              <Device key={id} tracker={trackers[id]} isMobile />
             ))
-          : [1, 2].map(i => <Device key={i} isLoading isMobile={isMobile} />)}
+          : [1, 2].map(i => <Device key={i} isLoading isMobile />)}
       </Content>
       <Footer>
         <Button
