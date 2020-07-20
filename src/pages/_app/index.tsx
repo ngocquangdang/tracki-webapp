@@ -57,7 +57,7 @@ class WebApp extends App<AppWithStore, { isMobile: boolean }> {
       }
     }
     // detect size of mobile view
-    if (window.innerWidth < 959.6) {
+    if (window.outerWidth < 959.6) {
       this.setState({ isMobile: true });
     }
   }

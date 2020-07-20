@@ -6,7 +6,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from '@Server/i18n';
 import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
-import { searchTrackersRequestedAction } from '@Containers/App/store/actions';
+import {
+  searchTrackersRequestedAction,
+  selectedSingleTrackerRequestAction,
+} from '@Containers/App/store/actions';
 import {
   makeSelectLoading,
   makeSelectTrackerIds,
@@ -34,12 +37,21 @@ interface Props {
   t(key: string, format?: object): string;
   trackerIds: Array<number>;
   searchTrackersRequest(key: string | null): void;
+  selectedTrackerAction(id: number): void;
+  onCloseSidebar(): any;
 }
 
 function ListDeviceTrackerMobile(props: Props) {
   const classes = useStyles();
   const [isFullWidth, setWidthSearch] = useState(false);
-  const { trackers, t, trackerIds, searchTrackersRequest } = props;
+  const {
+    trackers,
+    t,
+    trackerIds,
+    searchTrackersRequest,
+    selectedTrackerAction,
+    onCloseSidebar,
+  } = props;
 
   const handleFocusInput = () => setWidthSearch(true);
   const handleBlurInput = () => setWidthSearch(false);
@@ -48,6 +60,10 @@ function ListDeviceTrackerMobile(props: Props) {
     (v: string | null) => searchTrackersRequest(v),
     300
   );
+  const onClickTracker = id => {
+    selectedTrackerAction(id);
+    onCloseSidebar();
+  };
 
   return (
     <Container>
@@ -75,7 +91,12 @@ function ListDeviceTrackerMobile(props: Props) {
         {trackerIds
           ? trackerIds.map(id => (
               // eslint-disable-next-line react/jsx-indent
-              <Device key={id} tracker={trackers[id]} isMobile />
+              <Device
+                key={id}
+                tracker={trackers[id]}
+                isMobile
+                onClickTracker={onClickTracker}
+              />
             ))
           : [1, 2].map(i => <Device key={i} isLoading isMobile />)}
       </Content>
@@ -103,6 +124,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(fetchTrackersRequestedAction(data)),
   searchTrackersRequest: (search: string | null) =>
     dispatch(searchTrackersRequestedAction(search)),
+  selectedTrackerAction: (id: number) =>
+    dispatch(selectedSingleTrackerRequestAction(id)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
