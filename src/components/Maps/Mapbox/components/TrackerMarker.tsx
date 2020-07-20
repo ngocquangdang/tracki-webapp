@@ -22,7 +22,7 @@ class TrackerMarker extends React.Component<Props> {
     } = this.props;
 
     if (map && !this.marker) {
-      const nameWidth = device_name.length * 8;
+      const nameWidth = device_name.length * 9;
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
@@ -35,7 +35,7 @@ class TrackerMarker extends React.Component<Props> {
           </div>
         <div>
         <div class='title-device' style='width:${nameWidth}px; left:-${
-        nameWidth / 2
+        nameWidth / 2 - 4
       }px'>${device_name}</div>
         `;
       this.marker = new mapboxgl.Marker(elm).setLngLat([lng, lat]).addTo(map);

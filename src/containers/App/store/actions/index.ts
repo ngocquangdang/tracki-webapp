@@ -63,6 +63,10 @@ export const searchTrackersFailedAction = (error: object) => ({
 export const selectedSingleTrackerRequestAction = (
   selectedTrackerId: number
 ) => ({
-  type: types.SELECTED_TRACKERS_REQUESTED,
+  type: types.SELECTED_TRACKER,
   payload: { selectedTrackerId },
+});
+
+export const resetSelectedTrackerIdAction = () => ({
+  type: types.RESET_SELECTED_TRACKER,
 });

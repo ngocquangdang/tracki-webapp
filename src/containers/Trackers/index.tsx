@@ -8,10 +8,11 @@ import {
   makeSelectProfile,
   makeSelectTrackers,
   makeSelectTrackerIds,
-  makeSelectSingleTrackerId,
+  makeSelectTrackerId,
 } from '@Containers/App/store/selectors';
 import {
   fetchUserRequestedAction,
+  resetSelectedTrackerIdAction,
   selectedSingleTrackerRequestAction,
 } from '@Containers/App/store/actions';
 
@@ -33,15 +34,16 @@ function TrackersContainer(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
+  selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
-  selectedTrackerId: makeSelectSingleTrackerId(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
-  selectedSingleTracker: (id: number) =>
+  selectedTrackerAction: (id: number) =>
     dispatch(selectedSingleTrackerRequestAction(id)),
+  onResetSelectedTrackerID: () => dispatch(resetSelectedTrackerIdAction()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

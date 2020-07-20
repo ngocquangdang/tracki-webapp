@@ -20,6 +20,7 @@ const Header = styled.div`
   margin-left: 20px;
   color: #1a1a1a;
   align-items: center;
+  cursor: pointer;
 `;
 const Title = styled.span`
   font-size: 17px;

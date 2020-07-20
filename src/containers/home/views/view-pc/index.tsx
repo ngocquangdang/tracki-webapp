@@ -11,8 +11,8 @@ import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
 import { Container, TabStyle, MapView, useStyles } from './styles';
 import SingleTracker from '@Components/SingleTracker';
 
-const ListDevice = dynamic(() => import('../../components/trackers'));
-const ListGeoFence = dynamic(() => import('../../components/geofence'));
+const ListDevice = dynamic(() => import('../../trackers'));
+const ListGeoFence = dynamic(() => import('../../geofence'));
 
 export default function HomeContainer(props: any) {
   const {
@@ -93,7 +93,7 @@ export default function HomeContainer(props: any) {
                 geo_fence={trackers?.geo_fence || []}
                 deviceIds={trackerIds || []}
               />
-            </TabPanel>{' '}
+            </TabPanel>
           </>
         )}
       </SideBar>
@@ -103,6 +103,7 @@ export default function HomeContainer(props: any) {
           fullWidth={!isOpenSidebar}
           trackers={trackers}
           trackerIds={trackerIds}
+          selectedTrackerId={selectedTrackerId}
         />
       </MapView>
     </Container>

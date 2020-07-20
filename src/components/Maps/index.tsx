@@ -14,23 +14,21 @@ class Map extends React.Component<Props> {
   };
 
   initMapCallback = () => {
-    console.log('___initMapCallback');
     this.setState({ initiatedMap: true });
   };
 
-  preProps = () => ({
-    initMapCallback: this.initMapCallback,
-  });
-
   renderMap = () => {
-    const { mapType, ...rest } = this.props;
-    const preProps = this.preProps();
+    const { mapType, fullWidth, trackers, trackerIds } = this.props;
 
-    switch (mapType) {
-      case 'mapbox':
-        return <Mapbox {...preProps} {...rest} />;
-      default:
-        return <Mapbox {...preProps} {...rest} />;
+    if (mapType === 'mapbox') {
+      return (
+        <Mapbox
+          initMapCallback={this.initMapCallback}
+          fullWidth={fullWidth}
+          trackers={trackers}
+          trackerIds={trackerIds}
+        />
+      );
     }
   };
 

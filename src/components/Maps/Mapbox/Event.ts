@@ -1,6 +1,12 @@
 import mapboxgl from 'mapbox-gl';
 import geoViewport from '@mapbox/geo-viewport';
 
+interface COORDINATE {
+  lat: number;
+  lng: number;
+  [data: string]: any;
+}
+
 class MapBoxEvent {
   mapApi: any;
   constructor(mapRef) {
@@ -14,7 +20,8 @@ class MapBoxEvent {
 
   setCenter = coordinate => this.mapApi.panTo(coordinate);
 
-  setCenterFlyTo = ({ lat, lng }) => this.mapApi.flyTo({ center: [lng, lat] });
+  setCenterFlyTo = ({ lat, lng, speed, zoom }) =>
+    this.mapApi.flyTo({ center: [lng, lat], zoom: zoom, speed: speed });
 
   getZoom = () => {
     return this.mapApi.getZoom();
@@ -27,11 +34,12 @@ class MapBoxEvent {
     this.mapApi.zoomTo(nextZoom);
   };
 
-  setFitBounds = (coordinates: Array<any>, callback) => {
+  setFitBounds = (coordinates: COORDINATE[], callback) => {
     const newCoordinates = coordinates.map(({ lat, lng }) => [lng, lat]);
+    const [lngFirst, latFirst] = newCoordinates[0];
     const bounds = newCoordinates.reduce(
-      (result, coord) => result.extend(coord),
-      new mapboxgl.LngLatBounds(newCoordinates[0], newCoordinates[0])
+      (result, [lng, lat]) => result.extend([lng, lat]),
+      new mapboxgl.LngLatBounds([lngFirst, latFirst], [lngFirst, latFirst])
     );
     const arrayBound = bounds.toArray();
     const zoomWithGeo = coordinates.length === 1 ? 18 : 20;

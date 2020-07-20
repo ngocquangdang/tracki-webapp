@@ -16,11 +16,12 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
   },
   menuRightIcon: {
-    fontSize: '2.8em',
+    fontSize: 30,
     color: '#999',
   },
   menuRightLabel: {
-    fontSize: 9,
+    fontSize: 13,
+    fontWeight: 300,
     color: '#999',
   },
   menuItemIcon: {

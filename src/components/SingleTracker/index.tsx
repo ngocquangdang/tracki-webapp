@@ -49,10 +49,11 @@ import HistoryIcon from '@material-ui/icons/History';
 import BorderStyleIcon from '@material-ui/icons/BorderStyle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ShareIcon from '@material-ui/icons/Share';
+import Slide from '@material-ui/core/Slide';
 
 function SingleTracker(props: any) {
   const classes = useStyles();
-  const { isLoading, tracker } = props;
+  const { isLoading, tracker, onClickBack } = props;
   if (isLoading) {
     return (
       <Card>
@@ -82,102 +83,110 @@ function SingleTracker(props: any) {
     );
   }
   return (
-    <Container>
-      <Header>
-        <ArrowBackIosIcon className={classes.iconBack} />
-        <Title>Back</Title>
-      </Header>
-      <Card key={tracker.device_id}>
-        <TrackerInfomation>
-          <Item>
-            <LeftItem>
-              <ImageWrapper>
-                <Image
-                  src={tracker.icon_url || 'images/image-device.png'}
-                  alt=""
-                />
-              </ImageWrapper>
-              <ItemInfo>
-                <Name>Steve Rodgers truck History</Name>
-                <Time>
-                  <GoPrimitiveDot className={classes.icon} />
-                  <TimeActive>
-                    Last Updated: {moment(tracker.time * 1000).fromNow()}
-                  </TimeActive>
-                </Time>
-              </ItemInfo>
-            </LeftItem>
+    <Slide direction="left" in mountOnEnter unmountOnExit>
+      <Container>
+        <Header>
+          <ArrowBackIosIcon
+            className={classes.iconBack}
+            onClick={onClickBack}
+          />
+          <Title onClick={onClickBack}>Back</Title>
+        </Header>
+        <Card key={tracker.device_id}>
+          <TrackerInfomation>
+            <Item>
+              <LeftItem>
+                <ImageWrapper>
+                  <Image
+                    src={tracker.icon_url || 'images/image-device.png'}
+                    alt=""
+                  />
+                </ImageWrapper>
+                <ItemInfo>
+                  <Name>{tracker.device_name}</Name>
+                  <Time>
+                    <GoPrimitiveDot className={classes.icon} />
+                    <TimeActive>
+                      Last Updated: {moment(tracker.time * 1000).fromNow()}
+                    </TimeActive>
+                  </Time>
+                </ItemInfo>
+              </LeftItem>
 
-            <RightItem>
-              <RefreshIcon className={classes.rightIcon} />
-              <ZoomInIcon className={classes.rightIcon} />
-            </RightItem>
-          </Item>
-          <Address>
-            <LocationOnIcon className={classes.iconLocation} />
-            <Text>
-              <TextName>
-                5845, Railton St, Moreno Valley, Riverside County, California,
-                92553, USA
-                <LatLong>
-                  <LatText>Lat: 10.33107288</LatText>
-                  <LongText>Lon: 123.91858706</LongText>
-                </LatLong>
-              </TextName>
-            </Text>
-          </Address>
-        </TrackerInfomation>
-        <TrackerStatus>
-          <BatteryTracker>
-            {' '}
-            <Battery60Icon /> <span className={classes.textSpace}>95%</span>
-          </BatteryTracker>
-          <StatusTracker>
-            <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />{' '}
-            <span className={`${classes.textBold} ${classes.textSpace}`}>
-              Stoppped
-            </span>
-          </StatusTracker>
-          <ConnectionTracker>
-            <Connection>
-              Connection: <span className={classes.textBold}>GPS</span>
-            </Connection>
-            <LocationApprox>Location within approx. 5-20m</LocationApprox>
-          </ConnectionTracker>
-        </TrackerStatus>
-        <TrackerMenu>
-          <TrackerMenuUp>
-            <ContainerControl>
-              <SettingsIcon />
-              <TitleMenu>Settings</TitleMenu>
-            </ContainerControl>
-            <ContainerControl>
-              <HistoryIcon />
-              <TitleMenu>History</TitleMenu>
-            </ContainerControl>
-            <ContainerControl>
-              <BorderStyleIcon />
-              <TitleMenu>Geo-Fence</TitleMenu>
-            </ContainerControl>
-          </TrackerMenuUp>
-          <TrackerMenuDown>
-            <ContainerControl>
-              <VolumeUpIcon />
-              <TitleMenu>Beep Device</TitleMenu>
-            </ContainerControl>
-            <ContainerControl>
-              <ShareIcon />
-              <TitleMenu>Share Location</TitleMenu>
-            </ContainerControl>
-            <ContainerControl>
-              <NotificationsIcon />
-              <TitleMenu>Notifications</TitleMenu>
-            </ContainerControl>
-          </TrackerMenuDown>
-          <Border></Border>
-        </TrackerMenu>
-      </Card>
-    </Container>
+              <RightItem>
+                <RefreshIcon className={classes.rightIcon} />
+                <ZoomInIcon className={classes.rightIcon} />
+              </RightItem>
+            </Item>
+            <Address>
+              <LocationOnIcon className={classes.iconLocation} />
+              <Text>
+                <TextName>
+                  5845, Railton St, Moreno Valley, Riverside County, California,
+                  92553, USA
+                  <LatLong>
+                    <LatText>Lat: {tracker.lat}</LatText>
+                    <LongText>Lon: {tracker.lng}</LongText>
+                  </LatLong>
+                </TextName>
+              </Text>
+            </Address>
+          </TrackerInfomation>
+          <TrackerStatus>
+            <BatteryTracker>
+              <Battery60Icon />
+              <span className={classes.textSpace}>{tracker.battery}%</span>
+            </BatteryTracker>
+            <StatusTracker>
+              <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
+              <span className={`${classes.textBold} ${classes.textSpace}`}>
+                {tracker.speed}
+              </span>
+            </StatusTracker>
+            <ConnectionTracker>
+              <Connection>
+                Connection:
+                <span className={classes.textBold}>
+                  {tracker.location_type}
+                </span>
+              </Connection>
+              <LocationApprox>Location within approx. 5-20m</LocationApprox>
+            </ConnectionTracker>
+          </TrackerStatus>
+          <TrackerMenu>
+            <TrackerMenuUp>
+              <ContainerControl>
+                <SettingsIcon />
+                <TitleMenu>Settings</TitleMenu>
+              </ContainerControl>
+              <ContainerControl>
+                <HistoryIcon />
+                <TitleMenu>History</TitleMenu>
+              </ContainerControl>
+              <ContainerControl>
+                <BorderStyleIcon />
+                <TitleMenu>Geo-Fence</TitleMenu>
+              </ContainerControl>
+            </TrackerMenuUp>
+            <TrackerMenuDown>
+              <ContainerControl>
+                <VolumeUpIcon />
+                <TitleMenu>Beep Device</TitleMenu>
+              </ContainerControl>
+              <ContainerControl>
+                <ShareIcon />
+                <TitleMenu>Share Location</TitleMenu>
+              </ContainerControl>
+              <ContainerControl>
+                <NotificationsIcon />
+                <TitleMenu>Notifications</TitleMenu>
+              </ContainerControl>
+            </TrackerMenuDown>
+            <Border></Border>
+          </TrackerMenu>
+        </Card>
+      </Container>
+    </Slide>
   );
 }
 

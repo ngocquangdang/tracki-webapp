@@ -8,11 +8,11 @@ import Device from '@Components/DeviceCard';
 interface Props {
   trackers: object;
   trackerIds: Array<string | number>;
-  selectedSingleTracker: any;
+  selectedTrackerAction: void;
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds, selectedSingleTracker } = props;
+  const { trackers, trackerIds, selectedTrackerAction } = props;
   const classes = useStyles();
 
   return (
@@ -25,7 +25,7 @@ export default function ListDevice(props: Props) {
                 <Device
                   key={i}
                   tracker={trackers[i]}
-                  onClickTracker={() => selectedSingleTracker(i)}
+                  onClickTracker={selectedTrackerAction}
                 />
               ))
             : [1, 2].map(i => <Device key={i} isLoading />)}
