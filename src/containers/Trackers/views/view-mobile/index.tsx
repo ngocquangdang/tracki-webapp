@@ -2,22 +2,22 @@ import React from 'react';
 import Map from '@Components/Maps';
 
 import { Container, MapView } from './styles';
-import MapToolBarMobile from '@Components/Maps/components/MapToolBarMobile/TopToolbar';
-import MapToolBarMobile2 from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
+import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
+import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 
 export default function ViewHomeMobile(props: any) {
-  const { trackers, trackerIds } = props;
+  const { trackers, trackerIds, selectedTrackerId } = props;
   return (
     <Container>
       <MapView>
-        <MapToolBarMobile />
+        {selectedTrackerId && <TopToolBar />}
         <Map
           fullWidth={true}
           mapType="mapbox"
           trackers={trackers}
           trackerIds={trackerIds}
         />
-        <MapToolBarMobile2 />
+        {selectedTrackerId && <BottomToolBar />}
       </MapView>
     </Container>
   );
