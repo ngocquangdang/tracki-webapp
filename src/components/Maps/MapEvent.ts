@@ -20,8 +20,8 @@ class DroneMapEvent {
     return this.map.setCenter(data);
   }
 
-  setCenterFlyTo(data) {
-    return this.map.setCenterFlyTo(data);
+  setCenterFlyTo(center, option) {
+    return this.map.setCenterFlyTo(center, option);
   }
 
   getZoom(status) {
@@ -40,6 +40,10 @@ class DroneMapEvent {
     this.map.setFitBounds(coordinates, callback);
 
   getBounds = () => this.map.getBounds();
+
+  getUseLocation() {
+    console.log('getUseLocation');
+  }
 }
 
 export default DroneMapEvent;

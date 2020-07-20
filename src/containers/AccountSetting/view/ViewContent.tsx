@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Switch } from '@material-ui/core';
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-// import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
@@ -42,7 +42,7 @@ interface SettingState {
 
 export default function AccountSetting(props: any) {
   const classes = useStyles();
-  const { t, profile, errors, isRequesting, updateUSerRequestAction } = props;
+  const { t, profile, errors, isRequesting } = props;
 
   const [state] = useState<SettingState>({
     language: [...LANGUAGES],
@@ -53,7 +53,8 @@ export default function AccountSetting(props: any) {
     email: '',
     first_name: '',
     last_name: '',
-    // phone: '',
+    phone_code: '',
+    phone: '',
     email_notifications: true,
     push_notifications: true,
     speed_unit: 'kph',
@@ -66,6 +67,8 @@ export default function AccountSetting(props: any) {
       email: profile.email || '',
       first_name: profile?.preferences?.first_name || '',
       last_name: profile?.preferences?.last_name || '',
+      phone_code: profile?.preferences?.phone_code || 'vn',
+      phone: profile?.preferences?.phone || '',
       email_notifications: profile.preferences?.email_notifications,
       push_notifications: profile.preferences?.push_notifications,
       speed_unit: profile?.preferences?.speed_unit || 'kph',
@@ -75,11 +78,15 @@ export default function AccountSetting(props: any) {
   }, [profile]);
 
   const onSubmitForm = (value: UserDatails.IStateUser) => {
-    // const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
+    console.log('onSubmitForm -> value', value);
+    const phoneNumber = parsePhoneNumberFromString(
+      `+${value.phone_code}${value.phone}`
+    );
+    console.log('onSubmitForm -> phoneNumber', phoneNumber);
     // const isValidPhone = phoneNumber?.isValid();
     // if (isValidPhone) {
     // }
-    updateUSerRequestAction(value, profile.account_id);
+    // updateUSerRequestAction(value, profile.account_id);
   };
 
   if (!userProfile.email) {
@@ -110,10 +117,10 @@ export default function AccountSetting(props: any) {
           handleBlur,
           touched,
         }) => {
-          // const phoneNumber = parsePhoneNumberFromString(
-          //   `+${code}${values.phone}`
-          // );
-          // const isValidPhone = phoneNumber?.isValid();
+          const phoneNumber = parsePhoneNumberFromString(
+            `+${values.phone_code}${values.phone}`
+          );
+          const isValidPhone = phoneNumber?.isValid();
           return (
             <Content onSubmit={handleSubmit}>
               <Title>{t('auth:account_details')}</Title>
@@ -146,20 +153,19 @@ export default function AccountSetting(props: any) {
                 />
                 <PhoneNumberInput
                   label="Phone Number"
-                  defaultCountry="us"
+                  defaultCountry={values.phone_code}
                   variant="outlined"
                   onChange={handleChange('phone')}
                   onBlur={handleBlur('phone')}
-                  value=""
-                  // value={values.phone}
-                  // errorInput={
-                  //   errorsForm.phone && touched.phone
-                  //     ? t(errorsForm.phone)
-                  //     : values.phone && !isValidPhone
-                  //     ? t('auth:wrong_phone_format')
-                  //     : errors.phone
-                  // }
-                  // onChangeInput={(code: any) => setCode(code)}
+                  value={values.phone}
+                  errorInput={
+                    errorsForm.phone && touched.phone
+                      ? t(errorsForm.phone)
+                      : values.phone && !isValidPhone
+                      ? t('auth:wrong_phone_format')
+                      : errors.phone
+                  }
+                  onChangeInput={handleChange('phone_code')}
                   searchStyle={{ width: '93%', height: '35px' }}
                 />
                 <SelectGroup>

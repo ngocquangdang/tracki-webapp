@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 
 import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
+import MapToolBar from '@Components/Maps/components/MapToolBar';
 
 import { Container, TabStyle, MapView, useStyles } from './styles';
 import SingleTracker from '@Components/SingleTracker';
@@ -105,6 +106,7 @@ export default function HomeContainer(props: any) {
           trackerIds={trackerIds}
           selectedTrackerId={selectedTrackerId}
         />
+        <MapToolBar />
       </MapView>
     </Container>
   );

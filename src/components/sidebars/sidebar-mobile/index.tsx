@@ -1,8 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
+import { connect } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import { AiOutlineDashboard } from 'react-icons/ai';
-import { useStyles, Item, LinkStyle, Icon, Label, MenuButton } from './style';
-import Link from 'next/link';
 import {
   LocationOn as LocationIcon,
   Contacts as ContactsIcon,
@@ -14,6 +14,10 @@ import {
   PlayArrow as PlayIcon,
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
+
+import { logoutRequestAction } from '@Containers/App/store/actions';
+
+import { useStyles, Item, LinkStyle, Icon, Label, MenuButton } from './style';
 
 const routes = [
   {
@@ -69,9 +73,15 @@ const routes = [
 ];
 type MenuType = { icon: JSX.Element; label: string; link: string };
 
-export default function SideBarMobile(props: any) {
+function SideBarMobile(props: any) {
+  // const { logoutRequestAction } = props;
+
   const classes = useStyles();
   const { open, children } = props;
+
+  // const handleLogout = () => {
+  //   logoutRequestAction();
+  // };
   const renderMenuButton = ({ icon, label, link }: MenuType) => {
     return (
       <Item key={label}>
@@ -103,3 +113,7 @@ export default function SideBarMobile(props: any) {
     </Drawer>
   );
 }
+const mapDispatchToProps = (dispatch: any) => ({
+  logoutRequestAction: () => dispatch(logoutRequestAction()),
+});
+export default connect(null, mapDispatchToProps)(SideBarMobile);

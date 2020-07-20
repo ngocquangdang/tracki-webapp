@@ -13,6 +13,8 @@ import {
 } from '@material-ui/icons';
 
 import { useStyles, StyledMenuItem } from './styles';
+import { logoutRequestAction } from '@Containers/App/store/actions';
+import { connect } from 'react-redux';
 
 const StyledMenu = withStyles({
   paper: {
@@ -39,7 +41,9 @@ const StyledMenu = withStyles({
   />
 ));
 
-export default function CustomizedMenus() {
+function CustomizedMenus(props: any) {
+  const { logoutRequestAction } = props;
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -50,7 +54,9 @@ export default function CustomizedMenus() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleLogout = () => {
+    logoutRequestAction();
+  };
   return (
     <>
       <Button
@@ -100,7 +106,7 @@ export default function CustomizedMenus() {
             className={classes.menuText}
           />
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={handleLogout}>
           <ListItemIcon className={classes.menuItemIcon}>
             <LogoutIcon className={classes.menuIcon} />
           </ListItemIcon>
@@ -110,3 +116,7 @@ export default function CustomizedMenus() {
     </>
   );
 }
+const mapDispatchToProps = (dispatch: any) => ({
+  logoutRequestAction: () => dispatch(logoutRequestAction()),
+});
+export default connect(null, mapDispatchToProps)(CustomizedMenus);
