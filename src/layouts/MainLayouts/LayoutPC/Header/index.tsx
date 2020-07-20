@@ -76,7 +76,12 @@ export default function Header() {
 
   useEffect(() => {
     const link = window.location.pathname;
-    const tabIndex = routes.findIndex(r => r.link === link);
+    let tabIndex = routes.findIndex(r => r.link === link);
+    if (tabIndex === -1) {
+      if (link.includes('change-password')) {
+        tabIndex = 6;
+      }
+    }
     setCurrentLink(link);
     setCurrentTab(tabIndex);
   }, [currentLink]);

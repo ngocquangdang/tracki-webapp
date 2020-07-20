@@ -8,7 +8,7 @@ import { withTranslation } from '@Server/i18n';
 import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
   searchTrackersRequestedAction,
-  selectedSingleTrackerRequestAction,
+  selectTrackerIdAction,
 } from '@Containers/App/store/actions';
 import {
   makeSelectLoading,
@@ -29,27 +29,28 @@ import {
   useStyles,
 } from './styles';
 import { Button } from '@Components/buttons';
-import Device from '@Components/DeviceCard';
+import TrackerCard from '@Components/TrackerCard';
+import { SkeletonTracker } from '@Components/Skeletons';
 
 interface Props {
   isLoading: boolean;
   trackers: object;
-  t(key: string, format?: object): string;
   trackerIds: Array<number>;
+  t(key: string, format?: object): string;
   searchTrackersRequest(key: string | null): void;
-  selectedTrackerAction(id: number): void;
-  onCloseSidebar(): any;
+  selectTrackerAction(id: number): void;
+  onCloseSidebar(): void;
 }
 
-function ListDeviceTrackerMobile(props: Props) {
+function ListTrackerMobile(props: Props) {
   const classes = useStyles();
   const [isFullWidth, setWidthSearch] = useState(false);
   const {
     trackers,
-    t,
     trackerIds,
+    t,
     searchTrackersRequest,
-    selectedTrackerAction,
+    selectTrackerAction,
     onCloseSidebar,
   } = props;
 
@@ -61,7 +62,7 @@ function ListDeviceTrackerMobile(props: Props) {
     300
   );
   const onClickTracker = id => {
-    selectedTrackerAction(id);
+    selectTrackerAction(id);
     onCloseSidebar();
   };
 
@@ -91,14 +92,14 @@ function ListDeviceTrackerMobile(props: Props) {
         {trackerIds
           ? trackerIds.map(id => (
               // eslint-disable-next-line react/jsx-indent
-              <Device
+              <TrackerCard
                 key={id}
                 tracker={trackers[id]}
                 isMobile
                 onClickTracker={onClickTracker}
               />
             ))
-          : [1, 2].map(i => <Device key={i} isLoading isMobile />)}
+          : [1, 2].map(i => <SkeletonTracker key={i} isMobile />)}
       </Content>
       <Footer>
         <Button
@@ -124,8 +125,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(fetchTrackersRequestedAction(data)),
   searchTrackersRequest: (search: string | null) =>
     dispatch(searchTrackersRequestedAction(search)),
-  selectedTrackerAction: (id: number) =>
-    dispatch(selectedSingleTrackerRequestAction(id)),
+  selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -134,4 +134,4 @@ export default compose(
   withConnect,
   memo,
   withTranslation(['auth', 'common'])
-)(ListDeviceTrackerMobile) as React.ComponentType;
+)(ListTrackerMobile) as React.ComponentType;

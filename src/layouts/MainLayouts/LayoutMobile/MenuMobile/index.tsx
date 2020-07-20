@@ -22,7 +22,7 @@ const routes = [
   {
     label: 'View All',
     icon: <NearMeIcon />,
-    link: '/home',
+    link: '/trackers',
   },
   {
     label: 'Store',

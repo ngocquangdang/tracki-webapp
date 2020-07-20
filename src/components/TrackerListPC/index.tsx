@@ -3,16 +3,17 @@ import { FiPlus } from 'react-icons/fi';
 
 import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
-import Device from '@Components/DeviceCard';
+import TrackerCard from '@Components/TrackerCard';
+import { SkeletonTracker } from '@Components/Skeletons';
 
 interface Props {
   trackers: object;
   trackerIds: Array<string | number>;
-  selectedTrackerAction: void;
+  onClickTracker(id: number): void;
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds, selectedTrackerAction } = props;
+  const { trackers, trackerIds, onClickTracker } = props;
   const classes = useStyles();
 
   return (
@@ -20,15 +21,15 @@ export default function ListDevice(props: Props) {
       <Content>
         <ListItem>
           {trackerIds
-            ? trackerIds.map(i => (
+            ? trackerIds.map(id => (
                 // eslint-disable-next-line react/jsx-indent
-                <Device
-                  key={i}
-                  tracker={trackers[i]}
-                  onClickTracker={selectedTrackerAction}
+                <TrackerCard
+                  key={id}
+                  tracker={trackers[id]}
+                  onClickTracker={onClickTracker}
                 />
               ))
-            : [1, 2].map(i => <Device key={i} isLoading />)}
+            : [1, 2].map(i => <SkeletonTracker key={i} />)}
         </ListItem>
       </Content>
       <Footer>

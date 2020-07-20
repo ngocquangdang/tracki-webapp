@@ -13,7 +13,7 @@ import {
   useStyles,
 } from './styles';
 
-export default function MapToolBarMobile() {
+export default function BottomToolBar() {
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
 

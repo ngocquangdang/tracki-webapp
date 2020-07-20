@@ -20,7 +20,7 @@ function* loginSaga(action: ActionType) {
         response.data.access_token
       );
       AxiosClient.setHeader(response.data.access_token);
-      window.location.replace('/home');
+      window.location.replace('/trackers');
     } else {
       //
     }

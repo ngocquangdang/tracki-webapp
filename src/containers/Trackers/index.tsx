@@ -13,14 +13,16 @@ import {
 import {
   fetchUserRequestedAction,
   resetSelectedTrackerIdAction,
-  selectedSingleTrackerRequestAction,
+  selectTrackerIdAction,
   searchTrackersRequestedAction,
 } from '@Containers/App/store/actions';
 
 import View from './view';
 
 interface Props {
+  trackerId?: any;
   fetchUserRequestedAction(): void;
+  [data: string]: any;
 }
 
 function TrackersContainer(props: Props) {
@@ -42,8 +44,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
-  selectedTrackerAction: (id: number) =>
-    dispatch(selectedSingleTrackerRequestAction(id)),
+  selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
   searchTrackersRequest: (search: string | null) =>
     dispatch(searchTrackersRequestedAction(search)),
   onResetSelectedTrackerID: () => dispatch(resetSelectedTrackerIdAction()),

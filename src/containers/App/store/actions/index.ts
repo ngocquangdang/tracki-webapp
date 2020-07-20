@@ -77,9 +77,7 @@ export const searchTrackersFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const selectedSingleTrackerRequestAction = (
-  selectedTrackerId: number
-) => ({
+export const selectTrackerIdAction = (selectedTrackerId: number) => ({
   type: types.SELECTED_TRACKER,
   payload: { selectedTrackerId },
 });

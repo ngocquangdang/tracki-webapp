@@ -1,23 +1,19 @@
 import React from 'react';
-import { NextPage, NextPageContext } from 'next';
+import { NextPage } from 'next';
 import { compose } from 'redux';
 import { withTranslation } from '@Server/i18n';
-import { useRouter } from 'next/router';
 
 import { IPage } from '@Interfaces';
 import withAuth from '@Components/hocs/withAuth';
-import SingleTracker from '@Containers/SingleTracker';
+import TrackersContainer from '@Containers/Trackers';
 
-const SingleTrackerView: NextPage<IPage.InitialProps> = props => {
-  const router = useRouter();
-  const { id } = router.query;
+interface Props {}
 
-  return <SingleTracker trackerId={id} />;
+const SingleTrackerView: NextPage<IPage.InitialProps> = (props: Props) => {
+  return <TrackersContainer {...props} />;
 };
 
-SingleTrackerView.getInitialProps = async ({
-  req,
-}: NextPageContext): Promise<IPage.InitialProps> => {
+SingleTrackerView.getInitialProps = async (): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['common'] };
 };
 

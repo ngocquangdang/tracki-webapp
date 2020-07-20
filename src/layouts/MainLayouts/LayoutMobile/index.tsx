@@ -4,7 +4,7 @@ import HeaderMobile from './Header';
 import { Content, useStyles } from './styles';
 import MenuMobile from './MenuMobile';
 import { SideBarMobile } from '@Components/sidebars';
-import ListDeviceTrakerMobile from '@Components/traker-list';
+import ListTrakerMobile from '@Components/TrackerListMobile';
 
 interface Props {
   header?: JSX.Element;
@@ -34,7 +34,7 @@ function MainLayoutMobile(props: Props) {
         )}
       </div>
       <SideBarMobile open={open} handleOpenSideBar={handleOpenSideBar}>
-        <ListDeviceTrakerMobile onCloseSidebar={handleCloseSideBar} />
+        <ListTrakerMobile onCloseSidebar={handleCloseSideBar} />
       </SideBarMobile>
       <div className={open ? classes.blurHeader : ''}>
         <Content

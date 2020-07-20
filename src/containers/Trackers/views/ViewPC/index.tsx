@@ -11,16 +11,18 @@ import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
 import { Container, TabStyle, MapView, useStyles } from './styles';
 import SingleTracker from '@Components/SingleTracker';
 
-const ListDevice = dynamic(() => import('../../components/trackers'));
-const ListGeoFence = dynamic(() => import('../../components/geofence'));
+const TrackerList = dynamic(() => import('@Components/TrackerListPC'));
+const GeofenceList = dynamic(() => import('@Components/GeofenceListPC'));
 
-export default function ViewPC(props: any) {
+export default function HomeContainer(props: any) {
   const {
     trackers,
     trackerIds,
     isRequesting,
     selectedTrackerId,
-    selectedSingleTracker,
+    selectTrackerAction,
+    onResetSelectedTrackerID,
+    searchTrackersRequest,
   } = props;
   const classes = useStyles();
   const [isOpenSidebar, setOpenSidebar] = useState(true);
@@ -32,12 +34,22 @@ export default function ViewPC(props: any) {
   const handleChangee = () => {
     setOpenSidebar(!isOpenSidebar);
   };
-
+  const handleClickBack = () => {
+    onResetSelectedTrackerID();
+    const coords = Object.values(trackers).map(({ lat, lng }: any) => ({
+      lat,
+      lng,
+    }));
+    window.mapEvents.setFitBounds(coords);
+  };
   return (
     <Container>
       <SideBar opened={isOpenSidebar} onChange={handleChangee}>
         {selectedTrackerId ? (
-          <SingleTracker tracker={trackers[selectedTrackerId]} />
+          <SingleTracker
+            tracker={trackers[selectedTrackerId]}
+            onClickBack={handleClickBack}
+          />
         ) : (
           <>
             <Paper className={classes.border}>
@@ -65,19 +77,21 @@ export default function ViewPC(props: any) {
               value={currentTab}
               index={0}
               placeholder="Search devices by name or ID"
+              searchTrackersRequest={searchTrackersRequest}
             >
-              <ListDevice
+              <TrackerList
                 trackers={trackers}
                 trackerIds={trackerIds}
-                selectedSingleTracker={selectedSingleTracker}
+                onClickTracker={selectTrackerAction}
               />
             </TabPanel>
             <TabPanel
               value={currentTab}
               index={1}
               placeholder="Search geo-fences by name"
+              searchTrackersRequest={searchTrackersRequest}
             >
-              <ListGeoFence
+              <GeofenceList
                 isLoading={isRequesting}
                 geo_fence={trackers?.geo_fence || []}
                 deviceIds={trackerIds || []}

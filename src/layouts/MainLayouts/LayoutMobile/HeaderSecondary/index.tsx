@@ -3,20 +3,6 @@ import { Toolbar, AppBar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 
-// <HeaderMobile>
-//           {url.slice(-1).map((url, index: number) => (
-//             <Button
-//               key={index}
-//               variant="text"
-//               classes={classes.backBtn}
-//               startIcon={<FiChevronLeft size={28} />}
-//               text={url.name}
-//               onClick={() => Router.back()}
-//             />
-//           ))}
-//           <Logo src="images/logo.png" className={classes.logo} alt="" />
-//         </HeaderMobile>
-
 export default function HeaderMobile(props: any) {
   const classes = useStyles();
   const { title } = props;

@@ -1,2 +1,2 @@
-export { default as ViewPC } from './view-pc';
-export { default as ViewMobile } from './view-mobile';
+export { default as ViewPC } from './ViewPC';
+export { default as ViewMobile } from './ViewMobile';

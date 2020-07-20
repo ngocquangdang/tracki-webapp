@@ -30,7 +30,7 @@ export default function BreadCrumb(props: Props) {
       </GroupTitle>
       <NavLink>
         <LinkItem>
-          <Link href="/home">
+          <Link href="/trackers">
             <span>Home</span>
           </Link>
         </LinkItem>

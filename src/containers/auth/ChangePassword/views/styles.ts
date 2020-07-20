@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core';
 const ChangePWContainer = styled.div`
   padding-top: 32px;
   background-color: #fafafa;
+  height: 100%;
   padding-bottom: 91px;
   @media (max-width: 959.95px) {
     padding-top: 0;

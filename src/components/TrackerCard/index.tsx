@@ -1,5 +1,4 @@
 import React from 'react';
-import Skeleton from '@material-ui/lab/Skeleton';
 import moment from 'moment';
 
 import { GoPrimitiveDot } from 'react-icons/go';
@@ -16,10 +15,17 @@ import {
   useStyles,
   ImageWrapper,
 } from './styles';
+import { ITracker } from '@Interfaces';
 
-export default function Device(props: any) {
+interface Props {
+  tracker: ITracker;
+  isMobile?: boolean;
+  onClickTracker(id: number): void;
+}
+
+export default function TrackerCard(props: Props) {
   const classes = useStyles();
-  const { tracker, isLoading, isMobile, onClickTracker } = props;
+  const { tracker, isMobile = false, onClickTracker } = props;
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
@@ -29,34 +35,6 @@ export default function Device(props: any) {
     );
   };
 
-  if (isLoading) {
-    return (
-      <Card isMobile={isMobile}>
-        <Skeleton
-          variant="circle"
-          animation="wave"
-          width={40}
-          height={40}
-          style={{ marginRight: 8 }}
-          classes={{ root: classes.skeleton }}
-        />
-        <div>
-          <Skeleton
-            variant="text"
-            width={150}
-            animation="wave"
-            classes={{ root: classes.skeleton }}
-          />
-          <Skeleton
-            variant="text"
-            width={250}
-            animation="wave"
-            classes={{ root: classes.skeleton }}
-          />
-        </div>
-      </Card>
-    );
-  }
   return (
     <Card key={tracker.device_id} isMobile={isMobile} onClick={handleClick}>
       <Item>
