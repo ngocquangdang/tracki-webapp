@@ -23,12 +23,10 @@ export default function Device(props: any) {
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
-    window.mapEvents.setCenterFlyTo({
-      lat: tracker.lat,
-      lng: tracker.lng,
-      speed: 1,
-      zoom: 15,
-    });
+    window.mapEvents.setCenterFlyTo(
+      { lat: tracker.lat, lng: tracker.lng },
+      { speed: 1, zoom: 15 }
+    );
   };
 
   if (isLoading) {

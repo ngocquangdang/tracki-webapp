@@ -37,7 +37,6 @@ export default function TabPanel(props: Props) {
             <TextInput
               placeholder={`${placeholder}`}
               variant="outlined"
-              color="secondary"
               type="search"
               InputProps={{
                 classes: { root: classes.inputRoot, input: classes.input },

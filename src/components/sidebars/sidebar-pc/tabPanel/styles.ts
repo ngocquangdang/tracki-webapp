@@ -31,7 +31,7 @@ const TextInput = withStyles(theme => ({
     },
     '& .MuiOutlinedInput-root': {
       '&:hover fieldset': {
-        borderColor: '#1a1a1a',
+        borderColor: theme.palette.primary.main,
       },
     },
     '& .MuiOutlinedInput-input': {

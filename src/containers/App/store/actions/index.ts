@@ -43,6 +43,23 @@ export const fetchTrackersFailedAction = (error: object) => ({
   payload: { error },
 });
 
+export const logoutRequestAction = () => {
+  return {
+    type: types.LOGOUT,
+  };
+};
+
+export const logoutSucceedAction = () => {
+  return {
+    type: types.LOGOUT_SUCCEED,
+  };
+};
+
+export const logoutFailedAction = () => {
+  return {
+    type: types.LOGOUT_FAILED,
+  };
+};
 export const searchTrackersRequestedAction = (search: string | null) => ({
   type: types.SEARCH_TRACKERS_REQUESTED,
   payload: { search },
