@@ -5,6 +5,7 @@ const ToolBar = styled.div`
   position: absolute;
   right: 5px;
   top: 5px;
+  z-index: 2;
 `;
 
 const Text = styled.span``;
