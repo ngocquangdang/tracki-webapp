@@ -35,7 +35,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       style: `mapbox://styles/mapbox/streets-v11`,
       center: this.state.mapCenter,
       zoom: this.state.mapZoom,
-      maxZoom: 13,
+      maxZoom: 19,
       fitBoundsOptions: { padding: 20 },
       attributionControl: false,
       bounds: [
@@ -50,6 +50,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
 
   renderMarkers = () => {
     const { trackers } = this.props;
+
     if (this.state.isInitiatedMap) {
       if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
         this.isFirstFitBounce = true;

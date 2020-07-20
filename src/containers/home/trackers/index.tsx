@@ -15,7 +15,7 @@ interface Props {
 export default function ListDevice(props: Props) {
   const { trackers, trackerIds, selectedTrackerAction } = props;
   const classes = useStyles();
-  console.log('ssssssssssssss', props);
+
   return (
     <Container>
       <Content>
@@ -26,7 +26,7 @@ export default function ListDevice(props: Props) {
                 <Device
                   key={i}
                   tracker={trackers[i]}
-                  onClickTracker={() => selectedTrackerAction(i)}
+                  onClickTracker={selectedTrackerAction}
                 />
               ))
             : [1, 2].map(i => <Device key={i} isLoading />)}

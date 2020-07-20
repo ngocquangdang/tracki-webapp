@@ -138,14 +138,14 @@ function SingleTracker(props: any) {
               <span className={classes.textSpace}>{tracker.battery}%</span>
             </BatteryTracker>
             <StatusTracker>
-              <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />{' '}
+              <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
               <span className={`${classes.textBold} ${classes.textSpace}`}>
                 {tracker.speed}
               </span>
             </StatusTracker>
             <ConnectionTracker>
               <Connection>
-                Connection:{' '}
+                Connection:
                 <span className={classes.textBold}>
                   {tracker.location_type}
                 </span>

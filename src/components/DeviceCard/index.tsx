@@ -21,6 +21,16 @@ export default function Device(props: any) {
   const classes = useStyles();
   const { tracker, isLoading, isMobile, onClickTracker } = props;
 
+  const handleClick = () => {
+    onClickTracker(tracker.device_id);
+    window.mapEvents.setCenterFlyTo({
+      lat: tracker.lat,
+      lng: tracker.lng,
+      speed: 1,
+      zoom: 15,
+    });
+  };
+
   if (isLoading) {
     return (
       <Card isMobile={isMobile}>
@@ -50,7 +60,7 @@ export default function Device(props: any) {
     );
   }
   return (
-    <Card key={tracker.device_id} isMobile={isMobile} onClick={onClickTracker}>
+    <Card key={tracker.device_id} isMobile={isMobile} onClick={handleClick}>
       <Item>
         <ImageWrapper>
           <Image src={tracker.icon_url || 'images/image-device.png'} alt="" />

@@ -33,14 +33,21 @@ export default function HomeContainer(props: any) {
   const handleChangee = () => {
     setOpenSidebar(!isOpenSidebar);
   };
-
+  const handleClickBack = () => {
+    onResetSelectedTrackerID();
+    const coords = Object.values(trackers).map(({ lat, lng }: any) => ({
+      lat,
+      lng,
+    }));
+    window.mapEvents.setFitBounds(coords);
+  };
   return (
     <Container>
       <SideBar opened={isOpenSidebar} onChange={handleChangee}>
         {selectedTrackerId ? (
           <SingleTracker
             tracker={trackers[selectedTrackerId]}
-            onClickBack={onResetSelectedTrackerID}
+            onClickBack={handleClickBack}
           />
         ) : (
           <>
@@ -96,6 +103,7 @@ export default function HomeContainer(props: any) {
           fullWidth={!isOpenSidebar}
           trackers={trackers}
           trackerIds={trackerIds}
+          selectedTrackerId={selectedTrackerId}
         />
       </MapView>
     </Container>

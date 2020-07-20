@@ -20,7 +20,8 @@ class MapBoxEvent {
 
   setCenter = coordinate => this.mapApi.panTo(coordinate);
 
-  setCenterFlyTo = ({ lat, lng }) => this.mapApi.flyTo({ center: [lng, lat] });
+  setCenterFlyTo = ({ lat, lng, speed, zoom }) =>
+    this.mapApi.flyTo({ center: [lng, lat], zoom: zoom, speed: speed });
 
   getZoom = () => {
     return this.mapApi.getZoom();
