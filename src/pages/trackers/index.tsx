@@ -5,17 +5,16 @@ import { withTranslation } from '@Server/i18n';
 import { NextPageContext } from 'next';
 import { IPage } from '@Interfaces';
 import withAuth from '@Components/hocs/withAuth';
-import View from '@Containers/home';
+import View from '@Containers/Trackers';
 
-const Home: NextPage<IPage.InitialProps> = props => {
+const TrackersView: NextPage<IPage.InitialProps> = props => {
   return <View {...props} />;
 };
 
-Home.getInitialProps = async ({
+TrackersView.getInitialProps = async ({
   req,
 }: NextPageContext): Promise<IPage.InitialProps> => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
-  return { namespacesRequired: ['auth'], userAgent };
+  return { namespacesRequired: ['auth'] };
 };
 
-export default compose(withAuth, withTranslation('auth'))(Home);
+export default compose(withAuth, withTranslation('auth'))(TrackersView);

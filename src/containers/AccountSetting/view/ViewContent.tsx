@@ -10,6 +10,7 @@ import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { UserSchema } from '../schema';
 import { TextInput, PhoneNumberInput } from '@Components/inputs';
+
 import {
   Container,
   Content,
@@ -26,6 +27,7 @@ import {
   useStyles,
 } from './styles';
 import UserDatails from '../interfaces';
+import { LANGUAGES, DATE_SETTINGS } from '../store/definitions';
 
 interface SettingState {
   language: {
@@ -43,35 +45,10 @@ export default function AccountSetting(props: any) {
   const { t, profile, errors, isRequesting, updateUSerRequestAction } = props;
 
   const [state] = useState<SettingState>({
-    language: [
-      {
-        value: 'null',
-        content: '-- Select Language --',
-      },
-      {
-        value: 'en',
-        content: 'English (USA)',
-      },
-      {
-        value: 'sp',
-        content: 'Spanish',
-      },
-    ],
-    dateType: [
-      {
-        value: 'DEFAULT',
-        content: 'default',
-      },
-      {
-        value: 'US',
-        content: 'mm/dd/yyyy',
-      },
-      {
-        value: 'dd/mm/yyyy',
-        content: 'dd/mm/yyyy',
-      },
-    ],
+    language: [...LANGUAGES],
+    dateType: [...DATE_SETTINGS],
   });
+
   const [userProfile, updateUserProfile] = useState<UserDatails.IStateUser>({
     email: '',
     first_name: '',
@@ -83,6 +60,7 @@ export default function AccountSetting(props: any) {
     date_format: '',
     language: 'en',
   });
+
   useEffect(() => {
     updateUserProfile({
       email: profile.email || '',

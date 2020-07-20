@@ -6,7 +6,13 @@ import MenuMobile from './MenuMobile';
 import { SideBarMobile } from '@Components/sidebars';
 import ListDeviceTrakerMobile from '@Components/traker-list';
 
-function MainLayoutMobile(props: any) {
+interface Props {
+  header?: JSX.Element;
+  noFooter?: boolean;
+  [data: string]: any;
+}
+
+function MainLayoutMobile(props: Props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -19,11 +25,13 @@ function MainLayoutMobile(props: any) {
   return (
     <MainWrapper className={classes.root}>
       <div className={open ? classes.blurHeader : ''}>
-        <HeaderMobile
-          open={open}
-          handleOpenSideBar={handleOpenSideBar}
-          onClick={handleCloseSideBar}
-        />
+        {props.header || (
+          <HeaderMobile
+            open={open}
+            handleOpenSideBar={handleOpenSideBar}
+            onClick={handleCloseSideBar}
+          />
+        )}
       </div>
       <SideBarMobile open={open} handleOpenSideBar={handleOpenSideBar}>
         <ListDeviceTrakerMobile isMobile />
@@ -35,7 +43,7 @@ function MainLayoutMobile(props: any) {
         >
           {props.children}
         </Content>
-        <MenuMobile />
+        {!props.noFooter && <MenuMobile />}
       </div>
     </MainWrapper>
   );

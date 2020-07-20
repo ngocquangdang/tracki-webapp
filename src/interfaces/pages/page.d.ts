@@ -5,7 +5,6 @@ declare namespace IPage {
 
   interface InitialProps {
     namespacesRequired: string[];
-    userAgent?: any;
   }
 }
 

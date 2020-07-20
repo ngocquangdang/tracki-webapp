@@ -11,10 +11,10 @@ import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
 import { Container, TabStyle, MapView, useStyles } from './styles';
 import SingleTracker from '@Components/SingleTracker';
 
-const ListDevice = dynamic(() => import('../../trackers'));
-const ListGeoFence = dynamic(() => import('../../geofence'));
+const ListDevice = dynamic(() => import('../../components/trackers'));
+const ListGeoFence = dynamic(() => import('../../components/geofence'));
 
-export default function HomeContainer(props: any) {
+export default function ViewPC(props: any) {
   const {
     trackers,
     trackerIds,

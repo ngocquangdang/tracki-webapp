@@ -17,7 +17,7 @@ const makeSelectTrackerIds = () =>
   createSelector(globalState, state => state.tracker?.trackerIds);
 
 const makeSelectSingleTrackerId = () =>
-  createSelector(globalState, state => state.traker?.selectedTrackerId);
+  createSelector(globalState, state => state.tracker?.selectedTrackerId);
 
 export {
   makeSelectProfile,

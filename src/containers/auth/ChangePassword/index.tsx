@@ -19,7 +19,7 @@ import IForgotPage from './interfaces';
 
 import View from './views';
 
-function ForgotPassword(props: IForgotPage.IProps) {
+function ChangePasswordContainer(props: IForgotPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
 
@@ -42,4 +42,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo
-)(ForgotPassword) as React.ComponentType;
+)(ChangePasswordContainer) as React.ComponentType;

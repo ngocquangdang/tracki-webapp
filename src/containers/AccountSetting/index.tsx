@@ -17,7 +17,7 @@ import {
 } from './store/selectors';
 import UserDetail from './interfaces';
 
-import View from './views';
+import View from './view';
 
 function SettingContainer(props: UserDetail.IProps) {
   useInjectSaga({ key: 'profile', saga });

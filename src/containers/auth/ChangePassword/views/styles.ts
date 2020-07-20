@@ -1,9 +1,22 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core';
 
-const Container = styled.div`
+const ChangePWContainer = styled.div`
+  padding-top: 32px;
   background-color: #fafafa;
+  padding-bottom: 91px;
+  @media (max-width: 959.95px) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 `;
+
+const Container = styled.div`
+  display: flex;
+  background-color: #fafafa;
+  justify-content: center;
+`;
+
 const Content = styled.form`
   padding: 51px 162px;
   border-radius: 4px;
@@ -129,6 +142,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 export {
+  ChangePWContainer,
   Container,
   Content,
   Title,

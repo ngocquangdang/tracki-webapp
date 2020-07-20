@@ -1,14 +1,25 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core';
 
-const Container = styled.div`
+const SettingContainer = styled.div`
+  padding-top: 32px;
   background-color: #fafafa;
+  padding-bottom: 91px;
+  @media (max-width: 959.95px) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 const Content = styled.form`
   padding: 51px 162px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px var(--e-0-e-0-e-0-border-color);
+  border: solid 1px #e0e0e0;
   background-color: #ffffff;
   width: 100%;
   height: 100%;
@@ -161,5 +172,6 @@ export {
   SelectGroup,
   Loading,
   Layout,
+  SettingContainer,
   useStyles,
 };
