@@ -33,6 +33,7 @@ export default function TrackerCard(props: Props) {
       { lat: tracker.lat, lng: tracker.lng },
       { speed: 1, zoom: 15 }
     );
+    window.history.pushState({}, '', '/trackers/' + tracker.device_id);
   };
 
   return (

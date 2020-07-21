@@ -53,12 +53,12 @@ const routes = [
   {
     label: 'Privacy Policy',
     icon: <LockIcon />,
-    link: '/',
+    link: '/privacy',
   },
   {
     label: 'User Agreement',
     icon: <AssignmentIcon />,
-    link: '/',
+    link: '/terms',
   },
   {
     label: 'Video Tutorials',

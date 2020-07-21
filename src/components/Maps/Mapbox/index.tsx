@@ -21,8 +21,8 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     super(props);
     this.state = {
       isInitiatedMap: false,
-      mapCenter: [123.986206, 10.287471],
-      mapZoom: 13,
+      mapCenter: [34.566667, 40.866667],
+      mapZoom: 1,
     };
     this.isFirstFitBounce = false;
   }
@@ -36,12 +36,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       center: this.state.mapCenter,
       zoom: this.state.mapZoom,
       maxZoom: 19,
-      fitBoundsOptions: { padding: 20 },
       attributionControl: true,
-      bounds: [
-        [123.986206, 10.287471],
-        [123.986206, 10.287471],
-      ],
     });
     this.setState({ isInitiatedMap: true });
     window.mapEvents = new MapEvent('mapbox', this.map);
