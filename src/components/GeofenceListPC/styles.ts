@@ -55,21 +55,15 @@ const useStyles = makeStyles(theme => ({
     '&::placeholder': {
       textAlign: 'center',
     },
-    // '&::-webkit-input-placeholder': {
-    //   fontFamily: 'FontAwesome',
-    //   fontWeight: 'normal',
-    //   overflow: 'visible',
-    //   verticalAlign: 'top',
-    //   display: 'inline-block !important',
-    //   paddingLeft: '5px',
-    //   paddingTop: '2px',
-    // },
   },
   btn: {
     backgroundColor: '#f5f5f5',
     margin: '1rem 0',
     color: '#666666',
     width: '100%',
+    fontSize: 16,
+    lineHeight: '19px',
+    fontWeight: 400,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,

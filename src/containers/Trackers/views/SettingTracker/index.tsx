@@ -72,7 +72,25 @@ function SettingTracker(props: any) {
     geo_fence_exit: true,
     battery_sleep: true,
   });
-  const onSubmitForm = () => {};
+  const onSubmitForm = () => {
+    setInfoTracker({
+      device_name: '',
+      device_id: '',
+      location_status: 'Off',
+      speed_unit: {
+        enable: true,
+        value: 5,
+        unit: 'kph',
+      },
+      speed_limit: true,
+      speed_moving: true,
+      low_battery: true,
+      enable_beep: true,
+      geo_fence_entry: true,
+      geo_fence_exit: true,
+      battery_sleep: true,
+    });
+  };
   return (
     <MenuWrap title="Settings" handleClose={handleClose}>
       <ImageTracker>

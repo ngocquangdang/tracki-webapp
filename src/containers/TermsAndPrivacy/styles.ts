@@ -22,6 +22,8 @@ const Header = styled.header`
   justify-content: space-between;
   @media (max-width: 955.59px) {
     background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.12);
   }
 `;
 const Wrapper = styled.div`
@@ -42,7 +44,7 @@ const TopButton = styled.button`
   outline: none;
   position: fixed;
   background: #168449;
-  top: 85%;
+  bottom: 15px;
   right: 15px;
   border: 0;
   display: flex;
@@ -96,6 +98,27 @@ const useStyles = makeStyles(theme => ({
   },
   border: {
     borderRadius: 0,
+  },
+  tabs: {
+    height: 55,
+    [theme.breakpoints.down('sm')]: {
+      height: 45,
+    },
+  },
+  tabItem: {
+    fontSize: 18,
+    lineHeight: '22px',
+    height: 55,
+    color: '#b7b7b7',
+    minHeight: 'auto',
+    [theme.breakpoints.down('sm')]: {
+      height: 45,
+      fontSize: 14,
+      lineHeight: '17px',
+      color: '#999',
+      width: '50%',
+      maxWidth: '100%',
+    },
   },
 }));
 const TabStyle = withStyles(theme => ({

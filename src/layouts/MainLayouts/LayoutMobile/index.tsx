@@ -34,7 +34,7 @@ function MainLayoutMobile(props: Props) {
         )}
       </div>
       <SideBarMobile open={open} handleOpenSideBar={handleOpenSideBar}>
-        <ListTrakerMobile onCloseSidebar={handleCloseSideBar} />
+        <ListTrakerMobile closeSidebar={handleOpenSideBar} />
       </SideBarMobile>
       <div className={open ? classes.blurHeader : ''}>
         <Content

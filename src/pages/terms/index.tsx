@@ -9,7 +9,7 @@ const Privacy: NextPage = props => {
   return <PrivacyContainer {...props} />;
 };
 
-Privacy.getInitialProps = async (props): Promise<IPage.InitialProps> => {
+Privacy.getInitialProps = async (): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['auth'] };
 };
 

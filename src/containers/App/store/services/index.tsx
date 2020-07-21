@@ -7,10 +7,6 @@ export const fetchUser = async () => {
   return await axiosClient.get(USER_ENDPOINT);
 };
 
-export const fetchTrackers = async (accountId: number) => {
-  return await axiosClient.get(`v4/accounts/${accountId}/devices/details`);
-};
-
 export const logout = async () => {
   return await axiosClient.post(LOGOUT_ENDPOINT);
 };

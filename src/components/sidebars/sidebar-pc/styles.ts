@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   btnIcon: {
     color: '#1a1a1a',
     width: 26,
-    height: 55,
+    height: 54,
     background: '#fff',
     borderRadius: 0,
     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',

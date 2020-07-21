@@ -9,9 +9,7 @@ const TermsAndPrivacyPage: NextPage = props => {
   return <TermsAndPrivacy {...props} />;
 };
 
-TermsAndPrivacyPage.getInitialProps = async (
-  props
-): Promise<IPage.InitialProps> => {
+TermsAndPrivacyPage.getInitialProps = async (): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['auth'] };
 };
 

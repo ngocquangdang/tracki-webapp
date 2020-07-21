@@ -5,16 +5,16 @@ import { createStructuredSelector } from 'reselect';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from '@Server/i18n';
-import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
+  fetchTrackersRequestedAction,
   searchTrackersRequestedAction,
   selectTrackerIdAction,
-} from '@Containers/App/store/actions';
+} from '@Containers/Trackers/store/actions';
+import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
-  makeSelectLoading,
   makeSelectTrackerIds,
   makeSelectTrackers,
-} from '@Containers/App/store/selectors';
+} from '@Containers/Trackers/store/selectors';
 import { debounce } from 'lodash';
 import { FiPlus } from 'react-icons/fi';
 
@@ -32,15 +32,15 @@ import { Button } from '@Components/buttons';
 import TrackerCard from '@Components/TrackerCard';
 import { SkeletonTracker } from '@Components/Skeletons';
 
-interface Props {
+type Props = {
   isLoading: boolean;
   trackers: object;
   trackerIds: Array<number>;
   t(key: string, format?: object): string;
   searchTrackersRequest(key: string | null): void;
   selectTrackerAction(id: number): void;
-  onCloseSidebar(): void;
-}
+  closeSidebar?(): any;
+};
 
 function ListTrackerMobile(props: Props) {
   const classes = useStyles();
@@ -51,7 +51,7 @@ function ListTrackerMobile(props: Props) {
     t,
     searchTrackersRequest,
     selectTrackerAction,
-    onCloseSidebar,
+    closeSidebar,
   } = props;
 
   const handleFocusInput = () => setWidthSearch(true);
@@ -63,7 +63,7 @@ function ListTrackerMobile(props: Props) {
   );
   const onClickTracker = id => {
     selectTrackerAction(id);
-    onCloseSidebar();
+    closeSidebar && closeSidebar();
   };
 
   return (
@@ -134,4 +134,4 @@ export default compose(
   withConnect,
   memo,
   withTranslation(['auth', 'common'])
-)(ListTrackerMobile) as React.ComponentType;
+)(ListTrackerMobile) as any;

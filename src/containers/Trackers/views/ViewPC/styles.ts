@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { withStyles, makeStyles, Tab } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 const Container = styled.div`
   display: flex;
@@ -47,21 +47,6 @@ const useStyles = makeStyles(theme => ({
     width: 18,
     height: 18,
   },
-  border: {
-    borderRadius: 0,
-    height: 55,
-    boxShadow: '0 3px 4px 0 rgba(0, 0, 0, 0.12)',
-    background: 'linear-gradient(rgba(0,0,0,0.5) -50%, rgba(0,0,0,0) 8%)',
-  },
-  heightTab: {
-    height: '100%',
-    '& div div': {
-      height: '100%',
-    },
-  },
-  tabItem: {
-    width: '50%',
-  },
   relative: {
     position: 'relative',
     top: 0,
@@ -79,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   btnIcon: {
     color: '#1a1a1a',
     width: 26,
-    height: 55,
+    height: 54,
     backgroundColor: '#fff',
     borderRadius: 0,
     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
@@ -87,16 +72,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const TabStyle = withStyles(theme => ({
-  wrapper: {
-    flexDirection: 'row',
-    fontWeight: 300,
-    fontSize: 18,
-    '& > *:first-child': {
-      marginBottom: '0 !important',
-      marginRight: '6px',
-    },
-  },
-}))(Tab);
-
-export { Container, TabStyle, MapView, useStyles };
+export { Container, MapView, useStyles };

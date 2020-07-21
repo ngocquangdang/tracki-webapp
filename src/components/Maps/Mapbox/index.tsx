@@ -21,8 +21,8 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     super(props);
     this.state = {
       isInitiatedMap: false,
-      mapCenter: [-74.04728500751165, 40.68392799015035],
-      mapZoom: 6,
+      mapCenter: [34.566667, 40.866667],
+      mapZoom: 1,
     };
     this.isFirstFitBounce = false;
   }
@@ -36,12 +36,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       center: this.state.mapCenter,
       zoom: this.state.mapZoom,
       maxZoom: 19,
-      fitBoundsOptions: { padding: 20 },
       attributionControl: true,
-      bounds: [
-        [-74.04728500751165, 40.68392799015035],
-        [-73.91058699000139, 40.87764500765852],
-      ],
     });
     this.setState({ isInitiatedMap: true });
     window.mapEvents = new MapEvent('mapbox', this.map);
@@ -63,11 +58,10 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     if (this.state.isInitiatedMap && trackers) {
       if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
         this.isFirstFitBounce = true;
-        const coords = Object.values(trackers).map(({ lat, lng }) => ({
-          lat,
-          lng,
-        }));
-        window.mapEvents.setFitBounds(coords);
+        const coords = Object.values(trackers).filter(
+          ({ lat, lng }) => !!lat && !!lng
+        );
+        coords.length > 0 && window.mapEvents.setFitBounds(coords);
       }
 
       return Object.values(trackers).map(tracker => (

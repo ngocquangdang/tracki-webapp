@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Menu, ListItemIcon, ListItemText } from '@material-ui/core';
 import { MenuProps } from '@material-ui/core/Menu';
+import Router from 'next/router';
 import {
   Menu as MenuIcon,
   Clear as ClearIcon,
@@ -47,23 +48,25 @@ function CustomizedMenus(props: any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const openMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const closeMenu = () => {
     setAnchorEl(null);
   };
   const handleLogout = () => {
     logoutRequestAction();
   };
+  const gotoLink = (link: string) => () => Router.push(link);
+
   return (
     <>
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
         classes={{ root: classes.btnRoot, label: classes.btnLabel }}
-        onClick={handleClick}
+        onClick={openMenu}
       >
         <>
           {anchorEl ? (
@@ -77,7 +80,7 @@ function CustomizedMenus(props: any) {
       <StyledMenu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={closeMenu}
       >
         <StyledMenuItem>
           <ListItemIcon className={classes.menuItemIcon}>
@@ -85,13 +88,13 @@ function CustomizedMenus(props: any) {
           </ListItemIcon>
           <ListItemText primary="Contact Us" className={classes.menuText} />
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={gotoLink('/privacy')}>
           <ListItemIcon className={classes.menuItemIcon}>
             <LockIcon className={classes.menuIcon} />
           </ListItemIcon>
           <ListItemText primary="Privacy Policy" className={classes.menuText} />
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={gotoLink('/terms')}>
           <ListItemIcon className={classes.menuItemIcon}>
             <AssignmentIcon className={classes.menuIcon} />
           </ListItemIcon>

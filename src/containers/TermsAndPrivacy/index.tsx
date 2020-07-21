@@ -26,7 +26,12 @@ import TabPanel from './tabPanel';
 const Policy = dynamic(() => import('./policy'));
 const Term = dynamic(() => import('./term'));
 
-function TermsAndPrivacy(props: any) {
+interface Props {
+  t: (k: string) => string;
+  router: any;
+}
+
+function TermsAndPrivacy(props: Props) {
   const { t, router } = props;
   const classes = useStyles();
   const [value, setValue] = useState(router.pathname.includes('terms') ? 1 : 0);
@@ -62,9 +67,18 @@ function TermsAndPrivacy(props: any) {
               indicatorColor="primary"
               textColor="primary"
               centered
+              className={classes.tabs}
             >
-              <TabStyle label="Privacy Policy" icon={<MdLock />} />
-              <TabStyle label="Terms of Service" icon={<GoNote />} />
+              <TabStyle
+                label="Privacy Policy"
+                icon={<MdLock />}
+                className={classes.tabItem}
+              />
+              <TabStyle
+                label="Terms of Service"
+                icon={<GoNote />}
+                className={classes.tabItem}
+              />
             </Tabs>
           </Paper>
           <TabPanel value={value} index={0} title="Tracki Privacy Policy">
@@ -83,4 +97,4 @@ function TermsAndPrivacy(props: any) {
   );
 }
 
-export default withRouter(TermsAndPrivacy);
+export default withRouter(TermsAndPrivacy) as React.ComponentType;
