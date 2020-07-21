@@ -37,7 +37,7 @@ export interface TrackerDataTypes {
     [data: string]: any;
   };
   geofence: {
-    geofences: object | null;
+    geofences: object;
     geofenceIds: Array<number | string> | null;
     selectedGeofenceId: number | null;
     [data: string]: any;

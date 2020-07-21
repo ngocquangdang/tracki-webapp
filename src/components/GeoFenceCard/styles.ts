@@ -31,6 +31,7 @@ const Item = styled.div`
 const Image = styled.img`
   width: 50px;
   height: 50px;
+  cursor: pointer;
   padding: 6px;
   background: #168449;
   border-radius: 100px;
@@ -45,6 +46,7 @@ const ItemInfo = styled.div`
 `;
 const Name = styled.p`
   margin: 4px 0;
+  cursor: pointer;
   font-size: 14px;
 `;
 const Time = styled.div`

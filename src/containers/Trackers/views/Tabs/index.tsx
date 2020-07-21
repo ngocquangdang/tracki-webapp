@@ -8,16 +8,22 @@ import { TabStyle, useStyles } from './styles';
 const TrackerList = dynamic(() => import('@Components/TrackerListPC'));
 const GeofenceList = dynamic(() => import('@Components/GeofenceListPC'));
 
-export default function TabsPC(props: any) {
+interface Props {
+  [data: string]: any;
+}
+
+export default function TabsPC(props: Props) {
   const {
     trackers,
     trackerIds,
     selectTrackerAction,
     searchTrackersRequest,
+    updateGeofenceAction,
     geofences,
     geofenceIds,
     selectedGeofenceId,
     selectGeofenceIdAction,
+    searchGeofencesAction,
   } = props;
   const classes = useStyles();
   const [currentTab, setTab] = useState(0);
@@ -54,7 +60,7 @@ export default function TabsPC(props: any) {
         value={currentTab}
         index={0}
         placeholder="Search devices by name or ID"
-        searchTrackersRequest={searchTrackersRequest}
+        onSearch={searchTrackersRequest}
       >
         <TrackerList
           trackers={trackers}
@@ -66,12 +72,13 @@ export default function TabsPC(props: any) {
         value={currentTab}
         index={1}
         placeholder="Search geo-fences by name"
-        searchTrackersRequest={searchTrackersRequest}
+        onSearch={searchGeofencesAction}
       >
         <GeofenceList
           geofences={geofences}
           geofenceIds={geofenceIds}
           selectedGeofenceId={selectedGeofenceId}
+          updateGeofenceAction={updateGeofenceAction}
           selectGeofenceIdAction={selectGeofenceIdAction}
         />
       </TabPanel>

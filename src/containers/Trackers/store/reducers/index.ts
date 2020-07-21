@@ -24,6 +24,15 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.SEARCH_TRACKERS_SUCCEED:
         draft.tracker.trackerIds = payload.trackerIds;
         break;
+      case types.SEARCH_GEOFENCES_SUCCEED:
+        draft.geofence.geofenceIds = payload.geofenceIds;
+        break;
+      case types.UPDATE_GEOFENCE_SUCCEED:
+        draft.geofence.geofences[payload.geoId] = {
+          ...draft.geofence.geofences[payload.geoId],
+          ...payload.data,
+        };
+        break;
       case types.GET_TRACKERS_SUCCEED:
         draft.tracker = payload?.tracker;
         break;

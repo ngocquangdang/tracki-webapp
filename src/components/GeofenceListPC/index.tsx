@@ -11,6 +11,7 @@ interface Props {
   geofences: object;
   selectGeofenceIdAction(id: number | string): void;
   updateGeofenceAction(id: number, data: object): void;
+  [data: string]: any;
 }
 
 export default function ListGeoFence(props: Props) {

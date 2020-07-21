@@ -17,6 +17,23 @@ export const fetchTrackersFailedAction = (error: object) => ({
   payload: { error },
 });
 
+export const updateGeofenceRequestedAction = (geoId: number, data: object) => ({
+  type: types.UPDATE_GEOFENCE_REQUESTED,
+  payload: { geoId, data },
+});
+
+export const updateGeofenceSucceedAction = (geoId: number, data: object) => {
+  return {
+    type: types.UPDATE_GEOFENCE_SUCCEED,
+    payload: { geoId, data },
+  };
+};
+
+export const updateGeofenceFailedAction = (error: object) => ({
+  type: types.UPDATE_GEOFENCE_FAILED,
+  payload: { error },
+});
+
 export const fetchGeofencesRequestedAction = (accountId: number) => ({
   type: types.GET_GEOFENCES_REQUESTED,
   payload: { accountId },

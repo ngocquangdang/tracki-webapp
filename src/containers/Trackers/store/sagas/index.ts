@@ -52,14 +52,12 @@ function normalizeTrackers(data: { devices: Array<any> }) {
   return tracker;
 }
 
-function normalizeGeofences(data: { geofences: Array<any> }) {
-  const newDevices = data?.geofences || [];
-  const geofence = newDevices.reduce(
-    (result, d) => {
-      result.geofences[d.device_id] = {
-        ...d,
-      };
-      result.geofenceIds.push(d.device_id);
+function normalizeGeofences(geofences: Array<any>) {
+  const newGeofences = geofences || [];
+  const geofence = newGeofences.reduce(
+    (result, geo) => {
+      result.geofences[geo.id] = { ...geo };
+      result.geofenceIds.push(geo.id);
       return result;
     },
     {
@@ -91,9 +89,7 @@ function* searchGeofencesSaga(action) {
     const geofences = yield select(makeSelectGeofences());
     const searchKey = action.payload.search || '';
     const newIds = Object.keys(geofences).filter(id =>
-      geofences[id].geofence_name
-        .toLowerCase()
-        .includes(searchKey.toLowerCase())
+      geofences[id].name.toLowerCase().includes(searchKey.toLowerCase())
     );
     yield put(actions.searchGeofencesSucceedAction(newIds));
   } catch (error) {
@@ -119,9 +115,21 @@ function* fetchGeofencesSaga(action) {
   }
 }
 
+function* updateGeofenceSaga(action) {
+  try {
+    const { geoId, data } = action.payload;
+    yield put(actions.updateGeofenceSucceedAction(geoId, data));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.updateGeofenceFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
   yield takeLatest(types.SEARCH_TRACKERS_REQUESTED, searchTrackersSaga);
   yield takeLatest(types.SEARCH_GEOFENCES_REQUESTED, searchGeofencesSaga);
+  yield takeLatest(types.UPDATE_GEOFENCE_REQUESTED, updateGeofenceSaga);
 }

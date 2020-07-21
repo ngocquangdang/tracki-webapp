@@ -35,10 +35,10 @@ export default function GeofenceCard(props: Props) {
           onClick={onSelectGeofence}
         />
         <ItemInfo>
-          <Name>{geofence.name}</Name>
+          <Name onClick={onSelectGeofence}>{geofence.name}</Name>
           <Switch
             name="active"
-            checked={geofence.enabled}
+            checked={!!geofence.enabled}
             onChange={toggleGeofence}
             color="primary"
           />
