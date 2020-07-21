@@ -23,6 +23,7 @@ export default function HomeContainer(props: any) {
     selectTrackerAction,
     onResetSelectedTrackerID,
     searchTrackersRequest,
+    t,
   } = props;
   const classes = useStyles();
   const [isOpenSidebar, setOpenSidebar] = useState(true);
@@ -83,6 +84,7 @@ export default function HomeContainer(props: any) {
                 trackers={trackers}
                 trackerIds={trackerIds}
                 onClickTracker={selectTrackerAction}
+                t={t}
               />
             </TabPanel>
             <TabPanel

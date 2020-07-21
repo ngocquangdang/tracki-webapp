@@ -21,8 +21,8 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     super(props);
     this.state = {
       isInitiatedMap: false,
-      mapCenter: [123.986206, 10.287471],
-      mapZoom: 13,
+      mapCenter: [-74.04728500751165, 40.68392799015035],
+      mapZoom: 6,
     };
     this.isFirstFitBounce = false;
   }
@@ -39,8 +39,8 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       fitBoundsOptions: { padding: 20 },
       attributionControl: true,
       bounds: [
-        [123.986206, 10.287471],
-        [123.986206, 10.287471],
+        [-74.04728500751165, 40.68392799015035],
+        [-73.91058699000139, 40.87764500765852],
       ],
     });
     this.setState({ isInitiatedMap: true });
