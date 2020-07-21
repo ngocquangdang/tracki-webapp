@@ -34,7 +34,7 @@ export default function ListDevice(props: Props) {
       </Content>
       <Footer>
         <Button
-          classes={`${classes.btn}`}
+          classes={classes.btn}
           text="Add Tracker"
           color="primary"
           type="submit"

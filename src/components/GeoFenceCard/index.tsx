@@ -1,62 +1,45 @@
 import React from 'react';
-import Skeleton from '@material-ui/lab/Skeleton';
-
+import { Switch } from '@material-ui/core';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
-import {
-  Card,
-  Item,
-  Image,
-  ItemInfo,
-  Name,
-  CardDetail,
-  useStyles,
-} from './styles';
-import { Switch } from '@material-ui/core';
+import { Card, Item, Image, ItemInfo, Name, CardDetail } from './styles';
 
-export default function Device(props: any) {
-  const classes = useStyles();
-  const { device, isLoading, active, handleChange } = props;
+interface Props {
+  geofence: {
+    id: number;
+    name: string;
+    icon_url: string;
+    enabled: boolean;
+  };
+  selectedGeofenceId?: number;
+  selectGeofence(id: number | string): void;
+  updateGeofence(id: number, data: object): void;
+}
 
-  if (isLoading) {
-    return (
-      <Card>
-        <Skeleton
-          variant="circle"
-          animation="wave"
-          width={40}
-          height={40}
-          style={{ marginRight: 8 }}
-          classes={{ root: classes.skeleton }}
-        />
-        <div>
-          <Skeleton
-            variant="text"
-            width={150}
-            animation="wave"
-            classes={{ root: classes.skeleton }}
-          />
-          <Skeleton
-            variant="text"
-            width={250}
-            animation="wave"
-            classes={{ root: classes.skeleton }}
-          />
-        </div>
-      </Card>
-    );
-  }
+export default function GeofenceCard(props: Props) {
+  const { geofence, selectGeofence, updateGeofence } = props;
+
+  const onSelectGeofence = () => {
+    selectGeofence(geofence.id);
+  };
+
+  const toggleGeofence = () =>
+    updateGeofence(geofence.id, { enabled: !geofence.enabled });
 
   return (
-    <Card key={device.id}>
+    <Card key={geofence.id}>
       <Item>
-        <Image src={device.icon_url || 'images/tracki-device.png'} alt="" />
+        <Image
+          src={geofence.icon_url || 'images/tracki-device.png'}
+          alt=""
+          onClick={onSelectGeofence}
+        />
         <ItemInfo>
-          <Name>{device.device_name}</Name>
+          <Name>{geofence.name}</Name>
           <Switch
             name="active"
-            checked={active}
-            onChange={handleChange}
+            checked={geofence.enabled}
+            onChange={toggleGeofence}
             color="primary"
           />
         </ItemInfo>

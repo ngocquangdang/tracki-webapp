@@ -58,11 +58,10 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     if (this.state.isInitiatedMap && trackers) {
       if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
         this.isFirstFitBounce = true;
-        const coords = Object.values(trackers).map(({ lat, lng }) => ({
-          lat,
-          lng,
-        }));
-        window.mapEvents.setFitBounds(coords);
+        const coords = Object.values(trackers).filter(
+          ({ lat, lng }) => !!lat && !!lng
+        );
+        coords.length > 0 && window.mapEvents.setFitBounds(coords);
       }
 
       return Object.values(trackers).map(tracker => (

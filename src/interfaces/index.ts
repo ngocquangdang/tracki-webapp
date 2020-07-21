@@ -24,6 +24,11 @@ export interface AppInitialPropsWithAuth {
 
 export interface GlobalTypes {
   profile: object | null;
+  isLoading: boolean;
+  errors: object | null;
+}
+
+export interface TrackerDataTypes {
   tracker: {
     trackers: object | null;
     trackerIds: Array<number | string> | null;
@@ -31,7 +36,12 @@ export interface GlobalTypes {
     selectedTrackerId: number | null;
     [data: string]: any;
   };
-  isLoading: boolean;
+  geofence: {
+    geofences: object | null;
+    geofenceIds: Array<number | string> | null;
+    selectedGeofenceId: number | null;
+    [data: string]: any;
+  };
   errors: object | null;
 }
 

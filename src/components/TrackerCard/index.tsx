@@ -29,10 +29,12 @@ export default function TrackerCard(props: Props) {
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
-    window.mapEvents.setCenterFlyTo(
-      { lat: tracker.lat, lng: tracker.lng },
-      { speed: 1, zoom: 15 }
-    );
+    if (tracker.lat && tracker.lng) {
+      window.mapEvents.setCenterFlyTo(
+        { lat: tracker.lat, lng: tracker.lng },
+        { speed: 1, zoom: 15 }
+      );
+    }
     window.history.pushState({}, '', '/trackers/' + tracker.device_id);
   };
 

@@ -5,16 +5,16 @@ import { createStructuredSelector } from 'reselect';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from '@Server/i18n';
-import { fetchTrackersRequestedAction } from '@Containers/App/store/actions';
 import {
+  fetchTrackersRequestedAction,
   searchTrackersRequestedAction,
   selectTrackerIdAction,
-} from '@Containers/App/store/actions';
+} from '@Containers/Trackers/store/actions';
+import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
-  makeSelectLoading,
   makeSelectTrackerIds,
   makeSelectTrackers,
-} from '@Containers/App/store/selectors';
+} from '@Containers/Trackers/store/selectors';
 import { debounce } from 'lodash';
 import { FiPlus } from 'react-icons/fi';
 

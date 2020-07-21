@@ -81,6 +81,9 @@ export default function Header() {
       if (link.includes('change-password')) {
         tabIndex = 6;
       }
+      if (link.includes('geofences') || link.includes('trackers')) {
+        tabIndex = 0;
+      }
     }
     setCurrentLink(link);
     setCurrentTab(tabIndex);
