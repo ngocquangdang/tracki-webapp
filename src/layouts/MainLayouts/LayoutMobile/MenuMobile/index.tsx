@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, useStyles, LinkStyle, Item } from './styles';
+import {
+  Menu,
+  useStyles,
+  LinkStyle,
+  Item,
+  LayerPanel,
+  TopPanel,
+  LayerItem,
+  Title,
+  ItemLayer,
+  Image,
+  Name,
+} from './styles';
 import {
   NearMe as NearMeIcon,
   Notifications as NotificationsIcon,
@@ -8,39 +20,30 @@ import {
   ShoppingBasket as ShoppingBasketIcon,
   Layers as LayerIcon,
 } from '@material-ui/icons';
-const routes = [
-  {
-    label: 'Notifications',
-    icon: <NotificationsIcon />,
-    link: '/notifications',
-  },
-  {
-    label: 'Dashboard',
-    icon: <MyLocationIcon />,
-    link: '/dashboard',
-  },
-  {
-    label: 'View All',
-    icon: <NearMeIcon />,
-    link: '/trackers',
-  },
-  {
-    label: 'Store',
-    icon: <ShoppingBasketIcon />,
-    link: '/tracking',
-  },
-  {
-    label: 'Map type',
-    icon: <LayerIcon />,
-    link: '/map-type',
-  },
-];
+import { MdClose } from 'react-icons/md';
 
-type MenuType = { icon: JSX.Element; label: string; link: string };
-
-export default function MenuMobile(props: any) {
+interface Props {
+  t: Function;
+}
+export default function MenuMobile(props: Props) {
+  const { t } = props;
   const classes = useStyles();
   const [currentLink, setCurrentLink] = useState('');
+  const [layer] = useState([
+    { name: 'street', style: 'streets-v11', image: 'images/whitemap.png' },
+    { name: 'out_door', style: 'outdoors-v11', image: 'images/Terrain.png' },
+    { name: 'light', style: 'light-v10', image: 'images/Satellite.png' },
+    { name: 'dark_map', style: 'dark-v10', image: 'images/DarkMap.png' },
+    { name: 'traffic', style: 'satellite-v9', image: 'images/Traffic.png' },
+    {
+      name: 'hybird',
+      style: 'satellite-streets-v11',
+      image: 'images/Hybrid.png',
+    },
+  ]);
+  const [isOpen, setIsOpen] = useState(false);
+  console.log('MenuMobile -> isOpen', isOpen);
+
   useEffect(() => {
     let link = '';
     link = window.location.pathname;
@@ -49,23 +52,88 @@ export default function MenuMobile(props: any) {
   const onClickLink = (link: string) => () => {
     setCurrentLink(link);
   };
+  const isActive = currentLink;
 
-  const renderMenuButton = ({ icon, label, link }: MenuType) => {
-    const isActive = link === currentLink;
-    return (
-      <Item key={label}>
-        <Link href={link}>
+  const onChangeLayler = layer => window.mapEvents.changeLayer(layer);
+
+  const onShowLayer = () => setIsOpen(!isOpen);
+
+  return (
+    <Menu>
+      <Item>
+        <Link href="/notifications">
           <LinkStyle
-            onClick={onClickLink(link)}
+            onClick={onClickLink('/notifications')}
             color={isActive ? 'primary' : 'secondary'}
             className={classes.linkBtnMobile}
             underline="none"
           >
-            {icon} {label}
+            {<NotificationsIcon />} {t('tracker:notifications')}
           </LinkStyle>
         </Link>
       </Item>
-    );
-  };
-  return <Menu>{routes.map(renderMenuButton)}</Menu>;
+      <Item>
+        <Link href="/dashboard">
+          <LinkStyle
+            onClick={onClickLink('/dashboard')}
+            color={isActive ? 'primary' : 'secondary'}
+            className={classes.linkBtnMobile}
+            underline="none"
+          >
+            {<MyLocationIcon />} {t('tracker:dashboard')}
+          </LinkStyle>
+        </Link>
+      </Item>
+      <Item>
+        <Link href="/trackers">
+          <LinkStyle
+            onClick={onClickLink('/trackers')}
+            color="secondary"
+            className={classes.linkBtnMobile}
+            underline="none"
+          >
+            {<NearMeIcon />} {t('tracker:view_all')}
+          </LinkStyle>
+        </Link>
+      </Item>
+      <Item>
+        <Link href="/tracking">
+          <LinkStyle
+            onClick={onClickLink('/tracking')}
+            color={isActive ? 'primary' : 'secondary'}
+            className={classes.linkBtnMobile}
+            underline="none"
+          >
+            {<ShoppingBasketIcon />} {t('tracker:store')}
+          </LinkStyle>
+        </Link>
+      </Item>
+      <Item onClick={onShowLayer}>
+        <LinkStyle
+          color={isOpen ? 'primary' : 'secondary'}
+          className={classes.linkBtnMobile}
+          underline="none"
+        >
+          {<LayerIcon />} {t('tracker:map_type')}
+        </LinkStyle>
+        <LayerPanel className={isOpen ? classes.display : ''}>
+          <TopPanel>
+            <Title>{t('auth:map_type')}</Title>
+            <MdClose onClick={onShowLayer} />
+          </TopPanel>
+          <LayerItem>
+            {layer?.map((layer, index) => (
+              <ItemLayer
+                key={index}
+                onClick={() => onChangeLayler(layer.style)}
+              >
+                <Image src={layer.image}></Image>
+                <Name>{t(`auth:${layer.name}`)}</Name>
+              </ItemLayer>
+            ))}
+          </LayerItem>
+        </LayerPanel>
+      </Item>
+    </Menu>
+  );
 }

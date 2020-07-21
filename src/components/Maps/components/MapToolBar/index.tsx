@@ -22,7 +22,11 @@ import {
 } from './styles';
 import { Tooltip } from '@material-ui/core';
 
-export default function MapToolBars(props: any) {
+interface Props {
+  t: Function;
+}
+
+export default function MapToolBars(props: Props) {
   const { t } = props;
   const classes = useStyles();
   const [layer] = useState([
@@ -45,6 +49,7 @@ export default function MapToolBars(props: any) {
   };
 
   const onChangeLayler = layer => window.mapEvents.changeLayer(layer);
+  const onReset = () => window.mapEvents.reset();
 
   const onShowLayer = () => setIsOpen(!isOpen);
   return (
@@ -101,7 +106,7 @@ export default function MapToolBars(props: any) {
         </IconButton>
       </Tooltip>
       <Tooltip title={t('auth:reset')} placement="left" arrow>
-        <IconButton>
+        <IconButton onClick={onReset}>
           <AiOutlineReload />
         </IconButton>
       </Tooltip>

@@ -10,9 +10,11 @@ interface Props {
   header?: JSX.Element;
   noFooter?: boolean;
   [data: string]: any;
+  t: Function;
 }
 
 function MainLayoutMobile(props: Props) {
+  const { t } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -43,7 +45,7 @@ function MainLayoutMobile(props: Props) {
         >
           {props.children}
         </Content>
-        {!props.noFooter && <MenuMobile />}
+        {!props.noFooter && <MenuMobile t={t} />}
       </div>
     </MainWrapper>
   );

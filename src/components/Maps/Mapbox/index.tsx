@@ -53,6 +53,12 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     window.mapEvents.changeLayer = layerId => {
       this.map.setStyle('mapbox://styles/mapbox/' + layerId);
     };
+    window.mapEvents.reset = () => {
+      this.map.setStyle('mapbox://styles/mapbox/streets-v11');
+      this.map.setMaxZoom(19);
+      this.map.setZoom(this.state.mapZoom);
+      this.map.setCenter(this.state.mapCenter);
+    };
     this.props.initMapCallback();
   }
 

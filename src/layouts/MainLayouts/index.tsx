@@ -12,10 +12,11 @@ interface Props {
 }
 
 function MainLayout(props: Props) {
+  console.log('MainLayout -> props', props);
   const { isMobile, header, children, noFooter } = props;
   if (isMobile) {
     return (
-      <LayoutMobile header={header} noFooter={noFooter}>
+      <LayoutMobile t={children.props.t} header={header} noFooter={noFooter}>
         {children}
       </LayoutMobile>
     );

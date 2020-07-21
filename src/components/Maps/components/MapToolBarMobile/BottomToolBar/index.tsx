@@ -13,7 +13,11 @@ import {
   useStyles,
 } from './styles';
 
-export default function BottomToolBar(props: any) {
+interface Props {
+  t: Function;
+}
+
+export default function BottomToolBar(props: Props) {
   // const { t } = props;
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
