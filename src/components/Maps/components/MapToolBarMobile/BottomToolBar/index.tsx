@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
 import { FaHistory } from 'react-icons/fa';
 import { MdBorderStyle, MdShare } from 'react-icons/md';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
@@ -13,7 +13,8 @@ import {
   useStyles,
 } from './styles';
 
-export default function BottomToolBar() {
+export default function BottomToolBar(props: any) {
+  // const { t } = props;
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
 
@@ -37,18 +38,21 @@ export default function BottomToolBar() {
         </>
       </Button>
       <ListItem className={isActive ? '' : classes.isActive}>
-        <MenuItem className={isActive ? '' : classes.fullWidth}>
-          <Icon className={classes.menuItemIcon}>
-            <IoMdSettings className={classes.menuIcon} />
-          </Icon>
-          <ItemText
-            className={`${classes.menuText} ${
-              isActive ? '' : classes.displayText
-            }`}
-          >
-            Settings
-          </ItemText>
-        </MenuItem>
+        <Tooltip title="Delete">
+          <MenuItem className={isActive ? '' : classes.fullWidth}>
+            <Icon className={classes.menuItemIcon}>
+              <IoMdSettings className={classes.menuIcon} />
+            </Icon>
+            <ItemText
+              className={`${classes.menuText} ${
+                isActive ? '' : classes.displayText
+              }`}
+            >
+              Settings
+            </ItemText>
+          </MenuItem>
+        </Tooltip>
+
         <MenuItem className={isActive ? '' : classes.fullWidth}>
           <Icon className={classes.menuItemIcon}>
             <FaHistory className={classes.menuIcon} />

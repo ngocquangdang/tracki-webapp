@@ -10,12 +10,14 @@ import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
 
 import { Container, TabStyle, MapView, useStyles } from './styles';
 import SingleTracker from '@Components/SingleTracker';
+import MapToolBars from '@Components/Maps/components/MapToolBar';
 
 const TrackerList = dynamic(() => import('@Components/TrackerListPC'));
 const GeofenceList = dynamic(() => import('@Components/GeofenceListPC'));
 
 export default function HomeContainer(props: any) {
   const {
+    t,
     trackers,
     trackerIds,
     isRequesting,
@@ -107,6 +109,7 @@ export default function HomeContainer(props: any) {
           trackers={trackers}
           trackerIds={trackerIds}
         />
+        <MapToolBars t={t} />
       </MapView>
     </Container>
   );

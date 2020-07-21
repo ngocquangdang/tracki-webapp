@@ -6,7 +6,7 @@ import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar'
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 
 export default function ViewHomeMobile(props: any) {
-  const { trackers, trackerIds, selectedTrackerId } = props;
+  const { t, trackers, trackerIds, selectedTrackerId } = props;
   return (
     <Container>
       <MapView>
@@ -17,7 +17,7 @@ export default function ViewHomeMobile(props: any) {
           trackers={trackers}
           trackerIds={trackerIds}
         />
-        {selectedTrackerId && <BottomToolBar />}
+        {selectedTrackerId && <BottomToolBar t={t} />}
       </MapView>
     </Container>
   );

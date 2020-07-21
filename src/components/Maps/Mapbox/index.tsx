@@ -50,6 +50,9 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     window.mapEvents.getUseLocation = () => {
       geolocate.trigger();
     };
+    window.mapEvents.changeLayer = layerId => {
+      this.map.setStyle('mapbox://styles/mapbox/' + layerId);
+    };
     this.props.initMapCallback();
   }
 
