@@ -1,4 +1,31 @@
 import React, { useState } from 'react';
+import moment from 'moment';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import {
+  ArrowBackIos as ArrowBackIosIcon,
+  Refresh as RefreshIcon,
+  ZoomIn as ZoomInIcon,
+  LocationOn as LocationOnIcon,
+  Battery60 as Battery60Icon,
+  Settings as SettingsIcon,
+  VolumeUp as VolumeUpIcon,
+  History as HistoryIcon,
+  BorderStyle as BorderStyleIcon,
+  Notifications as NotificationsIcon,
+  Share as ShareIcon,
+} from '@material-ui/icons';
+import { AiOutlineDashboard } from 'react-icons/ai';
+import { GoPrimitiveDot } from 'react-icons/go';
+import Slide from '@material-ui/core/Slide';
+
+import { useInjectSaga } from '@Utils/injectSaga';
+import saga from './store/sagas';
+import { fetchTrackerSettingsRequestedAction } from './store/actions';
+import SettingTracker from './components/SettingTracker';
+import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+
 import {
   Container,
   Header,
@@ -34,62 +61,27 @@ import {
   Border,
   useStyles,
 } from './styles';
-import moment from 'moment';
-import { GoPrimitiveDot } from 'react-icons/go';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Battery60Icon from '@material-ui/icons/Battery60';
-import { AiOutlineDashboard } from 'react-icons/ai';
-import Skeleton from '@material-ui/lab/Skeleton';
-import SettingsIcon from '@material-ui/icons/Settings';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import HistoryIcon from '@material-ui/icons/History';
-import BorderStyleIcon from '@material-ui/icons/BorderStyle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import ShareIcon from '@material-ui/icons/Share';
-import Slide from '@material-ui/core/Slide';
-import SettingTracker from '@Containers/Trackers/views/SettingTracker';
+
+interface Props {
+  settings: object;
+  tracker: object;
+  onClickBack: () => void;
+  t(key: string): string;
+  fetchTrackerSettings(id: number): void;
+}
 
 function SingleTracker(props: any) {
+  useInjectSaga({ key: 'singleTracker', saga });
   const classes = useStyles();
   const [isSetting, showSetting] = useState(false);
-  const { isLoading, tracker, onClickBack, t } = props;
-  if (isLoading) {
-    return (
-      <Card>
-        <Skeleton
-          variant="circle"
-          animation="wave"
-          width={40}
-          height={40}
-          style={{ marginRight: 8 }}
-          classes={{ root: classes.skeleton }}
-        />
-        <div>
-          <Skeleton
-            variant="text"
-            width={150}
-            animation="wave"
-            classes={{ root: classes.skeleton }}
-          />
-          <Skeleton
-            variant="text"
-            width={250}
-            animation="wave"
-            classes={{ root: classes.skeleton }}
-          />
-        </div>
-      </Card>
-    );
-  }
-  const handleClose = () => {
-    showSetting(false);
-  };
+  const { tracker, onClickBack, t, fetchTrackerSettings, settings } = props;
+
+  const handleClose = () => showSetting(false);
   const onClickSetting = () => {
     showSetting(true);
+    fetchTrackerSettings(tracker.settings_id);
   };
+
   return (
     <Slide direction="left" in mountOnEnter unmountOnExit>
       <Container>
@@ -106,7 +98,7 @@ function SingleTracker(props: any) {
               <LeftItem>
                 <ImageWrapper>
                   <Image
-                    src={tracker.icon_url || 'images/image-device.png'}
+                    src={tracker.icon_url || '/images/image-device.png'}
                     alt=""
                   />
                 </ImageWrapper>
@@ -193,12 +185,28 @@ function SingleTracker(props: any) {
             <Border></Border>
           </TrackerMenu>
         </Card>
-        {isSetting ? (
-          <SettingTracker handleClose={handleClose} t={t} tracker={tracker} />
-        ) : null}
+        {isSetting && (
+          <SettingTracker
+            handleClose={handleClose}
+            t={t}
+            tracker={tracker}
+            settings={settings[tracker.settings_id]}
+          />
+        )}
       </Container>
     </Slide>
   );
 }
 
-export default SingleTracker;
+const mapDispatchToProps = dispatch => ({
+  fetchTrackerSettings: (id: number) =>
+    dispatch(fetchTrackerSettingsRequestedAction(id)),
+});
+
+const mapStateToProps = createStructuredSelector({
+  settings: makeSelectTrackerSettings(),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withConnect)(SingleTracker);

@@ -42,7 +42,7 @@ export default function TrackerCard(props: Props) {
     <Card key={tracker.device_id} isMobile={isMobile} onClick={handleClick}>
       <Item>
         <ImageWrapper>
-          <Image src={tracker.icon_url || 'images/image-device.png'} alt="" />
+          <Image src={tracker.icon_url || '/images/image-device.png'} alt="" />
         </ImageWrapper>
         <ItemInfo>
           <Name>{tracker.device_name}</Name>

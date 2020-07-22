@@ -42,6 +42,7 @@ export interface TrackerDataTypes {
     selectedGeofenceId: number | null;
     [data: string]: any;
   };
+  settings: object;
   errors: object | null;
 }
 

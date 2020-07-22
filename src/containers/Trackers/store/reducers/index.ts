@@ -2,6 +2,7 @@ import produce from 'immer';
 
 import { ActionType, TrackerDataTypes } from '@Interfaces/index';
 import * as types from '../constants';
+import * as singleTrackerTypes from '@Containers/SingleTracker/store/constants';
 
 export const initialState: TrackerDataTypes = {
   tracker: {
@@ -15,6 +16,7 @@ export const initialState: TrackerDataTypes = {
     geofenceIds: null,
     selectedGeofenceId: null,
   },
+  settings: {},
   errors: null,
 };
 
@@ -58,6 +60,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.GET_GEOFENCES_FAILED:
       case types.GET_TRACKERS_FAILED:
         draft.errors = payload.error;
+        break;
+      case singleTrackerTypes.GET_TRACKER_SETTINGS_SUCCEED:
+        draft.settings[payload.settings.id] = payload.settings;
         break;
       default:
         break;

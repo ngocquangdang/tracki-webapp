@@ -25,6 +25,9 @@ const makeSelectGeofenceIds = () =>
 const makeSelectGeofenceId = () =>
   createSelector(globalState, state => state.geofence?.selectedGeofenceId);
 
+const makeSelectTrackerSettings = () =>
+  createSelector(globalState, state => state.settings);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -33,4 +36,5 @@ export {
   makeSelectGeofences,
   makeSelectGeofenceIds,
   makeSelectGeofenceId,
+  makeSelectTrackerSettings,
 };

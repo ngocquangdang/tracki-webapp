@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { SideBar } from '@Components/sidebars';
 import Map from '@Components/Maps';
-import SingleTracker from '@Components/SingleTracker';
+import SingleTracker from '@Containers/SingleTracker';
 import Tabs from '../Tabs';
 
 import { Container, MapView } from './styles';
