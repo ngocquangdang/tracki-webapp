@@ -4,6 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 
 export default function HeaderMobile(props: any) {
+  console.log('HeaderMobile -> props', props);
   const classes = useStyles();
   const { open, handleOpenSideBar } = props;
   return (

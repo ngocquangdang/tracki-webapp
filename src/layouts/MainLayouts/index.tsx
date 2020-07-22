@@ -12,7 +12,6 @@ interface Props {
 }
 
 function MainLayout(props: Props) {
-  console.log('MainLayout -> props', props);
   const { isMobile, header, children, noFooter } = props;
   if (isMobile) {
     return (

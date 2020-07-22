@@ -1,9 +1,8 @@
-export const LOGIN_REQUESTED = 'Tracki/App/LOGIN_REQUESTED';
-export const LOGIN_SUCCEED = 'Tracki/App/LOGIN_SUCCEED';
-export const LOGIN_FAILED = 'Tracki/App/LOGIN_FAILED';
-export const RESET_ERROR_MESSAGE = 'Tracki/App/RESET_ERROR_MESSAGE';
-// chatus definition
+export const LOGIN_REQUESTED = 'Tracki/LOGIN_REQUESTED';
+export const LOGIN_SUCCEED = 'Tracki/LOGIN_SUCCEED';
+export const LOGIN_FAILED = 'Tracki/LOGIN_FAILED';
+export const RESET_ERROR_MESSAGE = 'Tracki/RESET_ERROR_MESSAGE';
 
-export const CHATUS_REQUESTED = 'Tracki/App/CHATUS_REQUESTED';
-export const CHATUS_SUCCEED = 'Tracki/App/CHATUS_SUCCEED';
-export const CHATUS_FAILED = 'Tracki/App/CHATUS_FAILED';
+export const CHATUS_REQUESTED = 'Tracki/CHATUS_REQUESTED';
+export const CHATUS_SUCCEED = 'Tracki/CHATUS_SUCCEED';
+export const CHATUS_FAILED = 'Tracki/CHATUS_FAILED';

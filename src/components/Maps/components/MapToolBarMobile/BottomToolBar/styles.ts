@@ -4,11 +4,13 @@ import styled from 'styled-components';
 const ToolBar = styled.div`
   position: absolute;
   left: 5px;
+  top: 50%;
 `;
 const ListItem = styled.ul`
   width: 50px;
   overflow: hidden;
   padding: 0;
+  margin: 10px 0;
   transition: width 1s;
 `;
 const Text = styled.span``;

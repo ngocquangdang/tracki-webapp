@@ -4,26 +4,32 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 const MenuWrap = styled.div`
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 5;
+  right: 0;
+`;
+const MenuHeader = styled.div`
+  display: flex;
+  height: 70px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 450px;
+  background-color: #fff;
 `;
 
-const ButtonClose = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  padding-top: 15px;
-`;
+const ButtonClose = styled.div``;
 
 const WrapDisabled = styled.div`
   width: 450px;
-  height: 100%;
-  position: relative;
+  max-height: 100%;
   background-color: #fff;
-  padding-top: 15px;
-  padding-right: 10px;
+  overflow-y: auto;
 `;
 
 const Wrap = styled(WrapDisabled)`
@@ -54,4 +60,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export { MenuWrap, ButtonClose, Title, Wrap, WrapDisabled, useStyles };
+export {
+  MenuWrap,
+  MenuHeader,
+  ButtonClose,
+  Title,
+  Wrap,
+  WrapDisabled,
+  useStyles,
+};

@@ -11,10 +11,11 @@ interface Props {
   noFooter?: boolean;
   [data: string]: any;
   t: Function;
+  selectedTrackerId: number;
 }
 
 function MainLayoutMobile(props: Props) {
-  const { t } = props;
+  const { t, selectedTrackerId } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -45,7 +46,7 @@ function MainLayoutMobile(props: Props) {
         >
           {props.children}
         </Content>
-        {!props.noFooter && <MenuMobile t={t} />}
+        {!props.noFooter && <MenuMobile t={t} trackerId={selectedTrackerId} />}
       </div>
     </MainWrapper>
   );

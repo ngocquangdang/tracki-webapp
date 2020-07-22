@@ -13,22 +13,14 @@ interface Props {
   value?: number;
   index?: number;
   placeholder: string;
-  searchTrackersRequest: any;
+  onSearch(key: string): void;
+  [data: string]: any;
 }
 export default function TabPanel(props: Props) {
   const classes = useStyles();
-  const {
-    children,
-    value,
-    index,
-    placeholder,
-    searchTrackersRequest,
-    ...other
-  } = props;
-  const debounceSearch = debounce(
-    (v: string | null) => searchTrackersRequest(v),
-    300
-  );
+  const { children, value, index, placeholder, onSearch, ...other } = props;
+  const debounceSearch = debounce((v: string) => onSearch(v), 300);
+
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (

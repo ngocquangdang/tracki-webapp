@@ -24,9 +24,10 @@ import { MdClose } from 'react-icons/md';
 
 interface Props {
   t: Function;
+  trackerId: number;
 }
 export default function MenuMobile(props: Props) {
-  const { t } = props;
+  const { t, trackerId } = props;
   const classes = useStyles();
   const [currentLink, setCurrentLink] = useState('');
   const [layer] = useState([
@@ -42,7 +43,6 @@ export default function MenuMobile(props: Props) {
     },
   ]);
   const [isOpen, setIsOpen] = useState(false);
-  console.log('MenuMobile -> isOpen', isOpen);
 
   useEffect(() => {
     let link = '';
@@ -60,80 +60,86 @@ export default function MenuMobile(props: Props) {
 
   return (
     <Menu>
-      <Item>
-        <Link href="/notifications">
-          <LinkStyle
-            onClick={onClickLink('/notifications')}
-            color={isActive ? 'primary' : 'secondary'}
-            className={classes.linkBtnMobile}
-            underline="none"
-          >
-            {<NotificationsIcon />} {t('tracker:notifications')}
-          </LinkStyle>
-        </Link>
-      </Item>
-      <Item>
-        <Link href="/dashboard">
-          <LinkStyle
-            onClick={onClickLink('/dashboard')}
-            color={isActive ? 'primary' : 'secondary'}
-            className={classes.linkBtnMobile}
-            underline="none"
-          >
-            {<MyLocationIcon />} {t('tracker:dashboard')}
-          </LinkStyle>
-        </Link>
-      </Item>
-      <Item>
-        <Link href="/trackers">
-          <LinkStyle
-            onClick={onClickLink('/trackers')}
-            color="secondary"
-            className={classes.linkBtnMobile}
-            underline="none"
-          >
-            {<NearMeIcon />} {t('tracker:view_all')}
-          </LinkStyle>
-        </Link>
-      </Item>
-      <Item>
-        <Link href="/tracking">
-          <LinkStyle
-            onClick={onClickLink('/tracking')}
-            color={isActive ? 'primary' : 'secondary'}
-            className={classes.linkBtnMobile}
-            underline="none"
-          >
-            {<ShoppingBasketIcon />} {t('tracker:store')}
-          </LinkStyle>
-        </Link>
-      </Item>
-      <Item onClick={onShowLayer}>
-        <LinkStyle
-          color={isOpen ? 'primary' : 'secondary'}
-          className={classes.linkBtnMobile}
-          underline="none"
-        >
-          {<LayerIcon />} {t('tracker:map_type')}
-        </LinkStyle>
-        <LayerPanel className={isOpen ? classes.display : ''}>
-          <TopPanel>
-            <Title>{t('auth:map_type')}</Title>
-            <MdClose onClick={onShowLayer} />
-          </TopPanel>
-          <LayerItem>
-            {layer?.map((layer, index) => (
-              <ItemLayer
-                key={index}
-                onClick={() => onChangeLayler(layer.style)}
+      {trackerId ? (
+        <div> hihi</div>
+      ) : (
+        <>
+          <Item>
+            <Link href="/notifications">
+              <LinkStyle
+                onClick={onClickLink('/notifications')}
+                color={isActive ? 'primary' : 'secondary'}
+                className={classes.linkBtnMobile}
+                underline="none"
               >
-                <Image src={layer.image}></Image>
-                <Name>{t(`auth:${layer.name}`)}</Name>
-              </ItemLayer>
-            ))}
-          </LayerItem>
-        </LayerPanel>
-      </Item>
+                {<NotificationsIcon />} {t('tracker:notifications')}
+              </LinkStyle>
+            </Link>
+          </Item>
+          <Item>
+            <Link href="/dashboard">
+              <LinkStyle
+                onClick={onClickLink('/dashboard')}
+                color={isActive ? 'primary' : 'secondary'}
+                className={classes.linkBtnMobile}
+                underline="none"
+              >
+                {<MyLocationIcon />} {t('tracker:dashboard')}
+              </LinkStyle>
+            </Link>
+          </Item>
+          <Item>
+            <Link href="/trackers">
+              <LinkStyle
+                onClick={onClickLink('/trackers')}
+                color="secondary"
+                className={classes.linkBtnMobile}
+                underline="none"
+              >
+                {<NearMeIcon />} {t('tracker:view_all')}
+              </LinkStyle>
+            </Link>
+          </Item>
+          <Item>
+            <Link href="/tracking">
+              <LinkStyle
+                onClick={onClickLink('/tracking')}
+                color={isActive ? 'primary' : 'secondary'}
+                className={classes.linkBtnMobile}
+                underline="none"
+              >
+                {<ShoppingBasketIcon />} {t('tracker:store')}
+              </LinkStyle>
+            </Link>
+          </Item>
+          <Item onClick={onShowLayer}>
+            <LinkStyle
+              color={isOpen ? 'primary' : 'secondary'}
+              className={classes.linkBtnMobile}
+              underline="none"
+            >
+              {<LayerIcon />} {t('tracker:map_type')}
+            </LinkStyle>
+            <LayerPanel className={isOpen ? classes.display : ''}>
+              <TopPanel>
+                <Title>{t('auth:map_type')}</Title>
+                <MdClose onClick={onShowLayer} />
+              </TopPanel>
+              <LayerItem>
+                {layer?.map((layer, index) => (
+                  <ItemLayer
+                    key={index}
+                    onClick={() => onChangeLayler(layer.style)}
+                  >
+                    <Image src={layer.image}></Image>
+                    <Name>{t(`auth:${layer.name}`)}</Name>
+                  </ItemLayer>
+                ))}
+              </LayerItem>
+            </LayerPanel>
+          </Item>
+        </>
+      )}
     </Menu>
   );
 }

@@ -4,16 +4,15 @@ import { ViewPC, ViewMobile } from './views';
 import { MainLayout } from '@Layouts';
 
 interface Props {
-  isMobile?: boolean;
   [data: string]: any;
 }
 
 function View(props: Props) {
-  const { isMobile, ...rest } = props;
+  const { ...rest } = props;
 
   return (
-    <MainLayout isMobile={isMobile}>
-      {isMobile ? <ViewMobile {...rest} /> : <ViewPC {...rest} />}
+    <MainLayout isMobile={rest.isMobile}>
+      {rest.isMobile ? <ViewMobile {...rest} /> : <ViewPC {...rest} />}
     </MainLayout>
   );
 }

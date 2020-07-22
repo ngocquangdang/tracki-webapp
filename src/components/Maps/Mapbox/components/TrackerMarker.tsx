@@ -21,7 +21,7 @@ class TrackerMarker extends React.Component<Props> {
       tracker: { lat, lng, icon_url, device_name },
     } = this.props;
 
-    if (map && !this.marker) {
+    if (map && !this.marker && lat && lng) {
       const nameWidth = device_name.length * 9;
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;

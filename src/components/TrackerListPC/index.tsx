@@ -17,30 +17,32 @@ export default function ListDevice(props: Props) {
   const classes = useStyles();
 
   return (
-    <Container>
-      <Content>
-        <ListItem>
-          {trackerIds
-            ? trackerIds.map(id => (
-                // eslint-disable-next-line react/jsx-indent
-                <TrackerCard
-                  key={id}
-                  tracker={trackers[id]}
-                  onClickTracker={onClickTracker}
-                />
-              ))
-            : [1, 2].map(i => <SkeletonTracker key={i} />)}
-        </ListItem>
-      </Content>
-      <Footer>
-        <Button
-          classes={`${classes.btn}`}
-          text="Add Tracker"
-          color="primary"
-          type="submit"
-          startIcon={<FiPlus />}
-        />
-      </Footer>
-    </Container>
+    <>
+      <Container>
+        <Content>
+          <ListItem>
+            {trackerIds
+              ? trackerIds.map(id => (
+                  // eslint-disable-next-line react/jsx-indent
+                  <TrackerCard
+                    key={id}
+                    tracker={trackers[id]}
+                    onClickTracker={onClickTracker}
+                  />
+                ))
+              : [1, 2].map(i => <SkeletonTracker key={i} />)}
+          </ListItem>
+        </Content>
+        <Footer>
+          <Button
+            classes={`${classes.btn}`}
+            text="Add Tracker"
+            color="primary"
+            type="submit"
+            startIcon={<FiPlus />}
+          />
+        </Footer>
+      </Container>
+    </>
   );
 }

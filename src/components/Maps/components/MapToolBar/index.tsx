@@ -42,6 +42,7 @@ export default function MapToolBars(props: Props) {
     },
   ]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isShowName, setIsShowName] = useState(false);
 
   const onZoomClick = (zoom: number) => () => window.mapEvents.onZoom(zoom);
   const getCurrentLocation = () => {
@@ -52,6 +53,7 @@ export default function MapToolBars(props: Props) {
   const onReset = () => window.mapEvents.reset();
 
   const onShowLayer = () => setIsOpen(!isOpen);
+  const onShowName = () => setIsShowName(!isShowName);
   return (
     <ToolBar>
       <ZoomButton>
@@ -90,12 +92,12 @@ export default function MapToolBars(props: Props) {
           </LayerPanel>
         </IconButton>
       </Tooltip>
-      <Tooltip title={t('text')} placement="left" arrow>
-        <IconButton>
+      <Tooltip title={t('auth:show_name_device')} placement="left" arrow>
+        <IconButton onClick={onShowName}>
           <Text>A</Text>
         </IconButton>
       </Tooltip>
-      <Tooltip title={t('auth:border')} placement="left" arrow>
+      <Tooltip title={t('auth:show_geo_fence')} placement="left" arrow>
         <IconButton>
           <MdBorderStyle />
         </IconButton>

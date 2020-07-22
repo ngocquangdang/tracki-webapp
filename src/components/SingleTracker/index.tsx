@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Header,
@@ -50,10 +50,12 @@ import BorderStyleIcon from '@material-ui/icons/BorderStyle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ShareIcon from '@material-ui/icons/Share';
 import Slide from '@material-ui/core/Slide';
+import SettingTracker from '@Containers/Trackers/views/SettingTracker';
 
 function SingleTracker(props: any) {
   const classes = useStyles();
-  const { isLoading, tracker, onClickBack } = props;
+  const [isSetting, showSetting] = useState(false);
+  const { isLoading, tracker, onClickBack, t } = props;
   if (isLoading) {
     return (
       <Card>
@@ -82,6 +84,12 @@ function SingleTracker(props: any) {
       </Card>
     );
   }
+  const handleClose = () => {
+    showSetting(false);
+  };
+  const onClickSetting = () => {
+    showSetting(true);
+  };
   return (
     <Slide direction="left" in mountOnEnter unmountOnExit>
       <Container>
@@ -155,7 +163,7 @@ function SingleTracker(props: any) {
           </TrackerStatus>
           <TrackerMenu>
             <TrackerMenuUp>
-              <ContainerControl>
+              <ContainerControl onClick={onClickSetting}>
                 <SettingsIcon />
                 <TitleMenu>Settings</TitleMenu>
               </ContainerControl>
@@ -185,6 +193,9 @@ function SingleTracker(props: any) {
             <Border></Border>
           </TrackerMenu>
         </Card>
+        {isSetting ? (
+          <SettingTracker handleClose={handleClose} t={t} tracker={tracker} />
+        ) : null}
       </Container>
     </Slide>
   );
