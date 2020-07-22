@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineCamera } from 'react-icons/ai';
+import { Formik } from 'formik';
+import { Switch } from '@material-ui/core';
+import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+
 import MenuWrap from '@Components/menu-wrapper';
+import SelectOption from '@Components/selections';
+import { Button } from '@Components/buttons';
+import { TextInput } from '@Components/inputs';
+
 import {
   ImageWrapper,
   Image,
@@ -22,18 +34,7 @@ import {
   Container,
   useStyles,
 } from './styles';
-import { AiOutlineCamera } from 'react-icons/ai';
-import { Formik } from 'formik';
-import { Switch } from '@material-ui/core';
-import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 
-import SelectOption from '@Components/selections';
-import { Button } from '@Components/buttons';
-import { TextInput } from '@Components/inputs';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { AiOutlineQuestionCircle } from 'react-icons/ai';
-
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 const LOCATION_STATUS = [
   {
     value: 'on',
@@ -55,8 +56,7 @@ function SettingTracker(props: any) {
     locationStatus: [...LOCATION_STATUS],
   });
   const classes = useStyles();
-  const { handleClose, t, tracker } = props;
-  console.log('propsssssssss', props.tracker);
+  const { handleClose, t, tracker, settings, isMobile } = props;
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
     device_id: '',
@@ -69,9 +69,9 @@ function SettingTracker(props: any) {
     },
     speed_moving: false,
     low_battery: false,
-    enable_beep: false,
-    geo_fence_entry: false,
-    geo_fence_exit: false,
+    device_beep_sound: false,
+    zone_entry: false,
+    zone_exit: false,
     battery_sleep: false,
   });
 
@@ -80,28 +80,30 @@ function SettingTracker(props: any) {
       device_name: tracker.device_name || '',
       device_id: tracker.device_id || '',
       location_status: 'Off',
-      speed_unit: 'kph',
-      speed_limit: {
-        enable: true,
-        value: 5,
-        unit: 'kph',
-      },
+      speed_unit: settings?.preferences?.speed_limit.unit,
+      speed_limit: settings?.preferences?.speed_limit,
       speed_moving: false,
-      low_battery: false,
-      enable_beep: false,
-      geo_fence_entry: false,
-      geo_fence_exit: false,
+      low_battery: settings?.preferences?.low_battery,
+      device_beep_sound: settings?.preferences?.device_beep_sound,
+      zone_entry: settings?.preferences?.zone_entry,
+      zone_exit: settings?.preferences?.zone_exit,
       battery_sleep: false,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const onSubmitForm = () => {};
+  }, [tracker, settings]);
+
+  const onSubmitForm = (values: object) => {
+    console.log('___submit', values);
+  };
+
   return (
-    <MenuWrap title="Settings" handleClose={handleClose}>
+    <MenuWrap title="Settings" handleClose={handleClose} isMobile={isMobile}>
       <Container>
         <ImageTracker>
           <ImageWrapper>
-            <Image src={tracker.icon_url || 'images/image-device.png'} alt="" />
+            <Image
+              src={tracker.icon_url || '/images/image-device.png'}
+              alt=""
+            />
             <UploadImage>
               <AiOutlineCamera style={{ color: '#fff' }} />
               <TextUpload>Upload</TextUpload>
@@ -194,9 +196,9 @@ function SettingTracker(props: any) {
                     <span>{t('tracker:speed_limit_alert')}</span>
                     <OptionRight>
                       <LimitInput
-                        label={t(`${values.speed_limit.unit.toUpperCase()}`)}
+                        label={t(`${values.speed_limit?.unit?.toUpperCase()}`)}
                         name="speed_limit"
-                        value={values.speed_limit.value}
+                        value={values.speed_limit?.value || 0}
                         onChange={handleChange('speed_limit')}
                         onBlur={handleBlur('speed_limit')}
                         variant="outlined"
@@ -209,8 +211,7 @@ function SettingTracker(props: any) {
                       />
                       <Switch
                         name="speed_limit"
-                        checked={values.speed_limit.enable}
-                        value={values.speed_limit.value}
+                        checked={values.speed_limit?.enable}
                         onChange={e => {
                           setFieldValue('speed_limit', e.target.checked);
                         }}
@@ -225,7 +226,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.speed_moving}
+                        checked={values.speed_moving || false}
                         value={values.speed_moving}
                         onChange={e =>
                           setFieldValue('speed_moving', e.target.checked)
@@ -243,7 +244,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.low_battery}
+                        checked={values.low_battery || false}
                         value={values.low_battery}
                         onChange={e =>
                           setFieldValue('low_battery', e.target.checked)
@@ -261,13 +262,13 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.enable_beep}
-                        value={values.enable_beep}
+                        checked={values.device_beep_sound || false}
+                        value={values.device_beep_sound}
                         onChange={e =>
-                          setFieldValue('enable_beep', e.target.checked)
+                          setFieldValue('device_beep_sound', e.target.checked)
                         }
-                        onBlur={handleBlur('enable_beep')}
-                        name="enable_beep"
+                        onBlur={handleBlur('device_beep_sound')}
+                        name="device_beep_sound"
                         color="primary"
                       />
                     </OptionRight>
@@ -279,13 +280,13 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.geo_fence_entry}
-                        value={values.geo_fence_entry}
+                        checked={values.zone_entry || false}
+                        value={values.zone_entry}
                         onChange={e =>
-                          setFieldValue('geo_fence_entry', e.target.checked)
+                          setFieldValue('zone_entry', e.target.checked)
                         }
-                        onBlur={handleBlur('geo_fence_entry')}
-                        name="geo_fence_entry"
+                        onBlur={handleBlur('zone_entry')}
+                        name="zone_entry"
                         color="primary"
                       />
                     </OptionRight>
@@ -297,13 +298,13 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.geo_fence_exit}
-                        value={values.geo_fence_exit}
+                        checked={values.zone_exit || false}
+                        value={values.zone_exit}
                         onChange={e =>
-                          setFieldValue('geo_fence_exit', e.target.checked)
+                          setFieldValue('zone_exit', e.target.checked)
                         }
-                        onBlur={handleBlur('geo_fence_exit')}
-                        name="geo_fence_exit"
+                        onBlur={handleBlur('zone_exit')}
+                        name="zone_exit"
                         color="primary"
                       />
                     </OptionRight>

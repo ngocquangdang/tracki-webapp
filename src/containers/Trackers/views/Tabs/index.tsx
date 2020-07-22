@@ -24,6 +24,7 @@ export default function TabsPC(props: Props) {
     selectedGeofenceId,
     selectGeofenceIdAction,
     searchGeofencesAction,
+    t,
   } = props;
   const classes = useStyles();
   const [currentTab, setTab] = useState(0);
@@ -64,6 +65,7 @@ export default function TabsPC(props: Props) {
         className={classes.tabPanel}
       >
         <TrackerList
+          t={t}
           trackers={trackers}
           trackerIds={trackerIds}
           onClickTracker={selectTrackerAction}

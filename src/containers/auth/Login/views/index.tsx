@@ -38,7 +38,7 @@ export default function Login(props: ILoginPage.IProps) {
     <AuthLayout>
       <Container>
         <Content>
-          <Logo src="images/logo.png" alt="" />
+          <Logo src="/images/logo.png" alt="" />
           <Title>{t('login_into_tracki')}</Title>
           <Description>{t('login_description')}</Description>
           <LoginForm {...props} />

@@ -30,7 +30,7 @@ class TrackerMarker extends React.Component<Props> {
           <span class='inner'></span>
           <div class='marker-pin'>
             <img src=${
-              icon_url || 'images/image-device.png'
+              icon_url || '/images/image-device.png'
             } class='image-device'></img>
           </div>
         <div>

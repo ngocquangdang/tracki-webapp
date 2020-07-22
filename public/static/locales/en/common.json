@@ -4,5 +4,10 @@
   "cancel": "Cancel",
   "search": "Search",
   "save": "Save",
-  "setting": "Settings"
+  "setting": "Settings",
+  "notifications": "Notifications",
+  "current_location": "I'm here",
+  "view_all": "View All",
+  "store": "Store",
+  "map_type": "Map type"
 }

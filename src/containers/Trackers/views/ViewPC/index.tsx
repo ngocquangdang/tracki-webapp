@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 
 import { SideBar } from '@Components/sidebars';
 import Map from '@Components/Maps';
-import SingleTracker from '@Components/SingleTracker';
+import SingleTracker from '@Containers/SingleTracker';
+import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from '../Tabs';
 
 import { Container, MapView } from './styles';
 
 export default function TrackersContainer(props: any) {
   const { selectedTrackerId, onResetSelectedTrackerID, ...rest } = props;
+
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const handleChangee = () => setOpenSidebar(!isOpenSidebar);
@@ -37,6 +39,7 @@ export default function TrackersContainer(props: any) {
       </SideBar>
       <MapView fullWidth={!isOpenSidebar}>
         <Map mapType="mapbox" fullWidth={!isOpenSidebar} {...rest} />
+        <MapToolBars t={rest.t} />
       </MapView>
     </Container>
   );

@@ -4,15 +4,29 @@ import Map from '@Components/Maps';
 import { Container, MapView } from './styles';
 import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
+import DetailTrackerCard from '@Components/DetailTrackerCard';
 
-export default function ViewHomeMobile(props: any) {
-  const { selectedTrackerId, ...rest } = props;
+interface Props {
+  [data: string]: any;
+}
+
+export default function ViewHomeMobile(props: Props) {
+  const { ...rest } = props;
   return (
     <Container>
       <MapView>
-        {selectedTrackerId && <TopToolBar />}
+        {rest.selectedTrackerId && <TopToolBar />}
+
         <Map fullWidth={true} mapType="mapbox" {...rest} />
-        {selectedTrackerId && <BottomToolBar />}
+        {rest.selectedTrackerId && (
+          <BottomToolBar
+            t={rest.t}
+            tracker={rest.trackers[rest.selectedTrackerId]}
+          />
+        )}
+        {rest.selectedTrackerId && (
+          <DetailTrackerCard tracker={rest.trackers[rest.selectedTrackerId]} />
+        )}
       </MapView>
     </Container>
   );

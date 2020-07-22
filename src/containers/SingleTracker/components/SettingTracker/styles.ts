@@ -112,7 +112,7 @@ const ContainerPaddingSwitch = styled.div`
   padding: 5px 0 0 15px;
 `;
 const Container = styled.div`
-  margin-top: 70px;
+  margin-top: 75px;
 `;
 const Text = styled.span`
   font-size: 14px;

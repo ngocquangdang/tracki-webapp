@@ -79,7 +79,7 @@ export default function GeofenceCard(props: Props) {
       <Content disabled={isDisabled}>
         <ImageWrapper active={isActive} disabled={isDisabled}>
           <Image
-            src={`images/geo_${geofence.type}${isActive ? '_active' : ''}.svg`}
+            src={`/images/geo_${geofence.type}${isActive ? '_active' : ''}.svg`}
             alt=""
             onClick={onSelectGeofence}
           />
