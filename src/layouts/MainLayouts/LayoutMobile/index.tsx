@@ -11,11 +11,11 @@ interface Props {
   noFooter?: boolean;
   [data: string]: any;
   t: Function;
-  selectedTrackerId: number;
 }
 
 function MainLayoutMobile(props: Props) {
-  const { t, selectedTrackerId } = props;
+  console.log('MainLayoutMobile -> props', props);
+  const { ...rest } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -33,6 +33,7 @@ function MainLayoutMobile(props: Props) {
             open={open}
             handleOpenSideBar={handleOpenSideBar}
             onClick={handleCloseSideBar}
+            {...rest}
           />
         )}
       </div>
@@ -46,7 +47,7 @@ function MainLayoutMobile(props: Props) {
         >
           {props.children}
         </Content>
-        {!props.noFooter && <MenuMobile t={t} trackerId={selectedTrackerId} />}
+        {!props.noFooter && <MenuMobile t={rest.t} />}
       </div>
     </MainWrapper>
   );

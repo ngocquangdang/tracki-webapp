@@ -36,6 +36,7 @@ const Icon = styled.div`
 const ItemText = styled.div`
   display: flex;
   overflow: hidden;
+  font-size: 12px;
 `;
 
 const useStyles = makeStyles(theme => ({

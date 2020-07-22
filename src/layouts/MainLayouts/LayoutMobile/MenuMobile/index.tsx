@@ -24,7 +24,7 @@ import { MdClose } from 'react-icons/md';
 
 interface Props {
   t: Function;
-  trackerId: number;
+  trackerId?: number;
 }
 export default function MenuMobile(props: Props) {
   const { t, trackerId } = props;

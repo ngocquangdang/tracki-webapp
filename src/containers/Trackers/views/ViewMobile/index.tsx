@@ -19,7 +19,6 @@ export default function ViewHomeMobile(props: Props) {
 
         <Map fullWidth={true} mapType="mapbox" {...rest} />
         {rest.selectedTrackerId && <BottomToolBar t={rest.t} />}
-        {rest.selectedTrackerId && <BottomToolBar t={rest.t} />}
         {rest.selectedTrackerId && (
           <DetailTrackerCard tracker={rest.trackers[rest.selectedTrackerId]} />
         )}
