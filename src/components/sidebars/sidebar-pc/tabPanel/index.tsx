@@ -14,6 +14,7 @@ interface Props {
   index?: number;
   placeholder: string;
   onSearch(key: string): void;
+  [data: string]: any;
 }
 export default function TabPanel(props: Props) {
   const classes = useStyles();
