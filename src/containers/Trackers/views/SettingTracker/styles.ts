@@ -73,21 +73,18 @@ const TextDescription1 = styled.span`
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.8;
   letter-spacing: normal;
   color: #999999;
   display: flex;
-  padding-bottom: 10px;
 `;
 const TextDescription2 = styled.span`
   font-size: 12px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.5;
+  line-height: 3.5;
   letter-spacing: normal;
   color: #999999;
-  margin-bottom: 20px;
 `;
 const ContainerButtonModal = styled.div`
   height: 50px;
@@ -113,6 +110,9 @@ const ContainerPadding = styled.div`
 `;
 const ContainerPaddingSwitch = styled.div`
   padding: 5px 0 0 15px;
+`;
+const Container = styled.div`
+  margin-top: 70px;
 `;
 const Text = styled.span`
   font-size: 14px;
@@ -231,5 +231,6 @@ export {
   OptionRight,
   SwitchGroupLast,
   ContainerPaddingSwitch,
+  Container,
   useStyles,
 };

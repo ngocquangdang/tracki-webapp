@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FiPlus } from 'react-icons/fi';
 
 import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import TrackerCard from '@Components/TrackerCard';
 import { SkeletonTracker } from '@Components/Skeletons';
-import SettingTracker from '@Containers/Trackers/views/SettingTracker';
 
 interface Props {
   trackers: object;
@@ -15,15 +14,9 @@ interface Props {
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds, onClickTracker, t } = props;
+  const { trackers, trackerIds, onClickTracker } = props;
   const classes = useStyles();
-  const [openSetting, setOpenSetting] = useState(false);
-  const handleClickAdd = () => {
-    setOpenSetting(true);
-  };
-  const handleClose = () => {
-    setOpenSetting(false);
-  };
+
   return (
     <>
       <Container>
@@ -48,11 +41,9 @@ export default function ListDevice(props: Props) {
             color="primary"
             type="submit"
             startIcon={<FiPlus />}
-            onClick={handleClickAdd}
           />
         </Footer>
       </Container>
-      {openSetting ? <SettingTracker handleClose={handleClose} t={t} /> : null}
     </>
   );
 }

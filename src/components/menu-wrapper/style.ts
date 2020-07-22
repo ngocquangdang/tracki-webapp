@@ -3,12 +3,11 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 const MenuWrap = styled.div`
   width: 100%;
-  max-height: 100%;
+  height: 100%;
   position: fixed;
   top: 0;
   z-index: 5;
   right: 0;
-  overflow-y: scroll;
 `;
 const MenuHeader = styled.div`
   display: flex;
@@ -16,14 +15,21 @@ const MenuHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 450px;
+  background-color: #fff;
 `;
 
 const ButtonClose = styled.div``;
 
 const WrapDisabled = styled.div`
   width: 450px;
-  height: 100%;
+  max-height: 100%;
   background-color: #fff;
+  overflow-y: auto;
 `;
 
 const Wrap = styled(WrapDisabled)`

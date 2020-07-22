@@ -29,6 +29,7 @@ export default function TrackersContainer(props: any) {
           <SingleTracker
             tracker={rest.trackers[selectedTrackerId]}
             onClickBack={handleClickBack}
+            t={rest.t}
           />
         ) : (
           <Tabs {...rest} />

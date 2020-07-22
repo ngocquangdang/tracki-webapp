@@ -7,6 +7,12 @@ const TextInput = withStyles(theme => ({
       height: '50px',
       color: '#1a1a1a',
     },
+    '& .Mui-disabled': {
+      color: '#bcbcbc',
+      '&:hover fieldset': {
+        borderColor: '#bcbcbc',
+      },
+    },
     '& .MuiOutlinedInput-root': {
       '&:hover fieldset': {
         borderColor: '#1a1a1a',
