@@ -78,5 +78,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo,
-  withTranslation(['common'])
+  withTranslation(['common', 'auth', 'tracker'])
 )(TrackersContainer) as React.ComponentType;

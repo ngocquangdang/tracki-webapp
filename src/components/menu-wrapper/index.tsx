@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   MenuWrap,
-  Wrap,
+  MenuHeader,
   useStyles,
   ButtonClose,
   WrapDisabled,
@@ -12,7 +12,7 @@ import { Fade } from '@material-ui/core';
 
 export default function MenuWrapper(props: any) {
   const classes = useStyles();
-  const { isDisabled, checked, title, handleClose } = props;
+  const { title, handleClose, children } = props;
 
   function capitalizeFirstLetter(string: string) {
     return string.replace(/\w\S*/g, function (txt: any) {
@@ -21,30 +21,18 @@ export default function MenuWrapper(props: any) {
   }
 
   return (
-    <div>
-      {isDisabled ? (
-        <Fade in={checked} mountOnEnter unmountOnExit>
-          <MenuWrap>
-            <WrapDisabled>
-              <Title>{capitalizeFirstLetter(title)}</Title>
-              <ButtonClose onClick={handleClose}>
-                <GrFormClose className={classes.buttonClose} />
-              </ButtonClose>
-              {props.children}
-            </WrapDisabled>
-          </MenuWrap>
-        </Fade>
-      ) : (
-        <Fade in={checked} mountOnEnter unmountOnExit>
-          <Wrap>
+    <Fade in mountOnEnter unmountOnExit>
+      <MenuWrap>
+        <WrapDisabled>
+          <MenuHeader>
             <Title>{capitalizeFirstLetter(title)}</Title>
             <ButtonClose onClick={handleClose}>
               <GrFormClose className={classes.buttonClose} />
             </ButtonClose>
-            {props.children}
-          </Wrap>
-        </Fade>
-      )}
-    </div>
+          </MenuHeader>
+          {children}
+        </WrapDisabled>
+      </MenuWrap>
+    </Fade>
   );
 }

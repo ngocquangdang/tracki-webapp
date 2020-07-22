@@ -1,0 +1,16 @@
+{
+  "tracker_name": "Tracker Name",
+  "tracker_id": "Tracker ID",
+  "location_updated": "Location Updates",
+  "subcription": "Subscription",
+  "alert_setting": "ALERT SETTINGS",
+  "speed_unit": "Speed Unit",
+  "speed_limit_alert": "Speed Limit Alert",
+  "speed_moving_alert": "Speed Moving Alert",
+  "low_battery_alert": "Low Battery Alert",
+  "enable_beeper": "Enable Beeper + low battery beep",
+  "geo_fence_entry": "Geo-Fence entry Alert",
+  "geo_fence_exit": "Geo-Fence exit Alert",
+  "setup_geo_fence": "Setup Geo-Fences",
+  "extended_battery": "Extended Battery Sleep Mode"
+}

@@ -2,5 +2,7 @@
   "app_name": "Tracki",
   "submit": "Submit",
   "cancel": "Cancel",
-  "search": "Search"
+  "search": "Search",
+  "save": "Save",
+  "setting": "Settings"
 }
