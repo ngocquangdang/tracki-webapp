@@ -51,6 +51,7 @@ const Title = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #1a1a1a;
+  padding-left: 18px;
 `;
 const ButtonSave = styled.div`
   color: #168449;
