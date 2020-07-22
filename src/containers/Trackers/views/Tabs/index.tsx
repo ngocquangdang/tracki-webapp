@@ -61,6 +61,7 @@ export default function TabsPC(props: Props) {
         index={0}
         placeholder="Search devices by name or ID"
         onSearch={searchTrackersRequest}
+        className={classes.tabPanel}
       >
         <TrackerList
           trackers={trackers}
@@ -73,6 +74,7 @@ export default function TabsPC(props: Props) {
         index={1}
         placeholder="Search geo-fences by name"
         onSearch={searchGeofencesAction}
+        className={classes.tabPanel}
       >
         <GeofenceList
           geofences={geofences}

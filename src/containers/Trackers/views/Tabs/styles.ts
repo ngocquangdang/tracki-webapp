@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
       height: '100%',
     },
   },
+  tabPanel: {
+    height: 'calc(100% - 55px)',
+  },
   tabItem: {
     width: '50%',
   },

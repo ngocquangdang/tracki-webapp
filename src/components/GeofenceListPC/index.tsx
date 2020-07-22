@@ -9,6 +9,7 @@ import { SkeletonTracker } from '@Components/Skeletons';
 interface Props {
   geofenceIds: Array<number | string>;
   geofences: object;
+  selectedGeofenceId: number | string | null;
   selectGeofenceIdAction(id: number | string): void;
   updateGeofenceAction(id: number, data: object): void;
   [data: string]: any;
@@ -18,6 +19,7 @@ export default function ListGeoFence(props: Props) {
   const {
     geofenceIds,
     geofences,
+    selectedGeofenceId,
     selectGeofenceIdAction,
     updateGeofenceAction,
   } = props;
@@ -33,6 +35,7 @@ export default function ListGeoFence(props: Props) {
                 <GeoFence
                   key={id}
                   geofence={geofences[id]}
+                  selectedGeofenceId={selectedGeofenceId}
                   selectGeofence={selectGeofenceIdAction}
                   updateGeofence={updateGeofenceAction}
                 />
