@@ -100,7 +100,6 @@ const Status = styled.p`
 const Actions = styled.div`
   display: flex;
 `;
-
 export {
   Status,
   Content,

@@ -26,7 +26,7 @@ export default function HeaderMobile(props: any) {
               color="inherit"
               aria-label="menu"
             >
-              <MenuIcon />
+              <MenuIcon className={classes.menuIcon} />
             </IconButton>
             <Typography
               variant="h6"

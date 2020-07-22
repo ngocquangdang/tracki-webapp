@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
 import { FaHistory } from 'react-icons/fa';
 import { MdBorderStyle, MdShare } from 'react-icons/md';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
@@ -12,13 +12,26 @@ import {
   ListItem,
   useStyles,
 } from './styles';
+import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 
-export default function BottomToolBar() {
+interface Props {
+  t(): void;
+  tracker: {};
+}
+
+export default function BottomToolBar(props: Props) {
+  const { t, tracker } = props;
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
-
+  const [isSetting, showSetting] = useState(false);
   const handleClick = () => {
     setIsActive(!isActive);
+  };
+  const onClickSetting = () => {
+    showSetting(true);
+  };
+  const handleCloseSetting = () => {
+    showSetting(false);
   };
   return (
     <ToolBar>
@@ -37,18 +50,24 @@ export default function BottomToolBar() {
         </>
       </Button>
       <ListItem className={isActive ? '' : classes.isActive}>
-        <MenuItem className={isActive ? '' : classes.fullWidth}>
-          <Icon className={classes.menuItemIcon}>
-            <IoMdSettings className={classes.menuIcon} />
-          </Icon>
-          <ItemText
-            className={`${classes.menuText} ${
-              isActive ? '' : classes.displayText
-            }`}
+        <Tooltip title="Delete">
+          <MenuItem
+            className={isActive ? '' : classes.fullWidth}
+            onClick={onClickSetting}
           >
-            Settings
-          </ItemText>
-        </MenuItem>
+            <Icon className={classes.menuItemIcon}>
+              <IoMdSettings className={classes.menuIcon} />
+            </Icon>
+            <ItemText
+              className={`${classes.menuText} ${
+                isActive ? '' : classes.displayText
+              }`}
+            >
+              Settings
+            </ItemText>
+          </MenuItem>
+        </Tooltip>
+
         <MenuItem className={isActive ? '' : classes.fullWidth}>
           <Icon className={classes.menuItemIcon}>
             <FaHistory className={classes.menuIcon} />
@@ -98,6 +117,14 @@ export default function BottomToolBar() {
           </ItemText>
         </MenuItem>
       </ListItem>
+      {isSetting && (
+        <SettingTracker
+          tracker={tracker}
+          t={t}
+          handleClose={handleCloseSetting}
+          isMobile={true}
+        />
+      )}
     </ToolBar>
   );
 }

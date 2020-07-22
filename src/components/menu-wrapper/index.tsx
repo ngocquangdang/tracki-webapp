@@ -5,14 +5,20 @@ import {
   useStyles,
   ButtonClose,
   WrapDisabled,
+  WrapTitle,
+  TitleMobile,
+  ButtonSave,
+  TextSave,
   Title,
 } from './style';
 import { GrFormClose } from 'react-icons/gr';
 import { Fade } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import DoneIcon from '@material-ui/icons/Done';
 
 export default function MenuWrapper(props: any) {
   const classes = useStyles();
-  const { title, handleClose, children } = props;
+  const { title, handleClose, children, isMobile } = props;
 
   function capitalizeFirstLetter(string: string) {
     return string.replace(/\w\S*/g, function (txt: any) {
@@ -23,12 +29,29 @@ export default function MenuWrapper(props: any) {
   return (
     <Fade in mountOnEnter unmountOnExit>
       <MenuWrap>
-        <WrapDisabled>
-          <MenuHeader>
-            <Title>{capitalizeFirstLetter(title)}</Title>
-            <ButtonClose onClick={handleClose}>
-              <GrFormClose className={classes.buttonClose} />
-            </ButtonClose>
+        <WrapDisabled isMobile={isMobile}>
+          <MenuHeader isMobile={isMobile}>
+            {isMobile ? (
+              <WrapTitle>
+                <ArrowBackIosIcon
+                  className={classes.iconBack}
+                  onClick={handleClose}
+                />
+                <TitleMobile>{capitalizeFirstLetter(title)}</TitleMobile>
+              </WrapTitle>
+            ) : (
+              <Title>{capitalizeFirstLetter(title)}</Title>
+            )}
+            {isMobile ? (
+              <ButtonSave>
+                <DoneIcon className={classes.iconSave} />
+                <TextSave>Save</TextSave>
+              </ButtonSave>
+            ) : (
+              <ButtonClose onClick={handleClose}>
+                <GrFormClose className={classes.buttonClose} />
+              </ButtonClose>
+            )}
           </MenuHeader>
           {children}
         </WrapDisabled>

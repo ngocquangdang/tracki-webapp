@@ -190,6 +190,7 @@ function SingleTracker(props: any) {
             handleClose={handleClose}
             t={t}
             tracker={tracker}
+            isMobile={false}
             settings={settings[tracker.settings_id]}
           />
         )}

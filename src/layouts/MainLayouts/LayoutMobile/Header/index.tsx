@@ -1,11 +1,18 @@
 import React from 'react';
 import { Toolbar, AppBar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import { useStyles } from './styles';
+import { useStyles, ImageWrapper, Image } from './styles';
 
-export default function HeaderMobile(props: any) {
+interface Props {
+  [data: string]: any;
+  open: boolean;
+  handleOpenSideBar(): void;
+}
+export default function HeaderMobile(props: Props) {
+  console.log('HeaderMobile -> props', props);
+
   const classes = useStyles();
-  const { open, handleOpenSideBar } = props;
+  const { open, handleOpenSideBar, ...rest } = props;
   return (
     <div className={classes.root}>
       <AppBar
@@ -22,15 +29,37 @@ export default function HeaderMobile(props: any) {
               color="inherit"
               aria-label="menu"
             >
-              <MenuIcon />
+              <MenuIcon className={classes.menuIcon} />
             </IconButton>
             <Typography
               variant="h6"
               color="inherit"
-              className={classes.textHeader}
+              className={`${classes.textHeader} ${
+                rest.children.props.selectedTrackerId && classes.fontSize
+              }`}
               noWrap
             >
-              All Tracker
+              {rest.children.props.selectedTrackerId ? (
+                <>
+                  <ImageWrapper>
+                    <Image
+                      src={
+                        rest.children?.props.trackers[
+                          rest.children.props.selectedTrackerId
+                        ]?.images || '/images/image-device.png'
+                      }
+                      alt=""
+                    />
+                  </ImageWrapper>
+                  {
+                    rest.children.props.trackers[
+                      rest.children.props.selectedTrackerId
+                    ]?.device_name
+                  }
+                </>
+              ) : (
+                'All Tracker'
+              )}
             </Typography>
           </div>
         </Toolbar>

@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
   tabPanel: {
     height: 'calc(100% - 55px)',
+    overflowY: 'auto',
   },
   tabItem: {
     width: '50%',

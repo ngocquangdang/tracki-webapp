@@ -56,7 +56,7 @@ function SettingTracker(props: any) {
     locationStatus: [...LOCATION_STATUS],
   });
   const classes = useStyles();
-  const { handleClose, t, tracker, settings } = props;
+  const { handleClose, t, tracker, settings, isMobile } = props;
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
     device_id: '',
@@ -96,7 +96,7 @@ function SettingTracker(props: any) {
   };
 
   return (
-    <MenuWrap title="Settings" handleClose={handleClose}>
+    <MenuWrap title="Settings" handleClose={handleClose} isMobile={isMobile}>
       <Container>
         <ImageTracker>
           <ImageWrapper>
@@ -226,7 +226,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.speed_moving}
+                        checked={values.speed_moving || false}
                         value={values.speed_moving}
                         onChange={e =>
                           setFieldValue('speed_moving', e.target.checked)
@@ -244,7 +244,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.low_battery}
+                        checked={values.low_battery || false}
                         value={values.low_battery}
                         onChange={e =>
                           setFieldValue('low_battery', e.target.checked)
@@ -262,7 +262,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.device_beep_sound}
+                        checked={values.device_beep_sound || false}
                         value={values.device_beep_sound}
                         onChange={e =>
                           setFieldValue('device_beep_sound', e.target.checked)
@@ -280,7 +280,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.zone_entry}
+                        checked={values.zone_entry || false}
                         value={values.zone_entry}
                         onChange={e =>
                           setFieldValue('zone_entry', e.target.checked)
@@ -298,7 +298,7 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.zone_exit}
+                        checked={values.zone_exit || false}
                         value={values.zone_exit}
                         onChange={e =>
                           setFieldValue('zone_exit', e.target.checked)

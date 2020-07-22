@@ -4,11 +4,13 @@ import styled from 'styled-components';
 const ToolBar = styled.div`
   position: absolute;
   left: 5px;
+  top: calc(100% - 385px);
 `;
 const ListItem = styled.ul`
   width: 50px;
   overflow: hidden;
   padding: 0;
+  margin: 10px 0;
   transition: width 1s;
 `;
 const Text = styled.span``;
@@ -35,6 +37,7 @@ const Icon = styled.div`
 const ItemText = styled.div`
   display: flex;
   overflow: hidden;
+  font-size: 12px;
 `;
 const useStyles = makeStyles(theme => ({
   btnRoot: {

@@ -10,7 +10,6 @@ interface Props {
   trackers: object;
   trackerIds: Array<string | number>;
   onClickTracker(id: number): void;
-  t(): void;
 }
 
 export default function ListDevice(props: Props) {
