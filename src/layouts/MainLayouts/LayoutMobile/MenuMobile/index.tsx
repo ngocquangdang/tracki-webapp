@@ -72,7 +72,7 @@ export default function MenuMobile(props: Props) {
                 className={classes.linkBtnMobile}
                 underline="none"
               >
-                {<NotificationsIcon />} {t('tracker:notifications')}
+                {<NotificationsIcon />} {t('common:notifications')}
               </LinkStyle>
             </Link>
           </Item>
@@ -84,7 +84,7 @@ export default function MenuMobile(props: Props) {
                 className={classes.linkBtnMobile}
                 underline="none"
               >
-                {<MyLocationIcon />} {t('tracker:dashboard')}
+                {<MyLocationIcon />} {t('common:current_location')}
               </LinkStyle>
             </Link>
           </Item>
@@ -96,7 +96,7 @@ export default function MenuMobile(props: Props) {
                 className={classes.linkBtnMobile}
                 underline="none"
               >
-                {<NearMeIcon />} {t('tracker:view_all')}
+                {<NearMeIcon />} {t('common:view_all')}
               </LinkStyle>
             </Link>
           </Item>
@@ -108,7 +108,7 @@ export default function MenuMobile(props: Props) {
                 className={classes.linkBtnMobile}
                 underline="none"
               >
-                {<ShoppingBasketIcon />} {t('tracker:store')}
+                {<ShoppingBasketIcon />} {t('common:store')}
               </LinkStyle>
             </Link>
           </Item>
@@ -118,7 +118,7 @@ export default function MenuMobile(props: Props) {
               className={classes.linkBtnMobile}
               underline="none"
             >
-              {<LayerIcon />} {t('tracker:map_type')}
+              {<LayerIcon />} {t('common:map_type')}
             </LinkStyle>
             <LayerPanel className={isOpen ? classes.display : ''}>
               <TopPanel>

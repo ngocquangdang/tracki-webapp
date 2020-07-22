@@ -46,13 +46,18 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     overflow: 'hidden',
   },
+  menuIcon: {
+    fontSize: '36px',
+  },
   appBar: {
+    zIndex: 8,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
   appBarShift: {
+    zIndex: 8,
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {

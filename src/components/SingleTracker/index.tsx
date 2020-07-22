@@ -194,7 +194,12 @@ function SingleTracker(props: any) {
           </TrackerMenu>
         </Card>
         {isSetting ? (
-          <SettingTracker handleClose={handleClose} t={t} tracker={tracker} />
+          <SettingTracker
+            handleClose={handleClose}
+            t={t}
+            tracker={tracker}
+            isMobile={false}
+          />
         ) : null}
       </Container>
     </Slide>

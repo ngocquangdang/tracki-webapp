@@ -55,7 +55,7 @@ function SettingTracker(props: any) {
     locationStatus: [...LOCATION_STATUS],
   });
   const classes = useStyles();
-  const { handleClose, t, tracker } = props;
+  const { handleClose, t, tracker, isMobile } = props;
   console.log('propsssssssss', props.tracker);
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
@@ -97,7 +97,7 @@ function SettingTracker(props: any) {
   }, []);
   const onSubmitForm = () => {};
   return (
-    <MenuWrap title="Settings" handleClose={handleClose}>
+    <MenuWrap title="Settings" handleClose={handleClose} isMobile={isMobile}>
       <Container>
         <ImageTracker>
           <ImageWrapper>

@@ -12,18 +12,26 @@ import {
   ListItem,
   useStyles,
 } from './styles';
+import SettingTracker from '@Containers/Trackers/views/SettingTracker';
 
 interface Props {
-  t: Function;
+  t(): void;
+  tracker: {};
 }
 
 export default function BottomToolBar(props: Props) {
-  // const { t } = props;
+  const { t, tracker } = props;
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
-
+  const [isSetting, showSetting] = useState(false);
   const handleClick = () => {
     setIsActive(!isActive);
+  };
+  const onClickSetting = () => {
+    showSetting(true);
+  };
+  const handleCloseSetting = () => {
+    showSetting(false);
   };
   return (
     <ToolBar>
@@ -43,7 +51,10 @@ export default function BottomToolBar(props: Props) {
       </Button>
       <ListItem className={isActive ? '' : classes.isActive}>
         <Tooltip title="Delete">
-          <MenuItem className={isActive ? '' : classes.fullWidth}>
+          <MenuItem
+            className={isActive ? '' : classes.fullWidth}
+            onClick={onClickSetting}
+          >
             <Icon className={classes.menuItemIcon}>
               <IoMdSettings className={classes.menuIcon} />
             </Icon>
@@ -106,6 +117,14 @@ export default function BottomToolBar(props: Props) {
           </ItemText>
         </MenuItem>
       </ListItem>
+      {isSetting ? (
+        <SettingTracker
+          tracker={tracker}
+          t={t}
+          handleClose={handleCloseSetting}
+          isMobile={true}
+        />
+      ) : null}
     </ToolBar>
   );
 }
