@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const ToolBar = styled.div`
   position: absolute;
   left: 5px;
-  top: calc(100% - 420px);
+  bottom: 135px;
 `;
 const ListItem = styled.ul`
   width: 50px;

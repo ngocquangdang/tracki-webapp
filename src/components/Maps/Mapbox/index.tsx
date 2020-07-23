@@ -64,7 +64,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
 
   onClickTracker = (id: string | number) => {
     const { onClickMarker, openSideBar } = this.props;
-    openSideBar();
+    openSideBar && openSideBar();
     onClickMarker(id);
   };
 

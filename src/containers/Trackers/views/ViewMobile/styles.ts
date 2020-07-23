@@ -17,9 +17,11 @@ const ContentCardDetail = styled.div`
   border-radius: 4px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
-  margin: 10px 6px;
-  position: relative;
-  top: calc(100% - 175px);
+  position: absolute;
+  bottom: 5px;
+  width: calc(100% - 10px);
+  left: 5px;
+  right: 5px;
   @media (max-width: 320px) {
     top: calc(100% - 200px);
   }
