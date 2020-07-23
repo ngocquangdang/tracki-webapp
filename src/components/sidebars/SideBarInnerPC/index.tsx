@@ -3,42 +3,39 @@ import { IconButton, Slide } from '@material-ui/core';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 import clsx from 'clsx';
 
-import { Content, Container, useStyles } from './styles';
+import { Content, SideBarContainer, useStyles } from './styles';
 
 export default function SideBar(props: any) {
   const { opened, onChange } = props;
   const classes = useStyles();
 
   return (
-    <Container opened={opened}>
-      <IconButton
-        onClick={onChange}
-        className={clsx(classes.toggleIconBtn)}
-        style={{ zIndex: opened ? 0 : 1 }}
-      >
-        <BsFillCaretRightFill size={14} />
-      </IconButton>
+    <SideBarContainer>
       <Slide
         direction="right"
         in={opened}
-        // mountOnEnter
-        // unmountOnExit
         style={{
           position: 'relative',
           background: '#ffffff',
           borderRight: '1px solid #rgba(0,0,0,0.12)',
+          visibility: 'unset',
+          display: 'block',
         }}
       >
-        <Content opened={opened}>
+        <Content>
           {props.children}
           <IconButton
             onClick={onChange}
-            className={clsx(classes.toggleIconBtn, classes.closeBtn)}
+            className={clsx(classes.toggleIconBtn)}
           >
-            <BsFillCaretLeftFill size={14} />
+            {opened ? (
+              <BsFillCaretLeftFill size={14} />
+            ) : (
+              <BsFillCaretRightFill size={14} />
+            )}
           </IconButton>
         </Content>
       </Slide>
-    </Container>
+    </SideBarContainer>
   );
 }

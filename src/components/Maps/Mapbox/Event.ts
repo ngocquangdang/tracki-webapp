@@ -59,6 +59,8 @@ class MapBoxEvent {
     this.mapApi.jumpTo({ center: coordinate, zoom });
 
   getBounds = () => this.mapApi.getBounds();
+
+  resize = () => this.mapApi.resize();
 }
 
 export default MapBoxEvent;

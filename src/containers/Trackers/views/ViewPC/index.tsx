@@ -13,7 +13,14 @@ export default function TrackersContainer(props: any) {
 
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
-  const handleChangee = () => setOpenSidebar(!isOpenSidebar);
+  const handleChangee = () => {
+    if (!isOpenSidebar) {
+      setTimeout(() => {
+        window.mapEvents.resize();
+      }, 500);
+    }
+    setOpenSidebar(!isOpenSidebar);
+  };
 
   const handleClickBack = () => {
     onResetSelectedTrackerID();
@@ -37,8 +44,8 @@ export default function TrackersContainer(props: any) {
           <Tabs {...rest} />
         )}
       </SideBarInnerPC>
-      <MapView fullWidth={!isOpenSidebar}>
-        <Map mapType="mapbox" fullWidth={!isOpenSidebar} {...rest} />
+      <MapView>
+        <Map mapType="mapbox" fullWidth={isOpenSidebar} {...rest} />
         <MapToolBars t={rest.t} />
       </MapView>
     </Container>

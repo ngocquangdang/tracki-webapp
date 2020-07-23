@@ -44,6 +44,8 @@ class DroneMapEvent {
   getUseLocation() {
     console.log('getUseLocation');
   }
+
+  resize = () => this.map.resize();
 }
 
 export default DroneMapEvent;
