@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
-
+import Backdrop from '@material-ui/core/Backdrop';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -10,6 +10,14 @@ const Header = styled.div`
 const Title = styled.span`
   font-size: 21px;
 `;
+
+const BackDrop = withStyles(theme => ({
+  root: {
+    '&.MuiBackdrop-root': {
+      backdropFilter: 'blur(2px)',
+    },
+  },
+}))(Backdrop);
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -34,7 +42,9 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     [theme.breakpoints.down('md')]: {
       padding: '15px',
+      margin: '5px',
     },
   },
 }));
-export { Header, Title, useStyles };
+
+export { Header, Title, BackDrop, useStyles };

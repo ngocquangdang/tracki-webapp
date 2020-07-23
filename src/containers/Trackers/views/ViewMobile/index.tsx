@@ -1,7 +1,7 @@
 import React from 'react';
 import Map from '@Components/Maps';
 
-import { Container, MapView } from './styles';
+import { Container, ContentCardDetail, MapView } from './styles';
 import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 import DetailTrackerCard from '@Components/DetailTrackerCard';
@@ -24,9 +24,14 @@ export default function ViewHomeMobile(props: Props) {
             tracker={rest.trackers[rest.selectedTrackerId]}
           />
         )}
-        {rest.selectedTrackerId && (
-          <DetailTrackerCard tracker={rest.trackers[rest.selectedTrackerId]} />
-        )}
+        <ContentCardDetail>
+          {rest.selectedTrackerId && (
+            <DetailTrackerCard
+              tracker={rest.trackers[rest.selectedTrackerId]}
+              isMobile={true}
+            />
+          )}
+        </ContentCardDetail>
       </MapView>
     </Container>
   );

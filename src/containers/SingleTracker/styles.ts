@@ -4,15 +4,6 @@ import { makeStyles } from '@material-ui/core';
 const Container = styled.div`
   background-color: #ffffff;
 `;
-const TrackerInfomation = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  height: 167px;
-  background-color: #fafafa;
-  padding-left: 24px;
-  padding-top: 24px;
-`;
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -27,121 +18,6 @@ const Title = styled.span`
 `;
 const Card = styled.div`
   cursor: pointer;
-`;
-const Address = styled.div`
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.57;
-  letter-spacing: normal;
-  text-align: left;
-  color: #1a1a1a;
-  display: flex;
-  flex-direction: row;
-`;
-const Text = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const TrackerStatus = styled.div`
-  display: flex;
-  height: 52px;
-  background-color: #ffffff;
-  flex-direction: row;
-  font-size: 14px;
-  align-items: center;
-  justify-content: space-around;
-  border-bottom: 1px solid #e0e0e0;
-`;
-const LocationApprox = styled.span``;
-const Connection = styled.div``;
-const BatteryTracker = styled.div`
-  border-right: 1px solid #e0e0e0;
-  padding-right: 8px;
-  display: flex;
-  align-items: center;
-`;
-const StatusTracker = styled.div`
-  border-right: 1px solid #e0e0e0;
-  padding-right: 8px;
-  display: flex;
-  align-items: center;
-`;
-const ConnectionTracker = styled.div`
-  text-align: center;
-`;
-const TextName = styled.span``;
-const LatLong = styled.div`
-  font-family: OpenSans;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
-  font-family: OpenSans;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.36;
-  letter-spacing: normal;
-  color: #1a1a1a;
-`;
-const LatText = styled.span``;
-const LongText = styled.span`
-  padding-left: 15px;
-`;
-const Item = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
-  justify-content: space-between;
-`;
-const ImageWrapper = styled.div`
-  width: 50px;
-  border-radius: 25px;
-  height: 50px;
-  display: flex;
-  background: #168449;
-  margin-right: 16px;
-`;
-const Image = styled.img`
-  width: 34px;
-  height: 34px;
-  margin: auto;
-  object-fit: contain;
-`;
-const ItemInfo = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 172px;
-`;
-const Name = styled.p`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 4px 0;
-  font-size: 14px;
-`;
-const Time = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  color: #b7b7b7;
-  margin-left: -3px;
-`;
-const CardDetail = styled.div`
-  margin-right: 15px;
-`;
-const TimeActive = styled.span`
-  font-size: 12px;
-  color: #b7b7b7;
-`;
-const RightItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-right: 20px;
-`;
-const LeftItem = styled.div`
-  display: flex;
-  flex-direction: row;
 `;
 const ContainerControl = styled.div`
   display: flex;
@@ -252,29 +128,6 @@ export {
   Header,
   Title,
   Card,
-  ImageWrapper,
-  Item,
-  Image,
-  ItemInfo,
-  Name,
-  Time,
-  CardDetail,
-  TimeActive,
-  TrackerInfomation,
-  TrackerStatus,
-  BatteryTracker,
-  StatusTracker,
-  ConnectionTracker,
-  LocationApprox,
-  Connection,
-  Address,
-  Text,
-  TextName,
-  LatLong,
-  LatText,
-  LongText,
-  RightItem,
-  LeftItem,
   ContainerControl,
   TitleMenu,
   TrackerMenu,

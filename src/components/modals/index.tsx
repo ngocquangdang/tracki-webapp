@@ -1,17 +1,16 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-import { Header, Title, useStyles } from './styles';
+import { Header, Title, BackDrop, useStyles } from './styles';
 
 interface Props {
   open: boolean;
   handleClose?(): void;
   children: any;
-  title?: string;
+  title: string;
 }
 export default function TransitionsModal(props: Props) {
   const { open, handleClose, title, ...rest } = props;
@@ -25,7 +24,7 @@ export default function TransitionsModal(props: Props) {
       open={open}
       onClose={handleClose}
       closeAfterTransition
-      BackdropComponent={Backdrop}
+      BackdropComponent={BackDrop}
       BackdropProps={{
         timeout: 500,
       }}
@@ -36,7 +35,7 @@ export default function TransitionsModal(props: Props) {
           <Header>
             <Title>{title}</Title>
             <IconButton style={{ padding: 0 }} onClick={handleClose}>
-              <Close></Close>
+              <Close />
             </IconButton>
           </Header>
           {props.children}

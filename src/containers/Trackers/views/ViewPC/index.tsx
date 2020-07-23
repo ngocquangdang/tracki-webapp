@@ -14,7 +14,7 @@ export default function TrackersContainer(props: any) {
 
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
-  const handleChangee = () => {
+  const toggleSideBar = () => {
     if (!isOpenSidebar) {
       if (selectedTrackerId) {
         const { lat, lng } = rest.trackers[selectedTrackerId];
@@ -47,7 +47,7 @@ export default function TrackersContainer(props: any) {
 
   return (
     <Container>
-      <SideBarInnerPC opened={isOpenSidebar} onChange={handleChangee}>
+      <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
         {selectedTrackerId ? (
           <SingleTracker
             tracker={rest.trackers[selectedTrackerId]}

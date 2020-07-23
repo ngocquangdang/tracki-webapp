@@ -93,6 +93,7 @@ const ContainerButtonModal = styled.div`
   border-top: 1px solid #e0e0e0;
   justify-content: space-between;
   padding-left: 15px;
+  cursor: pointer;
 `;
 const TitleAlert = styled.div`
   width: 100%;
@@ -206,7 +207,7 @@ const LimitInput = withStyles(theme => ({
       },
     },
     '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
+      textAlign: 'center',
     },
   },
 }))(TextField);
