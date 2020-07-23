@@ -5,10 +5,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   ArrowBackIos as ArrowBackIosIcon,
-  // Refresh as RefreshIcon,
-  // ZoomIn as ZoomInIcon,
-  // LocationOn as LocationOnIcon,
-  // Battery60 as Battery60Icon,
   Settings as SettingsIcon,
   VolumeUp as VolumeUpIcon,
   History as HistoryIcon,
@@ -16,8 +12,6 @@ import {
   Notifications as NotificationsIcon,
   Share as ShareIcon,
 } from '@material-ui/icons';
-// import { AiOutlineDashboard } from 'react-icons/ai';
-// import { GoPrimitiveDot } from 'react-icons/go';
 import Slide from '@material-ui/core/Slide';
 
 import { useInjectSaga } from '@Utils/injectSaga';
@@ -75,7 +69,7 @@ function SingleTracker(props: Props) {
   };
 
   return (
-    <Slide direction="left" in mountOnEnter unmountOnExit>
+    <Slide direction="right" in mountOnEnter unmountOnExit>
       <Container>
         <Header>
           <ArrowBackIosIcon

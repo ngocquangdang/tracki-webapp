@@ -18,7 +18,14 @@ class Map extends React.Component<Props> {
   };
 
   renderMap = () => {
-    const { mapType, fullWidth, trackers, trackerIds } = this.props;
+    const {
+      mapType,
+      fullWidth,
+      trackers,
+      trackerIds,
+      selectTrackerAction,
+      openSideBar,
+    } = this.props;
 
     if (mapType === 'mapbox') {
       return (
@@ -27,6 +34,8 @@ class Map extends React.Component<Props> {
           fullWidth={fullWidth}
           trackers={trackers}
           trackerIds={trackerIds}
+          openSideBar={openSideBar}
+          onClickMarker={selectTrackerAction}
         />
       );
     }

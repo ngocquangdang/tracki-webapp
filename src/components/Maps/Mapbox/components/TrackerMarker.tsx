@@ -6,6 +6,7 @@ import { ITracker } from '@Interfaces';
 interface Props {
   map: any;
   tracker: ITracker;
+  onClickMarker(id: string | number): void;
 }
 
 class TrackerMarker extends React.Component<Props> {
@@ -14,6 +15,14 @@ class TrackerMarker extends React.Component<Props> {
   componentDidMount() {
     this.renderTracker();
   }
+
+  onClickMarker = () => {
+    const {
+      tracker: { device_id },
+      onClickMarker,
+    } = this.props;
+    onClickMarker(device_id);
+  };
 
   renderTracker = () => {
     const {
@@ -39,6 +48,7 @@ class TrackerMarker extends React.Component<Props> {
       }px'>${device_name}</div>
         `;
       this.marker = new mapboxgl.Marker(elm).setLngLat([lng, lat]).addTo(map);
+      elm.addEventListener('click', this.onClickMarker);
       return this.marker;
     }
   };

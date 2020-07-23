@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Paper, Tabs } from '@material-ui/core';
 
-import TabPanel from '@Components/sidebars/sidebar-pc/tabPanel';
+import TabPanel from '@Components/sidebars/SideBarInnerPC/tabPanel';
 import { TabStyle, useStyles } from './styles';
 
 const TrackerList = dynamic(() => import('@Components/TrackerListPC'));

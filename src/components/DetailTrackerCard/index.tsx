@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import {
   Card,
   Item,
@@ -55,25 +55,21 @@ function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
   const { tracker, isMobile } = props;
   const [loading, setLoading] = useState(true);
-  const [dataAddress, setDataAddress] = useState([{ place_name: '' }]);
-  const callApi = () => {
-    // call api mapbox get address tracker
-    axios
-      .get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${tracker.lng},${tracker.lat}.json?types=poi&access_token=pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ`
-      )
-      .then(response => {
-        const data = response.data;
-        setDataAddress(data.features);
-        setLoading(false);
-      });
-  };
+  const [dataAddress, setDataAddress] = useState(null);
+
+  const callApiGetAddress = useCallback(async () => {
+    const { data } = await axios.get(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${tracker.lng},${tracker.lat}.json?types=poi&access_token=pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ`
+    );
+    const address = data.features[0] || { place_name: 'Unknow location' };
+    setDataAddress(address.place_name);
+    setLoading(false);
+  }, [setDataAddress, setLoading, tracker]);
 
   useEffect(() => {
-    callApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const address = dataAddress.map(i => i.place_name).join();
+    callApiGetAddress();
+  }, [callApiGetAddress]);
+
   const ske = () => (
     <Card>
       <Skeleton
@@ -132,7 +128,7 @@ function DetailTrackerCard(props: Prop) {
           <LocationOnIcon className={classes.iconLocation} />
           <Text>
             <TextName>
-              {address}
+              {dataAddress}
               <LatLong>
                 <LatText>Lat: {tracker.lat}</LatText>
                 <LongText>Lon: {tracker.lng}</LongText>
@@ -153,7 +149,7 @@ function DetailTrackerCard(props: Prop) {
               <Address isMobile={isMobile}>
                 <LocationOnIcon className={classes.iconLocation} />
                 <Text>
-                  <TextName>{address}</TextName>
+                  <TextName>{dataAddress}</TextName>
                   <Time>
                     <GoPrimitiveDot className={classes.icon} />
                     <TimeActive>

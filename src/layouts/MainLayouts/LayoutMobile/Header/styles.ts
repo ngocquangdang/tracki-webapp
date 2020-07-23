@@ -13,6 +13,7 @@ const Image = styled.img`
   width: 34px;
   height: 34px;
   margin: auto;
+  padding: 2px;
   object-fit: contain;
   border-radius: 100px;
   border: solid 1px rgba(255, 255, 255, 0.75);

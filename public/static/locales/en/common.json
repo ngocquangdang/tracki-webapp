@@ -9,5 +9,18 @@
   "current_location": "I'm here",
   "view_all": "View All",
   "store": "Store",
-  "map_type": "Map type"
+  "map_type": "Map type",
+  "zoom_in": "Zoom In",
+  "zoom_out": "Zoom Out",
+  "my_location": "My Location",
+  "layer": "Layer",
+  "border": "Border",
+  "street_view": "Street View",
+  "reset": "Reset",
+  "street": "Street",
+  "out_door": "Outdoor",
+  "light": "Light",
+  "dark_map": "Dark Map",
+  "traffic": "Traffic",
+  "hybird": "Hybird"
 }

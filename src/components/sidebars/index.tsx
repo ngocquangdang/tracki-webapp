@@ -1,2 +1,3 @@
-export { default as SideBar } from './sidebar-pc';
-export { default as SideBarMobile } from './sidebar-mobile';
+export { default as SideBarInnerPC } from './SideBarInnerPC';
+export { default as SideBarInnerMobile } from './SideBarInnerMobile';
+export { default as SideBarOutside } from './SideBarOutside';

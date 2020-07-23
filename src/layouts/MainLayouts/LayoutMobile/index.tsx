@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import MainWrapper from './MainWrapper';
 import HeaderMobile from './Header';
 import { Content, useStyles } from './styles';
-import MenuMobile from './MenuMobile';
-import { SideBarMobile } from '@Components/sidebars';
+import Footer from './Footer';
+import { SideBarInnerMobile } from '@Components/sidebars';
 import ListTrakerMobile from '@Components/TrackerListMobile';
 
 interface Props {
   header?: JSX.Element;
   noFooter?: boolean;
+  t(key: string): string;
   [data: string]: any;
-  t: Function;
 }
 
 function MainLayoutMobile(props: Props) {
@@ -37,9 +37,9 @@ function MainLayoutMobile(props: Props) {
           />
         )}
       </div>
-      <SideBarMobile open={open} handleOpenSideBar={handleOpenSideBar}>
+      <SideBarInnerMobile open={open} handleOpenSideBar={handleOpenSideBar}>
         <ListTrakerMobile closeSidebar={handleOpenSideBar} />
-      </SideBarMobile>
+      </SideBarInnerMobile>
       <div className={open ? classes.blurHeader : ''}>
         <Content
           className={`${classes.content} ${open ? classes.contentShift : ''}`}
@@ -47,7 +47,7 @@ function MainLayoutMobile(props: Props) {
         >
           {props.children}
         </Content>
-        {!props.noFooter && <MenuMobile t={rest.t} />}
+        {!props.noFooter && <Footer t={rest.t} />}
       </div>
     </MainWrapper>
   );
