@@ -1,9 +1,11 @@
 declare namespace IMap {
   interface IProps {
     fullWidth: boolean;
-    initMapCallback(): void;
     trackers: object;
     trackerIds: Array<number>;
+    initMapCallback(): void;
+    openSideBar(): void;
+    onClickMarker(id: string | number): void;
   }
   interface IState {
     isInitiatedMap: boolean;

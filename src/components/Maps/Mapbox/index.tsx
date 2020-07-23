@@ -62,15 +62,24 @@ class Map extends Component<IMap.IProps, IMap.IState> {
     this.props.initMapCallback();
   }
 
+  onClickTracker = (id: string | number) => {
+    const { onClickMarker, openSideBar } = this.props;
+    openSideBar();
+    onClickMarker(id);
+  };
+
   renderMarkers = () => {
-    const { trackers } = this.props;
+    const { trackers, fullWidth } = this.props;
     if (this.state.isInitiatedMap && trackers) {
       if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
         this.isFirstFitBounce = true;
         const coords = Object.values(trackers).filter(
           ({ lat, lng }) => !!lat && !!lng
         );
-        coords.length > 0 && window.mapEvents.setFitBounds(coords);
+        if (coords.length > 0) {
+          !fullWidth && window.mapEvents.setPadding({ left: 340 });
+          window.mapEvents.setFitBounds(coords);
+        }
       }
 
       return Object.values(trackers).map(tracker => (
@@ -78,6 +87,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
           key={tracker.device_id}
           map={this.map}
           tracker={tracker}
+          onClickMarker={this.onClickTracker}
         />
       ));
     }

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import MainWrapper from './MainWrapper';
 import HeaderMobile from './Header';
 import { Content, useStyles } from './styles';
-import MenuMobile from './MenuMobile';
+import Footer from './Footer';
 import { SideBarInnerMobile } from '@Components/sidebars';
 import ListTrakerMobile from '@Components/TrackerListMobile';
 
 interface Props {
   header?: JSX.Element;
   noFooter?: boolean;
+  t(key: string): string;
   [data: string]: any;
-  t: Function;
 }
 
 function MainLayoutMobile(props: Props) {
@@ -47,7 +47,7 @@ function MainLayoutMobile(props: Props) {
         >
           {props.children}
         </Content>
-        {!props.noFooter && <MenuMobile t={rest.t} />}
+        {!props.noFooter && <Footer t={rest.t} />}
       </div>
     </MainWrapper>
   );

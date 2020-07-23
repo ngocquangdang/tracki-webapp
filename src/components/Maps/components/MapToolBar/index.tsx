@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { MdMyLocation, MdLayers, MdBorderStyle } from 'react-icons/md';
 import { FaStreetView } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, ClickAwayListener } from '@material-ui/core';
 import { Add, Remove, Refresh } from '@material-ui/icons';
+
+import MapTiles from '../MapTiles';
 
 import {
   ToolBar,
@@ -12,35 +13,16 @@ import {
   ZoomOut,
   ZoomIn,
   Text,
-  LayerPanel,
-  TopPanel,
-  LayerItem,
-  Title,
-  Item,
-  Image,
-  Name,
   useStyles,
 } from './styles';
 
 interface Props {
-  t: Function;
+  t(key: string): string;
 }
 
 export default function MapToolBars(props: Props) {
   const { t } = props;
   const classes = useStyles();
-  const [layer] = useState([
-    { name: 'street', style: 'streets-v11', image: '/images/whitemap.png' },
-    { name: 'out_door', style: 'outdoors-v11', image: '/images/Terrain.png' },
-    { name: 'light', style: 'light-v10', image: '/images/Satellite.png' },
-    { name: 'dark_map', style: 'dark-v10', image: '/images/DarkMap.png' },
-    { name: 'traffic', style: 'satellite-v9', image: '/images/Traffic.png' },
-    {
-      name: 'hybird',
-      style: 'satellite-streets-v11',
-      image: '/images/Hybrid.png',
-    },
-  ]);
   const [isOpen, setIsOpen] = useState(false);
   const [isShowName, setIsShowName] = useState(false);
 
@@ -49,11 +31,11 @@ export default function MapToolBars(props: Props) {
     window.mapEvents.getUseLocation();
   };
 
-  const onChangeLayler = layer => window.mapEvents.changeLayer(layer);
   const onReset = () => window.mapEvents.reset();
-
   const onShowLayer = () => setIsOpen(!isOpen);
+  const onCloseLayer = () => setIsOpen(false);
   const onShowName = () => setIsShowName(!isShowName);
+
   return (
     <ToolBar>
       <ZoomButton>
@@ -79,25 +61,20 @@ export default function MapToolBars(props: Props) {
           <MdMyLocation />
         </IconButton>
       </Tooltip>
-      <Tooltip title={<span>Layer</span>} placement="left" arrow>
-        <IconButton onClick={onShowLayer}>
-          <MdLayers />
-          <LayerPanel className={isOpen ? classes.display : ''}>
-            <TopPanel>
-              <Title>{'Map type'}</Title>
-              <MdClose onClick={() => onShowLayer} />
-            </TopPanel>
-            <LayerItem>
-              {layer?.map((layer, index) => (
-                <Item key={index} onClick={() => onChangeLayler(layer.style)}>
-                  <Image src={layer.image}></Image>
-                  <Name>{t(`${layer.name}`)}</Name>
-                </Item>
-              ))}
-            </LayerItem>
-          </LayerPanel>
-        </IconButton>
-      </Tooltip>
+      <ClickAwayListener onClickAway={onCloseLayer}>
+        <div>
+          <Tooltip title={<span>Layer</span>} placement="left" arrow>
+            <IconButton onClick={onShowLayer}>
+              <MdLayers />
+            </IconButton>
+          </Tooltip>
+          <MapTiles
+            t={t}
+            onClose={onCloseLayer}
+            className={isOpen ? classes.display : ''}
+          />
+        </div>
+      </ClickAwayListener>
       <Tooltip title={<span>Show name devices</span>} placement="left" arrow>
         <IconButton onClick={onShowName}>
           <Text>A</Text>

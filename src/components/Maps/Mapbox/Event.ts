@@ -23,6 +23,8 @@ class MapBoxEvent {
   setCenterFlyTo = ({ lat, lng }, options = {}) =>
     this.mapApi.flyTo({ center: [lng, lat], ...options });
 
+  setPadding = config => this.mapApi.setPadding(config);
+
   getZoom = () => {
     return this.mapApi.getZoom();
   };

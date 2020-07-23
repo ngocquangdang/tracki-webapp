@@ -22,14 +22,14 @@ const useStyles = makeStyles(theme => ({
   toggleIconBtn: {
     position: 'absolute',
     width: 26,
-    height: 55,
+    height: 56,
     backgroundColor: '#fff',
     borderRadius: 0,
     padding: 0,
     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
     minWidth: 'auto',
     left: 399,
-    top: 0,
+    top: -1,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: '#fff',

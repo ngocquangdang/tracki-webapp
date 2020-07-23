@@ -83,7 +83,7 @@ function SingleTracker(props: any) {
   };
 
   return (
-    <Slide direction="left" in mountOnEnter unmountOnExit>
+    <Slide direction="right" in mountOnEnter unmountOnExit>
       <Container>
         <Header>
           <ArrowBackIosIcon

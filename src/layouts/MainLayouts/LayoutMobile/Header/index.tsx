@@ -9,8 +9,6 @@ interface Props {
   handleOpenSideBar(): void;
 }
 export default function HeaderMobile(props: Props) {
-  console.log('HeaderMobile -> props', props);
-
   const classes = useStyles();
   const { open, handleOpenSideBar, ...rest } = props;
   return (
