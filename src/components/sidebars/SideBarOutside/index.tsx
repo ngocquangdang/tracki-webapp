@@ -19,7 +19,7 @@ import DoneIcon from '@material-ui/icons/Done';
 interface Props {
   title: string;
   handleClose(): void;
-  children: JSX.Element;
+  children: any;
   isMobile: boolean;
 }
 

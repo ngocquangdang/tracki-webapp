@@ -7,7 +7,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-import MenuWrap from '@Components/sidebars/SideBarOutside';
+import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
@@ -103,7 +103,11 @@ function SettingTracker(props: any) {
     setOpenSubsription(false);
   };
   return (
-    <MenuWrap title="Settings" handleClose={handleClose} isMobile={isMobile}>
+    <SideBarOutside
+      title="Settings"
+      handleClose={handleClose}
+      isMobile={isMobile}
+    >
       <Container>
         <ImageTracker>
           <ImageWrapper>
@@ -343,14 +347,12 @@ function SettingTracker(props: any) {
           }}
         </Formik>
       </Container>
-      {openSubscription ? (
-        <SubscriptionModal
-          onCloseSubscription={onCloseModalSubscription}
-          open={openSubscription}
-          t={t}
-        />
-      ) : null}
-    </MenuWrap>
+      <SubscriptionModal
+        onCloseSubscription={onCloseModalSubscription}
+        open={openSubscription}
+        t={t}
+      />
+    </SideBarOutside>
   );
 }
 
