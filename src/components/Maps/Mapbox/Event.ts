@@ -23,6 +23,8 @@ class MapBoxEvent {
   setCenterFlyTo = ({ lat, lng }, options = {}) =>
     this.mapApi.flyTo({ center: [lng, lat], ...options });
 
+  setPadding = config => this.mapApi.setPadding(config);
+
   getZoom = () => {
     return this.mapApi.getZoom();
   };
@@ -59,6 +61,8 @@ class MapBoxEvent {
     this.mapApi.jumpTo({ center: coordinate, zoom });
 
   getBounds = () => this.mapApi.getBounds();
+
+  resize = () => this.mapApi.resize();
 }
 
 export default MapBoxEvent;

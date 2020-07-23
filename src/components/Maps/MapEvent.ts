@@ -24,6 +24,8 @@ class DroneMapEvent {
     return this.map.setCenterFlyTo(center, option);
   }
 
+  setPadding = config => this.map.setPadding(config);
+
   getZoom(status) {
     return this.map.getZoom(status);
   }
@@ -44,6 +46,8 @@ class DroneMapEvent {
   getUseLocation() {
     console.log('getUseLocation');
   }
+
+  resize = () => this.map.resize();
 }
 
 export default DroneMapEvent;

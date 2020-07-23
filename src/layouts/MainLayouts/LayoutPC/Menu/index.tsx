@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Menu, ListItemIcon, ListItemText } from '@material-ui/core';
 import { MenuProps } from '@material-ui/core/Menu';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import {
   Menu as MenuIcon,
   Clear as ClearIcon,
@@ -13,9 +14,8 @@ import {
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
 
-import { useStyles, StyledMenuItem } from './styles';
 import { logoutRequestAction } from '@Containers/App/store/actions';
-import { connect } from 'react-redux';
+import { useStyles, StyledMenuItem } from './styles';
 
 const StyledMenu = withStyles({
   paper: {
