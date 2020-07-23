@@ -3,7 +3,7 @@ import MainWrapper from './MainWrapper';
 import HeaderMobile from './Header';
 import { Content, useStyles } from './styles';
 import MenuMobile from './MenuMobile';
-import { SideBarMobile } from '@Components/sidebars';
+import { SideBarInnerMobile } from '@Components/sidebars';
 import ListTrakerMobile from '@Components/TrackerListMobile';
 
 interface Props {
@@ -37,9 +37,9 @@ function MainLayoutMobile(props: Props) {
           />
         )}
       </div>
-      <SideBarMobile open={open} handleOpenSideBar={handleOpenSideBar}>
+      <SideBarInnerMobile open={open} handleOpenSideBar={handleOpenSideBar}>
         <ListTrakerMobile closeSidebar={handleOpenSideBar} />
-      </SideBarMobile>
+      </SideBarInnerMobile>
       <div className={open ? classes.blurHeader : ''}>
         <Content
           className={`${classes.content} ${open ? classes.contentShift : ''}`}

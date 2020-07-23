@@ -16,7 +16,14 @@ import { Fade } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DoneIcon from '@material-ui/icons/Done';
 
-export default function MenuWrapper(props: any) {
+interface Props {
+  title: string;
+  handleClose(): void;
+  children: JSX.Element;
+  isMobile: boolean;
+}
+
+export default function SideBarOut(props: Props) {
   const classes = useStyles();
   const { title, handleClose, children, isMobile } = props;
 

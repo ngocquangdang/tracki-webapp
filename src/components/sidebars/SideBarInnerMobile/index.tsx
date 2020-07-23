@@ -72,19 +72,23 @@ const routes = [
   },
 ];
 type MenuType = { icon: JSX.Element; label: string; link: string };
+type Props = {
+  open: boolean;
+  children: JSX.Element;
+  logoutRequestAction(): void;
+  handleOpenSideBar(): void;
+};
 
-function SideBarMobile(props: any) {
-  // const { logoutRequestAction } = props;
-
+function SideBarMobile(props: Props) {
+  const { open, children, logoutRequestAction } = props;
   const classes = useStyles();
-  const { open, children } = props;
 
-  // const handleLogout = () => {
-  //   logoutRequestAction();
-  // };
   const renderMenuButton = ({ icon, label, link }: MenuType) => {
     return (
-      <Item key={label}>
+      <Item
+        key={label}
+        onClick={label === 'Logout' ? logoutRequestAction : undefined}
+      >
         <Link href={link}>
           <LinkStyle
             color={'secondary'}
@@ -98,6 +102,7 @@ function SideBarMobile(props: any) {
       </Item>
     );
   };
+
   return (
     <Drawer
       className={classes.drawer}
@@ -113,7 +118,9 @@ function SideBarMobile(props: any) {
     </Drawer>
   );
 }
+
 const mapDispatchToProps = (dispatch: any) => ({
   logoutRequestAction: () => dispatch(logoutRequestAction()),
 });
+
 export default connect(null, mapDispatchToProps)(SideBarMobile);

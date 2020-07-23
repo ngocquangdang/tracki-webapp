@@ -7,7 +7,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-import MenuWrap from '@Components/menu-wrapper';
+import MenuWrap from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';

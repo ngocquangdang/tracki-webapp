@@ -1,9 +1,9 @@
 import React from 'react';
-import Slide from '@material-ui/core/Slide';
+import { IconButton, Slide } from '@material-ui/core';
+import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
+import clsx from 'clsx';
+
 import { Content, Container, useStyles } from './styles';
-import { Button } from '@material-ui/core';
-import { BsFillCaretLeftFill } from 'react-icons/bs';
-import { BsFillCaretRightFill } from 'react-icons/bs';
 
 export default function SideBar(props: any) {
   const { opened, onChange } = props;
@@ -11,32 +11,32 @@ export default function SideBar(props: any) {
 
   return (
     <Container opened={opened}>
-      <Button
+      <IconButton
         onClick={onChange}
-        className={`${classes.btnIcon} ${classes.absoluteFirst}`}
+        className={clsx(classes.toggleIconBtn)}
         style={{ zIndex: opened ? 0 : 1 }}
       >
-        <BsFillCaretRightFill />
-      </Button>
+        <BsFillCaretRightFill size={14} />
+      </IconButton>
       <Slide
         direction="right"
         in={opened}
-        mountOnEnter
-        unmountOnExit
+        // mountOnEnter
+        // unmountOnExit
         style={{
           position: 'relative',
           background: '#ffffff',
           borderRight: '1px solid #rgba(0,0,0,0.12)',
         }}
       >
-        <Content isOpen={opened}>
+        <Content opened={opened}>
           {props.children}
-          <Button
+          <IconButton
             onClick={onChange}
-            className={`${classes.absolute} ${classes.btnIcon}`}
+            className={clsx(classes.toggleIconBtn, classes.closeBtn)}
           >
-            <BsFillCaretLeftFill />
-          </Button>
+            <BsFillCaretLeftFill size={14} />
+          </IconButton>
         </Content>
       </Slide>
     </Container>

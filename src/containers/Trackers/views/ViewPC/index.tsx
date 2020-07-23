@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { SideBar } from '@Components/sidebars';
+import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
 import SingleTracker from '@Containers/SingleTracker';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
@@ -26,7 +26,7 @@ export default function TrackersContainer(props: any) {
 
   return (
     <Container>
-      <SideBar opened={isOpenSidebar} onChange={handleChangee}>
+      <SideBarInnerPC opened={isOpenSidebar} onChange={handleChangee}>
         {selectedTrackerId ? (
           <SingleTracker
             tracker={rest.trackers[selectedTrackerId]}
@@ -36,7 +36,7 @@ export default function TrackersContainer(props: any) {
         ) : (
           <Tabs {...rest} />
         )}
-      </SideBar>
+      </SideBarInnerPC>
       <MapView fullWidth={!isOpenSidebar}>
         <Map mapType="mapbox" fullWidth={!isOpenSidebar} {...rest} />
         <MapToolBars t={rest.t} />
