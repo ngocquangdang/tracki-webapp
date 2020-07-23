@@ -1,21 +1,13 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core';
 
-const Container = styled.div`
-  opacity: 0.95;
-  border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-  background-color: #ffffff;
-  margin: 10px 6px;
-  position: relative;
-  top: calc(100% - 153px);
-  @media (max-width: 320px) {
-    top: calc(100% - 173px);
-  }
-`;
 const TrackerInfomation = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '#fff' : '#fafafa'};
+  border-bottom: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? 'none' : '1px solid #e0e0e0'};
 `;
 
 const Card = styled.div`
@@ -32,6 +24,8 @@ const Address = styled.div`
   color: #1a1a1a;
   display: flex;
   flex-direction: row;
+  padding: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '' : '0 32px 20px 12px'};
 `;
 const Text = styled.div`
   display: flex;
@@ -64,7 +58,6 @@ const StatusTracker = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
 `;
 const ConnectionTracker = styled.div`
   flex: 2;
@@ -81,8 +74,10 @@ const Item = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 13px 10.5px;
-  border-bottom: 1px solid #fafafa;
+  padding: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '13px 10.5px' : '6px 12px'};
+  border-bottom: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '1px solid #e0e0e0' : 'none'};
 `;
 
 const Time = styled.div`
@@ -105,32 +100,54 @@ const LeftItem = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
+const ImageWrapper = styled.div`
+  width: 50px;
+  border-radius: 25px;
+  height: 50px;
+  display: flex;
+  background: #168449;
+  margin-right: 16px;
+`;
+const Image = styled.img`
+  width: 34px;
+  height: 34px;
+  margin: auto;
+  object-fit: contain;
+`;
+const ItemInfo = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 172px;
+`;
+const Name = styled.p`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 4px 0;
+  font-size: 14px;
+`;
+const LatLong = styled.div`
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
+  font-family: OpenSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  color: #1a1a1a;
+`;
+const LatText = styled.span``;
+const LongText = styled.span`
+  padding-left: 15px;
+`;
 const useStyles = makeStyles(theme => ({
-  input: {
-    '&::placeholder': {
-      textAlign: 'center',
-    },
-  },
-  btn: {
-    backgroundColor: '#f5f5f5',
-    margin: '1rem 0',
-    color: '#666666',
-    width: '100%',
-    '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-    },
-  },
   textBold: {
     fontWeight: 500,
   },
   textSpace: {
     marginLeft: '8px',
     fontSize: '12px',
-  },
-  iconSetting: {
-    color: '#666666',
   },
   iconLocation: {
     width: '20px',
@@ -143,10 +160,6 @@ const useStyles = makeStyles(theme => ({
   skeleton: {
     backgroundColor: '#f2f2f2',
   },
-  iconBack: {
-    width: '20px',
-    height: '20px',
-  },
   rightIcon: {
     width: '20px',
     height: '27px',
@@ -156,7 +169,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 export {
-  Container,
   Card,
   Item,
   Time,
@@ -173,5 +185,12 @@ export {
   TextName,
   RightItem,
   LeftItem,
+  ImageWrapper,
+  Image,
+  ItemInfo,
+  Name,
+  LatLong,
+  LatText,
+  LongText,
   useStyles,
 };

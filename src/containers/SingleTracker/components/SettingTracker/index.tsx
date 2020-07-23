@@ -34,6 +34,7 @@ import {
   Container,
   useStyles,
 } from './styles';
+import SubscriptionModal from '@Components/Subscription';
 
 const LOCATION_STATUS = [
   {
@@ -55,6 +56,7 @@ function SettingTracker(props: any) {
   const [state] = useState<SettingState>({
     locationStatus: [...LOCATION_STATUS],
   });
+  const [openSubscription, setOpenSubsription] = useState(false);
   const classes = useStyles();
   const { handleClose, t, tracker, settings, isMobile } = props;
   const [infoTracker, setInfoTracker] = useState({
@@ -94,7 +96,12 @@ function SettingTracker(props: any) {
   const onSubmitForm = (values: object) => {
     console.log('___submit', values);
   };
-
+  const onOpenModalSubscription = () => {
+    setOpenSubsription(true);
+  };
+  const onCloseModalSubscription = () => {
+    setOpenSubsription(false);
+  };
   return (
     <MenuWrap title="Settings" handleClose={handleClose} isMobile={isMobile}>
       <Container>
@@ -164,7 +171,7 @@ function SettingTracker(props: any) {
                     Need Faster Tracking? Contact us to enable up to 5 seconds
                   </TextDescription2>
                 </ContainerPadding>
-                <ContainerButtonModal>
+                <ContainerButtonModal onClick={onOpenModalSubscription}>
                   <Text>Subscriptions</Text>
                   <NavigateNextIcon className={classes.iconNext} />
                 </ContainerButtonModal>
@@ -173,7 +180,7 @@ function SettingTracker(props: any) {
                   <SelectGroup>
                     <SubTitle>{t('tracker:speed_unit')}</SubTitle>
                     <RadioGroup
-                      value={values.speed_unit}
+                      value={values.speed_unit || ''}
                       onChange={e => handleChange('speed_unit')(e.target.value)}
                       name="speed_unit"
                       style={{ flexDirection: 'row' }}
@@ -211,7 +218,7 @@ function SettingTracker(props: any) {
                       />
                       <Switch
                         name="speed_limit"
-                        checked={values.speed_limit?.enable}
+                        checked={values.speed_limit?.enable || false}
                         onChange={e => {
                           setFieldValue('speed_limit', e.target.checked);
                         }}
@@ -336,6 +343,13 @@ function SettingTracker(props: any) {
           }}
         </Formik>
       </Container>
+      {openSubscription ? (
+        <SubscriptionModal
+          onCloseSubscription={onCloseModalSubscription}
+          open={openSubscription}
+          t={t}
+        />
+      ) : null}
     </MenuWrap>
   );
 }

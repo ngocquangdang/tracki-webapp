@@ -12,5 +12,10 @@
   "geo_fence_entry": "Geo-Fence entry Alert",
   "geo_fence_exit": "Geo-Fence exit Alert",
   "setup_geo_fence": "Setup Geo-Fences",
-  "extended_battery": "Extended Battery Sleep Mode"
+  "extended_battery": "Extended Battery Sleep Mode",
+  "increase_subscription": "Increase your monthly text alert limit",
+  "cancel_subscription": "Cancel Subscription",
+  "device_active": "This device was activated on",
+  "current_plan": "Your current plan",
+  "limit_month_use": "This month you used"
 }
