@@ -8,12 +8,10 @@ import MapTiles from '../MapTiles';
 
 import {
   ToolBar,
-  IconButton,
   ZoomButton,
-  ZoomOut,
-  ZoomIn,
   Text,
   useStyles,
+  IconButtonStyle,
 } from './styles';
 
 interface Props {
@@ -40,33 +38,33 @@ export default function MapToolBars(props: Props) {
     <ToolBar>
       <ZoomButton>
         <Tooltip title={<span>Zoom in</span>} placement="left" arrow>
-          <ZoomOut
+          <IconButtonStyle
             className={`${classes.button} ${classes.borderRadiusTop}`}
             onClick={onZoomClick(0.5)}
           >
             <Add />
-          </ZoomOut>
+          </IconButtonStyle>
         </Tooltip>
         <Tooltip title={<span>{'Zoom Out'}</span>} placement="left" arrow>
-          <ZoomIn
+          <IconButtonStyle
             className={`${classes.button} ${classes.borderRadiusBottom}`}
             onClick={onZoomClick(-0.5)}
           >
             <Remove />
-          </ZoomIn>
+          </IconButtonStyle>
         </Tooltip>
       </ZoomButton>
       <Tooltip title={<span>{'My location'}</span>} placement="left" arrow>
-        <IconButton onClick={getCurrentLocation}>
+        <IconButtonStyle onClick={getCurrentLocation}>
           <MdMyLocation />
-        </IconButton>
+        </IconButtonStyle>
       </Tooltip>
       <ClickAwayListener onClickAway={onCloseLayer}>
         <div>
           <Tooltip title={<span>Layer</span>} placement="left" arrow>
-            <IconButton onClick={onShowLayer}>
+            <IconButtonStyle onClick={onShowLayer}>
               <MdLayers />
-            </IconButton>
+            </IconButtonStyle>
           </Tooltip>
           <MapTiles
             t={t}
@@ -76,28 +74,28 @@ export default function MapToolBars(props: Props) {
         </div>
       </ClickAwayListener>
       <Tooltip title={<span>Show name devices</span>} placement="left" arrow>
-        <IconButton onClick={onShowName}>
+        <IconButtonStyle onClick={onShowName}>
           <Text>A</Text>
-        </IconButton>
+        </IconButtonStyle>
       </Tooltip>
       <Tooltip title={<span>{'Show Geo-fence'}</span>} placement="left" arrow>
-        <IconButton>
+        <IconButtonStyle>
           <MdBorderStyle />
-        </IconButton>
+        </IconButtonStyle>
       </Tooltip>
       <Tooltip
         title={<span>{'Google Street view'}</span>}
         placement="left"
         arrow
       >
-        <IconButton>
+        <IconButtonStyle>
           <FaStreetView />
-        </IconButton>
+        </IconButtonStyle>
       </Tooltip>
       <Tooltip title={<span>{'Reset'}</span>} placement="left" arrow>
-        <IconButton onClick={onReset}>
+        <IconButtonStyle onClick={onReset}>
           <Refresh />
-        </IconButton>
+        </IconButtonStyle>
       </Tooltip>
     </ToolBar>
   );
