@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Paper, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Switch, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import clsx from 'clsx';
 
@@ -12,6 +12,7 @@ import {
   Name,
   Actions,
   Status,
+  ListItemStyle,
 } from './styles';
 
 interface Props {
@@ -72,7 +73,8 @@ export default function GeofenceCard(props: Props) {
   };
 
   return (
-    <Paper
+    <ListItemStyle
+      button
       key={geofence.id}
       className={clsx(classes.paper, { [classes.active]: isActive })}
     >
@@ -125,6 +127,6 @@ export default function GeofenceCard(props: Props) {
           Delete this Fence
         </MenuItem>
       </Menu>
-    </Paper>
+    </ListItemStyle>
   );
 }
