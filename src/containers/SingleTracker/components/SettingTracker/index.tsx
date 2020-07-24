@@ -17,6 +17,7 @@ import {
 import { isNumber } from 'lodash';
 
 import { makeSelectLoading } from '@Containers/App/store/selectors';
+import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
@@ -65,6 +66,7 @@ function SettingTracker(props: Props) {
   const [openSubscription, setOpenSubsription] = useState(false);
   const classes = useStyles();
   const { handleClose, t, tracker, settings, isMobile, isRequesting } = props;
+  const trackerSettings = settings[tracker.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
     device_id: 0,
@@ -82,25 +84,25 @@ function SettingTracker(props: Props) {
   });
 
   useEffect(() => {
-    if (settings && tracker) {
+    if (trackerSettings && tracker) {
       const {
         sample_rate,
         samples_per_report,
         tracking_measurment,
-      } = settings.preferences.tracking_mode;
+      } = trackerSettings.preferences.tracking_mode;
       setInfoTracker({
         device_name: tracker.device_name,
         device_id: tracker.device_id,
-        speed_limit: settings.preferences.speed_limit,
-        moving_start: settings.preferences.moving_start,
-        low_battery: settings.preferences.low_battery,
-        device_beep_sound: settings.preferences.device_beep_sound,
-        zone_entry: settings.preferences.zone_entry,
-        zone_exit: settings.preferences.zone_exit,
+        speed_limit: trackerSettings.preferences.speed_limit,
+        moving_start: trackerSettings.preferences.moving_start,
+        low_battery: trackerSettings.preferences.low_battery,
+        device_beep_sound: trackerSettings.preferences.device_beep_sound,
+        zone_entry: trackerSettings.preferences.zone_entry,
+        zone_exit: trackerSettings.preferences.zone_exit,
         tracking_mode: `${sample_rate}_${samples_per_report}_${tracking_measurment}`,
       });
     }
-  }, [tracker, settings]);
+  }, [tracker, trackerSettings]);
 
   const onSubmitForm = (values: any) => {
     const { tracking_mode, device_name, device_id, ...preferences } = values;
@@ -417,6 +419,7 @@ function SettingTracker(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectLoading(),
+  settings: makeSelectTrackerSettings(),
 });
 
 const mapDispatchToProps = dispatch => ({

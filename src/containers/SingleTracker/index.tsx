@@ -34,33 +34,21 @@ import {
   useStyles,
 } from './styles';
 import DetailTrackerCard from '@Components/DetailTrackerCard';
+import { ITracker } from '@Interfaces';
 
 interface Props {
   settings: object;
-  tracker: Tracker;
+  tracker: ITracker;
   onClickBack: () => void;
   t(key: string): string;
   fetchTrackerSettings(id: number): void;
-}
-
-interface Tracker {
-  device_id: number;
-  time: number;
-  battery: number;
-  speed: number;
-  location_type: string;
-  lat: number;
-  lng: number;
-  icon_url: string;
-  device_name: string;
-  settings_id: number;
 }
 
 function SingleTracker(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
   const classes = useStyles();
   const [isSetting, showSetting] = useState(false);
-  const { tracker, onClickBack, t, fetchTrackerSettings, settings } = props;
+  const { tracker, onClickBack, t, fetchTrackerSettings } = props;
 
   const handleClose = () => showSetting(false);
   const onClickSetting = () => {
@@ -118,7 +106,6 @@ function SingleTracker(props: Props) {
             t={t}
             tracker={tracker}
             isMobile={false}
-            settings={settings[tracker.settings_id]}
           />
         )}
       </Container>
