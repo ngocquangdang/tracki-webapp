@@ -30,7 +30,7 @@ export interface GlobalTypes {
 
 export interface TrackerDataTypes {
   tracker: {
-    trackers: object | null;
+    trackers: object;
     trackerIds: Array<number | string> | null;
     trackerPlans: object | null;
     selectedTrackerId: number | null;
