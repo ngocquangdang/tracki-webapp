@@ -28,11 +28,11 @@ function* updateTrackerSettingSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
     const { settingId, settings } = action.payload;
-    const { device_name, device_id, file, ...setting } = settings;
+    const { file, ...setting } = settings;
 
     const tracker = {
-      device_name,
-      device_id,
+      device_name: setting.device_name,
+      device_id: setting.device_id,
       icon_url: null,
     };
 
@@ -42,7 +42,7 @@ function* updateTrackerSettingSaga(action) {
       const { data: iconData } = yield call(
         apiServices.uploadImage,
         account_id,
-        device_id,
+        tracker.device_id,
         formData
       );
       console.log('____uploadImage', iconData);
@@ -51,21 +51,15 @@ function* updateTrackerSettingSaga(action) {
       delete tracker.icon_url;
     }
 
-    const bodyRequest = {
-      id: settingId,
-      device_name,
-      device_id,
-      preferences: setting.preferences,
-    };
     const { data } = yield call(
       apiServices.updateSettings,
       account_id,
       settingId,
-      bodyRequest
+      setting
     );
     console.log('__updateTrackerSettingSaga', data);
-    yield put(action.updateTrackerAction(device_id, tracker));
-    yield put(actions.fetchTrackerSettingsSucceedAction(bodyRequest));
+    yield put(action.updateTrackerAction(tracker.device_id, tracker));
+    yield put(actions.fetchTrackerSettingsSucceedAction(setting));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

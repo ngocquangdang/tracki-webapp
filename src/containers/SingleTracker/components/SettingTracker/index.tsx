@@ -111,12 +111,12 @@ function SettingTracker(props: Props) {
       samples_per_report,
       tracking_measurment,
     ] = tracking_mode.split('_');
-    const trackerSettings = {
-      id: settings.id,
+    const bodyRequest = {
+      id: tracker.settings_id,
       device_name,
       device_id,
       preferences: {
-        ...settings.preferences,
+        ...trackerSettings.preferences,
         ...preferences,
         tracking_mode: {
           sample_rate: +sample_rate,
@@ -126,7 +126,7 @@ function SettingTracker(props: Props) {
       },
       file: imageFile.file,
     };
-    props.updateSettings(tracker.settings_id, trackerSettings);
+    props.updateSettings(tracker.settings_id, bodyRequest);
   };
 
   const onOpenModalSubscription = () => {
