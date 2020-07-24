@@ -22,8 +22,5 @@ const ContentCardDetail = styled.div`
   width: calc(100% - 10px);
   left: 5px;
   right: 5px;
-  @media (max-width: 320px) {
-    top: calc(100% - 200px);
-  }
 `;
 export { Container, MapView, ContentCardDetail };

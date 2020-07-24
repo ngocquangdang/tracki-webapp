@@ -24,14 +24,14 @@ export default function ViewHomeMobile(props: Props) {
             tracker={rest.trackers[rest.selectedTrackerId]}
           />
         )}
-        <ContentCardDetail>
-          {rest.selectedTrackerId && (
+        {rest.selectedTrackerId && (
+          <ContentCardDetail>
             <DetailTrackerCard
               tracker={rest.trackers[rest.selectedTrackerId]}
               isMobile={true}
             />
-          )}
-        </ContentCardDetail>
+          </ContentCardDetail>
+        )}
       </MapView>
     </Container>
   );
