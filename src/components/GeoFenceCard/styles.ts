@@ -19,6 +19,9 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     borderRadius: 3,
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    },
   },
   active: {
     borderLeftWidth: 3,
@@ -26,8 +29,8 @@ const useStyles = makeStyles(() => ({
     borderLeftStyle: 'solid',
   },
   iconBtn: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
     alignSelf: 'center',
   },
   dots: {
