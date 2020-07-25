@@ -113,6 +113,9 @@ const Layout = styled.div`
 `;
 
 const useStyles = makeStyles(theme => ({
+  loading: {
+    margin: 'auto',
+  },
   margin: {
     marginTop: 15,
     marginBottom: 15,

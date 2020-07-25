@@ -5,8 +5,6 @@ import TrackerMarker from './components/TrackerMarker';
 import MapEvent from '../MapEvent';
 import IMap from '../interface';
 
-import { NavigationControl } from './style';
-
 declare global {
   interface Window {
     mapEvents: any;
@@ -91,6 +89,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
         />
       ));
     }
+    return null;
   };
 
   componentWillReceiveProps(nextProps) {
@@ -102,12 +101,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
   }
 
   render() {
-    return (
-      <>
-        <NavigationControl></NavigationControl>
-        {this.renderMarkers()}
-      </>
-    );
+    return this.renderMarkers();
   }
 }
 

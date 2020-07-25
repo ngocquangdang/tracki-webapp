@@ -30,12 +30,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
-    marginRight: '1.5em',
     '&:hover': {
       color: theme.palette.primary.main,
     },
     '& svg': {
-      marginBottom: 4,
       display: 'block',
       alignAtems: 'center',
       textAlign: 'center',
@@ -59,6 +57,7 @@ const LinkStyle = withStyles(theme => ({
     flexDirection: 'row',
     padding: '15px',
     color: '#666666',
+    width: '100%',
   },
 }))(Link);
 

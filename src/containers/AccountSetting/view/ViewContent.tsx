@@ -89,7 +89,7 @@ export default function AccountSetting(props: any) {
       <>
         <Layout />
         <Loading>
-          <CircularProgress />
+          <CircularProgress className={classes.loading} />
         </Loading>
       </>
     );

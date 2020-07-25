@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { connect } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import { AiOutlineDashboard } from 'react-icons/ai';
@@ -37,13 +36,13 @@ const routes = [
   },
   {
     label: 'Contacts',
-    icon: <ContactsIcon />,
+    icon: <ContactsIcon style={{ width: '23px', height: '20px' }} />,
     link: '/contacts',
   },
   {
     label: 'Account Settings',
     icon: <SettingsIcon />,
-    link: '/',
+    link: '/settings',
   },
   {
     label: 'Contact Us',
@@ -89,16 +88,15 @@ function SideBarMobile(props: Props) {
         key={label}
         onClick={label === 'Logout' ? logoutRequestAction : undefined}
       >
-        <Link href={link}>
-          <LinkStyle
-            color={'secondary'}
-            className={classes.linkBtn}
-            underline="none"
-          >
-            <Icon>{icon}</Icon>
-            <Label>{label}</Label>
-          </LinkStyle>
-        </Link>
+        <LinkStyle
+          color={'secondary'}
+          className={classes.linkBtn}
+          underline="none"
+          href={link}
+        >
+          <Icon>{icon}</Icon>
+          <Label>{label}</Label>
+        </LinkStyle>
       </Item>
     );
   };
