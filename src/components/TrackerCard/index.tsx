@@ -4,7 +4,6 @@ import moment from 'moment';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import {
-  Card,
   Item,
   Image,
   ItemInfo,
@@ -14,6 +13,7 @@ import {
   TimeActive,
   useStyles,
   ImageWrapper,
+  ListItemStyle,
 } from './styles';
 import { ITracker } from '@Interfaces';
 
@@ -39,7 +39,12 @@ export default function TrackerCard(props: Props) {
   };
 
   return (
-    <Card key={tracker.device_id} isMobile={isMobile} onClick={handleClick}>
+    <ListItemStyle
+      button
+      key={tracker.device_id}
+      className={isMobile ? classes.padding : classes.nonePadding}
+      onClick={handleClick}
+    >
       <Item>
         <ImageWrapper>
           <Image src={tracker.icon_url || '/images/image-device.png'} alt="" />
@@ -55,6 +60,6 @@ export default function TrackerCard(props: Props) {
         </ItemInfo>
       </Item>
       <CardDetail>{isMobile && <BsThreeDotsVertical />}</CardDetail>
-    </Card>
+    </ListItemStyle>
   );
 }

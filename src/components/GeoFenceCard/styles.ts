@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
 
 const TEXT_COLOR = '#1a1a1a';
 const ACTIVE_COLOR = '#168449';
@@ -100,6 +101,16 @@ const Status = styled.p`
 const Actions = styled.div`
   display: flex;
 `;
+const ListItemStyle = withStyles(theme => ({
+  root: {
+    borderBottom: '1px solid #e0e0e0',
+    justifyContent: 'space-between',
+    alignItem: 'center',
+    '&:last-child': {
+      borderBottom: 'none',
+    },
+  },
+}))(ListItem);
 export {
   Status,
   Content,
@@ -109,4 +120,5 @@ export {
   Name,
   Actions,
   useStyles,
+  ListItemStyle,
 };
