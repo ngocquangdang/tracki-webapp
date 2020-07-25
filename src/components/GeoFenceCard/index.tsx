@@ -1,19 +1,18 @@
 import React from 'react';
-import { Switch, IconButton, Menu, MenuItem, Paper } from '@material-ui/core';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import {
+  Switch,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  ListItemSecondaryAction,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 
-import {
-  useStyles,
-  Content,
-  Image,
-  ImageWrapper,
-  ItemInfo,
-  Name,
-  Actions,
-  Status,
-  ListItemStyle,
-} from './styles';
+import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
   geofence: {
@@ -73,57 +72,64 @@ export default function GeofenceCard(props: Props) {
   };
 
   return (
-    <ListItemStyle button key={geofence.id}>
-      <Paper className={clsx(classes.paper, { [classes.active]: isActive })}>
-        <Content disabled={isDisabled} onClick={onSelectGeofence}>
-          <ImageWrapper active={isActive} disabled={isDisabled}>
+    <>
+      <ListItemStyle
+        button
+        key={geofence.id}
+        onClick={onSelectGeofence}
+        className={clsx(classes.paper, { [classes.active]: isActive })}
+      >
+        <ListItemAvatar>
+          <Avatar
+            className={clsx(classes.avatar, {
+              [classes.avtActive]: isActive,
+            })}
+          >
             <Image
               src={`/images/geo_${geofence.type}${
                 isActive ? '_active' : ''
               }.svg`}
               alt=""
             />
-          </ImageWrapper>
-          <Name active={isActive}>{geofence.name}</Name>
-        </Content>
-        <Actions>
-          {isDisabled && <Status>Deactived</Status>}
-          <ItemInfo>
-            <Switch
-              name="active"
-              checked={!!geofence.enabled}
-              onChange={toggleGeofence}
-              color="primary"
-              disabled={isDisabled}
-            />
-          </ItemInfo>
-          <IconButton
-            className={classes.iconBtn}
-            size="small"
-            onClick={openMenu}
-          >
-            <BsThreeDotsVertical className={classes.dots} />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={geofence.name}
+          className={clsx(classes.text, {
+            [classes.textActive]: isActive,
+          })}
+        />
+        <ListItemSecondaryAction className={classes.actions}>
+          {isDisabled && <Status>Deactive</Status>}
+          <Switch
+            checked={!!geofence.enabled}
+            onChange={toggleGeofence}
+            color="primary"
+            disabled={isDisabled}
+          />
+          <IconButton onClick={openMenu} className={classes.iconBtn}>
+            <MoreVertIcon />
           </IconButton>
-        </Actions>
-        <Menu
-          anchorEl={anchorMenuEl}
-          keepMounted
-          open={Boolean(anchorMenuEl)}
-          onClose={closeMenu}
-          MenuListProps={{ className: classes.menuList }}
-          className={classes.menuRoot}
-        >
-          <MenuItem className={classes.menuItem} onClick={editGeofence}>
-            Edit Geo-fence
-          </MenuItem>
-          <MenuItem className={classes.menuItem} onClick={addGeofenceToDevice}>
-            Add Device
-          </MenuItem>
-          <MenuItem className={classes.menuItem} onClick={deleteGeofence}>
-            Delete this Fence
-          </MenuItem>
-        </Menu>
-      </Paper>
-    </ListItemStyle>
+        </ListItemSecondaryAction>
+      </ListItemStyle>
+      <Menu
+        anchorEl={anchorMenuEl}
+        keepMounted
+        open={Boolean(anchorMenuEl)}
+        onClose={closeMenu}
+        MenuListProps={{ className: classes.menuList }}
+        className={classes.menuRoot}
+      >
+        <MenuItem className={classes.menuItem} onClick={editGeofence}>
+          Edit Geo-fence
+        </MenuItem>
+        <MenuItem className={classes.menuItem} onClick={addGeofenceToDevice}>
+          Add Device
+        </MenuItem>
+        <MenuItem className={classes.menuItem} onClick={deleteGeofence}>
+          Delete this Fence
+        </MenuItem>
+      </Menu>
+    </>
   );
 }
