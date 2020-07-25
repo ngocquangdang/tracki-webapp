@@ -12,7 +12,7 @@ import {
   Title,
 } from './style';
 import { GrFormClose } from 'react-icons/gr';
-import { Fade } from '@material-ui/core';
+import { Slide } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DoneIcon from '@material-ui/icons/Done';
 
@@ -21,11 +21,13 @@ interface Props {
   handleClose(): void;
   children: any;
   isMobile: boolean;
+  show: boolean;
+  direction?: 'left' | 'right' | 'down' | 'up';
 }
 
 export default function SideBarOut(props: Props) {
   const classes = useStyles();
-  const { title, handleClose, children, isMobile } = props;
+  const { title, handleClose, children, isMobile, show, direction } = props;
 
   function capitalizeFirstLetter(string: string) {
     return string.replace(/\w\S*/g, function (txt: any) {
@@ -34,7 +36,7 @@ export default function SideBarOut(props: Props) {
   }
 
   return (
-    <Fade in mountOnEnter unmountOnExit>
+    <Slide in={show} direction={direction || 'left'} mountOnEnter unmountOnExit>
       <MenuWrap>
         <WrapDisabled isMobile={isMobile}>
           <MenuHeader isMobile={isMobile}>
@@ -63,6 +65,6 @@ export default function SideBarOut(props: Props) {
           {children}
         </WrapDisabled>
       </MenuWrap>
-    </Fade>
+    </Slide>
   );
 }

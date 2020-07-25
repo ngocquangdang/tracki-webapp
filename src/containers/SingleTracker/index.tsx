@@ -100,14 +100,13 @@ function SingleTracker(props: Props) {
             <Border></Border>
           </TrackerMenu>
         </Card>
-        {isSetting && (
-          <SettingTracker
-            handleClose={handleClose}
-            t={t}
-            tracker={tracker}
-            isMobile={false}
-          />
-        )}
+        <SettingTracker
+          handleClose={handleClose}
+          t={t}
+          show={isSetting}
+          tracker={tracker}
+          isMobile={false}
+        />
       </Container>
     </Slide>
   );

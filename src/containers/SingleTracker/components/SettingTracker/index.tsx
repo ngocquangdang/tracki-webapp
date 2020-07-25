@@ -57,6 +57,7 @@ interface Props {
   settings: any;
   isMobile: boolean;
   isRequesting?: boolean;
+  show: boolean;
   updateSettings(id: number, data: object): void;
 }
 
@@ -154,6 +155,8 @@ function SettingTracker(props: Props) {
   return (
     <SideBarOutside
       title="Settings"
+      show={props.show}
+      direction="right"
       handleClose={handleClose}
       isMobile={isMobile}
     >

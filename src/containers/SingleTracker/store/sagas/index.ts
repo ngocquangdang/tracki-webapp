@@ -45,19 +45,12 @@ function* updateTrackerSettingSaga(action) {
         tracker.device_id,
         formData
       );
-      console.log('____uploadImage', iconData);
       tracker.icon_url = iconData.icon_url;
     } else {
       delete tracker.icon_url;
     }
 
-    const { data } = yield call(
-      apiServices.updateSettings,
-      account_id,
-      settingId,
-      setting
-    );
-    console.log('__updateTrackerSettingSaga', data);
+    yield call(apiServices.updateSettings, account_id, settingId, setting);
     yield put(action.updateTrackerAction(tracker.device_id, tracker));
     yield put(actions.fetchTrackerSettingsSucceedAction(setting));
   } catch (error) {

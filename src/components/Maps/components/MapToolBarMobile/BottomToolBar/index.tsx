@@ -118,14 +118,13 @@ export default function BottomToolBar(props: Props) {
           </ItemText>
         </MenuItem>
       </ListItem>
-      {isSetting && (
-        <SettingTracker
-          t={t}
-          tracker={tracker}
-          handleClose={handleCloseSetting}
-          isMobile={true}
-        />
-      )}
+      <SettingTracker
+        t={t}
+        show={isSetting}
+        tracker={tracker}
+        handleClose={handleCloseSetting}
+        isMobile={true}
+      />
     </ToolBar>
   );
 }

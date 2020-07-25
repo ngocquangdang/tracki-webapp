@@ -14,13 +14,11 @@ interface StyleProps {
 const useStyles = makeStyles(() => ({
   paper: {
     height: 56,
-    marginBottom: 10,
     padding: 10,
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-    '&:first-child': {
-      marginTop: 16,
-    },
+    borderRadius: 3,
   },
   active: {
     borderLeftWidth: 3,
@@ -46,7 +44,9 @@ const useStyles = makeStyles(() => ({
     color: TEXT_COLOR,
     fontSize: 17,
     lineHeight: '20px',
-    height: 50,
+    height: 'auto',
+    padding: 10,
+    display: 'block',
     '&:not(:last-child)': {
       borderBottom: '1px solid rgba(0, 0, 0, 0.14)',
     },
@@ -103,11 +103,11 @@ const Actions = styled.div`
 `;
 const ListItemStyle = withStyles(theme => ({
   root: {
-    borderBottom: '1px solid #e0e0e0',
-    justifyContent: 'space-between',
-    alignItem: 'center',
-    '&:last-child': {
-      borderBottom: 'none',
+    padding: 0,
+    height: 56,
+    marginBottom: 10,
+    '&:first-child': {
+      marginTop: 16,
     },
   },
 }))(ListItem);
