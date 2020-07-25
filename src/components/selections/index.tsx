@@ -4,18 +4,18 @@ import { Select, InputLabel } from '@material-ui/core';
 import { SelectForm } from './styles';
 
 interface Props {
-  option: {
-    value: string;
+  options: {
+    value: any;
     content: string;
   }[];
   label: string;
-  defaultValues: string;
+  value: string;
   name: string;
   onChangeOption(value: string): void;
 }
 
 export default function SelectOption(props: Props) {
-  const { option, label, defaultValues, onChangeOption, ...rest } = props;
+  const { options, label, value, onChangeOption, ...rest } = props;
   const handleChange = (value: any) => {
     onChangeOption(value.target.value);
   };
@@ -27,9 +27,9 @@ export default function SelectOption(props: Props) {
         // name={name}
         onChange={handleChange}
         label={label}
-        value={defaultValues}
+        value={value}
       >
-        {option.map((item, index: number) => (
+        {options.map((item, index: number) => (
           <option value={item.value} key={index}>
             {item.content}
           </option>

@@ -21,10 +21,14 @@ const ButtonComp = React.forwardRef((props: Props, ref) => {
       className={classes || ''}
       onClick={onClick}
       disabled={isLoading || disabled}
+      startIcon={
+        isLoading ? (
+          <CircularProgress size="sm" className={styles.loading} />
+        ) : undefined
+      }
       {...rest}
     >
       {text}
-      {isLoading && <CircularProgress size="sm" className={styles.loading} />}
     </ButtonStyle>
   );
 });

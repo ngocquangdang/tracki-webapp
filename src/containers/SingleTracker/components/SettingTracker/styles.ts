@@ -10,13 +10,14 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 const Image = styled.img`
-  width: 71px;
-  height: 71px;
+  width: 55px;
+  height: 55px;
   margin: auto;
   object-fit: contain;
 `;
 const ImageTracker = styled.div`
   display: flex;
+  cursor: pointer;
   justify-content: center;
 `;
 const UploadImage = styled.div`
@@ -34,7 +35,7 @@ const UploadImage = styled.div`
   align-items: center;
 `;
 const TextUpload = styled.span`
-  font-family: OpenSans;
+  font-family: 'Open Sans', sans-serif;
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
@@ -131,6 +132,12 @@ const OptionRight = styled.div`
   align-items: center;
 `;
 const useStyles = makeStyles(theme => ({
+  loading: {
+    position: 'absolute',
+    color: '#fff',
+    top: 22,
+    left: 22,
+  },
   margin: {
     marginTop: 15,
     marginBottom: 15,
@@ -208,6 +215,9 @@ const LimitInput = withStyles(theme => ({
     },
     '& .MuiOutlinedInput-input': {
       textAlign: 'center',
+      padding: 0,
+      paddingTop: 4,
+      fontSize: 15,
     },
   },
 }))(TextField);

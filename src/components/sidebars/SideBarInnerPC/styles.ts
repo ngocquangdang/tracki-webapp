@@ -26,9 +26,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     borderRadius: 0,
     padding: 0,
-    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+    boxShadow: '1px 1px 2px 0px rgba(0, 0, 0, 0.3)',
     minWidth: 'auto',
-    left: 399,
+    left: 400,
     top: -1,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,

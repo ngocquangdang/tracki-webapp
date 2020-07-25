@@ -64,6 +64,15 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case singleTrackerTypes.GET_TRACKER_SETTINGS_SUCCEED:
         draft.settings[payload.settings.id] = payload.settings;
         break;
+      case singleTrackerTypes.UPDATE_TRACKER_SETTINGS_SUCCEED:
+        draft.settings[payload.settings.id] = payload.settings;
+        break;
+      case singleTrackerTypes.UPDATE_TRACKE:
+        draft.tracker.trackers[payload.trackerId] = {
+          ...draft.tracker.trackers[payload.trackerId],
+          ...payload.data,
+        };
+        break;
       default:
         break;
     }
