@@ -3,8 +3,14 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Menu } from '@material-ui/core';
 import { FaStreetView } from 'react-icons/fa';
 import { MdBorderStyle, MdApps, MdClear } from 'react-icons/md';
-
 import { MenuProps } from '@material-ui/core/Menu';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import {
+  toggleGeofenceAction,
+  toggleTrackerNameAction,
+} from '@Containers/App/store/actions';
 
 import { ToolBar, MenuItem, ItemText, Icon, Text, useStyles } from './styles';
 
@@ -35,7 +41,16 @@ const StyledMenu = withStyles({
   />
 ));
 
-export default function MapToolBarMobile() {
+interface Props {
+  mapTile: string;
+  t(key: string): string;
+  toggleGeofencs(): void;
+  toggleTrackerName(): void;
+  [data: string]: any;
+}
+
+function MapToolBarMobile(props: Props) {
+  const { toggleTrackerName, toggleGeofencs } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -79,7 +94,10 @@ export default function MapToolBarMobile() {
             <FaStreetView className={classes.menuIcon} />
           </Icon>
         </MenuItem>
-        <MenuItem className={anchorEl ? '' : classes.fullWidth}>
+        <MenuItem
+          onClick={toggleTrackerName}
+          className={anchorEl ? '' : classes.fullWidth}
+        >
           <ItemText
             className={`${classes.menuText} ${
               anchorEl ? '' : classes.displayText
@@ -91,7 +109,10 @@ export default function MapToolBarMobile() {
             <Text>A</Text>
           </Icon>
         </MenuItem>
-        <MenuItem className={anchorEl ? '' : classes.fullWidth}>
+        <MenuItem
+          onClick={toggleGeofencs}
+          className={anchorEl ? '' : classes.fullWidth}
+        >
           <ItemText
             className={`${classes.menuText} ${
               anchorEl ? '' : classes.displayText
@@ -107,3 +128,14 @@ export default function MapToolBarMobile() {
     </ToolBar>
   );
 }
+
+const mapStateToProps = createStructuredSelector({});
+
+const mapDispatchToProps = dispatch => ({
+  toggleGeofences: () => dispatch(toggleGeofenceAction()),
+  toggleTrackerName: () => dispatch(toggleTrackerNameAction()),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(MapToolBarMobile);

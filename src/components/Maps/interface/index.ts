@@ -3,6 +3,7 @@ declare namespace IMap {
     fullWidth: boolean;
     trackers: object;
     trackerIds: Array<number>;
+    mapTile: string;
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;

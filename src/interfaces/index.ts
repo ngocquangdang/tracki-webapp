@@ -26,6 +26,9 @@ export interface GlobalTypes {
   profile: object | null;
   isLoading: boolean;
   errors: object | null;
+  mapTile: string;
+  showGeofences: boolean;
+  showTrackerName: boolean;
 }
 
 export interface TrackerDataTypes {

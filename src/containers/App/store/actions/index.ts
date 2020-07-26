@@ -43,3 +43,20 @@ export const logoutFailedAction = () => {
     type: types.LOGOUT_FAILED,
   };
 };
+
+export const resetMapAction = () => ({
+  type: types.RESET_MAP,
+});
+
+export const changeMapTileAction = (mapTile: string) => ({
+  type: types.CHANGE_MAP_TILE,
+  payload: { mapTile },
+});
+
+export const toggleGeofenceAction = () => ({
+  type: types.TOGGLE_GEOFENCES,
+});
+
+export const toggleTrackerNameAction = () => ({
+  type: types.TOGGLE_TRACKER_NAME,
+});

@@ -10,4 +10,7 @@ const makeSelectLoading = () =>
 const makeSelectProfile = () =>
   createSelector(globalState, state => state.profile);
 
-export { makeSelectProfile, makeSelectLoading };
+const makeSelectMapTile = () =>
+  createSelector(globalState, state => state.mapTile);
+
+export { makeSelectProfile, makeSelectLoading, makeSelectMapTile };

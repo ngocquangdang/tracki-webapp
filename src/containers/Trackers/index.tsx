@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { withTranslation } from '@Server/i18n';
-import { makeSelectProfile } from '@Containers/App/store/selectors';
+import {
+  makeSelectProfile,
+  makeSelectMapTile,
+} from '@Containers/App/store/selectors';
 import {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -52,6 +55,7 @@ function TrackersContainer(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
+  mapTile: makeSelectMapTile(),
   selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),

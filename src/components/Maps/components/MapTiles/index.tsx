@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MdClose } from 'react-icons/md';
 
 import {
@@ -28,15 +28,16 @@ interface Props {
   t(key: string): string;
   onClose(): void;
   className: string;
+  mapTile: string;
+  changeMapTile(tile: string): void;
 }
 
 function MapTiles(props: Props) {
-  const { className, onClose, t } = props;
-  const [currentTile, updateTile] = useState(MAP_TILES[0].style);
+  const { className, onClose, t, mapTile, changeMapTile } = props;
 
-  const onChangeLayler = layer => () => {
-    updateTile(layer);
-    window.mapEvents.changeLayer(layer);
+  const onChangeLayler = (tile: string) => () => {
+    changeMapTile(tile);
+    window.mapEvents.changeLayer(tile);
   };
 
   return (
@@ -48,7 +49,7 @@ function MapTiles(props: Props) {
       <LayerItem>
         {MAP_TILES.map((layer, index) => (
           <Item key={index} onClick={onChangeLayler(layer.style)}>
-            <Image src={layer.image} active={layer.style === currentTile} />
+            <Image src={layer.image} active={layer.style === mapTile} />
             <Name>{t('common:' + layer.name)}</Name>
           </Item>
         ))}

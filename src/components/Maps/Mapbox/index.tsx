@@ -30,7 +30,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       'pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ';
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: `mapbox://styles/mapbox/streets-v11`,
+      style: `mapbox://styles/mapbox/` + this.props.mapTile,
       center: this.state.mapCenter,
       zoom: this.state.mapZoom,
       maxZoom: 19,
