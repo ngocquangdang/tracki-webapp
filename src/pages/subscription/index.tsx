@@ -7,6 +7,7 @@ import withAuth from '@Components/hocs/withAuth';
 import ViewSubscription from '@Containers/Subscriptions';
 
 const Subscription: NextPage = (props: any) => {
+  console.log('propssssss', props);
   return <ViewSubscription {...props} />;
 };
 

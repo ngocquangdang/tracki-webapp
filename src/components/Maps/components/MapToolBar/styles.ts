@@ -1,38 +1,17 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, IconButton, withStyles } from '@material-ui/core';
 
 const ToolBar = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: column;
   right: 10px;
   bottom: 27px;
   @media (max-width: 959.95px) {
     display: none;
   }
 `;
-const ZoomIn = styled.button``;
-const ZoomOut = styled.button``;
-const IconButton = styled.button`
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100px;
-  color: #666666;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  font-size: 20px;
-  margin: 10px 0;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    background: #168449;
-    color: #ffffff;
-  }
-`;
+
 const ZoomButton = styled.div`
   background: #ffffff;
   display: flex;
@@ -44,10 +23,14 @@ const ZoomButton = styled.div`
   width: 40px;
   border: 0;
   font-size: 20px;
-  margin: 10px 0;
+  margin: 5px 0;
   height: 80px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+  & > :first-child {
+    margin: 0 !important;
+  }
   & > :last-child {
+    margin: 0 !important;
     border-top: 1px solid #cdcdcd;
   }
   &:focus {
@@ -77,15 +60,31 @@ const useStyles = makeStyles(theme => ({
     },
   },
   borderRadiusTop: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     borderTopLeftRadius: 100,
     borderTopRightRadius: 100,
   },
   borderRadiusBottom: {
     borderBottomLeftRadius: 100,
     borderBottomRightRadius: 100,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
   },
   display: {
     display: 'block',
   },
 }));
-export { ToolBar, IconButton, ZoomButton, ZoomIn, ZoomOut, Text, useStyles };
+const IconButtonStyle = withStyles(theme => ({
+  root: {
+    width: 40,
+    height: 40,
+    background: '#ffffff',
+    margin: '5px 0',
+    '&:hover': {
+      background: theme.palette.primary.main,
+      color: '#ffffff',
+    },
+  },
+}))(IconButton);
+export { ToolBar, IconButtonStyle, ZoomButton, Text, useStyles };

@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineCamera } from 'react-icons/ai';
 import { Formik } from 'formik';
-import { Switch } from '@material-ui/core';
-import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { AiOutlineQuestionCircle } from 'react-icons/ai';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Switch,
+  CircularProgress,
+} from '@material-ui/core';
+import { AiOutlineQuestionCircle, AiOutlineCamera } from 'react-icons/ai';
+import {
+  NavigateNext as NavigateNextIcon,
+  PersonAdd as PersonAddIcon,
+} from '@material-ui/icons';
+import { isNumber } from 'lodash';
 
+import { makeSelectLoading } from '@Containers/App/store/selectors';
+import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
+import { ITracker } from '@Interfaces/index';
 
 import {
   ImageWrapper,
@@ -35,84 +47,138 @@ import {
   useStyles,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
+import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
+import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
-const LOCATION_STATUS = [
-  {
-    value: 'on',
-    content: 'On',
-  },
-  {
-    value: 'off',
-    content: 'Off',
-  },
-];
-interface SettingState {
-  locationStatus: {
-    value: string;
-    content: string;
-  }[];
+interface Props {
+  handleClose(): void;
+  t(key: string): string;
+  tracker: ITracker;
+  settings: any;
+  isMobile: boolean;
+  isRequesting?: boolean;
+  show: boolean;
+  updateSettings(id: number, data: object): void;
 }
-function SettingTracker(props: any) {
-  const [state] = useState<SettingState>({
-    locationStatus: [...LOCATION_STATUS],
-  });
+
+function SettingTracker(props: Props) {
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);
   const classes = useStyles();
-  const { handleClose, t, tracker, settings, isMobile } = props;
+  const { handleClose, t, tracker, settings, isMobile, isRequesting } = props;
+  const trackerSettings = settings[tracker.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
-    device_id: '',
-    location_status: 'Off',
-    speed_unit: 'kph',
+    device_id: 0,
     speed_limit: {
       enable: true,
       value: 5,
       unit: 'kph',
     },
-    speed_moving: false,
+    moving_start: false,
     low_battery: false,
     device_beep_sound: false,
     zone_entry: false,
     zone_exit: false,
-    battery_sleep: false,
+    tracking_mode: LOCATION_UPDATE_OPTIONS[0].value,
   });
 
   useEffect(() => {
-    setInfoTracker({
-      device_name: tracker.device_name || '',
-      device_id: tracker.device_id || '',
-      location_status: 'Off',
-      speed_unit: settings?.preferences?.speed_limit.unit,
-      speed_limit: settings?.preferences?.speed_limit,
-      speed_moving: false,
-      low_battery: settings?.preferences?.low_battery,
-      device_beep_sound: settings?.preferences?.device_beep_sound,
-      zone_entry: settings?.preferences?.zone_entry,
-      zone_exit: settings?.preferences?.zone_exit,
-      battery_sleep: false,
-    });
-  }, [tracker, settings]);
+    if (trackerSettings && tracker) {
+      const {
+        sample_rate,
+        samples_per_report,
+        tracking_measurment,
+      } = trackerSettings.preferences.tracking_mode;
+      setInfoTracker({
+        device_name: tracker.device_name,
+        device_id: tracker.device_id,
+        speed_limit: trackerSettings.preferences.speed_limit,
+        moving_start: trackerSettings.preferences.moving_start,
+        low_battery: trackerSettings.preferences.low_battery,
+        device_beep_sound: trackerSettings.preferences.device_beep_sound,
+        zone_entry: trackerSettings.preferences.zone_entry,
+        zone_exit: trackerSettings.preferences.zone_exit,
+        tracking_mode: `${sample_rate}_${samples_per_report}_${tracking_measurment}`,
+      });
+    }
+  }, [tracker, trackerSettings]);
 
-  const onSubmitForm = (values: object) => {
-    console.log('___submit', values);
+  const onSubmitForm = (values: any) => {
+    const { tracking_mode, device_name, device_id, ...preferences } = values;
+    const [
+      sample_rate,
+      samples_per_report,
+      tracking_measurment,
+    ] = tracking_mode.split('_');
+    const bodyRequest = {
+      id: tracker.settings_id,
+      device_name,
+      device_id,
+      preferences: {
+        ...trackerSettings.preferences,
+        ...preferences,
+        tracking_mode: {
+          sample_rate: +sample_rate,
+          samples_per_report: +samples_per_report,
+          tracking_measurment,
+        },
+      },
+      file: imageFile.file,
+    };
+    props.updateSettings(tracker.settings_id, bodyRequest);
   };
+
   const onOpenModalSubscription = () => {
     setOpenSubsription(true);
   };
+
   const onCloseModalSubscription = () => {
     setOpenSubsription(false);
   };
+
+  const onChangeImage = (e: any) => {
+    const file = e.target.files[0];
+    setLoading(true);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setLoading(false);
+      setImage({ result: reader.result, file: file });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onClickImage = () => document.getElementById('imageIcon')?.click();
+
   return (
     <SideBarOutside
       title="Settings"
+      show={props.show}
+      direction="right"
       handleClose={handleClose}
       isMobile={isMobile}
     >
       <Container>
-        <ImageTracker>
+        <ImageTracker onClick={onClickImage}>
+          <input
+            id="imageIcon"
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={onChangeImage}
+          />
           <ImageWrapper>
+            {loading && (
+              <CircularProgress className={classes.loading} color="secondary" />
+            )}
             <Image
-              src={tracker.icon_url || '/images/image-device.png'}
+              src={
+                imageFile.result ||
+                tracker.icon_url ||
+                '/images/image-device.png'
+              }
               alt=""
             />
             <UploadImage>
@@ -125,15 +191,14 @@ function SettingTracker(props: any) {
           initialValues={infoTracker}
           onSubmit={onSubmitForm}
           enableReinitialize
+          disabled={isRequesting}
         >
           {({
             values,
-            errors: errorsForm,
             handleChange,
             setFieldValue,
             handleSubmit,
             handleBlur,
-            touched,
           }) => {
             return (
               <Content onSubmit={handleSubmit}>
@@ -144,11 +209,6 @@ function SettingTracker(props: any) {
                     value={values.device_name}
                     onChange={handleChange('device_name')}
                     onBlur={handleBlur('device_name')}
-                    // errorInput={
-                    //   errorsForm.device_name && touched.device_name
-                    //     ? t(errorsForm.device_name)
-                    //     : errors.device_name
-                    // }
                     variant="outlined"
                   />
                   <TextInput
@@ -161,11 +221,11 @@ function SettingTracker(props: any) {
                     disabled
                   />
                   <SelectOption
-                    name="location_status"
-                    defaultValues={values.location_status}
+                    name="tracking_mode"
+                    options={LOCATION_UPDATE_OPTIONS}
                     label={t('tracker:location_updated')}
-                    option={state.locationStatus}
-                    onChangeOption={handleChange('location_status')}
+                    value={values.tracking_mode}
+                    onChangeOption={handleChange('tracking_mode')}
                   />
                   <TextDescription1>
                     Tracker's path tracking Intervals (to save battery set to
@@ -184,9 +244,13 @@ function SettingTracker(props: any) {
                   <SelectGroup>
                     <SubTitle>{t('tracker:speed_unit')}</SubTitle>
                     <RadioGroup
-                      value={values.speed_unit || ''}
-                      onChange={e => handleChange('speed_unit')(e.target.value)}
-                      name="speed_unit"
+                      value={values.speed_limit.unit || 'kmp'}
+                      onChange={e => {
+                        setFieldValue('speed_limit', {
+                          ...values.speed_limit,
+                          unit: e.target.value,
+                        });
+                      }}
                       style={{ flexDirection: 'row' }}
                     >
                       <FormControlLabel
@@ -207,11 +271,18 @@ function SettingTracker(props: any) {
                     <span>{t('tracker:speed_limit_alert')}</span>
                     <OptionRight>
                       <LimitInput
-                        label={t(`${values.speed_limit?.unit?.toUpperCase()}`)}
-                        name="speed_limit"
-                        value={values.speed_limit?.value || 0}
-                        onChange={handleChange('speed_limit')}
-                        onBlur={handleBlur('speed_limit')}
+                        label={t(`${values.speed_limit.unit.toUpperCase()}`)}
+                        name="speed_limit_value"
+                        disabled={!values.speed_limit.enable}
+                        value={values.speed_limit.value}
+                        onChange={e => {
+                          if (isNumber(+e.target.value)) {
+                            setFieldValue('speed_limit', {
+                              ...values.speed_limit,
+                              value: +e.target.value,
+                            });
+                          }
+                        }}
                         variant="outlined"
                       />
                       <AiOutlineQuestionCircle
@@ -221,10 +292,12 @@ function SettingTracker(props: any) {
                         className={`${classes.personAddIcon} ${classes.speedLimit}`}
                       />
                       <Switch
-                        name="speed_limit"
-                        checked={values.speed_limit?.enable || false}
+                        checked={values.speed_limit.enable || false}
                         onChange={e => {
-                          setFieldValue('speed_limit', e.target.checked);
+                          setFieldValue('speed_limit', {
+                            ...values.speed_limit,
+                            enable: e.target.checked,
+                          });
                         }}
                         color="primary"
                       />
@@ -237,13 +310,11 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.speed_moving || false}
-                        value={values.speed_moving}
+                        checked={values.moving_start || false}
+                        value={values.moving_start}
                         onChange={e =>
-                          setFieldValue('speed_moving', e.target.checked)
+                          setFieldValue('moving_start', e.target.checked)
                         }
-                        onBlur={handleBlur('speed_moving')}
-                        name="speed_moving"
                         color="primary"
                       />
                     </OptionRight>
@@ -255,13 +326,11 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.low_battery || false}
+                        checked={values.low_battery}
                         value={values.low_battery}
                         onChange={e =>
                           setFieldValue('low_battery', e.target.checked)
                         }
-                        onBlur={handleBlur('low_battery')}
-                        name="low_battery"
                         color="primary"
                       />
                     </OptionRight>
@@ -273,13 +342,11 @@ function SettingTracker(props: any) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.device_beep_sound || false}
+                        checked={values.device_beep_sound}
                         value={values.device_beep_sound}
                         onChange={e =>
                           setFieldValue('device_beep_sound', e.target.checked)
                         }
-                        onBlur={handleBlur('device_beep_sound')}
-                        name="device_beep_sound"
                         color="primary"
                       />
                     </OptionRight>
@@ -296,8 +363,6 @@ function SettingTracker(props: any) {
                         onChange={e =>
                           setFieldValue('zone_entry', e.target.checked)
                         }
-                        onBlur={handleBlur('zone_entry')}
-                        name="zone_entry"
                         color="primary"
                       />
                     </OptionRight>
@@ -314,8 +379,6 @@ function SettingTracker(props: any) {
                         onChange={e =>
                           setFieldValue('zone_exit', e.target.checked)
                         }
-                        onBlur={handleBlur('zone_exit')}
-                        name="zone_exit"
                         color="primary"
                       />
                     </OptionRight>
@@ -338,6 +401,7 @@ function SettingTracker(props: any) {
                   <Button
                     className={`${classes.btn} ${classes.margin}`}
                     variant="outlined"
+                    isLoading={isRequesting}
                     text={t('auth:save')}
                     type="submit"
                   />
@@ -356,4 +420,14 @@ function SettingTracker(props: any) {
   );
 }
 
-export default SettingTracker;
+const mapStateToProps = createStructuredSelector({
+  isRequesting: makeSelectLoading(),
+  settings: makeSelectTrackerSettings(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateSettings: (settingId: number, data: object) =>
+    dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

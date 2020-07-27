@@ -44,11 +44,6 @@ export default function AccountSetting(props: any) {
   const classes = useStyles();
   const { t, profile, errors, isRequesting } = props;
 
-  const [state] = useState<SettingState>({
-    language: [...LANGUAGES],
-    dateType: [...DATE_SETTINGS],
-  });
-
   const [userProfile, updateUserProfile] = useState<UserDatails.IStateUser>({
     email: '',
     first_name: '',
@@ -94,7 +89,7 @@ export default function AccountSetting(props: any) {
       <>
         <Layout />
         <Loading>
-          <CircularProgress />
+          <CircularProgress className={classes.loading} />
         </Loading>
       </>
     );
@@ -191,9 +186,9 @@ export default function AccountSetting(props: any) {
                   </RadioGroup>
                   <SelectOption
                     name="date_format"
-                    defaultValues={values.date_format}
+                    options={DATE_SETTINGS}
                     label={t('auth:date_format')}
-                    option={state.dateType}
+                    value={values.date_format}
                     onChangeOption={handleChange('date_format')}
                   />
                 </SelectGroup>
@@ -246,9 +241,9 @@ export default function AccountSetting(props: any) {
                 </SwitchGroup>
                 <div className={classes.media}>
                   <SelectOption
-                    defaultValues={values.language}
+                    options={LANGUAGES}
                     label={t('auth:select_language')}
-                    option={state.language}
+                    value={values.language}
                     onChangeOption={handleChange('language')}
                     name="language"
                   />

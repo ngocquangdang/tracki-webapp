@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import Link from 'next/link';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import InfoIcon from '@material-ui/icons/Info';
 import { Button } from '@Components/buttons';
+import PaymentOption from '@Components/Payment';
 
 import {
   Container,
@@ -19,17 +17,32 @@ import {
   TextNormal,
   TextBold,
   MainContent,
-  SelectForm,
   useStyles,
 } from './styles';
+import SubscriptionStep1 from './components/SubscriptionStep1';
+import SubscriptionStep2 from './components/SubscriptionStep2';
 
-function Subscription() {
+interface Props {
+  isMobile: boolean;
+}
+function Subscription(props: Props) {
+  const { isMobile } = props;
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
+  const [step, updateStep] = useState(1);
+  const renderStep = () => {
+    switch (step) {
+      case 2:
+        return (
+          <SubscriptionStep2
+            isMobile={isMobile}
+            onChangePlan={() => updateStep(1)}
+          />
+        );
+      default:
+        return <SubscriptionStep1 onClickItemMessage={() => updateStep(2)} />;
+    }
   };
+
   return (
     <Container>
       <Header>
@@ -38,7 +51,7 @@ function Subscription() {
             variant="text"
             classes={classes.backBtn}
             startIcon={<FiChevronLeft size={28} />}
-            text="Back"
+            text={isMobile ? 'Increase Text Alert Limit' : 'Back'}
           />
         </Link>
         <Link href="/">
@@ -52,32 +65,17 @@ function Subscription() {
             <InfoIcon className={classes.infoIcon} />
             <TextSub>
               <TextNormal>This month you used: </TextNormal>
-              <TextBold isTitle>0 out of 30 text alerts</TextBold>
+              <TextBold>0 out of 30 text alerts</TextBold>
             </TextSub>
           </SubTitle>
         </WrapTitle>
-        <MainContent>
-          <TextBold isTitle={false}>
-            Choose a country code for text alerts
-          </TextBold>
-          <SelectForm variant="outlined" className={classes.formControl}>
-            <InputLabel className={classes.inputLabel}>
-              Select Country Code
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={age}
-              onChange={handleChange}
-              label="Select Country Code"
-              className={classes.select}
-            >
-              <MenuItem value={10} className={classes.menuItem}>
-                Ten
-              </MenuItem>
-            </Select>
-          </SelectForm>
-        </MainContent>
+        <MainContent isStep2={step === 2}>{renderStep()}</MainContent>
+        {isMobile && step === 2 && (
+          <PaymentOption
+            handleClickPayment={() => console.log('xxxxxxxxx')}
+            isMobile={isMobile}
+          />
+        )}
       </Content>
     </Container>
   );

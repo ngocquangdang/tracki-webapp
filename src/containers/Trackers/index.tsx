@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { withTranslation } from '@Server/i18n';
-import { makeSelectProfile } from '@Containers/App/store/selectors';
+import {
+  makeSelectProfile,
+  makeSelectMapTile,
+} from '@Containers/App/store/selectors';
 import {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -12,6 +15,7 @@ import {
   makeSelectGeofences,
   makeSelectGeofenceId,
   makeSelectGeofenceIds,
+  makeSelectTrackerSettings,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import {
@@ -51,12 +55,14 @@ function TrackersContainer(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
+  mapTile: makeSelectMapTile(),
   selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
   geofences: makeSelectGeofences(),
   geofenceIds: makeSelectGeofenceIds(),
   selectedGeofenceId: makeSelectGeofenceId(),
+  settings: makeSelectTrackerSettings(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
 const Container = styled.div`
   background-color: #f4f5f6;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 `;
 const Content = styled.div`
   margin-top: 45px;
@@ -32,6 +31,10 @@ const WrapTitle = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: 959.95px) {
+    padding: 10px;
+    text-align: center;
+  }
 `;
 const Title = styled.span`
   font-size: 42px;
@@ -41,45 +44,53 @@ const Title = styled.span`
   line-height: 1.21;
   letter-spacing: normal;
   text-align: center;
+  @media (max-width: 959.95px) {
+    font-size: 18px;
+    font-weight: 500;
+  }
 `;
 const SubTitle = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   text-align: center;
   justify-content: center;
 `;
 const TextSub = styled.span``;
 const TextNormal = styled.span`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.19;
+  @media (max-width: 959.95px) {
+    font-size: 16px;
+  }
 `;
 const TextBold = styled.span`
-  font-size: ${(props: { isTitle: boolean }) =>
-    props.isTitle ? '16px' : '24px'};
+  font-size: 18px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.19;
-  margin-bottom: ${(props: { isTitle: boolean }) =>
-    props.isTitle ? '' : '20px'};
-  margin-top: ${(props: { isTitle: boolean }) =>
-    props.isTitle ? '' : '120px'};
+  @media (max-width: 959.95px) {
+    font-size: 16px;
+  }
 `;
 const MainContent = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: column;
   width: 921px;
-  height: 375px;
-  background-color: beige;
+  background-color: #ffffff;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border: 1px solid #e0e0e0;
   margin-top: 11px;
-  padding: 0 260px;
+  padding: ${(props: { isStep2: boolean }) =>
+    props.isStep2 ? '20px' : '0px 260px 40px 260px'};
+  @media (max-width: 959.95px) {
+    width: 90%;
+    padding: 14px;
+    margin-bottom: 40px;
+  }
 `;
 const useStyles = makeStyles(theme => ({
   backBtn: {
@@ -110,57 +121,7 @@ const useStyles = makeStyles(theme => ({
       height: '26px',
     },
   },
-  formControl: {
-    margin: theme.spacing(1),
-    width: '100%',
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  inputLabel: {
-    color: '#1a1a1a',
-  },
-  select: {
-    color: '#1a1a1a',
-  },
-  menuItem: {
-    color: '#1a1a1a',
-  },
 }));
-
-const SelectForm = withStyles(theme => ({
-  root: {
-    '&.MuiFormControl-root': {
-      width: '100% !important',
-      margin: '18px 0',
-    },
-    '& .MuiInputBase-root': {
-      height: '50px',
-      color: '#1a1a1a',
-    },
-    '& .MuiOutlinedInput-root': {
-      '&:hover fieldset': {
-        borderColor: '#1a1a1a',
-      },
-      '&.Mui-focused fieldset': {
-        border: '1px solid #1a1a1a',
-      },
-    },
-    '& .MuiInputLabel-outlined': {
-      transform: 'translate(14px, 17px) scale(1)',
-      '&.MuiInputLabel-shrink': {
-        transform: 'translate(14px, -6px) scale(0.7)',
-      },
-    },
-    '& > .MuiFormHelperText-root.Mui-error': {
-      position: 'absolute',
-      top: '50px',
-    },
-    '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
-    },
-  },
-}))(FormControl);
 
 export {
   Container,
@@ -174,6 +135,5 @@ export {
   TextNormal,
   TextBold,
   MainContent,
-  SelectForm,
   useStyles,
 };

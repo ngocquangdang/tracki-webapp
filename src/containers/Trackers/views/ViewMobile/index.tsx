@@ -1,33 +1,32 @@
 import React from 'react';
-import Map from '@Components/Maps';
 
-import { Container, ContentCardDetail, MapView } from './styles';
+import Map from '@Components/Maps';
 import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 import DetailTrackerCard from '@Components/DetailTrackerCard';
+import { Container, ContentCardDetail, MapView } from './styles';
 
 interface Props {
   [data: string]: any;
 }
 
 export default function ViewHomeMobile(props: Props) {
-  const { ...rest } = props;
   return (
     <Container>
       <MapView>
-        {rest.selectedTrackerId && <TopToolBar />}
+        {props.selectedTrackerId && <TopToolBar />}
 
-        <Map fullWidth={true} mapType="mapbox" {...rest} />
-        {rest.selectedTrackerId && (
+        <Map fullWidth={true} mapType="mapbox" {...props} />
+        {props.selectedTrackerId && (
           <BottomToolBar
-            t={rest.t}
-            tracker={rest.trackers[rest.selectedTrackerId]}
+            t={props.t}
+            tracker={props.trackers[props.selectedTrackerId]}
           />
         )}
-        {rest.selectedTrackerId && (
+        {props.selectedTrackerId && (
           <ContentCardDetail>
             <DetailTrackerCard
-              tracker={rest.trackers[rest.selectedTrackerId]}
+              tracker={props.trackers[props.selectedTrackerId]}
               isMobile={true}
             />
           </ContentCardDetail>

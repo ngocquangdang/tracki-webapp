@@ -26,11 +26,14 @@ export interface GlobalTypes {
   profile: object | null;
   isLoading: boolean;
   errors: object | null;
+  mapTile: string;
+  showGeofences: boolean;
+  showTrackerName: boolean;
 }
 
 export interface TrackerDataTypes {
   tracker: {
-    trackers: object | null;
+    trackers: object;
     trackerIds: Array<number | string> | null;
     trackerPlans: object | null;
     selectedTrackerId: number | null;

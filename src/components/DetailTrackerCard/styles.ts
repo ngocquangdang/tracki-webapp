@@ -128,7 +128,7 @@ const Name = styled.p`
 `;
 const LatLong = styled.div`
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
-  font-family: OpenSans;
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;

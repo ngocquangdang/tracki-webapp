@@ -1,18 +1,18 @@
 import React from 'react';
-import { Switch, Paper, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import {
+  Switch,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  ListItemSecondaryAction,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 
-import {
-  useStyles,
-  Content,
-  Image,
-  ImageWrapper,
-  ItemInfo,
-  Name,
-  Actions,
-  Status,
-} from './styles';
+import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
   geofence: {
@@ -72,41 +72,46 @@ export default function GeofenceCard(props: Props) {
   };
 
   return (
-    <Paper
-      key={geofence.id}
-      className={clsx(classes.paper, { [classes.active]: isActive })}
-    >
-      <Content disabled={isDisabled}>
-        <ImageWrapper active={isActive} disabled={isDisabled}>
-          <Image
-            src={`/images/geo_${geofence.type}${isActive ? '_active' : ''}.svg`}
-            alt=""
-            onClick={onSelectGeofence}
-          />
-        </ImageWrapper>
-        <Name
-          onClick={onSelectGeofence}
-          active={isActive}
-          disabled={isDisabled}
-        >
-          {geofence.name}
-        </Name>
-      </Content>
-      <Actions>
-        {isDisabled && <Status>Deactived</Status>}
-        <ItemInfo>
+    <>
+      <ListItemStyle
+        button
+        key={geofence.id}
+        onClick={onSelectGeofence}
+        className={clsx(classes.paper, { [classes.active]: isActive })}
+      >
+        <ListItemAvatar>
+          <Avatar
+            className={clsx(classes.avatar, {
+              [classes.avtActive]: isActive,
+            })}
+          >
+            <Image
+              src={`/images/geo_${geofence.type}${
+                isActive ? '_active' : ''
+              }.svg`}
+              alt=""
+            />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={geofence.name}
+          className={clsx(classes.text, {
+            [classes.textActive]: isActive,
+          })}
+        />
+        <ListItemSecondaryAction className={classes.actions}>
+          {isDisabled && <Status>Deactive</Status>}
           <Switch
-            name="active"
             checked={!!geofence.enabled}
             onChange={toggleGeofence}
             color="primary"
             disabled={isDisabled}
           />
-        </ItemInfo>
-        <IconButton className={classes.iconBtn} size="small" onClick={openMenu}>
-          <BsThreeDotsVertical className={classes.dots} />
-        </IconButton>
-      </Actions>
+          <IconButton onClick={openMenu} className={classes.iconBtn}>
+            <MoreVertIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItemStyle>
       <Menu
         anchorEl={anchorMenuEl}
         keepMounted
@@ -125,6 +130,6 @@ export default function GeofenceCard(props: Props) {
           Delete this Fence
         </MenuItem>
       </Menu>
-    </Paper>
+    </>
   );
 }

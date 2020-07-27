@@ -25,6 +25,7 @@ class Map extends React.Component<Props> {
       trackerIds,
       selectTrackerAction,
       openSideBar,
+      mapTile,
     } = this.props;
 
     if (mapType === 'mapbox') {
@@ -36,6 +37,7 @@ class Map extends React.Component<Props> {
           trackerIds={trackerIds}
           openSideBar={openSideBar}
           onClickMarker={selectTrackerAction}
+          mapTile={mapTile}
         />
       );
     }

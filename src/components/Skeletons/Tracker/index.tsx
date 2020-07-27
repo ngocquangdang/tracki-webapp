@@ -24,13 +24,13 @@ export default function TrackerCard(props: Props) {
       <div>
         <Skeleton
           variant="text"
-          width={150}
+          width={100}
           animation="wave"
           classes={{ root: classes.skeleton }}
         />
         <Skeleton
           variant="text"
-          width={250}
+          width={200}
           animation="wave"
           classes={{ root: classes.skeleton }}
         />

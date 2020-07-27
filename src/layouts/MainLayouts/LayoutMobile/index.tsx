@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import MainWrapper from './MainWrapper';
-import HeaderMobile from './Header';
-import { Content, useStyles } from './styles';
-import Footer from './Footer';
+
 import { SideBarInnerMobile } from '@Components/sidebars';
 import ListTrakerMobile from '@Components/TrackerListMobile';
+import MainWrapper from './MainWrapper';
+import HeaderMobile from './Header';
+import Footer from './Footer';
+import { Content, useStyles } from './styles';
 
 interface Props {
   header?: JSX.Element;
@@ -14,40 +15,40 @@ interface Props {
 }
 
 function MainLayoutMobile(props: Props) {
-  console.log('MainLayoutMobile -> props', props);
-  const { ...rest } = props;
+  const { header, noFooter, children, ...rest } = props;
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const handleOpenSideBar = () => setOpenSidebar(!openSidebar);
+  const handleCloseSideBar = () => setOpenSidebar(false);
 
-  const handleOpenSideBar = () => {
-    setOpen(!open);
-  };
-  const handleCloseSideBar = () => {
-    setOpen(false);
-  };
   return (
     <MainWrapper className={classes.root}>
-      <div className={open ? classes.blurHeader : ''}>
-        {props.header || (
+      <div className={openSidebar ? classes.blurHeader : ''}>
+        {header || (
           <HeaderMobile
-            open={open}
+            open={openSidebar}
             handleOpenSideBar={handleOpenSideBar}
             onClick={handleCloseSideBar}
             {...rest}
           />
         )}
       </div>
-      <SideBarInnerMobile open={open} handleOpenSideBar={handleOpenSideBar}>
+      <SideBarInnerMobile
+        open={openSidebar}
+        handleOpenSideBar={handleOpenSideBar}
+      >
         <ListTrakerMobile closeSidebar={handleOpenSideBar} />
       </SideBarInnerMobile>
-      <div className={open ? classes.blurHeader : ''}>
+      <div className={openSidebar ? classes.blurHeader : ''}>
         <Content
-          className={`${classes.content} ${open ? classes.contentShift : ''}`}
+          className={`${classes.content} ${
+            openSidebar ? classes.contentShift : ''
+          }`}
           onClick={handleCloseSideBar}
         >
-          {props.children}
+          {children}
         </Content>
-        {!props.noFooter && <Footer t={rest.t} />}
+        {!noFooter && <Footer t={rest.t} />}
       </div>
     </MainWrapper>
   );

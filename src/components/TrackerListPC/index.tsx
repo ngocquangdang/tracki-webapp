@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'next/router';
 import { FiPlus } from 'react-icons/fi';
 
 import { Container, Content, Footer, ListItem, useStyles } from './styles';
@@ -17,6 +18,9 @@ export default function ListDevice(props: Props) {
   const { trackers, trackerIds, onClickTracker } = props;
   const classes = useStyles();
 
+  const onAddtracker = () => {
+    Router.push('/add-tracker');
+  };
   return (
     <>
       <Container>
@@ -41,6 +45,7 @@ export default function ListDevice(props: Props) {
             color="primary"
             type="submit"
             startIcon={<FiPlus />}
+            onClick={onAddtracker}
           />
         </Footer>
       </Container>

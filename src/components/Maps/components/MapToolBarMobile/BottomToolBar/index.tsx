@@ -13,10 +13,11 @@ import {
   useStyles,
 } from './styles';
 import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
+import { ITracker } from '@Interfaces';
 
 interface Props {
-  t(): void;
-  tracker: {};
+  t(key: string): string;
+  tracker: ITracker;
 }
 
 export default function BottomToolBar(props: Props) {
@@ -117,14 +118,13 @@ export default function BottomToolBar(props: Props) {
           </ItemText>
         </MenuItem>
       </ListItem>
-      {isSetting && (
-        <SettingTracker
-          tracker={tracker}
-          t={t}
-          handleClose={handleCloseSetting}
-          isMobile={true}
-        />
-      )}
+      <SettingTracker
+        t={t}
+        show={isSetting}
+        tracker={tracker}
+        handleClose={handleCloseSetting}
+        isMobile={true}
+      />
     </ToolBar>
   );
 }

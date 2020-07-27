@@ -31,9 +31,7 @@ export default function TabsPC(props: Props) {
 
   const onChangeTab = (event: any, newValue: any) => {
     setTab(newValue);
-    const nextLink = window.location.pathname.includes('trackers')
-      ? '/geofences'
-      : '/trackers';
+    const nextLink = newValue ? '/geofences' : '/trackers';
     window.history.pushState({}, '', nextLink);
   };
 
@@ -53,8 +51,8 @@ export default function TabsPC(props: Props) {
           centered
           className={classes.tabs}
         >
-          <TabStyle label="Trackers" key={1} className={classes.tabItem} />
-          <TabStyle label="Geo-Fence" key={2} className={classes.tabItem} />
+          <TabStyle label="Trackers" value={0} className={classes.tabItem} />
+          <TabStyle label="Geo-Fence" value={1} className={classes.tabItem} />
         </Tabs>
       </Paper>
       <TabPanel
