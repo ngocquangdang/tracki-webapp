@@ -15,24 +15,41 @@ import {
   useStyles,
 } from './styles';
 
+interface DetailMessage {
+  currency: string;
+  groupId: number;
+  planId: number;
+  price: number;
+  smsLimit: number;
+}
+
 interface Props {
+  detailMessage: DetailMessage;
   isMobile: boolean;
   onChangePlan(): void;
+  selectedCountry: string;
+  t(key: string): string;
 }
 function SubscriptionStep2(props: Props) {
-  const { isMobile, onChangePlan } = props;
+  const { isMobile, detailMessage, selectedCountry, onChangePlan, t } = props;
   const classes = useStyles();
   return (
     <Container>
       <ControlChangePlan onClick={onChangePlan}>
         <ArrowBackIosIcon className={classes.backBtn} />
-        <TextChange>Change Plan</TextChange>
+        <TextChange>{t('subscription:change_plan')}</TextChange>
       </ControlChangePlan>
       <InfoSubcription>
-        <Country>USA/Canada (+1)</Country>
+        <Country>{selectedCountry}</Country>
         <DetailIncrease>
-          <TypeMessage>Plan 50 SMS Monthly </TypeMessage>
-          <Price> 3.95 USD</Price>
+          <TypeMessage>
+            {`${t('subscription:text_plan')} ${detailMessage.smsLimit} ${t(
+              'subscription:monthly'
+            )}`}
+          </TypeMessage>
+          <Price>
+            {detailMessage.price} {detailMessage.currency}
+          </Price>
         </DetailIncrease>
       </InfoSubcription>
       <SelectPayment>
@@ -40,6 +57,7 @@ function SubscriptionStep2(props: Props) {
           <PaymentOption
             handleClickPayment={() => console.log('xxxxxxxxx')}
             isMobile={isMobile}
+            t={t}
           />
         )}
       </SelectPayment>

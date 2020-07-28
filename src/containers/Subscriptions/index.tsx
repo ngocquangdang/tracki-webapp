@@ -24,10 +24,24 @@ import SubscriptionStep2 from './components/SubscriptionStep2';
 
 interface Props {
   isMobile: boolean;
+  t(key: string): string;
 }
 function Subscription(props: Props) {
-  const { isMobile } = props;
+  const { isMobile, t } = props;
   const classes = useStyles();
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [dataMessage, setDataMessage] = useState({
+    currency: '',
+    groupId: 2,
+    planId: 1,
+    price: 3.95,
+    smsLimit: 50,
+  });
+  const handleClickItemMessage = (item, country) => {
+    setDataMessage(item);
+    setSelectedCountry(country.description);
+    updateStep(2);
+  };
   const [step, updateStep] = useState(1);
   const renderStep = () => {
     switch (step) {
@@ -36,10 +50,18 @@ function Subscription(props: Props) {
           <SubscriptionStep2
             isMobile={isMobile}
             onChangePlan={() => updateStep(1)}
+            detailMessage={dataMessage}
+            selectedCountry={selectedCountry}
+            t={t}
           />
         );
       default:
-        return <SubscriptionStep1 onClickItemMessage={() => updateStep(2)} />;
+        return (
+          <SubscriptionStep1
+            onClickItemMessage={handleClickItemMessage}
+            t={t}
+          />
+        );
     }
   };
 
@@ -74,6 +96,7 @@ function Subscription(props: Props) {
           <PaymentOption
             handleClickPayment={() => console.log('xxxxxxxxx')}
             isMobile={isMobile}
+            t={t}
           />
         )}
       </Content>

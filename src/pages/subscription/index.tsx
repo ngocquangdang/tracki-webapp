@@ -7,12 +7,11 @@ import withAuth from '@Components/hocs/withAuth';
 import ViewSubscription from '@Containers/Subscriptions';
 
 const Subscription: NextPage = (props: any) => {
-  console.log('propssssss', props);
   return <ViewSubscription {...props} />;
 };
 
 Subscription.getInitialProps = async (): Promise<IPage.InitialProps> => {
-  return { namespacesRequired: ['common', 'tracker'] };
+  return { namespacesRequired: ['common', 'subscription'] };
 };
 
 export default compose(withAuth, withTranslation('common'))(Subscription);

@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Skeleton from '@material-ui/lab/Skeleton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import {
   TextBold,
@@ -17,36 +17,42 @@ import {
 } from './styles';
 
 interface Props {
-  onClickItemMessage(): void;
+  onClickItemMessage(dataMessaga, selectCountry): void;
+  t(key: string): string;
 }
 
 function SubscriptionStep1(props: Props) {
-  const { onClickItemMessage } = props;
+  const { onClickItemMessage, t } = props;
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [dataCountry, setDataCountry] = useState([
     {
-      countryCode: 1,
-      description: 'USA/Canada (+1)',
-      groupId: 1,
-      operatorId: 1,
-      shortName: 'USA',
+      countryCode: null || 1,
+      description: null || 'USA/Canada (+1)',
+      groupId: null || 1,
+      operatorId: null || 1,
+      shortName: null || 'USA',
     },
   ]);
 
   const [dataMessage, setDataMessage] = useState([
     {
-      currency: 'USD',
-      groupId: 1,
-      planId: 24,
-      price: 2.95,
-      smsLimit: 25,
+      currency: null,
+      groupId: null,
+      planId: 1,
+      price: null,
+      smsLimit: null,
     },
   ]);
   const [code, setCode] = useState(1);
 
   const handleChange = event => {
     setCode(event.target.value);
+  };
+
+  const onClickItemMessageHandle = item => () => {
+    const country = dataCountry.find(i => i.countryCode === code);
+    onClickItemMessage(item, country);
   };
 
   const callApiGetCountryCode = useCallback(async () => {
@@ -69,15 +75,18 @@ function SubscriptionStep1(props: Props) {
   }, [callApiGetCountryCode]);
 
   useEffect(() => {
+    setLoading(true);
     callApiGetCountryCodeFollowCode();
   }, [callApiGetCountryCodeFollowCode, code]);
 
   return (
     <>
-      <TextBold isChoose={true}>Choose a country code for text alerts</TextBold>
+      <TextBold isChoose={true}>
+        {t('subscription:choose_country_code')}
+      </TextBold>
       <SelectForm variant="outlined" className={classes.formControl}>
         <InputLabel className={classes.inputLabel}>
-          Select Country Code
+          {t('subscription:select_country_code')}
         </InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
@@ -99,15 +108,20 @@ function SubscriptionStep1(props: Props) {
         </Select>
       </SelectForm>
       <SelectMessage>
-        <TextBold isChoose={false}>Select Monthly text alert lmit</TextBold>
+        <TextBold isChoose={false}>
+          {t('subscription:select_monthly_alert')}
+        </TextBold>
         <ContentMessageItem>
           {loading ? (
-            <Skeleton variant="rect" width={210} height={118} />
+            <CircularProgress className={classes.circular} />
           ) : (
             dataMessage.map(item => (
-              <MessageItem key={item.planId} onClick={onClickItemMessage}>
+              <MessageItem
+                key={item.planId}
+                onClick={onClickItemMessageHandle(item)}
+              >
                 <TypeMessage>{item.smsLimit} SMS</TypeMessage>
-                <Date>Monthly</Date>
+                <Date>{t('subscription:monthly')}</Date>
                 <Price>
                   {item.price}
                   {''} {item.currency}

@@ -94,6 +94,9 @@ const useStyles = makeStyles(theme => ({
   menuItem: {
     color: '#1a1a1a',
   },
+  circular: {
+    color: '#f2f2f2',
+  },
 }));
 
 const SelectForm = withStyles(theme => ({

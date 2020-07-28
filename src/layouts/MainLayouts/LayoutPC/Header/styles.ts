@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     height: 70,
   },
   tabItemRoot: {
-    minWidth: 105,
+    minWidth: 90,
+    padding: '6px 0',
   },
   tabIcon: {
     fontSize: 12,
@@ -30,6 +31,9 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 14,
     cursor: 'pointer',
     alignSelf: 'center',
+    '@media screen and (max-width: 1100px)': {
+      width: 287,
+    },
   },
   logo: {
     objectFit: 'contain',

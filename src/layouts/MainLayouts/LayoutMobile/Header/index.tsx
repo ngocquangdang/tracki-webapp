@@ -33,11 +33,11 @@ export default function HeaderMobile(props: Props) {
               variant="h6"
               color="inherit"
               className={`${classes.textHeader} ${
-                rest.children?.props.selectedTrackerId && classes.fontSize
+                rest.children?.props?.selectedTrackerId && classes.fontSize
               }`}
               noWrap
             >
-              {rest.children.props.selectedTrackerId ? (
+              {rest.children?.props?.selectedTrackerId ? (
                 <>
                   <ImageWrapper>
                     <Image
