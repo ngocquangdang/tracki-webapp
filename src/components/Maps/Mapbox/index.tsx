@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import TrackerMarker from './components/TrackerMarker';
 import MapEvent from '../MapEvent';
 import IMap from '../interface';
+import { MAPBOX_API_KEY } from '@Definitions/app';
 
 declare global {
   interface Window {
@@ -26,8 +27,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
   }
 
   componentDidMount() {
-    mapboxgl.accessToken =
-      'pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ';
+    mapboxgl.accessToken = MAPBOX_API_KEY;
     this.map = new mapboxgl.Map({
       container: 'map',
       style: `mapbox://styles/mapbox/` + this.props.mapTile,

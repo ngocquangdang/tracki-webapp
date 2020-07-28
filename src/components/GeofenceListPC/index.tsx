@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 
 import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import GeoFence from '@Components/GeoFenceCard';
 import { SkeletonTracker } from '@Components/Skeletons';
+import AddGeofencePanel from '@Containers/Trackers/views/AddGeoFence';
 
 interface Props {
-  geofenceIds: Array<number | string>;
-  geofences: object;
-  selectedGeofenceId: number | string | null;
-  selectGeofenceIdAction(id: number | string): void;
-  updateGeofenceAction(id: number, data: object): void;
   [data: string]: any;
 }
 
@@ -24,6 +20,9 @@ export default function ListGeoFence(props: Props) {
     updateGeofenceAction,
   } = props;
   const classes = useStyles();
+  const [showAddPanel, setShowPanel] = useState(true);
+  const onClosePanel = () => setShowPanel(false);
+  const onOpenPanel = () => setShowPanel(true);
 
   return (
     <Container>
@@ -50,8 +49,10 @@ export default function ListGeoFence(props: Props) {
           color="primary"
           type="submit"
           startIcon={<FiPlus />}
+          onClick={onOpenPanel}
         />
       </Footer>
+      <AddGeofencePanel show={showAddPanel} handleClose={onClosePanel} />
     </Container>
   );
 }
