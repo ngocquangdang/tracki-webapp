@@ -20,6 +20,7 @@ import Link from 'next/link';
 
 interface Props {
   title: string;
+  isBackable?: boolean;
   handleClose(): void;
   children: any;
   isMobile: boolean;
@@ -35,6 +36,7 @@ export default function SideBarOut(props: Props) {
     handleClose,
     children,
     isMobile,
+    isBackable,
     show,
     direction,
     isLogo,
@@ -51,7 +53,7 @@ export default function SideBarOut(props: Props) {
       <MenuWrap>
         <WrapDisabled isMobile={isMobile}>
           <MenuHeader isMobile={isMobile}>
-            {isMobile ? (
+            {isMobile || isBackable ? (
               <WrapTitle>
                 <ArrowBackIosIcon
                   className={classes.iconBack}

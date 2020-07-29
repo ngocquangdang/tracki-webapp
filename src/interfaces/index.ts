@@ -43,10 +43,11 @@ export interface TrackerDataTypes {
     geofences: object;
     geofenceIds: Array<number | string> | null;
     selectedGeofenceId: number | null;
+    editGeofenceId: number | null;
     [data: string]: any;
   };
   settings: object;
   errors: object | null;
 }
 
-export type { ITracker } from './tracker';
+export type { ITracker, IGeofence } from './tracker';

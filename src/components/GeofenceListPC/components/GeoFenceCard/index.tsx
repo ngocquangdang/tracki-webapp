@@ -12,30 +12,37 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 
+import { IGeofence } from '@Interfaces';
+import ConfirmPanel from '../DeleteConfirm';
+import AddGeoFenceToDevice from '../AddGeoFenceToDevice';
 import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
-  geofence: {
-    id: number;
-    name: string;
-    type: string;
-    enabled: boolean;
-    status: string;
-  };
+  geofence: IGeofence;
+  isMobile?: boolean;
   selectedGeofenceId?: number | string | null;
   selectGeofence(id: number | string): void;
+  editGeofence(id: number | string): void;
+  removeGeofence(id: number | string): void;
   updateGeofence(id: number, data: object): void;
+  [data: string]: any;
 }
 
 export default function GeofenceCard(props: Props) {
   const [anchorMenuEl, setAnchorMenuEl] = React.useState<null | HTMLElement>(
     null
   );
+  const [showConfirm, setShowConfirm] = React.useState(false);
+  const [showAddDevicePanel, setShowAddDevicePanel] = React.useState(false);
   const {
     geofence,
+    t,
+    isMobile,
     selectGeofence,
     updateGeofence,
     selectedGeofenceId,
+    editGeofence,
+    removeGeofence,
   } = props;
   const classes = useStyles();
   const isActive = selectedGeofenceId === geofence.id;
@@ -56,19 +63,31 @@ export default function GeofenceCard(props: Props) {
   const toggleGeofence = () =>
     updateGeofence(geofence.id, { enabled: !geofence.enabled });
 
-  const editGeofence = () => {
-    console.log('editGeofence');
+  const onClickEdit = () => {
+    editGeofence(geofence.id);
     closeMenu();
   };
 
   const addGeofenceToDevice = () => {
-    console.log('addGeofenceToDevice');
+    setShowAddDevicePanel(true);
     closeMenu();
   };
 
   const deleteGeofence = () => {
-    console.log('deleteGeofence˝');
+    setShowConfirm(true);
     closeMenu();
+  };
+
+  const onCloseConfirm = () => setShowConfirm(false);
+  const onCloseAddDevicePanel = () => setShowAddDevicePanel(false);
+
+  const confirmRemoveGeofence = () => {
+    removeGeofence(geofence.id);
+    setShowConfirm(false);
+  };
+
+  const unLinkDevice = (deviceId: number) => {
+    console.log('__unLinkDevice', deviceId);
   };
 
   return (
@@ -100,7 +119,7 @@ export default function GeofenceCard(props: Props) {
           })}
         />
         <ListItemSecondaryAction className={classes.actions}>
-          {isDisabled && <Status>Deactive</Status>}
+          {isDisabled && <Status>{t('tracker:deactive')}</Status>}
           <Switch
             checked={!!geofence.enabled}
             onChange={toggleGeofence}
@@ -112,6 +131,21 @@ export default function GeofenceCard(props: Props) {
           </IconButton>
         </ListItemSecondaryAction>
       </ListItemStyle>
+      <ConfirmPanel
+        t={t}
+        isMobile={isMobile}
+        show={showConfirm}
+        onClose={onCloseConfirm}
+        removeGeofence={confirmRemoveGeofence}
+      />
+      <AddGeoFenceToDevice
+        t={t}
+        isMobile={isMobile}
+        show={showAddDevicePanel}
+        onClose={onCloseAddDevicePanel}
+        geofence={geofence}
+        unLinkDevice={unLinkDevice}
+      />
       <Menu
         anchorEl={anchorMenuEl}
         keepMounted
@@ -120,14 +154,14 @@ export default function GeofenceCard(props: Props) {
         MenuListProps={{ className: classes.menuList }}
         className={classes.menuRoot}
       >
-        <MenuItem className={classes.menuItem} onClick={editGeofence}>
-          Edit Geo-fence
+        <MenuItem className={classes.menuItem} onClick={onClickEdit}>
+          {t('tracker:edit_geofence')}
         </MenuItem>
         <MenuItem className={classes.menuItem} onClick={addGeofenceToDevice}>
-          Add Device
+          {t('tracker:add_device')}
         </MenuItem>
         <MenuItem className={classes.menuItem} onClick={deleteGeofence}>
-          Delete this Fence
+          {t('tracker:delete_this_fence')}
         </MenuItem>
       </Menu>
     </>
