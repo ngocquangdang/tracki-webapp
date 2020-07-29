@@ -4,17 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
   width: 100%;
   height: 100%;
-  /* max-width: 400px; */
 `;
 const Content = styled.div`
   width: 100%;
   max-width: 400px;
-  margin-top: 100px;
+  margin: auto;
   text-align: center;
   @media (max-width: 959.59px) {
     display: flex;
@@ -42,8 +38,6 @@ const Title = styled.h2`
   }
 `;
 const Header = styled.header`
-  position: absolute;
-  top: 0;
   display: flex;
   width: 100%;
   padding: 8px 10px;
@@ -79,14 +73,9 @@ const Signature = styled.div`
 `;
 const Footer = styled.div`
   display: flex;
-  position: absolute;
   width: 100%;
-  bottom: 0;
   @media (max-width: 959.59px) {
     width: 100%;
-  }
-  @media (max-height: 521.98px) {
-    position: static;
   }
 `;
 const Contact = styled.div`
