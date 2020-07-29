@@ -24,3 +24,15 @@ export const LOCATION_UPDATE_OPTIONS = [
   { value: '120_1_minutes', content: 'Once every 2 hours' },
   { value: '240_1_minutes', content: 'Once every 4 hours' },
 ];
+
+export const HISTORY_OPTIONS = [
+  { value: '1_1_hours', content: 'Last 1 Hours' },
+  { value: '2_1_hours', content: 'Last 2 Hours' },
+  { value: '6_1_hours', content: 'Last 6 Hours' },
+  { value: '12_1_hours', content: 'Last 12 Hours' },
+  { value: '24_1_hours', content: 'Last 24 Hours' },
+  { value: '48_1_hours', content: 'Last 2 Days' },
+  { value: '168_1_hours', content: 'Last 7 Days' },
+  { value: '120_1_hours', content: 'Date Range' },
+  { value: '240_1_hours', content: 'Specific date + Hourly Range' },
+];

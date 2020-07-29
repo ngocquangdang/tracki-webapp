@@ -10,11 +10,13 @@ import {
   ButtonSave,
   TextSave,
   Title,
+  Logo,
 } from './style';
 import { GrFormClose } from 'react-icons/gr';
 import { Slide } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DoneIcon from '@material-ui/icons/Done';
+import Link from 'next/link';
 
 interface Props {
   title: string;
@@ -23,11 +25,20 @@ interface Props {
   isMobile: boolean;
   show: boolean;
   direction?: 'left' | 'right' | 'down' | 'up';
+  isLogo?: boolean;
 }
 
 export default function SideBarOut(props: Props) {
   const classes = useStyles();
-  const { title, handleClose, children, isMobile, show, direction } = props;
+  const {
+    title,
+    handleClose,
+    children,
+    isMobile,
+    show,
+    direction,
+    isLogo,
+  } = props;
 
   function capitalizeFirstLetter(string: string) {
     return string.replace(/\w\S*/g, function (txt: any) {
@@ -52,10 +63,20 @@ export default function SideBarOut(props: Props) {
               <Title>{capitalizeFirstLetter(title)}</Title>
             )}
             {isMobile ? (
-              <ButtonSave>
-                <DoneIcon className={classes.iconSave} />
-                <TextSave>Save</TextSave>
-              </ButtonSave>
+              isLogo ? (
+                <Link href="/">
+                  <Logo
+                    src="/images/logo.png"
+                    className={classes.logo}
+                    alt=""
+                  />
+                </Link>
+              ) : (
+                <ButtonSave>
+                  <DoneIcon className={classes.iconSave} />
+                  <TextSave>Save</TextSave>
+                </ButtonSave>
+              )
             ) : (
               <ButtonClose onClick={handleClose}>
                 <GrFormClose className={classes.buttonClose} />

@@ -35,6 +35,7 @@ import {
 } from './styles';
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
+import HistoryTracker from './components/HistoryTracker';
 
 interface Props {
   settings: object;
@@ -48,12 +49,19 @@ function SingleTracker(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
   const classes = useStyles();
   const [isSetting, showSetting] = useState(false);
+  const [isHistory, showHistory] = useState(false);
   const { tracker, onClickBack, t, fetchTrackerSettings } = props;
 
-  const handleClose = () => showSetting(false);
+  const handleCloseHistory = () => showHistory(false);
+  const handleCloseSetting = () => showSetting(false);
+
   const onClickSetting = () => {
     showSetting(true);
     fetchTrackerSettings(tracker.settings_id);
+  };
+
+  const onClickHistory = () => {
+    showHistory(true);
   };
 
   return (
@@ -74,7 +82,7 @@ function SingleTracker(props: Props) {
                 <SettingsIcon />
                 <TitleMenu>Settings</TitleMenu>
               </ContainerControl>
-              <ContainerControl>
+              <ContainerControl onClick={onClickHistory}>
                 <HistoryIcon />
                 <TitleMenu>History</TitleMenu>
               </ContainerControl>
@@ -101,10 +109,16 @@ function SingleTracker(props: Props) {
           </TrackerMenu>
         </Card>
         <SettingTracker
-          handleClose={handleClose}
+          handleClose={handleCloseSetting}
           t={t}
           show={isSetting}
           tracker={tracker}
+          isMobile={false}
+        />
+        <HistoryTracker
+          handleClose={handleCloseHistory}
+          t={t}
+          show={isHistory}
           isMobile={false}
         />
       </Container>
