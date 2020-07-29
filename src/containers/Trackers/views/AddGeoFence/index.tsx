@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 
+import { IGeofence } from '@Interfaces';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
@@ -22,16 +23,10 @@ interface Props {
   isMobile?: boolean;
   show: boolean;
   isRequesting?: boolean;
-  selectedGeofence?: GEOFENCE;
+  selectedGeofence?: IGeofence;
   t(key: string, format?: object): string;
   handleClose(): void;
   [data: string]: any;
-}
-
-interface GEOFENCE {
-  name: string;
-  type: string;
-  color: string;
 }
 
 const GEO_SHAPE = ['rectangle', 'circle', 'polygon'];
@@ -44,7 +39,15 @@ const ADD_GEOFENCE_FORM = {
 
 function AddGeoFence(props: Props) {
   const classes = useStyles();
-  const { handleClose, isMobile, isRequesting, t, selectedGeofence } = props;
+  const {
+    handleClose,
+    isMobile,
+    isRequesting,
+    t,
+    updateGeofence,
+    createGeofence,
+    selectedGeofence,
+  } = props;
   const [formData, updateFormData] = useState(ADD_GEOFENCE_FORM);
 
   useEffect(() => {
@@ -53,7 +56,10 @@ function AddGeoFence(props: Props) {
   }, [selectedGeofence]);
 
   const onSubmitForm = (values: any) => {
-    console.log(values);
+    selectedGeofence
+      ? updateGeofence(selectedGeofence.id, values)
+      : createGeofence(values);
+    handleClose();
   };
 
   return (
@@ -174,6 +180,7 @@ function AddGeoFence(props: Props) {
                     onClick={handleSubmit}
                     color="primary"
                     fullWidth
+                    isLoading={isRequesting}
                     variant="contained"
                   />
                 </div>

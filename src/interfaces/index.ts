@@ -50,4 +50,4 @@ export interface TrackerDataTypes {
   errors: object | null;
 }
 
-export type { ITracker } from './tracker';
+export type { ITracker, IGeofence } from './tracker';

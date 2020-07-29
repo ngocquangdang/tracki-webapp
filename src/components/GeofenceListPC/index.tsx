@@ -79,6 +79,7 @@ function ListGeoFence(props: Props) {
                 <GeoFence
                   key={id}
                   geofence={geofences[id]}
+                  t={t}
                   selectedGeofenceId={selectedGeofenceId}
                   selectGeofence={selectGeofenceIdAction}
                   updateGeofence={updateGeofenceAction}
@@ -92,7 +93,7 @@ function ListGeoFence(props: Props) {
       <Footer>
         <Button
           classes={classes.btn}
-          text="Add a Geo-Fence"
+          text={t('tracker:add_a_geofence')}
           color="primary"
           type="submit"
           startIcon={<FiPlus />}

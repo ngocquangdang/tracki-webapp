@@ -4,6 +4,7 @@ import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
 import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 function* fetchTrackersSaga(action) {
   try {
@@ -117,8 +118,12 @@ function* fetchGeofencesSaga(action) {
 
 function* updateGeofenceSaga(action) {
   try {
+    const geofences = yield select(makeSelectGeofences());
+    const { account_id } = yield select(makeSelectProfile());
     const { geoId, data } = action.payload;
-    yield put(actions.updateGeofenceSucceedAction(geoId, data));
+    const geo = { ...geofences[geoId], ...data };
+    yield call(apiServices.updateGeofence, account_id, geoId, geo);
+    yield put(actions.updateGeofenceSucceedAction(geoId, geo));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -126,8 +131,17 @@ function* updateGeofenceSaga(action) {
   }
 }
 
-function removeGeofenceSaga(action) {
-  console.log('___removeGeofenceSaga', action);
+function* removeGeofenceSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { geofenceId } = action.payload;
+    yield call(apiServices.deleteGeofence, account_id, geofenceId);
+    yield put(actions.removeGeofenceSuccessAction(geofenceId));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.removeGeofenceFailAction(payload));
+  }
 }
 
 export default function* appWatcher() {

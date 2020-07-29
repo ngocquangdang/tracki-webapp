@@ -29,5 +29,11 @@
   "geofence_color": "Geofence Color",
   "geofence_width": "Width: {{text}}",
   "geofence_height": "Height: {{text}}",
-  "search_address_location": "Search Address Location..."
+  "search_address_location": "Search Address Location...",
+  "delete_geofence_confirm": "Are you sure you want to delete this fence?",
+  "edit_geofence": "Edit Geofence",
+  "add_device": "Add device",
+  "deactive": "Deactive",
+  "delete_this_fence": "Delete this Fence",
+  "add_a_geofence": "Add a Geo-Fence"
 }
