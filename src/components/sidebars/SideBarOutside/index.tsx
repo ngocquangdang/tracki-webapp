@@ -18,6 +18,7 @@ import DoneIcon from '@material-ui/icons/Done';
 
 interface Props {
   title: string;
+  isBackable?: boolean;
   handleClose(): void;
   children: any;
   isMobile: boolean;
@@ -27,7 +28,15 @@ interface Props {
 
 export default function SideBarOut(props: Props) {
   const classes = useStyles();
-  const { title, handleClose, children, isMobile, show, direction } = props;
+  const {
+    title,
+    handleClose,
+    children,
+    isMobile,
+    isBackable,
+    show,
+    direction,
+  } = props;
 
   function capitalizeFirstLetter(string: string) {
     return string.replace(/\w\S*/g, function (txt: any) {
@@ -40,7 +49,7 @@ export default function SideBarOut(props: Props) {
       <MenuWrap>
         <WrapDisabled isMobile={isMobile}>
           <MenuHeader isMobile={isMobile}>
-            {isMobile ? (
+            {isMobile || isBackable ? (
               <WrapTitle>
                 <ArrowBackIosIcon
                   className={classes.iconBack}

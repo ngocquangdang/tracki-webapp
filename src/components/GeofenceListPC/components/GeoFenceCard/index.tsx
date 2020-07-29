@@ -12,17 +12,13 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 
-import ConfirmPanel from './DeleteConfirm';
+import { IGeofence } from '@Interfaces';
+import ConfirmPanel from '../DeleteConfirm';
+import AddGeoFenceToDevice from '../AddGeoFenceToDevice';
 import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
-  geofence: {
-    id: number;
-    name: string;
-    type: string;
-    enabled: boolean;
-    status: string;
-  };
+  geofence: IGeofence;
   isMobile?: boolean;
   selectedGeofenceId?: number | string | null;
   selectGeofence(id: number | string): void;
@@ -37,6 +33,7 @@ export default function GeofenceCard(props: Props) {
     null
   );
   const [showConfirm, setShowConfirm] = React.useState(false);
+  const [showAddDevicePanel, setShowAddDevicePanel] = React.useState(false);
   const {
     geofence,
     t,
@@ -72,7 +69,7 @@ export default function GeofenceCard(props: Props) {
   };
 
   const addGeofenceToDevice = () => {
-    console.log('addGeofenceToDevice');
+    setShowAddDevicePanel(true);
     closeMenu();
   };
 
@@ -82,10 +79,15 @@ export default function GeofenceCard(props: Props) {
   };
 
   const onCloseConfirm = () => setShowConfirm(false);
+  const onCloseAddDevicePanel = () => setShowAddDevicePanel(false);
 
   const confirmRemoveGeofence = () => {
     removeGeofence(geofence.id);
     setShowConfirm(false);
+  };
+
+  const unLinkDevice = (deviceId: number) => {
+    console.log('__unLinkDevice', deviceId);
   };
 
   return (
@@ -135,6 +137,14 @@ export default function GeofenceCard(props: Props) {
         show={showConfirm}
         onClose={onCloseConfirm}
         removeGeofence={confirmRemoveGeofence}
+      />
+      <AddGeoFenceToDevice
+        t={t}
+        isMobile={isMobile}
+        show={showAddDevicePanel}
+        onClose={onCloseAddDevicePanel}
+        geofence={geofence}
+        unLinkDevice={unLinkDevice}
       />
       <Menu
         anchorEl={anchorMenuEl}

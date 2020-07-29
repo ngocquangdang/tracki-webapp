@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { IconButton } from '@material-ui/core';
 import {
   Done as DoneIcon,
@@ -7,6 +6,7 @@ import {
 } from '@material-ui/icons';
 
 import Modal from '@Components/modals';
+import { useStyles } from './styles';
 
 const COLORS = [
   ['#168449', '#f6402b', '#9c1ab0', '#6432b9', '#3d4eb8'],
@@ -14,31 +14,6 @@ const COLORS = [
   ['#ccdd1d', '#ffec16', '#fec200', '#ff9900', '#000000'],
   ['#5d7d8a', '#9d9d9d', '#795547', '#ff5507', '#ff57ab'],
 ];
-
-const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: 16,
-  },
-  colorRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: 270,
-    marginBottom: 16,
-  },
-  colorBtn: {
-    width: 44,
-    height: 44,
-    color: 'white',
-  },
-  pickColor: {
-    cursor: 'pointer',
-    display: 'flex',
-  },
-  color: {
-    width: 36,
-    height: 24,
-  },
-}));
 
 interface Props {
   selectedColor: string;

@@ -6,9 +6,9 @@ import { compose } from 'redux';
 
 import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
-import GeoFence from '@Components/GeoFenceCard';
 import { SkeletonTracker } from '@Components/Skeletons';
-import AddGeofencePanel from '@Containers/Trackers/views/AddGeoFence';
+import GeoFence from './components/GeoFenceCard';
+import AddGeofencePanel from './components/AddGeoFence';
 
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {

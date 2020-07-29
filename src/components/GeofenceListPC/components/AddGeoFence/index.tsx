@@ -15,7 +15,7 @@ import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
 import SearchLocation from '@Components/SearchLocation';
-import ColorPickerModal from './FenceColorModal';
+import ColorPickerModal from '../PickerColor';
 import { ADD_GEO_SCHEMA } from './schema';
 import { useStyles } from './styles';
 
