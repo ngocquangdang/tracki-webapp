@@ -27,7 +27,7 @@ import {
 } from '@Containers/Trackers/store/actions';
 
 interface Props {
-  geofenceIds: number[];
+  geofenceIds: number[] | null;
   geofences: object;
   selectedGeofenceId: number;
   editGeofenceId: number;

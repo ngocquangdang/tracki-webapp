@@ -41,7 +41,7 @@ export interface TrackerDataTypes {
   };
   geofence: {
     geofences: object;
-    geofenceIds: Array<number | string>;
+    geofenceIds: Array<number | string> | null;
     selectedGeofenceId: number | null;
     editGeofenceId: number | null;
     [data: string]: any;
