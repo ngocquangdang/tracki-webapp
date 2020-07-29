@@ -18,11 +18,6 @@ export default function TabsPC(props: Props) {
     trackerIds,
     selectTrackerAction,
     searchTrackersRequest,
-    updateGeofenceAction,
-    geofences,
-    geofenceIds,
-    selectedGeofenceId,
-    selectGeofenceIdAction,
     searchGeofencesAction,
     t,
   } = props;
@@ -76,13 +71,7 @@ export default function TabsPC(props: Props) {
         onSearch={searchGeofencesAction}
         className={classes.tabPanel}
       >
-        <GeofenceList
-          geofences={geofences}
-          geofenceIds={geofenceIds}
-          selectedGeofenceId={selectedGeofenceId}
-          updateGeofenceAction={updateGeofenceAction}
-          selectGeofenceIdAction={selectGeofenceIdAction}
-        />
+        <GeofenceList t={t} />
       </TabPanel>
     </React.Fragment>
   );

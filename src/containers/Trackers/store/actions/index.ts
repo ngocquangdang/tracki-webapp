@@ -99,6 +99,41 @@ export const selectGeofenceIdAction = (geofenceId: number) => ({
   payload: { geofenceId },
 });
 
+export const createGeofenceRequestAction = (geofence: object) => ({
+  type: types.CREATE_GEOFENCE_REQUESTED,
+  payload: { geofence },
+});
+
+export const createGeofenceSuccessAction = (geofence: object) => ({
+  type: types.CREATE_GEOFENCE_SUCCEED,
+  payload: { geofence },
+});
+
+export const createGeofenceFailAction = (error: object) => ({
+  type: types.CREATE_GEOFENCE_FAILED,
+  payload: { error },
+});
+
+export const removeGeofenceRequestAction = (geofenceId: number) => ({
+  type: types.REMOVE_GEOFENCE_REQUESTED,
+  payload: { geofenceId },
+});
+
+export const removeGeofenceSuccessAction = (geofenceId: number) => ({
+  type: types.REMOVE_GEOFENCE_SUCCEED,
+  payload: { geofenceId },
+});
+
+export const removeGeofenceFailAction = (error: object) => ({
+  type: types.REMOVE_GEOFENCE_FAILED,
+  payload: { error },
+});
+
+export const editGeofenceAction = (geofenceId: number) => ({
+  type: types.EDIT_GEOFENCE,
+  payload: { geofenceId },
+});
+
 export const resetSelectedGeofenceAction = () => ({
   type: types.RESET_SELECTED_GEOFENCE,
 });

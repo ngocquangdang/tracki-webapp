@@ -17,5 +17,17 @@
   "cancel_subscription": "Cancel Subscription",
   "device_active": "This device was activated on",
   "current_plan": "Your current plan",
-  "limit_month_use": "This month you used"
+  "limit_month_use": "This month you used",
+  "add_geofence": "Add Geofence",
+  "geofence_rectangle": "Square",
+  "geofence_circle": "Circle",
+  "geofence_polygon": "Polygon",
+  "details": "Details",
+  "geofence_name": "Geofence Name",
+  "geofence_shape": "Geofence Shape",
+  "geofence_size": "Geofence Size",
+  "geofence_color": "Geofence Color",
+  "geofence_width": "Width: {{text}}",
+  "geofence_height": "Height: {{text}}",
+  "search_address_location": "Search Address Location..."
 }

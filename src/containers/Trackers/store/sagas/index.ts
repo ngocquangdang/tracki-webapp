@@ -126,10 +126,15 @@ function* updateGeofenceSaga(action) {
   }
 }
 
+function removeGeofenceSaga(action) {
+  console.log('___removeGeofenceSaga', action);
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
   yield takeLatest(types.SEARCH_TRACKERS_REQUESTED, searchTrackersSaga);
   yield takeLatest(types.SEARCH_GEOFENCES_REQUESTED, searchGeofencesSaga);
   yield takeLatest(types.UPDATE_GEOFENCE_REQUESTED, updateGeofenceSaga);
+  yield takeLatest(types.REMOVE_GEOFENCE_REQUESTED, removeGeofenceSaga);
 }

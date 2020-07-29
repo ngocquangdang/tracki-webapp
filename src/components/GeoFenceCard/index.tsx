@@ -24,6 +24,8 @@ interface Props {
   };
   selectedGeofenceId?: number | string | null;
   selectGeofence(id: number | string): void;
+  editGeofence(id: number | string): void;
+  removeGeofence(id: number | string): void;
   updateGeofence(id: number, data: object): void;
 }
 
@@ -36,6 +38,8 @@ export default function GeofenceCard(props: Props) {
     selectGeofence,
     updateGeofence,
     selectedGeofenceId,
+    editGeofence,
+    removeGeofence,
   } = props;
   const classes = useStyles();
   const isActive = selectedGeofenceId === geofence.id;
@@ -56,8 +60,8 @@ export default function GeofenceCard(props: Props) {
   const toggleGeofence = () =>
     updateGeofence(geofence.id, { enabled: !geofence.enabled });
 
-  const editGeofence = () => {
-    console.log('editGeofence');
+  const onClickEdit = () => {
+    editGeofence(geofence.id);
     closeMenu();
   };
 
@@ -67,7 +71,7 @@ export default function GeofenceCard(props: Props) {
   };
 
   const deleteGeofence = () => {
-    console.log('deleteGeofence˝');
+    removeGeofence(geofence.id);
     closeMenu();
   };
 
@@ -120,7 +124,7 @@ export default function GeofenceCard(props: Props) {
         MenuListProps={{ className: classes.menuList }}
         className={classes.menuRoot}
       >
-        <MenuItem className={classes.menuItem} onClick={editGeofence}>
+        <MenuItem className={classes.menuItem} onClick={onClickEdit}>
           Edit Geo-fence
         </MenuItem>
         <MenuItem className={classes.menuItem} onClick={addGeofenceToDevice}>

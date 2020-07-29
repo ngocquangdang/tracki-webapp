@@ -39,7 +39,11 @@ interface PlaceType {
   };
 }
 
-export default function GoogleMaps() {
+interface Props {
+  t(k: string): string;
+}
+
+export default function GoogleMaps(props: Props) {
   const classes = useStyles();
   const [value, setValue] = React.useState<PlaceType | null>(null);
   const [inputValue, setInputValue] = React.useState('');
@@ -145,7 +149,7 @@ export default function GoogleMaps() {
         <TextInput
           {...params}
           value={inputValue}
-          label="Search Address Location..."
+          label={props.t('tracker:search_address_location')}
           variant="outlined"
           fullWidth
           className={classes.inputContainer}
