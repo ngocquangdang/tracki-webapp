@@ -37,6 +37,7 @@ export interface IGeofence {
   color: string;
   enabled: boolean;
   status: string;
+  trackers?: number[];
   preferences: {
     trigger: string;
     vertices?: COORDINATE[] | RECTANGLE; // for polygon

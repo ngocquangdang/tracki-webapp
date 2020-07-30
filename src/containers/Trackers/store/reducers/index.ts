@@ -88,6 +88,20 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           [];
         delete draft.geofence.geofences[payload.geofenceId];
         break;
+      case types.LINK_TRACKERS_SUCCEED:
+        draft.geofence.geofences[payload.geofenceId] = {
+          ...draft.geofence.geofences[payload.geofenceId],
+          trackers: payload.trackerIds,
+        };
+        break;
+      case types.UNLINK_TRACKERS_SUCCEED:
+        draft.geofence.geofences[payload.geofenceId] = {
+          ...draft.geofence.geofences[payload.geofenceId],
+          trackers: (
+            draft.geofence.geofences[payload.geofenceId]?.trackers || []
+          ).filter(i => !payload.trackerIds.includes(i)),
+        };
+        break;
       default:
         break;
     }

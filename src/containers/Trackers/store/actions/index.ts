@@ -137,3 +137,45 @@ export const editGeofenceAction = (geofenceId: number) => ({
 export const resetSelectedGeofenceAction = () => ({
   type: types.RESET_SELECTED_GEOFENCE,
 });
+
+export const linkTrackersRequestAction = (
+  geofenceId: number,
+  trackerIds: number[]
+) => ({
+  type: types.LINK_TRACKERS_REQUESTED,
+  payload: { geofenceId, trackerIds },
+});
+
+export const linkTrackersSuccessAction = (
+  geofenceId: number,
+  trackerIds: number[]
+) => ({
+  type: types.LINK_TRACKERS_SUCCEED,
+  payload: { geofenceId, trackerIds },
+});
+
+export const linkTrackersFailAction = (error: object) => ({
+  type: types.LINK_TRACKERS_FAILED,
+  payload: { error },
+});
+
+export const unlinkTrackersRequestAction = (
+  geofenceId: number,
+  trackerIds: number[]
+) => ({
+  type: types.UNLINK_TRACKERS_REQUESTED,
+  payload: { geofenceId, trackerIds },
+});
+
+export const unlinkTrackersSuccessAction = (
+  geofenceId: number,
+  trackerIds: number[]
+) => ({
+  type: types.UNLINK_TRACKERS_SUCCEED,
+  payload: { geofenceId, trackerIds },
+});
+
+export const unlinkTrackersFailAction = (error: object) => ({
+  type: types.UNLINK_TRACKERS_FAILED,
+  payload: { error },
+});
