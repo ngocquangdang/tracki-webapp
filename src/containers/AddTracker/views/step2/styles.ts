@@ -5,9 +5,20 @@ import CardHeader from '@material-ui/core/CardHeader';
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 995.95px) {
+    margin-bottom: 10px;
+  }
 `;
-const Typography = styled.span``;
-const Image = styled.div``;
+const Typography = styled.span`
+  font-size: 14px;
+`;
+const Image = styled.div`
+  @media (max-width: 995.95px) {
+    width: 175px;
+    height: 19px;
+  }
+`;
+const Image2 = styled.div``;
 const GroupCard = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -18,8 +29,10 @@ const CardDescription = styled.div`
   font-size: 16px;
   margin: 0;
   text-align: center;
+  @media (max-width: 995.95px) {
+    font-size: 13px;
+  }
 `;
-const Back = styled.div``;
 const Lable = styled.p``;
 const Letter = styled.div`
   font-size: 14px;
@@ -38,23 +51,38 @@ const Paner = styled.div`
   top: 23px;
   right: -36px;
   height: 30px;
-  display: ${(props: { mostPopular: boolean }) =>
+  display: ${(props: { mostPopular?: boolean }) =>
     props.mostPopular ? 'flex' : 'none'};
   align-items: center;
   justify-content: center;
+  @media (max-width: 995.95px) {
+    height: 20px;
+  }
 `;
 const useStyles = makeStyles(theme => ({
   backBtn: {
-    color: '#4b4f56',
-    paddingRight: 59,
-    paddingLeft: 25,
+    color: '#168449',
+    padding: 0,
+    height: 'auto',
     '& span svg': {
-      fontSize: '36px !important',
+      fontSize: '32px !important',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+      '& span svg': {
+        fontSize: '25px !important',
+        width: 20,
+        height: 20,
+        margin: 0,
+      },
     },
   },
   headerCard: {
     background: '#168449',
     height: '56px',
+    [theme.breakpoints.down('sm')]: {
+      height: 35,
+    },
   },
   card: {
     position: 'relative',
@@ -63,6 +91,10 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 22,
     boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
     cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+      width: 159,
+      fontSize: 13,
+    },
   },
   fullWidth: {
     width: '100%',
@@ -78,15 +110,18 @@ const CardHeaderStyle = withStyles(theme => ({
   title: {
     fontSize: 20,
     textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
 }))(CardHeader);
 export {
   Header,
   Typography,
   Image,
+  Image2,
   GroupCard,
   CardDescription,
-  Back,
   Lable,
   Letter,
   PlanList,

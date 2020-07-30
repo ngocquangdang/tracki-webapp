@@ -3,7 +3,11 @@ import { makeStyles, withStyles } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { Tooltip } from '@material-ui/core';
 
-const Typography = styled.span``;
+const Typography = styled.span`
+  @media (max-width: 995.95px) {
+    font-size: 14px;
+  }
+`;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -15,6 +19,9 @@ const Image = styled.div`
   width: 236px;
   height: 211px;
   object-fit: contain;
+  @media (max-width: 995.95px) {
+    display: none;
+  }
 `;
 const StepOneContainer = styled.div`
   display: flex;
@@ -26,6 +33,7 @@ const ToolTip = styled.div`
 const AdornmentStyle = withStyles(theme => ({
   root: {
     position: 'absolute',
+    cursor: 'pointer',
     right: 8,
   },
 }))(InputAdornment);

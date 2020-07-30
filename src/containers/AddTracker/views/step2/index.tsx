@@ -9,11 +9,11 @@ import {
   Header,
   Typography,
   Image,
+  Image2,
   GroupCard,
   useStyles,
   CardHeaderStyle,
   CardDescription,
-  Back,
   Lable,
   Letter,
   PlanList,
@@ -31,12 +31,12 @@ export default function Step2(props: Props) {
   const classes = useStyles();
   const { t, updateStepChild } = props;
 
-  let [dataPlan, setDataPlan] = useState([
+  const dataPlan = [
     {
       card_id: 1,
       month: 1,
       priceOneMonth: 19.95,
-      subScript: `${t('tracker:one_month_subcription')}  8000-220-4999`,
+      subScript: `${t('tracker:one_month_subcription')} 8000-220-4999`,
     },
     {
       card_id: 6,
@@ -72,16 +72,31 @@ export default function Step2(props: Props) {
         price: 239.4,
       })}`,
     },
-  ]);
+  ];
+  const planItem = [
+    `${t('tracker:coverage_subcription')}`,
+    `${t('tracker:gps_tracking_subcription')}`,
+    `${t('tracker:notification_subcription')}`,
+    `${t('tracker:geo_fence')}`,
+    `${t('tracker:5_year_history_report')}`,
+    `${t('tracker:wifi_tracking')}`,
+    `${t('tracker:lifetime_warranty')}`,
+    `${t('tracker:live_customer_service')}`,
+    `${t('tracker:no_activation')}`,
+  ];
 
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [isShowPayment, SetShowPayment] = useState(false);
   const [step] = useState('payment_confirm');
   const [paymentPlan, setPaymentPlan]: any = useState(null);
 
-  const onChangePaymentPlan = (id: number) => () => setPaymentPlan(id);
+  const onChangePaymentPlan = (id: number) => () => {
+    setShowOtherPlan(true);
+    SetShowPayment(true);
+    setPaymentPlan(id);
+  };
 
-  const getCardClass = (id: number) => () => {
+  const getCardClass = (id: number) => {
     if (paymentPlan) {
       if (paymentPlan === id) {
         return `${classes.card} ${classes.fullWidth}`;
@@ -103,10 +118,7 @@ export default function Step2(props: Props) {
         return 'no case';
     }
   };
-  const onSelectCard = card_id => {
-    setShowOtherPlan(true);
-    SetShowPayment(true);
-  };
+
   const onHiddenOtherPlan = () => {
     setPaymentPlan(null);
     setShowOtherPlan(false);
@@ -116,15 +128,13 @@ export default function Step2(props: Props) {
       <Header>
         <Typography>{t('tracker:select_your_plan')}</Typography>
         {isShowOtherPlan ? (
-          <Back>
-            <Button
-              variant="text"
-              classes={classes.backBtn}
-              startIcon={<FiChevronLeft size={28} />}
-              text={'back'}
-              onClick={onHiddenOtherPlan}
-            />
-          </Back>
+          <Button
+            variant="text"
+            classes={classes.backBtn}
+            startIcon={<FiChevronLeft size={28} />}
+            text={t('tracker:choose_differant_plan')}
+            onClick={onHiddenOtherPlan}
+          />
         ) : (
           <Image>
             <img src="./images/cards.png" alt="" />
@@ -144,7 +154,7 @@ export default function Step2(props: Props) {
             />
             <CardContent>
               <CardDescription>
-                <strong>${card.priceOneMonth} </strong>/{t('tracker:month')}
+                <strong>${card.priceOneMonth}</strong>/{t('tracker:month')}{' '}
                 {t('tracker:prepaid_for', {
                   month: card.month,
                   price: card.priceOneMonth,
@@ -159,50 +169,35 @@ export default function Step2(props: Props) {
                 </strong>
               </CardDescription>
             </CardContent>
-            <Paner mostPopular={card?.most_popular}>
+            <Paner mostPopular={card.most_popular}>
               {t('tracker:most_popular')}
             </Paner>
           </Card>
         ))}
       </GroupCard>
 
-      <Letter className={isShowOtherPlan || classes.hiddenLetter}>
+      <Letter className={`${isShowOtherPlan ? classes.hiddenLetter : ''}`}>
         <Lable>{t('tracker:dear_customer')}</Lable>
         <Lable>{t('tracker:content_letter')}</Lable>
         <Lable>{t('tracker:plan_included')}</Lable>
         <PlanList>
-          <PlanItem>
-            <MdDone /> {t('tracker:coverage_subcription')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:gps_tracking_subcription')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:notification_subcription')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:geo_fence')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:5_year_history_report')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:wifi_tracking')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:lifetime_warranty')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:live_customer_service')}
-          </PlanItem>
-          <PlanItem>
-            <MdDone /> {t('tracker:no_activation')}
-          </PlanItem>
+          {planItem.map((item, index) => (
+            <PlanItem key={index}>
+              <MdDone /> {item}
+            </PlanItem>
+          ))}
         </PlanList>
       </Letter>
-      <Image>
+      <Image2 className={`${isShowOtherPlan ? classes.hiddenLetter : ''}`}>
         <img src="./images/guarantee-safe.png" alt="" />
-      </Image>
+      </Image2>
+      <button
+        className={`${!isShowPayment ? classes.hiddenLetter : ''}`}
+        onClick={renderStep}
+      >
+        {' '}
+        pay
+      </button>
       {/* {renderStep()} */}
     </>
   );

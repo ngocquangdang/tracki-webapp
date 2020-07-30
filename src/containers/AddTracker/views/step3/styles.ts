@@ -8,7 +8,11 @@ const Header = styled.div`
 const Form = styled.form`
   max-width: 400px;
 `;
-const Typography = styled.span``;
+const Typography = styled.span`
+  @media (max-width: 995.95px) {
+    font-size: 14px;
+  }
+`;
 const GroupInput = styled.div`
   margin-bottom: 14px;
 `;

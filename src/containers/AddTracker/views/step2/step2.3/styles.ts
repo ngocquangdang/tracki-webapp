@@ -7,10 +7,17 @@ const Form = styled.form`
   max-width: 400px;
   width: 100%;
   margin: 76px auto;
+  @media (max-width: 995.95px) {
+    padding: 30px 15px;
+    margin: 0;
+  }
 `;
 const About = styled.div`
   font-size: 20px;
   text-align: center;
+  @media (max-width: 995.95px) {
+    font-size: 16px;
+  }
 `;
 
 const ToolTip = styled.div`
@@ -21,10 +28,16 @@ const Typography = styled.div`
   font-weight: bold;
   margin: 47px auto;
   text-align: center;
+  @media (max-width: 995.95px) {
+    font-size: 16px;
+    padding-top: 30px;
+    margin: 0;
+  }
 `;
 const AdornmentStyle = withStyles(theme => ({
   root: {
     position: 'absolute',
+    cursor: 'pointer',
     right: 8,
   },
 }))(InputAdornment);
@@ -36,7 +49,6 @@ const TooltipStyle = withStyles({
     fontFamily: 'Roboto',
     backgroundColor: '#ffffff',
     boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
-    left: -15,
   },
   arrow: {
     color: 'white',
@@ -47,6 +59,10 @@ const useStyles = makeStyles(theme => ({
   icon: {
     width: 126.5,
     height: 126.5,
+    [theme.breakpoints.down('sm')]: {
+      width: 106,
+      height: 106,
+    },
   },
   text: {
     fontSize: 20,

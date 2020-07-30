@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 
 import {
@@ -18,7 +18,6 @@ import { AddTrackerSchema } from '../../schema';
 interface Props {
   t: Function;
   onNextStep: Function;
-  isActive: Function;
 }
 
 const initialTracker = {
@@ -30,11 +29,11 @@ const initialTracker = {
 export default function Step1(props: Props) {
   const { t, onNextStep } = props;
   const classes = useStyles();
+  const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
   const onSubmit = (value: any) => {
     console.log('aaaaaaaasa', value);
     onNextStep();
-    props.isActive();
   };
   return (
     <>
@@ -78,6 +77,8 @@ export default function Step1(props: Props) {
                 InputProps={{
                   startAdornment: (
                     <TooltipStyle
+                      open={isOpenTooltip}
+                      onClick={() => setIsOpenTooltip(!isOpenTooltip)}
                       title={<ToolTips {...props} />}
                       placement="right"
                       arrow

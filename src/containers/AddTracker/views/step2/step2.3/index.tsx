@@ -27,6 +27,7 @@ export default function ReferralCodeContainer(props: any) {
   const onSubmit = value => {
     console.log(value);
     props.nextStep();
+    props.NextStepChild();
   };
   return (
     <LayoutConfirm
@@ -57,16 +58,13 @@ export default function ReferralCodeContainer(props: any) {
                 startAdornment: (
                   <TooltipStyle
                     open={isOpenTooltip}
-                    onOpen={() => setIsOpenTooltip(true)}
-                    onClose={() => setIsOpenTooltip(false)}
+                    onClick={() => setIsOpenTooltip(!isOpenTooltip)}
                     title={<ToolTips {...props} />}
-                    placement="right"
+                    // placement="right"
                     arrow
                   >
                     <AdornmentStyle position="end">
-                      <BsQuestionCircle
-                        onClick={() => setIsOpenTooltip(!isOpenTooltip)}
-                      />
+                      <BsQuestionCircle />
                     </AdornmentStyle>
                   </TooltipStyle>
                 ),
