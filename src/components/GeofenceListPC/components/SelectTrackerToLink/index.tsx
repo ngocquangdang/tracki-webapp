@@ -22,20 +22,11 @@ interface Props {
   [data: string]: any;
 }
 
-const DEVICES_LINKED = [
-  { id: 1, device_name: 'xxx' },
-  { id: 2, device_name: 'xxx' },
-  { id: 3, device_name: 'xxx' },
-  { id: 4, device_name: 'xxx' },
-  { id: 5, device_name: 'xxx' },
-  { id: 6, device_name: 'xxx' },
-];
-
 function SelectTrackers(props: Props) {
   const classes = useStyles();
   const [devicesLinked, setDevicesLinked] = useState<number[]>([]);
   const [search, setSearch] = useState<string>('');
-  const { onClose, isMobile, isRequesting, t } = props;
+  const { onClose, isMobile, isRequesting, t, onSave, trackers } = props;
 
   const checkLinkTracker = (deviceId: number) => () => {
     let newList: number[] = [];
@@ -52,11 +43,13 @@ function SelectTrackers(props: Props) {
   };
 
   const handleSave = () => {
-    console.log('handleSave', devicesLinked);
+    onSave(devicesLinked);
   };
 
-  const trackerFiltered = DEVICES_LINKED.filter(i =>
-    i.device_name.includes(search)
+  const trackerFiltered = Object.values(trackers).filter(
+    (i: any) =>
+      i.device_name.toLowerCase().includes(search.toLowerCase()) ||
+      i.device_id.toString().includes(search.toLowerCase())
   );
 
   return (
@@ -79,11 +72,14 @@ function SelectTrackers(props: Props) {
         </div>
         <div className={classes.content}>
           <div className={classes.listDevice}>
-            {trackerFiltered.map(d => (
-              <ListItem button key={d.id} className={classes.listItem}>
+            {trackerFiltered.map((d: any) => (
+              <ListItem button key={d.device_id} className={classes.listItem}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
-                    <img src={`/images/tracki-device.png`} alt="" />
+                    <img
+                      src={d.icon_url || '/images/tracki-device.png'}
+                      alt=""
+                    />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
@@ -93,8 +89,8 @@ function SelectTrackers(props: Props) {
                 <ListItemSecondaryAction>
                   <Checkbox
                     color="primary"
-                    checked={devicesLinked.includes(d.id)}
-                    onChange={checkLinkTracker(d.id)}
+                    checked={devicesLinked.includes(d.device_id)}
+                    onChange={checkLinkTracker(d.device_id)}
                     className={classes.unlinkBtn}
                   />
                 </ListItemSecondaryAction>

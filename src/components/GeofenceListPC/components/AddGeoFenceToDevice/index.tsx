@@ -7,7 +7,17 @@ import {
   ListItemText,
   ListItemSecondaryAction,
 } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import {
+  makeSelectTrackers,
+  makeSelectTrackerIds,
+} from '@Containers/Trackers/store/selectors';
+import {
+  linkTrackersRequestAction,
+  unlinkTrackersRequestAction,
+} from '@Containers/Trackers/store/actions';
 import { IGeofence } from '@Interfaces';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { Button } from '@Components/buttons';
@@ -21,23 +31,23 @@ interface Props {
   geofence: IGeofence;
   t(key: string, format?: object): string;
   onClose(): void;
-  unLinkDevice(geofenceId: number, deviceId: number): void;
+  onUnlinkClick(geofenceId: number, deviceId: number): void;
   [data: string]: any;
 }
-
-const DEVICES_LINKED = [
-  { id: 1, device_name: 'xxx' },
-  { id: 2, device_name: 'xxx' },
-  { id: 3, device_name: 'xxx' },
-  { id: 4, device_name: 'xxx' },
-  { id: 5, device_name: 'xxx' },
-  { id: 6, device_name: 'xxx' },
-];
 
 function AddDeviceToGeoFence(props: Props) {
   const classes = useStyles();
   const [showSelectTrackers, setShowSelectTrackers] = useState(false);
-  const { onClose, isMobile, isRequesting, t, geofence } = props;
+  const {
+    onClose,
+    isMobile,
+    isRequesting,
+    t,
+    trackers,
+    geofence,
+    unlinkTrackers,
+    linkTrackers,
+  } = props;
 
   const onLinkToDevice = () => {
     setShowSelectTrackers(true);
@@ -47,13 +57,13 @@ function AddDeviceToGeoFence(props: Props) {
     setShowSelectTrackers(false);
   };
 
-  const saveLinkToTrackers = () => {
-    console.log('___saveLinkToTrackers');
+  const saveLinkToTrackers = (trackerIds: number[]) => {
+    linkTrackers(geofence.id, trackerIds);
     onCloseSelectTracker();
   };
 
-  const unlinkDevice = (deviceId: number) => () => {
-    console.log('___unlinkDevice', deviceId);
+  const onUnlinkClick = (deviceId: number) => () => {
+    unlinkTrackers(geofence.id, [deviceId]);
   };
 
   return (
@@ -71,6 +81,7 @@ function AddDeviceToGeoFence(props: Props) {
           t={t}
           isMobile={isMobile || false}
           onSave={saveLinkToTrackers}
+          trackers={trackers}
         />
         <div className={classes.linkBtnWrap}>
           <Button
@@ -86,14 +97,17 @@ function AddDeviceToGeoFence(props: Props) {
           <Typography className={classes.title}>
             {`${t('tracker:trackers_linked_to', {
               text: geofence.name,
-            })} ${DEVICES_LINKED.length}`}
+            })} ${Object.keys(trackers).length}`}
           </Typography>
           <div className={classes.listDevice}>
-            {DEVICES_LINKED.map(d => (
-              <ListItem button key={d.id} className={classes.listItem}>
+            {Object.values(trackers).map((d: any) => (
+              <ListItem button key={d.device_id} className={classes.listItem}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
-                    <img src={`/images/tracki-device.png`} alt="" />
+                    <img
+                      src={d.icon_url || '/images/tracki-device.png'}
+                      alt=""
+                    />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
@@ -104,7 +118,7 @@ function AddDeviceToGeoFence(props: Props) {
                   <Button
                     text={t('tracker:unlink')}
                     startIcon={<img src="./images/unlink.svg" alt="" />}
-                    onClick={unlinkDevice(d.id)}
+                    onClick={onUnlinkClick(d.device_id)}
                     className={classes.unlinkBtn}
                   />
                 </ListItemSecondaryAction>
@@ -117,4 +131,18 @@ function AddDeviceToGeoFence(props: Props) {
   );
 }
 
-export default AddDeviceToGeoFence;
+const mapStateToProps = createStructuredSelector({
+  trackers: makeSelectTrackers(),
+  trackerIds: makeSelectTrackerIds(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  linkTrackers: (geofenceId: number, trackerIds: number[]) =>
+    dispatch(linkTrackersRequestAction(geofenceId, trackerIds)),
+  unlinkTrackers: (geofenceId: number, trackerIds: number[]) =>
+    dispatch(unlinkTrackersRequestAction(geofenceId, trackerIds)),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(AddDeviceToGeoFence);

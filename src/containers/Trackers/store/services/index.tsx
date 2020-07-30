@@ -28,3 +28,28 @@ export const updateGeofence = async (
     `v3/accounts/${accountId}/geozones/${geofenceId}`,
     data
   );
+
+export const linkTrackers = async (
+  accountId: number,
+  geofenceId: number,
+  trackerIds: number[]
+) =>
+  await axiosClient.put(
+    `v3/accounts/${accountId}/geozones/assign/${geofenceId}`,
+    trackerIds
+  );
+
+export const unlinkTrackers = async (
+  accountId: number,
+  geofenceId: number,
+  trackerIds: number[]
+) =>
+  await axiosClient.delete(
+    `v3/accounts/${accountId}/geozones/assign/${geofenceId}`,
+    trackerIds
+  );
+
+export const getAllAssignment = async (accountId: number, geofenceId: number) =>
+  await axiosClient.get(
+    `v3/accounts/${accountId}/geozones/assign/${geofenceId}`
+  );
