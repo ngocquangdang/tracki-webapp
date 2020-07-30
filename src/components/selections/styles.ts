@@ -1,5 +1,13 @@
-import { FormControl, withStyles } from '@material-ui/core';
+import { FormControl, makeStyles, withStyles } from '@material-ui/core';
 
+const useStyles = makeStyles(theme => ({
+  menuItem: {
+    color: '#1a1a1a',
+  },
+  select: {
+    color: '#1a1a1a',
+  },
+}));
 const SelectForm = withStyles(theme => ({
   root: {
     '&.MuiFormControl-root': {
@@ -33,4 +41,4 @@ const SelectForm = withStyles(theme => ({
     },
   },
 }))(FormControl);
-export { SelectForm };
+export { SelectForm, useStyles };

@@ -53,6 +53,9 @@ const Title = styled.div`
   text-align: left;
   color: #1a1a1a;
   padding-left: 18px;
+  @media (max-width: 959.95px) {
+    padding-left: 4px;
+  }
 `;
 const ButtonSave = styled.div`
   color: #168449;
@@ -72,6 +75,12 @@ const TextSave = styled.span`
   line-height: 1.19;
 `;
 
+const Logo = styled.img`
+  object-fit: contain;
+  margin: auto 0;
+  height: 29px;
+`;
+
 const useStyles = makeStyles((theme: Theme) => ({
   buttonClose: {
     width: '46.8px',
@@ -87,6 +96,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: '#168449',
     marginRight: '8px',
   },
+  logo: {
+    display: 'block',
+    width: '90.5px',
+    height: '26px',
+    marginRight: '15px',
+  },
 }));
 
 export {
@@ -99,5 +114,6 @@ export {
   TitleMobile,
   ButtonSave,
   TextSave,
+  Logo,
   useStyles,
 };

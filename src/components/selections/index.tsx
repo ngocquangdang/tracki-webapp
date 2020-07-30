@@ -1,7 +1,7 @@
 import React from 'react';
-import { Select, InputLabel } from '@material-ui/core';
+import { Select, InputLabel, MenuItem } from '@material-ui/core';
 
-import { SelectForm } from './styles';
+import { SelectForm, useStyles } from './styles';
 
 interface Props {
   options: {
@@ -16,6 +16,7 @@ interface Props {
 
 export default function SelectOption(props: Props) {
   const { options, label, value, onChangeOption, ...rest } = props;
+  const classes = useStyles();
   const handleChange = (value: any) => {
     onChangeOption(value.target.value);
   };
@@ -23,16 +24,16 @@ export default function SelectOption(props: Props) {
     <SelectForm variant="outlined" {...rest}>
       <InputLabel htmlFor="outlined-age-native-simple">{label}</InputLabel>
       <Select
-        native
         // name={name}
         onChange={handleChange}
         label={label}
         value={value}
+        className={classes.menuItem}
       >
         {options.map((item, index: number) => (
-          <option value={item.value} key={index}>
+          <MenuItem value={item.value} key={index} className={classes.menuItem}>
             {item.content}
-          </option>
+          </MenuItem>
         ))}
       </Select>
     </SelectForm>

@@ -14,6 +14,7 @@ import {
 } from './styles';
 import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 import { ITracker } from '@Interfaces';
+import HistoryTracker from '@Containers/SingleTracker/components/HistoryTracker';
 
 interface Props {
   t(key: string): string;
@@ -25,6 +26,11 @@ export default function BottomToolBar(props: Props) {
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
   const [isSetting, showSetting] = useState(false);
+  const [isHistory, showHistory] = useState(false);
+  const handleClickViewHistory = () => {
+    showHistory(false);
+  };
+  const handleCloseHistory = () => showHistory(false);
   const handleClick = () => {
     setIsActive(!isActive);
   };
@@ -33,6 +39,9 @@ export default function BottomToolBar(props: Props) {
   };
   const handleCloseSetting = () => {
     showSetting(false);
+  };
+  const onClickHistory = () => {
+    showHistory(true);
   };
   return (
     <ToolBar>
@@ -69,7 +78,10 @@ export default function BottomToolBar(props: Props) {
           </MenuItem>
         </Tooltip>
 
-        <MenuItem className={isActive ? '' : classes.fullWidth}>
+        <MenuItem
+          className={isActive ? '' : classes.fullWidth}
+          onClick={onClickHistory}
+        >
           <Icon className={classes.menuItemIcon}>
             <FaHistory className={classes.menuIcon} />
           </Icon>
@@ -124,6 +136,13 @@ export default function BottomToolBar(props: Props) {
         tracker={tracker}
         handleClose={handleCloseSetting}
         isMobile={true}
+      />
+      <HistoryTracker
+        handleClose={handleCloseHistory}
+        t={t}
+        show={isHistory}
+        isMobile={true}
+        onClickViewHistory={handleClickViewHistory}
       />
     </ToolBar>
   );
