@@ -1,4 +1,5 @@
 import React, { memo, useState } from 'react';
+import Router from 'next/router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -65,7 +66,9 @@ function ListTrackerMobile(props: Props) {
     selectTrackerAction(id);
     closeSidebar && closeSidebar();
   };
-
+  const onAddtracker = () => {
+    Router.push('/add-tracker');
+  };
   return (
     <Container>
       <SearchBar>
@@ -107,6 +110,7 @@ function ListTrackerMobile(props: Props) {
           text="Add Tracker"
           color="primary"
           type="submit"
+          onClick={onAddtracker}
           startIcon={<FiPlus />}
         />
       </Footer>
