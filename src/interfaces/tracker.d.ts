@@ -19,3 +19,28 @@ export interface ITracker {
   time: number;
   [data: string]: any;
 }
+
+interface COORDINATE {
+  lat: number;
+  lng: number;
+}
+
+interface RECTANGLE {
+  northeast: COORDINATE;
+  southwest: COORDINATE;
+}
+
+export interface IGeofence {
+  id: any;
+  name: string;
+  type: string;
+  color: string;
+  enabled: boolean;
+  status: string;
+  preferences: {
+    trigger: string;
+    vertices?: COORDINATE[] | RECTANGLE; // for polygon
+    centre?: COORDINATE; // for circle
+    radius?: number; // for circle
+  };
+}

@@ -15,6 +15,7 @@ export const initialState: TrackerDataTypes = {
     geofences: {},
     geofenceIds: null,
     selectedGeofenceId: null,
+    editGeofenceId: null,
   },
   settings: {},
   errors: null,
@@ -72,6 +73,20 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           ...draft.tracker.trackers[payload.trackerId],
           ...payload.data,
         };
+        break;
+      case types.EDIT_GEOFENCE:
+        draft.geofence.editGeofenceId = payload.geofenceId;
+        draft.geofence.selectedGeofenceId = payload.geofenceId;
+        break;
+      case types.REMOVE_GEOFENCE_SUCCEED:
+        draft.geofence.selectedGeofenceId =
+          draft.geofence.selectedGeofenceId === payload.geofenceId
+            ? null
+            : draft.geofence.selectedGeofenceId;
+        draft.geofence.geofenceIds =
+          draft.geofence.geofenceIds?.filter(id => id !== payload.geofenceId) ||
+          [];
+        delete draft.geofence.geofences[payload.geofenceId];
         break;
       default:
         break;

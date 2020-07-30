@@ -15,3 +15,16 @@ export const fetchGeofences = async (
   }
   return await axiosClient.get(enpoint);
 };
+
+export const deleteGeofence = async (accountId: number, geofenceId: number) =>
+  await axiosClient.delete(`v3/accounts/${accountId}/geozones/${geofenceId}`);
+
+export const updateGeofence = async (
+  accountId: number,
+  geofenceId: number,
+  data: object
+) =>
+  await axiosClient.put(
+    `v3/accounts/${accountId}/geozones/${geofenceId}`,
+    data
+  );
