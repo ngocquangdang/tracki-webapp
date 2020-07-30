@@ -27,7 +27,9 @@ export default function BottomToolBar(props: Props) {
   const [isActive, setIsActive] = useState(true);
   const [isSetting, showSetting] = useState(false);
   const [isHistory, showHistory] = useState(false);
-
+  const handleClickViewHistory = () => {
+    showHistory(false);
+  };
   const handleCloseHistory = () => showHistory(false);
   const handleClick = () => {
     setIsActive(!isActive);
@@ -140,6 +142,7 @@ export default function BottomToolBar(props: Props) {
         t={t}
         show={isHistory}
         isMobile={true}
+        onClickViewHistory={handleClickViewHistory}
       />
     </ToolBar>
   );
