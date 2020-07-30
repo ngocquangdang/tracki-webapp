@@ -146,9 +146,12 @@ export const linkTrackersRequestAction = (
   payload: { geofenceId, trackerIds },
 });
 
-export const linkTrackersSuccessAction = (geofences: object) => ({
+export const linkTrackersSuccessAction = (
+  geofenceId: number,
+  trackerIds: number[]
+) => ({
   type: types.LINK_TRACKERS_SUCCEED,
-  payload: { geofences },
+  payload: { geofenceId, trackerIds },
 });
 
 export const linkTrackersFailAction = (error: object) => ({
@@ -164,9 +167,12 @@ export const unlinkTrackersRequestAction = (
   payload: { geofenceId, trackerIds },
 });
 
-export const unlinkTrackersSuccessAction = (geofences: object) => ({
+export const unlinkTrackersSuccessAction = (
+  geofenceId: number,
+  trackerIds: number[]
+) => ({
   type: types.UNLINK_TRACKERS_SUCCEED,
-  payload: { geofences },
+  payload: { geofenceId, trackerIds },
 });
 
 export const unlinkTrackersFailAction = (error: object) => ({

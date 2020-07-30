@@ -19,14 +19,23 @@ interface Props {
   isRequesting?: boolean;
   t(key: string, format?: object): string;
   onClose(): void;
+  trackersLinked: number[];
   [data: string]: any;
 }
 
 function SelectTrackers(props: Props) {
-  const classes = useStyles();
-  const [devicesLinked, setDevicesLinked] = useState<number[]>([]);
+  const {
+    onClose,
+    isMobile,
+    isRequesting,
+    t,
+    onSave,
+    trackers,
+    trackersLinked,
+  } = props;
+  const [devicesLinked, setDevicesLinked] = useState<number[]>(trackersLinked);
   const [search, setSearch] = useState<string>('');
-  const { onClose, isMobile, isRequesting, t, onSave, trackers } = props;
+  const classes = useStyles();
 
   const checkLinkTracker = (deviceId: number) => () => {
     let newList: number[] = [];

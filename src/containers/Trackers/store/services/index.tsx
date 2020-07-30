@@ -46,10 +46,11 @@ export const unlinkTrackers = async (
 ) =>
   await axiosClient.delete(
     `v3/accounts/${accountId}/geozones/assign/${geofenceId}`,
-    trackerIds
+    {},
+    { data: trackerIds }
   );
 
 export const getAllAssignment = async (accountId: number, geofenceId: number) =>
   await axiosClient.get(
-    `v3/accounts/${accountId}/geozones/assign/${geofenceId}`
+    `v3/accounts/${accountId}/geozones/${geofenceId}/devices`
   );

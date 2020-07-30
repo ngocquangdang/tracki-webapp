@@ -66,6 +66,8 @@ function AddDeviceToGeoFence(props: Props) {
     unlinkTrackers(geofence.id, [deviceId]);
   };
 
+  const trackersLinked = (geofence.trackers || []).map(id => trackers[id]);
+
   return (
     <SideBarOutside
       title={t('tracker:add_device_to', { text: geofence.name })}
@@ -82,6 +84,7 @@ function AddDeviceToGeoFence(props: Props) {
           isMobile={isMobile || false}
           onSave={saveLinkToTrackers}
           trackers={trackers}
+          trackersLinked={geofence.trackers || []}
         />
         <div className={classes.linkBtnWrap}>
           <Button
@@ -97,10 +100,10 @@ function AddDeviceToGeoFence(props: Props) {
           <Typography className={classes.title}>
             {`${t('tracker:trackers_linked_to', {
               text: geofence.name,
-            })} ${Object.keys(trackers).length}`}
+            })} - ${trackersLinked.length}`}
           </Typography>
           <div className={classes.listDevice}>
-            {Object.values(trackers).map((d: any) => (
+            {trackersLinked.map((d: any) => (
               <ListItem button key={d.device_id} className={classes.listItem}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>

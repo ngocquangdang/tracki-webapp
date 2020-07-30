@@ -101,7 +101,11 @@ function* searchGeofencesSaga(action) {
 }
 
 function* getAssignment(accountId: number, geoId: number) {
-  return yield call(apiServices.getAllAssignment, accountId, geoId);
+  const { data } = yield call(apiServices.getAllAssignment, accountId, geoId);
+  return {
+    geofenceId: geoId,
+    trackers: data.map(d => d.deviceId),
+  };
 }
 
 function* fetchGeofencesSaga(action) {
@@ -109,13 +113,18 @@ function* fetchGeofencesSaga(action) {
     const { accountId } = action.payload;
     const { data } = yield call(apiServices.fetchGeofences, accountId);
     const geofences = normalizeGeofences(data);
-
-    yield put(actions.fetchGeofencesSucceedAction(geofences));
     const assignments = geofences.geofenceIds.map(id =>
       call(getAssignment, accountId, id)
     );
     const response = yield all(assignments);
-    console.log('____assignmentDatas', response);
+    response.map(({ geofenceId, trackers }) => {
+      if (geofences.geofences[geofenceId]) {
+        geofences.geofences[geofenceId].trackers = trackers;
+      }
+      return null;
+    });
+
+    yield put(actions.fetchGeofencesSucceedAction(geofences));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -156,7 +165,7 @@ function* linkTrackersSaga(action) {
     const { account_id } = yield select(makeSelectProfile());
     const { geofenceId, trackerIds } = action.payload;
     yield call(apiServices.linkTrackers, account_id, geofenceId, trackerIds);
-    yield put(actions.linkTrackersSuccessAction(geofenceId));
+    yield put(actions.linkTrackersSuccessAction(geofenceId, trackerIds));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -169,7 +178,7 @@ function* unlinkTrackersSaga(action) {
     const { account_id } = yield select(makeSelectProfile());
     const { geofenceId, trackerIds } = action.payload;
     yield call(apiServices.unlinkTrackers, account_id, geofenceId, trackerIds);
-    yield put(actions.unlinkTrackersSuccessAction(geofenceId));
+    yield put(actions.unlinkTrackersSuccessAction(geofenceId, trackerIds));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
