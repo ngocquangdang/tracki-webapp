@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     maxWidth: '457px',
     margin: 'auto',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
       maxWidth: '360px',
       margin: '0 auto',
@@ -40,9 +40,11 @@ const useStyles = makeStyles(theme => ({
     padding: '30px',
     border: '1px solid #707070',
     outline: 'none',
-    [theme.breakpoints.down('md')]: {
+    width: '457px',
+    [theme.breakpoints.down('sm')]: {
       padding: '15px',
       margin: '5px',
+      width: '360px',
     },
   },
 }));

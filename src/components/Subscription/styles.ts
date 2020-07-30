@@ -5,8 +5,8 @@ const Title = styled.span`
   font-size: 18px;
   font-weight: 300;
   line-height: 22px;
-  @media (max-width: 320px) {
-    font-size: 14px;
+  @media (max-width: 959.95px) {
+    font-size: 16px;
   }
 `;
 
@@ -14,20 +14,23 @@ const SubTitle = styled.span`
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
-  @media (max-width: 320px) {
-    font-size: 14px;
+  @media (max-width: 959.95px) {
+    font-size: 16px;
   }
 `;
 
 const WrapTitle = styled.div`
   padding: 7px;
+  white-space: nowrap;
   @media (max-width: 959.95px) {
     padding: 3px;
+  }
+  @media (max-width: 400px) {
+    white-space: normal;
   }
 `;
 const Content = styled.div`
   margin-top: 20px;
-  width: 457px;
   @media (max-width: 500px) {
     width: 100%;
   }

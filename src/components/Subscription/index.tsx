@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@Components/modals';
+import Link from 'next/link';
 import {
   Title,
   SubTitle,
@@ -48,14 +49,17 @@ function SubscriptionModal(props: Props) {
         </WrapTitle>
       </Content>
       <ButtonControl>
-        <Button
-          variant="contained"
-          text={t('tracker:increase_subscription')}
-          onClick={onClickIncrease}
-          color={'primary'}
-          fullWidth={true}
-          className={classes.btn}
-        />
+        <Link href="/subscription">
+          <Button
+            variant="contained"
+            text={t('tracker:increase_subscription')}
+            onClick={onClickIncrease}
+            color={'primary'}
+            fullWidth={true}
+            className={classes.btn}
+          />
+        </Link>
+
         <Button
           onClick={onClickCancel}
           text={t('tracker:cancel_subscription')}
