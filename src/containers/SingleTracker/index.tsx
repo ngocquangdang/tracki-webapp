@@ -69,6 +69,13 @@ function SingleTracker(props: Props) {
     showHistory(false);
     showViewHistory(true);
   };
+
+  const handleClickPreviosHisotry = () => {
+    console.log('previos history');
+  };
+  const handleClickNextHistory = () => {
+    console.log('next history');
+  };
   return (
     <Slide direction="right" in mountOnEnter unmountOnExit>
       <Container>
@@ -82,7 +89,12 @@ function SingleTracker(props: Props) {
           </Title>
         </Header>
         {isViewHistory ? (
-          <HistoryTrackerCard isMobile={false} tracker={tracker} />
+          <HistoryTrackerCard
+            isMobile={false}
+            tracker={tracker}
+            onClickPrevios={handleClickPreviosHisotry}
+            onClickNext={handleClickNextHistory}
+          />
         ) : (
           <Card key={tracker.device_id}>
             <DetailTrackerCard isMobile={false} tracker={tracker} />
