@@ -14,11 +14,19 @@ interface Props {
   isMobile: boolean;
   show: boolean;
   isRequesting?: boolean;
+  onClickViewHistory(): void;
 }
 
 function HistoryTracker(props: Props) {
   const classes = useStyles();
-  const { handleClose, t, isMobile, show, isRequesting } = props;
+  const {
+    handleClose,
+    t,
+    isMobile,
+    show,
+    isRequesting,
+    onClickViewHistory,
+  } = props;
   const onSubmitForm = () => {
     console.log('xxxx');
     //draft setHistory
@@ -99,6 +107,7 @@ function HistoryTracker(props: Props) {
                   isLoading={isRequesting}
                   text="View History"
                   type="submit"
+                  onClick={onClickViewHistory}
                 />
               </Content>
             );

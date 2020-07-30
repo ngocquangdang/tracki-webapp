@@ -36,6 +36,7 @@ import {
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
 import HistoryTracker from './components/HistoryTracker';
+import HistoryTrackerCard from '@Components/HistoryTrackerCard';
 
 interface Props {
   settings: object;
@@ -50,6 +51,7 @@ function SingleTracker(props: Props) {
   const classes = useStyles();
   const [isSetting, showSetting] = useState(false);
   const [isHistory, showHistory] = useState(false);
+  const [isViewHistory, showViewHistory] = useState(false);
   const { tracker, onClickBack, t, fetchTrackerSettings } = props;
 
   const handleCloseHistory = () => showHistory(false);
@@ -63,7 +65,10 @@ function SingleTracker(props: Props) {
   const onClickHistory = () => {
     showHistory(true);
   };
-
+  const handleClickViewHistory = () => {
+    showHistory(false);
+    showViewHistory(true);
+  };
   return (
     <Slide direction="right" in mountOnEnter unmountOnExit>
       <Container>
@@ -72,42 +77,48 @@ function SingleTracker(props: Props) {
             className={classes.iconBack}
             onClick={onClickBack}
           />
-          <Title onClick={onClickBack}>Back</Title>
+          <Title onClick={onClickBack}>
+            {isViewHistory ? 'History Result' : 'Back'}
+          </Title>
         </Header>
-        <Card key={tracker.device_id}>
-          <DetailTrackerCard isMobile={false} tracker={tracker} />
-          <TrackerMenu>
-            <TrackerMenuUp>
-              <ContainerControl onClick={onClickSetting}>
-                <SettingsIcon />
-                <TitleMenu>Settings</TitleMenu>
-              </ContainerControl>
-              <ContainerControl onClick={onClickHistory}>
-                <HistoryIcon />
-                <TitleMenu>History</TitleMenu>
-              </ContainerControl>
-              <ContainerControl>
-                <BorderStyleIcon />
-                <TitleMenu>Geo-Fence</TitleMenu>
-              </ContainerControl>
-            </TrackerMenuUp>
-            <TrackerMenuDown>
-              <ContainerControl>
-                <VolumeUpIcon />
-                <TitleMenu>Beep Device</TitleMenu>
-              </ContainerControl>
-              <ContainerControl>
-                <ShareIcon />
-                <TitleMenu>Share Location</TitleMenu>
-              </ContainerControl>
-              <ContainerControl>
-                <NotificationsIcon />
-                <TitleMenu>Notifications</TitleMenu>
-              </ContainerControl>
-            </TrackerMenuDown>
-            <Border></Border>
-          </TrackerMenu>
-        </Card>
+        {isViewHistory ? (
+          <HistoryTrackerCard isMobile={false} tracker={tracker} />
+        ) : (
+          <Card key={tracker.device_id}>
+            <DetailTrackerCard isMobile={false} tracker={tracker} />
+            <TrackerMenu>
+              <TrackerMenuUp>
+                <ContainerControl onClick={onClickSetting}>
+                  <SettingsIcon />
+                  <TitleMenu>Settings</TitleMenu>
+                </ContainerControl>
+                <ContainerControl onClick={onClickHistory}>
+                  <HistoryIcon />
+                  <TitleMenu>History</TitleMenu>
+                </ContainerControl>
+                <ContainerControl>
+                  <BorderStyleIcon />
+                  <TitleMenu>Geo-Fence</TitleMenu>
+                </ContainerControl>
+              </TrackerMenuUp>
+              <TrackerMenuDown>
+                <ContainerControl>
+                  <VolumeUpIcon />
+                  <TitleMenu>Beep Device</TitleMenu>
+                </ContainerControl>
+                <ContainerControl>
+                  <ShareIcon />
+                  <TitleMenu>Share Location</TitleMenu>
+                </ContainerControl>
+                <ContainerControl>
+                  <NotificationsIcon />
+                  <TitleMenu>Notifications</TitleMenu>
+                </ContainerControl>
+              </TrackerMenuDown>
+              <Border></Border>
+            </TrackerMenu>
+          </Card>
+        )}
         <SettingTracker
           handleClose={handleCloseSetting}
           t={t}
@@ -120,6 +131,7 @@ function SingleTracker(props: Props) {
           t={t}
           show={isHistory}
           isMobile={false}
+          onClickViewHistory={handleClickViewHistory}
         />
       </Container>
     </Slide>
