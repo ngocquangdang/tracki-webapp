@@ -9,7 +9,9 @@ import { Button } from '@Components/buttons';
 import { SkeletonTracker } from '@Components/Skeletons';
 import GeoFence from './components/GeoFenceCard';
 import AddGeofencePanel from './components/AddGeoFence';
+import { MAP_ACTIONS } from '@Components/Maps/constant';
 
+import { changeMapAction } from '@Containers/App/store/actions';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
   makeSelectGeofences,
@@ -39,6 +41,7 @@ interface Props {
   editGeofenceAction(id: number | null): void;
   createGeofenceAction(geofence: object): void;
   removeGeofenceRequestAction(id: number): void;
+  changeMapAction(mapAction: string): void;
   [data: string]: any;
 }
 
@@ -56,14 +59,21 @@ function ListGeoFence(props: Props) {
     editGeofenceAction,
     createGeofenceAction,
     removeGeofenceRequestAction,
+    changeMapAction,
   } = props;
   const classes = useStyles();
   const [showAddPanel, setShowPanel] = useState(false);
+
   const onClosePanel = () => {
     setShowPanel(false);
     editGeofenceAction(null);
   };
-  const onOpenPanel = () => setShowPanel(true);
+
+  const onOpenPanel = () => {
+    setShowPanel(true);
+    changeMapAction(MAP_ACTIONS.CREATE_POLYGON);
+  };
+
   const editGeofence = (geoId: number) => {
     setShowPanel(true);
     editGeofenceAction(geoId);
@@ -132,6 +142,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(updateGeofenceRequestedAction(geoId, data)),
   createGeofenceAction: (geofence: object) =>
     dispatch(createGeofenceRequestAction(geofence)),
+  changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

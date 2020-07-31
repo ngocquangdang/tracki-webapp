@@ -4,9 +4,11 @@ declare namespace IMap {
     trackers: object;
     trackerIds: Array<number>;
     mapTile: string;
+    mapAction: string;
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;
+    changeMapAction(action: string): void;
   }
   interface IState {
     isInitiatedMap: boolean;
