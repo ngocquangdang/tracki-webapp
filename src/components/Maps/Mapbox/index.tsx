@@ -5,6 +5,7 @@ import TrackerMarker from './components/TrackerMarker';
 import MapEvent from '../MapEvent';
 import IMap from '../interface';
 import { MAPBOX_API_KEY } from '@Definitions/app';
+import DrawTool from './components/DrawTool';
 
 declare global {
   interface Window {
@@ -101,7 +102,19 @@ class Map extends Component<IMap.IProps, IMap.IState> {
   }
 
   render() {
-    return this.renderMarkers();
+    const { mapAction, changeMapAction } = this.props;
+    return (
+      <React.Fragment>
+        {this.renderMarkers()}
+        {this.state.isInitiatedMap && (
+          <DrawTool
+            map={this.map}
+            mapAction={mapAction}
+            changeMapAction={changeMapAction}
+          />
+        )}
+      </React.Fragment>
+    );
   }
 }
 
