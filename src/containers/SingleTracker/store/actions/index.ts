@@ -39,3 +39,31 @@ export const updateTrackerSettingsFailedAction = (error: object) => ({
   type: types.UPDATE_TRACKER_SETTINGS_FAILED,
   payload: { error },
 });
+
+export const generateLinkShareLocationRequest = (duration: object) => ({
+  type: types.ACTIVE_LINK_SHARE_REQUESTED,
+  payload: { duration },
+});
+
+export const generateLinkShareLocationSucceed = (data: object) => ({
+  type: types.ACTIVE_LINK_SHARE_SUCCEED,
+  payload: { data },
+});
+
+export const generateLinkShareLocationFailed = (error: object) => ({
+  type: types.ACTIVE_LINK_SHARE_FAILED,
+  payload: { error },
+});
+
+export const deactiveLinkShareLocationRequest = () => ({
+  type: types.DEACTIVE_LINK_SHARE_REQUESTED,
+});
+
+export const deactiveLinkShareLocationSuccess = () => ({
+  type: types.DEACTIVE_LINK_SHARE_SUCCEED,
+});
+
+export const deactiveLinkShareLocationFailed = (error: object) => ({
+  type: types.DEACTIVE_LINK_SHARE_FAILED,
+  payload: { error },
+});

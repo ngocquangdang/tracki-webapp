@@ -13,6 +13,15 @@ export const UPDATE_TRACKER_SETTINGS_FAILED =
 
 export const UPDATE_TRACKE = 'TRACKI/UPDATE_TRACKE';
 
+export const ACTIVE_LINK_SHARE_REQUESTED = 'TRACKI/ACTIVE_LINK_SHARE_REQUESTED';
+export const ACTIVE_LINK_SHARE_SUCCEED = 'TRACKI/ACTIVE_LINK_SHARE_SUCCEED';
+export const ACTIVE_LINK_SHARE_FAILED = 'TRACKI/ACTIVE_LINK_SHARE_FAILED';
+
+export const DEACTIVE_LINK_SHARE_REQUESTED =
+  'TRACKI/DEACTIVE_LINK_SHARE_REQUESTED';
+export const DEACTIVE_LINK_SHARE_SUCCEED = 'TRACKI/DEACTIVE_LINK_SHARE_SUCCEED';
+export const DEACTIVE_LINK_SHARE_FAILED = 'TRACKI/DEACTIVE_LINK_SHARE_FAILED';
+
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
   { value: '1_1_minutes', content: 'Once every 1 minute' },
@@ -35,4 +44,14 @@ export const HISTORY_OPTIONS = [
   { value: '168_1_hours', content: 'Last 7 Days' },
   { value: '120_1_hours', content: 'Date Range' },
   { value: '240_1_hours', content: 'Specific date + Hourly Range' },
+];
+
+export const SHARE_LOCATION_OPTIONS = [
+  { value: '3600', content: '1 Hour' },
+  { value: '18000', content: '5 Hours' },
+  { value: '36000', content: '10 Hours' },
+  { value: '86400', content: '24 Hours' },
+  { value: '259200', content: '3 Days' },
+  { value: '604800', content: '7 Days' },
+  { value: '-1', content: 'Unlimited' },
 ];

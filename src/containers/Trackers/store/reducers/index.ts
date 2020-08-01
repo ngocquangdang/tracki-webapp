@@ -18,6 +18,7 @@ export const initialState: TrackerDataTypes = {
     editGeofenceId: null,
   },
   settings: {},
+  dataLink: {},
   errors: null,
 };
 
@@ -87,6 +88,25 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           draft.geofence.geofenceIds?.filter(id => id !== payload.geofenceId) ||
           [];
         delete draft.geofence.geofences[payload.geofenceId];
+        break;
+      case singleTrackerTypes.ACTIVE_LINK_SHARE_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.ACTIVE_LINK_SHARE_SUCCEED:
+        draft.dataLink = payload.data;
+        break;
+      case singleTrackerTypes.ACTIVE_LINK_SHARE_FAILED:
+        draft.errors = payload.error;
+        break;
+      case singleTrackerTypes.DEACTIVE_LINK_SHARE_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.DEACTIVE_LINK_SHARE_SUCCEED:
+        draft.dataLink = null;
+        delete draft.dataLink;
+        break;
+      case singleTrackerTypes.DEACTIVE_LINK_SHARE_FAILED:
+        draft.errors = payload.error;
         break;
       default:
         break;

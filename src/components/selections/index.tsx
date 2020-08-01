@@ -11,20 +11,20 @@ interface Props {
   label: string;
   value: string;
   name: string;
-  onChangeOption(value: string): void;
+  onChangeOption(event: string): void;
 }
 
 export default function SelectOption(props: Props) {
-  const { options, label, value, onChangeOption, ...rest } = props;
+  const { options, label, value, onChangeOption, name, ...rest } = props;
   const classes = useStyles();
-  const handleChange = (value: any) => {
-    onChangeOption(value.target.value);
+  const handleChange = (event: any) => {
+    onChangeOption(event.target.value);
   };
   return (
     <SelectForm variant="outlined" {...rest}>
       <InputLabel htmlFor="outlined-age-native-simple">{label}</InputLabel>
       <Select
-        // name={name}
+        name={name}
         onChange={handleChange}
         label={label}
         value={value}

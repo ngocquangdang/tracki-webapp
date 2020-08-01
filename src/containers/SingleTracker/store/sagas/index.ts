@@ -4,6 +4,7 @@ import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
 import notification from '@Utils/notification';
 
 function* fetchTrackerSettingsSaga(action) {
@@ -65,6 +66,44 @@ function* updateTrackerSettingSaga(action) {
   }
 }
 
+function* activeLinkShareLocationSaga(action) {
+  const device_id = yield select(makeSelectTrackerId());
+  try {
+    const profile = yield select(makeSelectProfile());
+    const { data } = yield call(
+      apiServices.activeLinkShareLocation,
+      profile.account_id,
+      device_id,
+      action.payload.duration
+    );
+    yield put(actions.generateLinkShareLocationSucceed(data[0]));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    yield put(actions.generateLinkShareLocationFailed(payload));
+  }
+}
+
+function* deactiveLinkShareLocationSaga(action) {
+  const device_id = yield select(makeSelectTrackerId());
+  try {
+    const profile = yield select(makeSelectProfile());
+    yield call(
+      apiServices.deactiveLinkShareLoaction,
+      profile.account_id,
+      device_id
+    );
+    yield put(actions.deactiveLinkShareLocationSuccess());
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    yield put(actions.deactiveLinkShareLocationFailed(payload));
+  }
+}
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -73,5 +112,13 @@ export default function* appWatcher() {
   yield takeLatest(
     types.UPDATE_TRACKER_SETTINGS_REQUESTED,
     updateTrackerSettingSaga
+  );
+  yield takeLatest(
+    types.ACTIVE_LINK_SHARE_REQUESTED,
+    activeLinkShareLocationSaga
+  );
+  yield takeLatest(
+    types.DEACTIVE_LINK_SHARE_REQUESTED,
+    deactiveLinkShareLocationSaga
   );
 }

@@ -47,6 +47,7 @@ export interface TrackerDataTypes {
     [data: string]: any;
   };
   settings: object;
+  dataLink: object | null;
   errors: object | null;
 }
 
