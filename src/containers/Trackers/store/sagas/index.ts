@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select } from 'redux-saga/effects';
+import { takeLatest, call, put, select, all } from 'redux-saga/effects';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
@@ -100,13 +100,29 @@ function* searchGeofencesSaga(action) {
   }
 }
 
+function* getAssignment(accountId: number, geoId: number) {
+  const { data } = yield call(apiServices.getAllAssignment, accountId, geoId);
+  return {
+    geofenceId: geoId,
+    trackers: data.map(d => d.deviceId),
+  };
+}
+
 function* fetchGeofencesSaga(action) {
   try {
-    const { data } = yield call(
-      apiServices.fetchGeofences,
-      action.payload.accountId
-    );
+    const { accountId } = action.payload;
+    const { data } = yield call(apiServices.fetchGeofences, accountId);
     const geofences = normalizeGeofences(data);
+    const assignments = geofences.geofenceIds.map(id =>
+      call(getAssignment, accountId, id)
+    );
+    const response = yield all(assignments);
+    response.map(({ geofenceId, trackers }) => {
+      if (geofences.geofences[geofenceId]) {
+        geofences.geofences[geofenceId].trackers = trackers;
+      }
+      return null;
+    });
 
     yield put(actions.fetchGeofencesSucceedAction(geofences));
   } catch (error) {
@@ -144,6 +160,32 @@ function* removeGeofenceSaga(action) {
   }
 }
 
+function* linkTrackersSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { geofenceId, trackerIds } = action.payload;
+    yield call(apiServices.linkTrackers, account_id, geofenceId, trackerIds);
+    yield put(actions.linkTrackersSuccessAction(geofenceId, trackerIds));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.linkTrackersFailAction(payload));
+  }
+}
+
+function* unlinkTrackersSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { geofenceId, trackerIds } = action.payload;
+    yield call(apiServices.unlinkTrackers, account_id, geofenceId, trackerIds);
+    yield put(actions.unlinkTrackersSuccessAction(geofenceId, trackerIds));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.unlinkTrackersFailAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -151,4 +193,6 @@ export default function* appWatcher() {
   yield takeLatest(types.SEARCH_GEOFENCES_REQUESTED, searchGeofencesSaga);
   yield takeLatest(types.UPDATE_GEOFENCE_REQUESTED, updateGeofenceSaga);
   yield takeLatest(types.REMOVE_GEOFENCE_REQUESTED, removeGeofenceSaga);
+  yield takeLatest(types.LINK_TRACKERS_REQUESTED, linkTrackersSaga);
+  yield takeLatest(types.UNLINK_TRACKERS_REQUESTED, unlinkTrackersSaga);
 }

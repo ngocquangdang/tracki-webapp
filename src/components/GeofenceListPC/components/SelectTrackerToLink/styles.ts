@@ -30,6 +30,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#168449',
     width: 50,
     height: 50,
+    '& img': {
+      width: '100%',
+      height: '100%',
+      objectFit: 'contain',
+      padding: 10,
+    },
   },
   text: {
     '& span': {
