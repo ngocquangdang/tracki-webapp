@@ -25,6 +25,7 @@ interface Props {
   isRequesting?: boolean;
   selectedGeofence?: IGeofence;
   t(key: string, format?: object): string;
+  changeMapAction(action: string): void;
   handleClose(): void;
   [data: string]: any;
 }
@@ -47,6 +48,7 @@ function AddGeoFence(props: Props) {
     updateGeofence,
     createGeofence,
     selectedGeofence,
+    changeMapAction,
   } = props;
   const [formData, updateFormData] = useState(ADD_GEOFENCE_FORM);
 
@@ -126,6 +128,7 @@ function AddGeoFence(props: Props) {
                         key={type}
                         onClick={() => {
                           setFieldValue('type', type);
+                          changeMapAction(`create_${type}`.toUpperCase());
                         }}
                       >
                         <ListItemAvatar>

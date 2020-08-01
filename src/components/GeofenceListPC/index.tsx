@@ -71,7 +71,7 @@ function ListGeoFence(props: Props) {
 
   const onOpenPanel = () => {
     setShowPanel(true);
-    changeMapAction(MAP_ACTIONS.CREATE_POLYGON);
+    changeMapAction(MAP_ACTIONS.CREATE_RECTANGLE);
   };
 
   const editGeofence = (geoId: number) => {
@@ -117,6 +117,7 @@ function ListGeoFence(props: Props) {
         selectedGeofence={geofences[editGeofenceId]}
         t={t}
         handleClose={onClosePanel}
+        changeMapAction={changeMapAction}
         updateGeofence={updateGeofenceAction}
         createGeofence={createGeofenceAction}
       />

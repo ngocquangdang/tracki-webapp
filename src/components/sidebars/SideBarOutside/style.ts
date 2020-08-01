@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const MenuWrap = styled.div`
-  width: 100%;
+  width: 450px;
   height: 100%;
   position: fixed;
   top: 0;
   z-index: 10;
-  right: 0;
+  left: 0;
 `;
 const MenuHeader = styled.div`
   display: flex;
