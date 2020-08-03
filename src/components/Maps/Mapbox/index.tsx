@@ -23,6 +23,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       isInitiatedMap: false,
       mapCenter: [34.566667, 40.866667],
       mapZoom: 1,
+      userLocation: null,
     };
     this.isFirstFitBounce = false;
   }
@@ -37,7 +38,6 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       maxZoom: 19,
       attributionControl: true,
     });
-    this.setState({ isInitiatedMap: true });
     window.mapEvents = new MapEvent('mapbox', this.map);
     const geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {
@@ -53,13 +53,28 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       this.map.setStyle('mapbox://styles/mapbox/' + layerId);
     };
     window.mapEvents.reset = () => {
-      this.map.setStyle('mapbox://styles/mapbox/streets-v11');
-      this.map.setMaxZoom(19);
-      this.map.setZoom(this.state.mapZoom);
-      this.map.setCenter(this.state.mapCenter);
+      // this.map.setStyle('mapbox://styles/mapbox/streets-v11');
+      this.fitBoundTrackers(true);
     };
-    this.props.initMapCallback();
+    this.setState({ isInitiatedMap: true }, this.props.initMapCallback);
   }
+
+  fitBoundTrackers = (isReset: boolean) => {
+    const { trackers, fullWidth } = this.props;
+    if (
+      (isReset || !this.isFirstFitBounce) &&
+      Object.values(trackers).length > 0
+    ) {
+      this.isFirstFitBounce = true;
+      const coords = Object.values(trackers).filter(
+        ({ lat, lng }) => !!lat && !!lng
+      );
+      if (coords.length > 0) {
+        !fullWidth && window.mapEvents.setPadding({ left: 340 });
+        window.mapEvents.setFitBounds(coords);
+      }
+    }
+  };
 
   onClickTracker = (id: string | number) => {
     const { onClickMarker, openSideBar } = this.props;
@@ -68,18 +83,9 @@ class Map extends Component<IMap.IProps, IMap.IState> {
   };
 
   renderMarkers = () => {
-    const { trackers, fullWidth } = this.props;
+    const { trackers } = this.props;
     if (this.state.isInitiatedMap && trackers) {
-      if (!this.isFirstFitBounce && Object.values(trackers).length > 0) {
-        this.isFirstFitBounce = true;
-        const coords = Object.values(trackers).filter(
-          ({ lat, lng }) => !!lat && !!lng
-        );
-        if (coords.length > 0) {
-          !fullWidth && window.mapEvents.setPadding({ left: 340 });
-          window.mapEvents.setFitBounds(coords);
-        }
-      }
+      this.fitBoundTrackers(false);
 
       return Object.values(trackers).map(tracker => (
         <TrackerMarker

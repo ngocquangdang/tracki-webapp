@@ -9,11 +9,13 @@ declare namespace IMap {
     openSideBar(): void;
     onClickMarker(id: string | number): void;
     changeMapAction(action: string): void;
+    [data: string]: any;
   }
   interface IState {
     isInitiatedMap: boolean;
     mapCenter: [number, number];
     mapZoom: number;
+    userLocation: any;
   }
 }
 

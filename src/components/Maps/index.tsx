@@ -1,17 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import dynamic from 'next/dynamic';
 
 import { makeSelectMapAction } from '@Containers/App/store/selectors';
 import { changeMapAction } from '@Containers/App/store/actions';
-
-import Mapbox from './Mapbox';
 import './styles.scss';
+
+const Mapbox = dynamic(() => import('./Mapbox'), { ssr: false });
+const Leaflet = dynamic(() => import('./Leaflet'), { ssr: false });
 
 interface Props {
   mapType: string;
   mapAction: string;
+  trackers: object;
+  trackerIds: Array<number>;
+  mapTile: string;
+  fullWidth: boolean;
   changeMapAction(action: string): void;
+  openSideBar(): void;
   [data: string]: any;
 }
 
@@ -25,33 +32,24 @@ class Map extends React.Component<Props> {
   };
 
   renderMap = () => {
-    const {
-      mapType,
-      fullWidth,
-      trackers,
-      trackerIds,
-      selectTrackerAction,
-      openSideBar,
-      mapTile,
-      mapAction,
-      changeMapAction,
-    } = this.props;
+    const { mapType, selectTrackerAction, ...rest } = this.props;
 
     if (mapType === 'mapbox') {
       return (
         <Mapbox
           initMapCallback={this.initMapCallback}
-          fullWidth={fullWidth}
-          trackers={trackers}
-          trackerIds={trackerIds}
-          openSideBar={openSideBar}
           onClickMarker={selectTrackerAction}
-          mapTile={mapTile}
-          mapAction={mapAction}
-          changeMapAction={changeMapAction}
+          {...rest}
         />
       );
     }
+    return (
+      <Leaflet
+        initMapCallback={this.initMapCallback}
+        onClickMarker={selectTrackerAction}
+        {...rest}
+      />
+    );
   };
 
   render() {

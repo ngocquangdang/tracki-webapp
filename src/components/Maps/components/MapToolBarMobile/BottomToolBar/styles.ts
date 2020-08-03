@@ -5,6 +5,7 @@ const ToolBar = styled.div`
   position: absolute;
   left: 5px;
   bottom: 178px;
+  z-index: 401;
 `;
 const ListItem = styled.ul`
   width: 50px;
