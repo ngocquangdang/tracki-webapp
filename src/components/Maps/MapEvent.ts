@@ -1,6 +1,7 @@
 import MapBoxEvent from './Mapbox/Event';
+import LeafletEvent from './Leaflet/Event';
 
-class DroneMapEvent {
+class MapEvent {
   map: any;
   constructor(map, mapRef) {
     switch (map) {
@@ -8,6 +9,7 @@ class DroneMapEvent {
         this.map = new MapBoxEvent(mapRef);
         break;
       default:
+        this.map = new LeafletEvent(mapRef);
         break;
     }
   }
@@ -50,4 +52,4 @@ class DroneMapEvent {
   resize = () => this.map.resize();
 }
 
-export default DroneMapEvent;
+export default MapEvent;
