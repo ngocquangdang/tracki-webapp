@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
+  pickColorModal: {
+    width: 270,
+  },
   container: {
     marginTop: 16,
   },

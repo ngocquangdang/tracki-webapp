@@ -48,6 +48,11 @@ export const resetMapAction = () => ({
   type: types.RESET_MAP,
 });
 
+export const changeMapAction = (mapAction: string) => ({
+  type: types.CHANGE_MAP_ACTION,
+  payload: { mapAction },
+});
+
 export const changeMapTileAction = (mapTile: string) => ({
   type: types.CHANGE_MAP_TILE,
   payload: { mapTile },

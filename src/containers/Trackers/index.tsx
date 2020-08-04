@@ -25,7 +25,7 @@ import {
   selectGeofenceIdAction,
   resetSelectedGeofenceAction,
   searchGeofencesRequestedAction,
-  updateGeofenceRequestedAction,
+  saveGeofenceRequestedAction,
 } from '@Containers/Trackers/store/actions';
 
 import { useInjectSaga } from '@Utils/injectSaga';
@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   searchGeofencesAction: (k: string) =>
     dispatch(searchGeofencesRequestedAction(k)),
   updateGeofenceAction: (geoId: number, data: object) =>
-    dispatch(updateGeofenceRequestedAction(geoId, data)),
+    dispatch(saveGeofenceRequestedAction(geoId, data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

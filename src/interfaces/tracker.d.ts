@@ -1,3 +1,5 @@
+import L from 'leaflet';
+
 export interface ITracker {
   status: string;
   age: number;
@@ -20,18 +22,13 @@ export interface ITracker {
   [data: string]: any;
 }
 
-interface COORDINATE {
-  lat: number;
-  lng: number;
-}
-
 interface RECTANGLE {
-  northeast: COORDINATE;
-  southwest: COORDINATE;
+  northeast: L.LatLngTuple;
+  southwest: L.LatLngTuple;
 }
 
 export interface IGeofence {
-  id: any;
+  id?: any;
   name: string;
   type: string;
   color: string;
@@ -40,8 +37,30 @@ export interface IGeofence {
   trackers?: number[];
   preferences: {
     trigger: string;
-    vertices?: COORDINATE[] | RECTANGLE; // for polygon
-    centre?: COORDINATE; // for circle
+    vertices?: L.LatLngTuple[] | RECTANGLE; // for polygon
+    center?: L.LatLngTuple; // for circle
     radius?: number; // for circle
+  };
+}
+
+export interface IGeoRectangle extends IGeofence {
+  preferences: {
+    trigger: string;
+    vertices: RECTANGLE;
+  };
+}
+
+export interface IGeoCircle extends IGeofence {
+  preferences: {
+    trigger: string;
+    center: L.LatLngTuple;
+    radius: number;
+  };
+}
+
+export interface IGeoPolygon extends IGeofence {
+  preferences: {
+    trigger: string;
+    vertices: L.LatLngTuple[];
   };
 }

@@ -12,13 +12,12 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 
-import { IGeofence } from '@Interfaces';
 import ConfirmPanel from '../DeleteConfirm';
 import AddGeoFenceToDevice from '../AddGeoFenceToDevice';
 import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
-  geofence: IGeofence;
+  geofence: any;
   isMobile?: boolean;
   selectedGeofenceId?: number | string | null;
   selectGeofence(id: number | string): void;
@@ -56,14 +55,32 @@ export default function GeofenceCard(props: Props) {
     setAnchorMenuEl(null);
   };
 
+  const gotoGeofence = () => {
+    const { type, preferences } = geofence;
+    if (type === 'rectangle') {
+      const { vertices = {} } = preferences;
+      if (vertices.northeast && vertices.southwest) {
+        window.mapEvents.setFitBounds([vertices.northeast, vertices.southwest]);
+      }
+    } else if (type === 'circle') {
+      window.mapEvents.setCenterFlyTo(preferences.center, { zoom: 16 });
+    } else {
+      window.mapEvents.setFitBounds(preferences.vertices);
+    }
+  };
+
   const onSelectGeofence = () => {
-    !isDisabled && selectGeofence(geofence.id);
+    if (!isDisabled) {
+      gotoGeofence();
+      selectGeofence(geofence.id);
+    }
   };
 
   const toggleGeofence = () =>
     updateGeofence(geofence.id, { enabled: !geofence.enabled });
 
   const onClickEdit = () => {
+    gotoGeofence();
     editGeofence(geofence.id);
     closeMenu();
   };
@@ -84,10 +101,6 @@ export default function GeofenceCard(props: Props) {
   const confirmRemoveGeofence = () => {
     removeGeofence(geofence.id);
     setShowConfirm(false);
-  };
-
-  const unLinkDevice = (deviceId: number) => {
-    console.log('__unLinkDevice', deviceId);
   };
 
   return (
@@ -144,7 +157,6 @@ export default function GeofenceCard(props: Props) {
         show={showAddDevicePanel}
         onClose={onCloseAddDevicePanel}
         geofence={geofence}
-        unLinkDevice={unLinkDevice}
       />
       <Menu
         anchorEl={anchorMenuEl}
