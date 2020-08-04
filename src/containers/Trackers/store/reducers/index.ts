@@ -18,6 +18,7 @@ export const initialState: TrackerDataTypes = {
     editGeofenceId: null,
   },
   settings: {},
+  contactList: [],
   errors: null,
 };
 
@@ -101,6 +102,12 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
             draft.geofence.geofences[payload.geofenceId]?.trackers || []
           ).filter(i => !payload.trackerIds.includes(i)),
         };
+        break;
+      case singleTrackerTypes.GET_LIST_CONTACT_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.GET_LIST_CONTACT_SUCCESSED:
+        draft.contactList = payload;
         break;
       default:
         break;

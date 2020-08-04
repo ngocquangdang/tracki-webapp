@@ -39,3 +39,15 @@ export const updateTrackerSettingsFailedAction = (error: object) => ({
   type: types.UPDATE_TRACKER_SETTINGS_FAILED,
   payload: { error },
 });
+
+export const getContactListRequestAction = () => ({
+  type: types.GET_LIST_CONTACT_REQUESTED,
+});
+export const getContactListSucceedAction = (payload: object) => ({
+  type: types.GET_LIST_CONTACT_REQUESTED,
+  payload,
+});
+export const getContactListFailedAction = (error: object) => ({
+  type: types.GET_LIST_CONTACT_REQUESTED,
+  payload: { error },
+});

@@ -64,7 +64,23 @@ function* updateTrackerSettingSaga(action) {
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
+function* getContactListSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
 
+    const res = yield call(apiServices.getContactList, account_id);
+    yield put(actions.getContactListSucceedAction(res.data));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      notification.error(data.error || data.message);
+    }
+    yield put(actions.getContactListFailedAction(payload));
+  }
+}
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -74,4 +90,5 @@ export default function* appWatcher() {
     types.UPDATE_TRACKER_SETTINGS_REQUESTED,
     updateTrackerSettingSaga
   );
+  yield takeLatest(types.GET_LIST_CONTACT_REQUESTED, getContactListSaga);
 }

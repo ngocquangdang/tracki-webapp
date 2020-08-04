@@ -43,3 +43,7 @@ export const updateSettings = async (
     settings
   );
 };
+
+export const getContactList = async (accountId: number) => {
+  return await axiosClient.get(`/v3/accounts/${accountId}/contacts`);
+};
