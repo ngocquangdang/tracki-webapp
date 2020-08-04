@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { GoPrimitiveDot } from 'react-icons/go';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { Button } from '@Components/buttons';
+import {
+  sendBeepRequest,
+  resetBeepAction,
+} from '@Containers/SingleTracker/store/actions';
+import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
 
 import {
   Container,
@@ -43,38 +50,89 @@ interface Props {
   isMobile: boolean;
   show: boolean;
   isRequesting?: boolean;
-  onClickViewBeep(): void;
   tracker: Tracker;
+  onClickSendBeep(data: object): void;
+  resetBeep(): void;
+  deviceId: number;
 }
 
 function SendBeep(props: Props) {
   const classes = useStyles();
-  const {
-    handleClose,
-    t,
-    isMobile,
-    show,
-    isRequesting,
-    onClickViewBeep,
-    tracker,
-  } = props;
-  const [progress, setProgress] = React.useState(0);
+  const { handleClose, t, isMobile, show, isRequesting, tracker } = props;
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [time, setTime] = useState(0);
+  const [isStartTime, setStartTime] = useState(true);
+  const [isStopCallAPI, setStopCallAPI] = useState(true);
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress(oldProgress => {
-        if (oldProgress === 100) {
-          return 0;
+  useEffect(() => {
+    if (isStartTime) {
+      const intervalTime = setInterval(() => {
+        // set time call API
+        setSeconds(seconds + 1);
+        setTime(time + 1 / 3);
+        if (seconds === 59) {
+          setMinutes(minutes + 1);
+          setSeconds(0);
         }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
+        if (minutes === 5) {
+          clearInterval(intervalTime);
+          setSeconds(0);
+          setTime(100);
+        }
+      }, 1000);
+      setTimeout(() => {
+        setStartTime(false);
+        clearInterval(intervalTime);
+      }, 300000);
+
+      return () => {
+        clearInterval(intervalTime);
+        clearTimeout();
+      };
+    }
 
     return () => {
-      clearInterval(timer);
+      setStartTime(false);
+      clearTimeout();
     };
-  }, []);
+  }, [isStartTime, seconds, minutes, time, props]);
+
+  useEffect(() => {
+    if (isStopCallAPI) {
+      const interval = setInterval(
+        (function callApiSendBeep() {
+          props.onClickSendBeep({
+            beepPeriod: 2,
+            beepType: 1,
+            devices: [props.deviceId],
+          });
+          return callApiSendBeep;
+        })(),
+        15000
+      );
+      setTimeout(() => {
+        setStopCallAPI(true);
+        clearInterval(interval);
+        props.resetBeep();
+      }, 300000);
+      return () => {
+        clearInterval(interval);
+        clearTimeout();
+      };
+    }
+    return () => {
+      setStopCallAPI(true);
+      clearTimeout();
+    };
+  }, [isStopCallAPI, props]);
+
+  const handleClick = () => {
+    setStopCallAPI(false);
+    setStartTime(false);
+    props.resetBeep();
+    handleClose();
+  };
 
   return (
     <SideBarOutside
@@ -113,9 +171,11 @@ function SendBeep(props: Props) {
             </RightItem>
           </Item>
           <CotrolPlayer>
-            <ProgressBar variant="determinate" value={progress} />
+            <ProgressBar variant="determinate" value={time} />
             <ControlTime>
-              <div className={classes.time}>1:30</div>
+              <div className={classes.time}>
+                {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+              </div>
               <div className={classes.time}>5:00</div>
             </ControlTime>
           </CotrolPlayer>
@@ -125,9 +185,9 @@ function SendBeep(props: Props) {
             className={`${classes.btn}`}
             variant="outlined"
             isLoading={isRequesting}
-            text={t('tracker:send_beep')}
+            text={'Stop Beep'}
             type="submit"
-            onClick={onClickViewBeep}
+            onClick={handleClick}
           />
         </ControlButton>
         <div className={classes.description}>
@@ -139,4 +199,13 @@ function SendBeep(props: Props) {
   );
 }
 
-export default SendBeep;
+const mapStateToProps = createStructuredSelector({
+  deviceId: makeSelectTrackerId(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
+  resetBeep: () => dispatch(resetBeepAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendBeep);

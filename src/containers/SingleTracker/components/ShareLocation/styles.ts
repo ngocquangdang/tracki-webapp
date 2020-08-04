@@ -81,11 +81,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EmbedInput = withStyles(theme => ({
+const TextAreaInput = withStyles(theme => ({
   root: {
     width: '100%',
     '& .MuiInputBase-root': {
-      height: '100px',
       color: '#1a1a1a',
       width: '100%',
     },
@@ -112,39 +111,8 @@ const EmbedInput = withStyles(theme => ({
     '& .MuiOutlinedInput-input': {
       padding: '15.5px 14px',
     },
-  },
-}))(TextField);
-
-const LinkInput = withStyles(theme => ({
-  root: {
-    width: '100%',
-    '& .MuiInputBase-root': {
-      height: '50px',
-      color: '#1a1a1a',
-      width: '100%',
-    },
-    '& .MuiOutlinedInput-root': {
-      '&:hover fieldset': {
-        borderColor: '#1a1a1a',
-      },
-      '&.Mui-focused fieldset': {
-        border: `2px solid ${theme.palette.primary.main}`,
-      },
-    },
-    '& .MuiFormLabel-root': {
-      color: '#1a1a1a',
-    },
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#1a1a1a',
-    },
-    '& .MuiInputLabel-outlined': {
-      transform: 'translate(14px, 17px) scale(1)',
-      '&.MuiInputLabel-shrink': {
-        transform: 'translate(14px, -6px) scale(0.7)',
-      },
-    },
-    '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
+    '& .MuiOutlinedInput-inputMultiline': {
+      padding: '0 !important',
     },
   },
 }))(TextField);
@@ -159,7 +127,6 @@ export {
   StatusDuration,
   Description,
   ButtonCopyCode,
-  EmbedInput,
-  LinkInput,
+  TextAreaInput,
   useStyles,
 };

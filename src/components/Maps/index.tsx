@@ -26,8 +26,8 @@ class Map extends React.Component<Props> {
       selectTrackerAction,
       openSideBar,
       mapTile,
+      isBeep,
     } = this.props;
-
     if (mapType === 'mapbox') {
       return (
         <Mapbox
@@ -38,6 +38,7 @@ class Map extends React.Component<Props> {
           openSideBar={openSideBar}
           onClickMarker={selectTrackerAction}
           mapTile={mapTile}
+          isBeep={isBeep}
         />
       );
     }

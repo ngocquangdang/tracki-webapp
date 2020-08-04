@@ -19,6 +19,8 @@ export const initialState: TrackerDataTypes = {
   },
   settings: {},
   dataLink: {},
+  dataSendBeep: {},
+  isBeep: false,
   errors: null,
 };
 
@@ -121,6 +123,16 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
             draft.geofence.geofences[payload.geofenceId]?.trackers || []
           ).filter(i => !payload.trackerIds.includes(i)),
         };
+        break;
+      case singleTrackerTypes.SEND_BEEP_SUCCEED:
+        draft.dataSendBeep = payload?.data;
+        draft.isBeep = true;
+        break;
+      case singleTrackerTypes.SEND_BEEP_FAILED:
+        draft.errors = payload.error;
+        break;
+      case singleTrackerTypes.RESET_BEEP:
+        draft.isBeep = false;
         break;
       default:
         break;

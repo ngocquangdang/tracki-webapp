@@ -23,9 +23,8 @@ import {
   Footer,
   StatusDuration,
   Description,
-  EmbedInput,
   ButtonCopyCode,
-  LinkInput,
+  TextAreaInput,
   useStyles,
 } from './styles';
 
@@ -76,7 +75,7 @@ function ShareLocation(props: Props) {
   const renderDetailShareLocation = () => {
     return (
       <ContainerDetail>
-        <LinkInput
+        <TextAreaInput
           ref={textInputRef}
           label={t('tracker:link_url')}
           name="link_url"
@@ -96,7 +95,7 @@ function ShareLocation(props: Props) {
             onClick={copyLink(true)}
           />
         </ControlButton>
-        <EmbedInput
+        <TextAreaInput
           label={t('tracker:embed_code')}
           name="embed_code"
           value={codeShareLocation}
@@ -115,7 +114,9 @@ function ShareLocation(props: Props) {
         <Footer>
           <Title>{t('tracker:generate_link_will_expire')}</Title>
           <StatusDuration>
-            {moment(props.dataLink?.expires).format('DD/MM/YYYY, HH:mm')}
+            {props.dataLink?.expires
+              ? moment(props.dataLink?.expires).format('DD/MM/YYYY, HH:mm')
+              : 'Unlimited'}
           </StatusDuration>
           <Description className={classes.description}>
             {t('tracker:description_share_link')}

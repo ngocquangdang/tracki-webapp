@@ -67,3 +67,21 @@ export const deactiveLinkShareLocationFailed = (error: object) => ({
   type: types.DEACTIVE_LINK_SHARE_FAILED,
   payload: { error },
 });
+
+export const sendBeepRequest = (data: object) => ({
+  type: types.SEND_BEEP_REQUESTED,
+  payload: { data },
+});
+
+export const sendBeepSucceed = () => ({
+  type: types.SEND_BEEP_SUCCEED,
+});
+
+export const sendBeepFailed = (error: object) => ({
+  type: types.SEND_BEEP_FAILED,
+  payload: { error },
+});
+
+export const resetBeepAction = () => ({
+  type: types.RESET_BEEP,
+});

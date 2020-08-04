@@ -48,6 +48,8 @@ export interface TrackerDataTypes {
   };
   settings: object;
   dataLink: object | null;
+  dataSendBeep: object | null;
+  isBeep: boolean | null;
   errors: object | null;
 }
 

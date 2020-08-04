@@ -91,7 +91,7 @@ function* deactiveLinkShareLocationSaga(action) {
   try {
     const profile = yield select(makeSelectProfile());
     yield call(
-      apiServices.deactiveLinkShareLoaction,
+      apiServices.deactiveLinkShareLocation,
       profile.account_id,
       device_id
     );
@@ -102,6 +102,20 @@ function* deactiveLinkShareLocationSaga(action) {
       ...data,
     };
     yield put(actions.deactiveLinkShareLocationFailed(payload));
+  }
+}
+
+function* sendBeepSaga(action) {
+  try {
+    const profile = yield select(makeSelectProfile());
+    yield call(apiServices.sendBeep, profile.account_id, action.payload.data);
+    yield put(actions.sendBeepSucceed());
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    yield put(actions.sendBeepFailed(payload));
   }
 }
 export default function* appWatcher() {
@@ -121,4 +135,5 @@ export default function* appWatcher() {
     types.DEACTIVE_LINK_SHARE_REQUESTED,
     deactiveLinkShareLocationSaga
   );
+  yield takeLatest(types.SEND_BEEP_REQUESTED, sendBeepSaga);
 }

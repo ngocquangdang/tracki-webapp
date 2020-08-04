@@ -7,6 +7,7 @@ declare namespace IMap {
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;
+    isBeep: boolean | null;
   }
   interface IState {
     isInitiatedMap: boolean;

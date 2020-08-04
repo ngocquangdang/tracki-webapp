@@ -87,10 +87,6 @@ function SingleTracker(props: Props) {
     showSendBeep(true);
   };
 
-  const handleClickSendBeep = () => {
-    console.log('send beep');
-  };
-
   const handleCloseSendBeep = () => {
     showSendBeep(false);
   };
@@ -171,14 +167,15 @@ function SingleTracker(props: Props) {
           isMobile={false}
           onClickViewHistory={handleClickViewHistory}
         />
-        <SendBeep
-          handleClose={handleCloseSendBeep}
-          t={t}
-          show={isSendBeep}
-          isMobile={false}
-          onClickViewBeep={handleClickSendBeep}
-          tracker={tracker}
-        />
+        {isSendBeep && (
+          <SendBeep
+            handleClose={handleCloseSendBeep}
+            t={t}
+            show={isSendBeep}
+            isMobile={false}
+            tracker={tracker}
+          />
+        )}
         <ShareLocation
           handleClose={handleCloseShareLocation}
           t={t}

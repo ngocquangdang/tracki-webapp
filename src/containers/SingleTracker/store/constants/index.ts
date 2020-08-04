@@ -22,6 +22,12 @@ export const DEACTIVE_LINK_SHARE_REQUESTED =
 export const DEACTIVE_LINK_SHARE_SUCCEED = 'TRACKI/DEACTIVE_LINK_SHARE_SUCCEED';
 export const DEACTIVE_LINK_SHARE_FAILED = 'TRACKI/DEACTIVE_LINK_SHARE_FAILED';
 
+export const SEND_BEEP_REQUESTED = 'TRACKI/SEND_BEEP_REQUESTED';
+export const SEND_BEEP_SUCCEED = 'TRACKI/SEND_BEEP_SUCCEED';
+export const SEND_BEEP_FAILED = 'TRACKI/SEND_BEEP_FAILED';
+
+export const RESET_BEEP = 'TRACKI/RESET_BEEP';
+
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
   { value: '1_1_minutes', content: 'Once every 1 minute' },

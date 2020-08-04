@@ -16,6 +16,7 @@ import {
   makeSelectGeofenceId,
   makeSelectGeofenceIds,
   makeSelectTrackerSettings,
+  makeSelectBeep,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import {
@@ -63,6 +64,7 @@ const mapStateToProps = createStructuredSelector({
   geofenceIds: makeSelectGeofenceIds(),
   selectedGeofenceId: makeSelectGeofenceId(),
   settings: makeSelectTrackerSettings(),
+  isBeep: makeSelectBeep(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

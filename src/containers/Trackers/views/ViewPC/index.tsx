@@ -11,7 +11,6 @@ import { Container, MapView } from './styles';
 
 export default function TrackersContainer(props: any) {
   const { selectedTrackerId, onResetSelectedTrackerID, ...rest } = props;
-
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const toggleSideBar = () => {
