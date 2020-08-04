@@ -59,7 +59,7 @@ export default function TrackersContainer(props: any) {
       </SideBarInnerPC>
       <MapView>
         <Map
-          mapType="mapbox"
+          mapType="leaflet"
           fullWidth={!isOpenSidebar}
           openSideBar={openSideBar}
           {...rest}

@@ -22,5 +22,6 @@ const ContentCardDetail = styled.div`
   width: calc(100% - 10px);
   left: 5px;
   right: 5px;
+  z-index: 400;
 `;
 export { Container, MapView, ContentCardDetail };

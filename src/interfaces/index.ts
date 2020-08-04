@@ -27,6 +27,7 @@ export interface GlobalTypes {
   isLoading: boolean;
   errors: object | null;
   mapTile: string;
+  mapAction: string;
   showGeofences: boolean;
   showTrackerName: boolean;
 }
@@ -53,4 +54,10 @@ export interface TrackerDataTypes {
   errors: object | null;
 }
 
-export type { ITracker, IGeofence } from './tracker';
+export type {
+  ITracker,
+  IGeofence,
+  IGeoRectangle,
+  IGeoCircle,
+  IGeoPolygon,
+} from './tracker';

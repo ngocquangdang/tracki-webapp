@@ -16,6 +16,7 @@ export const initialState: TrackerDataTypes = {
     geofenceIds: null,
     selectedGeofenceId: null,
     editGeofenceId: null,
+    newGeofence: null,
   },
   settings: {},
   dataLink: {},
@@ -33,7 +34,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.SEARCH_GEOFENCES_SUCCEED:
         draft.geofence.geofenceIds = payload.geofenceIds;
         break;
-      case types.UPDATE_GEOFENCE_SUCCEED:
+      case types.SAVE_GEOFENCE_SUCCEED:
         draft.geofence.geofences[payload.geoId] = {
           ...draft.geofence.geofences[payload.geoId],
           ...payload.data,
@@ -80,6 +81,21 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.EDIT_GEOFENCE:
         draft.geofence.editGeofenceId = payload.geofenceId;
         draft.geofence.selectedGeofenceId = payload.geofenceId;
+        break;
+      case types.CREATE_NEW_GEOFENCE:
+        draft.geofence.newGeofence = payload.geofence;
+        break;
+      case types.UPDATE_NEW_GEOFENCE:
+        draft.geofence.newGeofence = {
+          ...draft.geofence.newGeofence,
+          ...payload.geofence,
+        };
+        break;
+      case types.UPDATE_GEOFENCE:
+        draft.geofence.geofences[payload.geoId] = {
+          ...draft.geofence.geofences[payload.geoId],
+          ...payload.geofence,
+        };
         break;
       case types.REMOVE_GEOFENCE_SUCCEED:
         draft.geofence.selectedGeofenceId =

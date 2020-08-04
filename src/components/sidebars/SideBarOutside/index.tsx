@@ -50,15 +50,12 @@ export default function SideBarOut(props: Props) {
 
   return (
     <Slide in={show} direction={direction || 'left'} mountOnEnter unmountOnExit>
-      <MenuWrap>
+      <MenuWrap isMobile={isMobile}>
         <WrapDisabled isMobile={isMobile}>
           <MenuHeader isMobile={isMobile}>
             {isMobile || isBackable ? (
-              <WrapTitle>
-                <ArrowBackIosIcon
-                  className={classes.iconBack}
-                  onClick={handleClose}
-                />
+              <WrapTitle onClick={handleClose}>
+                <ArrowBackIosIcon className={classes.iconBack} />
                 <TitleMobile>{capitalizeFirstLetter(title)}</TitleMobile>
               </WrapTitle>
             ) : (

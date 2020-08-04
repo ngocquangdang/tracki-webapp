@@ -132,18 +132,18 @@ function* fetchGeofencesSaga(action) {
   }
 }
 
-function* updateGeofenceSaga(action) {
+function* saveGeofenceSaga(action) {
   try {
     const geofences = yield select(makeSelectGeofences());
     const { account_id } = yield select(makeSelectProfile());
     const { geoId, data } = action.payload;
     const geo = { ...geofences[geoId], ...data };
     yield call(apiServices.updateGeofence, account_id, geoId, geo);
-    yield put(actions.updateGeofenceSucceedAction(geoId, geo));
+    yield put(actions.saveGeofenceSucceedAction(geoId, geo));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
-    yield put(actions.updateGeofenceFailedAction(payload));
+    yield put(actions.saveGeofenceFailedAction(payload));
   }
 }
 
@@ -186,12 +186,27 @@ function* unlinkTrackersSaga(action) {
   }
 }
 
+function* createNewGeofenceSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { geofence } = action.payload;
+    yield call(apiServices.createNewGeofence, account_id, geofence);
+    window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofence.id]);
+    yield put(actions.fetchGeofencesRequestedAction(account_id));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.createGeofenceFailAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
   yield takeLatest(types.SEARCH_TRACKERS_REQUESTED, searchTrackersSaga);
   yield takeLatest(types.SEARCH_GEOFENCES_REQUESTED, searchGeofencesSaga);
-  yield takeLatest(types.UPDATE_GEOFENCE_REQUESTED, updateGeofenceSaga);
+  yield takeLatest(types.SAVE_GEOFENCE_REQUESTED, saveGeofenceSaga);
+  yield takeLatest(types.CREATE_GEOFENCE_REQUESTED, createNewGeofenceSaga);
   yield takeLatest(types.REMOVE_GEOFENCE_REQUESTED, removeGeofenceSaga);
   yield takeLatest(types.LINK_TRACKERS_REQUESTED, linkTrackersSaga);
   yield takeLatest(types.UNLINK_TRACKERS_REQUESTED, unlinkTrackersSaga);
