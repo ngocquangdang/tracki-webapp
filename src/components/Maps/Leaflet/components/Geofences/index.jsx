@@ -162,7 +162,7 @@ class Geofences extends Component {
     const { geofences, editGeofenceId } = this.props;
     Object.keys(geofences).map(geoId => {
       const ediable = (editGeofenceId || '').toString() === geoId.toString();
-      this.renderGeo(geofences[geoId], ediable);
+      return this.renderGeo(geofences[geoId], ediable);
     });
     return null;
   };
