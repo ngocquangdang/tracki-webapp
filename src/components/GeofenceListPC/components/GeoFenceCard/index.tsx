@@ -12,13 +12,12 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 
-import { IGeofence } from '@Interfaces';
 import ConfirmPanel from '../DeleteConfirm';
 import AddGeoFenceToDevice from '../AddGeoFenceToDevice';
 import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
-  geofence: IGeofence;
+  geofence: any;
   isMobile?: boolean;
   selectedGeofenceId?: number | string | null;
   selectGeofence(id: number | string): void;
@@ -59,12 +58,9 @@ export default function GeofenceCard(props: Props) {
   const gotoGeofence = () => {
     const { type, preferences } = geofence;
     if (type === 'rectangle') {
-      const { vertices } = preferences;
-      if (vertices?.northeast && vertices?.southwest) {
-        window.mapEvents.setFitBounds([
-          vertices?.northeast,
-          vertices?.southwest,
-        ]);
+      const { vertices = {} } = preferences;
+      if (vertices.northeast && vertices.southwest) {
+        window.mapEvents.setFitBounds([vertices.northeast, vertices.southwest]);
       }
     } else if (type === 'circle') {
       window.mapEvents.setCenterFlyTo(preferences.center, { zoom: 16 });
