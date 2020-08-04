@@ -5,10 +5,13 @@ declare namespace IMap {
     trackerIds: Array<number>;
     mapTile: string;
     mapAction: string;
+    editGeofenceId: number;
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;
     changeMapAction(action: string): void;
+    updateNewGeofence(geo: object): void;
+    updateGeofence(geoId: number, data: object): void;
     [data: string]: any;
   }
   interface IState {

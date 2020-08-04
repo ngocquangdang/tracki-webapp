@@ -3,6 +3,7 @@ import { FiPlus } from 'react-icons/fi';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { uniqueId } from 'lodash';
 
 import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
@@ -10,6 +11,7 @@ import { SkeletonTracker } from '@Components/Skeletons';
 import GeoFence from './components/GeoFenceCard';
 import AddGeofencePanel from './components/AddGeoFence';
 import { MAP_ACTIONS } from '@Components/Maps/constant';
+import { IGeofence } from '@Interfaces';
 
 import { changeMapAction } from '@Containers/App/store/actions';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
@@ -18,15 +20,20 @@ import {
   makeSelectGeofenceId,
   makeSelectGeofenceIds,
   makeSelectEditGeofenceId,
+  makeSelectNewGeofence,
 } from '@Containers/Trackers/store/selectors';
 import {
   selectGeofenceIdAction,
   resetSelectedGeofenceAction,
-  updateGeofenceRequestedAction,
+  saveGeofenceRequestedAction,
   editGeofenceAction,
   removeGeofenceRequestAction,
   createGeofenceRequestAction,
+  createNewGeofence,
+  updateNewGeofence,
+  updateGeofence,
 } from '@Containers/Trackers/store/actions';
+import { GEOFENCE_DEFAULT } from './constant';
 
 interface Props {
   geofenceIds: number[] | null;
@@ -35,11 +42,15 @@ interface Props {
   editGeofenceId: number;
   isRequesting: boolean;
   isMobile?: boolean;
+  newGeofence: IGeofence;
   t(key: string, format?: object): string;
   selectGeofenceIdAction(id: number): void;
-  updateGeofenceAction(id: number, data: object): void;
+  saveGeofenceRequestAction(id: number, data: object): void;
   editGeofenceAction(id: number | null): void;
-  createGeofenceAction(geofence: object): void;
+  createNewGeofenceRequestAction(geofence: object): void;
+  createNewGeofence(geofence: object): void;
+  updateNewGeofence(geofence: object): void;
+  updateGeofence(geoId: number, data: object): void;
   removeGeofenceRequestAction(id: number): void;
   changeMapAction(mapAction: string): void;
   [data: string]: any;
@@ -53,11 +64,15 @@ function ListGeoFence(props: Props) {
     selectedGeofenceId,
     editGeofenceId,
     isRequesting,
+    newGeofence,
     t,
+    createNewGeofence,
+    updateGeofence,
+    updateNewGeofence,
     selectGeofenceIdAction,
-    updateGeofenceAction,
+    saveGeofenceRequestAction,
     editGeofenceAction,
-    createGeofenceAction,
+    createNewGeofenceRequestAction,
     removeGeofenceRequestAction,
     changeMapAction,
   } = props;
@@ -71,6 +86,7 @@ function ListGeoFence(props: Props) {
 
   const onOpenPanel = () => {
     setShowPanel(true);
+    createNewGeofence({ ...GEOFENCE_DEFAULT, id: uniqueId('new_geo_') });
     changeMapAction(MAP_ACTIONS.CREATE_RECTANGLE);
   };
 
@@ -92,7 +108,7 @@ function ListGeoFence(props: Props) {
                   t={t}
                   selectedGeofenceId={selectedGeofenceId}
                   selectGeofence={selectGeofenceIdAction}
-                  updateGeofence={updateGeofenceAction}
+                  updateGeofence={saveGeofenceRequestAction}
                   editGeofence={editGeofence}
                   removeGeofence={removeGeofenceRequestAction}
                 />
@@ -115,11 +131,14 @@ function ListGeoFence(props: Props) {
         isMobile={isMobile}
         isRequesting={isRequesting}
         selectedGeofence={geofences[editGeofenceId]}
+        newGeofence={newGeofence}
         t={t}
         handleClose={onClosePanel}
+        updateNewGeofence={updateNewGeofence}
+        updateGeofence={updateGeofence}
         changeMapAction={changeMapAction}
-        updateGeofence={updateGeofenceAction}
-        createGeofence={createGeofenceAction}
+        saveGeofenceRequestAction={saveGeofenceRequestAction}
+        createNewGeofenceRequestAction={createNewGeofenceRequestAction}
       />
     </Container>
   );
@@ -131,6 +150,7 @@ const mapStateToProps = createStructuredSelector({
   geofenceIds: makeSelectGeofenceIds(),
   selectedGeofenceId: makeSelectGeofenceId(),
   editGeofenceId: makeSelectEditGeofenceId(),
+  newGeofence: makeSelectNewGeofence(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -139,11 +159,15 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(removeGeofenceRequestAction(id)),
   selectGeofenceIdAction: (id: number) => dispatch(selectGeofenceIdAction(id)),
   resetSelectedGeofenceAction: () => dispatch(resetSelectedGeofenceAction()),
-  updateGeofenceAction: (geoId: number, data: object) =>
-    dispatch(updateGeofenceRequestedAction(geoId, data)),
-  createGeofenceAction: (geofence: object) =>
+  saveGeofenceRequestAction: (geoId: number, data: object) =>
+    dispatch(saveGeofenceRequestedAction(geoId, data)),
+  createNewGeofenceRequestAction: (geofence: object) =>
     dispatch(createGeofenceRequestAction(geofence)),
   changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
+  createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
+  updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
+  updateGeofence: (id: number, data: object) =>
+    dispatch(updateGeofence(id, data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

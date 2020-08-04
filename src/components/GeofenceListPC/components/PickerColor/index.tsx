@@ -38,7 +38,12 @@ function FenceColorModal(props: Props) {
         />
         <ArrowDropDownIcon />
       </div>
-      <Modal title="Fence Color" open={isOpen} handleClose={closeModal}>
+      <Modal
+        title="Fence Color"
+        open={isOpen}
+        handleClose={closeModal}
+        className={classes.pickColorModal}
+      >
         <div className={classes.container}>
           {COLORS.map((c: string[], rIndex: number) => (
             <div className={classes.colorRow} key={rIndex}>

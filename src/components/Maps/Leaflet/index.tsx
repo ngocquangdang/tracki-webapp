@@ -6,6 +6,8 @@ import IMap from '../interface';
 import MapEvents from '../MapEvent';
 import TrackerMarker from './components/TrackerMarker';
 import UserLocation from './components/UserLocation';
+import DrawTool from './components/DrawTool';
+import Geofences from './components/Geofences';
 
 const TILE_TOKEN =
   'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' +
@@ -109,12 +111,43 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   };
 
   render() {
-    const { userLocation } = this.state;
+    const { userLocation, isInitiatedMap } = this.state;
+    const {
+      mapAction,
+      changeMapAction,
+      t,
+      updateNewGeofence,
+      newGeofence,
+      geofences,
+      editGeofenceId,
+      updateGeofence,
+    } = this.props;
     return (
       <React.Fragment>
         {this.renderMarkers()}
         {userLocation && (
           <UserLocation map={this.map} location={userLocation} />
+        )}
+        {isInitiatedMap && (
+          <DrawTool
+            map={this.map}
+            mapAction={mapAction}
+            changeMapAction={changeMapAction}
+            newGeofence={newGeofence}
+            editGeofenceId={editGeofenceId}
+            updateNewGeofence={updateNewGeofence}
+            updateGeofence={updateGeofence}
+            t={t}
+          />
+        )}
+        {isInitiatedMap && (
+          <Geofences
+            map={this.map}
+            newGeofence={newGeofence}
+            geofences={geofences}
+            editGeofenceId={editGeofenceId}
+            updateNewGeofence={updateNewGeofence}
+          />
         )}
       </React.Fragment>
     );
