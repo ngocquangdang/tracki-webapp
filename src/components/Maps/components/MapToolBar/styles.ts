@@ -7,6 +7,7 @@ const ToolBar = styled.div`
   flex-direction: column;
   right: 10px;
   bottom: 27px;
+  z-index: 400;
   @media (max-width: 959.95px) {
     display: none;
   }

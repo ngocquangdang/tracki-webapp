@@ -17,20 +17,20 @@ export const fetchTrackersFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const updateGeofenceRequestedAction = (geoId: number, data: object) => ({
-  type: types.UPDATE_GEOFENCE_REQUESTED,
+export const saveGeofenceRequestedAction = (geoId: number, data: object) => ({
+  type: types.SAVE_GEOFENCE_REQUESTED,
   payload: { geoId, data },
 });
 
-export const updateGeofenceSucceedAction = (geoId: number, data: object) => {
+export const saveGeofenceSucceedAction = (geoId: number, data: object) => {
   return {
-    type: types.UPDATE_GEOFENCE_SUCCEED,
+    type: types.SAVE_GEOFENCE_SUCCEED,
     payload: { geoId, data },
   };
 };
 
-export const updateGeofenceFailedAction = (error: object) => ({
-  type: types.UPDATE_GEOFENCE_FAILED,
+export const saveGeofenceFailedAction = (error: object) => ({
+  type: types.SAVE_GEOFENCE_FAILED,
   payload: { error },
 });
 
@@ -178,4 +178,19 @@ export const unlinkTrackersSuccessAction = (
 export const unlinkTrackersFailAction = (error: object) => ({
   type: types.UNLINK_TRACKERS_FAILED,
   payload: { error },
+});
+
+export const createNewGeofence = (geofence: object) => ({
+  type: types.CREATE_NEW_GEOFENCE,
+  payload: { geofence },
+});
+
+export const updateNewGeofence = (geofence: object) => ({
+  type: types.UPDATE_NEW_GEOFENCE,
+  payload: { geofence },
+});
+
+export const updateGeofence = (geoId: number, geofence: object) => ({
+  type: types.UPDATE_GEOFENCE,
+  payload: { geoId, geofence },
 });

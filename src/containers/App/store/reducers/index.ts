@@ -10,6 +10,7 @@ export const initialState: GlobalTypes = {
   mapTile: 'streets-v11',
   showGeofences: false,
   showTrackerName: false,
+  mapAction: 'DEFAULT',
 };
 
 const appReducer = (state = initialState, { type, payload }: ActionType) =>
@@ -44,6 +45,9 @@ const appReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.mapTile = 'streets-v11';
         draft.showGeofences = false;
         draft.showTrackerName = false;
+        break;
+      case types.CHANGE_MAP_ACTION:
+        draft.mapAction = payload.mapAction;
         break;
       default:
         break;

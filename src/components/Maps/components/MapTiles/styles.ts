@@ -13,6 +13,7 @@ const LayerPanel = styled.div`
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
   background-color: rgba(22, 132, 73, 0.9);
   position: absolute;
+  z-index: 401;
 `;
 const Title = styled.span`
   font-size: 11px;

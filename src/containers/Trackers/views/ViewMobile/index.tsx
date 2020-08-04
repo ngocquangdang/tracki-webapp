@@ -16,7 +16,7 @@ export default function ViewHomeMobile(props: Props) {
       <MapView>
         {props.selectedTrackerId && <TopToolBar />}
 
-        <Map fullWidth={true} mapType="mapbox" {...props} />
+        <Map fullWidth={true} mapType="leaflet" {...props} />
         {props.selectedTrackerId && (
           <BottomToolBar
             t={props.t}

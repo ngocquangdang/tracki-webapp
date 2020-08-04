@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 const SideBarContainer = styled.div`
   position: absolute;
   height: 100%;
-  z-index: 1;
+  z-index: 401;
 `;
 
 const Content = styled.div`

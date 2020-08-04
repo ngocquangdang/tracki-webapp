@@ -18,48 +18,89 @@ import SearchLocation from '@Components/SearchLocation';
 import ColorPickerModal from '../PickerColor';
 import { ADD_GEO_SCHEMA } from './schema';
 import { useStyles } from './styles';
+import { GEOFENCE_DEFAULT } from '../../constant';
 
 interface Props {
   isMobile?: boolean;
   show: boolean;
   isRequesting?: boolean;
   selectedGeofence?: IGeofence;
+  newGeofence: IGeofence;
   t(key: string, format?: object): string;
+  changeMapAction(action: string): void;
+  updateNewGeofence(data: object): void;
+  updateGeofence(id: number, data: object): void;
+  saveGeofenceRequestAction(id: number, data: object): void;
+  createNewGeofenceRequestAction(geofence: object): void;
   handleClose(): void;
   [data: string]: any;
 }
 
 const GEO_SHAPE = ['rectangle', 'circle', 'polygon'];
 
-const ADD_GEOFENCE_FORM = {
-  name: '',
-  type: 'rectangle',
-  color: '#168449',
-};
+declare global {
+  interface Window {
+    geosDrawn: object;
+  }
+}
 
 function AddGeoFence(props: Props) {
   const classes = useStyles();
   const {
-    handleClose,
     isMobile,
     isRequesting,
-    t,
-    updateGeofence,
-    createGeofence,
     selectedGeofence,
+    newGeofence,
+    t,
+    handleClose,
+    createNewGeofenceRequestAction,
+    saveGeofenceRequestAction,
+    updateGeofence,
+    updateNewGeofence,
+    changeMapAction,
   } = props;
-  const [formData, updateFormData] = useState(ADD_GEOFENCE_FORM);
+  const [formData, updateFormData] = useState(newGeofence);
 
   useEffect(() => {
-    const newData = { ...ADD_GEOFENCE_FORM, ...selectedGeofence };
+    const newData = {
+      ...GEOFENCE_DEFAULT,
+      ...selectedGeofence,
+      ...newGeofence,
+    };
     updateFormData(newData);
-  }, [selectedGeofence]);
+  }, [selectedGeofence, newGeofence]);
 
   const onSubmitForm = (values: any) => {
     selectedGeofence
-      ? updateGeofence(selectedGeofence.id, values)
-      : createGeofence(values);
+      ? saveGeofenceRequestAction(selectedGeofence.id, values)
+      : createNewGeofenceRequestAction({ ...newGeofence, name: values.name });
     handleClose();
+  };
+
+  const onCloseAdd = () => {
+    if (newGeofence && window.geosDrawn[newGeofence.id]) {
+      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[newGeofence.id]);
+      window.geosDrawn[newGeofence.id] = null;
+    }
+    handleClose();
+  };
+
+  const onChangeTypeGeofence = (type: string) => () => {
+    changeMapAction(`create_${type}`.toUpperCase());
+    if (selectedGeofence && selectedGeofence.type !== type) {
+      window.mapEvents.map.mapApi.removeLayer(
+        window.geosDrawn[selectedGeofence.id]
+      );
+      delete window.geosDrawn[selectedGeofence.id];
+      return updateGeofence(selectedGeofence.id, { type });
+    }
+    updateNewGeofence({ type });
+  };
+
+  const onChangeColorGeofence = (color: string) => {
+    selectedGeofence
+      ? updateGeofence(selectedGeofence.id, { color })
+      : updateNewGeofence({ color });
   };
 
   return (
@@ -67,7 +108,7 @@ function AddGeoFence(props: Props) {
       title={t('tracker:add_geofence')}
       show={props.show}
       direction="right"
-      handleClose={handleClose}
+      handleClose={onCloseAdd}
       isMobile={isMobile || false}
     >
       <div className={classes.container}>
@@ -93,7 +134,6 @@ function AddGeoFence(props: Props) {
             values,
             handleChange,
             errors: errorsForm,
-            setFieldValue,
             handleSubmit,
             handleBlur,
             touched,
@@ -124,9 +164,7 @@ function AddGeoFence(props: Props) {
                       <ListItem
                         button
                         key={type}
-                        onClick={() => {
-                          setFieldValue('type', type);
-                        }}
+                        onClick={onChangeTypeGeofence(type)}
                       >
                         <ListItemAvatar>
                           <Avatar
@@ -157,7 +195,7 @@ function AddGeoFence(props: Props) {
                   <div className={classes.pickColor}>
                     <ColorPickerModal
                       selectedColor={values.color}
-                      onChangeColor={(c: string) => setFieldValue('color', c)}
+                      onChangeColor={onChangeColorGeofence}
                     />
                   </div>
                 </div>

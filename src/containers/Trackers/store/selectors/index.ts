@@ -32,6 +32,10 @@ const makeSelectEditGeofenceId = () =>
   createSelector(globalState, state => state.geofence?.editGeofenceId);
 const makeSelectContactList = () =>
   createSelector(globalState, state => state.contactlist || []);
+
+const makeSelectNewGeofence = () =>
+  createSelector(globalState, state => state.geofence?.newGeofence);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -43,4 +47,5 @@ export {
   makeSelectTrackerSettings,
   makeSelectEditGeofenceId,
   makeSelectContactList,
+  makeSelectNewGeofence,
 };

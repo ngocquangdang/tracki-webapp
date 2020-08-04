@@ -55,6 +55,6 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx", "src/components/Maps/Leaflet/components/Geofences/index.jsx"
   ]
 }

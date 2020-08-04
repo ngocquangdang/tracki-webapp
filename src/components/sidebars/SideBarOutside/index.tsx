@@ -52,7 +52,7 @@ export default function SideBarOut(props: Props) {
 
   return (
     <Slide in={show} direction={direction || 'left'} mountOnEnter unmountOnExit>
-      <MenuWrap>
+      <MenuWrap isMobile={isMobile}>
         <WrapDisabled isMobile={isMobile}>
           <MenuHeader isMobile={isMobile}>
             {isMobile || isBackable ? (
