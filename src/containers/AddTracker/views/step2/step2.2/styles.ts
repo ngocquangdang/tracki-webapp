@@ -1,37 +1,60 @@
-import { makeStyles } from '@material-ui/core';
 import styled from 'styled-components';
+import { makeStyles, withStyles } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { Tooltip } from '@material-ui/core';
 
-const FormInfo = styled.div`
-  padding: 40px;
-`;
-const FooterLetter = styled.div`
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.19;
+const Form = styled.form`
+  max-width: 400px;
+  width: 100%;
+  margin: 76px auto;
   @media (max-width: 995.95px) {
-    font-size: 14px;
+    padding: 30px 15px;
+    margin: 0;
   }
 `;
-const ContainerLetter = styled.div`
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.25;
-  margin: 15px 0;
-  @media (max-width: 995.95px) {
-    font-size: 14px;
-  }
-`;
-const HeaderLetter = styled.div`
+const About = styled.div`
   font-size: 20px;
-  font-weight: bold;
+  text-align: center;
   @media (max-width: 995.95px) {
     font-size: 16px;
   }
 `;
+
+const ToolTip = styled.div`
+  background: '#ffffff';
+`;
+const Typography = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin: 47px auto;
+  text-align: center;
+  cursor: pointer;
+  @media (max-width: 995.95px) {
+    font-size: 16px;
+    padding-top: 30px;
+    margin: 0;
+  }
+`;
+const AdornmentStyle = withStyles(theme => ({
+  root: {
+    position: 'absolute',
+    cursor: 'pointer',
+    right: 8,
+  },
+}))(InputAdornment);
+const TooltipStyle = withStyles({
+  tooltip: {
+    color: '#1a1a1a',
+    fontSize: '15px',
+    fontWeight: 'normal',
+    fontFamily: 'Roboto',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
+  },
+  arrow: {
+    color: 'white',
+  },
+})(Tooltip);
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -42,16 +65,31 @@ const useStyles = makeStyles(theme => ({
       height: 106,
     },
   },
-  widthBtn: {
-    width: 400,
-    [theme.breakpoints.down('sm')]: {
-      width: 349,
-    },
-  },
   text: {
+    fontSize: 20,
     fontWeight: 'bold',
     textDecoration: 'underline',
   },
-}));
 
-export { FormInfo, useStyles, FooterLetter, ContainerLetter, HeaderLetter };
+  marginInput: {
+    marginTop: '16px',
+  },
+  marginButton: {
+    margin: '16px 0',
+    width: '100%',
+  },
+  padding: {
+    '& .MuiOutlinedInput-adornedStart': {
+      padding: 0,
+    },
+  },
+}));
+export {
+  Form,
+  About,
+  ToolTip,
+  Typography,
+  TooltipStyle,
+  AdornmentStyle,
+  useStyles,
+};

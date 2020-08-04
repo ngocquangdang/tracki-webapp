@@ -30,6 +30,10 @@ const StepOneContainer = styled.div`
 const ToolTip = styled.div`
   background: '#ffffff';
 `;
+const Notifi = styled.p`
+  color: #ff0000;
+  text-align: center;
+`;
 const AdornmentStyle = withStyles(theme => ({
   root: {
     position: 'absolute',
@@ -62,6 +66,9 @@ const useStyles = makeStyles(theme => ({
       padding: 0,
     },
   },
+  displayNone: {
+    display: 'none',
+  },
 }));
 
 export {
@@ -70,6 +77,7 @@ export {
   StepOneContainer,
   Image,
   ToolTip,
+  Notifi,
   TooltipStyle,
   useStyles,
   AdornmentStyle,

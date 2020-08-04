@@ -32,7 +32,7 @@
   "select_your_plan": "Select your Data Plan",
   "month": "Month",
   "months": "Months",
-  "one_month_subcription": "to month subscription Cancel at any time on Tracki or Call ",
+  "one_month_subcription": " to month subscription Cancel at any time on Tracki or Call ",
   "prepaid_for": " prepaid for {{month}} months - {{price}} prepaid now, recurirng",
   "save": "Save",
   "most_popular": "Most Popular",
@@ -57,7 +57,7 @@
   "add_image_subcription": "Add a picture of what your tracking to easily see it on the map. (this is optional and you can always add a picture later)",
   "subscription_details": "Subscription Details:",
   "device_plan": "Device Plan:",
-  "device_id": "Device ID:",
+  "device_id": "Device ID",
   "month_subcription": " to month subcription",
   "activation_date": "Activation Date: {{date}}",
   "subscription_expiration": "Subscription Expiration: {{date}}",
@@ -114,5 +114,7 @@
   "unlink": "Unlink",
   "link": "Link",
   "select_trackers_to_link": "Select Trackers to Link",
-  "search_tracker_by_name_id": "Search Tracker by Name or ID..."
+  "search_tracker_by_name_id": "Search Tracker by Name or ID...",
+  "cannot_activate_device": "Cannot activate device",
+  "exception_device_notFound": "Device is not found"
 }

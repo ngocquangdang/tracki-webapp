@@ -11,7 +11,8 @@ import Fade from '@material-ui/core/Fade';
 
 interface Props {
   onClickAmazonPay(): void;
-  t(key: string): string;
+  // t(key: string): string;
+  t: Function;
 }
 function AmazonPay(props: Props) {
   const { onClickAmazonPay, t } = props;
