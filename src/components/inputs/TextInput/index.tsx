@@ -36,7 +36,6 @@ function TextFieldComp(props: Props) {
       }}
       onChange={onChange}
       FormHelperTextProps={{ classes: { root: classes.errorRoot } }}
-      InputLabelProps={{ shrink: true }}
       {...rest}
     />
   );

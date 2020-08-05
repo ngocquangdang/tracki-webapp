@@ -94,6 +94,10 @@ export const resetSelectedTrackerIdAction = () => ({
   type: types.RESET_SELECTED_TRACKER,
 });
 
+export const resetNewGeofenceAction = () => ({
+  type: types.RESET_NEW_GEOFENCE,
+});
+
 export const selectGeofenceIdAction = (geofenceId: number) => ({
   type: types.SELECTED_GEOFENCE,
   payload: { geofenceId },
@@ -104,9 +108,8 @@ export const createGeofenceRequestAction = (geofence: object) => ({
   payload: { geofence },
 });
 
-export const createGeofenceSuccessAction = (geofence: object) => ({
+export const createGeofenceSuccessAction = () => ({
   type: types.CREATE_GEOFENCE_SUCCEED,
-  payload: { geofence },
 });
 
 export const createGeofenceFailAction = (error: object) => ({

@@ -21,7 +21,7 @@ import {
 interface Props {
   handleClickPayment(): void;
   isMobile: boolean;
-  t(key: string): string;
+  t(key: string, format?: object): string;
 }
 
 function PaymentOption(props: Props) {

@@ -20,6 +20,7 @@ import Link from 'next/link';
 
 interface Props {
   title: string;
+  button?: JSX.Element;
   isBackable?: boolean;
   handleClose(): void;
   children: any;
@@ -33,6 +34,7 @@ export default function SideBarOut(props: Props) {
   const classes = useStyles();
   const {
     title,
+    button,
     handleClose,
     children,
     isMobile,
@@ -54,12 +56,19 @@ export default function SideBarOut(props: Props) {
         <WrapDisabled isMobile={isMobile}>
           <MenuHeader isMobile={isMobile}>
             {isMobile || isBackable ? (
-              <WrapTitle onClick={handleClose}>
-                <ArrowBackIosIcon className={classes.iconBack} />
-                <TitleMobile>{capitalizeFirstLetter(title)}</TitleMobile>
+              <WrapTitle>
+                <ArrowBackIosIcon
+                  className={classes.iconBack}
+                  onClick={handleClose}
+                />
+                <TitleMobile>
+                  {capitalizeFirstLetter(title)} {button}
+                </TitleMobile>
               </WrapTitle>
             ) : (
-              <Title>{capitalizeFirstLetter(title)}</Title>
+              <Title>
+                {capitalizeFirstLetter(title)} {button}
+              </Title>
             )}
             {isMobile ? (
               isLogo ? (

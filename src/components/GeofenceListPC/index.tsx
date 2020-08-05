@@ -32,6 +32,7 @@ import {
   createNewGeofence,
   updateNewGeofence,
   updateGeofence,
+  resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
 import { GEOFENCE_DEFAULT } from './constant';
 
@@ -45,6 +46,7 @@ interface Props {
   newGeofence: IGeofence;
   t(key: string, format?: object): string;
   selectGeofenceIdAction(id: number): void;
+  resetNewGeofenceAction(): void;
   saveGeofenceRequestAction(id: number, data: object): void;
   editGeofenceAction(id: number | null): void;
   createNewGeofenceRequestAction(geofence: object): void;
@@ -75,6 +77,7 @@ function ListGeoFence(props: Props) {
     createNewGeofenceRequestAction,
     removeGeofenceRequestAction,
     changeMapAction,
+    resetNewGeofenceAction,
   } = props;
   const classes = useStyles();
   const [showAddPanel, setShowPanel] = useState(false);
@@ -137,6 +140,7 @@ function ListGeoFence(props: Props) {
         updateNewGeofence={updateNewGeofence}
         updateGeofence={updateGeofence}
         changeMapAction={changeMapAction}
+        resetNewGeofenceAction={resetNewGeofenceAction}
         saveGeofenceRequestAction={saveGeofenceRequestAction}
         createNewGeofenceRequestAction={createNewGeofenceRequestAction}
       />
@@ -166,6 +170,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
   createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
+  resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
   updateGeofence: (id: number, data: object) =>
     dispatch(updateGeofence(id, data)),
 });

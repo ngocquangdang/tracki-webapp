@@ -11,7 +11,7 @@ import {
 } from './styles';
 import { Button } from '@Components/buttons';
 interface Props {
-  t: any;
+  t(key: string, format?: object): string;
   onClickIncrease?(): void;
   onClickCancel?(): void;
   open: boolean;

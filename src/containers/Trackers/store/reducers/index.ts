@@ -19,6 +19,7 @@ export const initialState: TrackerDataTypes = {
     newGeofence: null,
   },
   settings: {},
+  contactList: [],
   dataLink: {},
   dataSendBeep: {},
   isBeep: false,
@@ -85,6 +86,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.CREATE_NEW_GEOFENCE:
         draft.geofence.newGeofence = payload.geofence;
         break;
+      case types.CREATE_GEOFENCE_SUCCEED:
+        draft.geofence.newGeofence = null;
+        break;
       case types.UPDATE_NEW_GEOFENCE:
         draft.geofence.newGeofence = {
           ...draft.geofence.newGeofence,
@@ -96,6 +100,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           ...draft.geofence.geofences[payload.geoId],
           ...payload.geofence,
         };
+        break;
+      case types.RESET_NEW_GEOFENCE:
+        draft.geofence.newGeofence = null;
         break;
       case types.REMOVE_GEOFENCE_SUCCEED:
         draft.geofence.selectedGeofenceId =
@@ -139,6 +146,12 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
             draft.geofence.geofences[payload.geofenceId]?.trackers || []
           ).filter(i => !payload.trackerIds.includes(i)),
         };
+        break;
+      case singleTrackerTypes.GET_LIST_CONTACT_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.GET_LIST_CONTACT_SUCCESSED:
+        draft.contactList = payload;
         break;
       case singleTrackerTypes.SEND_BEEP_SUCCEED:
         draft.dataSendBeep = payload?.data;

@@ -36,6 +36,7 @@ const Content = styled.div`
   background-color: #ffffff;
   @media (max-width: 995.95px) {
     max-width: 375px;
+    margin: auto;
   }
 `;
 const Review = styled.div`
@@ -48,7 +49,7 @@ const CongratulationTitle = styled.h2`
   font-weight: 600;
   margin: 15px auto;
 `;
-const CongratulationContainer = styled.div`
+const Congratulation = styled.div`
   padding: 0 46.5px;
   display: flex;
   flex-direction: column;
@@ -141,7 +142,7 @@ export {
   StepContentStyle,
   StepperStyle,
   Review,
-  CongratulationContainer,
+  Congratulation,
   CongratulationTitle,
   CongratulationSubTitle,
   CongratulationTracker,

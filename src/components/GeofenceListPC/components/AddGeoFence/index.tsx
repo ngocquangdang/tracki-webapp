@@ -28,6 +28,7 @@ interface Props {
   newGeofence: IGeofence;
   t(key: string, format?: object): string;
   changeMapAction(action: string): void;
+  resetNewGeofenceAction(): void;
   updateNewGeofence(data: object): void;
   updateGeofence(id: number, data: object): void;
   saveGeofenceRequestAction(id: number, data: object): void;
@@ -58,17 +59,23 @@ function AddGeoFence(props: Props) {
     updateGeofence,
     updateNewGeofence,
     changeMapAction,
+    resetNewGeofenceAction,
   } = props;
   const [formData, updateFormData] = useState(newGeofence);
+  const [cloneSelectedGeofence, setCloneGeofence] = useState(selectedGeofence);
 
   useEffect(() => {
+    if (!cloneSelectedGeofence) {
+      setCloneGeofence(selectedGeofence);
+    }
+
     const newData = {
       ...GEOFENCE_DEFAULT,
       ...selectedGeofence,
       ...newGeofence,
     };
     updateFormData(newData);
-  }, [selectedGeofence, newGeofence]);
+  }, [selectedGeofence, newGeofence, cloneSelectedGeofence]);
 
   const onSubmitForm = (values: any) => {
     selectedGeofence
@@ -77,27 +84,46 @@ function AddGeoFence(props: Props) {
     handleClose();
   };
 
+  const removeGeofence = (id: number) => {
+    if (window.geosDrawn[id]) {
+      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
+      window.geosDrawn[id] = null;
+    }
+  };
+
   const onCloseAdd = () => {
-    if (newGeofence && window.geosDrawn[newGeofence.id]) {
-      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[newGeofence.id]);
-      window.geosDrawn[newGeofence.id] = null;
+    if (newGeofence) {
+      removeGeofence(newGeofence.id);
+      resetNewGeofenceAction();
+    }
+    if (cloneSelectedGeofence) {
+      removeGeofence(cloneSelectedGeofence.id);
+      updateGeofence(cloneSelectedGeofence.id, cloneSelectedGeofence);
     }
     handleClose();
   };
 
   const onChangeTypeGeofence = (type: string) => () => {
-    changeMapAction(`create_${type}`.toUpperCase());
+    const newAction = `create_${type}`.toUpperCase();
+    changeMapAction(newAction);
     if (selectedGeofence && selectedGeofence.type !== type) {
-      window.mapEvents.map.mapApi.removeLayer(
-        window.geosDrawn[selectedGeofence.id]
-      );
-      delete window.geosDrawn[selectedGeofence.id];
-      return updateGeofence(selectedGeofence.id, { type });
+      removeGeofence(selectedGeofence.id);
+      return updateGeofence(selectedGeofence.id, {
+        type,
+        preferences: { trigger: 'BOTH' },
+      });
     }
-    updateNewGeofence({ type });
+    updateNewGeofence({ type, preferences: { trigger: 'BOTH' } });
   };
 
   const onChangeColorGeofence = (color: string) => {
+    // update color
+    if (selectedGeofence && selectedGeofence.color !== color) {
+      removeGeofence(selectedGeofence.id);
+    } else if (newGeofence.color !== color) {
+      removeGeofence(newGeofence.id);
+    }
+
     selectedGeofence
       ? updateGeofence(selectedGeofence.id, { color })
       : updateNewGeofence({ color });
@@ -149,7 +175,7 @@ function AddGeoFence(props: Props) {
                     onBlur={handleBlur('name')}
                     errorInput={
                       touched.name && errorsForm.name
-                        ? t(errorsForm.name)
+                        ? t('auth:' + errorsForm.name)
                         : undefined
                     }
                     variant="outlined"

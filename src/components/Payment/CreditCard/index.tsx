@@ -29,7 +29,7 @@ const initialValuesForm = {
 interface Props {
   onClickCreditCard(): void;
   isMobile: boolean;
-  t(key: string): string;
+  t(key: string, format?: object): string;
 }
 
 function CreditCard(props: Props) {
@@ -126,6 +126,7 @@ function CreditCard(props: Props) {
               />
               <Button
                 className={`${classes.btn}`}
+                id="#submit-button"
                 color="primary"
                 variant="outlined"
                 type="submit"
