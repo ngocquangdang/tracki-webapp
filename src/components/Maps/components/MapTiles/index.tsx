@@ -44,7 +44,7 @@ function MapTiles(props: Props) {
     <LayerPanel className={className}>
       <TopPanel>
         <Title>{t('common:map_type')}</Title>
-        <MdClose onClick={onClose} />
+        <MdClose onClick={onClose} style={{ fontSize: '20px' }} />
       </TopPanel>
       <LayerItem>
         {MAP_TILES.map((layer, index) => (

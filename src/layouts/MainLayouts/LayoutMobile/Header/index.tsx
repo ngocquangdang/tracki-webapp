@@ -56,7 +56,7 @@ export default function HeaderMobile(props: Props) {
                   }
                 </>
               ) : (
-                'All Tracker'
+                'All Trackers'
               )}
             </Typography>
           </div>

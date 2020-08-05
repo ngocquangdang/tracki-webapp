@@ -15,7 +15,7 @@
     width: 100%;
     height: 100%;
     left: 2px;
-    padding: 15px;
+    padding: 12px;
     top: -2px;
     z-index: 2;
     object-fit: contain;
@@ -38,27 +38,26 @@
   }
 
   .marker-pin {
-    width: 65px;
-    height: 65px;
+    width: 57px;
+    height: 57px;
     cursor: pointer;
     background-color: #fff;
     position: absolute;
     font-size: 22px;
     transform: rotate(-45deg);
-    left: -155%;
+    left: -133%;
     bottom: 120%;
     border-radius: 50% 50% 50% 0;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
-
     &::after {
       content: '';
-      width: 56px;
-      height: 56px;
+      width: 49px;
+      height: 49px;
       background: #168449;
       position: absolute;
       border-radius: 50%;
       top: 4px;
-      left: 5px;
+      left: 4px;
     }
   }
 

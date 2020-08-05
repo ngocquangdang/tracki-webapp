@@ -44,7 +44,7 @@ const Image = styled.img`
 `;
 const Name = styled.span`
   font-size: 8px;
-  padding: 5px 0;
+  padding: 1px 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
