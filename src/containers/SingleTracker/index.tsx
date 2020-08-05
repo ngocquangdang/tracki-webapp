@@ -37,6 +37,8 @@ import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
 import HistoryTracker from './components/HistoryTracker';
 import HistoryTrackerCard from '@Components/HistoryTrackerCard';
+import SendBeep from './components/SendBeep';
+import ShareLocation from './components/ShareLocation';
 
 interface Props {
   settings: object;
@@ -49,10 +51,13 @@ interface Props {
 function SingleTracker(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
   const classes = useStyles();
+  const { tracker, onClickBack, t, fetchTrackerSettings } = props;
+
   const [isSetting, showSetting] = useState(false);
   const [isHistory, showHistory] = useState(false);
   const [isViewHistory, showViewHistory] = useState(false);
-  const { tracker, onClickBack, t, fetchTrackerSettings } = props;
+  const [isSendBeep, showSendBeep] = useState(false);
+  const [isShareLocation, setViewShareLocation] = useState(false);
 
   const handleCloseHistory = () => showHistory(false);
   const handleCloseSetting = () => showSetting(false);
@@ -73,9 +78,26 @@ function SingleTracker(props: Props) {
   const handleClickPreviosHisotry = () => {
     console.log('previos history');
   };
+
   const handleClickNextHistory = () => {
     console.log('next history');
   };
+
+  const onClickBeepDevice = () => {
+    showSendBeep(true);
+  };
+
+  const handleCloseSendBeep = () => {
+    showSendBeep(false);
+  };
+
+  const handleCloseShareLocation = () => {
+    setViewShareLocation(false);
+  };
+  const onClickShareLocation = () => {
+    setViewShareLocation(true);
+  };
+
   return (
     <Slide direction="right" in mountOnEnter unmountOnExit>
       <Container>
@@ -114,11 +136,11 @@ function SingleTracker(props: Props) {
                 </ContainerControl>
               </TrackerMenuUp>
               <TrackerMenuDown>
-                <ContainerControl>
+                <ContainerControl onClick={onClickBeepDevice}>
                   <VolumeUpIcon />
                   <TitleMenu>Beep Device</TitleMenu>
                 </ContainerControl>
-                <ContainerControl>
+                <ContainerControl onClick={onClickShareLocation}>
                   <ShareIcon />
                   <TitleMenu>Share Location</TitleMenu>
                 </ContainerControl>
@@ -144,6 +166,21 @@ function SingleTracker(props: Props) {
           show={isHistory}
           isMobile={false}
           onClickViewHistory={handleClickViewHistory}
+        />
+        {isSendBeep && (
+          <SendBeep
+            handleClose={handleCloseSendBeep}
+            t={t}
+            show={isSendBeep}
+            isMobile={false}
+            tracker={tracker}
+          />
+        )}
+        <ShareLocation
+          handleClose={handleCloseShareLocation}
+          t={t}
+          show={isShareLocation}
+          isMobile={false}
         />
       </Container>
     </Slide>

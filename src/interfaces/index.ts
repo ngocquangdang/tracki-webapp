@@ -49,6 +49,9 @@ export interface TrackerDataTypes {
   };
   settings: object;
   contactList: Array<object> | null;
+  dataLink: object | null;
+  dataSendBeep: object | null;
+  isBeep: boolean | null;
   errors: object | null;
 }
 

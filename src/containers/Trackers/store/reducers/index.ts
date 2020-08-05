@@ -20,6 +20,9 @@ export const initialState: TrackerDataTypes = {
   },
   settings: {},
   contactList: [],
+  dataLink: {},
+  dataSendBeep: {},
+  isBeep: false,
   errors: null,
 };
 
@@ -105,6 +108,25 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           [];
         delete draft.geofence.geofences[payload.geofenceId];
         break;
+      case singleTrackerTypes.ACTIVE_LINK_SHARE_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.ACTIVE_LINK_SHARE_SUCCEED:
+        draft.dataLink = payload.data;
+        break;
+      case singleTrackerTypes.ACTIVE_LINK_SHARE_FAILED:
+        draft.errors = payload.error;
+        break;
+      case singleTrackerTypes.DEACTIVE_LINK_SHARE_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.DEACTIVE_LINK_SHARE_SUCCEED:
+        draft.dataLink = null;
+        delete draft.dataLink;
+        break;
+      case singleTrackerTypes.DEACTIVE_LINK_SHARE_FAILED:
+        draft.errors = payload.error;
+        break;
       case types.LINK_TRACKERS_SUCCEED:
         draft.geofence.geofences[payload.geofenceId] = {
           ...draft.geofence.geofences[payload.geofenceId],
@@ -124,6 +146,16 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case singleTrackerTypes.GET_LIST_CONTACT_SUCCESSED:
         draft.contactList = payload;
+        break;
+      case singleTrackerTypes.SEND_BEEP_SUCCEED:
+        draft.dataSendBeep = payload?.data;
+        draft.isBeep = true;
+        break;
+      case singleTrackerTypes.SEND_BEEP_FAILED:
+        draft.errors = payload.error;
+        break;
+      case singleTrackerTypes.RESET_BEEP:
+        draft.isBeep = false;
         break;
       default:
         break;

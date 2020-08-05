@@ -31,6 +31,7 @@ interface Props {
   updateGeofence(id: number, data: object): void;
   updateNewGeofence(geo: object): void;
   openSideBar(): void;
+  isBeep: boolean;
   [data: string]: any;
 }
 

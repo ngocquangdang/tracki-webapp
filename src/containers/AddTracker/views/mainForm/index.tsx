@@ -18,16 +18,17 @@ import {
   StepperStyle,
   Review,
   useStyles,
-  CongratulationContainer,
+  Congratulation,
   CongratulationTitle,
   CongratulationSubTitle,
   CongratulationTracker,
   CongratulationIcon,
 } from './styles';
 import { FaPen } from 'react-icons/fa';
-import AddDeviceStep21 from '../step2/step2.1';
-import AddDeviceStep22 from '../step2/step2.2';
-import AddDeviceStep23 from '../step2/step2.3';
+import PaymentConfirmContainer from '../step2/step2.1';
+import ReferralCodeContainer from '../step2/step2.2';
+import CongratulationContainer from '../step2/step2.3';
+
 import { IoMdPin } from 'react-icons/io';
 
 export default function MainForm(props: any) {
@@ -52,11 +53,12 @@ export default function MainForm(props: any) {
   const onNextStep = (step: number) => () => {
     setActiveStep(step);
   };
-
+  const onNextStep1 = (assigned: boolean) =>
+    assigned ? setActiveStep(1) : setActiveStep(0);
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <Step1 {...props} onNextStep={onNextStep(1)} />;
+        return <Step1 {...props} onNextStep={onNextStep1} />;
       case 1:
         return (
           <Step2
@@ -72,28 +74,30 @@ export default function MainForm(props: any) {
     }
   };
 
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
+  const handleBack = (step: number) => () => setActiveStep(step);
+
   const renderStep = () => {
     switch (stepChild) {
       case 'payment_confirm':
         return (
-          <AddDeviceStep21
+          <PaymentConfirmContainer
             {...props}
             nextStep={onNextStepChild('referral_code')}
           />
         );
+
       case 'referral_code':
         return (
-          <AddDeviceStep22
+          <ReferralCodeContainer
             {...props}
-            nextStep={onNextStepChild('congratulation')}
+            EndStepChild={onNextStepChild('')}
+            nextStep={onNextStep(2)}
+            NextStepChild={onNextStepChild('congratulation')}
           />
         );
       case 'congratulation':
         return (
-          <AddDeviceStep23
+          <CongratulationContainer
             {...props}
             nextStep={onNextStep(2)}
             NextStepChild={onNextStepChild('')}
@@ -133,7 +137,7 @@ export default function MainForm(props: any) {
                             ? classes.show
                             : classes.hidden
                         } ${activeStep === 3 && classes.hidden}`}
-                        onClick={handleBack}
+                        onClick={handleBack(index)}
                       >
                         <FaPen className={classes.marginIcon} />
                         {t('tracker:review')}
@@ -149,7 +153,7 @@ export default function MainForm(props: any) {
               ))}
             </StepperStyle>
             {activeStep === steps.length && (
-              <CongratulationContainer>
+              <Congratulation>
                 <CongratulationTitle>
                   {t('tracker:congratulations')}
                 </CongratulationTitle>
@@ -170,7 +174,7 @@ export default function MainForm(props: any) {
                   className={classes.widthBtn}
                   onClick={props.nextStep}
                 />
-              </CongratulationContainer>
+              </Congratulation>
             )}
           </Content>
         </Container>

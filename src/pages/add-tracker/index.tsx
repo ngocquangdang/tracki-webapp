@@ -11,7 +11,10 @@ const AddTracker: NextPage<IPage.InitialProps> = props => {
 };
 
 AddTracker.getInitialProps = async (): Promise<IPage.InitialProps> => {
-  return { namespacesRequired: ['tracker'] };
+  return { namespacesRequired: ['tracker', 'subscription'] };
 };
 
-export default compose(withAuth, withTranslation('tracker'))(AddTracker);
+export default compose(
+  withAuth,
+  withTranslation(['tracker', 'subscription'])
+)(AddTracker);
