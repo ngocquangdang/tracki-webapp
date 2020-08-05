@@ -17,7 +17,7 @@ import { Button } from '@Components/buttons';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { AddTrackerSchema } from '../../schema';
 interface Props {
-  t: Function;
+  t(key: string, format?: object): string;
   onNextStep: Function;
   checkDeviceAssignedAction(value: any, callback: any): void;
   getDevicePlanAction(value): void;

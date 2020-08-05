@@ -23,7 +23,7 @@ import {
 } from './styles';
 
 interface Props {
-  t: Function;
+  t(key: string, format?: object): string;
   updateStepChild: Function;
   trackerPlan: any;
   formData: any;

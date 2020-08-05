@@ -29,8 +29,7 @@ const initialValuesForm = {
 interface Props {
   onClickCreditCard(): void;
   isMobile: boolean;
-  // t(key: string): string;
-  t: Function;
+  t(key: string, format?: object): string;
 }
 
 function CreditCard(props: Props) {
