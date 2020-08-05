@@ -1,5 +1,10 @@
 import axiosClient from '@Utils/axios';
 import ILoginPage from '../interfaces';
+import {
+  OAUTH_CLIENT_ID,
+  OAUTH_CLIENT_SECRET,
+  OAUTH_REDIRECT_URI,
+} from '@Definitions/app';
 
 const LOGIN_ENDPOINT = '/internal/v2/user/login';
 const OAUTH_AUTHORIZE_ENDPOINT = '/v3/oauth2/auth';
@@ -15,8 +20,8 @@ export const login = async (body: ILoginPage.IStateLogin) => {
   );
   const response = await axiosClient.get(OAUTH_AUTHORIZE_ENDPOINT, '', {
     params: {
-      client_id: '943f9b0f-73c8-4435-8801-0260db687f05',
-      redirect_uri: 'https://api.dev.tracki.com/api/internal/v1/oauth_redirect',
+      client_id: OAUTH_CLIENT_ID,
+      redirect_uri: OAUTH_REDIRECT_URI,
       response_type: 'code',
       scope: 'locations,notifications,devices,accounts,settings,geozones',
     },
@@ -25,10 +30,10 @@ export const login = async (body: ILoginPage.IStateLogin) => {
   return axiosClient.post(
     OAUTH_TOKEN_ENDPOINT,
     {
-      client_id: '943f9b0f-73c8-4435-8801-0260db687f05',
-      client_secret: '96ca64b0ae5f7005fd18387a28019615',
+      client_id: OAUTH_CLIENT_ID,
+      client_secret: OAUTH_CLIENT_SECRET,
       code: response.data?.code,
-      redirect_uri: 'https://api.dev.tracki.com/api/internal/v1/oauth_redirect',
+      redirect_uri: OAUTH_REDIRECT_URI,
     },
     {
       withCredentials: true,

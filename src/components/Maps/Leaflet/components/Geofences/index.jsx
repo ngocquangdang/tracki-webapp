@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import L from 'leaflet';
 
 const COLOR_DEFAULT = '#168449';
 
-class Geofences extends Component {
+class Geofences extends React.Component {
   constructor(props) {
     super(props);
     window.geosDrawn = {};
@@ -20,31 +20,46 @@ class Geofences extends Component {
   onDragEnd = geoId => evt => {
     console.log('___dragEND GEO_ID', geoId, evt);
     const {
-      // geofences,
+      geofences,
       newGeofence,
-      // updateGeofence,
+      updateGeofence,
       updateNewGeofence,
     } = this.props;
 
     evt.target.editing.enable();
-    if (newGeofence) {
-      const geo = {
-        ...newGeofence,
-        preferences: { ...newGeofence.preferences },
-      };
-      if (geo.type === 'circle') {
-        geo.preferences.center = evt.target._latlng;
+    let preferences = { trigger: 'BOTH' };
+    const geoType = newGeofence ? newGeofence.type : geofences[geoId].type;
+
+    if (geoType) {
+      if (geoType === 'circle') {
+        preferences.center = evt.target._latlng;
+        preferences.radius = evt.target._mRadius;
       } else {
-        geo.preferences.vertices =
-          geo.type === 'rectangle'
+        preferences.vertices =
+          geoType === 'rectangle'
             ? {
                 northeast: evt.target._bounds._northEast,
                 southwest: evt.target._bounds._southWest,
               }
             : evt.target._latlngs[0];
       }
-      updateNewGeofence(geo);
+      newGeofence
+        ? updateNewGeofence({ ...newGeofence, preferences })
+        : updateGeofence(geoId, { preferences });
     }
+  };
+
+  changeRadius = geoId => evt => {
+    console.log('___changeRadius', geoId, evt);
+    const { newGeofence, updateGeofence, updateNewGeofence } = this.props;
+    const preferences = {
+      trigger: 'BOTH',
+      radius: evt.target._mRadius,
+      center: evt.target._latlng,
+    };
+    newGeofence
+      ? updateNewGeofence({ ...newGeofence, preferences })
+      : updateGeofence(geoId, { preferences });
   };
 
   componentWillReceiveProps(nextProps) {
@@ -121,6 +136,7 @@ class Geofences extends Component {
       circle.on('click', this.onClick(id));
       circle.on('dragstart', this.onDragStart);
       circle.on('dragend', this.onDragEnd(id));
+      circle.on('edit', this.changeRadius(id));
       window.geosDrawn[id] = circle;
     }
   };

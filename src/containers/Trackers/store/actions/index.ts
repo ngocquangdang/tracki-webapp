@@ -94,6 +94,10 @@ export const resetSelectedTrackerIdAction = () => ({
   type: types.RESET_SELECTED_TRACKER,
 });
 
+export const resetNewGeofenceAction = () => ({
+  type: types.RESET_NEW_GEOFENCE,
+});
+
 export const selectGeofenceIdAction = (geofenceId: number) => ({
   type: types.SELECTED_GEOFENCE,
   payload: { geofenceId },
