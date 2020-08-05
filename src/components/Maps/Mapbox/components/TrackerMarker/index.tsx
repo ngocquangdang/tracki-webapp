@@ -7,6 +7,7 @@ interface Props {
   map: any;
   tracker: ITracker;
   onClickMarker(id: string | number): void;
+  isBeep: boolean | null;
 }
 
 class TrackerMarker extends React.Component<Props> {
@@ -28,6 +29,7 @@ class TrackerMarker extends React.Component<Props> {
     const {
       map,
       tracker: { lat, lng, icon_url, device_name },
+      isBeep,
     } = this.props;
 
     if (map && !this.marker && lat && lng) {
@@ -35,7 +37,7 @@ class TrackerMarker extends React.Component<Props> {
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
-        <div class='icon-red'>
+        <div class=${isBeep ? 'icon-red-active' : 'icon-red'}>
           <span class='inner'></span>
           <div class='marker-pin'>
             <img src=${

@@ -43,3 +43,30 @@ export const updateSettings = async (
     settings
   );
 };
+
+export const activeLinkShareLocation = async (
+  accountId: number,
+  trackerId: number,
+  duration: object
+) => {
+  return await axiosClient.post(
+    `v3/accounts/${accountId}/devices/${trackerId}/share`,
+    duration
+  );
+};
+
+export const deactiveLinkShareLocation = async (
+  accountId: number,
+  trackerId: number
+) => {
+  return await axiosClient.delete(
+    `v3/accounts/${accountId}/devices/${trackerId}/share`
+  );
+};
+
+export const sendBeep = async (accountId: number, data: object) => {
+  return await axiosClient.post(
+    `v3/accounts/${accountId}/devices/ops/beep`,
+    data
+  );
+};

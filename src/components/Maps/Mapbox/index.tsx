@@ -83,7 +83,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
   };
 
   renderMarkers = () => {
-    const { trackers } = this.props;
+    const { trackers, isBeep } = this.props;
     if (this.state.isInitiatedMap && trackers) {
       this.fitBoundTrackers(false);
 
@@ -93,6 +93,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
           map={this.map}
           tracker={tracker}
           onClickMarker={this.onClickTracker}
+          isBeep={isBeep}
         />
       ));
     }
