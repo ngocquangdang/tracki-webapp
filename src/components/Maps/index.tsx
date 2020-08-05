@@ -52,7 +52,6 @@ class Map extends React.Component<Props> {
         <Mapbox
           initMapCallback={this.initMapCallback}
           onClickMarker={selectTrackerAction}
-          isBeep={rest.isBeep}
           {...rest}
         />
       );
