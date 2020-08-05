@@ -108,9 +108,8 @@ export const createGeofenceRequestAction = (geofence: object) => ({
   payload: { geofence },
 });
 
-export const createGeofenceSuccessAction = (geofence: object) => ({
+export const createGeofenceSuccessAction = () => ({
   type: types.CREATE_GEOFENCE_SUCCEED,
-  payload: { geofence },
 });
 
 export const createGeofenceFailAction = (error: object) => ({

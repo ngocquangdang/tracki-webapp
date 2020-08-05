@@ -193,6 +193,7 @@ function* createNewGeofenceSaga(action) {
     yield call(apiServices.createNewGeofence, account_id, geofence);
     window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofence.id]);
     yield put(actions.fetchGeofencesRequestedAction(account_id));
+    yield put(actions.createGeofenceSuccessAction());
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };

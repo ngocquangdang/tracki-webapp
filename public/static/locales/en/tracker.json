@@ -135,5 +135,16 @@
   "last_update": "Last Updated",
   "send_beep": "Send Beep",
   "beep_minutes": "Device will Beep for 5 minutes.",
-  "beep_stop": "To stop the sound, press the SOS key on the device. or Press the Stop Beep button"
+  "beep_stop": "To stop the sound, press the SOS key on the device. or Press the Stop Beep button",
+  "click_drag_drawing_circle": "Click and drag to draw circle",
+  "radius": "Radius",
+  "release_mouse_finish_drawing": "Release mouse to finish drawing.",
+  "click_map_drawing_line": "Click to start drawing line",
+  "click_continue_drawing_line": "Click to continue drawing line",
+  "click_last_point_end_line": "Click last point to finish line",
+  "error_drawing_polyline": "<strong>Error:</strong> shape edges cannot cross!",
+  "click_start_drawing_shape": "Click to start drawing shape",
+  "click_continue_drawing_shape": "Click to continue drawing shape",
+  "click_first_point_close_shape": "Click first point to close this shape",
+  "click_drag_drawing_rectangle": "Click and drag to draw rectangle"
 }
