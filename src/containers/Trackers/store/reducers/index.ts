@@ -97,6 +97,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           ...payload.geofence,
         };
         break;
+      case types.RESET_NEW_GEOFENCE:
+        draft.geofence.newGeofence = null;
+        break;
       case types.REMOVE_GEOFENCE_SUCCEED:
         draft.geofence.selectedGeofenceId =
           draft.geofence.selectedGeofenceId === payload.geofenceId
