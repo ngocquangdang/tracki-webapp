@@ -7,24 +7,25 @@ definitions:
   caches:
     nextcache: .next/cache
   steps:
-    - step: &run-test
-        name: Test and Build
+    - step: &run-and-test
+        name: Install dependency and run test eslint
         caches:
           - node
           - nextcache
         script:
           - yarn
           - yarn lint
-          - yarn build
         artifacts:
-          - ./
+          - node_modules/**
     - step: &build-and-push-to-docker-registry
         name: Push to Docker Registry
         script:
-          - export TAG="${BITBUCKET_COMMIT::7}"
+          - cat set_env.sh
+          - source set_env.sh
           - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
           - docker build -t mtrk2021/tracki-frontend:$TAG .
           - docker push mtrk2021/tracki-frontend:$TAG
+          - cat ./deploy.sh
           - apk add --update --no-cache openssh sshpass
           - mkdir -p /root/.ssh
           - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
@@ -39,15 +40,46 @@ definitions:
 
 pipelines:
   default:
-    - step: *run-test
+    - step: *run-and-test
+    - step:
+        name: Run build
+        script:
+          - yarn build
   branches:
-    develop:
-      - step: *run-test
+    feature/testci:
+      - step: *run-and-test
+      - step:
+          name: Build Dev environment
+          script:
+            - FILE=.env.development yarn build-with-env
+            - echo "export TAG=dev_${BITBUCKET_COMMIT::7}" >> set_env.sh
+          artifacts:
+            - set_env.sh
+            - .next/**
+            - dist/**
       - step:
           <<: *build-and-push-to-docker-registry
           deployment: develop
+      - step:
+          name: Build Dev2 environment
+          script:
+            - echo "NEXT_PUBLIC_API_URL=https://app.tracki.com/api" >> .env.dev2
+            - echo "NEXT_PUBLIC_OAUTH_REDIRECT_URI=https://app.tracki.com/api/internal/v1/oauth_redirect" >> .env.dev2
+            - FILE=.env.dev2 yarn build-with-env
+            - rm set_env.sh && echo "export TAG=dev2_${BITBUCKET_COMMIT::7}" >> set_env.sh
+            - sed -i -e 's/tracki-frontend/tracki-frontend_dev2/g' deploy.sh
+            - sed -i -e 's/3001/3002/g' deploy.sh
+            - cat deploy.sh
+          artifacts:
+            - set_env.sh
+            - deploy.sh
+            - .next/**
+            - dist/**
+      - step:
+          <<: *build-and-push-to-docker-registry
+          deployment: developv2
     master:
-      - step: *run-test
+      - step: *run-and-test
       - step:
           <<: *build-and-push-to-docker-registry
           deployment: production
