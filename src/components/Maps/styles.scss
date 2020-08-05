@@ -34,6 +34,7 @@
     color: #1a1a1a;
     position: relative;
     top: 5px;
+    margin-top: 14px;
   }
 
   .marker-pin {
@@ -44,8 +45,8 @@
     position: absolute;
     font-size: 22px;
     transform: rotate(-45deg);
-    left: -113%;
-    bottom: 110%;
+    left: -155%;
+    bottom: 120%;
     border-radius: 50% 50% 50% 0;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
 
@@ -53,10 +54,11 @@
       content: '';
       width: 56px;
       height: 56px;
-      margin: 3px 2px 0px 6px;
       background: #168449;
       position: absolute;
       border-radius: 50%;
+      top: 4px;
+      left: 5px;
     }
   }
 
@@ -64,16 +66,67 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: #f4433675;
+    background: #f4433675;
     padding: 4px;
     position: relative;
+    display: block;
+    background: #e60000;
+    margin: 0 auto;
+    border: solid 2px rgba(230, 0, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
+    animation: no-beep 2s ease infinite;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
 
-    .inner {
-      display: block;
-      width: 12px;
-      height: 12px;
-      border-radius: 6px;
-      background-color: #f44336;
+  .icon-red-active {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #f4433675;
+    padding: 4px;
+    position: relative;
+    display: block;
+    background: #e60000;
+    margin: 0 auto;
+    border: solid 2px rgba(230, 0, 0, 0.2);
+    box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
+    animation: beep 2s ease infinite;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  @keyframes no-beep {
+    0% {
+      transform: scale(1);
+    }
+    15% {
+      box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
+    }
+  }
+
+  @keyframes beep {
+    0% {
+      transform: scale(1);
+    }
+    15% {
+      box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
+    }
+    25% {
+      box-shadow: 0 0 0 10px rgba(230, 0, 0, 0.2),
+        0 0 0 20px rgba(230, 0, 0, 0.2);
+    }
+    25% {
+      box-shadow: 0 0 0 15px rgba(230, 0, 0, 0.4),
+        0 0 0 30px rgba(230, 0, 0, 0.2);
+    }
+    40% {
+      box-shadow: 0 0 0 20px rgba(230, 0, 0, 0.2),
+        0 0 0 40px rgba(230, 0, 0, 0.2);
     }
   }
 }

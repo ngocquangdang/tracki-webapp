@@ -9,6 +9,7 @@ declare namespace IMap {
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;
+    isBeep: boolean | null;
     changeMapAction(action: string): void;
     updateNewGeofence(geo: object): void;
     updateGeofence(geoId: number, data: object): void;

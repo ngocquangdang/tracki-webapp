@@ -31,6 +31,7 @@ interface Props {
   updateGeofence(id: number, data: object): void;
   updateNewGeofence(geo: object): void;
   openSideBar(): void;
+  isBeep: boolean;
   [data: string]: any;
 }
 
@@ -51,6 +52,7 @@ class Map extends React.Component<Props> {
         <Mapbox
           initMapCallback={this.initMapCallback}
           onClickMarker={selectTrackerAction}
+          isBeep={rest.isBeep}
           {...rest}
         />
       );
