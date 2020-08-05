@@ -12,8 +12,7 @@ import Fade from '@material-ui/core/Fade';
 interface Props {
   onClickPaypal(): void;
   isMobile: boolean;
-  // t(key: string): string;
-  t: Function;
+  t(key: string, format?: object): string;
 }
 function Paypal(props: Props) {
   const { onClickPaypal, t, isMobile } = props;

@@ -55,6 +55,8 @@ const Title = styled.div`
   text-align: left;
   color: #1a1a1a;
   padding-left: 18px;
+  display: flex;
+  align-items: center;
   @media (max-width: 959.95px) {
     padding-left: 4px;
   }

@@ -15,7 +15,7 @@ import { Button } from '@Components/buttons';
 import { TrackerDetail } from '../../schema';
 
 interface Props {
-  t: Function;
+  t(key: string, format?: object): string;
   onNextStep: Function;
 }
 const initialTracker = {
