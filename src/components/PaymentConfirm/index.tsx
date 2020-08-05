@@ -21,7 +21,7 @@ import {
 import { Button } from '@Components/buttons';
 
 interface Props {
-  t: Function;
+  t(key: string, format?: object): string;
   today: string;
   device_id: number | string;
   price: number;

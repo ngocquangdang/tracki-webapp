@@ -17,12 +17,16 @@ import {
 import { isNumber } from 'lodash';
 
 import { makeSelectLoading } from '@Containers/App/store/selectors';
-import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectTrackerSettings,
+  makeSelectContactList,
+} from '@Containers/Trackers/store/selectors';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
 import { ITracker } from '@Interfaces/index';
+import SelectContact from '../SelectContact';
 
 import {
   ImageWrapper,
@@ -47,7 +51,10 @@ import {
   useStyles,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
-import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
+import {
+  updateTrackerSettingsRequestedAction,
+  getContactListRequestAction,
+} from '@Containers/SingleTracker/store/actions';
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
 interface Props {
@@ -59,14 +66,29 @@ interface Props {
   isRequesting?: boolean;
   show: boolean;
   updateSettings(id: number, data: object): void;
+  getContactListRequest(): void;
+  contactList: any;
 }
 
 function SettingTracker(props: Props) {
+  console.log('SettingTracker -> props', props);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);
+  const [isShowSelectContact, setShowSelectContat] = useState(false);
+  const [contact, setContact] = useState([]);
+
   const classes = useStyles();
-  const { handleClose, t, tracker, settings, isMobile, isRequesting } = props;
+  const {
+    handleClose,
+    t,
+    tracker,
+    settings,
+    isMobile,
+    isRequesting,
+    getContactListRequest,
+    contactList,
+  } = props;
   const trackerSettings = settings[tracker.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
@@ -104,6 +126,11 @@ function SettingTracker(props: Props) {
       });
     }
   }, [tracker, trackerSettings]);
+
+  useEffect(() => {
+    console.log('aaaaaaaaaaaaaaaaa');
+    setContact(contactList);
+  }, [contactList]);
 
   const onSubmitForm = (values: any) => {
     const { tracking_mode, device_name, device_id, ...preferences } = values;
@@ -152,6 +179,10 @@ function SettingTracker(props: Props) {
 
   const onClickImage = () => document.getElementById('imageIcon')?.click();
 
+  const onShowSelectContact = () => {
+    getContactListRequest();
+    setShowSelectContat(!isShowSelectContact);
+  };
   return (
     <SideBarOutside
       title="Settings"
@@ -289,6 +320,7 @@ function SettingTracker(props: Props) {
                         className={`${classes.questionIcon} ${classes.speedLimit}`}
                       />
                       <PersonAddIcon
+                        onClick={onShowSelectContact}
                         className={`${classes.personAddIcon} ${classes.speedLimit}`}
                       />
                       <Switch
@@ -416,6 +448,12 @@ function SettingTracker(props: Props) {
         open={openSubscription}
         t={t}
       />
+      <SelectContact
+        handleClose={onShowSelectContact}
+        show={isShowSelectContact}
+        isMobile={false}
+        contactList={contact}
+      />
     </SideBarOutside>
   );
 }
@@ -423,11 +461,13 @@ function SettingTracker(props: Props) {
 const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectLoading(),
   settings: makeSelectTrackerSettings(),
+  contactList: makeSelectContactList(),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
+  getContactListRequest: () => dispatch(getContactListRequestAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

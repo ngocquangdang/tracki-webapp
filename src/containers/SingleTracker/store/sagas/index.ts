@@ -65,7 +65,22 @@ function* updateTrackerSettingSaga(action) {
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
-
+function* getContactListSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const res = yield call(apiServices.getContactList, account_id);
+    yield put(actions.getContactListSucceedAction(res.data));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      notification.error(data.error || data.message);
+    }
+    yield put(actions.getContactListFailedAction(payload));
+  }
+}
 function* activeLinkShareLocationSaga(action) {
   const device_id = yield select(makeSelectTrackerId());
   try {
@@ -82,6 +97,9 @@ function* activeLinkShareLocationSaga(action) {
     const payload = {
       ...data,
     };
+    if (data.error || data.message) {
+      notification.error(data.error || data.message);
+    }
     yield put(actions.generateLinkShareLocationFailed(payload));
   }
 }
@@ -127,6 +145,7 @@ export default function* appWatcher() {
     types.UPDATE_TRACKER_SETTINGS_REQUESTED,
     updateTrackerSettingSaga
   );
+  yield takeLatest(types.GET_LIST_CONTACT_REQUESTED, getContactListSaga);
   yield takeLatest(
     types.ACTIVE_LINK_SHARE_REQUESTED,
     activeLinkShareLocationSaga
