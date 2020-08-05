@@ -6,6 +6,7 @@ import {
   Form,
   StepOneContainer,
   Image,
+  Notifi,
   useStyles,
   AdornmentStyle,
   TooltipStyle,
@@ -18,22 +19,38 @@ import { AddTrackerSchema } from '../../schema';
 interface Props {
   t: Function;
   onNextStep: Function;
+  checkDeviceAssignedAction(value: any, callback: any): void;
+  getDevicePlanAction(value): void;
+  isRequesting: boolean;
+  assigned: string;
+  message_key: string;
+  updateStore(value): void;
 }
 
 const initialTracker = {
-  tracker_id: '',
+  device_id: '',
   imei: '',
   order_id: '',
 };
 
 export default function Step1(props: Props) {
-  const { t, onNextStep } = props;
+  const {
+    t,
+    onNextStep,
+    checkDeviceAssignedAction,
+    getDevicePlanAction,
+    updateStore,
+    isRequesting,
+    assigned,
+    message_key,
+  } = props;
   const classes = useStyles();
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
   const onSubmit = (value: any) => {
-    console.log('aaaaaaaasa', value);
-    onNextStep();
+    checkDeviceAssignedAction(value, onNextStep);
+    updateStore(value);
+    getDevicePlanAction(value);
   };
   return (
     <>
@@ -47,14 +64,14 @@ export default function Step1(props: Props) {
           {({ values, handleChange, handleSubmit, handleBlur, touched }) => (
             <Form onSubmit={handleSubmit}>
               <TextInput
-                id="tracker_id"
-                label={t('tracker:tracker_id')}
-                name="tracker_id"
-                value={values.tracker_id}
+                id="device_id"
+                label={t('tracker:device_id')}
+                name="device_id"
+                value={values.device_id}
                 variant="outlined"
                 className={classes.marginInput}
-                onChange={handleChange('tracker_id')}
-                onBlur={handleBlur('tracker_id')}
+                onChange={handleChange('device_id')}
+                onBlur={handleBlur('device_id')}
               />
               <TextInput
                 id="imei"
@@ -92,12 +109,27 @@ export default function Step1(props: Props) {
                 onChange={handleChange('order_id')}
                 onBlur={handleBlur('order_id')}
               />
+              <Notifi
+                className={assigned !== 'true' ? classes.displayNone : ''}
+              >
+                {t('tracker:cannot_activate_device')}
+              </Notifi>
+              <Notifi
+                className={
+                  message_key !== 'exception_device_notFound'
+                    ? classes.displayNone
+                    : ''
+                }
+              >
+                {t('tracker:exception_device_notFound')}
+              </Notifi>
               <Button
                 color="primary"
                 type="submit"
                 variant="contained"
                 text={t('tracker:add_device')}
                 className={classes.marginButton}
+                isLoading={isRequesting}
               />
             </Form>
           )}

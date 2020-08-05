@@ -26,7 +26,17 @@ const initialTracker = {
 export default function Step3(props: Props) {
   const classes = useStyles();
   const { t, onNextStep } = props;
-
+  // const sample_rate = {
+  //   '0': 'Off',
+  //   '1': 'Once every 1 Minute',
+  //   '2': 'Once every 2 Minutes',
+  //   '5': 'Once every 5 Minutes',
+  //   '10': 'Once every 10 Minutes',
+  //   '30': 'Once every 30 Minutes',
+  //   '60': 'Once every 1 Hour',
+  //   '120': 'Once every 2 Hours',
+  //   '240': 'Once every 4 Hours',
+  // };
   const onSubmit = value => {
     console.log(value);
     onNextStep();

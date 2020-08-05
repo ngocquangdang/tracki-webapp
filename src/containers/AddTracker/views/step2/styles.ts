@@ -17,6 +17,9 @@ const Image = styled.div`
     width: 175px;
     height: 19px;
   }
+  img {
+    width: 100%;
+  }
 `;
 const Image2 = styled.div``;
 const GroupCard = styled.div`
@@ -92,7 +95,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
     cursor: 'pointer',
     [theme.breakpoints.down('sm')]: {
-      width: 159,
+      width: 'calc((100% - 20px)/2)',
       fontSize: 13,
     },
   },
