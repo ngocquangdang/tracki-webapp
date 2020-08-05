@@ -46,7 +46,7 @@ pipelines:
         script:
           - yarn build
   branches:
-    feature/testci:
+    develop:
       - step: *run-and-test
       - step:
           name: Build Dev environment
