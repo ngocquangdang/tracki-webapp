@@ -9,6 +9,7 @@ import DrawTool from './components/DrawTool';
 
 declare global {
   interface Window {
+    mapType: string;
     mapEvents: any;
   }
 }
@@ -38,6 +39,7 @@ class Map extends Component<IMap.IProps, IMap.IState> {
       maxZoom: 19,
       attributionControl: true,
     });
+    window.mapType = 'mapbox';
     window.mapEvents = new MapEvent('mapbox', this.map);
     const geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {

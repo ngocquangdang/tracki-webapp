@@ -49,6 +49,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   componentDidMount() {
     const { mapCenter, mapZoom } = this.state;
     this.map = L.map('map').setView(mapCenter, mapZoom);
+    window.mapType = 'leaflet';
     window.mapEvents = new MapEvents('leaflet', this.map);
     this.tileLayer = L.tileLayer(TILE_TOKEN, TILE_OPTIONS).addTo(this.map);
 
@@ -89,7 +90,10 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
         ({ lat, lng }) => !!lat && !!lng
       );
       if (coords.length > 0) {
-        window.mapEvents.setFitBounds(coords);
+        window.mapEvents?.map?.mapApi?.fitBounds(coords, {
+          paddingTopLeft: [440, 0],
+          paddingBottomRight: [100, 0],
+        });
       }
     }
   };
