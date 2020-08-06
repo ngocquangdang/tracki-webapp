@@ -57,15 +57,12 @@ const useStyles = makeStyles(theme => ({
   },
   geoSize: {
     display: 'flex',
-    padding: '26px 0 26px 30px',
-    justifyContent: 'flex-start',
+    padding: '26px 0px',
+    justifyContent: 'space-around',
     '& p': {
       color: COLOR1,
       fontSize: 15,
       lineHeight: '18px',
-    },
-    '& p:first-child': {
-      marginRight: 116,
     },
   },
   saveBtnWrap: {

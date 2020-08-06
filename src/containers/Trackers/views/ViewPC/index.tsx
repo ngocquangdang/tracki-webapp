@@ -10,13 +10,13 @@ import Tabs from '../Tabs';
 import { Container, MapView } from './styles';
 
 export default function TrackersContainer(props: any) {
-  const { selectedTrackerId, onResetSelectedTrackerID, ...rest } = props;
+  const { onResetSelectedTrackerID, ...rest } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const toggleSideBar = () => {
     if (!isOpenSidebar) {
-      if (selectedTrackerId) {
-        const { lat, lng } = rest.trackers[selectedTrackerId];
+      if (rest.selectedTrackerId) {
+        const { lat, lng } = rest.trackers[rest.selectedTrackerId];
         if (!!lat && !!lng) {
           window.mapEvents.setCenterFlyTo({ lat, lng }, { speed: 1, zoom: 15 });
         }
@@ -25,8 +25,15 @@ export default function TrackersContainer(props: any) {
           ({ lat, lng }: any) => !!lat && !!lng
         );
         if (coords.length > 0) {
-          window.mapEvents.setFitBounds(coords);
-          window.mapEvents.setPadding({ left: 340 });
+          if (window.mapType === 'mapbox') {
+            window.mapEvents.setFitBounds(coords);
+            window.mapEvents.setPadding({ left: 340 });
+          } else {
+            window.mapEvents?.map?.mapApi?.fitBounds(coords, {
+              paddingTopLeft: [440, 0],
+              paddingBottomRight: [100, 0],
+            });
+          }
         }
       }
     }
@@ -41,15 +48,25 @@ export default function TrackersContainer(props: any) {
     const coords = Object.values(obj).filter(
       ({ lat, lng }: any) => !!lat && !!lng
     );
-    coords.length > 0 && window.mapEvents.setFitBounds(coords);
+    if (coords.length > 0) {
+      if (window.mapType === 'mapbox') {
+        window.mapEvents.setFitBounds(coords);
+      } else {
+        isOpenSidebar &&
+          window.mapEvents?.map?.mapApi?.fitBounds(coords, {
+            paddingTopLeft: [440, 0],
+            paddingBottomRight: [100, 0],
+          });
+      }
+    }
   };
 
   return (
     <Container>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
-        {selectedTrackerId ? (
+        {rest.selectedTrackerId ? (
           <SingleTracker
-            tracker={rest.trackers[selectedTrackerId]}
+            tracker={rest.trackers[rest.selectedTrackerId]}
             onClickBack={handleClickBack}
             t={rest.t}
           />

@@ -1,8 +1,8 @@
 .leaflet-div-icon {
-  width: 8px !important;
-  height: 8px !important;
-  margin-left: -4px !important;
-  margin-top: -4px !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin-left: -6px !important;
+  margin-top: -6px !important;
 }
 
 .leaflet-draw-tooltip {
@@ -55,7 +55,6 @@
   display: none;
 }
 
-.leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-marker-draggable,
-.leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-edit-resize {
+.leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon {
   border-radius: 50%;
 }

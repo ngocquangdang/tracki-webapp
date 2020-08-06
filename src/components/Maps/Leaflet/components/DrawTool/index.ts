@@ -4,6 +4,7 @@ import 'leaflet-draw/dist/leaflet.draw-src';
 import 'leaflet-path-drag';
 
 import { MAP_ACTIONS } from '@Components/Maps/constant';
+import { IGeofence } from '@Interfaces';
 import './styles.scss';
 
 const optionsDefault = {
@@ -15,13 +16,14 @@ const optionsDefault = {
     fillOpacity: 0.2,
   },
   draggable: true,
+  editable: true,
 };
 
 interface Props {
   map: any;
   mapAction: string;
   newGeofence: any;
-  editGeofenceId: number;
+  editGeofence: IGeofence;
   t(k: string): string;
   updateNewGeofence(geo: object): void;
   updateGeofence(geoId: number, data: object): void;
@@ -32,57 +34,58 @@ class LeafletTool extends React.Component<Props> {
   polygonDrawHandler: any;
   circleDrawHandler: any;
   rectangleDrawHandler: any;
-  drawnItems: any;
 
   componentWillReceiveProps(nextProps) {
-    const { mapAction } = nextProps;
-    const { mapAction: currentAction } = this.props;
+    const { mapAction, newGeofence, editGeofence } = nextProps;
+    const {
+      mapAction: currentAction,
+      newGeofence: currNewGeo,
+      editGeofence: currEditGeo,
+    } = this.props;
 
-    if (
-      mapAction !== currentAction &&
-      this.polygonDrawHandler &&
-      this.circleDrawHandler &&
-      this.rectangleDrawHandler
-    ) {
+    if (mapAction !== currentAction) {
+      this.polygonDrawHandler.disable();
+      this.circleDrawHandler.disable();
+      this.rectangleDrawHandler.disable();
+
       switch (mapAction) {
         case MAP_ACTIONS.CREATE_RECTANGLE:
           this.rectangleDrawHandler.enable();
-          this.circleDrawHandler.disable();
-          this.polygonDrawHandler.disable();
           return;
         case MAP_ACTIONS.CREATE_CIRCLE:
           this.circleDrawHandler.enable();
-          this.rectangleDrawHandler.disable();
-          this.polygonDrawHandler.disable();
           return;
         case MAP_ACTIONS.CREATE_POLYGON:
           this.polygonDrawHandler.enable();
-          this.circleDrawHandler.disable();
-          this.rectangleDrawHandler.disable();
           return;
         default:
-          this.polygonDrawHandler.disable();
-          this.circleDrawHandler.disable();
-          this.rectangleDrawHandler.disable();
           break;
       }
     }
-  }
 
-  onMapClick = () => {
-    const { mapAction } = this.props;
-    if (mapAction === MAP_ACTIONS.CREATE_CIRCLE) {
-      this.circleDrawHandler.enable();
-      this.polygonDrawHandler.disable();
-      this.rectangleDrawHandler.disable();
+    // update draw color
+    const geo = newGeofence || editGeofence;
+    const curGeo = currNewGeo || currEditGeo;
+    if (geo && curGeo && geo.color !== curGeo.color) {
+      const newOpts = {
+        ...optionsDefault,
+        shapeOptions: {
+          ...optionsDefault.shapeOptions,
+          color: geo.color,
+          fillColor: geo.color,
+        },
+      };
+      this.polygonDrawHandler.setOptions(newOpts);
+      this.circleDrawHandler.setOptions(newOpts);
+      this.rectangleDrawHandler.setOptions(newOpts);
     }
-  };
+  }
 
   vertexEditing = event => {
     console.log('vertexEditing', event);
     const { poly } = event;
     const {
-      editGeofenceId,
+      editGeofence,
       newGeofence,
       updateNewGeofence,
       updateGeofence,
@@ -97,7 +100,7 @@ class LeafletTool extends React.Component<Props> {
         },
       });
     } else {
-      updateGeofence(editGeofenceId, {
+      updateGeofence(editGeofence.id, {
         preferences: {
           trigger: 'BOTH',
           vertices: poly._latlngs[0],
@@ -111,7 +114,7 @@ class LeafletTool extends React.Component<Props> {
       updateNewGeofence,
       mapAction,
       updateGeofence,
-      editGeofenceId,
+      editGeofence,
     } = this.props;
     const { layerType, layer } = e;
     let data;
@@ -146,11 +149,13 @@ class LeafletTool extends React.Component<Props> {
         },
       };
     }
-    if (editGeofenceId) {
-      updateGeofence(editGeofenceId, data);
+    this.props.map.removeLayer(layer);
+    if (editGeofence) {
+      updateGeofence(editGeofence.id, data);
     } else {
       updateNewGeofence(data);
     }
+    // this.props.changeMapAction('DEFAULT');
   };
 
   componentDidMount() {
@@ -159,43 +164,45 @@ class LeafletTool extends React.Component<Props> {
     if (L.drawLocal) {
       L.drawLocal.draw.handlers.polygon = {
         tooltip: {
-          start: t('click_start_drawing_shape'),
-          cont: t('click_continue_drawing_shape'),
-          end: t('click_first_point_close_shape'),
+          start: t('tracker:click_start_drawing_shape'),
+          cont: t('tracker:click_continue_drawing_shape'),
+          end: t('tracker:click_first_point_close_shape'),
         },
       };
       L.drawLocal.draw.handlers.polyline = {
         tooltip: {
-          start: t('click_map_drawing_line'),
-          cont: t('click_continue_drawing_line'),
-          end: t('click_last_point_end_line'),
+          start: t('tracker:click_map_drawing_line'),
+          cont: t('tracker:click_continue_drawing_line'),
+          end: t('tracker:click_last_point_end_line'),
         },
-        error: `<strong>${t('error_drawing_shape')}:</strong> ${t(
-          'shape_edges_cannot_cross'
-        )}`,
+        error: t('tracker:error_drawing_polyline'),
       };
 
       L.drawLocal.draw.handlers.circle = {
         tooltip: {
-          start: `<strong>${t('click_drag_drawing_circle')}</strong>`,
+          start: `<strong>${t('tracker:click_drag_drawing_circle')}</strong>`,
         },
-        radius: `<strong>${t('common_radius')}</strong>`,
+        radius: `<strong>${t('tracker:radius')}</strong>`,
+      };
+
+      L.drawLocal.draw.handlers.rectangle = {
+        tooltip: {
+          start: t('tracker:click_drag_drawing_rectangle'),
+        },
       };
 
       L.drawLocal.draw.handlers.simpleshape = {
         tooltip: {
-          end: `<strong>${t('release_mouse_finish_drawing')}</strong>`,
+          end: `<strong>${t('tracker:release_mouse_finish_drawing')}</strong>`,
         },
       };
 
       this.polygonDrawHandler = new L.Draw.Polygon(map, optionsDefault);
       this.circleDrawHandler = new L.Draw.Circle(map, optionsDefault);
       this.rectangleDrawHandler = new L.Draw.Rectangle(map, optionsDefault);
-      this.drawnItems = new L.FeatureGroup();
 
-      map.addLayer(this.drawnItems);
-      map.on('draw:created', this.createGeofence);
-      map.on('draw:editvertex', this.vertexEditing);
+      map.on(L.Draw.Event.CREATED, this.createGeofence);
+      map.on(L.Draw.Event.EDITVERTEX, this.vertexEditing);
     }
   }
 

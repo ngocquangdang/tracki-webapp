@@ -86,6 +86,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.CREATE_NEW_GEOFENCE:
         draft.geofence.newGeofence = payload.geofence;
         break;
+      case types.CREATE_GEOFENCE_SUCCEED:
+        draft.geofence.newGeofence = null;
+        break;
       case types.UPDATE_NEW_GEOFENCE:
         draft.geofence.newGeofence = {
           ...draft.geofence.newGeofence,

@@ -19,6 +19,7 @@ import ColorPickerModal from '../PickerColor';
 import { ADD_GEO_SCHEMA } from './schema';
 import { useStyles } from './styles';
 import { GEOFENCE_DEFAULT } from '../../constant';
+import { getSizeOfGefence } from '@Components/Maps/Leaflet/components/Helpers';
 
 interface Props {
   isMobile?: boolean;
@@ -84,43 +85,52 @@ function AddGeoFence(props: Props) {
     handleClose();
   };
 
+  const removeGeofence = (id: number) => {
+    if (window.geosDrawn[id]) {
+      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
+      window.geosDrawn[id] = null;
+    }
+  };
+
   const onCloseAdd = () => {
     if (newGeofence) {
-      if (window.geosDrawn[newGeofence.id]) {
-        window.mapEvents.map.mapApi.removeLayer(
-          window.geosDrawn[newGeofence.id]
-        );
-        window.geosDrawn[newGeofence.id] = null;
-      }
+      removeGeofence(newGeofence.id);
       resetNewGeofenceAction();
     }
-    if (cloneSelectedGeofence && window.geosDrawn[cloneSelectedGeofence.id]) {
-      window.mapEvents.map.mapApi.removeLayer(
-        window.geosDrawn[cloneSelectedGeofence.id]
-      );
-      window.geosDrawn[cloneSelectedGeofence.id] = null;
+    if (cloneSelectedGeofence) {
+      removeGeofence(cloneSelectedGeofence.id);
       updateGeofence(cloneSelectedGeofence.id, cloneSelectedGeofence);
     }
     handleClose();
   };
 
   const onChangeTypeGeofence = (type: string) => () => {
-    changeMapAction(`create_${type}`.toUpperCase());
+    const newAction = `create_${type}`.toUpperCase();
+    changeMapAction(newAction);
     if (selectedGeofence && selectedGeofence.type !== type) {
-      window.mapEvents.map.mapApi.removeLayer(
-        window.geosDrawn[selectedGeofence.id]
-      );
-      delete window.geosDrawn[selectedGeofence.id];
-      return updateGeofence(selectedGeofence.id, { type });
+      removeGeofence(selectedGeofence.id);
+      return updateGeofence(selectedGeofence.id, {
+        type,
+        preferences: { trigger: 'BOTH' },
+      });
     }
-    updateNewGeofence({ type });
+    updateNewGeofence({ type, preferences: { trigger: 'BOTH' } });
   };
 
   const onChangeColorGeofence = (color: string) => {
+    // update color
+    if (selectedGeofence && selectedGeofence.color !== color) {
+      removeGeofence(selectedGeofence.id);
+    } else if (newGeofence.color !== color) {
+      removeGeofence(newGeofence.id);
+    }
+
     selectedGeofence
       ? updateGeofence(selectedGeofence.id, { color })
       : updateNewGeofence({ color });
   };
+
+  const { width, height } = getSizeOfGefence(selectedGeofence || newGeofence);
 
   return (
     <SideBarOutside
@@ -168,7 +178,7 @@ function AddGeoFence(props: Props) {
                     onBlur={handleBlur('name')}
                     errorInput={
                       touched.name && errorsForm.name
-                        ? t(errorsForm.name)
+                        ? t('auth:' + errorsForm.name)
                         : undefined
                     }
                     variant="outlined"
@@ -225,10 +235,10 @@ function AddGeoFence(props: Props) {
                 </div>
                 <div className={classes.geoSize}>
                   <Typography>
-                    {t('tracker:geofence_width', { text: '991 m' })}
+                    {t('tracker:geofence_width', { text: width + ' m' })}
                   </Typography>
                   <Typography>
-                    {t('tracker:geofence_height', { text: '1991 m' })}
+                    {t('tracker:geofence_height', { text: height + ' m' })}
                   </Typography>
                 </div>
                 <div className={classes.saveBtnWrap}>

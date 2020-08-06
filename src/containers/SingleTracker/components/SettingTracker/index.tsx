@@ -71,7 +71,6 @@ interface Props {
 }
 
 function SettingTracker(props: Props) {
-  console.log('SettingTracker -> props', props);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);

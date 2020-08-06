@@ -66,7 +66,9 @@ function AddDeviceToGeoFence(props: Props) {
     unlinkTrackers(geofence.id, [deviceId]);
   };
 
-  const trackersLinked = (geofence.trackers || []).map(id => trackers[id]);
+  const trackersLinked = (geofence.trackers || [])
+    .map(id => trackers[id])
+    .filter(i => !!i);
 
   return (
     <SideBarOutside

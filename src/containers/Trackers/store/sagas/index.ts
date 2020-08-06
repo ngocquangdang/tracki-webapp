@@ -8,11 +8,63 @@ import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 function* fetchTrackersSaga(action) {
   try {
-    const { data } = yield call(
-      apiServices.fetchTrackers,
-      action.payload.accountId
+    const { accountId } = action.payload;
+    const { data } = yield call(apiServices.fetchTrackers, accountId);
+
+    let tracker = normalizeTrackers(data);
+
+    const { data: assignmentsData } = yield call(
+      apiServices.fetchAssignmentsByTrackerIds,
+      accountId,
+      tracker.trackerIds
     );
-    const tracker = normalizeTrackers(data);
+
+    tracker = assignmentsData.reduce(
+      (result, item) => {
+        const { fences, contacts, device_id, geozones, settings } = item;
+
+        // fence reduce
+        result.fences = fences.reduce((objFences, fItem) => {
+          objFences[fItem.id] = fItem;
+          result.trackers[device_id].fences = [
+            ...(result.trackers[device_id].fences || []),
+            fItem.id,
+          ];
+          return objFences;
+        }, result.fences);
+
+        // contact reduce
+        result.contacts = contacts.reduce((objContacts, cItem) => {
+          objContacts[cItem.id] = cItem;
+          result.trackers[device_id].contacts = [
+            ...(result.trackers[device_id].contacts || []),
+            cItem.id,
+          ];
+          return objContacts;
+        }, result.contacts);
+
+        // geozones reduce => reference to Geofence list
+        geozones.map(geoItem => {
+          result.trackers[device_id].geozones = [
+            ...(result.trackers[device_id].geozones || []),
+            geoItem.id,
+          ];
+          return geoItem;
+        });
+
+        // settings reduce
+        result.settings[settings.id] = settings;
+
+        return result;
+      },
+      {
+        ...tracker,
+        fences: {},
+        contacts: {},
+        settings: {},
+      }
+    );
+
     yield put(actions.fetchTrackersSucceedAction(tracker));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -193,6 +245,7 @@ function* createNewGeofenceSaga(action) {
     yield call(apiServices.createNewGeofence, account_id, geofence);
     window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofence.id]);
     yield put(actions.fetchGeofencesRequestedAction(account_id));
+    yield put(actions.createGeofenceSuccessAction());
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };

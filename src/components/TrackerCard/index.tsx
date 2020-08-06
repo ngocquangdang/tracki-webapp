@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { GoPrimitiveDot } from 'react-icons/go';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import SettingsIcon from '@material-ui/icons/Settings';
 import {
   Item,
   Image,
@@ -43,9 +43,8 @@ export default function TrackerCard(props: Props) {
       button
       key={tracker.device_id}
       className={isMobile ? classes.padding : classes.nonePadding}
-      onClick={handleClick}
     >
-      <Item>
+      <Item onClick={handleClick}>
         <ImageWrapper>
           <Image src={tracker.icon_url || '/images/image-device.png'} alt="" />
         </ImageWrapper>
@@ -59,7 +58,9 @@ export default function TrackerCard(props: Props) {
           </Time>
         </ItemInfo>
       </Item>
-      <CardDetail>{isMobile && <BsThreeDotsVertical />}</CardDetail>
+      <CardDetail>
+        {isMobile && <SettingsIcon className={classes.iconSetting} />}
+      </CardDetail>
     </ListItemStyle>
   );
 }

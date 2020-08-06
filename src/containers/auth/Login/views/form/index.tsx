@@ -60,6 +60,7 @@ function LoginForm(props: ILoginPage.IProps) {
             onBlur={handleBlur('username')}
             variant="outlined"
             autoComplete="off"
+            InputLabelProps={{ shrink: true }}
           />
           <TextInput
             id="password"
@@ -77,6 +78,7 @@ function LoginForm(props: ILoginPage.IProps) {
             onBlur={handleBlur('password')}
             variant="outlined"
             autoComplete="off"
+            InputLabelProps={{ shrink: true }}
           />
           {errorMessage && (
             <Message className={classes.errorText}>{errorMessage}</Message>

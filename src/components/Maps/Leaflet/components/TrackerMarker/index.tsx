@@ -6,6 +6,8 @@ import { ITracker } from '@Interfaces';
 interface Props {
   map: any;
   tracker: ITracker;
+  isBeep: boolean;
+  selectedTrackerId?: number | null;
   onClickMarker(id: string | number): void;
 }
 
@@ -14,6 +16,35 @@ class TrackerMarker extends React.Component<Props> {
 
   componentDidMount() {
     this.renderTracker();
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { isBeep } = nextProps;
+    const { isBeep: currentIsBeep, tracker, selectedTrackerId } = this.props;
+
+    if (isBeep !== currentIsBeep && this.marker && tracker) {
+      const nameWidth = tracker.device_name.length * 9;
+      const elm2 = document.createElement('div');
+      elm2.className = `custom-div-icon${
+        isBeep && tracker.device_id === selectedTrackerId ? '-custom' : ''
+      }`;
+      elm2.innerHTML = `
+        <div class='icon-red${
+          isBeep && tracker.device_id === selectedTrackerId ? '-active' : ''
+        }'>
+          <span class='inner'></span>
+          <div class='marker-pin'>
+            <img src=${
+              tracker.icon_url || '/images/image-device.png'
+            } class='image-device'></img>
+          </div>
+        <div>
+        <div class='title-device' style='width:${nameWidth}px; left:-${
+        nameWidth / 2
+      }px'>${tracker.device_name}</div>`;
+      const icon = new L.DivIcon({ html: elm2 });
+      this.marker.setIcon(icon);
+    }
   }
 
   onClickMarker = () => {

@@ -22,7 +22,7 @@ const Image = styled.img`
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: 'rgba(17, 116, 63, 0.95)',
     color: '#fff',
     height: '56px',
   },
@@ -30,16 +30,20 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     minHeight: '56px',
-    paddingLeft: '8px',
-    paddingRight: '0px',
+    paddingLeft: '2px',
+    paddingRight: '14px',
   },
   textHeader: {
     display: 'flex',
     fontSize: '20px',
     alignItems: 'center',
+    fontWeight: 400,
+    marginLeft: '2px',
   },
   menuButton: {
     objectFit: 'contain',
+    marginLeft: 0,
+    padding: '8px',
   },
   menuMobile: {
     display: 'flex',
@@ -48,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
   },
   menuIcon: {
-    fontSize: '36px',
+    fontSize: '40px',
   },
   appBar: {
     zIndex: 8,

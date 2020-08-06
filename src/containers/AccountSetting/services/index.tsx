@@ -1,14 +1,19 @@
 import axiosClient from '@Utils/axios';
-import UserDetail from '../interfaces';
 
-const USER_DETAIL = '/v3/user';
-const UPDATE_USER = '/v3/accounts';
-
-export const getUser = async () => {
-  return axiosClient.get(USER_DETAIL);
+export const getUser = async (accountId: number) => {
+  return await axiosClient.get(`v3/accounts/${accountId}`);
 };
 
-export const updateUser = (body: UserDetail.IStateUser, id: number) => {
-  const url = `${UPDATE_USER}/${id}/preferences`;
-  return axiosClient.put(url, body);
+export const updatePrefrence = async (
+  accountId: number,
+  preferences: object
+) => {
+  return await axiosClient.put(
+    `v3/accounts/${accountId}/preferences`,
+    preferences
+  );
+};
+
+export const updateInfoUser = async (accountId: number, infoUser: object) => {
+  return await axiosClient.put(`internal/v1/accounts/${accountId}`, infoUser);
 };
