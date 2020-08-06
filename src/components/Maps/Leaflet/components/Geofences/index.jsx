@@ -62,8 +62,15 @@ class Geofences extends React.Component {
       : updateGeofence(geoId, { preferences });
   };
 
+  removeGeofence = id => {
+    if (window.geosDrawn[id]) {
+      this.props.map.removeLayer(window.geosDrawn[id]);
+      delete window.geosDrawn[id];
+    }
+  };
+
   componentWillReceiveProps(nextProps) {
-    const { newGeofence, map, editGeofenceId } = nextProps;
+    const { newGeofence, editGeofenceId, geofences } = nextProps;
     const {
       newGeofence: currentNewGeofence,
       editGeofenceId: currentGeoId,
@@ -71,12 +78,7 @@ class Geofences extends React.Component {
 
     if (newGeofence && currentNewGeofence) {
       if (newGeofence.type !== currentNewGeofence.type) {
-        // remove current geofence
-        window.geosDrawn[newGeofence.id] &&
-          map.removeLayer(window.geosDrawn[newGeofence.id]);
-        window.geosDrawn[newGeofence.id] = null;
-
-        // draw new geofence
+        this.removeGeofence(newGeofence.id);
         this.renderGeo(newGeofence);
       }
     }
@@ -87,6 +89,15 @@ class Geofences extends React.Component {
       if (window.geosDrawn[currentGeoId]) {
         window.geosDrawn[currentGeoId].editing.disable();
       }
+    }
+
+    // only for polygon
+    const geo = editGeofenceId ? geofences[editGeofenceId] : newGeofence;
+    if (geo && geo.type === 'polygon') {
+      setTimeout(() => {
+        this.removeGeofence(geo.id);
+        this.renderGeo(geo, true);
+      }, 300);
     }
   }
 
