@@ -189,8 +189,8 @@ class LeafletTool extends React.Component<Props> {
       this.circleDrawHandler = new L.Draw.Circle(map, optionsDefault);
       this.rectangleDrawHandler = new L.Draw.Rectangle(map, optionsDefault);
 
-      map.on('draw:created', this.createGeofence);
-      map.on('draw:editvertex', this.vertexEditing);
+      map.on(L.Draw.Event.CREATED, this.createGeofence);
+      map.on(L.Draw.Event.EDITVERTEX, this.vertexEditing);
     }
   }
 

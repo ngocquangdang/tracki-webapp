@@ -62,8 +62,15 @@ class Geofences extends React.Component {
       : updateGeofence(geoId, { preferences });
   };
 
+  removeGeofence = id => {
+    if (window.geosDrawn[id]) {
+      this.props.map.removeLayer(window.geosDrawn[id]);
+      delete window.geosDrawn[id];
+    }
+  };
+
   componentWillReceiveProps(nextProps) {
-    const { newGeofence, map, editGeofenceId } = nextProps;
+    const { newGeofence, editGeofenceId, geofences } = nextProps;
     const {
       newGeofence: currentNewGeofence,
       editGeofenceId: currentGeoId,
@@ -71,12 +78,7 @@ class Geofences extends React.Component {
 
     if (newGeofence && currentNewGeofence) {
       if (newGeofence.type !== currentNewGeofence.type) {
-        // remove current geofence
-        window.geosDrawn[newGeofence.id] &&
-          map.removeLayer(window.geosDrawn[newGeofence.id]);
-        window.geosDrawn[newGeofence.id] = null;
-
-        // draw new geofence
+        this.removeGeofence(newGeofence.id);
         this.renderGeo(newGeofence);
       }
     }
@@ -87,6 +89,15 @@ class Geofences extends React.Component {
       if (window.geosDrawn[currentGeoId]) {
         window.geosDrawn[currentGeoId].editing.disable();
       }
+    }
+
+    // only for polygon
+    const geo = editGeofenceId ? geofences[editGeofenceId] : newGeofence;
+    if (geo && geo.type === 'polygon') {
+      setTimeout(() => {
+        this.removeGeofence(geo.id);
+        this.renderGeo(geo, true);
+      }, 300);
     }
   }
 
@@ -113,6 +124,7 @@ class Geofences extends React.Component {
       rectangle.on('click', this.onClick(id));
       rectangle.on('dragstart', this.onDragStart);
       rectangle.on('dragend', this.onDragEnd(id));
+      rectangle.on('edit', this.onDragEnd(id));
       window.geosDrawn[id] = rectangle;
     }
   };
@@ -149,7 +161,6 @@ class Geofences extends React.Component {
     } = geofence;
     const { map } = this.props;
     if (!window.geosDrawn[id] && vertices && vertices.length > 0) {
-      console.log(222, vertices);
       const polygon = L.polygon(vertices, {
         color,
         weight: 2,
