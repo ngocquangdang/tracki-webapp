@@ -19,6 +19,7 @@ import ColorPickerModal from '../PickerColor';
 import { ADD_GEO_SCHEMA } from './schema';
 import { useStyles } from './styles';
 import { GEOFENCE_DEFAULT } from '../../constant';
+import { getSizeOfGefence } from '@Components/Maps/Leaflet/components/Helpers';
 
 interface Props {
   isMobile?: boolean;
@@ -129,6 +130,8 @@ function AddGeoFence(props: Props) {
       : updateNewGeofence({ color });
   };
 
+  const { width, height } = getSizeOfGefence(selectedGeofence || newGeofence);
+
   return (
     <SideBarOutside
       title={t('tracker:add_geofence')}
@@ -232,10 +235,10 @@ function AddGeoFence(props: Props) {
                 </div>
                 <div className={classes.geoSize}>
                   <Typography>
-                    {t('tracker:geofence_width', { text: '991 m' })}
+                    {t('tracker:geofence_width', { text: width + ' m' })}
                   </Typography>
                   <Typography>
-                    {t('tracker:geofence_height', { text: '1991 m' })}
+                    {t('tracker:geofence_height', { text: height + ' m' })}
                   </Typography>
                 </div>
                 <div className={classes.saveBtnWrap}>

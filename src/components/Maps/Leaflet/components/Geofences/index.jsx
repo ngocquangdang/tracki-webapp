@@ -113,6 +113,7 @@ class Geofences extends React.Component {
       rectangle.on('click', this.onClick(id));
       rectangle.on('dragstart', this.onDragStart);
       rectangle.on('dragend', this.onDragEnd(id));
+      rectangle.on('edit', this.onDragEnd(id));
       window.geosDrawn[id] = rectangle;
     }
   };
@@ -149,7 +150,6 @@ class Geofences extends React.Component {
     } = geofence;
     const { map } = this.props;
     if (!window.geosDrawn[id] && vertices && vertices.length > 0) {
-      console.log(222, vertices);
       const polygon = L.polygon(vertices, {
         color,
         weight: 2,
