@@ -8,6 +8,10 @@ const TrackerInfomation = styled.div`
     props.isMobile ? '#fff' : '#fafafa'};
   border-bottom: ${(props: { isMobile: boolean }) =>
     props.isMobile ? 'none' : '1px solid #e0e0e0'};
+  font-family: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? 'Open Sans, san-serif' : 'Roboto'};
+  border-radius: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '4px' : ''};
 `;
 
 const Card = styled.div`
@@ -40,6 +44,10 @@ const TrackerStatus = styled.div`
   align-items: center;
   justify-content: space-around;
   border-bottom: 1px solid #e0e0e0;
+  font-family: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? 'Open Sans, san-serif' : 'Roboto'};
+  border-radius: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '4px' : ''};
 `;
 const LocationApprox = styled.span``;
 const Connection = styled.div``;
@@ -60,7 +68,7 @@ const StatusTracker = styled.div`
   justify-content: center;
 `;
 const ConnectionTracker = styled.div`
-  flex: 2;
+  flex: 2.5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,8 +76,10 @@ const ConnectionTracker = styled.div`
   padding: 0 8px;
   text-align: center;
 `;
-const TextName = styled.span``;
-
+const TextName = styled.span`
+  height: 44px;
+  overflow-y: auto;
+`;
 const Item = styled.div`
   display: flex;
   flex-direction: row;
@@ -99,6 +109,7 @@ const RightItem = styled.div`
 const LeftItem = styled.div`
   display: flex;
   flex-direction: row;
+  margin-right: 4px;
 `;
 const ImageWrapper = styled.div`
   width: 50px;
@@ -141,9 +152,17 @@ const LatText = styled.span``;
 const LongText = styled.span`
   padding-left: 15px;
 `;
+const IconBattery = styled.img`
+  width: 11 px;
+  height: 14px;
+  object-fit: contain;
+`;
+const IconZoom = styled.img`
+  margin-top: 12px;
+`;
 const useStyles = makeStyles(theme => ({
   textBold: {
-    fontWeight: 500,
+    fontWeight: 600,
   },
   textSpace: {
     marginLeft: '8px',
@@ -153,6 +172,11 @@ const useStyles = makeStyles(theme => ({
     width: '20px',
     height: '22px',
     color: '#cc2c2c',
+  },
+  iconLocationMobile: {
+    color: '#e60000',
+    width: '25px',
+    height: '25px',
   },
   icon: {
     color: theme.palette.primary.main,
@@ -167,6 +191,10 @@ const useStyles = makeStyles(theme => ({
     color: '#999999',
     paddingBottom: '8px',
   },
+  iconRefresh: {
+    fontSize: '24px',
+    color: '#666666',
+  },
 }));
 export {
   Card,
@@ -176,6 +204,7 @@ export {
   TrackerInfomation,
   TrackerStatus,
   BatteryTracker,
+  IconBattery,
   StatusTracker,
   ConnectionTracker,
   Connection,
@@ -192,5 +221,6 @@ export {
   LatLong,
   LatText,
   LongText,
+  IconZoom,
   useStyles,
 };

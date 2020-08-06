@@ -43,6 +43,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#f5f5f5',
     color: '#666666',
     width: '100%',
+    textTransform: 'none',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,

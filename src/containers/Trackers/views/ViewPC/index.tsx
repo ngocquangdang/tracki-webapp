@@ -10,13 +10,13 @@ import Tabs from '../Tabs';
 import { Container, MapView } from './styles';
 
 export default function TrackersContainer(props: any) {
-  const { selectedTrackerId, onResetSelectedTrackerID, ...rest } = props;
+  const { onResetSelectedTrackerID, ...rest } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const toggleSideBar = () => {
     if (!isOpenSidebar) {
-      if (selectedTrackerId) {
-        const { lat, lng } = rest.trackers[selectedTrackerId];
+      if (rest.selectedTrackerId) {
+        const { lat, lng } = rest.trackers[rest.selectedTrackerId];
         if (!!lat && !!lng) {
           window.mapEvents.setCenterFlyTo({ lat, lng }, { speed: 1, zoom: 15 });
         }
@@ -47,9 +47,9 @@ export default function TrackersContainer(props: any) {
   return (
     <Container>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
-        {selectedTrackerId ? (
+        {rest.selectedTrackerId ? (
           <SingleTracker
-            tracker={rest.trackers[selectedTrackerId]}
+            tracker={rest.trackers[rest.selectedTrackerId]}
             onClickBack={handleClickBack}
             t={rest.t}
           />
