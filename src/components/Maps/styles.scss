@@ -9,124 +9,106 @@
   display: none;
 }
 
-.custom-div-icon {
-  .image-device {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 2px;
-    padding: 12px;
-    top: -2px;
-    z-index: 2;
-    object-fit: contain;
-    text-align: center;
-    transform: rotate(45deg);
-  }
+.image-device {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  padding: 13px;
+  top: -7px;
+  z-index: 2;
+  object-fit: contain;
+  text-align: center;
+}
 
-  .title-device {
-    padding: 4px;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
-    background-color: #ffffff;
-    line-height: 1.17;
-    letter-spacing: normal;
-    text-align: center;
-    color: #1a1a1a;
-    position: relative;
-    top: 5px;
-    margin-top: 14px;
-  }
+.title-device {
+  padding: 2px 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: center;
+  color: #1a1a1a;
+  position: relative;
+  top: 12px;
+}
 
-  .marker-pin {
-    width: 57px;
-    height: 57px;
-    cursor: pointer;
-    background-color: #fff;
-    position: absolute;
-    font-size: 22px;
-    transform: rotate(-45deg);
-    left: -133%;
-    bottom: 120%;
-    border-radius: 50% 50% 50% 0;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
-    &::after {
-      content: '';
-      width: 49px;
-      height: 49px;
-      background: #168449;
-      position: absolute;
-      border-radius: 50%;
-      top: 4px;
-      left: 4px;
-    }
-  }
+.marker-pin {
+  width: 59px;
+  height: 72px;
+  cursor: pointer;
+  background-image: url('/images/icon-marker.svg');
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 59px;
+  position: absolute;
+  top: -62px;
+  left: -24px;
+}
 
-  .icon-red {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #f4433675;
-    padding: 4px;
-    position: relative;
-    display: block;
-    background: #e60000;
-    margin: 0 auto;
-    border: solid 2px rgba(230, 0, 0, 0.2);
-    box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
-    animation: no-beep 2s ease infinite;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
+.icon-red {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f4433675;
+  padding: 4px;
+  position: relative;
+  display: block;
+  background: #e60000;
+  margin: 0 auto;
+  border: solid 2px rgba(230, 0, 0, 0.2);
+  box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
+  animation: no-beep 2s ease infinite;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 
-  .icon-red-active {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #f4433675;
-    padding: 4px;
-    position: relative;
-    display: block;
-    background: #e60000;
-    margin: 0 auto;
-    border: solid 2px rgba(230, 0, 0, 0.2);
-    box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
-    animation: beep 2s ease infinite;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
+.icon-red-active {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f4433675;
+  padding: 4px;
+  position: relative;
+  display: block;
+  background: #e60000;
+  margin: 0 auto;
+  border: solid 2px rgba(230, 0, 0, 0.2);
+  box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
+  animation: beep 2s ease infinite;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 
-  @keyframes no-beep {
-    0% {
-      transform: scale(1);
-    }
-    15% {
-      box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
-    }
+@keyframes no-beep {
+  0% {
+    transform: scale(1);
   }
+  15% {
+    box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
+  }
+}
 
-  @keyframes beep {
-    0% {
-      transform: scale(1);
-    }
-    15% {
-      box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
-    }
-    25% {
-      box-shadow: 0 0 0 10px rgba(230, 0, 0, 0.2),
-        0 0 0 20px rgba(230, 0, 0, 0.2);
-    }
-    25% {
-      box-shadow: 0 0 0 15px rgba(230, 0, 0, 0.4),
-        0 0 0 30px rgba(230, 0, 0, 0.2);
-    }
-    40% {
-      box-shadow: 0 0 0 20px rgba(230, 0, 0, 0.2),
-        0 0 0 40px rgba(230, 0, 0, 0.2);
-    }
+@keyframes beep {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 0 10px rgba(230, 0, 0, 0.2), 0 0 0 20px rgba(230, 0, 0, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 0 15px rgba(230, 0, 0, 0.4), 0 0 0 30px rgba(230, 0, 0, 0.2);
+  }
+  40% {
+    box-shadow: 0 0 0 20px rgba(230, 0, 0, 0.2), 0 0 0 40px rgba(230, 0, 0, 0.2);
   }
 }
 

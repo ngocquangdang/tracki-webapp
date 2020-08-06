@@ -4,14 +4,14 @@ import styled from 'styled-components';
 const ToolBar = styled.div`
   position: absolute;
   left: 5px;
-  bottom: 178px;
+  bottom: 140px;
   z-index: 401;
 `;
 const ListItem = styled.ul`
   width: 50px;
   overflow: hidden;
   padding: 0;
-  margin: 10px 0;
+  margin: 5px 0;
   transition: width 1s;
 `;
 const Text = styled.span``;
@@ -62,7 +62,6 @@ const useStyles = makeStyles(theme => ({
     color: '#999',
   },
   menuItemIcon: {
-    // marginRight: 11,
     minWidth: 34,
     display: 'flex',
     flexDirection: 'column',

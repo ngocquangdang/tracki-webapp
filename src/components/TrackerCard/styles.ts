@@ -2,20 +2,6 @@ import styled from 'styled-components';
 import { makeStyles, withStyles } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 
-const Card = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #e0e0e0;
-  height: 70px;
-  padding-left: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '12px' : 0};
-  &:last-child {
-    border-bottom: none;
-  }
-  cursor: pointer;
-`;
-
 const Item = styled.div`
   display: flex;
   align-items: center;
@@ -53,7 +39,9 @@ const Time = styled.div`
   color: #b7b7b7;
   margin-left: -3px;
 `;
-const CardDetail = styled.div``;
+const CardDetail = styled.div`
+  color: #666666;
+`;
 const TimeActive = styled.span`
   font-size: 12px;
   color: #b7b7b7;
@@ -76,6 +64,7 @@ const useStyles = makeStyles(theme => ({
   },
   iconSetting: {
     color: '#666666',
+    fontSize: '24px',
   },
   icon: {
     color: theme.palette.primary.main,
@@ -103,7 +92,6 @@ const ListItemStyle = withStyles(theme => ({
 }))(ListItem);
 export {
   ImageWrapper,
-  Card,
   Item,
   Image,
   ItemInfo,
