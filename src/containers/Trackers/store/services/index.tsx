@@ -4,6 +4,16 @@ export const fetchTrackers = async (accountId: number) => {
   return await axiosClient.get(`v4/accounts/${accountId}/devices/details`);
 };
 
+export const fetchAssignmentsByTrackerIds = async (
+  accountId: number,
+  trackerIds: number[]
+) => {
+  return await axiosClient.post(
+    `v3/accounts/${accountId}/devices/assignments`,
+    trackerIds
+  );
+};
+
 export const fetchGeofences = async (
   accountId: number,
   option?: { limit: number; page: number }

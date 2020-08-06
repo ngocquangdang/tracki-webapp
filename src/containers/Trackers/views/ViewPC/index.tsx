@@ -25,8 +25,15 @@ export default function TrackersContainer(props: any) {
           ({ lat, lng }: any) => !!lat && !!lng
         );
         if (coords.length > 0) {
-          window.mapEvents.setFitBounds(coords);
-          window.mapEvents.setPadding({ left: 340 });
+          if (window.mapType === 'mapbox') {
+            window.mapEvents.setFitBounds(coords);
+            window.mapEvents.setPadding({ left: 340 });
+          } else {
+            window.mapEvents?.map?.mapApi?.fitBounds(coords, {
+              paddingTopLeft: [440, 0],
+              paddingBottomRight: [100, 0],
+            });
+          }
         }
       }
     }
@@ -41,7 +48,17 @@ export default function TrackersContainer(props: any) {
     const coords = Object.values(obj).filter(
       ({ lat, lng }: any) => !!lat && !!lng
     );
-    coords.length > 0 && window.mapEvents.setFitBounds(coords);
+    if (coords.length > 0) {
+      if (window.mapType === 'mapbox') {
+        window.mapEvents.setFitBounds(coords);
+      } else {
+        isOpenSidebar &&
+          window.mapEvents?.map?.mapApi?.fitBounds(coords, {
+            paddingTopLeft: [440, 0],
+            paddingBottomRight: [100, 0],
+          });
+      }
+    }
   };
 
   return (
