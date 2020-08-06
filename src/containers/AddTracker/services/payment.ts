@@ -15,7 +15,6 @@ const paymentService = () => {
   ) => {
     let payload$ = new Subject();
     let dropIn;
-    // console.log('paymentService -> dropIn', dropIn);
     apiServices
       .getTokenForPayment(data, selectedPlan.id, account_id)
       .then(token => {
@@ -43,7 +42,6 @@ const paymentService = () => {
           })
           .then(instance => {
             dropIn = instance;
-            console.log('paymentService -> dropIn', dropIn);
             // btnGo.addEventListener('click');
             btnGo.addEventListener('click', () => {
               if (dropIn.isPaymentMethodRequestable()) {
@@ -56,7 +54,6 @@ const paymentService = () => {
             });
 
             dropIn.on('paymentMethodRequestable', event => {
-              console.log('aaaaaaaaa');
               // console.log(TAG, 'event - paymentMethodRequestable', event, dropIn.isPaymentMethodRequestable());
               if (dropIn.isPaymentMethodRequestable()) {
                 switch (event.type) {
@@ -75,7 +72,6 @@ const paymentService = () => {
             });
 
             dropIn.on('paymentOptionSelected', event => {
-              console.log('bbbbbbb');
               // console.log(TAG, 'event - paymentOptionSelected', event);
               switch (event.paymentOption) {
                 case 'paypal':

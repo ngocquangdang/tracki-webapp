@@ -32,12 +32,6 @@ interface Props {
   };
 }
 
-// const initialTracker = {
-//   device_id: '',
-//   imei: '',
-//   order_id: '',
-// };
-
 export default function Step1(props: Props) {
   const {
     t,
@@ -58,7 +52,7 @@ export default function Step1(props: Props) {
     imei: '',
     order_id: '',
   });
-  console.log(formData);
+
   useEffect(() => {
     setInitialTracker({
       device_id: formData?.device_id || '',

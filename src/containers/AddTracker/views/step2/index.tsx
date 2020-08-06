@@ -133,8 +133,6 @@ export default function Step2(props: Props) {
         account_id
       )
       .subscribe((event: any) => {
-        console.log('payment gateway2', event);
-
         switch (event.type) {
           case 'token':
             console.log('sau do vao day');
@@ -147,7 +145,6 @@ export default function Step2(props: Props) {
             break;
           case 'payload':
             console.log('sau do vao day4');
-            console.log(event);
             // paymentData.nonce = event.payload.nonce;
             // paymentData.plan_id = plan.id;
             // paymentData.email = event.payload.details.email || '';

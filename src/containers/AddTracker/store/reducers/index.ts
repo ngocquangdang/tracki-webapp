@@ -23,8 +23,6 @@ const AddTrackerReducer = (
   { type, payload }: ActionType
 ) =>
   produce(state, draft => {
-    console.log('payload', payload);
-
     switch (type) {
       case types.CHECK_DEVICEID_ASSIGNED_REQUESTED:
       case types.GET_DEVICE_PLAN_REQUESTED:
