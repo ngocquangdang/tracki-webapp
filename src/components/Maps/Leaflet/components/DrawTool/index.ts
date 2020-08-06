@@ -4,6 +4,7 @@ import 'leaflet-draw/dist/leaflet.draw-src';
 import 'leaflet-path-drag';
 
 import { MAP_ACTIONS } from '@Components/Maps/constant';
+import { IGeofence } from '@Interfaces';
 import './styles.scss';
 
 const optionsDefault = {
@@ -22,7 +23,7 @@ interface Props {
   map: any;
   mapAction: string;
   newGeofence: any;
-  editGeofenceId: number;
+  editGeofence: IGeofence;
   t(k: string): string;
   updateNewGeofence(geo: object): void;
   updateGeofence(geoId: number, data: object): void;
@@ -35,37 +36,48 @@ class LeafletTool extends React.Component<Props> {
   rectangleDrawHandler: any;
 
   componentWillReceiveProps(nextProps) {
-    const { mapAction } = nextProps;
-    const { mapAction: currentAction } = this.props;
+    const { mapAction, newGeofence, editGeofence } = nextProps;
+    const {
+      mapAction: currentAction,
+      newGeofence: currNewGeo,
+      editGeofence: currEditGeo,
+    } = this.props;
 
-    if (
-      mapAction !== currentAction &&
-      this.polygonDrawHandler &&
-      this.circleDrawHandler &&
-      this.rectangleDrawHandler
-    ) {
+    if (mapAction !== currentAction) {
+      this.polygonDrawHandler.disable();
+      this.circleDrawHandler.disable();
+      this.rectangleDrawHandler.disable();
+
       switch (mapAction) {
         case MAP_ACTIONS.CREATE_RECTANGLE:
           this.rectangleDrawHandler.enable();
-          this.circleDrawHandler.disable();
-          this.polygonDrawHandler.disable();
           return;
         case MAP_ACTIONS.CREATE_CIRCLE:
           this.circleDrawHandler.enable();
-          this.rectangleDrawHandler.disable();
-          this.polygonDrawHandler.disable();
           return;
         case MAP_ACTIONS.CREATE_POLYGON:
           this.polygonDrawHandler.enable();
-          this.circleDrawHandler.disable();
-          this.rectangleDrawHandler.disable();
           return;
         default:
-          this.polygonDrawHandler.disable();
-          this.circleDrawHandler.disable();
-          this.rectangleDrawHandler.disable();
           break;
       }
+    }
+
+    // update draw color
+    const geo = newGeofence || editGeofence;
+    const curGeo = currNewGeo || currEditGeo;
+    if (geo && curGeo && geo.color !== curGeo.color) {
+      const newOpts = {
+        ...optionsDefault,
+        shapeOptions: {
+          ...optionsDefault.shapeOptions,
+          color: geo.color,
+          fillColor: geo.color,
+        },
+      };
+      this.polygonDrawHandler.setOptions(newOpts);
+      this.circleDrawHandler.setOptions(newOpts);
+      this.rectangleDrawHandler.setOptions(newOpts);
     }
   }
 
@@ -73,7 +85,7 @@ class LeafletTool extends React.Component<Props> {
     console.log('vertexEditing', event);
     const { poly } = event;
     const {
-      editGeofenceId,
+      editGeofence,
       newGeofence,
       updateNewGeofence,
       updateGeofence,
@@ -88,7 +100,7 @@ class LeafletTool extends React.Component<Props> {
         },
       });
     } else {
-      updateGeofence(editGeofenceId, {
+      updateGeofence(editGeofence.id, {
         preferences: {
           trigger: 'BOTH',
           vertices: poly._latlngs[0],
@@ -102,7 +114,7 @@ class LeafletTool extends React.Component<Props> {
       updateNewGeofence,
       mapAction,
       updateGeofence,
-      editGeofenceId,
+      editGeofence,
     } = this.props;
     const { layerType, layer } = e;
     let data;
@@ -138,8 +150,8 @@ class LeafletTool extends React.Component<Props> {
       };
     }
     this.props.map.removeLayer(layer);
-    if (editGeofenceId) {
-      updateGeofence(editGeofenceId, data);
+    if (editGeofence) {
+      updateGeofence(editGeofence.id, data);
     } else {
       updateNewGeofence(data);
     }

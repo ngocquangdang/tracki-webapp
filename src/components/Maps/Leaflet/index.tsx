@@ -138,7 +138,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
             mapAction={mapAction}
             changeMapAction={changeMapAction}
             newGeofence={newGeofence}
-            editGeofenceId={editGeofenceId}
+            editGeofence={geofences[editGeofenceId]}
             updateNewGeofence={updateNewGeofence}
             updateGeofence={updateGeofence}
             t={t}
