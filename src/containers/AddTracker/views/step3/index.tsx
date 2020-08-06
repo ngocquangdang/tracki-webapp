@@ -76,7 +76,14 @@ export default function Step3(props: Props) {
         onSubmit={onSubmit}
         validationSchema={TrackerDetail}
       >
-        {({ values, handleChange, handleSubmit, handleBlur, touched }) => (
+        {({
+          values,
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          touched,
+          errors: errorsForm,
+        }) => (
           <Form onSubmit={handleSubmit}>
             <GroupInput>
               <TextInput
@@ -88,6 +95,11 @@ export default function Step3(props: Props) {
                 className={classes.marginInput}
                 onChange={handleChange('device_name')}
                 onBlur={handleBlur('device_name')}
+                errorInput={
+                  errorsForm.device_name && touched.device_name
+                    ? t(errorsForm.device_name)
+                    : ''
+                }
               />
               <InputSubcription>
                 {t('tracker:device_name_subcription')}

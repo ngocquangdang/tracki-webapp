@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 
 import {
@@ -47,19 +47,6 @@ export default function Step1(props: Props) {
   const classes = useStyles();
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
-  const [initialTracker, setInitialTracker] = useState({
-    device_id: '',
-    imei: '',
-    order_id: '',
-  });
-
-  useEffect(() => {
-    setInitialTracker({
-      device_id: formData?.device_id || '',
-      imei: formData?.imei || '',
-      order_id: formData?.order_id || '',
-    });
-  }, [formData]);
   const onSubmit = (value: any) => {
     checkDeviceAssignedAction(value, onNextStep);
     updateStore(value);
@@ -70,7 +57,7 @@ export default function Step1(props: Props) {
       <Typography>{t('tracker:add_tracker_description')}</Typography>
       <StepOneContainer>
         <Formik
-          initialValues={initialTracker}
+          initialValues={formData}
           onSubmit={onSubmit}
           validationSchema={AddTrackerSchema}
         >

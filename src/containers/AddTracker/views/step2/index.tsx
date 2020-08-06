@@ -104,6 +104,7 @@ export default function Step2(props: Props) {
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(false);
+  let isLoadingPayment = false;
 
   const onChangePaymentPlan = (id: number, index) => () => {
     updateStore({ ...formData, selectedPlan: trackerPlan[index] });
@@ -136,6 +137,7 @@ export default function Step2(props: Props) {
         switch (event.type) {
           case 'token':
             console.log('sau do vao day');
+            setTimeout(() => (isLoadingPayment = true), 1000);
             break;
           case 'available':
             console.log('sau do vao day2');
@@ -297,7 +299,7 @@ export default function Step2(props: Props) {
       <div className={`${!selectedPlan ? classes.hiddenLetter : ''}`}>
         <div id="dropin-container"></div>
         <Button
-          // className={`${classes.btn}`}
+          disabled={isLoadingPayment ? true : false}
           id="submit-button"
           color="primary"
           variant="contained"
@@ -309,7 +311,6 @@ export default function Step2(props: Props) {
           }
           endIcon={isMobile ? null : <ArrowForwardIosIcon />}
         />
-        {/* <button id="submit-button">Purchase</button> */}
       </div>
     </div>
   );
