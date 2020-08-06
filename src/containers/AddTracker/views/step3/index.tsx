@@ -13,33 +13,53 @@ import {
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { TrackerDetail } from '../../schema';
+import SelectOption from '@Components/selections';
+import { LOCATION_UPDATE_OPTIONS } from '../../store/constances';
 
 interface Props {
   t(key: string, format?: object): string;
   onNextStep: Function;
+  addDeviceAction(data, acount_id, account_id, paymentData, callback): void;
+  updateSettingsAction(): void;
+  updateDeviceNameAction(): void;
+  account_id: number;
+  newDeviceInfo: {
+    settings_id: number;
+    device_id: number;
+    device_name: string;
+  };
+  paymentData: any;
+  formData: any;
 }
 const initialTracker = {
   device_name: '',
-  device_traking: '',
+  device_traking: LOCATION_UPDATE_OPTIONS[0].value,
   // divice_image: '',
 };
 export default function Step3(props: Props) {
   const classes = useStyles();
-  const { t, onNextStep } = props;
-  // const sample_rate = {
-  //   '0': 'Off',
-  //   '1': 'Once every 1 Minute',
-  //   '2': 'Once every 2 Minutes',
-  //   '5': 'Once every 5 Minutes',
-  //   '10': 'Once every 10 Minutes',
-  //   '30': 'Once every 30 Minutes',
-  //   '60': 'Once every 1 Hour',
-  //   '120': 'Once every 2 Hours',
-  //   '240': 'Once every 4 Hours',
-  // };
+  const {
+    t,
+    onNextStep,
+    addDeviceAction,
+    account_id,
+    paymentData,
+    formData,
+  } = props;
+  console.log('paymentData', paymentData);
+
+  const addDone = (done: boolean) => {
+    done && onNextStep();
+  };
   const onSubmit = value => {
-    console.log(value);
-    onNextStep();
+    const paymentInfo = {
+      nonce: paymentData.nonce || '',
+      plan_id: formData.selectedPlan.id || '',
+      email: paymentData.details.email || 'trackimo.home@gmail.com',
+      first_name: paymentData.details.firstName || 'home',
+      last_name: paymentData.details.lastName || 'trackimo',
+    };
+    addDeviceAction(value, formData, account_id, paymentInfo, addDone);
   };
   return (
     <>
@@ -69,15 +89,12 @@ export default function Step3(props: Props) {
               </InputSubcription>
             </GroupInput>
             <GroupInput>
-              <TextInput
-                id="device_traking"
+              <SelectOption
                 name="device_traking"
+                options={LOCATION_UPDATE_OPTIONS}
+                label={t('auth:tracking_intervals')}
                 value={values.device_traking}
-                variant="outlined"
-                label={t('tracker:tracking_intervals')}
-                className={classes.marginInput}
-                onChange={handleChange('device_traking')}
-                onBlur={handleBlur('device_traking')}
+                onChangeOption={handleChange('device_traking')}
               />
               <InputSubcription>
                 {t('tracker:tracking_intervals_subcription')}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 
 import {
@@ -23,15 +23,20 @@ interface Props {
   getDevicePlanAction(value): void;
   isRequesting: boolean;
   assigned: string;
-  message_key: string;
+  errorMessage: string;
   updateStore(value): void;
+  formData: {
+    device_id: string;
+    imei: string;
+    order_id: string;
+  };
 }
 
-const initialTracker = {
-  device_id: '',
-  imei: '',
-  order_id: '',
-};
+// const initialTracker = {
+//   device_id: '',
+//   imei: '',
+//   order_id: '',
+// };
 
 export default function Step1(props: Props) {
   const {
@@ -42,11 +47,25 @@ export default function Step1(props: Props) {
     updateStore,
     isRequesting,
     assigned,
-    message_key,
+    errorMessage,
+    formData,
   } = props;
   const classes = useStyles();
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
+  const [initialTracker, setInitialTracker] = useState({
+    device_id: '',
+    imei: '',
+    order_id: '',
+  });
+  console.log(formData);
+  useEffect(() => {
+    setInitialTracker({
+      device_id: formData?.device_id || '',
+      imei: formData?.imei || '',
+      order_id: formData?.order_id || '',
+    });
+  }, [formData]);
   const onSubmit = (value: any) => {
     checkDeviceAssignedAction(value, onNextStep);
     updateStore(value);
@@ -61,7 +80,14 @@ export default function Step1(props: Props) {
           onSubmit={onSubmit}
           validationSchema={AddTrackerSchema}
         >
-          {({ values, handleChange, handleSubmit, handleBlur, touched }) => (
+          {({
+            values,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            touched,
+            errors: errorsForm,
+          }) => (
             <Form onSubmit={handleSubmit}>
               <TextInput
                 id="device_id"
@@ -72,6 +98,11 @@ export default function Step1(props: Props) {
                 className={classes.marginInput}
                 onChange={handleChange('device_id')}
                 onBlur={handleBlur('device_id')}
+                errorInput={
+                  errorsForm.device_id && touched.device_id
+                    ? t(errorsForm.device_id)
+                    : ''
+                }
               />
               <TextInput
                 id="imei"
@@ -83,6 +114,9 @@ export default function Step1(props: Props) {
                 className={classes.marginInput}
                 onChange={handleChange('imei')}
                 onBlur={handleBlur('imei')}
+                errorInput={
+                  errorsForm.imei && touched.imei ? t(errorsForm.imei) : ''
+                }
               />
               <TextInput
                 id="order_id"
@@ -115,11 +149,7 @@ export default function Step1(props: Props) {
                 {t('tracker:cannot_activate_device')}
               </Notifi>
               <Notifi
-                className={
-                  message_key !== 'exception_device_notFound'
-                    ? classes.displayNone
-                    : ''
-                }
+                className={errorMessage !== '' ? '' : classes.displayNone}
               >
                 {t('tracker:exception_device_notFound')}
               </Notifi>

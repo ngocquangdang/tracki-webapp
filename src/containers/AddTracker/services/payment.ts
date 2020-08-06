@@ -5,6 +5,7 @@ import * as apiServices from './index';
 const paymentService = () => {
   // let subscriberBraintreeNonce;
 
+  //mastercard: 5460 3418 6782 9897 date: 08/2023 cvv: 998
   const initBraintreeDropIn = (
     containerSelector,
     buttonSelector,
@@ -14,20 +15,17 @@ const paymentService = () => {
   ) => {
     let payload$ = new Subject();
     let dropIn;
-    console.log('paymentService -> dropIn', dropIn);
+    // console.log('paymentService -> dropIn', dropIn);
     apiServices
       .getTokenForPayment(data, selectedPlan.id, account_id)
       .then(token => {
         let btnGo = document.querySelector(buttonSelector);
         payload$.next({ type: 'token' });
-
-        return dropin
+        console.log('token', token);
+        dropin
           .create({
-            authorization: token,
+            authorization: token.data,
             container: containerSelector,
-            // locale: SUPPORT_LOCALES.indexOf(currentLocale)
-            //   ? currentLocale
-            //   : DEFAULT_LOCALE,
             card: {
               overrides: {
                 fields: {
@@ -45,8 +43,9 @@ const paymentService = () => {
           })
           .then(instance => {
             dropIn = instance;
-            btnGo.off('click');
-            btnGo.on('click', () => {
+            console.log('paymentService -> dropIn', dropIn);
+            // btnGo.addEventListener('click');
+            btnGo.addEventListener('click', () => {
               if (dropIn.isPaymentMethodRequestable()) {
                 requestPaymentMethod(dropIn)
                   .then(payload => {
@@ -76,6 +75,7 @@ const paymentService = () => {
             });
 
             dropIn.on('paymentOptionSelected', event => {
+              console.log('bbbbbbb');
               // console.log(TAG, 'event - paymentOptionSelected', event);
               switch (event.paymentOption) {
                 case 'paypal':
@@ -91,7 +91,7 @@ const paymentService = () => {
               payload$.next({ type: 'notAvailable' });
             });
           })
-          .catch(console.error);
+          .catch(`${console.error} error 1`);
       })
       .catch(console.error);
 

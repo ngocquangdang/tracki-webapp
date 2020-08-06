@@ -4,8 +4,10 @@ import Card from '@material-ui/core/Card';
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
 import { Button } from '@Components/buttons';
-import Payment from '@Components/Payment';
 import { paymentService } from '../../services/payment';
+// import * as apiServices from '../../services';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 import {
   Header,
   Typography,
@@ -29,6 +31,10 @@ interface Props {
   formData: any;
   updateStore(value): void;
   account_id: number;
+  onNextStep(): void;
+  getSubAccountAction(account_id, device_id): void;
+  onSetPaymentData(event, id): void;
+  isMobile: boolean;
 }
 
 export default function Step2(props: Props) {
@@ -36,11 +42,12 @@ export default function Step2(props: Props) {
   const classes = useStyles();
   const {
     t,
-    updateStepChild,
     trackerPlan,
     formData,
     updateStore,
     account_id,
+    onNextStep,
+    isMobile,
   } = props;
 
   const dataPlan = {
@@ -95,39 +102,28 @@ export default function Step2(props: Props) {
   ];
 
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
-  // const [isShowPayment, SetShowPayment] = useState(false);
-  const [step] = useState('payment_confirm');
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(false);
-  // const [openPgateway, setOpenPgateway] = useState('');
+
   const onChangePaymentPlan = (id: number, index) => () => {
     updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-    // getTokenForPaymentAction(formData);
 
     setShowOtherPlan(true);
     setSelectedPlan(true);
     setPaymentPlan(id);
 
-    // setOpenPgateway('out');
-
     if (trackerPlan[index].paymentPlatform === 'PREPAID') {
-      setSelectedPlan(true);
       updateStore({ ...formData, selectedPlan: trackerPlan[index] });
       // assignedDevice();
     } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
-      setSelectedPlan(true);
       BraintreePaymentGateway(trackerPlan[index], account_id);
-      // setOpenPgateway('in');
     }
   };
 
   function BraintreePaymentGateway(selectedPlan, account_id) {
     console.log('payment gateway');
-    // let subscriberBraintreeNonce;
-    // let loading = true;
-    // let paymentMethodAvailable = false;
-    // let braintTreeNonceError = null;
-    // let plan = selectedPlan;
+    let subscriberBraintreeNonce;
+    let plan = selectedPlan;
     paymentService()
       .initBraintreeDropIn(
         '#dropin-container',
@@ -137,44 +133,73 @@ export default function Step2(props: Props) {
         account_id
       )
       .subscribe((event: any) => {
-        // braintTreeNonceError = null;
         console.log('payment gateway2', event);
 
         switch (event.type) {
           case 'token':
             console.log('sau do vao day');
-            // setTimeout(() => (loading = false), 1000);
             break;
           case 'available':
             console.log('sau do vao day2');
-            // paymentMethodAvailable = true;
             break;
           case 'notAvailable':
             console.log('sau do vao day3');
-            // paymentMethodAvailable = false;
             break;
           case 'payload':
             console.log('sau do vao day4');
+            console.log(event);
+            // paymentData.nonce = event.payload.nonce;
+            // paymentData.plan_id = plan.id;
+            // paymentData.email = event.payload.details.email || '';
+            // paymentData.first_name = event.payload.details.firstName || '';
+            // paymentData.last_name = event.payload.details.lastName || '';
+            updateStore({
+              ...formData,
+              creditCard: event.payload,
+              selectedPlan: plan,
+            });
+            // onSetPaymentData(event.payload, plan.id);
 
-            // let data = {
-            //   nonce: event.payload.nonce,
-            //   plan_id: plan.id,
-            //   email: event.payload.details.email || '',
-            //   first_name: event.payload.details.firstName || '',
-            //   last_name: event.payload.details.lastName || '',
-            // };
-            // loading = true;
-            // if (subscriberBraintreeNonce) {
-            //   console.log('sau do vao day k ');
+            if (subscriberBraintreeNonce) {
+              console.log('sau do vao day k ');
+              subscriberBraintreeNonce.unsubscribe();
+            }
+            // getSubAccountAction(account_id, formData.device_id);
+            onNextStep();
+            // console.log('data', paymentData);
+            // subscriberBraintreeNonce = apiServices
+            //   .setBraintreeNoncePlanToDevice(
+            //     account_id,
+            //     formData.device_id,
+            //     paymentData
+            //   )
+            //   .then(data => {
+            //     console.log('sau do vao day k 1');
 
-            //   subscriberBraintreeNonce.unsubscribe();
-            // }
-            // console.log('data', data);
-            // paymentMethodAvailable = false;
+            //     let selected_plan_name = '';
+            //     console.log(plan);
+            //     if (plan.id === '256') {
+            //       selected_plan_name = ' 1 Month Subscription';
+            //     } else if (plan.id === '263') {
+            //       selected_plan_name = ' 6 Months Subscription';
+            //     } else if (plan.id === '259') {
+            //       selected_plan_name = ' 1 Year Subscription';
+            //     } else if (plan.id === '269') {
+            //       selected_plan_name = ' 2 Years Subscription';
+            //     } else {
+            //       selected_plan_name = ' 2 Years Subscription';
+            //     }
+            //     console.log(selected_plan_name);
+
+            //     getSubAccountAction(account_id, formData.device_id);
+            //     onNextStep();
+            //   })
+            //   .catch(console.error);
             break;
         }
       });
   }
+
   const getCardClass = (id: number) => {
     if (paymentPlan) {
       if (paymentPlan === id) {
@@ -185,25 +210,25 @@ export default function Step2(props: Props) {
     return classes.card;
   };
 
-  const renderStep = () => {
-    switch (step) {
-      case 'payment_confirm':
-        return updateStepChild('payment_confirm');
-      case 'referral_code':
-        return updateStepChild('referral_code');
-      case 'congratulation':
-        return updateStepChild('congratulation');
-      default:
-        return 'no case';
-    }
-  };
+  // const renderStep = () => {
+  //   switch (step) {
+  //     case 'payment_confirm':
+  //       return updateStepChild('payment_confirm');
+  //     case 'referral_code':
+  //       return updateStepChild('referral_code');
+  //     case 'congratulation':
+  //       return updateStepChild('congratulation');
+  //     default:
+  //       return 'no case';
+  //   }
+  // };
 
   const onHiddenOtherPlan = () => {
     setPaymentPlan(null);
     setShowOtherPlan(false);
   };
   return (
-    <>
+    <div>
       <Header>
         <Typography>{t('tracker:select_your_plan')}</Typography>
         {isShowOtherPlan ? (
@@ -273,8 +298,22 @@ export default function Step2(props: Props) {
         <img src="./images/guarantee-safe.png" alt="" />
       </Image2>
       <div className={`${!selectedPlan ? classes.hiddenLetter : ''}`}>
-        <Payment t={t} handleClickPayment={renderStep} isMobile={true} />
+        <div id="dropin-container"></div>
+        <Button
+          // className={`${classes.btn}`}
+          id="submit-button"
+          color="primary"
+          variant="outlined"
+          type="submit"
+          text={
+            isMobile
+              ? t('subscription:credit_card_pay_now')
+              : t('subscription:credit_card_proceed')
+          }
+          endIcon={isMobile ? null : <ArrowForwardIosIcon />}
+        />
+        {/* <button id="submit-button">Purchase</button> */}
       </div>
-    </>
+    </div>
   );
 }

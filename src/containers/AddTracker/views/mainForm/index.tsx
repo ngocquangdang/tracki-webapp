@@ -44,6 +44,23 @@ export default function MainForm(props: any) {
     { step: 'Personalize', activeStep: 2 },
   ];
 
+  // const paymentData = {
+  //   nonce: '',
+  //   plan_id: '',
+  //   email: '',
+  //   first_name: '',
+  //   last_name: '',
+  // };
+
+  // const onSetPaymentData = (value, plan_id) => {
+  //   console.log('value, value', value);
+  //   paymentData.nonce = value.nonce;
+  //   paymentData.plan_id = plan_id;
+  //   paymentData.email = value.details.email || '';
+  //   paymentData.first_name = value.details.firstName || '';
+  //   paymentData.last_name = value.details.lastName || '';
+  // };
+
   const onUpdateStepChild = value => {
     updateStepChild(value);
   };
@@ -65,10 +82,17 @@ export default function MainForm(props: any) {
             {...props}
             updateStepChild={onUpdateStepChild}
             onNextStep={onNextStep(2)}
+            // onSetPaymentData={onSetPaymentData}
           />
         );
       case 2:
-        return <Step3 {...props} onNextStep={onNextStep(3)} />;
+        return (
+          <Step3
+            {...props}
+            onNextStep={onNextStep(3)}
+            paymentData={props.formData.creditCard}
+          />
+        );
       default:
         return 'Unknown step';
     }

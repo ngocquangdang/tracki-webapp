@@ -72,3 +72,84 @@ export function updateStore(payload: any) {
     payload,
   };
 }
+export function getSubAccountRequestAction(
+  account_id: number,
+  device_id: number
+) {
+  return {
+    type: types.GET_SUB_ACCOUNT_REQUESTED,
+    payload: { account_id, device_id },
+  };
+}
+
+export function getSubAccountSuccesAction(payload) {
+  return {
+    type: types.GET_SUB_ACCOUNT_SUCCESSED,
+    payload,
+  };
+}
+
+export function getSubAccountFailAction(payload: any) {
+  return {
+    type: types.GET_SUB_ACCOUNT_FAILED,
+    payload,
+  };
+}
+
+export function setBrainTreeDeviceRequestAction(account_id, device_id, data) {
+  return {
+    type: types.SET_BRAINTREE_DEVICE_REQUESTED,
+    payload: {
+      account_id,
+      device_id,
+      data,
+    },
+  };
+}
+
+export function setBrainTreeDeviceSuccesAction(payload) {
+  return {
+    type: types.SET_BRAINTREE_DEVICE_SUCCESSED,
+    payload,
+  };
+}
+
+export function setBrainTreeDeviceFailAction(payload: any) {
+  return {
+    type: types.SET_BRAINTREE_DEVICE_FAILED,
+    payload,
+  };
+}
+
+export function addDeviceRequestAction(
+  data,
+  formData,
+  account_id,
+  paymentData,
+  callback
+) {
+  return {
+    type: types.ADD_DEVICE_REQUESTED,
+    payload: {
+      data,
+      formData,
+      account_id,
+      paymentData,
+      callback,
+    },
+  };
+}
+
+export function addDeviceSuccesAction(payload) {
+  return {
+    type: types.ADD_DEVICE_SUCCESSED,
+    payload,
+  };
+}
+
+export function addDeviceFailAction(payload: any) {
+  return {
+    type: types.ADD_DEVICE_FAILED,
+    payload,
+  };
+}

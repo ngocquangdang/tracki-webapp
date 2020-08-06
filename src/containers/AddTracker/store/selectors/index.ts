@@ -9,25 +9,35 @@ const makeSelectErrors = () =>
 const makeSelectIsRequesting = () => {
   return createSelector(addTrackerState, state => state.isRequesting || false);
 };
+
 const makeSleectAssigned = () => {
   return createSelector(addTrackerState, state => state.assigned || '');
 };
-const makeSelectMessageKey = () =>
-  createSelector(addTrackerState, state => state.message_key || '');
+
+const makeSelectErrorMessage = () =>
+  createSelector(addTrackerState, state => state.errorsMessage || '');
+
 const makeSelectTrackerPlan = () =>
   createSelector(addTrackerState, state => state.trackerPlan || '');
+
 const selectFormData = () => {
   return createSelector(addTrackerState, state => state.formData);
 };
+
 const makeSelectFormData = () => {
   return createSelector(addTrackerState, state => state.account_id);
+};
+
+const makeSelectNewDeviceInfo = () => {
+  return createSelector(addTrackerState, state => state.newDeviceInfo);
 };
 export {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSleectAssigned,
-  makeSelectMessageKey,
+  makeSelectErrorMessage,
   makeSelectTrackerPlan,
   selectFormData,
   makeSelectFormData,
+  makeSelectNewDeviceInfo,
 };
