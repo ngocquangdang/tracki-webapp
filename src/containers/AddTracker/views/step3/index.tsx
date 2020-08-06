@@ -9,6 +9,7 @@ import {
   UploadImage,
   InputSubcription,
   useStyles,
+  Error,
 } from './styles';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
@@ -30,6 +31,9 @@ interface Props {
   };
   paymentData: any;
   formData: any;
+  errors: {
+    message: string;
+  };
 }
 const initialTracker = {
   device_name: '',
@@ -45,6 +49,7 @@ export default function Step3(props: Props) {
     account_id,
     paymentData,
     formData,
+    errors,
   } = props;
   console.log('paymentData', paymentData);
 
@@ -106,6 +111,7 @@ export default function Step3(props: Props) {
                 {t('tracker:add_image_subcription')}
               </InputSubcription>
             </UploadImage>
+            <Error>{errors.message}</Error>
             <Button
               color="primary"
               type="submit"

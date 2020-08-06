@@ -303,7 +303,7 @@ export default function Step2(props: Props) {
           // className={`${classes.btn}`}
           id="submit-button"
           color="primary"
-          variant="outlined"
+          variant="contained"
           type="submit"
           text={
             isMobile

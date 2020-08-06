@@ -135,5 +135,6 @@
   "last_update": "Last Updated",
   "send_beep": "Send Beep",
   "beep_minutes": "Device will Beep for 5 minutes.",
-  "beep_stop": "To stop the sound, press the SOS key on the device. or Press the Stop Beep button"
+  "beep_stop": "To stop the sound, press the SOS key on the device. or Press the Stop Beep button",
+  "device_name": "Device Name"
 }

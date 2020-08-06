@@ -110,6 +110,9 @@ input:-webkit-autofill:active {
   position: relative;
   &--is-focused  .braintree-form__label{
     color: #168449 !important;
+    & > .braintree-form__descriptor{
+      color: inherit !important;
+    }
   }
 }
 .braintree-form__label {

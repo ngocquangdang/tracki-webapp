@@ -20,6 +20,7 @@ const Content = styled.div`
   max-width: 921px;
   width: 100%;
   margin: 0 auto;
+  height: calc(100vh - 66px);
   overflow-y: overlay;
 `;
 

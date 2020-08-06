@@ -30,11 +30,8 @@ const AddTrackerReducer = (
       case types.GET_DEVICE_PLAN_REQUESTED:
       case types.GET_TOKEN_FOR_PAYMENT_REQUESTED:
       case types.ADD_DEVICE_REQUESTED:
-        // case types.GET_SUB_ACCOUNT_REQUESTED:
-        draft.isRequesting = true;
-        break;
       case types.GET_SUB_ACCOUNT_REQUESTED:
-        // draft.isRequesting = true;
+        draft.isRequesting = true;
         break;
       case types.CHECK_DEVICEID_ASSIGNED_SUCCESSED:
         draft.assigned = payload.assigned;
@@ -64,6 +61,8 @@ const AddTrackerReducer = (
         draft.errors = payload;
         break;
       case types.GET_DEVICE_PLAN_FAILED:
+      case types.ADD_DEVICE_FAILED:
+        draft.isRequesting = false;
         draft.errors = payload;
         break;
       case types.UPDATE_STORE:
