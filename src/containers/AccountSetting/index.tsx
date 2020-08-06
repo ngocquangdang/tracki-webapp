@@ -8,7 +8,11 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import { withTranslation } from '@Server/i18n';
 import saga from './store/sagas';
 import reducer from './store/reducers';
-import { getUserRequestAction, updateUserRequestAction } from './store/actions';
+import {
+  getUserRequestAction,
+  updatePrefrenceRequestAction,
+  updateInfoUserRequestAction,
+} from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
@@ -41,8 +45,9 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch: any) => ({
   getUserRequestAction: () => dispatch(getUserRequestAction()),
-  updateUSerRequestAction: (data: UserDetail.IStateUser, id: number) =>
-    dispatch(updateUserRequestAction(data, id)),
+  updatePrefrence: (data: object) =>
+    dispatch(updatePrefrenceRequestAction(data)),
+  updateInfoUser: (data: object) => dispatch(updateInfoUserRequestAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

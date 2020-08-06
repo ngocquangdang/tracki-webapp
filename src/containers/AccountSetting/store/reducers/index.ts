@@ -5,9 +5,7 @@ import { ActionType } from '@Interfaces';
 
 // The initial state of the Login container
 export const initialState = {
-  profile: {
-    preferences: {},
-  },
+  profile: {},
   errors: {},
   isRequesting: false,
 };
@@ -30,17 +28,32 @@ const UserProfileReducer = (
         draft.isRequesting = false;
         draft.errors = {};
         break;
-      case types.UPDATE_USERS_REQUESTED:
+      case types.UPDATE_PREFRENCE_REQUESTED:
         draft.isRequesting = true;
         break;
-      case types.UPDATE_USERS_FAILED:
+      case types.UPDATE_PREFRENCE_FAILED:
         draft.isRequesting = false;
         draft.errors = payload.errors;
         break;
-      case types.UPDATE_USERS_SUCCEED:
-        draft.profile.preferences = {
-          ...state.profile.preferences,
-          ...payload?.profile.preferences,
+      case types.UPDATE_PREFRENCE_SUCCEED:
+        draft.profile = {
+          ...state.profile,
+          ...payload?.profile,
+        };
+        draft.isRequesting = false;
+        draft.errors = {};
+        break;
+      case types.UPDATE_INFO_USER_REQUESTED:
+        draft.isRequesting = true;
+        break;
+      case types.UPDATE_INFO_USER_FAILED:
+        draft.isRequesting = false;
+        draft.errors = payload.errors;
+        break;
+      case types.UPDATE_INFO_USER_SUCCEED:
+        draft.profile = {
+          ...state.profile,
+          ...payload?.profile,
         };
         draft.isRequesting = false;
         draft.errors = {};

@@ -42,12 +42,19 @@ interface SettingState {
 
 export default function AccountSetting(props: any) {
   const classes = useStyles();
-  const { t, profile, errors, isRequesting } = props;
-
+  const {
+    t,
+    profile,
+    errors,
+    isRequesting,
+    updatePrefrence,
+    updateInfoUser,
+  } = props;
   const [userProfile, updateUserProfile] = useState<UserDatails.IStateUser>({
     email: '',
     first_name: '',
     last_name: '',
+    init_phone_code: '',
     phone_code: '',
     phone: '',
     email_notifications: true,
@@ -58,12 +65,14 @@ export default function AccountSetting(props: any) {
   });
 
   useEffect(() => {
+    const phoneNumber = parsePhoneNumberFromString(`${profile?.phone}`);
     updateUserProfile({
-      email: profile.email || '',
+      email: profile?.email || '',
       first_name: profile?.preferences?.first_name || '',
       last_name: profile?.preferences?.last_name || '',
-      phone_code: profile?.preferences?.phone_code || 'vn',
-      phone: profile?.preferences?.phone || '',
+      init_phone_code: phoneNumber?.country?.toLowerCase() || 'us',
+      phone_code: phoneNumber?.countryCallingCode || '',
+      phone: phoneNumber?.nationalNumber || '',
       email_notifications: profile.preferences?.email_notifications,
       push_notifications: profile.preferences?.push_notifications,
       speed_unit: profile?.preferences?.speed_unit || 'kph',
@@ -73,15 +82,39 @@ export default function AccountSetting(props: any) {
   }, [profile]);
 
   const onSubmitForm = (value: UserDatails.IStateUser) => {
-    console.log('onSubmitForm -> value', value);
+    const dataUpdatePreferences = {
+      always_alert_contacts: false,
+      date_format: value.date_format,
+      email_notifications: value.email_notifications,
+      first_name: value.first_name,
+      hour_mode_24: true,
+      language: value.language,
+      last_name: value.last_name,
+      push_notifications: value.push_notifications,
+      sent_events: true,
+      show_address: true,
+      sos_alarm_sound: true,
+      speed_unit: value.speed_unit,
+      sqs_enabled: false,
+      time_format: 'US',
+      turn_off_notification: false,
+      turn_on_notification: false,
+    };
+
+    const dataUpdateUser = {
+      email: value.email,
+      phone: `+${value.phone_code}${value.phone}`,
+    };
+
     const phoneNumber = parsePhoneNumberFromString(
       `+${value.phone_code}${value.phone}`
     );
-    console.log('onSubmitForm -> phoneNumber', phoneNumber);
-    // const isValidPhone = phoneNumber?.isValid();
-    // if (isValidPhone) {
-    // }
-    // updateUSerRequestAction(value, profile.account_id);
+    const isValidPhone = phoneNumber?.isValid();
+
+    if (isValidPhone) {
+      updatePrefrence(dataUpdatePreferences);
+      updateInfoUser(dataUpdateUser);
+    }
   };
 
   if (!userProfile.email) {
@@ -113,7 +146,7 @@ export default function AccountSetting(props: any) {
           touched,
         }) => {
           const phoneNumber = parsePhoneNumberFromString(
-            `+${values.phone_code}${values.phone}`
+            `+${values?.phone_code}${values?.phone}`
           );
           const isValidPhone = phoneNumber?.isValid();
           return (
@@ -148,7 +181,7 @@ export default function AccountSetting(props: any) {
                 />
                 <PhoneNumberInput
                   label="Phone Number"
-                  defaultCountry={values.phone_code}
+                  defaultCountry={values?.init_phone_code}
                   variant="outlined"
                   onChange={handleChange('phone')}
                   onBlur={handleBlur('phone')}

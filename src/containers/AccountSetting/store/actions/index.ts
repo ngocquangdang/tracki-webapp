@@ -1,6 +1,5 @@
 import { PayloadType } from '@Interfaces';
 import * as types from '../definitions';
-import UserDetail from '../../interfaces';
 
 export function getUserRequestAction() {
   return {
@@ -22,26 +21,44 @@ export function getUserFailAction(errors?: PayloadType) {
   };
 }
 
-export function updateUserRequestAction(
-  data: UserDetail.IStateUser,
-  id: number
-) {
+export function updatePrefrenceRequestAction(data: object) {
   return {
-    type: types.UPDATE_USERS_REQUESTED,
-    payload: { data, id },
+    type: types.UPDATE_PREFRENCE_REQUESTED,
+    payload: { data },
   };
 }
 
-export function updateUserSuccessAction(global?: PayloadType) {
+export function updatePrefrenceSuccessAction(global?: PayloadType) {
   return {
-    type: types.UPDATE_USERS_SUCCEED,
+    type: types.UPDATE_PREFRENCE_SUCCEED,
     payload: { global },
   };
 }
 
-export function updateUserFailAction(errors?: PayloadType) {
+export function updatePrefrenceFailAction(errors?: PayloadType) {
   return {
-    type: types.UPDATE_USERS_FAILED,
+    type: types.UPDATE_PREFRENCE_FAILED,
+    payload: { errors },
+  };
+}
+
+export function updateInfoUserRequestAction(data: object) {
+  return {
+    type: types.UPDATE_INFO_USER_REQUESTED,
+    payload: { data },
+  };
+}
+
+export function updateInfoUserSucceedAction(global?: PayloadType) {
+  return {
+    type: types.UPDATE_INFO_USER_SUCCEED,
+    payload: { global },
+  };
+}
+
+export function updateInfoUserFailedAction(errors?: PayloadType) {
+  return {
+    type: types.UPDATE_INFO_USER_FAILED,
     payload: { errors },
   };
 }

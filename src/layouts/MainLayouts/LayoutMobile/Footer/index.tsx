@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -27,17 +27,7 @@ interface Props {
 function Footer(props: Props) {
   const { t, trackerId, mapTile, changeMapTile } = props;
   const classes = useStyles();
-  const [currentLink, setCurrentLink] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const link = window.location.pathname;
-    setCurrentLink(link);
-  }, [currentLink]);
-  const onClickLink = (link: string) => () => {
-    setCurrentLink(link);
-  };
-  const isActive = currentLink;
 
   const onShowLayer = () => setIsOpen(!isOpen);
   const onCloseLayer = () => setIsOpen(false);
@@ -51,8 +41,7 @@ function Footer(props: Props) {
           <Item>
             <Link href="/notifications">
               <LinkStyle
-                onClick={onClickLink('/notifications')}
-                color={isActive ? 'primary' : 'secondary'}
+                color="secondary"
                 className={classes.linkBtnMobile}
                 underline="none"
               >
@@ -63,8 +52,7 @@ function Footer(props: Props) {
           <Item>
             <Link href="/dashboard">
               <LinkStyle
-                onClick={onClickLink('/dashboard')}
-                color={isActive ? 'primary' : 'secondary'}
+                color="secondary"
                 className={classes.linkBtnMobile}
                 underline="none"
               >
@@ -75,7 +63,6 @@ function Footer(props: Props) {
           <Item>
             <Link href="/trackers">
               <LinkStyle
-                onClick={onClickLink('/trackers')}
                 color="secondary"
                 className={classes.linkBtnMobile}
                 underline="none"
@@ -87,8 +74,7 @@ function Footer(props: Props) {
           <Item>
             <Link href="/tracking">
               <LinkStyle
-                onClick={onClickLink('/tracking')}
-                color={isActive ? 'primary' : 'secondary'}
+                color="secondary"
                 className={classes.linkBtnMobile}
                 underline="none"
               >
@@ -100,10 +86,9 @@ function Footer(props: Props) {
             <div>
               <Item onClick={!isOpen ? onShowLayer : undefined}>
                 <LinkStyle
-                  color={'secondary'}
+                  color="secondary"
                   className={classes.linkBtnMobile}
                   underline="none"
-                  style={{ color: '#fff' }}
                 >
                   {<LayerIcon />} {t('common:map_type')}
                 </LinkStyle>

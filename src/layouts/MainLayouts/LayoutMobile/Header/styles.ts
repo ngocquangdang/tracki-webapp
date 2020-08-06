@@ -30,13 +30,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     minHeight: '56px',
-    paddingLeft: '8px',
-    paddingRight: '0px',
+    paddingLeft: '14px',
+    paddingRight: '14px',
   },
   textHeader: {
     display: 'flex',
     fontSize: '20px',
     alignItems: 'center',
+    fontWeight: 'normal',
   },
   menuButton: {
     objectFit: 'contain',
@@ -48,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
   },
   menuIcon: {
-    fontSize: '36px',
+    fontSize: '40px',
   },
   appBar: {
     zIndex: 8,

@@ -15,7 +15,7 @@ interface Props {
 }
 
 function MainLayoutMobile(props: Props) {
-  const { header, noFooter, children, ...rest } = props;
+  const { header, noFooter, ...rest } = props;
   const classes = useStyles();
   const [openSidebar, setOpenSidebar] = useState(false);
   const handleOpenSideBar = () => setOpenSidebar(!openSidebar);
@@ -46,7 +46,7 @@ function MainLayoutMobile(props: Props) {
           }`}
           onClick={handleCloseSideBar}
         >
-          {children}
+          {props.children}
         </Content>
         {!noFooter && <Footer t={rest.t} />}
       </div>

@@ -4,6 +4,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#fff',
+    boxShadow: '0 5px 15px 0 rgba(210, 210, 210, 0.3)',
   },
   wrapper: {
     display: 'flex',

@@ -29,9 +29,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'center',
-    '&:hover': {
-      color: theme.palette.primary.main,
-    },
+    color: '#fff',
     '& svg': {
       marginBottom: 4,
       display: 'block',
