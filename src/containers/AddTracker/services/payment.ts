@@ -2,9 +2,13 @@ import { Subject } from 'rxjs';
 import dropin from 'braintree-web-drop-in';
 import * as apiServices from './index';
 
-const paymentService = () => {
-  // let subscriberBraintreeNonce;
+declare global {
+  interface Window {
+    dropinIntance: object;
+  }
+}
 
+const paymentService = () => {
   const initBraintreeDropIn = (
     containerSelector,
     buttonSelector,
@@ -14,20 +18,14 @@ const paymentService = () => {
   ) => {
     let payload$ = new Subject();
     let dropIn;
-    console.log('paymentService -> dropIn', dropIn);
     apiServices
       .getTokenForPayment(data, selectedPlan.id, account_id)
       .then(token => {
-        let btnGo = document.querySelector(buttonSelector);
         payload$.next({ type: 'token' });
-
-        return dropin
+        dropin
           .create({
-            authorization: token,
+            authorization: token.data,
             container: containerSelector,
-            // locale: SUPPORT_LOCALES.indexOf(currentLocale)
-            //   ? currentLocale
-            //   : DEFAULT_LOCALE,
             card: {
               overrides: {
                 fields: {
@@ -45,20 +43,8 @@ const paymentService = () => {
           })
           .then(instance => {
             dropIn = instance;
-            btnGo.off('click');
-            btnGo.on('click', () => {
-              if (dropIn.isPaymentMethodRequestable()) {
-                requestPaymentMethod(dropIn)
-                  .then(payload => {
-                    payload$.next({ type: 'payload', payload });
-                  })
-                  .catch(console.error);
-              }
-            });
 
             dropIn.on('paymentMethodRequestable', event => {
-              console.log('aaaaaaaaa');
-              // console.log(TAG, 'event - paymentMethodRequestable', event, dropIn.isPaymentMethodRequestable());
               if (dropIn.isPaymentMethodRequestable()) {
                 switch (event.type) {
                   case 'PayPalAccount':
@@ -90,10 +76,11 @@ const paymentService = () => {
               // console.log(TAG, 'event - noPaymentMethodRequestable');
               payload$.next({ type: 'notAvailable' });
             });
+            window.dropinIntance = dropIn || {};
           })
-          .catch(console.error);
+          .catch(error => error);
       })
-      .catch(console.error);
+      .catch(error => error);
 
     return payload$;
   };
@@ -108,63 +95,6 @@ const paymentService = () => {
       .catch(console.error);
   }
 
-  // function init($scope, $state, paymentType, tabs, plan) {
-  //   $scope.paymentType = paymentType;
-  //   $state.go(tabs[$scope.currentTab], { type: paymentType });
-  //   if (plan && settingsService.isNonce()) {
-  //     $scope.loading = true;
-  //     $scope.paymentMethodAvailable = false;
-  //     $scope.braintTreeNonceError = null;
-  //     initBraintreeDropIn(
-  //       SELECTOR.CONTAINER,
-  //       SELECTOR.BUTTON,
-  //       plan,
-  //       $scope.deviceId
-  //     ).subscribe(event => {
-  //       $scope.braintTreeNonceError = null;
-  //       switch (event.type) {
-  //         case EVENT.TOKEN:
-  //           $timeout(() => ($scope.loading = false), 1000);
-  //           break;
-  //         case EVENT.AVAILABLE:
-  //           $scope.paymentMethodAvailable = true;
-  //           break;
-  //         case EVENT.NOT_AVAILABLE:
-  //           $scope.paymentMethodAvailable = false;
-  //           break;
-  //         case EVENT.ERROR:
-  //           console.error(event.error);
-  //           break;
-  //         case EVENT.PAYLOAD:
-  //           let data = {
-  //             nonce: event.payload.nonce,
-  //             plan_id: plan.id,
-  //             email: event.payload.details.email || '',
-  //             first_name: event.payload.details.firstName || '',
-  //             last_name: event.payload.details.lastName || '',
-  //           };
-  //           $scope.loading = true;
-  //           if (subscriberBraintreeNonce) {
-  //             subscriberBraintreeNonce.unsubscribe();
-  //           }
-  //           subscriberBraintreeNonce = Api.setBraintreeNoncePlanToDevice(
-  //             $scope.deviceId,
-  //             data
-  //           ).subscribe(
-  //             data => {
-  //               $scope.loading = false;
-  //               $scope.next();
-  //             },
-  //             err => {
-  //               $scope.braintTreeNonceError = err.response;
-  //               $scope.loading = false;
-  //             }
-  //           );
-  //           break;
-  //       }
-  //     });
-  //   }
-  // }
   return { initBraintreeDropIn };
 };
 

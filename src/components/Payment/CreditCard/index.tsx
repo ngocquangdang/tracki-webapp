@@ -67,6 +67,7 @@ function CreditCard(props: Props) {
             <Form onSubmit={handleSubmit}>
               <TextInputLineUp>
                 <TextInput
+                  data-braintree-name="number"
                   label={t('subscription:credit_card_number')}
                   name="card_number"
                   value={values.card_number}
@@ -81,6 +82,7 @@ function CreditCard(props: Props) {
                   }
                 />
                 <TextInput
+                  data-braintree-name="cvv"
                   label={t('subscription:credit_card_expiration_date')}
                   name="expiration_date"
                   value={values.expiration_date}

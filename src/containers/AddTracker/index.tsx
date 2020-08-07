@@ -9,6 +9,9 @@ import {
   getDevicePlanRequestAction,
   updateStore,
   getTokenForPaymentRequestAction,
+  addDeviceRequestAction,
+  getSubAccountRequestAction,
+  braintreeDropInRequestAction,
 } from './store/actions';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
@@ -18,10 +21,11 @@ import {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSleectAssigned,
-  makeSelectMessageKey,
+  makeSelectErrorMessage,
   makeSelectTrackerPlan,
   selectFormData,
   makeSelectFormData,
+  makeSelectNewDeviceInfo,
 } from './store/selectors';
 
 function AddTrackerContainer(props: any) {
@@ -35,10 +39,11 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectIsRequesting(),
   assigned: makeSleectAssigned(),
-  message_key: makeSelectMessageKey(),
+  errorMessage: makeSelectErrorMessage(),
   trackerPlan: makeSelectTrackerPlan(),
   formData: selectFormData(),
   account_id: makeSelectFormData(),
+  newDeviceInfo: makeSelectNewDeviceInfo(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -49,6 +54,14 @@ const mapDispatchToProps = (dispatch: any) => ({
   getTokenForPaymentAction: data =>
     dispatch(getTokenForPaymentRequestAction(data)),
   updateStore: (data: any) => dispatch(updateStore(data)),
+  addDeviceAction: (data, formData, account_id, paymentData, callback) =>
+    dispatch(
+      addDeviceRequestAction(data, formData, account_id, paymentData, callback)
+    ),
+  getSubAccountAction: (account_id, device_id) =>
+    dispatch(getSubAccountRequestAction(account_id, device_id)),
+  braintreeDropinAction: (formData, callback) =>
+    dispatch(braintreeDropInRequestAction(formData, callback)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

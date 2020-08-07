@@ -105,8 +105,11 @@ const useStyles = makeStyles(theme => ({
   hiddenCard: {
     display: 'none',
   },
-  hiddenLetter: {
+  hidden: {
     display: 'none',
+  },
+  btn: {
+    margin: '15px 0',
   },
 }));
 const CardHeaderStyle = withStyles(theme => ({

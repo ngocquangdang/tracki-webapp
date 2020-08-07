@@ -85,3 +85,42 @@ input:-webkit-autofill:active {
 .mapboxgl-control-container {
   display: none;
 }
+
+.braintree-sheet__content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.braintree-form__field {
+  &:focus {
+    border: 2px solid #168449 !important;
+  }
+}
+.braintree-form__hosted-field {
+  border-radius: 4px;
+  padding: 0 15.5px !important;
+  &:hover {
+    border: 1px solid #168449 !important;
+  }
+  &.braintree-hosted-fields-focused {
+    border: 2px solid #168449 !important;
+  }
+}
+.braintree-form__field-group {
+  position: relative;
+  &--is-focused  .braintree-form__label{
+    color: #168449 !important;
+    & > .braintree-form__descriptor{
+      color: inherit !important;
+    }
+  }
+}
+.braintree-form__label {
+  position: absolute;
+  top: -5px;
+  left: 15.5px;
+  padding-right: 10px !important;
+  padding-left: 5px !important;
+  background: white;
+  z-index: 3;
+}
