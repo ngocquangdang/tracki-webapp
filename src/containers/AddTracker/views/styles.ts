@@ -21,14 +21,18 @@ const Content = styled.div`
   width: 100%;
   margin: 0 auto 100px;
   height: 100%;
-  overflow-y: overlay;
+  /* overflow-y: overlay; */
+  @media (max-width: 995.95px) {
+    margin: 0 auto;
+    padding-bottom: 100px;
+  }
 `;
 
 const Logo = styled.img`
   object-fit: contain;
   height: 36px;
   margin: auto 0;
-  @media (max-width: 959.95px) {
+  @media (max-width: 995.95px) {
     height: 29px;
   }
 `;
@@ -40,7 +44,7 @@ const Header = styled.header`
   width: 100%;
   padding: 8px 10px;
   justify-content: space-between;
-  @media (max-width: 959.95px) {
+  @media (max-width: 995.95px) {
     padding: 5px;
   }
 `;
