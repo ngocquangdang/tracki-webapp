@@ -56,17 +56,8 @@ export default function GeofenceCard(props: Props) {
   };
 
   const gotoGeofence = () => {
-    const { type, preferences } = geofence;
-    if (type === 'rectangle') {
-      const { vertices = {} } = preferences;
-      if (vertices.northeast && vertices.southwest) {
-        window.mapEvents.setFitBounds([vertices.northeast, vertices.southwest]);
-      }
-    } else if (type === 'circle') {
-      window.mapEvents.setCenterFlyTo(preferences.center, { zoom: 16 });
-    } else {
-      window.mapEvents.setFitBounds(preferences.vertices);
-    }
+    window.geosDrawn[geofence.id] &&
+      window.mapEvents.setFitBounds(window.geosDrawn[geofence.id].getBounds());
   };
 
   const onSelectGeofence = () => {

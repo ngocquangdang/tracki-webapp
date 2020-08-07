@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import { ViewPC, ViewMobile } from './views';
 import { MainLayout } from '@Layouts';
@@ -8,11 +9,20 @@ interface Props {
 }
 
 function View(props: Props) {
-  const { ...rest } = props;
+  const { selectTrackerAction, trackers } = props;
+  const {
+    query: { id: trackerId },
+  } = useRouter();
+
+  useEffect(() => {
+    if (trackerId && trackers[trackerId.toString()]) {
+      selectTrackerAction(trackerId);
+    }
+  }, []);
 
   return (
-    <MainLayout isMobile={rest.isMobile}>
-      {rest.isMobile ? <ViewMobile {...rest} /> : <ViewPC {...rest} />}
+    <MainLayout isMobile={props.isMobile}>
+      {props.isMobile ? <ViewMobile {...props} /> : <ViewPC {...props} />}
     </MainLayout>
   );
 }

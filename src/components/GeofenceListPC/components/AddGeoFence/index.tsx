@@ -101,6 +101,7 @@ function AddGeoFence(props: Props) {
       removeGeofence(cloneSelectedGeofence.id);
       updateGeofence(cloneSelectedGeofence.id, cloneSelectedGeofence);
     }
+    changeMapAction('DEFAULT');
     handleClose();
   };
 
