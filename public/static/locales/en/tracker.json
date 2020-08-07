@@ -1,4 +1,6 @@
 {
+  "contact": "Contact",
+  "edit": "Edit",
   "tracker_name": "Tracker Name",
   "tracker_id": "Tracker ID",
   "location_updated": "Location Updates",
@@ -146,5 +148,9 @@
   "click_start_drawing_shape": "Click to start drawing shape",
   "click_continue_drawing_shape": "Click to continue drawing shape",
   "click_first_point_close_shape": "Click first point to close this shape",
-  "click_drag_drawing_rectangle": "Click and drag to draw rectangle"
+  "click_drag_drawing_rectangle": "Click and drag to draw rectangle",
+  "link_fence_description": "These Geo-Fences are linked to your device, you will now start getting alerts when a device enters or exits a designated Geo-Fence.",
+  "geofence_linked_to": "Geo-Fence Linked to {{name}}",
+  "unlinked_geofence": "Unlinked Geo-Fence",
+  "unlinked_geofence_description": "You may link up to 5  Geo-Fence to a device so you may start getting alerts when a device enters or exits a designated Geo-Fence."
 }

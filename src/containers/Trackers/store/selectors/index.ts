@@ -30,14 +30,16 @@ const makeSelectTrackerSettings = () =>
 
 const makeSelectEditGeofenceId = () =>
   createSelector(globalState, state => state.geofence?.editGeofenceId);
+
 const makeSelectContactList = () =>
-  createSelector(globalState, state => state.contactlist || []);
+  createSelector(globalState, state => state.tracker.contacts);
 
 const makeSelectDataLink = () =>
   createSelector(globalState, state => state.dataLink);
 
 const makeSelectBeep = () =>
   createSelector(globalState, state => state?.isBeep);
+
 const makeSelectNewGeofence = () =>
   createSelector(globalState, state => state.geofence?.newGeofence);
 

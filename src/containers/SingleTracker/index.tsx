@@ -18,7 +18,10 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import saga from './store/sagas';
 import { fetchTrackerSettingsRequestedAction } from './store/actions';
 import SettingTracker from './components/SettingTracker';
-import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectTrackerSettings,
+  makeSelectGeofences,
+} from '@Containers/Trackers/store/selectors';
 
 import {
   Container,
@@ -44,6 +47,7 @@ import TrackerGeofences from './components/TrackerGeofences';
 interface Props {
   settings: object;
   tracker: ITracker;
+  geofences: object;
   onClickBack: () => void;
   t(key: string): string;
   fetchTrackerSettings(id: number): void;
@@ -52,7 +56,7 @@ interface Props {
 function SingleTracker(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
   const classes = useStyles();
-  const { tracker, onClickBack, t } = props;
+  const { tracker, onClickBack, t, geofences } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
 
@@ -168,6 +172,9 @@ function SingleTracker(props: Props) {
       <TrackerGeofences
         show={currentChildView === 'geofences'}
         onClickBack={onCloseChildView}
+        geofences={geofences}
+        tracker={tracker}
+        t={t}
       />
       <SendBeep
         handleClose={onCloseChildView}
@@ -193,6 +200,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
+  geofences: makeSelectGeofences(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
