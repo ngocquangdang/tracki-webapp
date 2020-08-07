@@ -28,10 +28,63 @@ const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#1a1a1a',
     fontSize: 17,
+    fontWeight: 400,
   },
   iconBack: {
     width: '20px',
     height: '20px',
+  },
+  content: {
+    height: 'calc(100% - 55px)',
+    position: 'relative',
+  },
+  tabs: {
+    height: 55,
+    '& div div': {
+      height: '100%',
+      boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.12)',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    },
+  },
+  tabPanel: {
+    height: 'calc(100% - 55px)',
+    overflowY: 'auto',
+    padding: 10,
+  },
+  tabItem: {
+    width: '50%',
+    fontSize: 18,
+    lineHeight: '22px',
+    fontWeight: 400,
+    color: '#b7b7b7',
+  },
+  title: {
+    fontSize: 17,
+    lineHeight: '20px',
+    fontWeight: 400,
+    color: '#1a1a1a',
+    marginTop: 5,
+    marginBottom: 17,
+  },
+  subtitle: {
+    fontSize: 12,
+    lineHeight: '18px',
+    fontWeight: 400,
+    color: '#999',
+  },
+  helpIcon: {
+    position: 'relative',
+    top: 3,
+    marginLeft: 5,
+    fontSize: 18,
+  },
+  geoList: {
+    marginBottom: 14,
+    maxHeight: 'calc(100% - 100px)',
+    overflowY: 'auto',
+    '& li': {
+      display: 'block',
+    },
   },
 }));
 
