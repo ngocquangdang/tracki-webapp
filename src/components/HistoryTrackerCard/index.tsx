@@ -10,6 +10,7 @@ import { Button } from '@Components/buttons';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import axios from 'axios';
+
 import {
   Card,
   Item,
@@ -41,25 +42,15 @@ import {
   ControlText,
   useStyles,
 } from './styles';
+import { MAPBOX_API_KEY } from '@Definitions/app';
+import { ITracker } from '@Interfaces';
 
 interface Prop {
   isLoading?: boolean;
-  tracker: Tracker;
+  tracker: ITracker;
   isMobile: boolean;
   onClickPrevios(): void;
   onClickNext(): void;
-}
-
-interface Tracker {
-  device_id: number;
-  time: number;
-  battery: number;
-  speed: number;
-  location_type: string;
-  lat: number;
-  lng: number;
-  icon_url: string;
-  device_name: string;
 }
 
 function HistoryTrackerCard(props: Prop) {
@@ -70,7 +61,7 @@ function HistoryTrackerCard(props: Prop) {
 
   const callApiGetAddress = useCallback(async () => {
     const { data } = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${tracker.lng},${tracker.lat}.json?types=poi&access_token=pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ`
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${tracker.lng},${tracker.lat}.json?types=poi&access_token=${MAPBOX_API_KEY}`
     );
     const address = data.features[0] || { place_name: 'Unknow location' };
     setDataAddress(address.place_name);
