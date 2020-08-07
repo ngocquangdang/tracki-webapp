@@ -43,12 +43,12 @@ export const updateTrackerSettingsFailedAction = (error: object) => ({
 export const getContactListRequestAction = () => ({
   type: types.GET_LIST_CONTACT_REQUESTED,
 });
-export const getContactListSucceedAction = (payload: object) => ({
-  type: types.GET_LIST_CONTACT_REQUESTED,
-  payload,
+export const getContactListSucceedAction = (contacts: object) => ({
+  type: types.GET_LIST_CONTACT_SUCCESSED,
+  payload: { contacts },
 });
 export const getContactListFailedAction = (error: object) => ({
-  type: types.GET_LIST_CONTACT_REQUESTED,
+  type: types.GET_LIST_CONTACT_FAILED,
   payload: { error },
 });
 export const generateLinkShareLocationRequest = (duration: object) => ({

@@ -243,9 +243,9 @@ function* createNewGeofenceSaga(action) {
     const { account_id } = yield select(makeSelectProfile());
     const { geofence } = action.payload;
     yield call(apiServices.createNewGeofence, account_id, geofence);
-    window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofence.id]);
     yield put(actions.fetchGeofencesRequestedAction(account_id));
     yield put(actions.createGeofenceSuccessAction());
+    window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofence.id]);
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };

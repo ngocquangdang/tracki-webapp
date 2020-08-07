@@ -13,89 +13,17 @@ import {
   useStyles,
 } from './styles';
 
-// const ListContact = [
-//   {
-//     id: 110948,
-//     type: 'PHONE',
-//     name: 'Rahul',
-//     address: '+2139355591089',
-//     notificationType: 'PHONE',
-//   },
-//   {
-//     id: 119573,
-//     type: 'PHONE',
-//     name: 'testnumsms',
-//     address: '+639214638852',
-//     notificationType: 'PHONE',
-//   },
-//   {
-//     id: 114201,
-//     type: 'EMAIL',
-//     name: 'hdhshsn',
-//     address: 'bdhsb@gmail.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 113689,
-//     type: 'EMAIL',
-//     name: 'gag',
-//     address: 'gsgs@gmail.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 113688,
-//     type: 'EMAIL',
-//     name: 'haha',
-//     address: 'hshhshs@gmail.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 108793,
-//     type: 'EMAIL',
-//     name: 'Rahul Malhotra',
-//     address: 'rahul.malhotra@qualhon.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 114097,
-//     type: 'EMAIL',
-//     name: 'sanderford',
-//     address: 'sander@gmail.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 114366,
-//     type: 'EMAIL',
-//     name: 'Bgtf',
-//     address: 'sbsb@gmai.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 113691,
-//     type: 'EMAIL',
-//     name: 'shaved',
-//     address: 'shhs@gmail.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 119572,
-//     type: 'EMAIL',
-//     name: 'test1',
-//     address: 'testconract@gmail.com',
-//     notificationType: 'EMAIL',
-//   },
-//   {
-//     id: 119577,
-//     type: 'EMAIL',
-//     name: 'testerman',
-//     address: 'testerman@gnail.com',
-//     notificationType: 'EMAIL',
-//   },
-// ];
+interface Props {
+  isMobile: boolean;
+  show: boolean;
+  contacts: object;
+  handleClose(): void;
+  selectedContacts?: number[];
+}
 
-export default function SelectContact(props) {
+export default function SelectContact(props: Props) {
   const classes = useStyles();
-  const { contactList } = props;
+  const { contacts, show, isMobile, handleClose } = props;
   const [checked, setPhoneChecked] = useState(true);
   const onChecked = () => setPhoneChecked(!checked);
   // const debounceSearch = debounce((v: string) => onSearch(v), 300);
@@ -112,15 +40,15 @@ export default function SelectContact(props) {
           text={'add'}
         />
       }
-      show={props.show}
+      show={show}
       direction="right"
-      handleClose={props.handleClose}
-      isMobile={props.isMobile}
+      handleClose={handleClose}
+      isMobile={isMobile}
     >
       <SelectContactContainer>
         <SearchInput>
           <TextInput
-            // placeholder={`${placeholder}`}
+            placeholder={'Search contact by Name'}
             variant="outlined"
             type="search"
             // InputProps={{
@@ -129,7 +57,7 @@ export default function SelectContact(props) {
             // onChange={event => debounceSearch(event.target.value)}
           />
         </SearchInput>
-        {contactList.map((item, index) => (
+        {Object.values(contacts).map((item, index) => (
           <ContactCard contact={item} handleChange={onChecked} key={index} />
         ))}
         <Save>

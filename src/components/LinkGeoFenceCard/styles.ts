@@ -33,6 +33,10 @@ const useStyles = makeStyles(() => ({
   },
   text: {
     color: TEXT_COLOR,
+    '& span': {
+      fontSize: 14,
+      lineHeight: '17px',
+    },
   },
   textActive: {
     color: ACTIVE_COLOR,
@@ -44,14 +48,33 @@ const useStyles = makeStyles(() => ({
     width: 36,
     height: 36,
   },
-  menuList: {
+  actionBtn: {
+    textAlign: 'center',
+    color: '#1a1a1a',
+    fontSize: 11,
+    lineHeight: '13px',
+    fontWeight: 300,
+    margin: 0,
     padding: 0,
+    minWidth: 56,
+    '& span': {
+      display: 'block',
+      margin: 'auto',
+    },
+    '& img': {
+      width: 20,
+      height: 20,
+    },
   },
+
   menuRoot: {
     paddingTop: 0,
   },
+  menuList: {
+    padding: 0,
+  },
   menuItem: {
-    color: TEXT_COLOR,
+    color: '#1a1a1a',
     fontSize: 17,
     lineHeight: '20px',
     height: 'auto',
@@ -67,20 +90,12 @@ const Image = styled.img`
   width: 20px;
   margin: auto;
 `;
-const Status = styled.span`
-  font-size: 11px;
-  line-height: 13px;
-  font-weight: 400;
-  color: #999;
-`;
-const ListItemStyle = withStyles(theme => ({
+const ListItemStyle = withStyles(() => ({
   root: {
+    cursor: 'default',
     height: 56,
     marginBottom: 10,
-    '&:first-child': {
-      marginTop: 16,
-    },
   },
 }))(ListItem);
 
-export { Status, Image, useStyles, ListItemStyle };
+export { Image, useStyles, ListItemStyle };
