@@ -136,7 +136,7 @@ function SingleTrackerGeofences(props: Props) {
   };
 
   const geofenceNotLinkedByTracker = Object.keys(geofences).filter(
-    id => !tracker.geozones.includes(+id)
+    id => !(tracker.geozones || []).includes(+id)
   );
 
   return (
