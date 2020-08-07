@@ -3,6 +3,7 @@ import App, { AppInitialProps, AppContext } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Provider } from 'next-auth/client';
 import cookie from 'cookie';
+import Header from 'next/head';
 
 import { theme } from '@Definitions/styled';
 import { appWithTranslation } from '@Server/i18n';
@@ -76,6 +77,21 @@ class WebApp extends App<AppWithStore, { isMobile: boolean }> {
       >
         <AuthProvider authenticated={authenticated}>
           <ThemeProvider theme={theme}>
+            <Header>
+              <title>
+                GPS Tracker for Vehicles - Tracki GPS Tracking Device for Car,
+                Kids
+              </title>
+              <meta
+                name="viewport"
+                content="initial-scale=1.0, width=device-width"
+              />
+              <link
+                rel="shortcut icon"
+                href="//cdn.shopify.com/s/files/1/0075/3677/1145/files/FAV-32X32_32x32.png?v=1555668978"
+                type="image/png"
+              />
+            </Header>
             <Component {...pageProps} isMobile={isMobile} />
           </ThemeProvider>
         </AuthProvider>
