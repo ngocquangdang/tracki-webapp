@@ -99,7 +99,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   };
 
   renderMarkers = () => {
-    const { trackers } = this.props;
+    const { trackers, isBeep, selectedTrackerId } = this.props;
     if (this.state.isInitiatedMap && trackers) {
       this.fitBoundTrackers(false);
       return Object.values(trackers).map(tracker => (
@@ -108,6 +108,8 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           map={this.map}
           tracker={tracker}
           onClickMarker={this.onClickTracker}
+          isBeep={isBeep}
+          selectedTrackerId={selectedTrackerId}
         />
       ));
     }

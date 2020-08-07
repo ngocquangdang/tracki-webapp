@@ -107,7 +107,7 @@ function ListTrackerMobile(props: Props) {
       <Footer>
         <Button
           classes={`${classes.btn}`}
-          text="Add Tracker"
+          text="Add a tracker"
           color="primary"
           type="submit"
           onClick={onAddtracker}

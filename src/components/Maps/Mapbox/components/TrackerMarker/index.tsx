@@ -46,7 +46,7 @@ class TrackerMarker extends React.Component<Props> {
           </div>
         <div>
         <div class='title-device' style='width:${nameWidth}px; left:-${
-        nameWidth / 2 - 4
+        nameWidth / 2
       }px'>${device_name}</div>
         `;
       this.marker = new mapboxgl.Marker(elm).setLngLat([lng, lat]).addTo(map);

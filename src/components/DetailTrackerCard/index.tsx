@@ -7,6 +7,7 @@ import {
   TrackerInfomation,
   TrackerStatus,
   BatteryTracker,
+  IconBattery,
   StatusTracker,
   ConnectionTracker,
   Connection,
@@ -23,6 +24,7 @@ import {
   LatLong,
   LatText,
   LongText,
+  IconZoom,
   useStyles,
 } from './styles';
 import moment from 'moment';
@@ -30,7 +32,6 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Battery60Icon from '@material-ui/icons/Battery60';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import Skeleton from '@material-ui/lab/Skeleton';
 import axios from 'axios';
@@ -147,7 +148,7 @@ function DetailTrackerCard(props: Prop) {
           <Item isMobile={isMobile}>
             <LeftItem>
               <Address isMobile={isMobile}>
-                <LocationOnIcon className={classes.iconLocation} />
+                <LocationOnIcon className={classes.iconLocationMobile} />
                 <Text>
                   <TextName>{dataAddress}</TextName>
                   <Time>
@@ -160,8 +161,8 @@ function DetailTrackerCard(props: Prop) {
               </Address>
             </LeftItem>
             <RightItem>
-              <RefreshIcon className={classes.rightIcon} />
-              <ZoomInIcon className={classes.rightIcon} />
+              <RefreshIcon className={classes.iconRefresh} />
+              <IconZoom src="/images/icon-zoom.svg" />
             </RightItem>
           </Item>
         </TrackerInfomation>
@@ -172,9 +173,9 @@ function DetailTrackerCard(props: Prop) {
   return (
     <Fragment>
       {loading ? ske() : isMobile ? renderContentMobile() : renderContentPC()}
-      <TrackerStatus>
+      <TrackerStatus isMobile={isMobile}>
         <BatteryTracker>
-          <Battery60Icon />
+          <IconBattery src="/images/icon-battery.png" />
           <span className={classes.textSpace}>{tracker.battery}%</span>
         </BatteryTracker>
         <StatusTracker>
@@ -185,7 +186,7 @@ function DetailTrackerCard(props: Prop) {
         </StatusTracker>
         <ConnectionTracker>
           <Connection>
-            Connection:
+            Connection:{' '}
             <span className={classes.textBold}>{tracker.location_type}</span>
           </Connection>
           <LocationApprox>Location within approx. 5-20m</LocationApprox>

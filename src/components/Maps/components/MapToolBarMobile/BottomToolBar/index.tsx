@@ -16,6 +16,7 @@ import {
 import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 import { ITracker } from '@Interfaces';
 import HistoryTracker from '@Containers/SingleTracker/components/HistoryTracker';
+import ShareLocation from '@Containers/SingleTracker/components/ShareLocation';
 
 interface Props {
   t(key: string): string;
@@ -28,6 +29,7 @@ export default function BottomToolBar(props: Props) {
   const [isActive, setIsActive] = useState(true);
   const [isSetting, showSetting] = useState(false);
   const [isHistory, showHistory] = useState(false);
+  const [isShareLocation, setViewShareLocation] = useState(false);
   const handleClickViewHistory = () => {
     showHistory(false);
   };
@@ -44,6 +46,14 @@ export default function BottomToolBar(props: Props) {
   const onClickHistory = () => {
     showHistory(true);
   };
+
+  const handleCloseShareLocation = () => {
+    setViewShareLocation(false);
+  };
+  const onClickShareLocation = () => {
+    setViewShareLocation(true);
+  };
+
   return (
     <ToolBar>
       <Button
@@ -106,7 +116,10 @@ export default function BottomToolBar(props: Props) {
             Beep
           </ItemText>
         </MenuItem>
-        <MenuItem className={clsx({ [classes.fullWidth]: !isActive })}>
+        <MenuItem
+          className={clsx({ [classes.fullWidth]: !isActive })}
+          onClick={onClickShareLocation}
+        >
           <Icon className={classes.menuItemIcon}>
             <MdShare className={classes.menuIcon} />
           </Icon>
@@ -144,6 +157,12 @@ export default function BottomToolBar(props: Props) {
         show={isHistory}
         isMobile={true}
         onClickViewHistory={handleClickViewHistory}
+      />
+      <ShareLocation
+        handleClose={handleCloseShareLocation}
+        t={t}
+        show={isShareLocation}
+        isMobile={true}
       />
     </ToolBar>
   );
