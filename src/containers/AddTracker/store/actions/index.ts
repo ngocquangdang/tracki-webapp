@@ -78,30 +78,6 @@ export function updateStore(payload: any) {
   };
 }
 
-export function getSubAccountRequestAction(
-  account_id: number,
-  device_id: number
-) {
-  return {
-    type: types.GET_SUB_ACCOUNT_REQUESTED,
-    payload: { account_id, device_id },
-  };
-}
-
-export function getSubAccountSuccesAction(payload) {
-  return {
-    type: types.GET_SUB_ACCOUNT_SUCCESSED,
-    payload,
-  };
-}
-
-export function getSubAccountFailAction(payload: any) {
-  return {
-    type: types.GET_SUB_ACCOUNT_FAILED,
-    payload,
-  };
-}
-
 export function setBrainTreeDeviceRequestAction(account_id, device_id, data) {
   return {
     type: types.SET_BRAINTREE_DEVICE_REQUESTED,
@@ -205,5 +181,11 @@ export function asignedDeciveFailAction(payload: any) {
   return {
     type: types.ASSIGNED_DEVICE_FAILED,
     payload,
+  };
+}
+
+export function resetStoreAddTracker() {
+  return {
+    type: types.RESET_STORE_ADD_TRACKER,
   };
 }

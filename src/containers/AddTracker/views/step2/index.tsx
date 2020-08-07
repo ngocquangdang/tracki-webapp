@@ -105,7 +105,7 @@ export default function Step2(props: Props) {
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(false);
-  let [disablePayment, setDisableSubmitCard] = useState(false);
+  const [disablePayment, setDisableSubmitCard] = useState(false);
 
   const onChangePaymentPlan = (id: number, index) => () => {
     setShowOtherPlan(true);

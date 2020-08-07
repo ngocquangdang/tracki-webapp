@@ -16,7 +16,6 @@ export const initialState = {
   },
   token: '',
   account_id: 0,
-  newDeviceInfo: {},
 };
 const AddTrackerReducer = (
   state = initialState,
@@ -28,7 +27,6 @@ const AddTrackerReducer = (
       case types.GET_DEVICE_PLAN_REQUESTED:
       case types.GET_TOKEN_FOR_PAYMENT_REQUESTED:
       case types.ADD_DEVICE_REQUESTED:
-      case types.GET_SUB_ACCOUNT_REQUESTED:
         draft.isRequesting = true;
         break;
       case types.CHECK_DEVICEID_ASSIGNED_SUCCESSED:
@@ -49,9 +47,7 @@ const AddTrackerReducer = (
         break;
       case types.ADD_DEVICE_SUCCESSED:
         break;
-      case types.GET_SUB_ACCOUNT_SUCCESSED:
-        draft.newDeviceInfo = payload;
-        break;
+
       case types.CHECK_DEVICEID_ASSIGNED_FAILED:
       case types.GET_TOKEN_FOR_PAYMENT_FAILED:
         draft.isRequesting = false;
@@ -68,6 +64,16 @@ const AddTrackerReducer = (
           ...state.formData,
           ...payload,
         };
+        break;
+      case types.RESET_STORE_ADD_TRACKER:
+        draft.formData = {
+          device_id: '',
+          imei: '',
+          order: '',
+          selectedPlan: [],
+        };
+        draft.assigned = '';
+        draft.trackerPlan = [];
         break;
       default:
         break;

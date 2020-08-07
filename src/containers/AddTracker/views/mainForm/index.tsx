@@ -35,7 +35,14 @@ import CongratulationContainer from '../step2/step2.3';
 
 export default function MainForm(props: any) {
   const classes = useStyles();
-  const { t } = props;
+  const {
+    t,
+    formData,
+    fetchTrackersRequestedAction,
+    resetStoreAddTracker,
+    account_id,
+    isMobile,
+  } = props;
 
   const [activeStep, setActiveStep] = useState(0);
   const [stepChild, updateStepChild] = useState('');
@@ -55,6 +62,11 @@ export default function MainForm(props: any) {
   };
   const onNextStep = (step: number) => () => {
     setActiveStep(step);
+  };
+  const onViewTracker = () => {
+    window.dropinIntance = {};
+    fetchTrackersRequestedAction(account_id);
+    resetStoreAddTracker();
   };
   const onNextStep1 = (assigned: boolean) =>
     assigned ? setActiveStep(1) : setActiveStep(0);
@@ -120,7 +132,7 @@ export default function MainForm(props: any) {
     <AddTrackerLayout>
       {stepChild !== '' ? (
         renderStep()
-      ) : added ? (
+      ) : added && !isMobile ? (
         <Step4 {...props} />
       ) : (
         <Container>
@@ -177,14 +189,16 @@ export default function MainForm(props: any) {
                 <CongratulationIcon>
                   <IoMdPin className={classes.icon} />
                 </CongratulationIcon>
-                <CongratulationTracker>tracker name</CongratulationTracker>
+                <CongratulationTracker>
+                  {formData.device_name}
+                </CongratulationTracker>
                 <Button
                   color="primary"
                   type="submit"
                   variant="contained"
                   text={t('tracker:view_tracker_on_map')}
                   className={classes.widthBtn}
-                  onClick={props.nextStep}
+                  onClick={onViewTracker}
                 />
               </Congratulation>
             )}

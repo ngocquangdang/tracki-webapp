@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@Components/buttons';
+import { IoMdPin } from 'react-icons/io';
 
 import {
   Congratulation,
@@ -11,10 +12,20 @@ import {
   CongratulationContent,
   useStyles,
 } from './styles';
-import { IoMdPin } from 'react-icons/io';
 
 export default function CongratulationContainer(props) {
   const classes = useStyles();
+  const {
+    fetchTrackersRequestedAction,
+    account_id,
+    resetStoreAddTracker,
+    formData,
+  } = props;
+  const onViewTracker = () => {
+    window.dropinIntance = {};
+    fetchTrackersRequestedAction(account_id);
+    resetStoreAddTracker();
+  };
   return (
     <>
       <Congratulation>
@@ -30,15 +41,17 @@ export default function CongratulationContainer(props) {
           <CongratulationIcon>
             <IoMdPin className={classes.icon} />
           </CongratulationIcon>
-          <CongratulationTracker>tracker name</CongratulationTracker>
-          <Link href="/trackers" />
-          <Button
-            color="primary"
-            type="submit"
-            variant="contained"
-            text={props.t('tracker:view_tracker_on_map')}
-            className={classes.widthBtn}
-          />
+          <CongratulationTracker>{formData.device_name}</CongratulationTracker>
+          <Link href="/">
+            <Button
+              onClick={onViewTracker}
+              color="primary"
+              type="submit"
+              variant="contained"
+              text={props.t('tracker:view_tracker_on_map')}
+              className={classes.widthBtn}
+            />
+          </Link>
         </CongratulationContent>
       </Congratulation>
     </>

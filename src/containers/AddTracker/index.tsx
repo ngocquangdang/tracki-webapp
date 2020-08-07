@@ -10,9 +10,10 @@ import {
   updateStore,
   getTokenForPaymentRequestAction,
   addDeviceRequestAction,
-  getSubAccountRequestAction,
   braintreeDropInRequestAction,
+  resetStoreAddTracker,
 } from './store/actions';
+import { fetchTrackersRequestedAction } from '@Containers/Trackers/store/actions';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
 import saga from './store/sagas';
@@ -58,10 +59,11 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(
       addDeviceRequestAction(data, formData, account_id, paymentData, callback)
     ),
-  getSubAccountAction: (account_id, device_id) =>
-    dispatch(getSubAccountRequestAction(account_id, device_id)),
   braintreeDropinAction: (formData, callback) =>
     dispatch(braintreeDropInRequestAction(formData, callback)),
+  fetchTrackersRequestedAction: account_id =>
+    dispatch(fetchTrackersRequestedAction(account_id)),
+  resetStoreAddTracker: () => dispatch(resetStoreAddTracker()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

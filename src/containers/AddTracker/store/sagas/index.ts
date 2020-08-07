@@ -10,8 +10,6 @@ import {
   checkDeviceAssignedFailAction,
   getDevicePlanSuccesAction,
   getDevicePlanFailAction,
-  // getSubAccountFailAction,
-  // getSubAccountSuccesAction,
   addDeviceFailAction,
   addDeviceSuccesAction,
   braintreeDropInFailAction,
@@ -71,32 +69,6 @@ function* getDevicePlanSaga(action: ActionType) {
     yield put(getDevicePlanFailAction(payload));
   }
 }
-
-// function* getSubAccountSaga(action: ActionType) {
-//   try {
-//     const { data } = yield call(
-//       apiServices.getSubAccount,
-//       action.payload.account_id
-//     );
-//     // console.log(data.device_ids, parseInt(action.payload.device_id));
-//     const getNewDevice = _.find(data.device_ids, {
-//       device_id: parseInt(action.payload.device_id),
-//     });
-//     // console.log('function*getSubAccountSaga -> getNewDevice', getNewDevice);
-
-//     yield put(getSubAccountSuccesAction(getNewDevice));
-//   } catch (error) {
-//     const { data = {} } = { ...error };
-//     const payload = {
-//       ...data,
-//       errors: (data.errors || []).reduce(
-//         (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
-//         {}
-//       ),
-//     };
-//     yield put(getSubAccountFailAction(payload));
-//   }
-// }
 
 function requestPaymentMethod(dropIn) {
   return new Promise((reslove, reject) => {
@@ -198,6 +170,5 @@ export default function* watcher() {
   );
   yield takeLatest(types.GET_DEVICE_PLAN_REQUESTED, getDevicePlanSaga);
   yield takeLatest(types.BRAINTREE_DROPIN_REQUESTED, braintreeDropinSaga);
-  // yield takeLatest(types.GET_SUB_ACCOUNT_REQUESTED, getSubAccountSaga);
   yield takeLatest(types.ADD_DEVICE_REQUESTED, addDeviceSaga);
 }
