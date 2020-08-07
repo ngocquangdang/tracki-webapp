@@ -18,6 +18,7 @@ interface Props {
   show: boolean;
   contacts: object;
   handleClose(): void;
+  selectedContacts?: number[];
 }
 
 export default function SelectContact(props: Props) {
