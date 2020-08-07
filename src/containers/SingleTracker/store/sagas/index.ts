@@ -68,8 +68,12 @@ function* updateTrackerSettingSaga(action) {
 function* getContactListSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
-    const res = yield call(apiServices.getContactList, account_id);
-    yield put(actions.getContactListSucceedAction(res.data));
+    const { data } = yield call(apiServices.getContactList, account_id);
+    const contacts = data.reduce(
+      (obj, item) => ({ ...obj, [item.id]: item }),
+      {}
+    );
+    yield put(actions.getContactListSucceedAction(contacts));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

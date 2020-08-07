@@ -31,12 +31,12 @@ import {
   updateNewGeofence,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
+import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
-  makeSelectGeofences,
   makeSelectGeofenceIds,
   makeSelectEditGeofenceId,
   makeSelectNewGeofence,
@@ -47,7 +47,7 @@ import { IGeofence } from '@Interfaces';
 interface Props {
   tracker: ITracker;
   fences?: object;
-  contacts?: object;
+  contacts: object;
   geofences: object;
   editGeofenceId: number;
   show: boolean;
@@ -67,6 +67,8 @@ interface Props {
   updateGeofence(geoId: number, data: object): void;
   removeGeofenceRequestAction(id: number): void;
   changeMapAction(mapAction: string): void;
+  getContactListRequestAction(): void;
+  [data: string]: any;
 }
 
 function SingleTrackerGeofences(props: Props) {
@@ -92,6 +94,7 @@ function SingleTrackerGeofences(props: Props) {
     resetNewGeofenceAction,
     linkTrackerAction,
     unlinkTrackerAction,
+    getContactListRequestAction,
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -128,6 +131,7 @@ function SingleTrackerGeofences(props: Props) {
   };
 
   const onAddContact = () => {
+    getContactListRequestAction();
     setShowSelectContactPanel(true);
   };
 
@@ -237,6 +241,7 @@ function SingleTrackerGeofences(props: Props) {
           createNewGeofenceRequestAction={createNewGeofenceRequestAction}
         />
         <SelectContact
+          isMobile={isMobile}
           show={showSelectContactPanel}
           contacts={contacts}
           handleClose={onClosePanel}
@@ -264,11 +269,11 @@ const mapDispatchToProps = dispatch => ({
   createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
   resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
+  getContactListRequestAction: () => dispatch(getContactListRequestAction()),
 });
 
 const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectLoading(),
-  geofences: makeSelectGeofences(),
   geofenceIds: makeSelectGeofenceIds(),
   editGeofenceId: makeSelectEditGeofenceId(),
   newGeofence: makeSelectNewGeofence(),
