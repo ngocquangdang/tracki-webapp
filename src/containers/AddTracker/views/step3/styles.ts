@@ -23,12 +23,16 @@ const InputSubcription = styled.span`
   font-size: 12px;
   color: #999999;
 `;
+const Error = styled.p`
+  text-align: center;
+  color: red;
+`;
 const useStyles = makeStyles(theme => ({
   widthBtn: {
     width: '100%',
   },
   marginInput: {
-    marginBottom: 5,
+    marginBottom: 10,
   },
 }));
 export {
@@ -38,5 +42,6 @@ export {
   GroupInput,
   UploadImage,
   InputSubcription,
+  Error,
   useStyles,
 };

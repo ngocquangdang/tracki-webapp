@@ -4,8 +4,10 @@ import Card from '@material-ui/core/Card';
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
 import { Button } from '@Components/buttons';
-import Payment from '@Components/Payment';
 import { paymentService } from '../../services/payment';
+// import * as apiServices from '../../services';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 import {
   Header,
   Typography,
@@ -29,18 +31,24 @@ interface Props {
   formData: any;
   updateStore(value): void;
   account_id: number;
+  onNextStep(): void;
+  getSubAccountAction(account_id, device_id): void;
+  onSetPaymentData(event, id): void;
+  isMobile: boolean;
+  braintreeDropinAction(formData, callback): void;
 }
 
 export default function Step2(props: Props) {
-  console.log('props', props);
   const classes = useStyles();
   const {
     t,
-    updateStepChild,
     trackerPlan,
     formData,
     updateStore,
     account_id,
+    onNextStep,
+    isMobile,
+    braintreeDropinAction,
   } = props;
 
   const dataPlan = {
@@ -95,86 +103,58 @@ export default function Step2(props: Props) {
   ];
 
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
-  // const [isShowPayment, SetShowPayment] = useState(false);
-  const [step] = useState('payment_confirm');
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(false);
-  // const [openPgateway, setOpenPgateway] = useState('');
-  const onChangePaymentPlan = (id: number, index) => () => {
-    updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-    // getTokenForPaymentAction(formData);
+  let [disablePayment, setDisableSubmitCard] = useState(false);
 
+  const onChangePaymentPlan = (id: number, index) => () => {
     setShowOtherPlan(true);
     setSelectedPlan(true);
     setPaymentPlan(id);
 
-    // setOpenPgateway('out');
-
     if (trackerPlan[index].paymentPlatform === 'PREPAID') {
-      setSelectedPlan(true);
       updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-      // assignedDevice();
+      onNextStep();
     } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
-      setSelectedPlan(true);
+      updateStore({ ...formData, selectedPlan: trackerPlan[index] });
+      setDisableSubmitCard(true);
       BraintreePaymentGateway(trackerPlan[index], account_id);
-      // setOpenPgateway('in');
     }
   };
 
+  const onPaymentSubmit = () => {
+    braintreeDropinAction(formData, onNextStep);
+  };
+
   function BraintreePaymentGateway(selectedPlan, account_id) {
-    console.log('payment gateway');
-    // let subscriberBraintreeNonce;
-    // let loading = true;
-    // let paymentMethodAvailable = false;
-    // let braintTreeNonceError = null;
-    // let plan = selectedPlan;
+    let subscriberBraintreeNonce;
     paymentService()
       .initBraintreeDropIn(
         '#dropin-container',
-        '#submit-button',
+        '#submit-payment-button',
         formData,
         selectedPlan,
         account_id
       )
       .subscribe((event: any) => {
-        // braintTreeNonceError = null;
-        console.log('payment gateway2', event);
-
         switch (event.type) {
           case 'token':
-            console.log('sau do vao day');
-            // setTimeout(() => (loading = false), 1000);
             break;
           case 'available':
-            console.log('sau do vao day2');
-            // paymentMethodAvailable = true;
+            setDisableSubmitCard(false);
             break;
           case 'notAvailable':
-            console.log('sau do vao day3');
-            // paymentMethodAvailable = false;
+            setDisableSubmitCard(true);
             break;
           case 'payload':
-            console.log('sau do vao day4');
-
-            // let data = {
-            //   nonce: event.payload.nonce,
-            //   plan_id: plan.id,
-            //   email: event.payload.details.email || '',
-            //   first_name: event.payload.details.firstName || '',
-            //   last_name: event.payload.details.lastName || '',
-            // };
-            // loading = true;
-            // if (subscriberBraintreeNonce) {
-            //   console.log('sau do vao day k ');
-
-            //   subscriberBraintreeNonce.unsubscribe();
-            // }
-            // console.log('data', data);
-            // paymentMethodAvailable = false;
+            if (subscriberBraintreeNonce) {
+              subscriberBraintreeNonce.unsubscribe();
+            }
             break;
         }
       });
   }
+
   const getCardClass = (id: number) => {
     if (paymentPlan) {
       if (paymentPlan === id) {
@@ -185,25 +165,25 @@ export default function Step2(props: Props) {
     return classes.card;
   };
 
-  const renderStep = () => {
-    switch (step) {
-      case 'payment_confirm':
-        return updateStepChild('payment_confirm');
-      case 'referral_code':
-        return updateStepChild('referral_code');
-      case 'congratulation':
-        return updateStepChild('congratulation');
-      default:
-        return 'no case';
-    }
-  };
+  // const renderStep = () => {
+  //   switch (step) {
+  //     case 'payment_confirm':
+  //       return updateStepChild('payment_confirm');
+  //     case 'referral_code':
+  //       return updateStepChild('referral_code');
+  //     case 'congratulation':
+  //       return updateStepChild('congratulation');
+  //     default:
+  //       return 'no case';
+  //   }
+  // };
 
   const onHiddenOtherPlan = () => {
     setPaymentPlan(null);
     setShowOtherPlan(false);
   };
   return (
-    <>
+    <div>
       <Header>
         <Typography>{t('tracker:select_your_plan')}</Typography>
         {isShowOtherPlan ? (
@@ -257,7 +237,7 @@ export default function Step2(props: Props) {
         ))}
       </GroupCard>
 
-      <Letter className={`${isShowOtherPlan ? classes.hiddenLetter : ''}`}>
+      <Letter className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <Lable>{t('tracker:dear_customer')}</Lable>
         <Lable>{t('tracker:content_letter')}</Lable>
         <Lable>{t('tracker:plan_included')}</Lable>
@@ -269,12 +249,26 @@ export default function Step2(props: Props) {
           ))}
         </PlanList>
       </Letter>
-      <Image2 className={`${isShowOtherPlan ? classes.hiddenLetter : ''}`}>
+      <Image2 className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <img src="./images/guarantee-safe.png" alt="" />
       </Image2>
-      <div className={`${!selectedPlan ? classes.hiddenLetter : ''}`}>
-        <Payment t={t} handleClickPayment={renderStep} isMobile={true} />
+      <div className={`${!selectedPlan ? classes.hidden : ''}`}>
+        <div id="dropin-container"></div>
+        <Button
+          onClick={onPaymentSubmit}
+          disabled={disablePayment}
+          id="submit-payment-button"
+          color="primary"
+          variant="contained"
+          type="submit"
+          text={
+            isMobile
+              ? t('subscription:credit_card_pay_now')
+              : t('subscription:credit_card_proceed')
+          }
+          endIcon={isMobile ? null : <ArrowForwardIosIcon />}
+        />
       </div>
-    </>
+    </div>
   );
 }

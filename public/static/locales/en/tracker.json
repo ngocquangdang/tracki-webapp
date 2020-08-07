@@ -138,6 +138,7 @@
   "send_beep": "Send Beep",
   "beep_minutes": "Device will Beep for 5 minutes.",
   "beep_stop": "To stop the sound, press the SOS key on the device. or Press the Stop Beep button",
+  "device_name": "Device Name",
   "click_drag_drawing_circle": "Click and drag to draw circle",
   "radius": "Radius",
   "release_mouse_finish_drawing": "Release mouse to finish drawing.",
