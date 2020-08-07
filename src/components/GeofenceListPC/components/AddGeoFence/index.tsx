@@ -83,6 +83,7 @@ function AddGeoFence(props: Props) {
       ? saveGeofenceRequestAction(selectedGeofence.id, values)
       : createNewGeofenceRequestAction({ ...newGeofence, name: values.name });
     handleClose();
+    changeMapAction('DEFAULT');
   };
 
   const removeGeofence = (id: number) => {

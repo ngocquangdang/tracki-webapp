@@ -47,6 +47,9 @@ class LeafletTool extends React.Component<Props> {
       this.polygonDrawHandler.disable();
       this.circleDrawHandler.disable();
       this.rectangleDrawHandler.disable();
+      this.polygonDrawHandler.setOptions(optionsDefault);
+      this.circleDrawHandler.setOptions(optionsDefault);
+      this.rectangleDrawHandler.setOptions(optionsDefault);
 
       switch (mapAction) {
         case MAP_ACTIONS.CREATE_RECTANGLE:
