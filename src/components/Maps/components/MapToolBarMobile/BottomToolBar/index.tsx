@@ -4,6 +4,7 @@ import { FaHistory } from 'react-icons/fa';
 import { MdBorderStyle, MdShare } from 'react-icons/md';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { IoMdSettings, IoMdVolumeHigh } from 'react-icons/io';
+import clsx from 'clsx';
 import {
   ToolBar,
   MenuItem,
@@ -69,19 +70,19 @@ export default function BottomToolBar(props: Props) {
           )}
         </>
       </Button>
-      <ListItem className={isActive ? '' : classes.isActive}>
-        <Tooltip title="Delete">
+      <ListItem className={clsx({ [classes.isActive]: !isActive })}>
+        <Tooltip title="Settings" placement="right">
           <MenuItem
-            className={isActive ? '' : classes.fullWidth}
+            className={clsx({ [classes.fullWidth]: !isActive })}
             onClick={onClickSetting}
           >
             <Icon className={classes.menuItemIcon}>
               <IoMdSettings className={classes.menuIcon} />
             </Icon>
             <ItemText
-              className={`${classes.menuText} ${
-                isActive ? '' : classes.displayText
-              }`}
+              className={clsx(classes.menuText, {
+                [classes.displayText]: !isActive,
+              })}
             >
               Settings
             </ItemText>
@@ -89,55 +90,55 @@ export default function BottomToolBar(props: Props) {
         </Tooltip>
 
         <MenuItem
-          className={isActive ? '' : classes.fullWidth}
+          className={clsx({ [classes.fullWidth]: !isActive })}
           onClick={onClickHistory}
         >
           <Icon className={classes.menuItemIcon}>
             <FaHistory className={classes.menuIcon} />
           </Icon>
           <ItemText
-            className={`${classes.menuText} ${
-              isActive ? '' : classes.displayText
-            }`}
+            className={clsx(classes.menuText, {
+              [classes.displayText]: !isActive,
+            })}
           >
             History
           </ItemText>
         </MenuItem>
-        <MenuItem className={isActive ? '' : classes.fullWidth}>
+        <MenuItem className={clsx({ [classes.fullWidth]: !isActive })}>
           <Icon className={classes.menuItemIcon}>
             <IoMdVolumeHigh className={classes.menuIcon} />
           </Icon>
           <ItemText
-            className={`${classes.menuText} ${
-              isActive ? '' : classes.displayText
-            }`}
+            className={clsx(classes.menuText, {
+              [classes.displayText]: !isActive,
+            })}
           >
             Beep
           </ItemText>
         </MenuItem>
         <MenuItem
-          className={isActive ? '' : classes.fullWidth}
+          className={clsx({ [classes.fullWidth]: !isActive })}
           onClick={onClickShareLocation}
         >
           <Icon className={classes.menuItemIcon}>
             <MdShare className={classes.menuIcon} />
           </Icon>
           <ItemText
-            className={`${classes.menuText} ${
-              isActive ? '' : classes.displayText
-            }`}
+            className={clsx(classes.menuText, {
+              [classes.displayText]: !isActive,
+            })}
           >
             Share
           </ItemText>
         </MenuItem>
-        <MenuItem className={isActive ? '' : classes.fixedWidthChild}>
+        <MenuItem className={clsx({ [classes.fixedWidthChild]: !isActive })}>
           <Icon className={classes.menuItemIcon}>
             <MdBorderStyle className={classes.menuIcon} />
           </Icon>
           <ItemText
-            className={`${classes.menuText} ${
-              isActive ? '' : classes.displayText
-            }`}
+            className={clsx(classes.menuText, {
+              [classes.displayText]: !isActive,
+            })}
           >
             Geo Fence
           </ItemText>
