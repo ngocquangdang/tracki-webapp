@@ -43,7 +43,6 @@ export const setBraintreeNoncePlanToDevice = async (
   device_id,
   data
 ) => {
-  console.log('ccccc', account_id, device_id, data);
   return await axiosClient.post(
     `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${device_id}/paypal/activation`,
     data
@@ -51,7 +50,6 @@ export const setBraintreeNoncePlanToDevice = async (
 };
 
 export const updateDeviceName = async (account_id, device_id, name) => {
-  console.log('updateDeviceName -> account_id', account_id, device_id, name);
   return await axiosClient.put(
     `${USER_ENPOINT}/accounts/${account_id}/devices/${device_id}/name`,
     name

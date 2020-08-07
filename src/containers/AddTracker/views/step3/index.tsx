@@ -34,6 +34,7 @@ interface Props {
   errors: {
     message: string;
   };
+  onAdded(): void;
 }
 const initialTracker = {
   device_name: '',
@@ -50,11 +51,12 @@ export default function Step3(props: Props) {
     paymentData,
     formData,
     errors,
+    onAdded,
   } = props;
   console.log('paymentData', paymentData);
 
   const addDone = (done: boolean) => {
-    done && onNextStep();
+    done && onNextStep() && onAdded();
   };
   const onSubmit = value => {
     const paymentInfo = {

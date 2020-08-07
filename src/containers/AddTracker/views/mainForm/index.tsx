@@ -6,7 +6,11 @@ import Step from '@material-ui/core/Step';
 import Step1 from '../step1';
 import Step2 from '../step2';
 import Step3 from '../step3';
+import Step4 from '../step4';
+
 import { Button } from '@Components/buttons';
+import { IoMdPin } from 'react-icons/io';
+
 import {
   Container,
   Header,
@@ -29,38 +33,20 @@ import PaymentConfirmContainer from '../step2/step2.1';
 import ReferralCodeContainer from '../step2/step2.2';
 import CongratulationContainer from '../step2/step2.3';
 
-import { IoMdPin } from 'react-icons/io';
-
 export default function MainForm(props: any) {
   const classes = useStyles();
   const { t } = props;
 
   const [activeStep, setActiveStep] = useState(0);
   const [stepChild, updateStepChild] = useState('');
-
+  const [added, setAdded] = useState(false);
   const steps = [
     { step: 'Enter tracker details', activeStep: 0 },
     { step: 'Select plan', activeStep: 1 },
     { step: 'Personalize', activeStep: 2 },
   ];
 
-  // const paymentData = {
-  //   nonce: '',
-  //   plan_id: '',
-  //   email: '',
-  //   first_name: '',
-  //   last_name: '',
-  // };
-
-  // const onSetPaymentData = (value, plan_id) => {
-  //   console.log('value, value', value);
-  //   paymentData.nonce = value.nonce;
-  //   paymentData.plan_id = plan_id;
-  //   paymentData.email = value.details.email || '';
-  //   paymentData.first_name = value.details.firstName || '';
-  //   paymentData.last_name = value.details.lastName || '';
-  // };
-
+  const onAdded = () => setAdded(true);
   const onUpdateStepChild = value => {
     updateStepChild(value);
   };
@@ -75,14 +61,13 @@ export default function MainForm(props: any) {
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <Step1 {...props} onNextStep={onNextStep1} />;
+        return <Step1 {...props} onNextStep={onNextStep1} onAdded={onAdded} />;
       case 1:
         return (
           <Step2
             {...props}
             updateStepChild={onUpdateStepChild}
             onNextStep={onNextStep(2)}
-            // onSetPaymentData={onSetPaymentData}
           />
         );
       case 2:
@@ -91,6 +76,7 @@ export default function MainForm(props: any) {
             {...props}
             onNextStep={onNextStep(3)}
             paymentData={props.formData.creditCard}
+            onAdded={onAdded}
           />
         );
       default:
@@ -134,6 +120,8 @@ export default function MainForm(props: any) {
     <AddTrackerLayout>
       {stepChild !== '' ? (
         renderStep()
+      ) : added ? (
+        <Step4 {...props} />
       ) : (
         <Container>
           <Header>
@@ -177,7 +165,7 @@ export default function MainForm(props: any) {
               ))}
             </StepperStyle>
             {activeStep === steps.length && (
-              <Congratulation>
+              <Congratulation className={props.isMoblie ? '' : classes.hidden}>
                 <CongratulationTitle>
                   {t('tracker:congratulations')}
                 </CongratulationTitle>

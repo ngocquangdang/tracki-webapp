@@ -128,7 +128,7 @@ export default function Step2(props: Props) {
     paymentService()
       .initBraintreeDropIn(
         '#dropin-container',
-        '#submit-button',
+        '#submit-payment-button',
         formData,
         selectedPlan,
         account_id
@@ -147,53 +147,19 @@ export default function Step2(props: Props) {
             break;
           case 'payload':
             console.log('sau do vao day4');
-            // paymentData.nonce = event.payload.nonce;
-            // paymentData.plan_id = plan.id;
-            // paymentData.email = event.payload.details.email || '';
-            // paymentData.first_name = event.payload.details.firstName || '';
-            // paymentData.last_name = event.payload.details.lastName || '';
+
             updateStore({
               ...formData,
               creditCard: event.payload,
               selectedPlan: plan,
             });
-            // onSetPaymentData(event.payload, plan.id);
 
             if (subscriberBraintreeNonce) {
               console.log('sau do vao day k ');
               subscriberBraintreeNonce.unsubscribe();
             }
-            // getSubAccountAction(account_id, formData.device_id);
+
             onNextStep();
-            // console.log('data', paymentData);
-            // subscriberBraintreeNonce = apiServices
-            //   .setBraintreeNoncePlanToDevice(
-            //     account_id,
-            //     formData.device_id,
-            //     paymentData
-            //   )
-            //   .then(data => {
-            //     console.log('sau do vao day k 1');
-
-            //     let selected_plan_name = '';
-            //     console.log(plan);
-            //     if (plan.id === '256') {
-            //       selected_plan_name = ' 1 Month Subscription';
-            //     } else if (plan.id === '263') {
-            //       selected_plan_name = ' 6 Months Subscription';
-            //     } else if (plan.id === '259') {
-            //       selected_plan_name = ' 1 Year Subscription';
-            //     } else if (plan.id === '269') {
-            //       selected_plan_name = ' 2 Years Subscription';
-            //     } else {
-            //       selected_plan_name = ' 2 Years Subscription';
-            //     }
-            //     console.log(selected_plan_name);
-
-            //     getSubAccountAction(account_id, formData.device_id);
-            //     onNextStep();
-            //   })
-            //   .catch(console.error);
             break;
         }
       });
@@ -300,7 +266,7 @@ export default function Step2(props: Props) {
         <div id="dropin-container"></div>
         <Button
           disabled={isLoadingPayment ? true : false}
-          id="submit-button"
+          id="submit-payment-button"
           color="primary"
           variant="contained"
           type="submit"

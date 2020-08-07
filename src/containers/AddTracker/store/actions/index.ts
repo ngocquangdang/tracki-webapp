@@ -28,6 +28,7 @@ export function getDevicePlanRequestAction(payload: any) {
     payload,
   };
 }
+
 export function getDevicePlanSuccesAction(
   trackerPlan: any,
   account_id: number
@@ -40,6 +41,7 @@ export function getDevicePlanSuccesAction(
     },
   };
 }
+
 export function getDevicePlanFailAction(payload: any) {
   return {
     type: types.GET_DEVICE_PLAN_FAILED,
@@ -53,6 +55,7 @@ export function getTokenForPaymentRequestAction(payload: any) {
     payload,
   };
 }
+
 export function getTokenForPaymentSuccesAction(trackerPlan: any) {
   console.log('getTokenForPaymentSuccesAction -> trackerPlan', trackerPlan);
   return {
@@ -60,18 +63,21 @@ export function getTokenForPaymentSuccesAction(trackerPlan: any) {
     payload: trackerPlan,
   };
 }
+
 export function getTokenForPaymentFailAction(payload: any) {
   return {
     type: types.GET_TOKEN_FOR_PAYMENT_FAILED,
     payload,
   };
 }
+
 export function updateStore(payload: any) {
   return {
     type: types.UPDATE_STORE,
     payload,
   };
 }
+
 export function getSubAccountRequestAction(
   account_id: number,
   device_id: number
@@ -148,6 +154,26 @@ export function addDeviceSuccesAction(payload) {
 }
 
 export function addDeviceFailAction(payload: any) {
+  return {
+    type: types.ADD_DEVICE_FAILED,
+    payload,
+  };
+}
+
+export function braintreeDropInRequestAction() {
+  return {
+    type: types.ADD_DEVICE_REQUESTED,
+  };
+}
+
+export function braintreeDropInSuccesAction(payload) {
+  return {
+    type: types.ADD_DEVICE_SUCCESSED,
+    payload,
+  };
+}
+
+export function braintreeDropInFailAction(payload: any) {
   return {
     type: types.ADD_DEVICE_FAILED,
     payload,

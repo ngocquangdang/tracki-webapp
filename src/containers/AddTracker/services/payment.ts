@@ -3,9 +3,6 @@ import dropin from 'braintree-web-drop-in';
 import * as apiServices from './index';
 
 const paymentService = () => {
-  // let subscriberBraintreeNonce;
-
-  //mastercard: 5460 3418 6782 9897 date: 08/2023 cvv: 998
   const initBraintreeDropIn = (
     containerSelector,
     buttonSelector,
@@ -42,9 +39,11 @@ const paymentService = () => {
           })
           .then(instance => {
             dropIn = instance;
-            // btnGo.addEventListener('click');
+            console.log('paymentService -> dropIn', dropIn);
+
             btnGo.addEventListener('click', () => {
               if (dropIn.isPaymentMethodRequestable()) {
+                console.log('clicked');
                 requestPaymentMethod(dropIn)
                   .then(payload => {
                     payload$.next({ type: 'payload', payload });
@@ -52,10 +51,9 @@ const paymentService = () => {
                   .catch(console.error);
               }
             });
-
             dropIn.on('paymentMethodRequestable', event => {
-              // console.log(TAG, 'event - paymentMethodRequestable', event, dropIn.isPaymentMethodRequestable());
               if (dropIn.isPaymentMethodRequestable()) {
+                console.log('clickeddd');
                 switch (event.type) {
                   case 'PayPalAccount':
                     requestPaymentMethod(dropIn)
@@ -72,6 +70,8 @@ const paymentService = () => {
             });
 
             dropIn.on('paymentOptionSelected', event => {
+              console.log('clicked');
+
               // console.log(TAG, 'event - paymentOptionSelected', event);
               switch (event.paymentOption) {
                 case 'paypal':
@@ -86,8 +86,9 @@ const paymentService = () => {
               // console.log(TAG, 'event - noPaymentMethodRequestable');
               payload$.next({ type: 'notAvailable' });
             });
+            window.dropinIntance = dropIn || {};
           })
-          .catch(`${console.error} error 1`);
+          .catch(console.error);
       })
       .catch(console.error);
 
@@ -104,63 +105,6 @@ const paymentService = () => {
       .catch(console.error);
   }
 
-  // function init($scope, $state, paymentType, tabs, plan) {
-  //   $scope.paymentType = paymentType;
-  //   $state.go(tabs[$scope.currentTab], { type: paymentType });
-  //   if (plan && settingsService.isNonce()) {
-  //     $scope.loading = true;
-  //     $scope.paymentMethodAvailable = false;
-  //     $scope.braintTreeNonceError = null;
-  //     initBraintreeDropIn(
-  //       SELECTOR.CONTAINER,
-  //       SELECTOR.BUTTON,
-  //       plan,
-  //       $scope.deviceId
-  //     ).subscribe(event => {
-  //       $scope.braintTreeNonceError = null;
-  //       switch (event.type) {
-  //         case EVENT.TOKEN:
-  //           $timeout(() => ($scope.loading = false), 1000);
-  //           break;
-  //         case EVENT.AVAILABLE:
-  //           $scope.paymentMethodAvailable = true;
-  //           break;
-  //         case EVENT.NOT_AVAILABLE:
-  //           $scope.paymentMethodAvailable = false;
-  //           break;
-  //         case EVENT.ERROR:
-  //           console.error(event.error);
-  //           break;
-  //         case EVENT.PAYLOAD:
-  //           let data = {
-  //             nonce: event.payload.nonce,
-  //             plan_id: plan.id,
-  //             email: event.payload.details.email || '',
-  //             first_name: event.payload.details.firstName || '',
-  //             last_name: event.payload.details.lastName || '',
-  //           };
-  //           $scope.loading = true;
-  //           if (subscriberBraintreeNonce) {
-  //             subscriberBraintreeNonce.unsubscribe();
-  //           }
-  //           subscriberBraintreeNonce = Api.setBraintreeNoncePlanToDevice(
-  //             $scope.deviceId,
-  //             data
-  //           ).subscribe(
-  //             data => {
-  //               $scope.loading = false;
-  //               $scope.next();
-  //             },
-  //             err => {
-  //               $scope.braintTreeNonceError = err.response;
-  //               $scope.loading = false;
-  //             }
-  //           );
-  //           break;
-  //       }
-  //     });
-  //   }
-  // }
   return { initBraintreeDropIn };
 };
 
