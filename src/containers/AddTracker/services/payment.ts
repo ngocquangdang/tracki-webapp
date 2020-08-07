@@ -2,6 +2,12 @@ import { Subject } from 'rxjs';
 import dropin from 'braintree-web-drop-in';
 import * as apiServices from './index';
 
+declare global {
+  interface Window {
+    dropinIntance: object;
+  }
+}
+
 const paymentService = () => {
   const initBraintreeDropIn = (
     containerSelector,
@@ -15,9 +21,7 @@ const paymentService = () => {
     apiServices
       .getTokenForPayment(data, selectedPlan.id, account_id)
       .then(token => {
-        let btnGo = document.querySelector(buttonSelector);
         payload$.next({ type: 'token' });
-        console.log('token', token);
         dropin
           .create({
             authorization: token.data,
@@ -39,21 +43,9 @@ const paymentService = () => {
           })
           .then(instance => {
             dropIn = instance;
-            console.log('paymentService -> dropIn', dropIn);
 
-            btnGo.addEventListener('click', () => {
-              if (dropIn.isPaymentMethodRequestable()) {
-                console.log('clicked');
-                requestPaymentMethod(dropIn)
-                  .then(payload => {
-                    payload$.next({ type: 'payload', payload });
-                  })
-                  .catch(console.error);
-              }
-            });
             dropIn.on('paymentMethodRequestable', event => {
               if (dropIn.isPaymentMethodRequestable()) {
-                console.log('clickeddd');
                 switch (event.type) {
                   case 'PayPalAccount':
                     requestPaymentMethod(dropIn)
@@ -70,8 +62,6 @@ const paymentService = () => {
             });
 
             dropIn.on('paymentOptionSelected', event => {
-              console.log('clicked');
-
               // console.log(TAG, 'event - paymentOptionSelected', event);
               switch (event.paymentOption) {
                 case 'paypal':
@@ -88,9 +78,9 @@ const paymentService = () => {
             });
             window.dropinIntance = dropIn || {};
           })
-          .catch(console.error);
+          .catch(error => error);
       })
-      .catch(console.error);
+      .catch(error => error);
 
     return payload$;
   };

@@ -35,10 +35,10 @@ interface Props {
   getSubAccountAction(account_id, device_id): void;
   onSetPaymentData(event, id): void;
   isMobile: boolean;
+  braintreeDropinAction(formData, callback): void;
 }
 
 export default function Step2(props: Props) {
-  console.log('props', props);
   const classes = useStyles();
   const {
     t,
@@ -48,6 +48,7 @@ export default function Step2(props: Props) {
     account_id,
     onNextStep,
     isMobile,
+    braintreeDropinAction,
   } = props;
 
   const dataPlan = {
@@ -104,27 +105,29 @@ export default function Step2(props: Props) {
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(false);
-  let isLoadingPayment = false;
+  let [disablePayment, setDisableSubmitCard] = useState(false);
 
   const onChangePaymentPlan = (id: number, index) => () => {
-    updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-
     setShowOtherPlan(true);
     setSelectedPlan(true);
     setPaymentPlan(id);
 
     if (trackerPlan[index].paymentPlatform === 'PREPAID') {
       updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-      // assignedDevice();
+      onNextStep();
     } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
+      updateStore({ ...formData, selectedPlan: trackerPlan[index] });
+      setDisableSubmitCard(true);
       BraintreePaymentGateway(trackerPlan[index], account_id);
     }
   };
 
+  const onPaymentSubmit = () => {
+    braintreeDropinAction(formData, onNextStep);
+  };
+
   function BraintreePaymentGateway(selectedPlan, account_id) {
-    console.log('payment gateway');
     let subscriberBraintreeNonce;
-    let plan = selectedPlan;
     paymentService()
       .initBraintreeDropIn(
         '#dropin-container',
@@ -136,30 +139,17 @@ export default function Step2(props: Props) {
       .subscribe((event: any) => {
         switch (event.type) {
           case 'token':
-            console.log('sau do vao day');
-            setTimeout(() => (isLoadingPayment = true), 1000);
             break;
           case 'available':
-            console.log('sau do vao day2');
+            setDisableSubmitCard(false);
             break;
           case 'notAvailable':
-            console.log('sau do vao day3');
+            setDisableSubmitCard(true);
             break;
           case 'payload':
-            console.log('sau do vao day4');
-
-            updateStore({
-              ...formData,
-              creditCard: event.payload,
-              selectedPlan: plan,
-            });
-
             if (subscriberBraintreeNonce) {
-              console.log('sau do vao day k ');
               subscriberBraintreeNonce.unsubscribe();
             }
-
-            onNextStep();
             break;
         }
       });
@@ -247,7 +237,7 @@ export default function Step2(props: Props) {
         ))}
       </GroupCard>
 
-      <Letter className={`${isShowOtherPlan ? classes.hiddenLetter : ''}`}>
+      <Letter className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <Lable>{t('tracker:dear_customer')}</Lable>
         <Lable>{t('tracker:content_letter')}</Lable>
         <Lable>{t('tracker:plan_included')}</Lable>
@@ -259,13 +249,14 @@ export default function Step2(props: Props) {
           ))}
         </PlanList>
       </Letter>
-      <Image2 className={`${isShowOtherPlan ? classes.hiddenLetter : ''}`}>
+      <Image2 className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <img src="./images/guarantee-safe.png" alt="" />
       </Image2>
-      <div className={`${!selectedPlan ? classes.hiddenLetter : ''}`}>
+      <div className={`${!selectedPlan ? classes.hidden : ''}`}>
         <div id="dropin-container"></div>
         <Button
-          disabled={isLoadingPayment ? true : false}
+          onClick={onPaymentSubmit}
+          disabled={disablePayment}
           id="submit-payment-button"
           color="primary"
           variant="contained"

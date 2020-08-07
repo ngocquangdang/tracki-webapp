@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   marginInput: {
-    marginBottom: 5,
+    marginBottom: 10,
   },
 }));
 export {

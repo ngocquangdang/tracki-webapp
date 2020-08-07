@@ -42,6 +42,10 @@ export const BRAINTREE_DROPIN_REQUESTED = 'Tracki/BRAINTREE_DROPIN_REQUESTED';
 export const BRAINTREE_DROPIN_SUCCESSED = 'Tracki/BRAINTREE_DROPIN_SUCCESSED';
 export const BRAINTREE_DROPIN_FAILED = 'Tracki/BRAINTREE_DROPIN_FAILED';
 
+export const ASSIGNED_DEVICE_REQUESTED = 'Tracki/ASSIGNED_DEVICE_REQUESTED';
+export const ASSIGNED_DEVICE_SUCCESSED = 'Tracki/ASSIGNED_DEVICE_SUCCESSED';
+export const ASSIGNED_DEVICE_FAILED = 'Tracki/ASSIGNED_DEVICE_FAILED';
+
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
   { value: '1_1_minutes', content: 'Once every 1 minute' },

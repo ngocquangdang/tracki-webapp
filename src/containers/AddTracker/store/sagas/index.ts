@@ -4,6 +4,7 @@ import { ActionType } from '@Interfaces';
 import * as apiServices from '../../services';
 import { updateSettings } from '@Containers/SingleTracker/store/services';
 import * as types from '../constances';
+
 import {
   checkDeviceAssignedSuccesAction,
   checkDeviceAssignedFailAction,
@@ -13,6 +14,9 @@ import {
   // getSubAccountSuccesAction,
   addDeviceFailAction,
   addDeviceSuccesAction,
+  braintreeDropInFailAction,
+  updateStore,
+  braintreeDropInSuccesAction,
 } from '../actions';
 
 function* checkDeviceAssignedSaga(action: ActionType) {
@@ -94,16 +98,50 @@ function* getDevicePlanSaga(action: ActionType) {
 //   }
 // }
 
+function requestPaymentMethod(dropIn) {
+  return new Promise((reslove, reject) => {
+    dropIn
+      .requestPaymentMethod()
+      .then(payload => {
+        reslove(payload);
+      })
+      .catch(error => reject(error));
+  });
+}
+
+function* braintreeDropinSaga(action: ActionType) {
+  const { formData, callback } = action.payload;
+
+  try {
+    const creditCard = yield call(requestPaymentMethod, window.dropinIntance);
+    yield put(updateStore({ ...formData, creditCard }));
+    yield callback();
+    yield put(braintreeDropInSuccesAction(action.payload));
+  } catch (error) {
+    console.log('function*braintreeDropinSaga -> error', error);
+    yield put(braintreeDropInFailAction(error));
+  }
+}
+
 function* addDeviceSaga(action: ActionType) {
   const { formData, data, account_id, paymentData, callback } = action.payload;
 
   try {
-    yield call(
-      apiServices.setBraintreeNoncePlanToDevice,
-      account_id,
-      formData.device_id,
-      paymentData
-    );
+    if (formData.selectedPlan.paymentPlatform === 'PREPAID') {
+      yield call(
+        apiServices.setPrepaidPlanToDevice,
+        account_id,
+        parseInt(formData.device_id),
+        formData.selectedPlan.id
+      );
+    } else if (formData.selectedPlan.paymentPlatform === 'NONCE') {
+      yield call(
+        apiServices.setBraintreeNoncePlanToDevice,
+        account_id,
+        parseInt(formData.device_id),
+        paymentData
+      );
+    }
 
     const res = yield call(apiServices.getSubAccount, account_id);
     const getNewDevice = find(res.data.device_ids, {
@@ -159,6 +197,7 @@ export default function* watcher() {
     checkDeviceAssignedSaga
   );
   yield takeLatest(types.GET_DEVICE_PLAN_REQUESTED, getDevicePlanSaga);
+  yield takeLatest(types.BRAINTREE_DROPIN_REQUESTED, braintreeDropinSaga);
   // yield takeLatest(types.GET_SUB_ACCOUNT_REQUESTED, getSubAccountSaga);
   yield takeLatest(types.ADD_DEVICE_REQUESTED, addDeviceSaga);
 }

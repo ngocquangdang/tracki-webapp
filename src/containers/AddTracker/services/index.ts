@@ -9,10 +9,13 @@ export const checkDeviceAssigned = async data => {
   );
 };
 
-export const setPrepaidPlanToDevice = async data => {
+export const setPrepaidPlanToDevice = async (
+  account_id,
+  device_id,
+  plan_id
+) => {
   return await axiosClient.put(
-    `${ASSIGNED_ENDPOINT}/activation/accounts/${data.account_id}/devices/${data.device_id}/plan/${data.plan_id}/activate/prepaid`,
-    data
+    `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${device_id}/plan/${plan_id}/activate/prepaid`
   );
 };
 

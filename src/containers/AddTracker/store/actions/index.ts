@@ -160,22 +160,50 @@ export function addDeviceFailAction(payload: any) {
   };
 }
 
-export function braintreeDropInRequestAction() {
+export function braintreeDropInRequestAction(formData, callback) {
   return {
-    type: types.ADD_DEVICE_REQUESTED,
+    type: types.BRAINTREE_DROPIN_REQUESTED,
+    payload: {
+      formData,
+      callback,
+    },
   };
 }
 
 export function braintreeDropInSuccesAction(payload) {
   return {
-    type: types.ADD_DEVICE_SUCCESSED,
+    type: types.BRAINTREE_DROPIN_SUCCESSED,
     payload,
   };
 }
 
 export function braintreeDropInFailAction(payload: any) {
   return {
-    type: types.ADD_DEVICE_FAILED,
+    type: types.BRAINTREE_DROPIN_FAILED,
+    payload,
+  };
+}
+
+export function asignedDeciveRequestAction(plan, device_id) {
+  return {
+    type: types.ASSIGNED_DEVICE_REQUESTED,
+    payload: {
+      plan,
+      device_id,
+    },
+  };
+}
+
+export function asignedDeciveSuccesAction(payload) {
+  return {
+    type: types.ASSIGNED_DEVICE_SUCCESSED,
+    payload,
+  };
+}
+
+export function asignedDeciveFailAction(payload: any) {
+  return {
+    type: types.ASSIGNED_DEVICE_FAILED,
     payload,
   };
 }

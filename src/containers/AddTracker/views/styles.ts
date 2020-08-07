@@ -19,8 +19,8 @@ const Content = styled.div`
   align-items: center;
   max-width: 921px;
   width: 100%;
-  margin: 0 auto;
-  height: calc(100vh - 66px);
+  margin: 0 auto 100px;
+  height: 100%;
   overflow-y: overlay;
 `;
 

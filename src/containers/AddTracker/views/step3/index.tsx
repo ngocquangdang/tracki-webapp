@@ -53,7 +53,6 @@ export default function Step3(props: Props) {
     errors,
     onAdded,
   } = props;
-  console.log('paymentData', paymentData);
 
   const addDone = (done: boolean) => {
     done && onNextStep() && onAdded();
@@ -68,6 +67,7 @@ export default function Step3(props: Props) {
     };
     addDeviceAction(value, formData, account_id, paymentInfo, addDone);
   };
+
   return (
     <>
       <Header>
@@ -111,7 +111,7 @@ export default function Step3(props: Props) {
               <SelectOption
                 name="device_traking"
                 options={LOCATION_UPDATE_OPTIONS}
-                label={t('auth:tracking_intervals')}
+                label={t('tracker:tracking_intervals')}
                 value={values.device_traking}
                 onChangeOption={handleChange('device_traking')}
               />

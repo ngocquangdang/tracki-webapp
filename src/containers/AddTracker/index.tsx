@@ -11,6 +11,7 @@ import {
   getTokenForPaymentRequestAction,
   addDeviceRequestAction,
   getSubAccountRequestAction,
+  braintreeDropInRequestAction,
 } from './store/actions';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
@@ -59,6 +60,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     ),
   getSubAccountAction: (account_id, device_id) =>
     dispatch(getSubAccountRequestAction(account_id, device_id)),
+  braintreeDropinAction: (formData, callback) =>
+    dispatch(braintreeDropInRequestAction(formData, callback)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
