@@ -29,6 +29,7 @@ import {
   updateGeofence,
   createNewGeofence,
   updateNewGeofence,
+  createGeofenceRequestAction,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
 import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
@@ -91,6 +92,7 @@ function SingleTrackerGeofences(props: Props) {
     createNewGeofenceRequestAction,
     removeGeofenceRequestAction,
     changeMapAction,
+    createNewGeofence,
     resetNewGeofenceAction,
     linkTrackerAction,
     unlinkTrackerAction,
@@ -267,6 +269,8 @@ const mapDispatchToProps = dispatch => ({
   updateGeofence: (id: number, data: object) =>
     dispatch(updateGeofence(id, data)),
   createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
+  createNewGeofenceRequestAction: (geofence: object) =>
+    dispatch(createGeofenceRequestAction(geofence)),
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
   resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
   getContactListRequestAction: () => dispatch(getContactListRequestAction()),

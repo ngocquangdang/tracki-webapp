@@ -197,3 +197,13 @@ export const updateGeofence = (geoId: number, geofence: object) => ({
   type: types.UPDATE_GEOFENCE,
   payload: { geoId, geofence },
 });
+
+export const updateTrackersUnlinkGeofence = (trackers: object) => ({
+  type: types.UPDATE_TRACKERS_UNLINK_GEOFENCE,
+  payload: { trackers },
+});
+
+export const updateTrackersLinkedGeofence = (trackers: object) => ({
+  type: types.UPDATE_TRACKERS_LINKED_GEOFENCE,
+  payload: { trackers },
+});

@@ -11,6 +11,7 @@ export const initialState: TrackerDataTypes = {
     trackerPlans: {},
     selectedTrackerId: null,
     contacts: {},
+    settings: {},
   },
   geofence: {
     geofences: {},
@@ -19,7 +20,6 @@ export const initialState: TrackerDataTypes = {
     editGeofenceId: null,
     newGeofence: null,
   },
-  settings: {},
   dataLink: {},
   dataSendBeep: {},
   isBeep: false,
@@ -68,10 +68,10 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = payload.error;
         break;
       case singleTrackerTypes.GET_TRACKER_SETTINGS_SUCCEED:
-        draft.settings[payload.settings.id] = payload.settings;
+        draft.tracker.settings[payload.settings.id] = payload.settings;
         break;
       case singleTrackerTypes.UPDATE_TRACKER_SETTINGS_SUCCEED:
-        draft.settings[payload.settings.id] = payload.settings;
+        draft.tracker.settings[payload.settings.id] = payload.settings;
         break;
       case singleTrackerTypes.UPDATE_TRACKE:
         draft.tracker.trackers[payload.trackerId] = {
@@ -146,6 +146,10 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
             draft.geofence.geofences[payload.geofenceId]?.trackers || []
           ).filter(i => !payload.trackerIds.includes(i)),
         };
+        break;
+      case types.UPDATE_TRACKERS_LINKED_GEOFENCE:
+      case types.UPDATE_TRACKERS_UNLINK_GEOFENCE:
+        draft.tracker.trackers = { ...payload.trackers };
         break;
       case singleTrackerTypes.GET_LIST_CONTACT_REQUESTED:
         draft.errors = null;

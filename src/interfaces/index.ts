@@ -39,6 +39,7 @@ export interface TrackerDataTypes {
     trackerPlans: object | null;
     selectedTrackerId: number | null;
     contacts: object;
+    settings: object;
     [data: string]: any;
   };
   geofence: {
@@ -48,7 +49,6 @@ export interface TrackerDataTypes {
     editGeofenceId: number | null;
     [data: string]: any;
   };
-  settings: object;
   dataLink: object | null;
   dataSendBeep: object | null;
   isBeep: boolean | null;
