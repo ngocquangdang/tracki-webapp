@@ -1,4 +1,5 @@
 import { takeLatest, call, put, select, all } from 'redux-saga/effects';
+import produce from 'immer';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
@@ -218,6 +219,17 @@ function* linkTrackersSaga(action) {
     const { geofenceId, trackerIds } = action.payload;
     yield call(apiServices.linkTrackers, account_id, geofenceId, trackerIds);
     yield put(actions.linkTrackersSuccessAction(geofenceId, trackerIds));
+
+    // update tracker linked
+    const trackers = yield select(makeSelectTrackers());
+    const newTrackers = produce(trackers, draf => {
+      trackerIds.map(id => {
+        draf[id].geozones = draf[id].geozones || [];
+        draf[id].geozones.push(geofenceId);
+        return id;
+      });
+    });
+    yield put(actions.updateTrackersLinkedGeofence(newTrackers));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -231,6 +243,18 @@ function* unlinkTrackersSaga(action) {
     const { geofenceId, trackerIds } = action.payload;
     yield call(apiServices.unlinkTrackers, account_id, geofenceId, trackerIds);
     yield put(actions.unlinkTrackersSuccessAction(geofenceId, trackerIds));
+
+    // update tracker unlinked
+    const trackers = yield select(makeSelectTrackers());
+    const newTrackers = produce(trackers, draf => {
+      trackerIds.map(id => {
+        draf[id].geozones = draf[id].geozones.filter(
+          geoId => geoId !== geofenceId
+        );
+        return id;
+      });
+    });
+    yield put(actions.updateTrackersUnlinkGeofence(newTrackers));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };

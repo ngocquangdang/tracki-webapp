@@ -26,7 +26,7 @@ const makeSelectGeofenceId = () =>
   createSelector(globalState, state => state.geofence?.selectedGeofenceId);
 
 const makeSelectTrackerSettings = () =>
-  createSelector(globalState, state => state.settings);
+  createSelector(globalState, state => state.tracker.settings);
 
 const makeSelectEditGeofenceId = () =>
   createSelector(globalState, state => state.geofence?.editGeofenceId);

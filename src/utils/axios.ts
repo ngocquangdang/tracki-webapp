@@ -91,10 +91,6 @@ class AxiosClient {
   }
 
   post(resource: string, data: object, config = {}) {
-    console.log(
-      'assign(config, this.axiosClient.defaults.headers)',
-      assign(config, this.axiosClient.defaults.headers)
-    );
     return this.axiosClient.post(
       `${resource}`,
       data,
