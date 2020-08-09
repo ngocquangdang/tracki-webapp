@@ -10,7 +10,11 @@ const Header = styled.div`
   }
 `;
 const Typography = styled.span`
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 300;
+  @media (max-width: 995.95px) {
+    font-size: 14px;
+  }
 `;
 const Image = styled.div`
   @media (max-width: 995.95px) {

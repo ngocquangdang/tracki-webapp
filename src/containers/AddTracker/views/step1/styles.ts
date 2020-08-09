@@ -4,6 +4,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { Tooltip } from '@material-ui/core';
 
 const Typography = styled.span`
+  font-size: 18px;
+  font-weight: 300;
   @media (max-width: 995.95px) {
     font-size: 14px;
   }
@@ -38,7 +40,8 @@ const AdornmentStyle = withStyles(theme => ({
   root: {
     position: 'absolute',
     cursor: 'pointer',
-    right: 8,
+    right: 10,
+    fontSize: 19,
   },
 }))(InputAdornment);
 const TooltipStyle = withStyles({
@@ -56,10 +59,7 @@ const TooltipStyle = withStyles({
 })(Tooltip);
 const useStyles = makeStyles(theme => ({
   marginInput: {
-    marginTop: '16px',
-  },
-  marginButton: {
-    margin: '16px 0',
+    margin: '9.5px 0',
   },
   padding: {
     '& .MuiOutlinedInput-adornedStart': {
@@ -68,6 +68,14 @@ const useStyles = makeStyles(theme => ({
   },
   displayNone: {
     display: 'none',
+  },
+  relative: {
+    position: 'relative',
+  },
+  absolute: {
+    position: 'absolute',
+    top: '50%',
+    right: 15,
   },
 }));
 

@@ -9,6 +9,8 @@ const Form = styled.form`
   max-width: 400px;
 `;
 const Typography = styled.span`
+  font-size: 18px;
+  font-weight: 300;
   @media (max-width: 995.95px) {
     font-size: 14px;
   }

@@ -28,7 +28,7 @@ interface Props {
   formData: {
     device_id: string;
     imei: string;
-    order_id: string;
+    order: string;
   };
 }
 
@@ -72,7 +72,7 @@ export default function Step1(props: Props) {
             <Form onSubmit={handleSubmit}>
               <TextInput
                 id="device_id"
-                label={t('tracker:device_id')}
+                label={t('tracker:tracker_id')}
                 name="device_id"
                 value={values.device_id}
                 variant="outlined"
@@ -88,7 +88,7 @@ export default function Step1(props: Props) {
               <TextInput
                 id="imei"
                 name="imei"
-                label=""
+                label="IMEI (Last 4 digits of tracker)"
                 value={values.imei}
                 variant="outlined"
                 placeholder="IMEI (Last 4 digits of tracker)"
@@ -99,31 +99,34 @@ export default function Step1(props: Props) {
                   errorsForm.imei && touched.imei ? t(errorsForm.imei) : ''
                 }
               />
-              <TextInput
-                id="order_id"
-                label={t('tracker:order_id')}
-                name="order_id"
-                variant="outlined"
-                value={values.order_id}
-                className={`${classes.marginInput} ${classes.padding}`}
-                InputProps={{
-                  startAdornment: (
-                    <TooltipStyle
-                      open={isOpenTooltip}
-                      onClick={() => setIsOpenTooltip(!isOpenTooltip)}
-                      title={<ToolTips {...props} />}
-                      placement="right"
-                      arrow
-                    >
-                      <AdornmentStyle position="end">
-                        <BsQuestionCircle />
-                      </AdornmentStyle>
-                    </TooltipStyle>
-                  ),
-                }}
-                onChange={handleChange('order_id')}
-                onBlur={handleBlur('order_id')}
-              />
+              <div className={`${classes.relative}`}>
+                <TextInput
+                  id="order"
+                  label={t('tracker:order_id')}
+                  name="order"
+                  variant="outlined"
+                  value={values.order}
+                  className={`${classes.marginInput} ${classes.relative}`}
+                  onChange={handleChange('order')}
+                  onBlur={handleBlur('order')}
+                  errorInput={
+                    errorsForm.order && touched.order ? t(errorsForm.order) : ''
+                  }
+                />
+                <TooltipStyle
+                  open={isOpenTooltip}
+                  className={classes.absolute}
+                  onClick={() => setIsOpenTooltip(!isOpenTooltip)}
+                  title={<ToolTips {...props} />}
+                  placement="right"
+                  arrow
+                >
+                  <AdornmentStyle position="end">
+                    <BsQuestionCircle />
+                  </AdornmentStyle>
+                </TooltipStyle>
+              </div>
+
               <Notifi
                 className={assigned !== 'true' ? classes.displayNone : ''}
               >
@@ -139,7 +142,7 @@ export default function Step1(props: Props) {
                 type="submit"
                 variant="contained"
                 text={t('tracker:add_device')}
-                className={classes.marginButton}
+                className={classes.marginInput}
                 isLoading={isRequesting}
               />
             </Form>

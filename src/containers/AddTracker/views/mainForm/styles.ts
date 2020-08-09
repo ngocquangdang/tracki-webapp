@@ -20,6 +20,7 @@ const Header = styled.div`
 `;
 const Title = styled.h2`
   font-size: 42px;
+  font-weight: 300;
   margin: 0;
   @media (max-width: 995.95px) {
     display: none;
@@ -27,12 +28,16 @@ const Title = styled.h2`
 `;
 const SubTitle = styled.h3`
   font-size: 18px;
+  font-weight: 300;
+  margin: 0;
+  @media (max-width: 995.95px) {
+    margin: 15px 0;
+    font-weight: 500;
+  }
 `;
 const Content = styled.div`
   max-width: 921px;
-  border-radius: 4px;
-  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px var(--e-0-e-0-e-0-border-color);
+
   background-color: #ffffff;
   @media (max-width: 995.95px) {
     max-width: 375px;
@@ -98,6 +103,9 @@ const useStyles = makeStyles(theme => ({
 const StepperStyle = withStyles(theme => ({
   root: {
     paddingRight: 59,
+    borderRadius: 4,
+    boxShadow: '0 8px 14px 0 rgba(0, 0, 0, 0.12)',
+    border: 'solid 1px #e0e0e0',
     [theme.breakpoints.down('sm')]: {
       paddingLeft: 6,
       paddingRight: 15,
@@ -107,11 +115,19 @@ const StepperStyle = withStyles(theme => ({
 const LableStyle = withStyles(theme => ({
   root: {
     '& .MuiStepLabel-label': {
+      fontSize: '18px !important',
       color: '#1a1a1a',
       display: 'flex',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px !important',
+      },
     },
     '& .MuiStepLabel-active': {
+      fontSize: '18px !important',
       color: '#1a1a1a',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px !important',
+      },
     },
   },
   iconContainer: {

@@ -42,7 +42,7 @@ const Header = styled.header`
   top: 0;
   display: flex;
   width: 100%;
-  padding: 8px 10px;
+  padding: 8px 50px;
   justify-content: space-between;
   @media (max-width: 995.95px) {
     padding: 5px;
@@ -51,7 +51,8 @@ const Header = styled.header`
 
 const useStyles = makeStyles(theme => ({
   backBtn: {
-    color: '#4b4f56',
+    color: '#1a1a1a',
+    fontSize: 17,
     padding: 0,
     '& span svg': {
       fontSize: '36px !important',

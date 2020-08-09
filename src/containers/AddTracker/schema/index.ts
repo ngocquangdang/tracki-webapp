@@ -9,7 +9,7 @@ const AddTrackerSchema = Yup.object().shape({
     .min(4, 'Too short')
     .max(4, 'Too long')
     .required('required'),
-  // order_id: Yup.string().required('required'),
+  order: Yup.string(),
 });
 const TrackerDetail = Yup.object().shape({
   device_name: Yup.string().required('required'),
