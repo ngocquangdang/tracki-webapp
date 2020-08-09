@@ -104,12 +104,10 @@ export default function Step2(props: Props) {
 
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [paymentPlan, setPaymentPlan]: any = useState(null);
-  const [selectedPlan, setSelectedPlan] = useState(false);
   const [disablePayment, setDisableSubmitCard] = useState(false);
 
   const onChangePaymentPlan = (id: number, index) => () => {
     setShowOtherPlan(true);
-    setSelectedPlan(true);
     setPaymentPlan(id);
 
     if (trackerPlan[index].paymentPlatform === 'PREPAID') {
@@ -252,8 +250,9 @@ export default function Step2(props: Props) {
       <Image2 className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <img src="./images/guarantee-safe.png" alt="" />
       </Image2>
-      <div className={`${!selectedPlan ? classes.hidden : ''}`}>
+      <div className={`${!isShowOtherPlan ? classes.hidden : ''}`}>
         <div id="dropin-container"></div>
+        <p>All transactions are secure and encrypted.</p>
         <Button
           onClick={onPaymentSubmit}
           disabled={disablePayment}

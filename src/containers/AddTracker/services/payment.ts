@@ -26,6 +26,13 @@ const paymentService = () => {
           .create({
             authorization: token.data,
             container: containerSelector,
+            translations: {
+              chooseAWayToPay: 'Payment Option',
+              Card: 'Credit Card',
+              PayPal: 'PayPal',
+              cardNumberLabel: 'Credit Card Number',
+              payingWith: 'Credit Card',
+            },
             card: {
               overrides: {
                 fields: {
