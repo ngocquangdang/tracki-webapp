@@ -25,6 +25,9 @@ const ContainerControl = styled.div`
   align-items: center;
   padding: 24px;
   width: 132.33px;
+  &:hover {
+    background-color: #fafafa;
+  }
 `;
 const TitleMenu = styled.div`
   white-space: nowrap;
@@ -121,6 +124,10 @@ const useStyles = makeStyles(theme => ({
     objectFit: 'contain',
     color: '#999999',
     paddingBottom: '8px',
+  },
+  iconLoading: {
+    width: '22px !important',
+    height: '22px !important',
   },
 }));
 export {

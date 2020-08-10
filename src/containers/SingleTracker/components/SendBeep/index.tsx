@@ -127,6 +127,11 @@ function SendBeep(props: Props) {
     };
   }, [isStopCallAPI, props]);
 
+  const handleCloseSendBeep = () => {
+    handleClose();
+    props.resetBeep();
+  };
+
   const handleClick = () => {
     setStopCallAPI(false);
     setStartTime(false);
@@ -139,7 +144,7 @@ function SendBeep(props: Props) {
       title={t('tracker:beep_device')}
       show={show}
       direction="right"
-      handleClose={handleClose}
+      handleClose={handleCloseSendBeep}
       isMobile={isMobile}
       isLogo={isMobile}
     >

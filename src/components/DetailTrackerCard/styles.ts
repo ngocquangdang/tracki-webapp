@@ -76,10 +76,7 @@ const ConnectionTracker = styled.div`
   padding: 0 8px;
   text-align: center;
 `;
-const TextName = styled.span`
-  max-height: 44px;
-  overflow-y: auto;
-`;
+const TextName = styled.span``;
 const Item = styled.div`
   display: flex;
   flex-direction: row;
