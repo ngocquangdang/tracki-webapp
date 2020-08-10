@@ -44,6 +44,7 @@ export default function TrackersContainer(props: any) {
 
   const handleClickBack = () => {
     onResetSelectedTrackerID();
+    window.history.pushState({}, '', '/trackers');
     const obj = rest.trackers || {};
     const coords = Object.values(obj).filter(
       ({ lat, lng }: any) => !!lat && !!lng
