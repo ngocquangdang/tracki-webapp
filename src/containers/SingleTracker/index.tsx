@@ -98,7 +98,8 @@ function SingleTracker(props: Props) {
     console.log('next history');
   };
 
-  const onClickBeepDevice = () => {
+  const onClickBeepDevice = () => () => {
+    onOpenChildView('beepDevice');
     props?.onClickSendBeep({
       beepPeriod: 2,
       beepType: 1,
@@ -168,9 +169,9 @@ function SingleTracker(props: Props) {
                     props.isBeep ? (
                       <CircularProgress className={classes.iconLoading} />
                     ) : (
-                      <VolumeUpIcon onClick={onClickBeepDevice} />
+                      <VolumeUpIcon />
                     ),
-                    onOpenChildView('beepDevice')
+                    onClickBeepDevice()
                   )}
                   {renderBlock(
                     'Share Location',

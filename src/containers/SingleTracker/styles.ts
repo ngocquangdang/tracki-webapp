@@ -25,6 +25,9 @@ const ContainerControl = styled.div`
   align-items: center;
   padding: 24px;
   width: 132.33px;
+  &:hover {
+    background-color: #fafafa;
+  }
 `;
 const TitleMenu = styled.div`
   white-space: nowrap;
