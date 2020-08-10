@@ -6,10 +6,11 @@ declare namespace IMap {
     mapTile: string;
     mapAction: string;
     editGeofenceId: number;
+    isBeep: boolean;
+    isTracking?: boolean;
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;
-    isBeep: boolean;
     changeMapAction(action: string): void;
     updateNewGeofence(geo: object): void;
     updateGeofence(geoId: number, data: object): void;

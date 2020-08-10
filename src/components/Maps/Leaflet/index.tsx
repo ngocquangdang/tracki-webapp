@@ -1,5 +1,6 @@
 import React from 'react';
 import L from 'leaflet';
+import { isEmpty } from 'lodash';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import IMap from '../interface';
@@ -46,6 +47,13 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     }).addTo(this.map);
   };
 
+  removeMarker = markerId => {
+    if (window.trackerMarkers[markerId]) {
+      this.map.removeLayer(window.trackerMarkers[markerId]);
+      delete window.trackerMarkers[markerId];
+    }
+  };
+
   componentDidMount() {
     const { mapCenter, mapZoom } = this.state;
     this.map = L.map('map').setView(mapCenter, mapZoom);
@@ -64,6 +72,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     };
 
     window.mapEvents.changeLayer = this.changeTileLayer;
+    window.mapEvents.removeMarker = this.removeMarker;
 
     window.mapEvents.reset = () => {
       // this.changeTileLayer('streets-v11');
@@ -71,6 +80,11 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     };
 
     this.setState({ isInitiatedMap: true }, this.props.initMapCallback);
+  }
+
+  componentWillUnmount() {
+    const { trackers } = this.props;
+    Object.keys(trackers).map(id => this.removeMarker(id));
   }
 
   onClickTracker = (id: string | number) => {
@@ -99,8 +113,38 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   };
 
   renderMarkers = () => {
-    const { trackers, isBeep, selectedTrackerId } = this.props;
+    const {
+      trackers,
+      isBeep,
+      selectedTrackerId,
+      isTracking,
+      trackingIds,
+    } = this.props;
+
     if (this.state.isInitiatedMap && trackers) {
+      // tracking view => show only tracker tracking
+      if (isTracking) {
+        const trackerIds = Object.keys(trackers);
+        const [selectedTrackingId] = isEmpty(trackingIds)
+          ? trackerIds
+          : trackingIds;
+        const tracker = trackers[selectedTrackingId];
+
+        if (tracker) {
+          return (
+            <TrackerMarker
+              map={this.map}
+              tracker={tracker}
+              onClickMarker={this.onClickTracker}
+              isBeep={isBeep}
+              selectedTrackerId={selectedTrackingId}
+            />
+          );
+        }
+        return;
+      }
+
+      // normal view => show all tracker
       this.fitBoundTrackers(false);
       return Object.values(trackers).map(tracker => (
         <TrackerMarker
@@ -120,12 +164,12 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     const { userLocation, isInitiatedMap } = this.state;
     const {
       mapAction,
-      changeMapAction,
       t,
-      updateNewGeofence,
-      newGeofence,
       geofences,
+      newGeofence,
       editGeofenceId,
+      changeMapAction,
+      updateNewGeofence,
       updateGeofence,
     } = this.props;
     return (

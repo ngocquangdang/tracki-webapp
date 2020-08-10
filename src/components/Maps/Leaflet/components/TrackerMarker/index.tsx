@@ -11,18 +11,24 @@ interface Props {
   onClickMarker(id: string | number): void;
 }
 
-class TrackerMarker extends React.Component<Props> {
-  marker: any;
+declare global {
+  interface Window {
+    trackerMarkers: object;
+  }
+}
 
-  componentDidMount() {
-    this.renderTracker();
+class TrackerMarker extends React.Component<Props> {
+  constructor(props) {
+    super(props);
+    window.trackerMarkers = window.trackerMarkers || {};
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { isBeep } = nextProps;
     const { isBeep: currentIsBeep, tracker, selectedTrackerId } = this.props;
+    const marker = window.trackerMarkers[tracker.device_id];
 
-    if (isBeep !== currentIsBeep && this.marker && tracker) {
+    if (isBeep !== currentIsBeep && marker && tracker) {
       const nameWidth = tracker.device_name.length * 9;
       const elm2 = document.createElement('div');
       elm2.className = `custom-div-icon${
@@ -43,7 +49,7 @@ class TrackerMarker extends React.Component<Props> {
         nameWidth / 2
       }px'>${tracker.device_name}</div>`;
       const icon = new L.DivIcon({ html: elm2 });
-      this.marker.setIcon(icon);
+      marker.setIcon(icon);
     }
   }
 
@@ -58,10 +64,10 @@ class TrackerMarker extends React.Component<Props> {
   renderTracker = () => {
     const {
       map,
-      tracker: { lat, lng, icon_url, device_name },
+      tracker: { device_id, lat, lng, icon_url, device_name },
     } = this.props;
 
-    if (map && !this.marker && lat && lng) {
+    if (map && !window.trackerMarkers[device_id] && lat && lng) {
       const nameWidth = device_name.length * 9;
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
@@ -79,14 +85,14 @@ class TrackerMarker extends React.Component<Props> {
       }px'>${device_name}</div>`;
 
       const icon = new L.DivIcon({ html: elm });
-      this.marker = L.marker([lat, lng], { icon }).addTo(map);
       elm.addEventListener('click', this.onClickMarker);
-      return this.marker;
+      window.trackerMarkers[device_id] = L.marker([lat, lng], { icon });
+      window.trackerMarkers[device_id].addTo(map);
     }
   };
 
   render() {
-    return null;
+    return <>{this.renderTracker()}</>;
   }
 }
 
