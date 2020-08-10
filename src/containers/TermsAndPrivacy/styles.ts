@@ -34,7 +34,7 @@ const Content = styled.div`
   max-width: 1200px;
   margin: 50px auto;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px var(--e-0-e-0-e-0-border-color);
+  border: solid 1px #e0e0e0;
   background-color: #ffffff;
   @media (max-width: 959.95px) {
     margin: auto;

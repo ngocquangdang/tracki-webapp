@@ -76,11 +76,7 @@ const ConnectionTracker = styled.div`
   padding: 0 8px;
   text-align: center;
 `;
-const TextName = styled.span`
-  height: ${(props: { isMobile: boolean }) => (props.isMobile ? '44px' : '')};
-  overflow-y: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? 'auto' : ''};
-`;
+const TextName = styled.span``;
 const Item = styled.div`
   display: flex;
   flex-direction: row;
@@ -195,6 +191,9 @@ const useStyles = makeStyles(theme => ({
   iconRefresh: {
     fontSize: '24px',
     color: '#666666',
+  },
+  skeContainer: {
+    margin: 10,
   },
 }));
 export {

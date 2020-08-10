@@ -3,7 +3,7 @@ image: node:12-alpine
 definitions:
   services:
     docker:
-      memory: 7168
+      memory: 1024
   caches:
     nextcache: .next/cache
   steps:
@@ -48,36 +48,69 @@ pipelines:
   branches:
     develop:
       - step: *run-and-test
-      - step:
-          name: Build Dev environment
-          script:
-            - FILE=.env.development yarn build-with-env
-            - echo "export TAG=dev_${BITBUCKET_COMMIT::7}" >> set_env.sh
-          artifacts:
-            - set_env.sh
-            - .next/**
-            - dist/**
-      - step:
-          <<: *build-and-push-to-docker-registry
-          deployment: develop
-      - step:
-          name: Build Dev2 environment
-          script:
-            - echo "NEXT_PUBLIC_API_URL=https://app.tracki.com/api" >> .env.dev2
-            - echo "NEXT_PUBLIC_OAUTH_REDIRECT_URI=https://app.tracki.com/api/internal/v1/oauth_redirect" >> .env.dev2
-            - FILE=.env.dev2 yarn build-with-env
-            - rm set_env.sh && echo "export TAG=dev2_${BITBUCKET_COMMIT::7}" >> set_env.sh
-            - sed -i -e 's/tracki-frontend/tracki-frontend_dev2/g' deploy.sh
-            - sed -i -e 's/3001/3002/g' deploy.sh
-            - cat deploy.sh
-          artifacts:
-            - set_env.sh
-            - deploy.sh
-            - .next/**
-            - dist/**
-      - step:
-          <<: *build-and-push-to-docker-registry
-          deployment: developv2
+      - parallel:
+          - step:
+              name: Build Dev environment
+              caches:
+                - node
+                - nextcache
+                - docker
+              script:
+                - export TAG="dev_${BITBUCKET_COMMIT::7}"
+                - cp .env.example .env
+                - sed -i -e 's/FACEBOOK_ID=.*/FACEBOOK_ID=${FACEBOOK_ID}/g' .env
+                - sed -i -e 's/FACEBOOK_SECRET=.*/FACEBOOK_SECRET=${FACEBOOK_SECRET}/g' .env
+                - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_ID=.*/NEXT_PUBLIC_OAUTH_CLIENT_ID=${NEXT_PUBLIC_OAUTH_CLIENT_ID}/g' .env
+                - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=.*/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=${NEXT_PUBLIC_OAUTH_CLIENT_SECRET}/g' .env
+                - sed -i -e 's#NEXT_PUBLIC_API_URL=.*#NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}#g' .env
+                - sed -i -e 's#NEXT_PUBLIC_OAUTH_REDIRECT_URI=.*#NEXT_PUBLIC_OAUTH_REDIRECT_URI=${NEXT_PUBLIC_OAUTH_REDIRECT_URI}#g' .env
+                - yarn build
+                - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+                - docker build -t mtrk2021/tracki-frontend:$TAG .
+                - docker push mtrk2021/tracki-frontend:$TAG
+                - apk add --update --no-cache openssh sshpass
+                - mkdir -p /root/.ssh
+                - cat deploy.sh
+                - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
+                - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
+                - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
+                - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER mtrk2021/tracki-frontend:$TAG
+              services:
+                - docker
+              size: 2x
+              deployment: develop
+          - step:
+              name: Build Dev2 environment
+              caches:
+                - node
+                - nextcache
+                - docker
+              script:
+                - export TAG="dev2_${BITBUCKET_COMMIT::7}"
+                - cp .env.example .env
+                - sed -i -e 's/FACEBOOK_ID=.*/FACEBOOK_ID=${FACEBOOK_ID}/g' .env
+                - sed -i -e 's/FACEBOOK_SECRET=.*/FACEBOOK_SECRET=${FACEBOOK_SECRET}/g' .env
+                - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_ID=.*/NEXT_PUBLIC_OAUTH_CLIENT_ID=${NEXT_PUBLIC_OAUTH_CLIENT_ID}/g' .env
+                - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=.*/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=${NEXT_PUBLIC_OAUTH_CLIENT_SECRET}/g' .env
+                - sed -i -e 's#NEXT_PUBLIC_API_URL=.*#NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}#g' .env
+                - sed -i -e 's#NEXT_PUBLIC_OAUTH_REDIRECT_URI=.*#NEXT_PUBLIC_OAUTH_REDIRECT_URI=${NEXT_PUBLIC_OAUTH_REDIRECT_URI}#g' .env
+                - yarn build
+                - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
+                - docker build -t mtrk2021/tracki-frontend:$TAG .
+                - docker push mtrk2021/tracki-frontend:$TAG
+                - apk add --update --no-cache openssh sshpass
+                - mkdir -p /root/.ssh
+                - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
+                - sed -i -e 's/tracki-frontend/tracki-frontend_dev2/g' deploy.sh
+                - sed -i -e 's/3001/3002/g' deploy.sh
+                - cat deploy.sh
+                - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
+                - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
+                - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER mtrk2021/tracki-frontend:$TAG
+              services:
+                - docker
+              size: 2x
+              deployment: developv2
     master:
       - step: *run-and-test
       - step:
