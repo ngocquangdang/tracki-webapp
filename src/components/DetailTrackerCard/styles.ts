@@ -77,8 +77,9 @@ const ConnectionTracker = styled.div`
   text-align: center;
 `;
 const TextName = styled.span`
-  height: 44px;
-  overflow-y: auto;
+  height: ${(props: { isMobile: boolean }) => (props.isMobile ? '44px' : '')};
+  overflow-y: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? 'auto' : ''};
 `;
 const Item = styled.div`
   display: flex;

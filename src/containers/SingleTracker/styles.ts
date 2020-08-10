@@ -122,6 +122,10 @@ const useStyles = makeStyles(theme => ({
     color: '#999999',
     paddingBottom: '8px',
   },
+  iconLoading: {
+    width: '22px !important',
+    height: '22px !important',
+  },
 }));
 export {
   Container,
