@@ -36,6 +36,21 @@ const Notifi = styled.p`
   color: #ff0000;
   text-align: center;
 `;
+const ScanQR = styled.div``;
+const QRImage = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+`;
+const QR1 = styled.div`
+  width: 136;
+  height: 108;
+`;
+const QR2 = styled.div`
+  width: 167;
+  height: 7;
+`;
 const AdornmentStyle = withStyles(theme => ({
   root: {
     position: 'absolute',
@@ -77,6 +92,30 @@ const useStyles = makeStyles(theme => ({
     top: '50%',
     right: 15,
   },
+  maxWidth: {
+    width: '100%',
+  },
+  btn: {
+    margin: '1rem 0',
+    color: '#666666',
+    width: '100%',
+    fontSize: 16,
+    lineHeight: '19px',
+    fontWeight: 400,
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.14)',
+    border: 'solid 1px #ccd0d5',
+    backgroundColor: '#f5f6f7',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+    },
+  },
+  or: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '15px auto',
+  },
 }));
 
 export {
@@ -86,6 +125,10 @@ export {
   Image,
   ToolTip,
   Notifi,
+  ScanQR,
+  QRImage,
+  QR1,
+  QR2,
   TooltipStyle,
   useStyles,
   AdornmentStyle,

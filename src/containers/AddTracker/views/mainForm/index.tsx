@@ -32,6 +32,7 @@ import { FaPen } from 'react-icons/fa';
 import PaymentConfirmContainer from '../step2/step2.1';
 import ReferralCodeContainer from '../step2/step2.2';
 import CongratulationContainer from '../step2/step2.3';
+import Link from 'next/link';
 
 export default function MainForm(props: any) {
   const classes = useStyles();
@@ -177,7 +178,7 @@ export default function MainForm(props: any) {
               ))}
             </StepperStyle>
             {activeStep === steps.length && (
-              <Congratulation className={props.isMoblie ? '' : classes.hidden}>
+              <Congratulation className={isMobile ? '' : classes.hidden}>
                 <CongratulationTitle>
                   {t('tracker:congratulations')}
                 </CongratulationTitle>
@@ -192,14 +193,15 @@ export default function MainForm(props: any) {
                 <CongratulationTracker>
                   {formData.device_name}
                 </CongratulationTracker>
-                <Button
-                  color="primary"
-                  type="submit"
-                  variant="contained"
-                  text={t('tracker:view_tracker_on_map')}
-                  className={classes.widthBtn}
-                  onClick={onViewTracker}
-                />
+                <Link href="/">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    text={t('tracker:view_tracker_on_map')}
+                    className={classes.widthBtn}
+                    onClick={onViewTracker}
+                  />
+                </Link>
               </Congratulation>
             )}
           </Content>

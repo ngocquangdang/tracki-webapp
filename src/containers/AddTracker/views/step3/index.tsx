@@ -35,6 +35,7 @@ interface Props {
     message: string;
   };
   onAdded(): void;
+  updateStore(value): void;
 }
 const initialTracker = {
   device_name: '',
@@ -52,6 +53,7 @@ export default function Step3(props: Props) {
     formData,
     errors,
     onAdded,
+    updateStore,
   } = props;
 
   const addDone = (done: boolean) => {
@@ -66,6 +68,7 @@ export default function Step3(props: Props) {
       last_name: paymentData.details.lastName || 'trackimo',
     };
     addDeviceAction(value, formData, account_id, paymentInfo, addDone);
+    updateStore({ ...formData, device_name: value.device_name });
   };
 
   return (
@@ -90,7 +93,7 @@ export default function Step3(props: Props) {
             <GroupInput>
               <TextInput
                 id="device_name"
-                label={t('tracker:device_name')}
+                label={t('tracker:tracker_name')}
                 name="device_name"
                 value={values.device_name}
                 variant="outlined"

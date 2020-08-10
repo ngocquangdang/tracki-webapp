@@ -11,11 +11,16 @@ import {
   AdornmentStyle,
   TooltipStyle,
   ToolTip,
+  ScanQR,
+  QRImage,
+  QR1,
+  QR2,
 } from './styles';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { AddTrackerSchema } from '../../schema';
+import { AiOutlineQrcode } from 'react-icons/ai';
 interface Props {
   t(key: string, format?: object): string;
   onNextStep: Function;
@@ -54,6 +59,25 @@ export default function Step1(props: Props) {
   };
   return (
     <>
+      <ScanQR>
+        <Typography>{t('tracker:scan_qr_subscription')}</Typography>
+        <QRImage>
+          <QR1>
+            <img src="./images/1qr.png" alt="" className={classes.maxWidth} />
+          </QR1>
+          <QR2>
+            <img src="./images/2qr.png" alt="" className={classes.maxWidth} />
+          </QR2>
+        </QRImage>
+        <Button
+          variant="contained"
+          text={t('tracker:scan_qr_code')}
+          className={`${classes.maxWidth} ${classes.btn}`}
+          startIcon={<AiOutlineQrcode />}
+          isLoading={isRequesting}
+        />
+      </ScanQR>
+      <div className={classes.or}>or</div>
       <Typography>{t('tracker:add_tracker_description')}</Typography>
       <StepOneContainer>
         <Formik
