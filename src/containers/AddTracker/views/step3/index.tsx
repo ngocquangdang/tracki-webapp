@@ -36,6 +36,7 @@ interface Props {
   };
   onAdded(): void;
   updateStore(value): void;
+  isRequesting: boolean;
 }
 const initialTracker = {
   device_name: '',
@@ -54,6 +55,7 @@ export default function Step3(props: Props) {
     errors,
     onAdded,
     updateStore,
+    isRequesting,
   } = props;
 
   const addDone = (done: boolean) => {
@@ -133,6 +135,7 @@ export default function Step3(props: Props) {
               color="primary"
               type="submit"
               variant="contained"
+              isLoading={isRequesting}
               text={t('tracker:save_continue')}
               className={classes.widthBtn}
             />

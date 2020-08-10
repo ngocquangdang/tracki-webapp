@@ -154,6 +154,14 @@
   "geofence_linked_to": "Geo-Fence Linked to {{name}}",
   "unlinked_geofence": "Unlinked Geo-Fence",
   "unlinked_geofence_description": "You may link up to 5  Geo-Fence to a device so you may start getting alerts when a device enters or exits a designated Geo-Fence.",
+<<<<<<< HEAD
   "scan_qr_subscription": "Scan the QR Code on your tracker",
   "scan_qr_code": "Scan QR code"
+=======
+  "single_view": "Single View",
+  "heat_map": "Heat Map",
+  "multi_view": "Multi-View",
+  "multi_screen": "Multi-Screen",
+  "select_device": "Select device"
+>>>>>>> develop
 }

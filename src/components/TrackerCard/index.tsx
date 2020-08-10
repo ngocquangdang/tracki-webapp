@@ -2,7 +2,10 @@ import React from 'react';
 import moment from 'moment';
 
 import { GoPrimitiveDot } from 'react-icons/go';
-import SettingsIcon from '@material-ui/icons/Settings';
+import {
+  Settings as SettingsIcon,
+  Done as DoneIcon,
+} from '@material-ui/icons/';
 import {
   Item,
   Image,
@@ -20,12 +23,13 @@ import { ITracker } from '@Interfaces';
 interface Props {
   tracker: ITracker;
   isMobile?: boolean;
+  isChecked?: boolean;
   onClickTracker(id: number): void;
 }
 
 export default function TrackerCard(props: Props) {
   const classes = useStyles();
-  const { tracker, isMobile = false, onClickTracker } = props;
+  const { tracker, isMobile = false, onClickTracker, isChecked } = props;
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
@@ -35,7 +39,6 @@ export default function TrackerCard(props: Props) {
         { speed: 1, zoom: 15 }
       );
     }
-    window.history.pushState({}, '', '/trackers/' + tracker.device_id);
   };
 
   return (
@@ -53,13 +56,18 @@ export default function TrackerCard(props: Props) {
           <Time>
             <GoPrimitiveDot className={classes.icon} />
             <TimeActive>
-              Last Updated: {moment(tracker.time * 1000).fromNow()}
+              Last Updated:{' '}
+              {tracker.time ? moment(tracker.time * 1000).fromNow() : '--'}
             </TimeActive>
           </Time>
         </ItemInfo>
       </Item>
       <CardDetail>
-        {isMobile && <SettingsIcon className={classes.iconSetting} />}
+        {isChecked ? (
+          <DoneIcon className={classes.iconDone} />
+        ) : isMobile ? (
+          <SettingsIcon className={classes.iconSetting} />
+        ) : null}
       </CardDetail>
     </ListItemStyle>
   );

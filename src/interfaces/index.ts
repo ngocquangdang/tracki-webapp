@@ -55,6 +55,11 @@ export interface TrackerDataTypes {
   errors: object | null;
 }
 
+export interface TrackingDataTypes {
+  trackingIds: Number[];
+  errors: object | null;
+}
+
 export type {
   ITracker,
   IGeofence,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import nextRoute from 'next/router';
+import nextRoute, { useRouter } from 'next/router';
 import { Toolbar, AppBar } from '@material-ui/core';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import {
@@ -71,23 +71,21 @@ const routes = [
 
 export default function Header() {
   const classes = useStyles();
-  const [currentLink, setCurrentLink] = useState('');
   const [currentTab, setCurrentTab] = useState(0);
+  const { route } = useRouter();
 
   useEffect(() => {
-    const link = window.location.pathname;
-    let tabIndex = routes.findIndex(r => r.link === link);
+    let tabIndex = routes.findIndex(r => r.link === route);
     if (tabIndex === -1) {
-      if (link.includes('change-password')) {
+      if (route.includes('change-password')) {
         tabIndex = 6;
       }
-      if (link.includes('geofences') || link.includes('trackers')) {
+      if (route.includes('geofences') || route.includes('trackers')) {
         tabIndex = 0;
       }
     }
-    setCurrentLink(link);
     setCurrentTab(tabIndex);
-  }, [currentLink]);
+  }, [route]);
 
   const onClickTab = (r: ROUTE) => () => {
     setCurrentTab(r.index);

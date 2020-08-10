@@ -21,6 +21,12 @@ export default function ListDevice(props: Props) {
   const onAddtracker = () => {
     Router.push('/add-tracker');
   };
+
+  const handleClickTracker = (id: number) => {
+    onClickTracker(id);
+    window.history.pushState({}, '', '/trackers/' + id);
+  };
+
   return (
     <>
       <Container>
@@ -32,7 +38,7 @@ export default function ListDevice(props: Props) {
                   <TrackerCard
                     key={id}
                     tracker={trackers[id]}
-                    onClickTracker={onClickTracker}
+                    onClickTracker={handleClickTracker}
                   />
                 ))
               : [1, 2].map(i => <SkeletonTracker key={i} />)}

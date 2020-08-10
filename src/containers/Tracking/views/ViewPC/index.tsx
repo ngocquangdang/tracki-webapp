@@ -3,13 +3,12 @@ import { isEmpty } from 'lodash';
 
 import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
-import SingleTracker from '@Containers/SingleTracker';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
-import Tabs from '../Tabs';
+import Tabs from './components/Tabs';
 
 import { Container, MapView } from './styles';
 
-export default function TrackersContainer(props: any) {
+export default function TrackingContainer(props: any) {
   const { onResetSelectedTrackerID, ...rest } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
@@ -42,38 +41,10 @@ export default function TrackersContainer(props: any) {
 
   const openSideBar = () => setOpenSidebar(true);
 
-  const handleClickBack = () => {
-    onResetSelectedTrackerID();
-    window.history.pushState({}, '', '/trackers');
-    const obj = rest.trackers || {};
-    const coords = Object.values(obj).filter(
-      ({ lat, lng }: any) => !!lat && !!lng
-    );
-    if (coords.length > 0) {
-      if (window.mapType === 'mapbox') {
-        window.mapEvents.setFitBounds(coords);
-      } else {
-        isOpenSidebar &&
-          window.mapEvents?.map?.mapApi?.fitBounds(coords, {
-            paddingTopLeft: [440, 0],
-            paddingBottomRight: [100, 0],
-          });
-      }
-    }
-  };
-
   return (
     <Container>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
-        {rest.selectedTrackerId ? (
-          <SingleTracker
-            tracker={rest.trackers[rest.selectedTrackerId]}
-            onClickBack={handleClickBack}
-            t={rest.t}
-          />
-        ) : (
-          <Tabs {...rest} />
-        )}
+        <Tabs {...rest} />
       </SideBarInnerPC>
       <MapView>
         <Map

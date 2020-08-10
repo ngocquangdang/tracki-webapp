@@ -1,4 +1,17 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import moment from 'moment';
+import axios from 'axios';
+import {
+  Refresh as RefreshIcon,
+  ZoomIn as ZoomInIcon,
+  LocationOn as LocationOnIcon,
+} from '@material-ui/icons';
+import { GoPrimitiveDot } from 'react-icons/go';
+import { AiOutlineDashboard } from 'react-icons/ai';
+
+import { SkeletonTracker } from '@Components/Skeletons';
+import { UNWIREDLABS_API_KEY } from '@Definitions/app';
+import { ITracker } from '@Interfaces';
 import {
   Card,
   Item,
@@ -27,80 +40,43 @@ import {
   IconZoom,
   useStyles,
 } from './styles';
-import moment from 'moment';
-import { GoPrimitiveDot } from 'react-icons/go';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { AiOutlineDashboard } from 'react-icons/ai';
-import Skeleton from '@material-ui/lab/Skeleton';
-import axios from 'axios';
+
 interface Prop {
   isLoading?: boolean;
-  tracker: Tracker;
+  className?: string;
+  tracker: ITracker;
   isMobile: boolean;
-}
-interface Tracker {
-  device_id: number;
-  time: number;
-  battery: number;
-  speed: number;
-  location_type: string;
-  lat: number;
-  lng: number;
-  icon_url: string;
-  device_name: string;
+  t(key: string, format?: object): string;
 }
 
 function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile } = props;
+  const { tracker, isMobile, className = '' } = props;
   const [loading, setLoading] = useState(true);
-  const [dataAddress, setDataAddress] = useState(null);
+  const [dataAddress, setDataAddress] = useState<string | null>(null);
 
   const callApiGetAddress = useCallback(async () => {
-    const { data } = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${tracker.lng},${tracker.lat}.json?types=poi&access_token=pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ`
-    );
-    const address = data.features[0] || { place_name: 'Unknow location' };
-    setDataAddress(address.place_name);
-    setLoading(false);
+    if (tracker && !!tracker.lat && !!tracker.lng) {
+      const { data } = await axios.get(
+        `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${tracker.lat}&lon=${tracker.lng}`
+      );
+      setDataAddress(
+        data.status === 'ok' ? data.address.display_name : 'Unknow location'
+      );
+      setLoading(false);
+    } else {
+      setDataAddress('Unknow location');
+      setLoading(false);
+    }
   }, [setDataAddress, setLoading, tracker]);
 
   useEffect(() => {
     callApiGetAddress();
   }, [callApiGetAddress]);
 
-  const ske = () => (
-    <Card>
-      <Skeleton
-        variant="circle"
-        animation="wave"
-        width={40}
-        height={40}
-        style={{ marginRight: 8 }}
-        classes={{ root: classes.skeleton }}
-      />
-      <div>
-        <Skeleton
-          variant="text"
-          width={150}
-          animation="wave"
-          classes={{ root: classes.skeleton }}
-        />
-        <Skeleton
-          variant="text"
-          width={250}
-          animation="wave"
-          classes={{ root: classes.skeleton }}
-        />
-      </div>
-    </Card>
-  );
-
   const renderContentPC = () => {
     return (
-      <TrackerInfomation isMobile={isMobile}>
+      <TrackerInfomation isMobile={isMobile} className={className}>
         <Item isMobile={isMobile}>
           <LeftItem>
             <ImageWrapper>
@@ -114,7 +90,8 @@ function DetailTrackerCard(props: Prop) {
               <Time>
                 <GoPrimitiveDot className={classes.icon} />
                 <TimeActive>
-                  Last Updated: {moment(tracker.time * 1000).fromNow()}
+                  Last Updated:{' '}
+                  {tracker.time ? moment(tracker.time * 1000).fromNow() : '---'}
                 </TimeActive>
               </Time>
             </ItemInfo>
@@ -128,13 +105,13 @@ function DetailTrackerCard(props: Prop) {
         <Address isMobile={isMobile}>
           <LocationOnIcon className={classes.iconLocation} />
           <Text>
-            <TextName>
-              {dataAddress}
+            <TextName>{dataAddress}</TextName>
+            {tracker.lat && tracker.lng && (
               <LatLong>
                 <LatText>Lat: {tracker.lat}</LatText>
                 <LongText>Lon: {tracker.lng}</LongText>
               </LatLong>
-            </TextName>
+            )}
           </Text>
         </Address>
       </TrackerInfomation>
@@ -154,7 +131,10 @@ function DetailTrackerCard(props: Prop) {
                   <Time>
                     <GoPrimitiveDot className={classes.icon} />
                     <TimeActive>
-                      Last Updated: {moment(tracker.time * 1000).fromNow()}
+                      Last Updated:{' '}
+                      {tracker?.time
+                        ? moment(tracker.time * 1000).fromNow()
+                        : 'unknow'}
                     </TimeActive>
                   </Time>
                 </Text>
@@ -172,22 +152,32 @@ function DetailTrackerCard(props: Prop) {
 
   return (
     <Fragment>
-      {loading ? ske() : isMobile ? renderContentMobile() : renderContentPC()}
+      {loading || !tracker ? (
+        <div className={classes.skeContainer}>
+          <SkeletonTracker />
+        </div>
+      ) : isMobile ? (
+        renderContentMobile()
+      ) : (
+        renderContentPC()
+      )}
       <TrackerStatus isMobile={isMobile}>
         <BatteryTracker>
           <IconBattery src="/images/icon-battery.png" />
-          <span className={classes.textSpace}>{tracker.battery}%</span>
+          <span className={classes.textSpace}>{tracker?.battery || 0}%</span>
         </BatteryTracker>
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
           <span className={`${classes.textBold} ${classes.textSpace}`}>
-            {tracker.speed}
+            {tracker?.speed || 0}
           </span>
         </StatusTracker>
         <ConnectionTracker>
           <Connection>
             Connection:{' '}
-            <span className={classes.textBold}>{tracker.location_type}</span>
+            <span className={classes.textBold}>
+              {tracker?.location_type || '--'}
+            </span>
           </Connection>
           <LocationApprox>Location within approx. 5-20m</LocationApprox>
         </ConnectionTracker>
