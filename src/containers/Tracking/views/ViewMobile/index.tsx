@@ -28,6 +28,7 @@ export default function ViewHomeMobile(props: Props) {
             <DetailTrackerCard
               tracker={props.trackers[props.selectedTrackerId]}
               isMobile={true}
+              t={props.t}
             />
           </ContentCardDetail>
         )}
