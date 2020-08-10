@@ -116,6 +116,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     margin: '15px auto',
   },
+  hidden: {
+    display: 'none',
+  },
 }));
 
 export {

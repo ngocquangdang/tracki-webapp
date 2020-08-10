@@ -35,6 +35,7 @@ interface Props {
     imei: string;
     order: string;
   };
+  isMobile: boolean;
 }
 
 export default function Step1(props: Props) {
@@ -48,6 +49,7 @@ export default function Step1(props: Props) {
     assigned,
     errorMessage,
     formData,
+    isMobile,
   } = props;
   const classes = useStyles();
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
@@ -59,7 +61,7 @@ export default function Step1(props: Props) {
   };
   return (
     <>
-      <ScanQR>
+      <ScanQR className={isMobile ? '' : classes.hidden}>
         <Typography>{t('tracker:scan_qr_subscription')}</Typography>
         <QRImage>
           <QR1>
@@ -77,7 +79,9 @@ export default function Step1(props: Props) {
           isLoading={isRequesting}
         />
       </ScanQR>
-      <div className={classes.or}>or</div>
+      <div className={`${classes.or} ${isMobile ? '' : classes.hidden}`}>
+        or
+      </div>
       <Typography>{t('tracker:add_tracker_description')}</Typography>
       <StepOneContainer>
         <Formik
