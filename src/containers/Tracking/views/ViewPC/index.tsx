@@ -51,6 +51,7 @@ export default function TrackingContainer(props: any) {
           mapType="leaflet"
           fullWidth={!isOpenSidebar}
           openSideBar={openSideBar}
+          isTracking={true}
           {...rest}
         />
         <MapToolBars t={rest.t} />

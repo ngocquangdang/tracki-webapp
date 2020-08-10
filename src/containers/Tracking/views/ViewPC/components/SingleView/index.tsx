@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 
 import TrackerDetailCard from '@Components/DetailTrackerCard';
@@ -17,14 +17,23 @@ interface Props {
 export default function SingleView(props: Props) {
   const { trackers, trackingIds, isMobile, t, changeTrackersTracking } = props;
   const classes = useStyles();
-
-  const onSelectTracker = (id: number) => {
-    changeTrackersTracking([id]);
-  };
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
 
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
   const tracker = trackers[selectedTrackerId];
+
+  useEffect(() => {
+    if (isFirstLoading && tracker && tracker.lat && tracker.lng) {
+      window.mapEvents && window.mapEvents.setCenter(tracker);
+      setIsFirstLoading(false);
+    }
+  }, [isFirstLoading, setIsFirstLoading, tracker]);
+
+  const onSelectTracker = (id: number) => {
+    tracker && window.mapEvents.removeMarker(tracker.device_id);
+    changeTrackersTracking([id]);
+  };
 
   return (
     <div className={classes.container}>
@@ -44,6 +53,7 @@ export default function SingleView(props: Props) {
             <TrackerCard
               isChecked={selectedTrackerId.toString() === id}
               tracker={trackers[id]}
+              isTracking={true}
               onClickTracker={onSelectTracker}
             />
           </div>

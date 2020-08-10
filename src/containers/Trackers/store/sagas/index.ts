@@ -206,6 +206,8 @@ function* removeGeofenceSaga(action) {
     const { geofenceId } = action.payload;
     yield call(apiServices.deleteGeofence, account_id, geofenceId);
     yield put(actions.removeGeofenceSuccessAction(geofenceId));
+    window.geosDrawn[geofenceId] &&
+      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofenceId]);
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };

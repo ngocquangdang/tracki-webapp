@@ -24,20 +24,26 @@ interface Props {
   tracker: ITracker;
   isMobile?: boolean;
   isChecked?: boolean;
+  isTracking?: boolean;
   onClickTracker(id: number): void;
 }
 
 export default function TrackerCard(props: Props) {
   const classes = useStyles();
-  const { tracker, isMobile = false, onClickTracker, isChecked } = props;
+  const {
+    tracker,
+    isMobile = false,
+    onClickTracker,
+    isChecked,
+    isTracking,
+  } = props;
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
     if (tracker.lat && tracker.lng) {
-      window.mapEvents.setCenterFlyTo(
-        { lat: tracker.lat, lng: tracker.lng },
-        { speed: 1, zoom: 15 }
-      );
+      isTracking
+        ? window.mapEvents.setCenter(tracker)
+        : window.mapEvents.setCenterFlyTo(tracker, { speed: 1, zoom: 15 });
     }
   };
 
