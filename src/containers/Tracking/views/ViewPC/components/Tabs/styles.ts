@@ -18,10 +18,13 @@ const useStyles = makeStyles(theme => ({
     overflowY: 'auto',
   },
   tabItem: {
-    width: '50%',
+    padding: 0,
+    width: '25%',
+    minWidth: '25%',
     flexDirection: 'row',
     fontWeight: 300,
-    fontSize: 18,
+    fontSize: 14,
+    lineHeight: '17px',
   },
 }));
 

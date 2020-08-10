@@ -77,7 +77,7 @@ const ConnectionTracker = styled.div`
   text-align: center;
 `;
 const TextName = styled.span`
-  height: 44px;
+  max-height: 44px;
   overflow-y: auto;
 `;
 const Item = styled.div`
@@ -194,6 +194,9 @@ const useStyles = makeStyles(theme => ({
   iconRefresh: {
     fontSize: '24px',
     color: '#666666',
+  },
+  skeContainer: {
+    margin: 10,
   },
 }));
 export {

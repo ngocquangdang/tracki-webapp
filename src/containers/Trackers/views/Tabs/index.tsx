@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { Paper, Tabs } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import { Paper, Tabs, Tab } from '@material-ui/core';
 
 import TabPanel from '@Components/sidebars/SideBarInnerPC/tabPanel';
-import { TabStyle, useStyles } from './styles';
+import { useStyles } from './styles';
 
 const TrackerList = dynamic(() => import('@Components/TrackerListPC'));
 const GeofenceList = dynamic(() => import('@Components/GeofenceListPC'));
@@ -22,6 +23,7 @@ export default function TabsPC(props: Props) {
     t,
   } = props;
   const classes = useStyles();
+  const { route } = useRouter();
   const [currentTab, setTab] = useState(0);
 
   const onChangeTab = (event: any, newValue: any) => {
@@ -31,9 +33,9 @@ export default function TabsPC(props: Props) {
   };
 
   useEffect(() => {
-    const nextTab = window.location.pathname.includes('trackers') ? 0 : 1;
+    const nextTab = route.includes('trackers') ? 0 : 1;
     setTab(nextTab);
-  }, []);
+  }, [route]);
 
   return (
     <React.Fragment>
@@ -46,8 +48,8 @@ export default function TabsPC(props: Props) {
           centered
           className={classes.tabs}
         >
-          <TabStyle label="Trackers" value={0} className={classes.tabItem} />
-          <TabStyle label="Geo-Fence" value={1} className={classes.tabItem} />
+          <Tab label="Trackers" value={0} className={classes.tabItem} />
+          <Tab label="Geo-Fence" value={1} className={classes.tabItem} />
         </Tabs>
       </Paper>
       <TabPanel

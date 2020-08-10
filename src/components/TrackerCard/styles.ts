@@ -66,6 +66,10 @@ const useStyles = makeStyles(theme => ({
     color: '#666666',
     fontSize: '24px',
   },
+  iconDone: {
+    color: theme.palette.primary.main,
+    fontSize: '24px',
+  },
   icon: {
     color: theme.palette.primary.main,
   },
