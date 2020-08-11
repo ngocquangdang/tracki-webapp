@@ -1,8 +1,8 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 
-import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 import {
   getUserSuccessAction,
@@ -30,7 +30,9 @@ function* getUserSaga() {
       ),
     };
     if (data.message_key === 'exception_user_nameNotFound') {
-      toast.error(data.message);
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
     }
     yield put(getUserFailAction(payload));
   }
@@ -51,7 +53,9 @@ function* updatePrefrenceSaga(action: ActionType) {
       ),
     };
     if (data.message_key === 'exception_user_nameNotFound') {
-      toast.error(data.message);
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
     }
     yield put(updatePrefrenceFailAction(payload));
   }
@@ -72,7 +76,9 @@ function* updateInfoUserSaga(action: ActionType) {
       ),
     };
     if (data.message_key === 'exception_user_nameNotFound') {
-      toast.error(data.message);
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
     }
     yield put(updateInfoUserFailedAction(payload));
   }

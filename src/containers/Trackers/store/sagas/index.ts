@@ -65,7 +65,6 @@ function* fetchTrackersSaga(action) {
         settings: {},
       }
     );
-
     yield put(actions.fetchTrackersSucceedAction(tracker));
   } catch (error) {
     const { data = {} } = { ...error };

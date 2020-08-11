@@ -19,7 +19,6 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import saga from './store/sagas';
 import { fetchTrackerSettingsRequestedAction } from './store/actions';
 import SettingTracker from './components/SettingTracker';
-import toast from '@Utils/notification';
 import {
   makeSelectTrackerSettings,
   makeSelectGeofences,
@@ -30,6 +29,8 @@ import {
   sendBeepRequest,
   resetBeepAction,
 } from '@Containers/SingleTracker/store/actions';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import {
   Container,
@@ -60,6 +61,7 @@ interface Props {
   t(key: string): string;
   fetchTrackerSettings(id: number): void;
   onClickSendBeep(data: object): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
   resetBeep(): void;
   deviceId: number;
   isBeep: boolean;
@@ -67,20 +69,30 @@ interface Props {
 
 function SingleTracker(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
-  console.log('props', props);
   const classes = useStyles();
-  const { tracker, onClickBack, t, geofences } = props;
+  const {
+    tracker,
+    isBeep,
+    geofences,
+    onClickBack,
+    t,
+    resetBeep,
+    showSnackbar,
+  } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
   useEffect(() => {
-    if (props.isBeep) {
+    if (isBeep) {
       const timeOut = setTimeout(() => {
-        toast.success('Send beep is success');
-        props.resetBeep();
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'Send beep is success',
+        });
+        resetBeep();
       }, 3000);
       return () => clearTimeout(timeOut);
     }
-  }, [props]);
+  }, [isBeep, resetBeep, showSnackbar]);
   // const [loadingBeeo];
   const onCloseChildView = () => {
     updateChildView(null);
@@ -226,6 +238,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchTrackerSettingsRequestedAction(id)),
   onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
   resetBeep: () => dispatch(resetBeepAction()),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 const mapStateToProps = createStructuredSelector({
