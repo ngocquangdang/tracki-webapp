@@ -32,6 +32,7 @@ import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 import {
   makeSelectTrackerIdsTracking,
   makeSelectViewMode,
+  makeSelectTrackerHistories,
 } from './store/selectors';
 import View from './view';
 
@@ -47,6 +48,7 @@ interface Props {
   t(key: string, format?: object): string;
   onResetSelectedTrackerID(): void;
   [data: string]: any;
+  histories: object;
 }
 
 function TrackingContainer(props: Props) {
@@ -71,6 +73,7 @@ const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
   trackingIds: makeSelectTrackerIdsTracking(),
   viewMode: makeSelectViewMode(),
+  histories: makeSelectTrackerHistories(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

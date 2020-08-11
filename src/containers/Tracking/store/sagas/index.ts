@@ -13,7 +13,7 @@ function changeTrackersTrackingSaga(action) {
 function* getHistoryTrackerSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
-    const { data } = yield call(
+    const { data: historyData } = yield call(
       apiServices.getHistoryTracker,
       account_id,
       action.payload.data.trackerId,
@@ -23,7 +23,7 @@ function* getHistoryTrackerSaga(action) {
       action.payload.data.page,
       action.payload.data.type
     );
-    if (data === []) {
+    if (historyData === []) {
       yield put(
         showSnackbar({
           snackType: 'success',
@@ -31,7 +31,16 @@ function* getHistoryTrackerSaga(action) {
         })
       );
     }
-    yield put(actions.getHistoryTrackerSucceed(data));
+    const histories = historyData.reduce((result, item) => {
+      result.push([item.lat, item.lng, 0.2]);
+      return result;
+    }, []);
+    yield put(
+      actions.getHistoryTrackerSucceed({
+        trackerId: action.payload.data.trackerId,
+        histories,
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

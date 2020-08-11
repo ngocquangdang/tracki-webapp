@@ -44,6 +44,7 @@ export default function TrackingContainer(props: Props) {
     ? trackerIds
     : rest.trackingIds;
   const tracker = rest.trackers[selectedTrackerId];
+  const trackerHistories = rest.histories[selectedTrackerId] || [];
 
   return (
     <Container>
@@ -57,6 +58,18 @@ export default function TrackingContainer(props: Props) {
               mapType="leaflet"
               openSideBar={openSideBar}
               isTracking={true}
+              {...rest}
+            />
+            <MapToolBars t={rest.t} />
+          </React.Fragment>
+        )}
+        {viewMode === 'heat_map' && (
+          <React.Fragment>
+            <Map
+              mapType="leaflet"
+              openSideBar={openSideBar}
+              isTracking={true}
+              trackerHistories={trackerHistories}
               {...rest}
             />
             <MapToolBars t={rest.t} />
