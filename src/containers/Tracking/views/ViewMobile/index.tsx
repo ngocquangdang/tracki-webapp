@@ -24,6 +24,7 @@ export default function ViewHomeMobile(props: Props) {
             isBeep={props.isBeep}
             resetBeep={props.resetBeep}
             onClickSendBeep={props.onClickSendBeep}
+            showSnackbar={props.showSnackbar}
           />
         )}
         {props.selectedTrackerId && (
