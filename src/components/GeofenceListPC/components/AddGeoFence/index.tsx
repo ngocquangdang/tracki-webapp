@@ -40,12 +40,6 @@ interface Props {
 
 const GEO_SHAPE = ['rectangle', 'circle', 'polygon'];
 
-declare global {
-  interface Window {
-    geosDrawn: object;
-  }
-}
-
 function AddGeoFence(props: Props) {
   const classes = useStyles();
   const {

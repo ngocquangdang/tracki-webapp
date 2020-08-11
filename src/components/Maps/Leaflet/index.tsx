@@ -9,6 +9,7 @@ import TrackerMarker from './components/TrackerMarker';
 import UserLocation from './components/UserLocation';
 import DrawTool from './components/DrawTool';
 import Geofences from './components/Geofences';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 const TILE_TOKEN =
   'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' +
@@ -35,6 +36,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       userLocation: null,
     };
     this.isFirstFitBounce = false;
+    window.trackerMarkers = window.trackerMarkers || {};
   }
 
   changeTileLayer = (layerId: string) => {
@@ -103,11 +105,12 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       const coords = Object.values(trackers).filter(
         ({ lat, lng }) => !!lat && !!lng
       );
+
       if (coords.length > 0) {
-        window.mapEvents?.map?.mapApi?.fitBounds(coords, {
-          paddingTopLeft: [440, 0],
-          paddingBottomRight: [100, 0],
-        });
+        window.mapEvents.setFitBounds(
+          coords,
+          window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS
+        );
       }
     }
   };

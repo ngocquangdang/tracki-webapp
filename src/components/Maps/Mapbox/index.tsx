@@ -7,13 +7,6 @@ import IMap from '../interface';
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import DrawTool from './components/DrawTool';
 
-declare global {
-  interface Window {
-    mapType: string;
-    mapEvents: any;
-  }
-}
-
 class Map extends Component<IMap.IProps, IMap.IState> {
   map: any;
   isFirstFitBounce: boolean;

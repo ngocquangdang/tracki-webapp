@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import { Paper, Tabs, Tab } from '@material-ui/core';
 
 import TabPanel from '@Components/sidebars/SideBarInnerPC/tabPanel';
@@ -23,7 +22,6 @@ export default function TabsPC(props: Props) {
     t,
   } = props;
   const classes = useStyles();
-  const { route } = useRouter();
   const [currentTab, setTab] = useState(0);
 
   const onChangeTab = (event: any, newValue: any) => {
@@ -33,9 +31,9 @@ export default function TabsPC(props: Props) {
   };
 
   useEffect(() => {
-    const nextTab = route.includes('trackers') ? 0 : 1;
+    const nextTab = window.location.pathname.includes('trackers') ? 0 : 1;
     setTab(nextTab);
-  }, [route]);
+  }, []);
 
   return (
     <React.Fragment>

@@ -11,7 +11,7 @@ class LeafLetEvent {
     return { lat, lng };
   };
 
-  setCenter = data => this.mapApi.panTo(data);
+  setCenter = (data, options = {}) => this.mapApi.panTo(data, options);
 
   setCenterFlyTo = (data, options = { zoom: 13 }) =>
     this.mapApi.flyTo(data, options.zoom);
@@ -28,7 +28,10 @@ class LeafLetEvent {
     this.mapApi.flyTo([lat, lng], zoom, { animate: false, duration: 0 });
   };
 
-  setFitBounds = data => this.mapApi.fitBounds(data, { maxZoom: 20 });
+  setFitBounds = (data, options = {}, callback) => {
+    this.mapApi.fitBounds(data, { maxZoom: 20, ...options });
+    callback && callback();
+  };
 
   getBounds = () => this.mapApi.getBounds();
 
