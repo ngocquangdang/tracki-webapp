@@ -1,6 +1,5 @@
 declare namespace IMap {
   interface IProps {
-    fullWidth: boolean;
     trackers: object;
     trackerIds: Array<number>;
     mapTile: string;
@@ -8,6 +7,8 @@ declare namespace IMap {
     editGeofenceId: number;
     isBeep: boolean;
     isTracking?: boolean;
+    showGeofences: boolean;
+    showTrackerName: boolean;
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;

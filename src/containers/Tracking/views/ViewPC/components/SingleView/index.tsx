@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 
 import TrackerDetailCard from '@Components/DetailTrackerCard';
 import TrackerCard from '@Components/TrackerCard';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { useStyles } from './styles';
 
 interface Props {
@@ -25,7 +26,13 @@ export default function SingleView(props: Props) {
 
   useEffect(() => {
     if (isFirstLoading && tracker && tracker.lat && tracker.lng) {
-      window.mapEvents && window.mapEvents.setCenter(tracker);
+      const options =
+        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+      window.mapEvents &&
+        window.mapEvents.setFitBounds(
+          [tracker],
+          window.mapFullWidth ? {} : options
+        );
       setIsFirstLoading(false);
     }
   }, [isFirstLoading, setIsFirstLoading, tracker]);

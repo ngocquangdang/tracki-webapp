@@ -7,14 +7,9 @@ interface Props {
   map: any;
   tracker: ITracker;
   isBeep: boolean;
+  showTrackerName: boolean;
   selectedTrackerId?: number | null;
   onClickMarker(id: string | number): void;
-}
-
-declare global {
-  interface Window {
-    trackerMarkers: object;
-  }
 }
 
 class TrackerMarker extends React.Component<Props> {
@@ -24,12 +19,20 @@ class TrackerMarker extends React.Component<Props> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isBeep } = nextProps;
-    const { isBeep: currentIsBeep, tracker, selectedTrackerId } = this.props;
+    const { isBeep, showTrackerName } = nextProps;
+    const {
+      isBeep: currentIsBeep,
+      tracker,
+      selectedTrackerId,
+      showTrackerName: thisShowTrackerName,
+    } = this.props;
     const marker = window.trackerMarkers[tracker.device_id];
 
-    if (isBeep !== currentIsBeep && marker && tracker) {
-      const nameWidth = tracker.device_name.length * 9;
+    if (
+      (isBeep !== currentIsBeep || showTrackerName !== thisShowTrackerName) &&
+      marker &&
+      tracker
+    ) {
       const elm2 = document.createElement('div');
       elm2.className = `custom-div-icon${
         isBeep && tracker.device_id === selectedTrackerId ? '-custom' : ''
@@ -44,10 +47,7 @@ class TrackerMarker extends React.Component<Props> {
               tracker.icon_url || '/images/image-device.png'
             } class='image-device'></img>
           </div>
-        <div>
-        <div class='title-device' style='width:${nameWidth}px; left:-${
-        nameWidth / 2
-      }px'>${tracker.device_name}</div>`;
+        <div>${showTrackerName ? this.trackerName(tracker.device_name) : ''}`;
       const icon = new L.DivIcon({ html: elm2 });
       marker.setIcon(icon);
     }
@@ -61,14 +61,21 @@ class TrackerMarker extends React.Component<Props> {
     onClickMarker(device_id);
   };
 
+  trackerName = (name: string) => {
+    const nameWidth = name.length * 9;
+    return `<div class='title-device' style='width:${nameWidth}px; left:-${
+      nameWidth / 2 - 4
+    }px'>${name}</div>`;
+  };
+
   renderTracker = () => {
     const {
       map,
+      showTrackerName,
       tracker: { device_id, lat, lng, icon_url, device_name },
     } = this.props;
 
     if (map && !window.trackerMarkers[device_id] && lat && lng) {
-      const nameWidth = device_name.length * 9;
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
@@ -79,10 +86,7 @@ class TrackerMarker extends React.Component<Props> {
               icon_url || '/images/image-device.png'
             } class='image-device'></img>
           </div>
-        <div>
-        <div class='title-device' style='width:${nameWidth}px; left:-${
-        nameWidth / 2 - 4
-      }px'>${device_name}</div>`;
+        <div>${showTrackerName ? this.trackerName(device_name) : ''}`;
 
       const icon = new L.DivIcon({ html: elm });
       elm.addEventListener('click', this.onClickMarker);

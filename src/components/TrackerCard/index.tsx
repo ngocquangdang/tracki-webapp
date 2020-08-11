@@ -19,6 +19,7 @@ import {
   ListItemStyle,
 } from './styles';
 import { ITracker } from '@Interfaces';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 interface Props {
   tracker: ITracker;
@@ -36,16 +37,16 @@ export default function TrackerCard(props: Props) {
     isMobile = false,
     onClickTracker,
     isChecked,
-    isTracking,
     onClickSetting,
   } = props;
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
     if (tracker.lat && tracker.lng) {
-      isTracking
-        ? window.mapEvents.setCenter(tracker)
-        : window.mapEvents.setCenterFlyTo(tracker, { speed: 1, zoom: 15 });
+      const option =
+        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+      const mapOption = window.mapFullWidth ? {} : option;
+      window.mapEvents.setFitBounds([tracker], mapOption);
     }
   };
 
