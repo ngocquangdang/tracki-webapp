@@ -56,8 +56,12 @@ export default function GeofenceCard(props: Props) {
   };
 
   const gotoGeofence = () => {
-    window.geosDrawn[geofence.id] &&
-      window.mapEvents.setFitBounds(window.geosDrawn[geofence.id].getBounds());
+    setTimeout(() => {
+      window.geosDrawn[geofence.id] &&
+        window.mapEvents.setFitBounds(
+          window.geosDrawn[geofence.id].getBounds()
+        );
+    }, 300);
   };
 
   const onSelectGeofence = () => {

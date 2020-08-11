@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import dynamic from 'next/dynamic';
 
-import { makeSelectMapAction } from '@Containers/App/store/selectors';
+import {
+  makeSelectMapAction,
+  makeSelectShowTrackersName,
+  makeSelectShowGeofences,
+} from '@Containers/App/store/selectors';
 import { changeMapAction } from '@Containers/App/store/actions';
 import {
   updateNewGeofence,
@@ -26,12 +30,14 @@ interface Props {
   trackerIds: Array<number>;
   mapTile: string;
   fullWidth: boolean;
+  showGeofences: boolean;
+  showTrackerName: boolean;
   editGeofenceId: number;
+  isBeep: boolean;
   changeMapAction(action: string): void;
   updateGeofence(id: number, data: object): void;
   updateNewGeofence(geo: object): void;
   openSideBar(): void;
-  isBeep: boolean;
   [data: string]: any;
 }
 
@@ -75,6 +81,8 @@ const mapStateToProps = createStructuredSelector({
   newGeofence: makeSelectNewGeofence(),
   geofences: makeSelectGeofences(),
   editGeofenceId: makeSelectEditGeofenceId(),
+  showGeofences: makeSelectShowGeofences(),
+  showTrackerName: makeSelectShowTrackersName(),
 });
 
 const mapDispatchToProps = dispatch => ({

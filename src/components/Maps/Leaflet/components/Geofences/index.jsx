@@ -70,11 +70,17 @@ class Geofences extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { newGeofence, editGeofenceId, geofences } = nextProps;
+    const { newGeofence, editGeofenceId, geofences, showGeofences } = nextProps;
     const {
       newGeofence: currentNewGeofence,
       editGeofenceId: currentGeoId,
+      showGeofences: thisShowGeofences,
+      geofences: currentGeofences,
     } = this.props;
+
+    if (showGeofences !== thisShowGeofences && !showGeofences) {
+      Object.keys(currentGeofences).map(this.removeGeofence);
+    }
 
     if (newGeofence && currentNewGeofence) {
       if (newGeofence.type !== currentNewGeofence.type) {
@@ -176,13 +182,15 @@ class Geofences extends React.Component {
   };
 
   renderGeo = (geofence, editable = false) => {
-    if (geofence.type === 'rectangle') {
-      return this.drawRectangle(geofence, editable);
+    if (this.props.showGeofences || editable) {
+      if (geofence.type === 'rectangle') {
+        return this.drawRectangle(geofence, editable);
+      }
+      if (geofence.type === 'circle') {
+        return this.drawCircle(geofence, editable);
+      }
+      return this.drawPolygon(geofence, editable);
     }
-    if (geofence.type === 'circle') {
-      return this.drawCircle(geofence, editable);
-    }
-    return this.drawPolygon(geofence, editable);
   };
 
   renderGeofences = () => {
