@@ -14,7 +14,10 @@ import {
   makeSelectTrackerSettings,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
-import { changeTrackersTracking } from '@Containers/Tracking/store/actions';
+import {
+  changeTrackersTracking,
+  getHistoryTrackerRequest,
+} from '@Containers/Tracking/store/actions';
 
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
@@ -60,6 +63,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   changeTrackersTracking: (ids: number[]) =>
     dispatch(changeTrackersTracking(ids)),
+  getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

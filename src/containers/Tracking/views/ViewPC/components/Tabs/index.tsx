@@ -5,6 +5,7 @@ import { Paper, Tabs, Tab } from '@material-ui/core';
 import TabPanel from '../TabPanel';
 import SingleView from '../SingleView';
 import { useStyles } from './styles';
+import HeatMap from '../HeatMap';
 
 interface Props {
   isMobile: boolean;
@@ -13,13 +14,21 @@ interface Props {
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
+  getHistoryTracker(data: object): void;
 }
 
 const TAB_KEYS = ['single_view', 'heat_map', 'multi_view', 'multi_screen'];
 
 export default function TabsPC(props: Props) {
-  const { isMobile, trackers, trackingIds, t, changeTrackersTracking } = props;
-
+  const {
+    isMobile,
+    trackers,
+    trackingIds,
+    t,
+    changeTrackersTracking,
+    getHistoryTracker,
+  } = props;
+  console.log('TabsPC -> props------', props);
   const classes = useStyles();
   const [currentTab, setTab] = useState(0);
 
@@ -58,7 +67,14 @@ export default function TabsPC(props: Props) {
         />
       </TabPanel>
       <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
-        Comming soon...
+        <HeatMap
+          t={t}
+          isMobile={isMobile}
+          trackers={trackers}
+          trackingIds={trackingIds}
+          changeTrackersTracking={changeTrackersTracking}
+          getHistoryTracker={getHistoryTracker}
+        />
       </TabPanel>
       <TabPanel value={currentTab} index={2} className={classes.tabPanel}>
         Comming soon...

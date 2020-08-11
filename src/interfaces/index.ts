@@ -58,6 +58,7 @@ export interface TrackerDataTypes {
 export interface TrackingDataTypes {
   trackingIds: Number[];
   errors: object | null;
+  histories: Array<number | string> | null;
 }
 
 export type {

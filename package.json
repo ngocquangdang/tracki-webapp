@@ -52,6 +52,7 @@
     "leaflet": "^1.6.0",
     "leaflet-draw": "^1.0.4",
     "leaflet-path-drag": "^1.1.0",
+    "leaflet.heat": "^0.2.0",
     "libphonenumber-js": "^1.7.54",
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.11.1",

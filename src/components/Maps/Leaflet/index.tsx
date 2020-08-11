@@ -9,6 +9,7 @@ import TrackerMarker from './components/TrackerMarker';
 import UserLocation from './components/UserLocation';
 import DrawTool from './components/DrawTool';
 import Geofences from './components/Geofences';
+// import HeatMap from './components/HeatMap';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 const TILE_TOKEN =
@@ -208,6 +209,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
             updateGeofence={updateGeofence}
           />
         )}
+        {/* {isInitiatedMap && <HeatMap map={this.map} />} */}
       </React.Fragment>
     );
   }
