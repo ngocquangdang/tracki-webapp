@@ -21,6 +21,9 @@ export default function ViewHomeMobile(props: Props) {
           <BottomToolBar
             t={props.t}
             tracker={props.trackers[props.selectedTrackerId]}
+            isBeep={props.isBeep}
+            resetBeep={props.resetBeep}
+            onClickSendBeep={props.onClickSendBeep}
           />
         )}
         {props.selectedTrackerId && (

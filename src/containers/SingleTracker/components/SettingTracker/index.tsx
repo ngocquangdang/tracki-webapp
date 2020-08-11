@@ -87,7 +87,7 @@ function SettingTracker(props: Props) {
     getContactListRequest,
     contacts,
   } = props;
-  const trackerSettings = settings[tracker.settings_id];
+  const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
     device_id: 0,

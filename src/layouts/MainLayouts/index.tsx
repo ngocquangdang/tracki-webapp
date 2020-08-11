@@ -15,7 +15,12 @@ function MainLayout(props: Props) {
   const { isMobile, header, children, noFooter } = props;
   if (isMobile) {
     return (
-      <LayoutMobile t={children.props.t} header={header} noFooter={noFooter}>
+      <LayoutMobile
+        t={children.props.t}
+        header={header}
+        noFooter={noFooter}
+        trackers={children.props.trackers}
+      >
         {children}
       </LayoutMobile>
     );

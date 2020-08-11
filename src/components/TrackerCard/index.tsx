@@ -26,6 +26,7 @@ interface Props {
   isChecked?: boolean;
   isTracking?: boolean;
   onClickTracker(id: number): void;
+  onClickSetting?: any;
 }
 
 export default function TrackerCard(props: Props) {
@@ -36,6 +37,7 @@ export default function TrackerCard(props: Props) {
     onClickTracker,
     isChecked,
     isTracking,
+    onClickSetting,
   } = props;
 
   const handleClick = () => {
@@ -45,6 +47,10 @@ export default function TrackerCard(props: Props) {
         ? window.mapEvents.setCenter(tracker)
         : window.mapEvents.setCenterFlyTo(tracker, { speed: 1, zoom: 15 });
     }
+  };
+
+  const handleClickSetting = () => {
+    onClickSetting(tracker.device_id);
   };
 
   return (
@@ -72,7 +78,10 @@ export default function TrackerCard(props: Props) {
         {isChecked ? (
           <DoneIcon className={classes.iconDone} />
         ) : isMobile ? (
-          <SettingsIcon className={classes.iconSetting} />
+          <SettingsIcon
+            className={classes.iconSetting}
+            onClick={handleClickSetting}
+          />
         ) : null}
       </CardDetail>
     </ListItemStyle>
