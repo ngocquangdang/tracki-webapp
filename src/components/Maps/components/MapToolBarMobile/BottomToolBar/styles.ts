@@ -100,6 +100,10 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     overflow: 'hidden',
   },
+  iconLoading: {
+    width: '22px !important',
+    height: '22px !important',
+  },
 }));
 
 export { ToolBar, ListItem, Icon, Text, MenuItem, ItemText, useStyles };
