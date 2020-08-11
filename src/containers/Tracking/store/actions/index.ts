@@ -19,3 +19,8 @@ export const getHistoryTrackerFailed = (error: object) => ({
   type: types.GET_HISTORY_TRACKER_FAILED,
   payload: { error },
 });
+
+export const changeTrackingView = (viewMode: string) => ({
+  type: types.CHANGE_TRACKING_VIEW,
+  payload: { viewMode },
+});

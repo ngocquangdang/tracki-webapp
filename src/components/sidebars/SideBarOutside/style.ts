@@ -10,7 +10,7 @@ const MenuWrap = styled.div`
   height: 100%;
   position: fixed;
   top: 0;
-  z-index: 401;
+  z-index: 403;
   left: 0;
 `;
 const MenuHeader = styled.div`

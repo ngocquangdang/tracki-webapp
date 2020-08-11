@@ -18,3 +18,4 @@ export const DATE_OPTIONS = [
   { value: '120_1_hours', content: 'Date Range' },
   { value: '240_1_hours', content: 'Specific date + Hourly Range' },
 ];
+export const CHANGE_TRACKING_VIEW = 'Tracki/CHANGE_TRACKING_VIEW';

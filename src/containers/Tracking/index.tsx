@@ -17,6 +17,7 @@ import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import {
   changeTrackersTracking,
   getHistoryTrackerRequest,
+  changeTrackingView,
 } from '@Containers/Tracking/store/actions';
 
 import { useInjectSaga } from '@Utils/injectSaga';
@@ -25,14 +26,26 @@ import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
 import trackingSaga from './store/sagas';
 import trackingReducer from './store/reducers';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
-import { makeSelectTrackerIdsTracking } from './store/selectors';
+import {
+  makeSelectTrackerIdsTracking,
+  makeSelectViewMode,
+} from './store/selectors';
 import View from './view';
 
 interface Props {
   trackerId?: any;
+  viewMode: string;
+  isMobile: boolean;
+  trackers: object;
+  trackingIds: number[];
   fetchUserRequestedAction(): void;
+  changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
+  t(key: string, format?: object): string;
+  onResetSelectedTrackerID(): void;
   [data: string]: any;
 }
 
@@ -57,13 +70,16 @@ const mapStateToProps = createStructuredSelector({
   geofences: makeSelectGeofences(),
   settings: makeSelectTrackerSettings(),
   trackingIds: makeSelectTrackerIdsTracking(),
+  viewMode: makeSelectViewMode(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
+  changeTrackingView: (mode: string) => dispatch(changeTrackingView(mode)),
   changeTrackersTracking: (ids: number[]) =>
     dispatch(changeTrackersTracking(ids)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

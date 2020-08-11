@@ -5,6 +5,7 @@ import * as types from '../constants';
 
 export const initialState: TrackingDataTypes = {
   trackingIds: [],
+  viewMode: 'single_view',
   errors: null,
   histories: [],
 };
@@ -21,6 +22,9 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.GET_HISTORY_TRACKER_FAILED:
         draft.errors = payload.errors;
+        break;
+      case types.CHANGE_TRACKING_VIEW:
+        draft.viewMode = payload.viewMode;
         break;
       default:
         break;

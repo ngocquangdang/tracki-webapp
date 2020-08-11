@@ -41,6 +41,7 @@ type Props = {
   searchTrackersRequest(key: string | null): void;
   selectTrackerAction(id: number): void;
   closeSidebar?(): any;
+  onClickSetting(id: number): void;
 };
 
 function ListTrackerMobile(props: Props) {
@@ -53,6 +54,7 @@ function ListTrackerMobile(props: Props) {
     searchTrackersRequest,
     selectTrackerAction,
     closeSidebar,
+    onClickSetting,
   } = props;
 
   const handleFocusInput = () => setWidthSearch(true);
@@ -62,59 +64,63 @@ function ListTrackerMobile(props: Props) {
     (v: string | null) => searchTrackersRequest(v),
     300
   );
-  const onClickTracker = id => {
+  const onClickTracker = (id: number) => {
     selectTrackerAction(id);
     closeSidebar && closeSidebar();
   };
+
   const onAddtracker = () => {
     Router.push('/add-tracker');
   };
   return (
-    <Container>
-      <SearchBar>
-        <Title isFullWidth={isFullWidth}>My Trackers</Title>
-        <Search>
-          {isFullWidth ? (
-            <ArrowBackIosIcon
-              className={classes.iconSearch}
-              onClick={handleBlurInput}
-            />
-          ) : (
-            <SearchIcon className={classes.iconSearch} />
-          )}
-          <SearchInput
-            placeholder={`${t('common:search')}`}
-            onFocus={handleFocusInput}
-            onBlur={handleBlurInput}
-            isFullWidth={isFullWidth}
-            onChange={event => debounceSearch(event.target.value)}
-          ></SearchInput>
-        </Search>
-      </SearchBar>
-      <Content>
-        {trackerIds
-          ? trackerIds.map(id => (
-              // eslint-disable-next-line react/jsx-indent
-              <TrackerCard
-                key={id}
-                tracker={trackers[id]}
-                isMobile
-                onClickTracker={onClickTracker}
+    <>
+      <Container>
+        <SearchBar>
+          <Title isFullWidth={isFullWidth}>My Trackers</Title>
+          <Search>
+            {isFullWidth ? (
+              <ArrowBackIosIcon
+                className={classes.iconSearch}
+                onClick={handleBlurInput}
               />
-            ))
-          : [1, 2].map(i => <SkeletonTracker key={i} isMobile />)}
-      </Content>
-      <Footer>
-        <Button
-          classes={`${classes.btn}`}
-          text="Add a tracker"
-          color="primary"
-          type="submit"
-          onClick={onAddtracker}
-          startIcon={<FiPlus />}
-        />
-      </Footer>
-    </Container>
+            ) : (
+              <SearchIcon className={classes.iconSearch} />
+            )}
+            <SearchInput
+              placeholder={`${t('common:search')}`}
+              onFocus={handleFocusInput}
+              onBlur={handleBlurInput}
+              isFullWidth={isFullWidth}
+              onChange={event => debounceSearch(event.target.value)}
+            ></SearchInput>
+          </Search>
+        </SearchBar>
+        <Content>
+          {trackerIds
+            ? trackerIds.map(id => (
+                // eslint-disable-next-line react/jsx-indent
+                <TrackerCard
+                  key={id}
+                  tracker={trackers[id]}
+                  isMobile
+                  onClickTracker={onClickTracker}
+                  onClickSetting={onClickSetting}
+                />
+              ))
+            : [1, 2].map(i => <SkeletonTracker key={i} isMobile />)}
+        </Content>
+        <Footer>
+          <Button
+            classes={`${classes.btn}`}
+            text="Add a tracker"
+            color="primary"
+            type="submit"
+            onClick={onAddtracker}
+            startIcon={<FiPlus />}
+          />
+        </Footer>
+      </Container>
+    </>
   );
 }
 
