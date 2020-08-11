@@ -119,6 +119,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       selectedTrackerId,
       isTracking,
       trackingIds,
+      showTrackerName,
     } = this.props;
 
     if (this.state.isInitiatedMap && trackers) {
@@ -137,6 +138,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
               tracker={tracker}
               onClickMarker={this.onClickTracker}
               isBeep={isBeep}
+              showTrackerName={showTrackerName}
               selectedTrackerId={selectedTrackingId}
             />
           );
@@ -153,6 +155,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           tracker={tracker}
           onClickMarker={this.onClickTracker}
           isBeep={isBeep}
+          showTrackerName={showTrackerName}
           selectedTrackerId={selectedTrackerId}
         />
       ));
@@ -168,6 +171,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       geofences,
       newGeofence,
       editGeofenceId,
+      showGeofences,
       changeMapAction,
       updateNewGeofence,
       updateGeofence,
@@ -195,6 +199,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
             map={this.map}
             newGeofence={newGeofence}
             geofences={geofences}
+            showGeofences={showGeofences}
             editGeofenceId={editGeofenceId}
             updateNewGeofence={updateNewGeofence}
             updateGeofence={updateGeofence}

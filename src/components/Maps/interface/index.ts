@@ -8,6 +8,8 @@ declare namespace IMap {
     editGeofenceId: number;
     isBeep: boolean;
     isTracking?: boolean;
+    showGeofences: boolean;
+    showTrackerName: boolean;
     initMapCallback(): void;
     openSideBar(): void;
     onClickMarker(id: string | number): void;

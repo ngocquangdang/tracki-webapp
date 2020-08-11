@@ -89,7 +89,7 @@ function AddGeoFence(props: Props) {
   const removeGeofence = (id: number) => {
     if (window.geosDrawn[id]) {
       window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
-      window.geosDrawn[id] = null;
+      delete window.geosDrawn[id];
     }
   };
 

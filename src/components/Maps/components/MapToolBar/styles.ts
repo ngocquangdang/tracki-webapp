@@ -60,6 +60,10 @@ const useStyles = makeStyles(theme => ({
       color: '#ffffff',
     },
   },
+  active: {
+    backgroundColor: theme.palette.primary.main + ' !important',
+    color: '#ffffff',
+  },
   borderRadiusTop: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -80,7 +84,7 @@ const IconButtonStyle = withStyles(theme => ({
   root: {
     width: 40,
     height: 40,
-    background: '#ffffff',
+    backgroundColor: '#ffffff',
     margin: '5px 0',
     '&:hover': {
       background: theme.palette.primary.main,
