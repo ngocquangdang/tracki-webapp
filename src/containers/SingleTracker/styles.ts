@@ -26,7 +26,7 @@ const ContainerControl = styled.div`
   padding: 24px;
   width: 132.33px;
   &:hover {
-    background-color: #fafafa;
+    background-color: #c3c3c329;
   }
 `;
 const TitleMenu = styled.div`
