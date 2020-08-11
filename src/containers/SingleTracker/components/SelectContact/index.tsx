@@ -12,6 +12,7 @@ import {
   Save,
   useStyles,
 } from './styles';
+import AddNewContact from '@Containers/AddNewContact';
 
 interface Props {
   isMobile: boolean;
@@ -19,14 +20,25 @@ interface Props {
   contacts: object;
   handleClose(): void;
   selectedContacts?: number[];
+  t(key: string): string;
 }
 
 export default function SelectContact(props: Props) {
   const classes = useStyles();
   const { contacts, show, isMobile, handleClose } = props;
+
   const [checked, setPhoneChecked] = useState(true);
+  const [showAddContact, setShowAddContact] = useState(false);
+
   const onChecked = () => setPhoneChecked(!checked);
   // const debounceSearch = debounce((v: string) => onSearch(v), 300);
+
+  const onShowAddContact = () => {
+    setShowAddContact(true);
+  };
+  const onHiddenAddContact = () => {
+    setShowAddContact(false);
+  };
 
   return (
     <SideBarOutside
@@ -34,6 +46,7 @@ export default function SelectContact(props: Props) {
       button={
         <Button
           className={`${classes.addBtn} ${classes.margin}`}
+          onClick={onShowAddContact}
           variant="outlined"
           color="primary"
           startIcon={<FiPlus />}
@@ -70,6 +83,10 @@ export default function SelectContact(props: Props) {
           />
         </Save>
       </SelectContactContainer>
+      <AddNewContact
+        showAddContact={showAddContact}
+        onClose={onHiddenAddContact}
+      />
     </SideBarOutside>
   );
 }

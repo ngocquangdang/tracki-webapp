@@ -446,6 +446,7 @@ function SettingTracker(props: Props) {
         show={isShowSelectContact}
         isMobile={false}
         contacts={contacts}
+        t={t}
       />
     </SideBarOutside>
   );
