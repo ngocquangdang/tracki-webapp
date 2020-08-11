@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 
 import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from './components/Tabs';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 import { Container, MapView } from './styles';
 
@@ -24,20 +25,18 @@ export default function TrackingContainer(props: any) {
           ({ lat, lng }: any) => !!lat && !!lng
         );
         if (coords.length > 0) {
-          if (window.mapType === 'mapbox') {
-            window.mapEvents.setFitBounds(coords);
-            window.mapEvents.setPadding({ left: 340 });
-          } else {
-            window.mapEvents?.map?.mapApi?.fitBounds(coords, {
-              paddingTopLeft: [440, 0],
-              paddingBottomRight: [100, 0],
-            });
-          }
+          const options =
+            window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+          window.mapEvents.setFitBounds(coords, !isOpenSidebar ? options : {});
         }
       }
     }
     setOpenSidebar(!isOpenSidebar);
   };
+
+  useEffect(() => {
+    window.mapFullWidth = false;
+  }, []);
 
   const openSideBar = () => setOpenSidebar(true);
 

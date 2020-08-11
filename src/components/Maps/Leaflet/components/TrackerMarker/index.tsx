@@ -12,12 +12,6 @@ interface Props {
   onClickMarker(id: string | number): void;
 }
 
-declare global {
-  interface Window {
-    trackerMarkers: object;
-  }
-}
-
 class TrackerMarker extends React.Component<Props> {
   constructor(props) {
     super(props);

@@ -29,7 +29,6 @@ interface Props {
   trackers: object;
   trackerIds: Array<number>;
   mapTile: string;
-  fullWidth: boolean;
   showGeofences: boolean;
   showTrackerName: boolean;
   editGeofenceId: number;
@@ -39,6 +38,16 @@ interface Props {
   updateNewGeofence(geo: object): void;
   openSideBar(): void;
   [data: string]: any;
+}
+
+declare global {
+  interface Window {
+    mapType: string;
+    mapEvents: any;
+    mapFullWidth: boolean;
+    geosDrawn: object;
+    trackerMarkers: object;
+  }
 }
 
 class Map extends React.Component<Props> {

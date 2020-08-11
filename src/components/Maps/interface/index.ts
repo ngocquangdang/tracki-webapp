@@ -1,6 +1,5 @@
 declare namespace IMap {
   interface IProps {
-    fullWidth: boolean;
     trackers: object;
     trackerIds: Array<number>;
     mapTile: string;
