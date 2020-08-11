@@ -13,7 +13,7 @@ import clsx from 'clsx';
 
 import LinkGeofence from '@Components/LinkGeoFenceCard';
 import AddGeoFence from '@Components/GeofenceListPC/components/AddGeoFence';
-import SelectContact from '../SelectContact';
+// import SelectContact from '../SelectContact';
 import { GEOFENCE_DEFAULT } from '@Components/GeofenceListPC/constant';
 import { MAP_ACTIONS } from '@Components/Maps/constant';
 import { Button } from '@Components/buttons';
@@ -32,7 +32,7 @@ import {
   createGeofenceRequestAction,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
-import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
+// import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
@@ -82,7 +82,7 @@ function SingleTrackerGeofences(props: Props) {
     isMobile,
     editGeofenceId,
     newGeofence,
-    contacts,
+    // contacts,
     t,
     onClickBack,
     updateGeofence,
@@ -101,7 +101,7 @@ function SingleTrackerGeofences(props: Props) {
 
   const [currentTab, setCurrentTab] = useState(0);
   const [showAddGefeoncePanel, setShowAddGeofencePanel] = useState(false);
-  const [showSelectContactPanel, setShowSelectContactPanel] = useState(false);
+  // const [showSelectContactPanel, setShowSelectContactPanel] = useState(false);
 
   const onAddFence = () => {
     setShowAddGeofencePanel(true);
@@ -124,7 +124,7 @@ function SingleTrackerGeofences(props: Props) {
   const onClosePanel = () => {
     setShowAddGeofencePanel(false);
     editGeofenceAction(null);
-    setShowSelectContactPanel(false);
+    // setShowSelectContactPanel(false);
   };
 
   const editGeofence = (geoId: number) => {
@@ -134,7 +134,7 @@ function SingleTrackerGeofences(props: Props) {
 
   const onAddContact = () => {
     getContactListRequestAction();
-    setShowSelectContactPanel(true);
+    // setShowSelectContactPanel(true);
   };
 
   const geofenceNotLinkedByTracker = Object.keys(geofences).filter(
@@ -242,13 +242,13 @@ function SingleTrackerGeofences(props: Props) {
           saveGeofenceRequestAction={saveGeofenceRequestAction}
           createNewGeofenceRequestAction={createNewGeofenceRequestAction}
         />
-        <SelectContact
+        {/* <SelectContact
           isMobile={isMobile}
           show={showSelectContactPanel}
           contacts={contacts}
           handleClose={onClosePanel}
-          selectedContacts={tracker.contacts}
-        />
+          contactIds={tracker.contactIds}
+        /> */}
       </div>
     </Slide>
   );
@@ -273,7 +273,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(createGeofenceRequestAction(geofence)),
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
   resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
-  getContactListRequestAction: () => dispatch(getContactListRequestAction()),
+  // getContactListRequestAction: () => dispatch(getContactListRequestAction()),
 });
 
 const mapStateToProps = createStructuredSelector({

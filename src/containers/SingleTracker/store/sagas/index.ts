@@ -4,7 +4,10 @@ import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
-import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectTrackerId,
+  makeSelectContactList,
+} from '@Containers/Trackers/store/selectors';
 import notification from '@Utils/notification';
 
 function* fetchTrackerSettingsSaga(action) {
@@ -66,13 +69,22 @@ function* updateTrackerSettingSaga(action) {
   }
 }
 function* getContactListSaga(action) {
+  console.log('function*getContactListSaga -> action', action);
   try {
     const { account_id } = yield select(makeSelectProfile());
     const { data } = yield call(apiServices.getContactList, account_id);
     const contacts = data.reduce(
-      (obj, item) => ({ ...obj, [item.id]: item }),
-      {}
+      (obj, item) => {
+        obj.contacts = { ...obj.contacts, [item.id]: item };
+        obj.contactIds.push(item.id);
+        return obj;
+      },
+      {
+        contacts: {},
+        contactIds: [],
+      }
     );
+    yield action.payload.callback();
     yield put(actions.getContactListSucceedAction(contacts));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -140,6 +152,22 @@ function* sendBeepSaga(action) {
     yield put(actions.sendBeepFailed(payload));
   }
 }
+
+function* searchContactsSaga(action) {
+  try {
+    const contacts = yield select(makeSelectContactList());
+    const searchKey = action.payload.search || '';
+    const newIds = Object.keys(contacts).filter(id =>
+      contacts[id].name.toLowerCase().includes(searchKey.toLowerCase())
+    );
+    yield put(actions.searchContactSucceedAction(newIds));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.searchContactFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -159,4 +187,5 @@ export default function* appWatcher() {
     deactiveLinkShareLocationSaga
   );
   yield takeLatest(types.SEND_BEEP_REQUESTED, sendBeepSaga);
+  yield takeLatest(types.SEARCH_CONTACT_REQUESTED, searchContactsSaga);
 }

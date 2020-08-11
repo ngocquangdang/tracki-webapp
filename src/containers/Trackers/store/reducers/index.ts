@@ -11,6 +11,7 @@ export const initialState: TrackerDataTypes = {
     trackerPlans: {},
     selectedTrackerId: null,
     contacts: {},
+    contactIds: [],
     settings: {},
   },
   geofence: {
@@ -31,6 +32,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
     switch (type) {
       case types.SEARCH_TRACKERS_SUCCEED:
         draft.tracker.trackerIds = payload.trackerIds;
+        break;
+      case singleTrackerTypes.SEARCH_CONTACT_SUCCEED:
+        draft.tracker.contactIds = payload.contactIds;
         break;
       case types.SEARCH_GEOFENCES_SUCCEED:
         draft.geofence.geofenceIds = payload.geofenceIds;
@@ -159,6 +163,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           ...draft.tracker.contacts,
           ...payload.contacts,
         };
+        draft.tracker.contactIds = payload.contactIds;
         break;
       case singleTrackerTypes.SEND_BEEP_SUCCEED:
         draft.dataSendBeep = payload?.data;

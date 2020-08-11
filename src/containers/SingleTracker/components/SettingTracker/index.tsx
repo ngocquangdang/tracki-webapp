@@ -20,6 +20,7 @@ import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
   makeSelectTrackerSettings,
   makeSelectContactList,
+  makeSelectContactIds,
 } from '@Containers/Trackers/store/selectors';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
@@ -54,6 +55,7 @@ import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
   getContactListRequestAction,
+  searchContactRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
@@ -66,8 +68,10 @@ interface Props {
   isRequesting?: boolean;
   show: boolean;
   updateSettings(id: number, data: object): void;
-  getContactListRequest(): void;
+  getContactListRequest(callback): void;
   contacts: object;
+  contactIds: Array<number>;
+  searchContactRequest(v): void;
 }
 
 function SettingTracker(props: Props) {
@@ -86,6 +90,8 @@ function SettingTracker(props: Props) {
     isRequesting,
     getContactListRequest,
     contacts,
+    contactIds,
+    searchContactRequest,
   } = props;
   const trackerSettings = settings[tracker.settings_id];
   const [infoTracker, setInfoTracker] = useState({
@@ -172,10 +178,15 @@ function SettingTracker(props: Props) {
 
   const onClickImage = () => document.getElementById('imageIcon')?.click();
 
-  const onShowSelectContact = () => {
-    getContactListRequest();
+  const handleShowSelectContact = () => {
+    console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
     setShowSelectContat(!isShowSelectContact);
   };
+
+  const onShowSelectContact = () => {
+    getContactListRequest(handleShowSelectContact);
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -442,10 +453,12 @@ function SettingTracker(props: Props) {
         t={t}
       />
       <SelectContact
-        handleClose={onShowSelectContact}
+        handleClose={handleShowSelectContact}
         show={isShowSelectContact}
-        isMobile={false}
+        isMobile={isMobile}
         contacts={contacts}
+        contactIds={contactIds}
+        onSearch={searchContactRequest}
       />
     </SideBarOutside>
   );
@@ -455,12 +468,15 @@ const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectLoading(),
   settings: makeSelectTrackerSettings(),
   contacts: makeSelectContactList(),
+  contactIds: makeSelectContactIds(),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
-  getContactListRequest: () => dispatch(getContactListRequestAction()),
+  getContactListRequest: callback =>
+    dispatch(getContactListRequestAction(callback)),
+  searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

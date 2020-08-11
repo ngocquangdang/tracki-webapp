@@ -13,16 +13,17 @@ function* fetchTrackersSaga(action) {
     const { data } = yield call(apiServices.fetchTrackers, accountId);
 
     let tracker = normalizeTrackers(data);
+    console.log('function*fetchTrackersSaga -> tracker', tracker);
 
     const { data: assignmentsData } = yield call(
       apiServices.fetchAssignmentsByTrackerIds,
       accountId,
       tracker.trackerIds
     );
-
+    console.log('reducer', assignmentsData);
     tracker = assignmentsData.reduce(
       (result, item) => {
-        const { fences, contacts, device_id, geozones, settings } = item;
+        const { fences, device_id, geozones, settings } = item;
 
         // fence reduce
         result.fences = fences.reduce((objFences, fItem) => {
@@ -33,16 +34,6 @@ function* fetchTrackersSaga(action) {
           ];
           return objFences;
         }, result.fences);
-
-        // contact reduce
-        result.contacts = contacts.reduce((objContacts, cItem) => {
-          objContacts[cItem.id] = cItem;
-          result.trackers[device_id].contacts = [
-            ...(result.trackers[device_id].contacts || []),
-            cItem.id,
-          ];
-          return objContacts;
-        }, result.contacts);
 
         // geozones reduce => reference to Geofence list
         geozones.map(geoItem => {
@@ -62,6 +53,7 @@ function* fetchTrackersSaga(action) {
         ...tracker,
         fences: {},
         contacts: {},
+        contactIds: [],
         settings: {},
       }
     );

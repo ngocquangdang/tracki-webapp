@@ -40,12 +40,13 @@ export const updateTrackerSettingsFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const getContactListRequestAction = () => ({
+export const getContactListRequestAction = callback => ({
   type: types.GET_LIST_CONTACT_REQUESTED,
+  payload: { callback },
 });
-export const getContactListSucceedAction = (contacts: object) => ({
+export const getContactListSucceedAction = (payload: object) => ({
   type: types.GET_LIST_CONTACT_SUCCESSED,
-  payload: { contacts },
+  payload,
 });
 export const getContactListFailedAction = (error: object) => ({
   type: types.GET_LIST_CONTACT_FAILED,
@@ -95,4 +96,21 @@ export const sendBeepFailed = (error: object) => ({
 
 export const resetBeepAction = () => ({
   type: types.RESET_BEEP,
+});
+
+export const searchContactRequestedAction = (search: string | null) => ({
+  type: types.SEARCH_CONTACT_REQUESTED,
+  payload: { search },
+});
+
+export const searchContactSucceedAction = (
+  contactIds: Array<number | string>
+) => ({
+  type: types.SEARCH_CONTACT_SUCCEED,
+  payload: { contactIds },
+});
+
+export const searchContactFailedAction = (error: object) => ({
+  type: types.SEARCH_CONTACT_FAILED,
+  payload: { error },
 });

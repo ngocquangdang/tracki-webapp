@@ -73,6 +73,11 @@ const useStyles = makeStyles(theme => ({
   questionIconMargin: {
     marginRight: '8px',
   },
+  color: {
+    color: '#999999',
+    width: 14.6,
+    height: 14.6,
+  },
 }));
 const TextInput = withStyles(theme => ({
   root: {
@@ -88,8 +93,8 @@ const TextInput = withStyles(theme => ({
       },
     },
     '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
-      textAlign: 'center',
+      padding: '15.5px 0',
+      fontSize: 15,
     },
   },
 }))(TextField);
