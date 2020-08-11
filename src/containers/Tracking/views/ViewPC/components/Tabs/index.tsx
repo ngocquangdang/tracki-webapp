@@ -10,6 +10,7 @@ interface Props {
   isMobile: boolean;
   trackers: object;
   trackingIds: number[];
+  changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
@@ -18,13 +19,21 @@ interface Props {
 const TAB_KEYS = ['single_view', 'heat_map', 'multi_view', 'multi_screen'];
 
 export default function TabsPC(props: Props) {
-  const { isMobile, trackers, trackingIds, t, changeTrackersTracking } = props;
+  const {
+    isMobile,
+    trackers,
+    trackingIds,
+    t,
+    changeTrackingView,
+    changeTrackersTracking,
+  } = props;
 
   const classes = useStyles();
   const [currentTab, setTab] = useState(0);
 
   const onChangeTab = (event: any, newValue: any) => {
     setTab(newValue);
+    changeTrackingView(TAB_KEYS[newValue]);
   };
 
   return (
@@ -48,19 +57,19 @@ export default function TabsPC(props: Props) {
           ))}
         </Tabs>
       </Paper>
-      <TabPanel value={currentTab} index={0} className={classes.tabPanel}>
-        <SingleView
-          t={t}
-          isMobile={isMobile}
-          trackers={trackers}
-          trackingIds={trackingIds}
-          changeTrackersTracking={changeTrackersTracking}
-        />
-      </TabPanel>
+      {(currentTab === 0 || currentTab === 2) && (
+        <div>
+          <SingleView
+            t={t}
+            isMobile={isMobile}
+            trackers={trackers}
+            trackingIds={trackingIds}
+            currentTab={currentTab}
+            changeTrackersTracking={changeTrackersTracking}
+          />
+        </div>
+      )}
       <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
-        Comming soon...
-      </TabPanel>
-      <TabPanel value={currentTab} index={2} className={classes.tabPanel}>
         Comming soon...
       </TabPanel>
       <TabPanel value={currentTab} index={3} className={classes.tabPanel}>
