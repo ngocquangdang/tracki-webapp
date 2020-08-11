@@ -6,7 +6,7 @@ import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { IoMdSettings, IoMdVolumeHigh } from 'react-icons/io';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import clsx from 'clsx';
-import toast from '@Utils/notification';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 import { useInjectSaga } from '@Utils/injectSaga';
 import saga from '@Containers/SingleTracker/store/sagas';
 import {
@@ -28,11 +28,19 @@ interface Props {
   resetBeep(): void;
   isBeep: boolean;
   onClickSendBeep(data: object): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 export default function BottomToolBar(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
-  const { t, tracker, isBeep, resetBeep, onClickSendBeep } = props;
+  const {
+    t,
+    tracker,
+    isBeep,
+    resetBeep,
+    onClickSendBeep,
+    showSnackbar,
+  } = props;
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
   const [isSetting, showSetting] = useState(false);
@@ -42,12 +50,15 @@ export default function BottomToolBar(props: Props) {
   useEffect(() => {
     if (isBeep) {
       const timeOut = setTimeout(() => {
-        toast.success('Send beep is success');
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'Send beep is success',
+        });
         resetBeep();
       }, 3000);
       return () => clearTimeout(timeOut);
     }
-  }, [isBeep, resetBeep]);
+  }, [isBeep, resetBeep, showSnackbar]);
   const handleClickViewHistory = () => {
     showHistory(false);
   };

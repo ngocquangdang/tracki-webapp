@@ -25,6 +25,8 @@ import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
 import trackingSaga from './store/sagas';
 import trackingReducer from './store/reducers';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import {
   makeSelectTrackerIdsTracking,
@@ -75,6 +77,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeTrackingView: (mode: string) => dispatch(changeTrackingView(mode)),
   changeTrackersTracking: (ids: number[]) =>
     dispatch(changeTrackersTracking(ids)),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
