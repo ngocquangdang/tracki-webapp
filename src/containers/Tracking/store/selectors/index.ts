@@ -7,4 +7,7 @@ const trackingState = (state: any) => state.tracking || initialState;
 const makeSelectTrackerIdsTracking = () =>
   createSelector(trackingState, state => state.trackingIds);
 
-export { makeSelectTrackerIdsTracking };
+const makeSelectViewMode = () =>
+  createSelector(trackingState, state => state.viewMode);
+
+export { makeSelectTrackerIdsTracking, makeSelectViewMode };
