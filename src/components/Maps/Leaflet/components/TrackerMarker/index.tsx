@@ -19,7 +19,11 @@ class TrackerMarker extends React.Component<Props> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { isBeep, showTrackerName } = nextProps;
+    const {
+      isBeep,
+      showTrackerName,
+      selectedTrackerId: nextSelectedTrackerId,
+    } = nextProps;
     const {
       isBeep: currentIsBeep,
       tracker,
@@ -27,20 +31,26 @@ class TrackerMarker extends React.Component<Props> {
       showTrackerName: thisShowTrackerName,
     } = this.props;
     const marker = window.trackerMarkers[tracker.device_id];
+    const element = marker ? marker.getElement() : undefined;
+
+    if (nextSelectedTrackerId !== selectedTrackerId && element) {
+      element.style.zIndex =
+        tracker.device_id === nextSelectedTrackerId ? 2 : 1;
+    }
 
     if (
       (isBeep !== currentIsBeep || showTrackerName !== thisShowTrackerName) &&
       marker &&
       tracker
     ) {
+      const isSelected =
+        tracker.device_id.toString() === selectedTrackerId?.toString();
       const elm2 = document.createElement('div');
       elm2.className = `custom-div-icon${
-        isBeep && tracker.device_id === selectedTrackerId ? '-custom' : ''
+        isBeep && isSelected ? '-custom' : ''
       }`;
       elm2.innerHTML = `
-        <div class='icon-red${
-          isBeep && tracker.device_id === selectedTrackerId ? '-active' : ''
-        }'>
+        <div class='icon-red${isBeep && isSelected ? '-active' : ''}'>
           <span class='inner'></span>
           <div class='marker-pin'>
             <img src=${
@@ -50,7 +60,32 @@ class TrackerMarker extends React.Component<Props> {
         <div>${showTrackerName ? this.trackerName(tracker.device_name) : ''}`;
       const icon = new L.DivIcon({ html: elm2 });
       marker.setIcon(icon);
+      if (element) {
+        element.style.zIndex = isSelected ? 2 : 1;
+      }
     }
+  }
+
+  onZoomEnd = () => {
+    const { tracker, selectedTrackerId } = this.props;
+    const marker = window.trackerMarkers[tracker.device_id];
+    const element = marker ? marker.getElement() : undefined;
+    const isSelected =
+      tracker.device_id.toString() === selectedTrackerId?.toString();
+
+    if (element) {
+      element.style.zIndex = isSelected ? 2 : 1;
+    }
+  };
+
+  componentDidMount() {
+    const { map } = this.props;
+    map.on('zoomend', this.onZoomEnd);
+  }
+
+  componentWillUnmount() {
+    const { map } = this.props;
+    map.off('zoomend', this.onZoomEnd);
   }
 
   onClickMarker = () => {
