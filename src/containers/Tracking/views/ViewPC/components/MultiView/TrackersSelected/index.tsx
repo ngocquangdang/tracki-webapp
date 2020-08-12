@@ -6,7 +6,7 @@ import { useStyles } from './styles';
 
 interface Props {
   trackers: object;
-  trackingIds: number[];
+  trackingIds: Array<number | string>;
   isMobile: boolean;
   t(key: string, format?: object): string;
   [data: string]: any;
