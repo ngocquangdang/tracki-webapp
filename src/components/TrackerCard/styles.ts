@@ -82,6 +82,9 @@ const useStyles = makeStyles(theme => ({
   nonePadding: {
     paddingLeft: 0,
   },
+  noClick: {
+    cursor: 'default',
+  },
 }));
 
 const ListItemStyle = withStyles(theme => ({

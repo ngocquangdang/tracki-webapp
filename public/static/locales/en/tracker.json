@@ -158,5 +158,10 @@
   "heat_map": "Heat Map",
   "multi_view": "Multi-View",
   "multi_screen": "Multi-Screen",
-  "select_device": "Select device"
+  "select_device": "Select device",
+  "map_street_panorama": "Street Panorama",
+  "map_position": "Map Position",
+  "map_follow": "Map Follow",
+  "map_satellite": "Satellite View",
+  "device_selected": "Device Selected"
 }
