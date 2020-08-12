@@ -1,13 +1,27 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 
+import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
+import { changeTrackersTracking } from '../actions';
 import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
-function changeTrackersTrackingSaga(action) {
-  console.log('___changeTrackersTrackingSaga', action);
+function* changeTrackingViewSaga(action) {
+  const { viewMode } = action.payload;
+  const isMultiView = ['multi_screen', 'multi_view'].includes(viewMode);
+
+  if (isMultiView) {
+    const isMultiScreen = viewMode === 'multi_screen';
+    const trackers = yield select(makeSelectTrackers());
+    const trackerIds = Object.keys(trackers)
+      .filter((id, index) => index < 4)
+      .map(id => +id);
+    yield put(
+      changeTrackersTracking(isMultiScreen ? trackerIds : [trackerIds[0]])
+    );
+  }
 }
 
 function* getHistoryTrackerSaga(action) {
@@ -59,6 +73,6 @@ function* getHistoryTrackerSaga(action) {
 }
 
 export default function* trackingWatcher() {
-  yield takeLatest(types.CHANGE_TRACKERS_TRACKING, changeTrackersTrackingSaga);
+  yield takeLatest(types.CHANGE_TRACKING_VIEW, changeTrackingViewSaga);
   yield takeLatest(types.GET_HISTORY_TRACKER_REQUESTED, getHistoryTrackerSaga);
 }

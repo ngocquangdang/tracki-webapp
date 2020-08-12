@@ -4,6 +4,7 @@ import { Paper, Tabs, Tab } from '@material-ui/core';
 
 import TabPanel from '../TabPanel';
 import SingleView from '../SingleView';
+import TrackersSelected from '../MultiView/TrackersSelected';
 import { useStyles } from './styles';
 import HeatMap from '../HeatMap';
 
@@ -83,7 +84,12 @@ export default function TabsPC(props: Props) {
         />
       </TabPanel>
       <TabPanel value={currentTab} index={3} className={classes.tabPanel}>
-        Comming soon...
+        <TrackersSelected
+          trackers={trackers}
+          trackingIds={trackingIds}
+          isMobile={isMobile}
+          t={t}
+        />
       </TabPanel>
     </React.Fragment>
   );

@@ -3,6 +3,7 @@ import {
   hideLoadingAction,
 } from '@Containers/App/store/actions';
 import { ActionType } from '@Interfaces';
+import { logoutRequestAction } from '@Containers/App/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
@@ -19,6 +20,15 @@ const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
     const { message, code, message_key } = payloadAction;
     if (code === '400') {
       console.log('___400 ERROR', message);
+    }
+    if (code === '401') {
+      store.dispatch(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: 'Your session is expired. Let login again.',
+        })
+      );
+      store.dispatch(logoutRequestAction());
     }
     if (code === '403' && message_key === 'exception_user_nameNotActivated') {
       console.log('___404 ERROR', message);
