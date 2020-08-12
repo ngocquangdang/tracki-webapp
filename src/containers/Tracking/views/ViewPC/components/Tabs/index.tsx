@@ -60,16 +60,14 @@ export default function TabsPC(props: Props) {
         </Tabs>
       </Paper>
       {(currentTab === 0 || currentTab === 2) && (
-        <div>
-          <SingleView
-            t={t}
-            isMobile={isMobile}
-            trackers={trackers}
-            trackingIds={trackingIds}
-            currentTab={currentTab}
-            changeTrackersTracking={changeTrackersTracking}
-          />
-        </div>
+        <SingleView
+          t={t}
+          isMobile={isMobile}
+          trackers={trackers}
+          trackingIds={trackingIds}
+          currentTab={currentTab}
+          changeTrackersTracking={changeTrackersTracking}
+        />
       )}
       <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
         Comming soon...
