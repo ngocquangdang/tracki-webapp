@@ -32,7 +32,10 @@ import {
   createGeofenceRequestAction,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
-import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
+import {
+  getContactListRequestAction,
+  addContactRequestAction,
+} from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
@@ -69,6 +72,7 @@ interface Props {
   removeGeofenceRequestAction(id: number): void;
   changeMapAction(mapAction: string): void;
   getContactListRequestAction(): void;
+  addContactAction(data, callback): void;
   [data: string]: any;
 }
 
@@ -97,6 +101,7 @@ function SingleTrackerGeofences(props: Props) {
     linkTrackerAction,
     unlinkTrackerAction,
     getContactListRequestAction,
+    addContactAction,
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -243,11 +248,12 @@ function SingleTrackerGeofences(props: Props) {
           createNewGeofenceRequestAction={createNewGeofenceRequestAction}
         />
         <SelectContact
-          isMobile={isMobile}
-          show={showSelectContactPanel}
-          contacts={contacts}
           handleClose={onClosePanel}
-          selectedContacts={tracker.contacts}
+          show={showSelectContactPanel}
+          isMobile={isMobile}
+          contacts={contacts}
+          t={t}
+          addContactAction={addContactAction}
         />
       </div>
     </Slide>
@@ -274,6 +280,8 @@ const mapDispatchToProps = dispatch => ({
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
   resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
   getContactListRequestAction: () => dispatch(getContactListRequestAction()),
+  addContactAction: (data, callback) =>
+    dispatch(addContactRequestAction(data, callback)),
 });
 
 const mapStateToProps = createStructuredSelector({

@@ -155,6 +155,24 @@ function* sendBeepSaga(action) {
     yield put(actions.sendBeepFailed(payload));
   }
 }
+
+function* addNewContactSaga(action) {
+  const { data, callback } = action.payload;
+  try {
+    const profile = yield select(makeSelectProfile());
+    yield call(apiServices.createContact, profile.account_id, data);
+    yield put(actions.getContactListRequestAction());
+    yield callback();
+    yield put(actions.addContactSuccesstAction(action.payload));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: { code: data.message },
+    };
+    yield put(actions.addContactFailAction(payload));
+  }
+}
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -174,4 +192,5 @@ export default function* appWatcher() {
     deactiveLinkShareLocationSaga
   );
   yield takeLatest(types.SEND_BEEP_REQUESTED, sendBeepSaga);
+  yield takeLatest(types.CREATE_NEW_CONTACT_REQUESTED, addNewContactSaga);
 }
