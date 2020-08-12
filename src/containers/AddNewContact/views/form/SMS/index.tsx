@@ -14,21 +14,14 @@ const initialData = {
 export default function SMSForm(props) {
   const classes = useStyles();
   const [code, setCode] = useState(1);
-  const {
-    t,
-    type,
-    addContactAction,
-    isRequesting,
-    fetchSelectContact,
-    onClose,
-  } = props;
+  const { t, type, addContactAction, isRequesting, onClose } = props;
 
   const onSubmit = value => {
     const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
 
     addContactAction(
       { name: value.name, type, address: phoneNumber?.number },
-      { fetchSelectContact, onClose }
+      onClose
     );
   };
 

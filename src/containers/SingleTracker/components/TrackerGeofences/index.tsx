@@ -254,7 +254,6 @@ function SingleTrackerGeofences(props: Props) {
           contacts={contacts}
           t={t}
           addContactAction={addContactAction}
-          fetchSelectContact={getContactListRequestAction}
         />
       </div>
     </Slide>

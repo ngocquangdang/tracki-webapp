@@ -11,20 +11,10 @@ const initialData = {
   email: '',
 };
 export default function EmailForm(props) {
-  const {
-    t,
-    type,
-    addContactAction,
-    isRequesting,
-    fetchSelectContact,
-    onClose,
-  } = props;
+  const { t, type, addContactAction, isRequesting, onClose } = props;
   const classes = useStyles();
   const onSubmit = value => {
-    addContactAction(
-      { name: value.name, type, address: value.email },
-      { fetchSelectContact, onClose }
-    );
+    addContactAction({ name: value.name, type, address: value.email }, onClose);
   };
   return (
     <div>

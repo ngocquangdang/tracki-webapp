@@ -7,7 +7,6 @@ const ViewPC = dynamic(() => import('./views/AddNewContactPC'));
 interface Props {
   showAddContact: boolean;
   onClose(): void;
-  fetchSelectContact(): void;
   addContactAction(data, callback): void;
   t(key: string): string;
   isMobile: boolean;

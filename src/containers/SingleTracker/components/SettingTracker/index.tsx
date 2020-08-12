@@ -69,7 +69,6 @@ interface Props {
   updateSettings(id: number, data: object): void;
   getContactListRequest(): void;
   contacts: object;
-  fetchSelectContact(): void;
   addContactAction(data, callback): void;
 }
 
@@ -88,7 +87,6 @@ function SettingTracker(props: Props) {
     isMobile,
     isRequesting,
     getContactListRequest,
-    fetchSelectContact,
     addContactAction,
     contacts,
   } = props;
@@ -453,7 +451,6 @@ function SettingTracker(props: Props) {
         contacts={contacts}
         t={t}
         addContactAction={addContactAction}
-        fetchSelectContact={fetchSelectContact}
       />
     </SideBarOutside>
   );
@@ -471,7 +468,6 @@ const mapDispatchToProps = dispatch => ({
   getContactListRequest: () => dispatch(getContactListRequestAction()),
   addContactAction: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
-  fetchSelectContact: () => dispatch(getContactListRequestAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

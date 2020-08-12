@@ -161,8 +161,8 @@ function* addNewContactSaga(action) {
   try {
     const profile = yield select(makeSelectProfile());
     yield call(apiServices.createContact, profile.account_id, payload);
-    yield callback.fetchSelectContact();
-    yield callback.onClose();
+    yield put(actions.getContactListRequestAction());
+    yield callback();
     yield put(actions.addContactSuccesstAction(action.payload));
   } catch (error) {
     const { data = {} } = { ...error };
