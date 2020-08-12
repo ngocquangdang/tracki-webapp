@@ -22,6 +22,7 @@ interface Props {
   t(key: string, format?: object): string;
   onResetSelectedTrackerID(): void;
   [data: string]: any;
+  getHistoryTracker(data: object): void;
 }
 
 export default function TrackingContainer(props: Props) {

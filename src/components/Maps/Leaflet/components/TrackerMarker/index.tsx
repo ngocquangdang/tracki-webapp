@@ -124,7 +124,6 @@ class TrackerMarker extends React.Component<Props> {
         <div>${showTrackerName ? this.trackerName(device_name) : ''}`;
 
       const icon = new L.DivIcon({ html: elm });
-      console.log('leaflet map', L);
       elm.addEventListener('click', this.onClickMarker);
       window.trackerMarkers[device_id] = L.marker([lat, lng], { icon });
       window.trackerMarkers[device_id].addTo(map);
