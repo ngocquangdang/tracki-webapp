@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import clsx from 'clsx';
 
 import { GoPrimitiveDot } from 'react-icons/go';
 import {
@@ -26,7 +27,7 @@ interface Props {
   isMobile?: boolean;
   isChecked?: boolean;
   isTracking?: boolean;
-  onClickTracker(id: number): void;
+  onClickTracker?(id: number): void;
   onClickSetting?: any;
 }
 
@@ -41,12 +42,14 @@ export default function TrackerCard(props: Props) {
   } = props;
 
   const handleClick = () => {
-    onClickTracker(tracker.device_id);
-    if (tracker.lat && tracker.lng) {
-      const option =
-        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
-      const mapOption = window.mapFullWidth ? {} : option;
-      window.mapEvents.setFitBounds([tracker], mapOption);
+    if (onClickTracker) {
+      onClickTracker(tracker.device_id);
+      if (tracker.lat && tracker.lng && window.mapEvents) {
+        const option =
+          window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+        const mapOption = window.mapFullWidth ? {} : option;
+        window.mapEvents.setFitBounds([tracker], mapOption);
+      }
     }
   };
 
@@ -58,7 +61,9 @@ export default function TrackerCard(props: Props) {
     <ListItemStyle
       button
       key={tracker.device_id}
-      className={isMobile ? classes.padding : classes.nonePadding}
+      className={clsx(isMobile ? classes.padding : classes.nonePadding, {
+        [classes.noClick]: !onClickTracker,
+      })}
     >
       <Item onClick={handleClick}>
         <ImageWrapper>

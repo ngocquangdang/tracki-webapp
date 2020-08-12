@@ -1,18 +1,25 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 
 import MapCard from '../MapCard';
 import { useStyles } from './styles';
 
 interface Props {
-  tracker: object;
+  trackers: object;
   isFullWidth: boolean;
+  isMultiScreen: boolean;
+  trackingIds: number[];
+  changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
 
 export default function MultiView(props: Props) {
-  const { tracker, isFullWidth, t } = props;
+  const { isMultiScreen, trackers, trackingIds } = props;
   const classes = useStyles();
+
+  const trackerIds = Object.keys(trackers);
+  const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
 
   return (
     <div className={classes.container}>
@@ -20,18 +27,25 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             mapId="mapPosition"
-            mapLabel="Map Position"
-            tracker={tracker}
-            t={t}
+            mapLabel={props.t('tracker:map_position')}
+            selectedTrackerId={
+              isMultiScreen
+                ? trackingIds[0] || selectedTrackerId
+                : selectedTrackerId
+            }
+            {...props}
           />
         </div>
         <div className={classes.item}>
           <MapCard
             mapId="mapFollow"
-            mapLabel="Map Follow"
-            tracker={tracker}
-            isFullWidth={isFullWidth}
-            t={t}
+            mapLabel={props.t('tracker:map_follow')}
+            selectedTrackerId={
+              isMultiScreen
+                ? trackingIds[1] || selectedTrackerId
+                : selectedTrackerId
+            }
+            {...props}
           />
         </div>
       </div>
@@ -39,19 +53,25 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             mapId="mapStreetView"
-            mapLabel="Street Panorama"
-            tracker={tracker}
-            isFullWidth={isFullWidth}
-            t={t}
+            mapLabel={props.t('tracker:map_street_panorama')}
+            selectedTrackerId={
+              isMultiScreen
+                ? trackingIds[2] || selectedTrackerId
+                : selectedTrackerId
+            }
+            {...props}
           />
         </div>
         <div className={classes.item}>
           <MapCard
             mapId="mapSatelliteView"
-            mapLabel="Satellite View"
-            tracker={tracker}
-            isFullWidth={isFullWidth}
-            t={t}
+            mapLabel={props.t('tracker:map_satellite')}
+            selectedTrackerId={
+              isMultiScreen
+                ? trackingIds[3] || selectedTrackerId
+                : selectedTrackerId
+            }
+            {...props}
           />
         </div>
       </div>

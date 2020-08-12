@@ -17,4 +17,13 @@ export default {
     lineHeight: '18px',
     fontFamily: 'Roboto',
   },
+  selects: {
+    zIndex: 410,
+    right: 8,
+    top: 8,
+    width: '50%',
+    '& > div': {
+      margin: '0 !important',
+    },
+  },
 };

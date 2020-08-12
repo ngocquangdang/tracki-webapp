@@ -4,15 +4,19 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
-import { ITracker } from '@Interfaces';
+import SelectOption from '@Components/selections';
 import style from './styles';
 import MapToolBar from './MapToolBar';
 
 interface IProps {
   mapId: string;
   isFullWidth: boolean;
-  tracker: ITracker;
+  isMultiScreen: boolean;
+  trackers: object;
+  selectedTrackerId: number;
+  trackingIds: number[];
   classes: any;
+  changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
@@ -60,8 +64,13 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { tracker, isFullWidth } = nextProps;
-    const { tracker: thisTracker, isFullWidth: thisIsFull } = this.props;
+    const { selectedTrackerId, isFullWidth } = nextProps;
+    const {
+      selectedTrackerId: thisSelectedTracker,
+      isFullWidth: thisIsFull,
+      trackers,
+    } = this.props;
+    const tracker = trackers[selectedTrackerId];
 
     // fitbound map
     if (
@@ -81,7 +90,7 @@ class MapCard extends React.Component<IProps, IState> {
     }
 
     // remove current marker
-    if (tracker.device_id !== thisTracker.device_id) {
+    if (selectedTrackerId !== thisSelectedTracker && this.marker) {
       this.map.removeLayer(this.marker);
       this.marker = undefined;
     }
@@ -145,7 +154,13 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   renderMarker = () => {
-    const { tracker } = this.props;
+    const {
+      trackers,
+      // trackingIds,
+      // isMultiScreen,
+      selectedTrackerId,
+    } = this.props;
+    const tracker = trackers[selectedTrackerId];
 
     if (!this.marker && tracker && tracker.lat && tracker.lng) {
       const { device_name, lat, lng, icon_url } = tracker;
@@ -169,20 +184,63 @@ class MapCard extends React.Component<IProps, IState> {
     return null;
   };
 
+  onChangeOption = (value: string | number) => {
+    const {
+      selectedTrackerId,
+      trackingIds,
+      changeTrackersTracking,
+    } = this.props;
+    const selectedIndex = trackingIds.findIndex(
+      id => id.toString() === selectedTrackerId.toString()
+    );
+    const newTrackings = [...trackingIds];
+    newTrackings[selectedIndex] = +value;
+    changeTrackersTracking(newTrackings);
+  };
+
   render() {
-    const { mapId, classes, mapLabel, t } = this.props;
+    const {
+      mapId,
+      classes,
+      mapLabel,
+      isMultiScreen,
+      trackers,
+      selectedTrackerId,
+      trackingIds,
+      t,
+    } = this.props;
+
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
+    const options = Object.keys(trackers)
+      .filter(
+        id =>
+          id.toString() === selectedTrackerId.toString() ||
+          !trackingIds.includes(+id)
+      )
+      .map(id => ({ value: id, content: trackers[id].device_name }));
 
     return (
       <React.Fragment>
         <div id={mapId} className={classes.mapCard} />
-        <div className={classes.mapLabel} style={{ position: 'absolute' }}>
-          {mapLabel}
-        </div>
-        {isInitiatedMap && this.renderMarker()}
+        {isMultiScreen ? (
+          <div className={classes.selects} style={{ position: 'absolute' }}>
+            <SelectOption
+              label=""
+              name="select_device"
+              value={selectedTrackerId.toString()}
+              options={options}
+              onChangeOption={this.onChangeOption}
+            />
+          </div>
+        ) : (
+          <div className={classes.mapLabel} style={{ position: 'absolute' }}>
+            {mapLabel}
+          </div>
+        )}
         {userLocation && (
           <UserLocation map={this.map} location={userLocation} />
         )}
+        {isInitiatedMap && this.renderMarker()}
         {isInitiatedMap && mapId !== 'mapStreetView' && (
           <MapToolBar
             t={t}

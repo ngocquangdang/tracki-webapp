@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { isEmpty } from 'lodash';
 import dynamic from 'next/dynamic';
 
 import { SideBarInnerPC } from '@Components/sidebars';
@@ -39,12 +38,6 @@ export default function TrackingContainer(props: Props) {
   const openSideBar = () => setOpenSidebar(true);
   const isMultiView = ['multi_view', 'multi_screen'].includes(viewMode);
 
-  const trackerIds = Object.keys(rest.trackers);
-  const [selectedTrackerId] = isEmpty(rest.trackingIds)
-    ? trackerIds
-    : rest.trackingIds;
-  const tracker = rest.trackers[selectedTrackerId];
-
   return (
     <Container>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
@@ -62,11 +55,14 @@ export default function TrackingContainer(props: Props) {
             <MapToolBars t={rest.t} />
           </React.Fragment>
         )}
-        {viewMode === 'multi_view' && (
+        {isMultiView && (
           <MultiView
-            tracker={tracker}
-            t={rest.t}
             isFullWidth={!isOpenSidebar}
+            trackers={rest.trackers}
+            trackingIds={rest.trackingIds}
+            t={rest.t}
+            isMultiScreen={viewMode === 'multi_screen'}
+            changeTrackersTracking={rest.changeTrackersTracking}
           />
         )}
       </MapView>

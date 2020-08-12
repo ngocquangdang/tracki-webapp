@@ -50,7 +50,7 @@ export default function SingleView(props: Props) {
   }, [setIsFirstLoading, currentTab]);
 
   const onSelectTracker = (id: number) => {
-    tracker && window.mapEvents.removeMarker(tracker.device_id);
+    // tracker && window.mapEvents.removeMarker(tracker.device_id);
     changeTrackersTracking([id]);
   };
 
