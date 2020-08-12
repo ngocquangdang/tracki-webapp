@@ -18,7 +18,7 @@ class TrackerMarker extends React.Component<Props> {
     window.trackerMarkers = window.trackerMarkers || {};
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const {
       isBeep,
       showTrackerName,

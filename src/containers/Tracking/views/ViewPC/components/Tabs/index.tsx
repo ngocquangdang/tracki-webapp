@@ -81,6 +81,7 @@ export default function TabsPC(props: Props) {
           trackingIds={trackingIds}
           changeTrackersTracking={changeTrackersTracking}
           getHistoryTracker={getHistoryTracker}
+          currentTab={currentTab}
         />
       </TabPanel>
       <TabPanel value={currentTab} index={3} className={classes.tabPanel}>

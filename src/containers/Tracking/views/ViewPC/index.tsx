@@ -25,7 +25,7 @@ interface Props {
 }
 
 export default function TrackingContainer(props: Props) {
-  const { viewMode, onResetSelectedTrackerID, ...rest } = props;
+  const { onResetSelectedTrackerID, ...rest } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const toggleSideBar = () => {
@@ -37,7 +37,7 @@ export default function TrackingContainer(props: Props) {
   }, []);
 
   const openSideBar = () => setOpenSidebar(true);
-  const isMultiView = ['multi_view', 'multi_screen'].includes(viewMode);
+  const isMultiView = ['multi_view', 'multi_screen'].includes(rest.viewMode);
 
   return (
     <Container>
@@ -45,7 +45,7 @@ export default function TrackingContainer(props: Props) {
         <Tabs {...rest} />
       </SideBarInnerPC>
       <MapView isMultiView={isMultiView} isFull={!isOpenSidebar}>
-        {viewMode === 'single_view' && (
+        {(rest.viewMode === 'single_view' || rest.viewMode === 'heat_map') && (
           <React.Fragment>
             <Map
               mapType="leaflet"
@@ -62,8 +62,8 @@ export default function TrackingContainer(props: Props) {
             trackers={rest.trackers}
             trackingIds={rest.trackingIds}
             t={rest.t}
-            viewMode={viewMode}
-            isMultiScreen={viewMode === 'multi_screen'}
+            viewMode={rest.viewMode}
+            isMultiScreen={rest.viewMode === 'multi_screen'}
             changeTrackersTracking={rest.changeTrackersTracking}
           />
         )}

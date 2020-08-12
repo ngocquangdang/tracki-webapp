@@ -89,21 +89,20 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     const { trackers } = this.props;
     Object.keys(trackers).map(id => this.removeMarker(id));
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+
+  componentWillReceiveProps(nextProps) {
     if (
       nextProps.trackerHistories !== this.props.trackerHistories &&
       nextProps.trackerHistories?.length > 0
     ) {
-      const coords = nextProps.trackerHistories?.reduce((result, item) => {
-        result.push([item[0], item[1]]);
-        return result;
-      }, []);
+      const coords = nextProps.trackerHistories;
       window.mapEvents.setFitBounds(
         coords,
         window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS
       );
     }
   }
+
   onClickTracker = (id: string | number) => {
     const { onClickMarker, openSideBar } = this.props;
     openSideBar && openSideBar();
@@ -193,6 +192,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       updateNewGeofence,
       updateGeofence,
       trackerHistories,
+      viewMode,
     } = this.props;
     return (
       <React.Fragment>
@@ -223,7 +223,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
             updateGeofence={updateGeofence}
           />
         )}
-        {isInitiatedMap && (
+        {isInitiatedMap && viewMode === 'heat_map' && (
           <HeatMap map={this.map} histories={trackerHistories || []} />
         )}
       </React.Fragment>

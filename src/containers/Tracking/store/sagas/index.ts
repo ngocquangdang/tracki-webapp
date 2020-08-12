@@ -46,7 +46,7 @@ function* getHistoryTrackerSaga(action) {
       );
     }
     const histories = historyData.reduce((result, item) => {
-      result.push([item.lat, item.lng, 0.2]);
+      result.push([item.lat, item.lng]);
       return result;
     }, []);
     yield put(

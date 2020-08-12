@@ -1,11 +1,15 @@
 import React from 'react';
-import 'leaflet.heat/dist/leaflet-heat.js';
 import L from 'leaflet';
+import 'leaflet.heat/dist/leaflet-heat.js';
 
 class HeatMap extends React.Component {
   renderHeatMap = () => {
     const { map, histories } = this.props;
-    new L.heatLayer(histories, {
+    const trackerHistories = histories.reduce((result, item) => {
+      result.push([item[0], item[1], 0.2]);
+      return result;
+    }, []);
+    new L.heatLayer(trackerHistories, {
       radius: 25,
     }).addTo(map);
     return null;

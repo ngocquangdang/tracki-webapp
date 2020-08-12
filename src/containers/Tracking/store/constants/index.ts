@@ -15,7 +15,7 @@ export const DATE_OPTIONS = [
   { value: moment().subtract(24, 'hours').unix(), content: 'Last 24 Hours' },
   { value: moment().subtract(2, 'days').unix(), content: 'Last 2 Days' },
   { value: moment().subtract(7, 'days').unix(), content: 'Last 7 Days' },
-  { value: '120_1_hours', content: 'Date Range' },
-  { value: '240_1_hours', content: 'Specific date + Hourly Range' },
+  { value: 'date_range', content: 'Date Range' },
+  { value: 'specific_date', content: 'Specific date + Hourly Range' },
 ];
 export const CHANGE_TRACKING_VIEW = 'Tracki/CHANGE_TRACKING_VIEW';

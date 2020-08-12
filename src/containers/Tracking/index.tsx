@@ -58,7 +58,6 @@ function TrackingContainer(props: Props) {
   useInjectSaga({ key: 'tracking', saga: trackingSaga });
   useInjectReducer({ key: 'tracking', reducer: trackingReducer });
   const { fetchUserRequestedAction, ...rest } = props;
-
   useEffect(() => {
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
@@ -74,7 +73,7 @@ const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
   trackingIds: makeSelectTrackerIdsTracking(),
   viewMode: makeSelectViewMode(),
-  histories: makeSelectTrackerHistories(),
+  trackerHistories: makeSelectTrackerHistories(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
