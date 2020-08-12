@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     width: '50%',
     height: '100%',
-    backgroundColor: 'orange',
     margin: '0 7px 0 5px',
     borderRadius: 4,
     boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.12)',

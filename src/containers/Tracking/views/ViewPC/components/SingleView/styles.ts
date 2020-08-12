@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    height: '100%',
+    height: 'calc(100% - 55px)',
   },
   tracker: {
     paddingTop: 14,
