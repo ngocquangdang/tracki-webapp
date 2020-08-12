@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
-import SelectOption from '@Components/selections';
+import SelectTracker from '../MultiView/SelectTracker';
 import style from './styles';
 import MapToolBar from './MapToolBar';
 
@@ -51,24 +51,32 @@ class MapCard extends React.Component<IProps, IState> {
     this.state = {
       isInitiatedMap: false,
       mapCenter: [40.866667, 34.566667],
-      mapZoom: 13,
+      mapZoom: 8,
       userLocation: null,
       mapStyle: 'streets-v11',
     };
     this.isFirstFitBounce = false;
   }
 
-  getMapTile = (mapId: string) => {
+  getMapTile = (isMultiScreen: boolean, mapId: string) => {
+    if (isMultiScreen) return 'streets-v11';
     if (mapId === 'mapSatelliteView') return 'satellite-v9';
     return 'streets-v11';
   };
 
   componentWillReceiveProps(nextProps) {
-    const { selectedTrackerId, isFullWidth } = nextProps;
+    const {
+      selectedTrackerId,
+      isFullWidth,
+      viewMode,
+      isMultiScreen,
+    } = nextProps;
     const {
       selectedTrackerId: thisSelectedTracker,
       isFullWidth: thisIsFull,
       trackers,
+      viewMode: currentViewMode,
+      mapId,
     } = this.props;
     const tracker = trackers[selectedTrackerId];
 
@@ -94,6 +102,16 @@ class MapCard extends React.Component<IProps, IState> {
       this.map.removeLayer(this.marker);
       this.marker = undefined;
     }
+
+    // reset map tile
+    if (viewMode !== currentViewMode) {
+      this.map.removeLayer(this.mapTile);
+      const mapTile = this.getMapTile(isMultiScreen, mapId);
+      this.mapTile = L.tileLayer(TILE_TOKEN, {
+        ...TILE_OPTIONS,
+        id: 'mapbox/' + (isMultiScreen ? 'streets-v11' : mapTile),
+      }).addTo(this.map);
+    }
   }
 
   trackerName = (name: string) => {
@@ -104,9 +122,9 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    const { mapId, tracker } = this.props;
+    const { mapId, tracker, isMultiScreen } = this.props;
     const { mapCenter, mapZoom } = this.state;
-    const mapTile = this.getMapTile(mapId);
+    const mapTile = this.getMapTile(isMultiScreen, mapId);
     let center = mapCenter;
 
     if (tracker && tracker.lat && tracker.lng) {
@@ -118,8 +136,7 @@ class MapCard extends React.Component<IProps, IState> {
     this.mapTile = L.tileLayer(TILE_TOKEN, {
       ...TILE_OPTIONS,
       id: 'mapbox/' + mapTile,
-    });
-    this.mapTile.addTo(this.map);
+    }).addTo(this.map);
 
     this.map.on('locationfound', (e: L.LocationEvent) => {
       this.map.panTo(e.latlng, { zoom: 15 });
@@ -217,19 +234,18 @@ class MapCard extends React.Component<IProps, IState> {
           id.toString() === selectedTrackerId.toString() ||
           !trackingIds.includes(+id)
       )
-      .map(id => ({ value: id, content: trackers[id].device_name }));
+      .map(id => ({ value: id, label: trackers[id].device_name }));
 
     return (
       <React.Fragment>
         <div id={mapId} className={classes.mapCard} />
         {isMultiScreen ? (
           <div className={classes.selects} style={{ position: 'absolute' }}>
-            <SelectOption
-              label=""
-              name="select_device"
+            <SelectTracker
+              id={mapId}
               value={selectedTrackerId.toString()}
               options={options}
-              onChangeOption={this.onChangeOption}
+              onChange={this.onChangeOption}
             />
           </div>
         ) : (

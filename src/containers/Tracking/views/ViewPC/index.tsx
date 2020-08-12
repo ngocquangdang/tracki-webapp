@@ -61,6 +61,7 @@ export default function TrackingContainer(props: Props) {
             trackers={rest.trackers}
             trackingIds={rest.trackingIds}
             t={rest.t}
+            viewMode={viewMode}
             isMultiScreen={viewMode === 'multi_screen'}
             changeTrackersTracking={rest.changeTrackersTracking}
           />
