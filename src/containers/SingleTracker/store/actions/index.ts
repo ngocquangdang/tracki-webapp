@@ -97,11 +97,11 @@ export const resetBeepAction = () => ({
   type: types.RESET_BEEP,
 });
 
-export function addContactRequestAction(payload, callback) {
+export function addContactRequestAction(data, callback) {
   return {
     type: types.CREATE_NEW_CONTACT_REQUESTED,
     payload: {
-      payload,
+      data,
       callback,
     },
   };

@@ -157,10 +157,10 @@ function* sendBeepSaga(action) {
 }
 
 function* addNewContactSaga(action) {
-  const { payload, callback } = action.payload;
+  const { data, callback } = action.payload;
   try {
     const profile = yield select(makeSelectProfile());
-    yield call(apiServices.createContact, profile.account_id, payload);
+    yield call(apiServices.createContact, profile.account_id, data);
     yield put(actions.getContactListRequestAction());
     yield callback();
     yield put(actions.addContactSuccesstAction(action.payload));
