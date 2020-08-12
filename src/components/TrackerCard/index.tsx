@@ -19,26 +19,39 @@ import {
   ListItemStyle,
 } from './styles';
 import { ITracker } from '@Interfaces';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 interface Props {
   tracker: ITracker;
   isMobile?: boolean;
   isChecked?: boolean;
+  isTracking?: boolean;
   onClickTracker(id: number): void;
+  onClickSetting?: any;
 }
 
 export default function TrackerCard(props: Props) {
   const classes = useStyles();
-  const { tracker, isMobile = false, onClickTracker, isChecked } = props;
+  const {
+    tracker,
+    isMobile = false,
+    onClickTracker,
+    isChecked,
+    onClickSetting,
+  } = props;
 
   const handleClick = () => {
     onClickTracker(tracker.device_id);
     if (tracker.lat && tracker.lng) {
-      window.mapEvents.setCenterFlyTo(
-        { lat: tracker.lat, lng: tracker.lng },
-        { speed: 1, zoom: 15 }
-      );
+      const option =
+        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+      const mapOption = window.mapFullWidth ? {} : option;
+      window.mapEvents.setFitBounds([tracker], mapOption);
     }
+  };
+
+  const handleClickSetting = () => {
+    onClickSetting(tracker.device_id);
   };
 
   return (
@@ -66,7 +79,10 @@ export default function TrackerCard(props: Props) {
         {isChecked ? (
           <DoneIcon className={classes.iconDone} />
         ) : isMobile ? (
-          <SettingsIcon className={classes.iconSetting} />
+          <SettingsIcon
+            className={classes.iconSetting}
+            onClick={handleClickSetting}
+          />
         ) : null}
       </CardDetail>
     </ListItemStyle>

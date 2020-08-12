@@ -17,6 +17,7 @@ import axiosClient from '@Utils/axios';
 import cookieClient from '@Utils/cookie';
 
 import { AuthProvider } from '../../providers/Auth';
+import Snackbar from '@Containers/Snackbar';
 
 import '@Static/scss/main.scss';
 
@@ -92,6 +93,7 @@ class WebApp extends App<AppWithStore, { isMobile: boolean }> {
                 type="image/png"
               />
             </Header>
+            <Snackbar />
             <Component {...pageProps} isMobile={isMobile} />
           </ThemeProvider>
         </AuthProvider>

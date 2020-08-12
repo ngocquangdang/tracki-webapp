@@ -102,7 +102,6 @@ export default function AccountSetting(props: any) {
     };
 
     const dataUpdateUser = {
-      email: value.email,
       phone: `+${value.phone_code}${value.phone}`,
     };
 
@@ -112,8 +111,8 @@ export default function AccountSetting(props: any) {
     const isValidPhone = phoneNumber?.isValid();
 
     if (isValidPhone) {
-      updatePrefrence(dataUpdatePreferences);
       updateInfoUser(dataUpdateUser);
+      updatePrefrence(dataUpdatePreferences);
     }
   };
 

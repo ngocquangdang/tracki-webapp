@@ -77,8 +77,12 @@ const ConnectionTracker = styled.div`
   text-align: center;
 `;
 const TextName = styled.span`
-  max-height: 44px;
-  overflow-y: auto;
+  height: auto;
+  overflow-y: visible;
+`;
+const TextNameViewMore = styled.span`
+  overflow-y: hidden;
+  height: 42px;
 `;
 const Item = styled.div`
   display: flex;
@@ -198,6 +202,10 @@ const useStyles = makeStyles(theme => ({
   skeContainer: {
     margin: 10,
   },
+  viewMore: {
+    display: 'inline-block',
+    color: '#168449',
+  },
 }));
 export {
   Card,
@@ -225,5 +233,6 @@ export {
   LatText,
   LongText,
   IconZoom,
+  TextNameViewMore,
   useStyles,
 };

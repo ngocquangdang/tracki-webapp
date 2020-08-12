@@ -18,8 +18,8 @@ class MapEvent {
     return this.map.getCenter();
   }
 
-  setCenter(data) {
-    return this.map.setCenter(data);
+  setCenter(data, options = {}) {
+    return this.map.setCenter(data, options);
   }
 
   setCenterFlyTo(center, option) {
@@ -40,8 +40,8 @@ class MapEvent {
   jumpTo = (center: [number, number], zoom: number) =>
     this.map.jumpTo(center, zoom);
 
-  setFitBounds = (coordinates, callback) =>
-    this.map.setFitBounds(coordinates, callback);
+  setFitBounds = (coordinates, options = {}, callback) =>
+    this.map.setFitBounds(coordinates, options, callback);
 
   getBounds = () => this.map.getBounds();
 

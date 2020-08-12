@@ -38,6 +38,7 @@ import {
   LatText,
   LongText,
   IconZoom,
+  TextNameViewMore,
   useStyles,
 } from './styles';
 
@@ -54,6 +55,7 @@ function DetailTrackerCard(props: Prop) {
   const { tracker, isMobile, className = '' } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
+  const [viewMore, setTextViewMore] = useState(false);
 
   const callApiGetAddress = useCallback(async () => {
     if (tracker && !!tracker.lat && !!tracker.lng) {
@@ -119,6 +121,7 @@ function DetailTrackerCard(props: Prop) {
   };
 
   const renderContentMobile = () => {
+    console.log('data address', dataAddress?.length);
     return (
       <Card key={tracker.device_id}>
         <TrackerInfomation isMobile={isMobile}>
@@ -127,7 +130,31 @@ function DetailTrackerCard(props: Prop) {
               <Address isMobile={isMobile}>
                 <LocationOnIcon className={classes.iconLocationMobile} />
                 <Text>
-                  <TextName>{dataAddress}</TextName>
+                  {dataAddress && dataAddress.length >= 80 ? (
+                    viewMore ? (
+                      <TextName>
+                        {dataAddress}{' '}
+                        <div
+                          className={classes.viewMore}
+                          onClick={() => setTextViewMore(false)}
+                        >
+                          View less
+                        </div>
+                      </TextName>
+                    ) : (
+                      <TextNameViewMore>
+                        {dataAddress.slice(0, 75)}...
+                        <div
+                          className={classes.viewMore}
+                          onClick={() => setTextViewMore(true)}
+                        >
+                          View more
+                        </div>
+                      </TextNameViewMore>
+                    )
+                  ) : (
+                    <TextName>{dataAddress}</TextName>
+                  )}
                   <Time>
                     <GoPrimitiveDot className={classes.icon} />
                     <TimeActive>

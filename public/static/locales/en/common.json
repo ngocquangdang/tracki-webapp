@@ -22,5 +22,10 @@
   "light": "Light",
   "dark_map": "Dark Map",
   "traffic": "Traffic",
-  "hybird": "Hybird"
+  "hybird": "Hybird",
+  "hide_tracker_name": "Hide tracker name",
+  "show_tracker_name": "Show tracker name",
+  "hide_geofences": "Hide geofences",
+  "show_geofences": "Show geofences",
+  "google_street_view": "Google Street View"
 }

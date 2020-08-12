@@ -55,9 +55,11 @@ export const HISTORY_OPTIONS = [
 export const GET_LIST_CONTACT_REQUESTED = 'Tracki/GET_LIST_CONTACT_REQUESTED';
 export const GET_LIST_CONTACT_SUCCESSED = 'Tracki/GET_LIST_CONTACT_SUCCESSED';
 export const GET_LIST_CONTACT_FAILED = 'Tracki/GET_LIST_CONTACT_FAILED';
+
 export const SEARCH_CONTACT_REQUESTED = 'Tracki/SEARCH_CONTACT_REQUESTED';
 export const SEARCH_CONTACT_SUCCEED = 'Tracki/SEARCH_CONTACT_SUCCEED';
 export const SEARCH_CONTACT_FAILED = 'Tracki/SEARCH_CONTACT_FAILED';
+
 export const SHARE_LOCATION_OPTIONS = [
   { value: '3600', content: '1 Hour' },
   { value: '18000', content: '5 Hours' },
@@ -67,3 +69,9 @@ export const SHARE_LOCATION_OPTIONS = [
   { value: '604800', content: '7 Days' },
   { value: '-1', content: 'Unlimited' },
 ];
+
+export const CREATE_NEW_CONTACT_REQUESTED =
+  'Tracki/CREATE_NEW_CONTACT_REQUESTED';
+export const CREATE_NEW_CONTACT_SUCCESSED =
+  'Tracki/CREATE_NEW_CONTACT_SUCCESSED';
+export const CREATE_NEW_CONTACT_FAILED = 'Tracki/CREATE_NEW_CONTACT_FAILED';

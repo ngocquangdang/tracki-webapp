@@ -1,30 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 
 import TrackerDetailCard from '@Components/DetailTrackerCard';
 import TrackerCard from '@Components/TrackerCard';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { useStyles } from './styles';
 
 interface Props {
   trackers: object;
   trackingIds: number[];
   isMobile: boolean;
+  currentTab: number;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
 
 export default function SingleView(props: Props) {
-  const { trackers, trackingIds, isMobile, t, changeTrackersTracking } = props;
+  const {
+    trackers,
+    trackingIds,
+    isMobile,
+    currentTab,
+    t,
+    changeTrackersTracking,
+  } = props;
   const classes = useStyles();
-
-  const onSelectTracker = (id: number) => {
-    changeTrackersTracking([id]);
-  };
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
 
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
   const tracker = trackers[selectedTrackerId];
+
+  useEffect(() => {
+    if (isFirstLoading && tracker && tracker.lat && tracker.lng) {
+      const options =
+        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+      window.mapEvents &&
+        window.mapEvents.setFitBounds(
+          [tracker],
+          window.mapFullWidth ? {} : options
+        );
+      setIsFirstLoading(false);
+    }
+  }, [isFirstLoading, setIsFirstLoading, tracker]);
+
+  useEffect(() => {
+    setIsFirstLoading(true);
+  }, [setIsFirstLoading, currentTab]);
+
+  const onSelectTracker = (id: number) => {
+    tracker && window.mapEvents.removeMarker(tracker.device_id);
+    changeTrackersTracking([id]);
+  };
 
   return (
     <div className={classes.container}>
@@ -44,6 +72,7 @@ export default function SingleView(props: Props) {
             <TrackerCard
               isChecked={selectedTrackerId.toString() === id}
               tracker={trackers[id]}
+              isTracking={true}
               onClickTracker={onSelectTracker}
             />
           </div>

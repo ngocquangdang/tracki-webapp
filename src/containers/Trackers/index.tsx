@@ -28,11 +28,16 @@ import {
   searchGeofencesRequestedAction,
   saveGeofenceRequestedAction,
 } from '@Containers/Trackers/store/actions';
-
+import {
+  resetBeepAction,
+  sendBeepRequest,
+} from '@Containers/SingleTracker/store/actions';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
 import saga from './store/sagas';
 import reducer from './store/reducers';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import View from './view';
 
@@ -79,6 +84,9 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(searchGeofencesRequestedAction(k)),
   updateGeofenceAction: (geoId: number, data: object) =>
     dispatch(saveGeofenceRequestedAction(geoId, data)),
+  onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
+  resetBeep: () => dispatch(resetBeepAction()),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

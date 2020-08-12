@@ -21,11 +21,21 @@ interface Props {
   handleClose(): void;
   selectedContacts?: number[];
   t(key: string): string;
+  fetchSelectContact(): void;
+  addContactAction(data, callback): void;
 }
 
 export default function SelectContact(props: Props) {
   const classes = useStyles();
-  const { contacts, show, isMobile, handleClose } = props;
+  const {
+    contacts,
+    show,
+    isMobile,
+    handleClose,
+    fetchSelectContact,
+    addContactAction,
+    t,
+  } = props;
 
   const [checked, setPhoneChecked] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
@@ -86,6 +96,10 @@ export default function SelectContact(props: Props) {
       <AddNewContact
         showAddContact={showAddContact}
         onClose={onHiddenAddContact}
+        addContactAction={addContactAction}
+        fetchSelectContact={fetchSelectContact}
+        t={t}
+        isMobile={isMobile}
       />
     </SideBarOutside>
   );

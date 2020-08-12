@@ -1,39 +1,22 @@
-import React, { memo } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import React from 'react';
+import dynamic from 'next/dynamic';
 
-import View from './views/AddNewContactPC';
-import { withTranslation } from '@Server/i18n';
-import { addContactRequestAction } from './stores/actions';
+const ViewSP = dynamic(() => import('./views/AddNewContactSP'));
+const ViewPC = dynamic(() => import('./views/AddNewContactPC'));
 
-import { useInjectSaga } from '@Utils/injectSaga';
-import { useInjectReducer } from '@Utils/injectReducer';
-import saga from './stores/saga';
-import reducer from './stores/reducer';
-import { makeSelectErrors, makeSelectIsRequesting } from './stores/selectors';
-import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
-
-function AddContactContainer(props) {
-  useInjectSaga({ key: 'addNewContact', saga });
-  useInjectReducer({ key: 'addNewContact', reducer });
-  return <View {...props} />;
+interface Props {
+  showAddContact: boolean;
+  onClose(): void;
+  fetchSelectContact(): void;
+  addContactAction(data, callback): void;
+  t(key: string): string;
+  isMobile: boolean;
 }
-
-const mapStateToProps = createStructuredSelector({
-  errors: makeSelectErrors(),
-  isRequesting: makeSelectIsRequesting(),
-});
-const mapDispatchToProps = (dispatch: any) => ({
-  addContactAction: (data, callback) =>
-    dispatch(addContactRequestAction(data, callback)),
-  fetchSelectContact: () => dispatch(getContactListRequestAction()),
-});
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default compose(
-  withConnect,
-  memo,
-  withTranslation(['auth'])
-)(AddContactContainer) as React.ComponentType;
+export default function AddContactContainer(props: Props) {
+  const { isMobile } = props;
+  if (isMobile) {
+    return <ViewSP {...props} />;
+  } else {
+    return <ViewPC {...props} />;
+  }
+}
