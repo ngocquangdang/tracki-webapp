@@ -20,57 +20,29 @@ import { ITracker } from '@Interfaces';
 import {
   linkTrackersRequestAction,
   unlinkTrackersRequestAction,
-  resetSelectedGeofenceAction,
-  saveGeofenceRequestedAction,
   editGeofenceAction,
   removeGeofenceRequestAction,
-  updateGeofence,
   createNewGeofence,
-  updateNewGeofence,
-  createGeofenceRequestAction,
-  resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
-import {
-  getContactListRequestAction,
-  addContactRequestAction,
-} from '@Containers/SingleTracker/store/actions';
+import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
-import { makeSelectLoading } from '@Containers/App/store/selectors';
-import {
-  makeSelectGeofenceIds,
-  makeSelectEditGeofenceId,
-  makeSelectNewGeofence,
-  makeSelectContactList,
-} from '@Containers/Trackers/store/selectors';
-import { IGeofence } from '@Interfaces';
 
 interface Props {
   tracker: ITracker;
-  fences?: object;
-  contacts: object;
   geofences: object;
-  editGeofenceId: number;
   show: boolean;
-  isRequesting: boolean;
   isMobile: boolean;
-  newGeofence: IGeofence;
   onClickBack: () => void;
   t(key: string, format?: object): string;
   unlinkTrackerAction(id: number, trackerIds: number[]): void;
   linkTrackerAction(id: number, trackerIds: number[]): void;
-  resetNewGeofenceAction(): void;
-  saveGeofenceRequestAction(id: number, data: object): void;
   editGeofenceAction(id: number | null): void;
-  createNewGeofenceRequestAction(geofence: object): void;
   createNewGeofence(geofence: object): void;
-  updateNewGeofence(geofence: object): void;
-  updateGeofence(geoId: number, data: object): void;
   removeGeofenceRequestAction(id: number): void;
   changeMapAction(mapAction: string): void;
   getContactListRequestAction(): void;
-  addContactAction(data, callback): void;
   [data: string]: any;
 }
 
@@ -115,7 +87,7 @@ function TrackerGeofencesMobile(props: Props) {
     editGeofenceAction(geoId);
   };
 
-  const onAddContact = () => {
+  const onAddContact = (trackerId: number) => {
     getContactListRequestAction();
   };
 
@@ -236,29 +208,12 @@ const mapDispatchToProps = dispatch => ({
   editGeofenceAction: (id: number) => dispatch(editGeofenceAction(id)),
   removeGeofenceRequestAction: (id: number) =>
     dispatch(removeGeofenceRequestAction(id)),
-  resetSelectedGeofenceAction: () => dispatch(resetSelectedGeofenceAction()),
-  saveGeofenceRequestAction: (geoId: number, data: object) =>
-    dispatch(saveGeofenceRequestedAction(geoId, data)),
   changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
-  updateGeofence: (id: number, data: object) =>
-    dispatch(updateGeofence(id, data)),
   createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
-  createNewGeofenceRequestAction: (geofence: object) =>
-    dispatch(createGeofenceRequestAction(geofence)),
-  updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
-  resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
   getContactListRequestAction: () => dispatch(getContactListRequestAction()),
-  addContactAction: (data, callback) =>
-    dispatch(addContactRequestAction(data, callback)),
 });
 
-const mapStateToProps = createStructuredSelector({
-  isRequesting: makeSelectLoading(),
-  geofenceIds: makeSelectGeofenceIds(),
-  editGeofenceId: makeSelectEditGeofenceId(),
-  newGeofence: makeSelectNewGeofence(),
-  contacts: makeSelectContactList(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
