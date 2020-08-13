@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Container = styled.div`
+interface Props {
+  stepChild: string;
+}
+const Container = styled.div<Props>`
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100%;
   background-color: #f4f5f6;
   @media (max-width: 995.95px) {
-    background: #ffffff;
+    background: ${props => (props.stepChild !== '' ? '#f4f5f6' : '#ffffff')};
   }
 `;
 

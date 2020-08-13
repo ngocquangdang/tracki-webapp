@@ -107,6 +107,8 @@ const useStyles = makeStyles(theme => ({
 const StepperStyle = withStyles(theme => ({
   root: {
     paddingRight: 59,
+    color: 'black',
+    borderRadius: 4,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: 6,
       paddingRight: 15,

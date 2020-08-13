@@ -130,7 +130,7 @@ export default function MainForm(props: any) {
   };
 
   return (
-    <AddTrackerLayout>
+    <AddTrackerLayout stepChild={stepChild}>
       {stepChild !== '' ? (
         renderStep()
       ) : added && !isMobile ? (
@@ -146,11 +146,7 @@ export default function MainForm(props: any) {
             </SubTitle>
           </Header>
           <Content>
-            <StepperStyle
-              activeStep={activeStep}
-              orientation="vertical"
-              style={{ color: 'black' }}
-            >
+            <StepperStyle activeStep={activeStep} orientation="vertical">
               {steps?.map((steps, index) => (
                 <Step key={index}>
                   <LableStyle>
