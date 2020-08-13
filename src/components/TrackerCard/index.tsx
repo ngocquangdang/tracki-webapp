@@ -47,7 +47,7 @@ export default function TrackerCard(props: Props) {
       if (tracker.lat && tracker.lng && window.mapEvents) {
         const option =
           window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
-        const mapOption = window.mapFullWidth ? {} : option;
+        const mapOption = isMobile || window.mapFullWidth ? {} : option;
         window.mapEvents.setFitBounds([tracker], mapOption);
       }
     }

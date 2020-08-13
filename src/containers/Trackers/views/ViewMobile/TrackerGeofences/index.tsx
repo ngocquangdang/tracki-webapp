@@ -3,7 +3,7 @@ import { uniqueId } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Slide, Tabs, Tab, Typography } from '@material-ui/core';
+import { Tabs, Tab, Typography } from '@material-ui/core';
 import { IoIosHelpCircleOutline } from 'react-icons/io';
 import {
   ArrowBackIos as ArrowBackIosIcon,
@@ -12,8 +12,7 @@ import {
 import clsx from 'clsx';
 
 import LinkGeofence from '@Components/LinkGeoFenceCard';
-import AddGeoFence from '@Components/GeofenceListPC/components/AddGeoFence';
-import SelectContact from '../SelectContact';
+import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { GEOFENCE_DEFAULT } from '@Components/GeofenceListPC/constant';
 import { MAP_ACTIONS } from '@Components/Maps/constant';
 import { Button } from '@Components/buttons';
@@ -76,40 +75,27 @@ interface Props {
   [data: string]: any;
 }
 
-function SingleTrackerGeofences(props: Props) {
+function TrackerGeofencesMobile(props: Props) {
   const classes = useStyles();
   const {
     show,
     tracker,
     geofences,
-    isRequesting,
     isMobile,
-    editGeofenceId,
-    newGeofence,
-    contacts,
     t,
     onClickBack,
-    updateGeofence,
-    updateNewGeofence,
-    saveGeofenceRequestAction,
     editGeofenceAction,
-    createNewGeofenceRequestAction,
     removeGeofenceRequestAction,
     changeMapAction,
     createNewGeofence,
-    resetNewGeofenceAction,
     linkTrackerAction,
     unlinkTrackerAction,
     getContactListRequestAction,
-    addContactAction,
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
-  const [showAddGefeoncePanel, setShowAddGeofencePanel] = useState(false);
-  const [showSelectContactPanel, setShowSelectContactPanel] = useState(false);
 
   const onAddFence = () => {
-    setShowAddGeofencePanel(true);
     createNewGeofence({ ...GEOFENCE_DEFAULT, id: uniqueId('new_geo_') });
     changeMapAction(MAP_ACTIONS.CREATE_RECTANGLE);
   };
@@ -126,20 +112,12 @@ function SingleTrackerGeofences(props: Props) {
     linkTrackerAction(geoId, [tracker.device_id]);
   };
 
-  const onClosePanel = () => {
-    setShowAddGeofencePanel(false);
-    editGeofenceAction(null);
-    setShowSelectContactPanel(false);
-  };
-
   const editGeofence = (geoId: number) => {
-    setShowAddGeofencePanel(true);
     editGeofenceAction(geoId);
   };
 
   const onAddContact = () => {
     getContactListRequestAction();
-    setShowSelectContactPanel(true);
   };
 
   const geofenceNotLinkedByTracker = Object.keys(geofences).filter(
@@ -147,7 +125,14 @@ function SingleTrackerGeofences(props: Props) {
   );
 
   return (
-    <Slide direction="right" in={show} mountOnEnter unmountOnExit>
+    <SideBarOutside
+      direction="right"
+      show={show}
+      title={tracker.device_name}
+      isMobile={true}
+      handleClose={onClickBack}
+      trackerUrl={tracker.icon_url || '/images/tracki-device.png'}
+    >
       <div className={classes.container}>
         <div className={classes.header}>
           <Button
@@ -166,21 +151,6 @@ function SingleTrackerGeofences(props: Props) {
           />
         </div>
         <div className={classes.content}>
-          <Tabs
-            value={currentTab}
-            onChange={onChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            className={classes.tabs}
-          >
-            <Tab label="Linked-Fence" value={0} className={classes.tabItem} />
-            <Tab
-              label="Un-Linked Fence"
-              value={1}
-              className={classes.tabItem}
-            />
-          </Tabs>
           <TabPanel value={currentTab} index={0} className={classes.tabPanel}>
             <Typography className={classes.title}>
               {t('tracker:geofence_linked_to', { name: tracker.device_name })}
@@ -232,31 +202,30 @@ function SingleTrackerGeofences(props: Props) {
             </Typography>
           </TabPanel>
         </div>
-        <AddGeoFence
-          show={showAddGefeoncePanel}
-          isMobile={isMobile}
-          isRequesting={isRequesting}
-          selectedGeofence={geofences[editGeofenceId]}
-          newGeofence={newGeofence}
-          t={t}
-          handleClose={onClosePanel}
-          updateNewGeofence={updateNewGeofence}
-          updateGeofence={updateGeofence}
-          changeMapAction={changeMapAction}
-          resetNewGeofenceAction={resetNewGeofenceAction}
-          saveGeofenceRequestAction={saveGeofenceRequestAction}
-          createNewGeofenceRequestAction={createNewGeofenceRequestAction}
-        />
-        <SelectContact
-          handleClose={onClosePanel}
-          show={showSelectContactPanel}
-          isMobile={isMobile}
-          contacts={contacts}
-          t={t}
-          addContactAction={addContactAction}
-        />
+        <Tabs
+          value={currentTab}
+          onChange={onChangeTab}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+          className={classes.tabs}
+          TabIndicatorProps={{ className: classes.indicator }}
+        >
+          <Tab
+            fullWidth
+            label="Linked-Fence"
+            value={0}
+            className={classes.tabItem}
+          />
+          <Tab
+            fullWidth
+            label="Un-Linked Fence"
+            value={1}
+            className={classes.tabItem}
+          />
+        </Tabs>
       </div>
-    </Slide>
+    </SideBarOutside>
   );
 }
 
@@ -294,4 +263,4 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect)(SingleTrackerGeofences);
+export default compose(withConnect)(TrackerGeofencesMobile);

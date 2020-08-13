@@ -8,6 +8,7 @@ import DetailTrackerCard from '@Components/DetailTrackerCard';
 import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 import HistoryTracker from '@Containers/SingleTracker/components/HistoryTracker';
 import ShareLocation from '@Containers/SingleTracker/components/ShareLocation';
+import TrackerGeofences from './TrackerGeofences';
 
 import { Container, ContentCardDetail, MapView } from './styles';
 
@@ -57,6 +58,13 @@ export default function ViewHomeMobile(props: Props) {
               tracker={tracker}
               handleClose={onCloseView}
               isMobile={true}
+            />
+            <TrackerGeofences
+              show={currentView === 'geofenceListView'}
+              onClickBack={onCloseView}
+              geofences={props.geofences}
+              tracker={tracker}
+              t={props.t}
             />
             <HistoryTracker
               handleClose={onCloseView}
