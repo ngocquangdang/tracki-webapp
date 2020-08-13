@@ -33,6 +33,7 @@ interface Props {
   showTrackerName: boolean;
   editGeofenceId: number;
   isBeep: boolean;
+  fullWidth: boolean;
   changeMapAction(action: string): void;
   updateGeofence(id: number, data: object): void;
   updateNewGeofence(geo: object): void;
