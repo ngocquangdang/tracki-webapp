@@ -6,7 +6,7 @@ import TabPanel from '../TabPanel';
 import SingleView from '../SingleView';
 import TrackersSelected from '../MultiView/TrackersSelected';
 import { useStyles } from './styles';
-// import TrackerCar
+import HeatMap from '../HeatMap';
 
 interface Props {
   isMobile: boolean;
@@ -16,6 +16,7 @@ interface Props {
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
+  getHistoryTracker(data: object): void;
 }
 
 const TAB_KEYS = ['single_view', 'heat_map', 'multi_view', 'multi_screen'];
@@ -28,6 +29,7 @@ export default function TabsPC(props: Props) {
     t,
     changeTrackingView,
     changeTrackersTracking,
+    getHistoryTracker,
   } = props;
 
   const classes = useStyles();
@@ -70,7 +72,15 @@ export default function TabsPC(props: Props) {
         />
       )}
       <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
-        Comming soon...
+        <HeatMap
+          t={t}
+          isMobile={isMobile}
+          trackers={trackers}
+          trackingIds={trackingIds}
+          changeTrackersTracking={changeTrackersTracking}
+          getHistoryTracker={getHistoryTracker}
+          currentTab={currentTab}
+        />
       </TabPanel>
       <TabPanel value={currentTab} index={3} className={classes.tabPanel}>
         <TrackersSelected
