@@ -24,6 +24,7 @@ function AddGeoFence(props: Props) {
       direction="right"
       handleClose={onClose}
       isMobile={isMobile || false}
+      hasHeader={false}
     >
       <div
         className={clsx(classes.container, {

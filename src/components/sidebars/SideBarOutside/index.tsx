@@ -27,6 +27,7 @@ interface Props {
   children: any;
   isMobile: boolean;
   show: boolean;
+  hasHeader?: boolean;
   direction?: 'left' | 'right' | 'down' | 'up';
   isLogo?: boolean;
 }
@@ -44,6 +45,7 @@ export default function SideBarOut(props: Props) {
     show,
     direction,
     isLogo,
+    hasHeader = true,
   } = props;
 
   function capitalizeFirstLetter(string: string) {
@@ -56,52 +58,54 @@ export default function SideBarOut(props: Props) {
     <Slide in={show} direction={direction || 'left'} mountOnEnter unmountOnExit>
       <MenuWrap isMobile={isMobile}>
         <WrapDisabled isMobile={isMobile}>
-          <MenuHeader isMobile={isMobile}>
-            {isMobile || isBackable ? (
-              <WrapTitle>
-                <ArrowBackIosIcon
-                  className={classes.iconBack}
-                  onClick={handleClose}
-                />
-                {trackerUrl && (
-                  <div className={classes.trackerWrap}>
+          {hasHeader && (
+            <MenuHeader isMobile={isMobile}>
+              {isMobile || isBackable ? (
+                <WrapTitle>
+                  <ArrowBackIosIcon
+                    className={classes.iconBack}
+                    onClick={handleClose}
+                  />
+                  {trackerUrl && (
+                    <div className={classes.trackerWrap}>
+                      <Logo
+                        src={trackerUrl}
+                        className={classes.trackerImg}
+                        alt=""
+                      />
+                    </div>
+                  )}
+                  <TitleMobile>
+                    {capitalizeFirstLetter(title)} {button}
+                  </TitleMobile>
+                </WrapTitle>
+              ) : (
+                <Title>
+                  {capitalizeFirstLetter(title)} {button}
+                </Title>
+              )}
+              {isMobile ? (
+                isLogo ? (
+                  <Link href="/">
                     <Logo
-                      src={trackerUrl}
-                      className={classes.trackerImg}
+                      src="/images/logo.png"
+                      className={classes.logo}
                       alt=""
                     />
-                  </div>
-                )}
-                <TitleMobile>
-                  {capitalizeFirstLetter(title)} {button}
-                </TitleMobile>
-              </WrapTitle>
-            ) : (
-              <Title>
-                {capitalizeFirstLetter(title)} {button}
-              </Title>
-            )}
-            {isMobile ? (
-              isLogo ? (
-                <Link href="/">
-                  <Logo
-                    src="/images/logo.png"
-                    className={classes.logo}
-                    alt=""
-                  />
-                </Link>
+                  </Link>
+                ) : (
+                  <ButtonSave>
+                    <DoneIcon className={classes.iconSave} />
+                    <TextSave>Save</TextSave>
+                  </ButtonSave>
+                )
               ) : (
-                <ButtonSave>
-                  <DoneIcon className={classes.iconSave} />
-                  <TextSave>Save</TextSave>
-                </ButtonSave>
-              )
-            ) : (
-              <ButtonClose onClick={handleClose}>
-                <GrFormClose className={classes.buttonClose} />
-              </ButtonClose>
-            )}
-          </MenuHeader>
+                <ButtonClose onClick={handleClose}>
+                  <GrFormClose className={classes.buttonClose} />
+                </ButtonClose>
+              )}
+            </MenuHeader>
+          )}
           {children}
         </WrapDisabled>
       </MenuWrap>
