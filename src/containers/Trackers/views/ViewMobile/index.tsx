@@ -51,28 +51,28 @@ export default function ViewHomeMobile(props: Props) {
                 t={props.t}
               />
             </ContentCardDetail>
+            <SettingTracker
+              t={props.t}
+              show={currentView === 'settingsView'}
+              tracker={tracker}
+              handleClose={onCloseView}
+              isMobile={true}
+            />
+            <HistoryTracker
+              handleClose={onCloseView}
+              t={props.t}
+              show={currentView === 'historyView'}
+              isMobile={true}
+              onClickViewHistory={handleClickViewHistory}
+            />
+            <ShareLocation
+              handleClose={onCloseView}
+              t={props.t}
+              show={currentView === 'shareLocationView'}
+              isMobile={true}
+            />
           </React.Fragment>
         )}
-        <SettingTracker
-          t={props.t}
-          show={currentView === 'settingsView'}
-          tracker={tracker}
-          handleClose={onCloseView}
-          isMobile={true}
-        />
-        <HistoryTracker
-          handleClose={onCloseView}
-          t={props.t}
-          show={currentView === 'historyView'}
-          isMobile={true}
-          onClickViewHistory={handleClickViewHistory}
-        />
-        <ShareLocation
-          handleClose={onCloseView}
-          t={props.t}
-          show={currentView === 'shareLocationView'}
-          isMobile={true}
-        />
       </MapView>
     </Container>
   );
