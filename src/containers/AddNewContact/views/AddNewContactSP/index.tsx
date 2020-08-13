@@ -12,22 +12,20 @@ export default function AddNewContactSP(props) {
 
   const [type, setChangeType] = useState('EMAIL');
 
-  const onChangeType = value => setChangeType(value);
+  const onChangeType = e => setChangeType(e.target.value);
 
   const onShowForm = () => {
-    switch (type) {
-      case 'PHONE':
-        return <SMSForm t={t} type={type} {...props} onClose={onClose} />;
-      default:
-        return <EmailForm t={t} type={type} {...props} onClose={onClose} />;
+    if (type === 'PHONE') {
+      return <SMSForm type={type} {...props} onClose={onClose} />;
     }
+    return <EmailForm type={type} {...props} onClose={onClose} />;
   };
 
   return (
     <SideBarOutside
       title="Add new Contact"
       show={showAddContact}
-      direction="right"
+      direction="left"
       handleClose={onClose}
       isMobile={isMobile}
       isLogo={true}
@@ -37,7 +35,7 @@ export default function AddNewContactSP(props) {
           <Typography>{t('auth:select_type')}</Typography>
           <RadioGroup
             value={type}
-            onChange={e => onChangeType(e.target.value)}
+            onChange={onChangeType}
             style={{ flexDirection: 'column' }}
           >
             <FormControlLabel

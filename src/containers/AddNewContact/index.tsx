@@ -8,14 +8,15 @@ interface Props {
   showAddContact: boolean;
   onClose(): void;
   addContactAction(data, callback): void;
-  t(key: string): string;
+  t(key: string, format?: object): string;
   isMobile: boolean;
+  [data: string]: any;
 }
+
 export default function AddContactContainer(props: Props) {
   const { isMobile } = props;
   if (isMobile) {
     return <ViewSP {...props} />;
-  } else {
-    return <ViewPC {...props} />;
   }
+  return <ViewPC {...props} />;
 }

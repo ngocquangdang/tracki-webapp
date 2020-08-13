@@ -208,6 +208,7 @@ function TrackerGeofencesMobile(props: Props) {
         </div>
       </Slide>
       <ContactList
+        t={props.t}
         show={showContactList}
         onClose={onCloseContactList}
         selectedTrackerId={selectedTrackerId}
