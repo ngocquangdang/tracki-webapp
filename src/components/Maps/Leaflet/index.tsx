@@ -106,7 +106,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   onClickTracker = (id: string | number) => {
     const { onClickMarker, openSideBar } = this.props;
     openSideBar && openSideBar();
-    onClickMarker(id);
+    onClickMarker && onClickMarker(id);
   };
 
   fitBoundTrackers = (isReset: boolean) => {

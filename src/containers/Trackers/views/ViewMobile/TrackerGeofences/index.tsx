@@ -25,9 +25,9 @@ import {
   createNewGeofence,
 } from '@Containers/Trackers/store/actions';
 import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
-import { useStyles } from './styles';
-
 import { changeMapAction } from '@Containers/App/store/actions';
+import ContactList from '../ContactList';
+import { useStyles } from './styles';
 
 interface Props {
   tracker: ITracker;
@@ -65,6 +65,10 @@ function TrackerGeofencesMobile(props: Props) {
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
+  const [showContactList, setShowContactList] = useState(false);
+  const [selectedTrackerId, setSelectedTrackerId] = useState<number | null>(
+    null
+  );
 
   const onAddFence = () => {
     createNewGeofence({ ...GEOFENCE_DEFAULT, id: uniqueId('new_geo_') });
@@ -89,6 +93,13 @@ function TrackerGeofencesMobile(props: Props) {
 
   const onAddContact = (trackerId: number) => {
     getContactListRequestAction();
+    setSelectedTrackerId(trackerId);
+    setShowContactList(true);
+  };
+
+  const onCloseContactList = () => {
+    setSelectedTrackerId(null);
+    setShowContactList(false);
   };
 
   const geofenceNotLinkedByTracker = Object.keys(geofences).filter(
@@ -96,107 +107,112 @@ function TrackerGeofencesMobile(props: Props) {
   );
 
   return (
-    <Slide direction="right" in={show} mountOnEnter unmountOnExit>
-      <div className={classes.container}>
-        <div className={classes.header}>
-          <div className={classes.headerLeft}>
-            <IconButton onClick={onClickBack} className={classes.iconBtn}>
-              <ArrowBackIosIcon className={classes.iconBack} />
-            </IconButton>
-            <div className={classes.imgWrap}>
-              <img
-                src={tracker.icon_url || '/images/tracki-device.png'}
-                alt=""
-              />
+    <React.Fragment>
+      <Slide direction="right" in={show} mountOnEnter unmountOnExit>
+        <div className={classes.container}>
+          <div className={classes.header}>
+            <div className={classes.headerLeft}>
+              <IconButton onClick={onClickBack} className={classes.iconBtn}>
+                <ArrowBackIosIcon className={classes.iconBack} />
+              </IconButton>
+              <div className={classes.imgWrap}>
+                <img
+                  src={tracker.icon_url || '/images/tracki-device.png'}
+                  alt=""
+                />
+              </div>
+              <Typography className={classes.textBtn}>
+                {tracker.device_name}
+              </Typography>
             </div>
-            <Typography className={classes.textBtn}>
-              {tracker.device_name}
-            </Typography>
+            <Button
+              text="Fence"
+              color="secondary"
+              className={clsx(classes.headBtn, classes.addBtn)}
+              onClick={onAddFence}
+              startIcon={<AddIcon className={classes.iconAdd} />}
+            />
           </div>
-          <Button
-            text="Fence"
-            color="secondary"
-            className={clsx(classes.headBtn, classes.addBtn)}
-            onClick={onAddFence}
-            startIcon={<AddIcon className={classes.iconAdd} />}
-          />
+          <div className={classes.content}>
+            <TabPanel value={currentTab} index={0} className={classes.tabPanel}>
+              <Typography className={classes.title}>
+                {t('tracker:geofence_linked_to', { name: tracker.device_name })}
+                <IoIosHelpCircleOutline className={classes.helpIcon} />
+              </Typography>
+              <div className={classes.geoList}>
+                {(tracker.geozones || []).map(id => (
+                  <LinkGeofence
+                    key={id}
+                    t={t}
+                    isLinked={true}
+                    isMobile={isMobile}
+                    geofence={geofences[id]}
+                    addContact={onAddContact}
+                    unLinkGeofence={unlinkTrackers}
+                    editGeofence={editGeofence}
+                    removeGeofence={removeGeofenceRequestAction}
+                  />
+                ))}
+              </div>
+              <Typography className={classes.subtitle}>
+                {t('tracker:link_fence_description')}
+              </Typography>
+            </TabPanel>
+            <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
+              <Typography className={classes.title}>
+                {t('tracker:unlinked_geofence')}
+                <IoIosHelpCircleOutline className={classes.helpIcon} />
+              </Typography>
+              <div className={classes.geoList}>
+                {geofenceNotLinkedByTracker.map(id => (
+                  <LinkGeofence
+                    key={id}
+                    t={t}
+                    isMobile={isMobile}
+                    geofence={geofences[id]}
+                    addContact={onAddContact}
+                    isLinked={false}
+                    linkGeofence={linkTrackers}
+                    editGeofence={editGeofence}
+                    removeGeofence={removeGeofenceRequestAction}
+                  />
+                ))}
+              </div>
+              <Typography className={classes.subtitle}>
+                {t('tracker:unlinked_geofence_description')}
+              </Typography>
+            </TabPanel>
+          </div>
+          <Tabs
+            value={currentTab}
+            onChange={onChangeTab}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+            className={classes.tabs}
+            TabIndicatorProps={{ className: classes.indicator }}
+          >
+            <Tab
+              fullWidth
+              label="Linked Fence"
+              value={0}
+              className={classes.tabItem}
+            />
+            <Tab
+              fullWidth
+              label="Un-Linked Fence"
+              value={1}
+              className={classes.tabItem}
+            />
+          </Tabs>
         </div>
-        <div className={classes.content}>
-          <TabPanel value={currentTab} index={0} className={classes.tabPanel}>
-            <Typography className={classes.title}>
-              {t('tracker:geofence_linked_to', { name: tracker.device_name })}
-              <IoIosHelpCircleOutline className={classes.helpIcon} />
-            </Typography>
-            <div className={classes.geoList}>
-              {(tracker.geozones || []).map(id => (
-                <LinkGeofence
-                  key={id}
-                  t={t}
-                  isLinked={true}
-                  isMobile={isMobile}
-                  geofence={geofences[id]}
-                  addContact={onAddContact}
-                  unLinkGeofence={unlinkTrackers}
-                  editGeofence={editGeofence}
-                  removeGeofence={removeGeofenceRequestAction}
-                />
-              ))}
-            </div>
-            <Typography className={classes.subtitle}>
-              {t('tracker:link_fence_description')}
-            </Typography>
-          </TabPanel>
-          <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
-            <Typography className={classes.title}>
-              {t('tracker:unlinked_geofence')}
-              <IoIosHelpCircleOutline className={classes.helpIcon} />
-            </Typography>
-            <div className={classes.geoList}>
-              {geofenceNotLinkedByTracker.map(id => (
-                <LinkGeofence
-                  key={id}
-                  t={t}
-                  isMobile={isMobile}
-                  geofence={geofences[id]}
-                  addContact={(id: number) => {
-                    console.log('addContact:::::', id);
-                  }}
-                  isLinked={false}
-                  linkGeofence={linkTrackers}
-                  editGeofence={editGeofence}
-                  removeGeofence={removeGeofenceRequestAction}
-                />
-              ))}
-            </div>
-            <Typography className={classes.subtitle}>
-              {t('tracker:unlinked_geofence_description')}
-            </Typography>
-          </TabPanel>
-        </div>
-        <Tabs
-          value={currentTab}
-          onChange={onChangeTab}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-          className={classes.tabs}
-          TabIndicatorProps={{ className: classes.indicator }}
-        >
-          <Tab
-            fullWidth
-            label="Linked Fence"
-            value={0}
-            className={classes.tabItem}
-          />
-          <Tab
-            fullWidth
-            label="Un-Linked Fence"
-            value={1}
-            className={classes.tabItem}
-          />
-        </Tabs>
-      </div>
-    </Slide>
+      </Slide>
+      <ContactList
+        show={showContactList}
+        onClose={onCloseContactList}
+        selectedTrackerId={selectedTrackerId}
+      />
+    </React.Fragment>
   );
 }
 
