@@ -64,6 +64,7 @@ export default function ViewHomeMobile(props: Props) {
               onClickBack={onCloseView}
               geofences={props.geofences}
               tracker={tracker}
+              isMobile={true}
               t={props.t}
             />
             <HistoryTracker

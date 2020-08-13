@@ -3,7 +3,7 @@ import { uniqueId } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Tabs, Tab, Typography } from '@material-ui/core';
+import { Slide, Tabs, Tab, Typography, IconButton } from '@material-ui/core';
 import { IoIosHelpCircleOutline } from 'react-icons/io';
 import {
   ArrowBackIos as ArrowBackIosIcon,
@@ -12,7 +12,6 @@ import {
 import clsx from 'clsx';
 
 import LinkGeofence from '@Components/LinkGeoFenceCard';
-import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { GEOFENCE_DEFAULT } from '@Components/GeofenceListPC/constant';
 import { MAP_ACTIONS } from '@Components/Maps/constant';
 import { Button } from '@Components/buttons';
@@ -125,29 +124,29 @@ function TrackerGeofencesMobile(props: Props) {
   );
 
   return (
-    <SideBarOutside
-      direction="right"
-      show={show}
-      title={tracker.device_name}
-      isMobile={true}
-      handleClose={onClickBack}
-      trackerUrl={tracker.icon_url || '/images/tracki-device.png'}
-    >
+    <Slide direction="right" in={show} mountOnEnter unmountOnExit>
       <div className={classes.container}>
         <div className={classes.header}>
-          <Button
-            text="Back"
-            onClick={onClickBack}
-            className={clsx(classes.headBtn, classes.backBtn)}
-            startIcon={<ArrowBackIosIcon className={classes.iconBack} />}
-          />
+          <div className={classes.headerLeft}>
+            <IconButton onClick={onClickBack} className={classes.iconBtn}>
+              <ArrowBackIosIcon className={classes.iconBack} />
+            </IconButton>
+            <div className={classes.imgWrap}>
+              <img
+                src={tracker.icon_url || '/images/tracki-device.png'}
+                alt=""
+              />
+            </div>
+            <Typography className={classes.textBtn}>
+              {tracker.device_name}
+            </Typography>
+          </div>
           <Button
             text="Fence"
-            color="primary"
-            variant="outlined"
-            className={clsx(classes.headBtn)}
+            color="secondary"
+            className={clsx(classes.headBtn, classes.addBtn)}
             onClick={onAddFence}
-            startIcon={<AddIcon className={classes.iconBack} />}
+            startIcon={<AddIcon className={classes.iconAdd} />}
           />
         </div>
         <div className={classes.content}>
@@ -213,7 +212,7 @@ function TrackerGeofencesMobile(props: Props) {
         >
           <Tab
             fullWidth
-            label="Linked-Fence"
+            label="Linked Fence"
             value={0}
             className={classes.tabItem}
           />
@@ -225,7 +224,7 @@ function TrackerGeofencesMobile(props: Props) {
           />
         </Tabs>
       </div>
-    </SideBarOutside>
+    </Slide>
   );
 }
 
