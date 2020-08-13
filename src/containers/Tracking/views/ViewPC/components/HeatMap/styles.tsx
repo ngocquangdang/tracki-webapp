@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
   },
   list: {
-    maxHeight: 'calc(100% - 260px)',
+    maxHeight: 'calc(100% - 370px)',
     overflowY: 'auto',
   },
   trackeItem: {
