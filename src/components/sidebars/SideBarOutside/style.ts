@@ -10,7 +10,7 @@ const MenuWrap = styled.div`
   height: 100%;
   position: fixed;
   top: 0;
-  z-index: 401;
+  z-index: 404;
   left: 0;
 `;
 const MenuHeader = styled.div`
@@ -105,6 +105,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '90.5px',
     height: '26px',
     marginRight: '15px',
+  },
+  trackerWrap: {
+    backgroundColor: theme.palette.primary.main,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    padding: '10px 8px',
+  },
+  trackerImg: {
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%',
   },
 }));
 

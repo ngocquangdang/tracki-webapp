@@ -14,6 +14,7 @@ import clsx from 'clsx';
 
 import ConfirmPanel from '../DeleteConfirm';
 import AddGeoFenceToDevice from '../AddGeoFenceToDevice';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { useStyles, Image, Status, ListItemStyle } from './styles';
 
 interface Props {
@@ -56,8 +57,14 @@ export default function GeofenceCard(props: Props) {
   };
 
   const gotoGeofence = () => {
-    window.geosDrawn[geofence.id] &&
-      window.mapEvents.setFitBounds(window.geosDrawn[geofence.id].getBounds());
+    const options = window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+    setTimeout(() => {
+      window.geosDrawn[geofence.id] &&
+        window.mapEvents.setFitBounds(
+          window.geosDrawn[geofence.id].getBounds(),
+          window.mapFullWidth ? {} : options
+        );
+    }, 300);
   };
 
   const onSelectGeofence = () => {

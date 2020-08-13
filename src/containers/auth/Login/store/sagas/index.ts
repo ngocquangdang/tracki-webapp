@@ -1,6 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-// import toast from '@Utils/notification';
 import { ActionType } from '@Interfaces/index';
 import AxiosClient from '@Utils/axios';
 import CookieInstance from '@Utils/cookie';
@@ -31,9 +30,6 @@ function* loginSaga(action: ActionType) {
         {}
       ),
     };
-    // if (data.message_key === 'exception_user_nameNotFound') {
-    //   toast.error(data.message);
-    // }
     yield put(loginFailAction(payload));
   }
 }

@@ -13,17 +13,16 @@ interface StyleProps {
 
 const useStyles = makeStyles(() => ({
   paper: {
-    height: 56,
+    height: '100%',
     width: '100%',
-    borderRadius: 3,
-    border: 'solid 1px rgba(0,0,0,.04)',
-    boxShadow:
-      '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
   },
   active: {
     borderLeftWidth: 3,
     borderLeftColor: ACTIVE_COLOR,
     borderLeftStyle: 'solid',
+  },
+  listItemAvt: {
+    minWidth: 50,
   },
   avatar: {
     backgroundColor: BG_COLOR,
@@ -56,6 +55,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: 300,
     margin: 0,
     padding: 0,
+    height: 56,
     minWidth: 56,
     '& span': {
       display: 'block',
@@ -66,7 +66,33 @@ const useStyles = makeStyles(() => ({
       height: 20,
     },
   },
-
+  moreContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: 56,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.25)',
+    border: 'solid 1px #f7f7f7',
+    display: 'flex',
+    left: 0,
+  },
+  moreLeft: {
+    height: 56,
+  },
+  moreRight: {
+    backgroundColor: '#f5f5f5',
+    width: '100%',
+  },
+  moreActionBtn: {
+    color: '#1a1a1a',
+    width: '50%',
+    maxWidth: '50%',
+    height: 56,
+    fontSize: 12,
+    lineHeight: '14px',
+    fontWeight: 300,
+  },
   menuRoot: {
     paddingTop: 0,
   },
@@ -94,6 +120,15 @@ const ListItemStyle = withStyles(() => ({
   root: {
     cursor: 'default',
     height: 56,
+    paddingLeft: 10,
+    marginBottom: 10,
+  },
+  container: {
+    height: 56,
+    width: '100%',
+    borderRadius: 4,
+    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.25)',
+    border: 'solid 1px #f7f7f7',
     marginBottom: 10,
   },
 }))(ListItem);

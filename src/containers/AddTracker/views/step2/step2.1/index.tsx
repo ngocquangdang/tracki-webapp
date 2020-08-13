@@ -1,18 +1,24 @@
 import React from 'react';
+import moment from 'moment-timezone';
 
-import PaymentConfrim from '@Components/PaymentConfirm';
+import PaymentConfirm from '@Components/PaymentConfirm';
 
-export default function PaymentConfrimContainer(props: any) {
-  const { t, nextStep } = props;
+interface Props {
+  t(key: string): string;
+  nextStep(): void;
+  formData: any;
+}
+export default function PaymentConfirmContainer(props: Props) {
+  const { t, nextStep, formData } = props;
   return (
-    <PaymentConfrim
+    <PaymentConfirm
       t={t}
-      today={'March 27, 2020'}
-      device_id={12123}
-      price={12.12}
+      today={moment().tz('America/Los_Angeles').format('LLL z')}
+      device_id={formData.device_id}
+      price={formData.selectedPlan.name}
       activation_date={'March 27, 2020'}
       subscription_expiration={'March 27, 2020'}
-      type_payment="Paypal"
+      type_payment={formData.creditCard.type}
       nextStep={nextStep}
     />
   );

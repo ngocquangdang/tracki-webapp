@@ -15,6 +15,9 @@ const Typography = styled.span`
   @media (max-width: 995.95px) {
     font-size: 14px;
   }
+  @media (max-width: 374.95px) {
+    font-size: 13px;
+  }
 `;
 const Image = styled.div`
   @media (max-width: 995.95px) {
@@ -65,7 +68,19 @@ const Paner = styled.div`
   @media (max-width: 995.95px) {
     height: 20px;
   }
+  @media (max-width: 374.95px) {
+    height: 20px;
+    top: 10px;
+    right: -55px;
+  }
 `;
+const Text = styled.p`
+  font-size: 16px;
+  @media (max-width: 995.95px) {
+    font-size: 13px;
+  }
+`;
+
 const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#168449',
@@ -82,6 +97,9 @@ const useStyles = makeStyles(theme => ({
         height: 20,
         margin: 0,
       },
+    },
+    [theme.breakpoints.down(374.95)]: {
+      fontSize: 13,
     },
   },
   headerCard: {
@@ -134,6 +152,7 @@ export {
   CardDescription,
   Lable,
   Letter,
+  Text,
   PlanList,
   PlanItem,
   Paner,

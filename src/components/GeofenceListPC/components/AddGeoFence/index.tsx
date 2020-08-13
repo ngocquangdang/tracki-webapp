@@ -40,12 +40,6 @@ interface Props {
 
 const GEO_SHAPE = ['rectangle', 'circle', 'polygon'];
 
-declare global {
-  interface Window {
-    geosDrawn: object;
-  }
-}
-
 function AddGeoFence(props: Props) {
   const classes = useStyles();
   const {
@@ -89,7 +83,7 @@ function AddGeoFence(props: Props) {
   const removeGeofence = (id: number) => {
     if (window.geosDrawn[id]) {
       window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
-      window.geosDrawn[id] = null;
+      delete window.geosDrawn[id];
     }
   };
 

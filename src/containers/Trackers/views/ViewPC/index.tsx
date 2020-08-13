@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
 
 import { SideBarInnerPC } from '@Components/sidebars';
@@ -6,6 +6,7 @@ import Map from '@Components/Maps';
 import SingleTracker from '@Containers/SingleTracker';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from '../Tabs';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 import { Container, MapView } from './styles';
 
@@ -25,20 +26,18 @@ export default function TrackersContainer(props: any) {
           ({ lat, lng }: any) => !!lat && !!lng
         );
         if (coords.length > 0) {
-          if (window.mapType === 'mapbox') {
-            window.mapEvents.setFitBounds(coords);
-            window.mapEvents.setPadding({ left: 340 });
-          } else {
-            window.mapEvents?.map?.mapApi?.fitBounds(coords, {
-              paddingTopLeft: [440, 0],
-              paddingBottomRight: [100, 0],
-            });
-          }
+          const options =
+            window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+          window.mapEvents.setFitBounds(coords, !isOpenSidebar ? options : {});
         }
       }
     }
     setOpenSidebar(!isOpenSidebar);
   };
+
+  useEffect(() => {
+    window.mapFullWidth = false;
+  }, []);
 
   const openSideBar = () => setOpenSidebar(true);
 
@@ -50,15 +49,9 @@ export default function TrackersContainer(props: any) {
       ({ lat, lng }: any) => !!lat && !!lng
     );
     if (coords.length > 0) {
-      if (window.mapType === 'mapbox') {
-        window.mapEvents.setFitBounds(coords);
-      } else {
-        isOpenSidebar &&
-          window.mapEvents?.map?.mapApi?.fitBounds(coords, {
-            paddingTopLeft: [440, 0],
-            paddingBottomRight: [100, 0],
-          });
-      }
+      const options =
+        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+      window.mapEvents.setFitBounds(coords, isOpenSidebar ? options : {});
     }
   };
 
@@ -76,12 +69,7 @@ export default function TrackersContainer(props: any) {
         )}
       </SideBarInnerPC>
       <MapView>
-        <Map
-          mapType="leaflet"
-          fullWidth={!isOpenSidebar}
-          openSideBar={openSideBar}
-          {...rest}
-        />
+        <Map mapType="leaflet" openSideBar={openSideBar} {...rest} />
         <MapToolBars t={rest.t} />
       </MapView>
     </Container>

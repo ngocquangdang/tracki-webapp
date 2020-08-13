@@ -4,6 +4,15 @@ import { ViewPC, ViewMobile } from './views';
 import { MainLayout } from '@Layouts';
 
 interface Props {
+  isMobile: boolean;
+  viewMode: string;
+  trackingIds: number[];
+  trackers: object;
+  changeTrackingView(mode: string): void;
+  changeTrackersTracking(ids: number[]): void;
+  t(key: string, format?: object): string;
+  onResetSelectedTrackerID(): void;
+  getHistoryTracker(data: object): void;
   [data: string]: any;
 }
 

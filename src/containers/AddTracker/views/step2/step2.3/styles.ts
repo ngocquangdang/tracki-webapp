@@ -47,6 +47,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       width: 349,
     },
+    [theme.breakpoints.down(374.95)]: {
+      width: 300,
+    },
   },
   text: {
     fontWeight: 'bold',

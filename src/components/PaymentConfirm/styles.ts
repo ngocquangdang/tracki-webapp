@@ -15,8 +15,11 @@ const Subcription = styled.div`
 const BigTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  text-align: center;
   align-items: center;
+  @media (max-width: 995.95px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 const TitleContent = styled.p`
   font-size: 20px;
@@ -30,6 +33,7 @@ const TitleContent = styled.p`
   margin: 0;
   @media (max-width: 995.95px) {
     font-size: 16px;
+    order: 1;
   }
 `;
 const Date = styled.p`
@@ -44,12 +48,14 @@ const Date = styled.p`
   margin: 0;
   @media (max-width: 995.95px) {
     font-size: 12px;
+    order: 0;
+    margin-bottom: 12px;
   }
 `;
 const Payment = styled.div`
   margin-top: 15px;
   @media (max-width: 995.95px) {
-    padding: 0px 15px 26px;
+    padding: 0px 15px 11px;
   }
 `;
 const SubItem = styled.p`
@@ -79,6 +85,9 @@ const Header = styled.div`
 const Icon = styled.div`
   color: #168449;
   margin-bottom: 19px;
+  @media (max-width: 995.95px) {
+    margin: 52px auto 19px;
+  }
 `;
 const Title = styled.div`
   font-size: 42px;
@@ -115,6 +124,9 @@ const Container = styled.div`
   @media (max-width: 995.95px) {
     max-width: 349px;
   }
+  @media (max-width: 374.95px) {
+    max-width: 300px;
+  }
 `;
 const Footer = styled.div`
   display: flex;
@@ -135,6 +147,9 @@ const useStyles = makeStyles(theme => ({
     width: 400,
     [theme.breakpoints.down('sm')]: {
       width: 349,
+    },
+    [theme.breakpoints.down(374.95)]: {
+      width: 300,
     },
   },
 }));

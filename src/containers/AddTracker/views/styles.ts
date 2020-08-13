@@ -46,13 +46,16 @@ const Header = styled.header`
   justify-content: space-between;
   @media (max-width: 995.95px) {
     padding: 5px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccd0d5;
+    height: 56px;
   }
 `;
 
 const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#1a1a1a',
-    fontSize: 17,
+    fontSize: 16,
     padding: 0,
     '& span svg': {
       fontSize: '36px !important',

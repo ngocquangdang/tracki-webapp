@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import clsx from 'clsx';
 
 import { GoPrimitiveDot } from 'react-icons/go';
 import {
@@ -19,33 +20,50 @@ import {
   ListItemStyle,
 } from './styles';
 import { ITracker } from '@Interfaces';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 interface Props {
   tracker: ITracker;
   isMobile?: boolean;
   isChecked?: boolean;
-  onClickTracker(id: number): void;
+  isTracking?: boolean;
+  onClickTracker?(id: number): void;
+  onClickSetting?: any;
 }
 
 export default function TrackerCard(props: Props) {
   const classes = useStyles();
-  const { tracker, isMobile = false, onClickTracker, isChecked } = props;
+  const {
+    tracker,
+    isMobile = false,
+    onClickTracker,
+    isChecked,
+    onClickSetting,
+  } = props;
 
   const handleClick = () => {
-    onClickTracker(tracker.device_id);
-    if (tracker.lat && tracker.lng) {
-      window.mapEvents.setCenterFlyTo(
-        { lat: tracker.lat, lng: tracker.lng },
-        { speed: 1, zoom: 15 }
-      );
+    if (onClickTracker) {
+      onClickTracker(tracker.device_id);
+      if (tracker.lat && tracker.lng && window.mapEvents) {
+        const option =
+          window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+        const mapOption = isMobile || window.mapFullWidth ? {} : option;
+        window.mapEvents.setFitBounds([tracker], mapOption);
+      }
     }
+  };
+
+  const handleClickSetting = () => {
+    onClickSetting(tracker.device_id);
   };
 
   return (
     <ListItemStyle
       button
       key={tracker.device_id}
-      className={isMobile ? classes.padding : classes.nonePadding}
+      className={clsx(isMobile ? classes.padding : classes.nonePadding, {
+        [classes.noClick]: !onClickTracker,
+      })}
     >
       <Item onClick={handleClick}>
         <ImageWrapper>
@@ -66,7 +84,10 @@ export default function TrackerCard(props: Props) {
         {isChecked ? (
           <DoneIcon className={classes.iconDone} />
         ) : isMobile ? (
-          <SettingsIcon className={classes.iconSetting} />
+          <SettingsIcon
+            className={classes.iconSetting}
+            onClick={handleClickSetting}
+          />
         ) : null}
       </CardDetail>
     </ListItemStyle>

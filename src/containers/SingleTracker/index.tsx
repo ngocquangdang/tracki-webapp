@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import moment from 'moment';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -13,6 +13,7 @@ import {
   Share as ShareIcon,
 } from '@material-ui/icons';
 import Slide from '@material-ui/core/Slide';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useInjectSaga } from '@Utils/injectSaga';
 import saga from './store/sagas';
@@ -21,7 +22,15 @@ import SettingTracker from './components/SettingTracker';
 import {
   makeSelectTrackerSettings,
   makeSelectGeofences,
+  makeSelectTrackerId,
+  makeSelectBeep,
 } from '@Containers/Trackers/store/selectors';
+import {
+  sendBeepRequest,
+  resetBeepAction,
+} from '@Containers/SingleTracker/store/actions';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import {
   Container,
@@ -40,7 +49,7 @@ import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
 import HistoryTracker from './components/HistoryTracker';
 import HistoryTrackerCard from '@Components/HistoryTrackerCard';
-import SendBeep from './components/SendBeep';
+// import SendBeep from './components/SendBeep';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
 
@@ -51,15 +60,40 @@ interface Props {
   onClickBack: () => void;
   t(key: string): string;
   fetchTrackerSettings(id: number): void;
+  onClickSendBeep(data: object): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
+  resetBeep(): void;
+  deviceId: number;
+  isBeep: boolean;
 }
 
 function SingleTracker(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
   const classes = useStyles();
-  const { tracker, onClickBack, t, geofences } = props;
+  const {
+    tracker,
+    isBeep,
+    geofences,
+    onClickBack,
+    t,
+    resetBeep,
+    showSnackbar,
+  } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
-
+  useEffect(() => {
+    if (isBeep) {
+      const timeOut = setTimeout(() => {
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'Send beep is success',
+        });
+        resetBeep();
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+  }, [isBeep, resetBeep, showSnackbar]);
+  // const [loadingBeeo];
   const onCloseChildView = () => {
     updateChildView(null);
   };
@@ -74,6 +108,15 @@ function SingleTracker(props: Props) {
 
   const handleClickNextHistory = () => {
     console.log('next history');
+  };
+
+  const onClickBeepDevice = () => () => {
+    onOpenChildView('beepDevice');
+    props?.onClickSendBeep({
+      beepPeriod: 2,
+      beepType: 1,
+      devices: [props?.deviceId],
+    });
   };
 
   const handleBack = () => {
@@ -135,8 +178,12 @@ function SingleTracker(props: Props) {
                 <TrackerMenuDown>
                   {renderBlock(
                     'Beep Device',
-                    <VolumeUpIcon />,
-                    onOpenChildView('beepDevice')
+                    props.isBeep ? (
+                      <CircularProgress className={classes.iconLoading} />
+                    ) : (
+                      <VolumeUpIcon />
+                    ),
+                    onClickBeepDevice()
                   )}
                   {renderBlock(
                     'Share Location',
@@ -176,13 +223,6 @@ function SingleTracker(props: Props) {
         tracker={tracker}
         t={t}
       />
-      <SendBeep
-        handleClose={onCloseChildView}
-        t={t}
-        show={currentChildView === 'beepDevice'}
-        isMobile={false}
-        tracker={tracker}
-      />
       <ShareLocation
         handleClose={onCloseChildView}
         t={t}
@@ -196,11 +236,16 @@ function SingleTracker(props: Props) {
 const mapDispatchToProps = dispatch => ({
   fetchTrackerSettings: (id: number) =>
     dispatch(fetchTrackerSettingsRequestedAction(id)),
+  onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
+  resetBeep: () => dispatch(resetBeepAction()),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
   geofences: makeSelectGeofences(),
+  deviceId: makeSelectTrackerId(),
+  isBeep: makeSelectBeep(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

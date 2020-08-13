@@ -6,21 +6,33 @@ import MainWrapper from './MainWrapper';
 import HeaderMobile from './Header';
 import Footer from './Footer';
 import { Content, useStyles } from './styles';
+import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 
 interface Props {
   header?: JSX.Element;
   noFooter?: boolean;
   t(key: string): string;
   [data: string]: any;
+  trackers: object;
 }
 
 function MainLayoutMobile(props: Props) {
-  const { header, noFooter, ...rest } = props;
+  const { header, noFooter, trackers, ...rest } = props;
+  const [isSetting, showSetting] = useState(false);
+  const [selectedId, setSelectId] = useState<number | null>(null);
   const classes = useStyles();
   const [openSidebar, setOpenSidebar] = useState(false);
   const handleOpenSideBar = () => setOpenSidebar(!openSidebar);
   const handleCloseSideBar = () => setOpenSidebar(false);
-
+  const onClickSetting = (id: number) => {
+    setOpenSidebar(false);
+    showSetting(true);
+    setSelectId(id);
+  };
+  const handleCloseSetting = () => {
+    showSetting(false);
+    setOpenSidebar(true);
+  };
   return (
     <MainWrapper className={classes.root}>
       <div className={openSidebar ? classes.blurHeader : ''}>
@@ -37,8 +49,20 @@ function MainLayoutMobile(props: Props) {
         open={openSidebar}
         handleOpenSideBar={handleOpenSideBar}
       >
-        <ListTrakerMobile closeSidebar={handleOpenSideBar} />
+        <ListTrakerMobile
+          closeSidebar={handleOpenSideBar}
+          onClickSetting={onClickSetting}
+        />
       </SideBarInnerMobile>
+      {isSetting && trackers && selectedId !== null && (
+        <SettingTracker
+          t={rest.t}
+          show={isSetting}
+          tracker={trackers[selectedId]}
+          handleClose={handleCloseSetting}
+          isMobile={true}
+        />
+      )}
       <div className={openSidebar ? classes.blurHeader : ''}>
         <Content
           className={`${classes.content} ${

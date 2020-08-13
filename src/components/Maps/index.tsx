@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import dynamic from 'next/dynamic';
 
-import { makeSelectMapAction } from '@Containers/App/store/selectors';
+import {
+  makeSelectMapAction,
+  makeSelectShowTrackersName,
+  makeSelectShowGeofences,
+} from '@Containers/App/store/selectors';
 import { changeMapAction } from '@Containers/App/store/actions';
 import {
   updateNewGeofence,
@@ -25,14 +29,26 @@ interface Props {
   trackers: object;
   trackerIds: Array<number>;
   mapTile: string;
-  fullWidth: boolean;
+  showGeofences: boolean;
+  showTrackerName: boolean;
   editGeofenceId: number;
+  isBeep: boolean;
+  fullWidth: boolean;
   changeMapAction(action: string): void;
   updateGeofence(id: number, data: object): void;
   updateNewGeofence(geo: object): void;
   openSideBar(): void;
-  isBeep: boolean;
   [data: string]: any;
+}
+
+declare global {
+  interface Window {
+    mapType: string;
+    mapEvents: any;
+    mapFullWidth: boolean;
+    geosDrawn: object;
+    trackerMarkers: object;
+  }
 }
 
 class Map extends React.Component<Props> {
@@ -75,6 +91,8 @@ const mapStateToProps = createStructuredSelector({
   newGeofence: makeSelectNewGeofence(),
   geofences: makeSelectGeofences(),
   editGeofenceId: makeSelectEditGeofenceId(),
+  showGeofences: makeSelectShowGeofences(),
+  showTrackerName: makeSelectShowTrackersName(),
 });
 
 const mapDispatchToProps = dispatch => ({

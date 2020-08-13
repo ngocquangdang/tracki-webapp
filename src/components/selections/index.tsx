@@ -9,7 +9,7 @@ interface Props {
     content: string;
   }[];
   label: string;
-  value: string;
+  value: string | number;
   name: string;
   onChangeOption(event: string): void;
 }
