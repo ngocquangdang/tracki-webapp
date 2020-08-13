@@ -14,13 +14,16 @@ import { MdPhoneIphone, MdEmail } from 'react-icons/md';
 
 interface Props {
   checked?: boolean;
-  handleChange?(): void;
-  contact?: any;
+  handleChange(value): void;
+  contact: any;
 }
 
 export default function ContactCard(props: Props) {
   const { checked, handleChange, contact } = props;
   const classes = useStyles();
+  const onChecked = e => () => {
+    handleChange(e);
+  };
   return (
     <ListItemStyle button key={contact.id}>
       <Card>
@@ -39,7 +42,7 @@ export default function ContactCard(props: Props) {
         <SelectCard>
           <Checkbox
             checked={checked}
-            onChange={handleChange}
+            onClick={onChecked(contact.id)}
             color="primary"
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />

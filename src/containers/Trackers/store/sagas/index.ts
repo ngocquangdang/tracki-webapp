@@ -54,10 +54,11 @@ function* fetchTrackersSaga(action) {
         fences: {},
         contacts: {},
         contactIds: [],
+        contactAssigneds: {},
+        contactAssignedIds: [],
         settings: {},
       }
     );
-
     yield put(actions.fetchTrackersSucceedAction(tracker));
   } catch (error) {
     const { data = {} } = { ...error };

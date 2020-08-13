@@ -7,10 +7,16 @@ const Container = styled.div`
   width: 100%;
 `;
 
+interface Props {
+  isMultiView: boolean;
+  isFull: boolean;
+}
+
 const MapView = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
+  padding-left: ${(p: Props) => (p.isMultiView && !p.isFull ? '400px' : '0px')};
 `;
 
 export { Container, MapView };

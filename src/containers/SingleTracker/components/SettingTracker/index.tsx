@@ -21,6 +21,8 @@ import {
   makeSelectTrackerSettings,
   makeSelectContactList,
   makeSelectContactIds,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
 } from '@Containers/Trackers/store/selectors';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
@@ -56,6 +58,10 @@ import {
   updateTrackerSettingsRequestedAction,
   getContactListRequestAction,
   searchContactRequestedAction,
+  addContactRequestAction,
+  getContactAssignedRequestedAction,
+  addContactAssignedRequestedAction,
+  removeContactAssignedRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
@@ -68,10 +74,16 @@ interface Props {
   isRequesting?: boolean;
   show: boolean;
   updateSettings(id: number, data: object): void;
-  getContactListRequest(callback): void;
+  getContactListRequest(): void;
   contacts: object;
   contactIds: Array<number>;
   searchContactRequest(v): void;
+  addContactAction(data, callback): void;
+  getContactAssignedRequest(device_id): void;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
+  addContactRequest(data, eventType): void;
+  removeContactRequest(data, eventType): void;
 }
 
 function SettingTracker(props: Props) {
@@ -79,7 +91,7 @@ function SettingTracker(props: Props) {
   const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);
   const [isShowSelectContact, setShowSelectContat] = useState(false);
-
+  const [eventType, setEventype] = useState('');
   const classes = useStyles();
   const {
     handleClose,
@@ -89,11 +101,17 @@ function SettingTracker(props: Props) {
     isMobile,
     isRequesting,
     getContactListRequest,
+    addContactAction,
     contacts,
     contactIds,
     searchContactRequest,
+    getContactAssignedRequest,
+    contactAssigneds,
+    contactAssignedIds,
+    addContactRequest,
+    removeContactRequest,
   } = props;
-  const trackerSettings = settings[tracker.settings_id];
+  const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
     device_id: 0,
@@ -179,12 +197,14 @@ function SettingTracker(props: Props) {
   const onClickImage = () => document.getElementById('imageIcon')?.click();
 
   const handleShowSelectContact = () => {
-    console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
     setShowSelectContat(!isShowSelectContact);
   };
 
-  const onShowSelectContact = () => {
-    getContactListRequest(handleShowSelectContact);
+  const onShowSelectContact = value => {
+    getContactAssignedRequest(infoTracker.device_id);
+    getContactListRequest();
+    setShowSelectContat(!isShowSelectContact);
+    setEventype(value);
   };
 
   return (
@@ -324,7 +344,7 @@ function SettingTracker(props: Props) {
                         className={`${classes.questionIcon} ${classes.speedLimit}`}
                       />
                       <PersonAddIcon
-                        onClick={onShowSelectContact}
+                        onClick={() => onShowSelectContact('speed_limit')}
                         className={`${classes.personAddIcon} ${classes.speedLimit}`}
                       />
                       <Switch
@@ -459,6 +479,13 @@ function SettingTracker(props: Props) {
         contacts={contacts}
         contactIds={contactIds}
         onSearch={searchContactRequest}
+        addContactAction={addContactAction}
+        t={t}
+        contactAssigneds={contactAssigneds}
+        contactAssignedIds={contactAssignedIds}
+        addContactRequest={addContactRequest}
+        removeContactRequest={removeContactRequest}
+        eventTypes={eventType}
       />
     </SideBarOutside>
   );
@@ -469,14 +496,23 @@ const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
   contacts: makeSelectContactList(),
   contactIds: makeSelectContactIds(),
+  contactAssigneds: makeSelectcontactAssigneds(),
+  contactAssignedIds: makeSelectcontactAssignedIds(),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
-  getContactListRequest: callback =>
-    dispatch(getContactListRequestAction(callback)),
+  getContactListRequest: () => dispatch(getContactListRequestAction()),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
+  addContactAction: (data, callback) =>
+    dispatch(addContactRequestAction(data, callback)),
+  getContactAssignedRequest: (device_id: number) =>
+    dispatch(getContactAssignedRequestedAction(device_id)),
+  addContactRequest: (data, eventType) =>
+    dispatch(addContactAssignedRequestedAction(data, eventType)),
+  removeContactRequest: (data, eventType) =>
+    dispatch(removeContactAssignedRequestedAction(data, eventType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

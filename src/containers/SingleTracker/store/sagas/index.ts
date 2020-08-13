@@ -8,7 +8,8 @@ import {
   makeSelectTrackerId,
   makeSelectContactList,
 } from '@Containers/Trackers/store/selectors';
-import notification from '@Utils/notification';
+// import notification from '@Utils/notification';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 function* fetchTrackerSettingsSaga(action) {
   try {
@@ -63,13 +64,17 @@ function* updateTrackerSettingSaga(action) {
       ...data,
     };
     if (data.error || data.message) {
-      notification.error(data.error || data.message);
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
     }
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
 function* getContactListSaga(action) {
-  console.log('function*getContactListSaga -> action', action);
   try {
     const { account_id } = yield select(makeSelectProfile());
     const { data } = yield call(apiServices.getContactList, account_id);
@@ -84,7 +89,7 @@ function* getContactListSaga(action) {
         contactIds: [],
       }
     );
-    yield action.payload.callback();
+
     yield put(actions.getContactListSucceedAction(contacts));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -92,7 +97,12 @@ function* getContactListSaga(action) {
       ...data,
     };
     if (data.error || data.message) {
-      notification.error(data.error || data.message);
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
     }
     yield put(actions.getContactListFailedAction(payload));
   }
@@ -114,7 +124,12 @@ function* activeLinkShareLocationSaga(action) {
       ...data,
     };
     if (data.error || data.message) {
-      notification.error(data.error || data.message);
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
     }
     yield put(actions.generateLinkShareLocationFailed(payload));
   }
@@ -153,6 +168,40 @@ function* sendBeepSaga(action) {
   }
 }
 
+function* getContactAssignedSaga(action) {
+  const { device_id } = action.payload;
+  try {
+    const profile = yield select(makeSelectProfile());
+
+    const { data } = yield call(
+      apiServices.contactAssigned,
+      profile.account_id,
+      device_id
+    );
+    console.log(data);
+    const contactAssigned = data.contactAssignments.reduce(
+      (obj, item) => {
+        obj.contactAssigneds = {
+          ...obj.contactAssigneds,
+          [item.contactId]: item,
+        };
+        obj.contactAssignedIds.push(item.contactId);
+        return obj;
+      },
+      {
+        contactAssigneds: {},
+        contactAssignedIds: [],
+      }
+    );
+    console.log(contactAssigned);
+    yield put(actions.getContactAssignedSucceedAction(contactAssigned));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.getContactAssignedFailedAction(payload));
+  }
+}
+
 function* searchContactsSaga(action) {
   try {
     const contacts = yield select(makeSelectContactList());
@@ -160,6 +209,7 @@ function* searchContactsSaga(action) {
     const newIds = Object.keys(contacts).filter(id =>
       contacts[id].name.toLowerCase().includes(searchKey.toLowerCase())
     );
+    console.log('aaaaaa', newIds);
     yield put(actions.searchContactSucceedAction(newIds));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -168,6 +218,65 @@ function* searchContactsSaga(action) {
   }
 }
 
+function* addContactAssignSaga(action) {
+  const { data, eventType } = action.payload;
+  try {
+    const profile = yield select(makeSelectProfile());
+    const device_id = yield select(makeSelectTrackerId());
+
+    yield call(
+      apiServices.addContactAssign,
+      profile.account_id,
+      device_id,
+      data,
+      eventType
+    );
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.addContactAssignedFailedAction(payload));
+  }
+}
+
+function* removeContactAssignSaga(action) {
+  const { data, eventType } = action.payload;
+  console.log('function*removeContactAssignSaga -> eventType', eventType);
+  console.log('function*removeContactAssignSaga -> data', data);
+
+  try {
+    const profile = yield select(makeSelectProfile());
+    const device_id = yield select(makeSelectTrackerId());
+    console.log('aaaaaaaa');
+    yield call(
+      apiServices.removeContactAssigned,
+      profile.account_id,
+      device_id,
+      data,
+      eventType
+    );
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(actions.removeContactAssignedFailedAction(payload));
+  }
+}
+function* addNewContactSaga(action) {
+  const { data, callback } = action.payload;
+  try {
+    const profile = yield select(makeSelectProfile());
+    yield call(apiServices.createContact, profile.account_id, data);
+    yield put(actions.getContactListRequestAction());
+    yield callback();
+    yield put(actions.addContactSuccesstAction(action.payload));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: { code: data.message },
+    };
+    yield put(actions.addContactFailAction(payload));
+  }
+}
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -188,4 +297,14 @@ export default function* appWatcher() {
   );
   yield takeLatest(types.SEND_BEEP_REQUESTED, sendBeepSaga);
   yield takeLatest(types.SEARCH_CONTACT_REQUESTED, searchContactsSaga);
+  yield takeLatest(
+    types.GET_CONTACT_ASSIGNED_REQUESTED,
+    getContactAssignedSaga
+  );
+  yield takeLatest(types.ADD_CONTACT_ASSIGNED_REQUESTED, addContactAssignSaga);
+  yield takeLatest(
+    types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
+    removeContactAssignSaga
+  );
+  yield takeLatest(types.CREATE_NEW_CONTACT_REQUESTED, addNewContactSaga);
 }

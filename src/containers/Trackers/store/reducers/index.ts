@@ -13,6 +13,8 @@ export const initialState: TrackerDataTypes = {
     contacts: {},
     contactIds: [],
     settings: {},
+    contactAssigneds: {},
+    contactAssignedIs: [],
   },
   geofence: {
     geofences: {},
@@ -174,6 +176,22 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case singleTrackerTypes.RESET_BEEP:
         draft.isBeep = false;
+        break;
+      case singleTrackerTypes.GET_CONTACT_ASSIGNED_REQUESTED:
+      case singleTrackerTypes.ADD_CONTACT_ASSIGNED_REQUESTED:
+      case singleTrackerTypes.REMOVE_CONTACT_ASSIGNED_REQUESTED:
+        draft.errors = null;
+        break;
+      case singleTrackerTypes.GET_CONTACT_ASSIGNED_SUCCESSED:
+      case singleTrackerTypes.ADD_CONTACT_ASSIGNED_SUCCESSED:
+      case singleTrackerTypes.REMOVE_CONTACT_ASSIGNED_SUCCESSED:
+        draft.tracker.contactAssigneds = payload.contactAssigneds;
+        draft.tracker.contactAssignedIds = payload.contactAssignedIds;
+        break;
+      case singleTrackerTypes.GET_CONTACT_ASSIGNED_FAILED:
+      case singleTrackerTypes.ADD_CONTACT_ASSIGNED_FAILED:
+      case singleTrackerTypes.REMOVE_CONTACT_ASSIGNED_FAILED:
+        draft.errors = payload.error;
         break;
       default:
         break;

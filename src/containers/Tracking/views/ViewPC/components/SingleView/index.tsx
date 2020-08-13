@@ -10,13 +10,21 @@ interface Props {
   trackers: object;
   trackingIds: number[];
   isMobile: boolean;
+  currentTab: number;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
 
 export default function SingleView(props: Props) {
-  const { trackers, trackingIds, isMobile, t, changeTrackersTracking } = props;
+  const {
+    trackers,
+    trackingIds,
+    isMobile,
+    currentTab,
+    t,
+    changeTrackersTracking,
+  } = props;
   const classes = useStyles();
   const [isFirstLoading, setIsFirstLoading] = useState(true);
 
@@ -37,8 +45,12 @@ export default function SingleView(props: Props) {
     }
   }, [isFirstLoading, setIsFirstLoading, tracker]);
 
+  useEffect(() => {
+    setIsFirstLoading(true);
+  }, [setIsFirstLoading, currentTab]);
+
   const onSelectTracker = (id: number) => {
-    tracker && window.mapEvents.removeMarker(tracker.device_id);
+    // tracker && window.mapEvents.removeMarker(tracker.device_id);
     changeTrackersTracking([id]);
   };
 

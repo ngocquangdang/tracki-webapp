@@ -10,7 +10,7 @@ const MenuWrap = styled.div`
   height: 100%;
   position: fixed;
   top: 0;
-  z-index: 401;
+  z-index: 403;
   left: 0;
 `;
 const MenuHeader = styled.div`
@@ -25,6 +25,7 @@ const MenuHeader = styled.div`
   z-index: 10;
   width: ${(props: PROPS) => (props.isMobile ? '100%' : '450px')};
   background-color: #fff;
+  color: #1a1a1a;
   border-bottom: ${(props: PROPS) =>
     props.isMobile ? ' 1px solid #e0e0e0' : 'none'};
 `;

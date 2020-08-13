@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Tooltip } from '@material-ui/core';
 import { FaHistory } from 'react-icons/fa';
 import { MdBorderStyle, MdShare } from 'react-icons/md';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { IoMdSettings, IoMdVolumeHigh } from 'react-icons/io';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import clsx from 'clsx';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
+import { useInjectSaga } from '@Utils/injectSaga';
+import saga from '@Containers/SingleTracker/store/sagas';
 import {
   ToolBar,
   MenuItem,
@@ -21,15 +25,40 @@ import ShareLocation from '@Containers/SingleTracker/components/ShareLocation';
 interface Props {
   t(key: string): string;
   tracker: ITracker;
+  resetBeep(): void;
+  isBeep: boolean;
+  onClickSendBeep(data: object): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 export default function BottomToolBar(props: Props) {
-  const { t, tracker } = props;
+  useInjectSaga({ key: 'singleTracker', saga });
+  const {
+    t,
+    tracker,
+    isBeep,
+    resetBeep,
+    onClickSendBeep,
+    showSnackbar,
+  } = props;
   const classes = useStyles();
   const [isActive, setIsActive] = useState(true);
   const [isSetting, showSetting] = useState(false);
   const [isHistory, showHistory] = useState(false);
   const [isShareLocation, setViewShareLocation] = useState(false);
+
+  useEffect(() => {
+    if (isBeep) {
+      const timeOut = setTimeout(() => {
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'Send beep is success',
+        });
+        resetBeep();
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+  }, [isBeep, resetBeep, showSnackbar]);
   const handleClickViewHistory = () => {
     showHistory(false);
   };
@@ -52,6 +81,14 @@ export default function BottomToolBar(props: Props) {
   };
   const onClickShareLocation = () => {
     setViewShareLocation(true);
+  };
+
+  const onClickBeep = () => {
+    onClickSendBeep({
+      beepPeriod: 2,
+      beepType: 1,
+      devices: [tracker.device_id],
+    });
   };
 
   return (
@@ -104,9 +141,16 @@ export default function BottomToolBar(props: Props) {
             History
           </ItemText>
         </MenuItem>
-        <MenuItem className={clsx({ [classes.fullWidth]: !isActive })}>
+        <MenuItem
+          className={clsx({ [classes.fullWidth]: !isActive })}
+          onClick={onClickBeep}
+        >
           <Icon className={classes.menuItemIcon}>
-            <IoMdVolumeHigh className={classes.menuIcon} />
+            {isBeep ? (
+              <CircularProgress className={classes.iconLoading} />
+            ) : (
+              <IoMdVolumeHigh className={classes.menuIcon} />
+            )}
           </Icon>
           <ItemText
             className={clsx(classes.menuText, {

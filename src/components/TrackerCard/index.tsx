@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import clsx from 'clsx';
 
 import { GoPrimitiveDot } from 'react-icons/go';
 import {
@@ -27,27 +28,42 @@ interface Props {
   isChecked?: boolean;
   isTracking?: boolean;
   onClickTracker(id: number): void;
+  onClickSetting?: any;
 }
 
 export default function TrackerCard(props: Props) {
   const classes = useStyles();
-  const { tracker, isMobile = false, onClickTracker, isChecked } = props;
+  const {
+    tracker,
+    isMobile = false,
+    onClickTracker,
+    isChecked,
+    onClickSetting,
+  } = props;
 
   const handleClick = () => {
-    onClickTracker(tracker.device_id);
-    if (tracker.lat && tracker.lng) {
-      const option =
-        window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
-      const mapOption = window.mapFullWidth ? {} : option;
-      window.mapEvents.setFitBounds([tracker], mapOption);
+    if (onClickTracker) {
+      onClickTracker(tracker.device_id);
+      if (tracker.lat && tracker.lng && window.mapEvents) {
+        const option =
+          window.mapType === 'leaflet' ? LEAFLET_PADDING_OPTIONS : {};
+        const mapOption = window.mapFullWidth ? {} : option;
+        window.mapEvents.setFitBounds([tracker], mapOption);
+      }
     }
+  };
+
+  const handleClickSetting = () => {
+    onClickSetting(tracker.device_id);
   };
 
   return (
     <ListItemStyle
       button
       key={tracker.device_id}
-      className={isMobile ? classes.padding : classes.nonePadding}
+      className={clsx(isMobile ? classes.padding : classes.nonePadding, {
+        [classes.noClick]: !onClickTracker,
+      })}
     >
       <Item onClick={handleClick}>
         <ImageWrapper>
@@ -68,7 +84,10 @@ export default function TrackerCard(props: Props) {
         {isChecked ? (
           <DoneIcon className={classes.iconDone} />
         ) : isMobile ? (
-          <SettingsIcon className={classes.iconSetting} />
+          <SettingsIcon
+            className={classes.iconSetting}
+            onClick={handleClickSetting}
+          />
         ) : null}
       </CardDetail>
     </ListItemStyle>

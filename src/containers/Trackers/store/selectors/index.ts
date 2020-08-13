@@ -44,7 +44,10 @@ const makeSelectBeep = () =>
 
 const makeSelectNewGeofence = () =>
   createSelector(globalState, state => state.geofence?.newGeofence);
-
+const makeSelectcontactAssigneds = () =>
+  createSelector(globalState, state => state.tracker?.contactAssigneds);
+const makeSelectcontactAssignedIds = () =>
+  createSelector(globalState, state => state.tracker?.contactAssignedIds);
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -60,4 +63,6 @@ export {
   makeSelectDataLink,
   makeSelectBeep,
   makeSelectNewGeofence,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
 };
