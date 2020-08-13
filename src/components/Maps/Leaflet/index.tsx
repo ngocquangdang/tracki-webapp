@@ -9,6 +9,7 @@ import TrackerMarker from './components/TrackerMarker';
 import UserLocation from './components/UserLocation';
 import DrawTool from './components/DrawTool';
 import Geofences from './components/Geofences';
+import HeatMap from './components/HeatMap';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 const TILE_TOKEN =
@@ -89,10 +90,23 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     Object.keys(trackers).map(id => this.removeMarker(id));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.trackerHistories !== this.props.trackerHistories &&
+      nextProps.trackerHistories?.length > 0
+    ) {
+      const coords = nextProps.trackerHistories;
+      window.mapEvents.setFitBounds(
+        coords,
+        window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS
+      );
+    }
+  }
+
   onClickTracker = (id: string | number) => {
     const { onClickMarker, openSideBar } = this.props;
     openSideBar && openSideBar();
-    onClickMarker(id);
+    onClickMarker && onClickMarker(id);
   };
 
   fitBoundTrackers = (isReset: boolean) => {
@@ -105,7 +119,6 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       const coords = Object.values(trackers).filter(
         ({ lat, lng }) => !!lat && !!lng
       );
-
       if (coords.length > 0) {
         window.mapEvents.setFitBounds(
           coords,
@@ -178,6 +191,8 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       changeMapAction,
       updateNewGeofence,
       updateGeofence,
+      trackerHistories,
+      viewMode,
     } = this.props;
     return (
       <React.Fragment>
@@ -207,6 +222,9 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
             updateNewGeofence={updateNewGeofence}
             updateGeofence={updateGeofence}
           />
+        )}
+        {isInitiatedMap && viewMode === 'heat_map' && (
+          <HeatMap map={this.map} histories={trackerHistories || []} />
         )}
       </React.Fragment>
     );

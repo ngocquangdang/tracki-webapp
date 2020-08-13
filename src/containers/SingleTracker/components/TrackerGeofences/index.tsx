@@ -17,7 +17,7 @@ import AddGeoFence from '@Components/GeofenceListPC/components/AddGeoFence';
 import { GEOFENCE_DEFAULT } from '@Components/GeofenceListPC/constant';
 import { MAP_ACTIONS } from '@Components/Maps/constant';
 import { Button } from '@Components/buttons';
-import TabPanel from './TabPanel';
+import TabPanel from '@Components/TabPanel';
 import { ITracker } from '@Interfaces';
 import {
   linkTrackersRequestAction,
@@ -286,7 +286,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(createGeofenceRequestAction(geofence)),
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
   resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
-  getContactListRequest: () => dispatch(getContactListRequestAction()),
+  getContactListRequestAction: () => dispatch(getContactListRequestAction()),
   addContactAction: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
 });

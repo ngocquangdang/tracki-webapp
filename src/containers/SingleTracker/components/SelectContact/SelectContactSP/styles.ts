@@ -6,7 +6,7 @@ const SelectContactContainer = styled.div`
   height: calc(100% - 56px);
   background: #363640;
   color: #ffffff;
-  overflow: overlay;
+  overflow: auto;
 `;
 const Save = styled.div`
   margin: 10px;

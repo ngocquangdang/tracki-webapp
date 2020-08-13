@@ -17,10 +17,7 @@ import {
   ListItem,
   useStyles,
 } from './styles';
-import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 import { ITracker } from '@Interfaces';
-import HistoryTracker from '@Containers/SingleTracker/components/HistoryTracker';
-import ShareLocation from '@Containers/SingleTracker/components/ShareLocation';
 
 interface Props {
   t(key: string): string;
@@ -28,24 +25,23 @@ interface Props {
   resetBeep(): void;
   isBeep: boolean;
   onClickSendBeep(data: object): void;
+  onChangeView(view: string): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 export default function BottomToolBar(props: Props) {
   useInjectSaga({ key: 'singleTracker', saga });
   const {
-    t,
+    // t,
     tracker,
     isBeep,
     resetBeep,
     onClickSendBeep,
     showSnackbar,
+    onChangeView,
   } = props;
   const classes = useStyles();
-  const [isActive, setIsActive] = useState(true);
-  const [isSetting, showSetting] = useState(false);
-  const [isHistory, showHistory] = useState(false);
-  const [isShareLocation, setViewShareLocation] = useState(false);
+  const [isFullButton, setIsFullButton] = useState(true);
 
   useEffect(() => {
     if (isBeep) {
@@ -59,29 +55,8 @@ export default function BottomToolBar(props: Props) {
       return () => clearTimeout(timeOut);
     }
   }, [isBeep, resetBeep, showSnackbar]);
-  const handleClickViewHistory = () => {
-    showHistory(false);
-  };
-  const handleCloseHistory = () => showHistory(false);
-  const handleClick = () => {
-    setIsActive(!isActive);
-  };
-  const onClickSetting = () => {
-    showSetting(true);
-  };
-  const handleCloseSetting = () => {
-    showSetting(false);
-  };
-  const onClickHistory = () => {
-    showHistory(true);
-  };
 
-  const handleCloseShareLocation = () => {
-    setViewShareLocation(false);
-  };
-  const onClickShareLocation = () => {
-    setViewShareLocation(true);
-  };
+  const toggleFullButton = () => setIsFullButton(!isFullButton);
 
   const onClickBeep = () => {
     onClickSendBeep({
@@ -91,34 +66,34 @@ export default function BottomToolBar(props: Props) {
     });
   };
 
+  const changeView = (view: string) => () => onChangeView(view);
+
   return (
     <ToolBar>
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
         classes={{ root: classes.btnRoot, label: classes.btnLabel }}
-        onClick={handleClick}
+        onClick={toggleFullButton}
       >
-        <>
-          {isActive ? (
-            <FiChevronsRight className={classes.menuRightIcon} />
-          ) : (
-            <FiChevronsLeft className={classes.menuRightIcon} />
-          )}
-        </>
+        {isFullButton ? (
+          <FiChevronsRight className={classes.menuRightIcon} />
+        ) : (
+          <FiChevronsLeft className={classes.menuRightIcon} />
+        )}
       </Button>
-      <ListItem className={clsx({ [classes.isActive]: !isActive })}>
+      <ListItem className={clsx({ [classes.isActive]: !isFullButton })}>
         <Tooltip title="Settings" placement="right">
           <MenuItem
-            className={clsx({ [classes.fullWidth]: !isActive })}
-            onClick={onClickSetting}
+            className={clsx({ [classes.fullWidth]: !isFullButton })}
+            onClick={changeView('settingsView')}
           >
             <Icon className={classes.menuItemIcon}>
               <IoMdSettings className={classes.menuIcon} />
             </Icon>
             <ItemText
               className={clsx(classes.menuText, {
-                [classes.displayText]: !isActive,
+                [classes.displayText]: !isFullButton,
               })}
             >
               Settings
@@ -127,22 +102,22 @@ export default function BottomToolBar(props: Props) {
         </Tooltip>
 
         <MenuItem
-          className={clsx({ [classes.fullWidth]: !isActive })}
-          onClick={onClickHistory}
+          className={clsx({ [classes.fullWidth]: !isFullButton })}
+          onClick={changeView('historyView')}
         >
           <Icon className={classes.menuItemIcon}>
             <FaHistory className={classes.menuIcon} />
           </Icon>
           <ItemText
             className={clsx(classes.menuText, {
-              [classes.displayText]: !isActive,
+              [classes.displayText]: !isFullButton,
             })}
           >
             History
           </ItemText>
         </MenuItem>
         <MenuItem
-          className={clsx({ [classes.fullWidth]: !isActive })}
+          className={clsx({ [classes.fullWidth]: !isFullButton })}
           onClick={onClickBeep}
         >
           <Icon className={classes.menuItemIcon}>
@@ -154,60 +129,43 @@ export default function BottomToolBar(props: Props) {
           </Icon>
           <ItemText
             className={clsx(classes.menuText, {
-              [classes.displayText]: !isActive,
+              [classes.displayText]: !isFullButton,
             })}
           >
             Beep
           </ItemText>
         </MenuItem>
         <MenuItem
-          className={clsx({ [classes.fullWidth]: !isActive })}
-          onClick={onClickShareLocation}
+          className={clsx({ [classes.fullWidth]: !isFullButton })}
+          onClick={changeView('shareLocationView')}
         >
           <Icon className={classes.menuItemIcon}>
             <MdShare className={classes.menuIcon} />
           </Icon>
           <ItemText
             className={clsx(classes.menuText, {
-              [classes.displayText]: !isActive,
+              [classes.displayText]: !isFullButton,
             })}
           >
             Share
           </ItemText>
         </MenuItem>
-        <MenuItem className={clsx({ [classes.fixedWidthChild]: !isActive })}>
+        <MenuItem
+          className={clsx({ [classes.fixedWidthChild]: !isFullButton })}
+          onClick={changeView('geofenceListView')}
+        >
           <Icon className={classes.menuItemIcon}>
             <MdBorderStyle className={classes.menuIcon} />
           </Icon>
           <ItemText
             className={clsx(classes.menuText, {
-              [classes.displayText]: !isActive,
+              [classes.displayText]: !isFullButton,
             })}
           >
             Geo Fence
           </ItemText>
         </MenuItem>
       </ListItem>
-      <SettingTracker
-        t={t}
-        show={isSetting}
-        tracker={tracker}
-        handleClose={handleCloseSetting}
-        isMobile={true}
-      />
-      <HistoryTracker
-        handleClose={handleCloseHistory}
-        t={t}
-        show={isHistory}
-        isMobile={true}
-        onClickViewHistory={handleClickViewHistory}
-      />
-      <ShareLocation
-        handleClose={handleCloseShareLocation}
-        t={t}
-        show={isShareLocation}
-        isMobile={true}
-      />
     </ToolBar>
   );
 }

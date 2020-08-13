@@ -5,10 +5,12 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  Slide,
   ListItemSecondaryAction,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import { IoIosLink } from 'react-icons/io';
+import { Edit, Delete } from '@material-ui/icons';
+import { IoIosLink, IoMdClose } from 'react-icons/io';
 
 import ConfirmPanel from '@Components/GeofenceListPC/components/DeleteConfirm';
 import { IGeofence } from '@Interfaces';
@@ -32,6 +34,7 @@ export default function LinkGeofenceCard(props: Props) {
     null
   );
   const [showConfirm, setShowConfirm] = React.useState(false);
+  const [showMoreAction, setShowMoreAction] = React.useState(false);
   const {
     isMobile,
     geofence,
@@ -86,12 +89,22 @@ export default function LinkGeofenceCard(props: Props) {
     setShowConfirm(false);
   };
 
+  const editClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    isMobile ? setShowMoreAction(true) : openMenu(e);
+  };
+
+  const closeMoreAction = () => setShowMoreAction(false);
+
   const onCloseConfirm = () => setShowConfirm(false);
 
   return (
     <React.Fragment>
-      <ListItemStyle button key={geofence.id} className={clsx(classes.paper)}>
-        <ListItemAvatar>
+      <ListItemStyle
+        button
+        key={geofence.id}
+        className={clsx({ [classes.paper]: !showMoreAction })}
+      >
+        <ListItemAvatar className={classes.listItemAvt}>
           <Avatar className={clsx(classes.avatar)}>
             <Image src={`/images/geo_${geofence.type}.svg`} alt="" />
           </Avatar>
@@ -117,10 +130,43 @@ export default function LinkGeofenceCard(props: Props) {
           <Button
             text={t('tracker:edit')}
             startIcon={<img src="/images/edit.svg" alt="" />}
-            onClick={openMenu}
+            onClick={editClick}
             className={classes.actionBtn}
           />
         </ListItemSecondaryAction>
+        {showMoreAction && (
+          <Slide
+            in={showMoreAction}
+            mountOnEnter
+            unmountOnExit
+            direction="left"
+          >
+            <div className={clsx(classes.moreContainer)}>
+              <div className={classes.moreLeft}>
+                <Button
+                  text={t('tracker:edit')}
+                  startIcon={<IoMdClose />}
+                  onClick={closeMoreAction}
+                  className={classes.actionBtn}
+                />
+              </div>
+              <div className={classes.moreRight}>
+                <Button
+                  text={t('tracker:edit_geofence')}
+                  startIcon={<Edit />}
+                  onClick={onClickEdit}
+                  className={classes.moreActionBtn}
+                />
+                <Button
+                  text={t('tracker:delete_this_fence')}
+                  startIcon={<Delete />}
+                  onClick={deleteGeofence}
+                  className={classes.moreActionBtn}
+                />
+              </div>
+            </div>
+          </Slide>
+        )}
       </ListItemStyle>
       <ConfirmPanel
         t={t}

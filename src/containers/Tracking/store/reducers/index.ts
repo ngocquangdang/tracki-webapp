@@ -7,6 +7,7 @@ export const initialState: TrackingDataTypes = {
   trackingIds: [],
   viewMode: 'single_view',
   errors: null,
+  histories: {},
 };
 
 const trackingReducer = (state = initialState, { type, payload }: ActionType) =>

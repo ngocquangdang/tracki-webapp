@@ -141,7 +141,7 @@ export default function SelectContactSP(props: Props) {
         {intialContactIds?.map(item => (
           <ContactCard
             contact={intialContacts[item]}
-            checked={!checked.find(i => i !== item)}
+            checked={checked.includes(item)}
             handleChange={onChecked}
             key={item}
           />

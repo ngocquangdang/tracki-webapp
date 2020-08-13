@@ -12,6 +12,7 @@ interface Props {
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   onResetSelectedTrackerID(): void;
+  getHistoryTracker(data: object): void;
   [data: string]: any;
 }
 
