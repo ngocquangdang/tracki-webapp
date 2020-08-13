@@ -54,6 +54,7 @@ import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
   getContactListRequestAction,
+  addContactRequestAction,
 } from '@Containers/SingleTracker/store/actions';
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
@@ -68,6 +69,7 @@ interface Props {
   updateSettings(id: number, data: object): void;
   getContactListRequest(): void;
   contacts: object;
+  addContactAction(data, callback): void;
 }
 
 function SettingTracker(props: Props) {
@@ -85,6 +87,7 @@ function SettingTracker(props: Props) {
     isMobile,
     isRequesting,
     getContactListRequest,
+    addContactAction,
     contacts,
   } = props;
   const trackerSettings = settings[tracker?.settings_id];
@@ -444,8 +447,10 @@ function SettingTracker(props: Props) {
       <SelectContact
         handleClose={onShowSelectContact}
         show={isShowSelectContact}
-        isMobile={false}
+        isMobile={isMobile}
         contacts={contacts}
+        t={t}
+        addContactAction={addContactAction}
       />
     </SideBarOutside>
   );
@@ -461,6 +466,8 @@ const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
   getContactListRequest: () => dispatch(getContactListRequestAction()),
+  addContactAction: (data, callback) =>
+    dispatch(addContactRequestAction(data, callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

@@ -93,7 +93,7 @@ class TrackerMarker extends React.Component<Props> {
       tracker: { device_id },
       onClickMarker,
     } = this.props;
-    onClickMarker(device_id);
+    onClickMarker && onClickMarker(device_id);
   };
 
   trackerName = (name: string) => {

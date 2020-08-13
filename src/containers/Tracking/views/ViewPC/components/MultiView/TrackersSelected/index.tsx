@@ -12,7 +12,7 @@ interface Props {
   [data: string]: any;
 }
 
-export default function SingleView(props: Props) {
+export default function TrackerSelected(props: Props) {
   const { trackers, trackingIds, isMobile, t } = props;
   const classes = useStyles();
   const trackerIds = isEmpty(trackingIds)

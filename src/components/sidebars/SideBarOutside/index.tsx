@@ -20,6 +20,7 @@ import Link from 'next/link';
 
 interface Props {
   title: string;
+  trackerUrl?: string;
   button?: JSX.Element;
   isBackable?: boolean;
   handleClose(): void;
@@ -38,6 +39,7 @@ export default function SideBarOut(props: Props) {
     handleClose,
     children,
     isMobile,
+    trackerUrl,
     isBackable,
     show,
     direction,
@@ -61,6 +63,15 @@ export default function SideBarOut(props: Props) {
                   className={classes.iconBack}
                   onClick={handleClose}
                 />
+                {trackerUrl && (
+                  <div className={classes.trackerWrap}>
+                    <Logo
+                      src={trackerUrl}
+                      className={classes.trackerImg}
+                      alt=""
+                    />
+                  </div>
+                )}
                 <TitleMobile>
                   {capitalizeFirstLetter(title)} {button}
                 </TitleMobile>

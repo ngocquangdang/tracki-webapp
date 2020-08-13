@@ -257,7 +257,7 @@ class MapCard extends React.Component<IProps, IState> {
           <UserLocation map={this.map} location={userLocation} />
         )}
         {isInitiatedMap && this.renderMarker()}
-        {isInitiatedMap && mapId !== 'mapStreetView' && (
+        {isInitiatedMap && (
           <MapToolBar
             t={t}
             mapTile={mapStyle}

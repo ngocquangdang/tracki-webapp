@@ -110,7 +110,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   };
 
   fitBoundTrackers = (isReset: boolean) => {
-    const { trackers } = this.props;
+    const { trackers, fullWidth } = this.props;
     if (
       (isReset || !this.isFirstFitBounce) &&
       Object.values(trackers).length > 0
@@ -122,7 +122,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       if (coords.length > 0) {
         window.mapEvents.setFitBounds(
           coords,
-          window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS
+          fullWidth || window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS
         );
       }
     }

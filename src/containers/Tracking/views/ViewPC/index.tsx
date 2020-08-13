@@ -45,7 +45,7 @@ export default function TrackingContainer(props: Props) {
         <Tabs {...rest} />
       </SideBarInnerPC>
       <MapView isMultiView={isMultiView} isFull={!isOpenSidebar}>
-        {(rest.viewMode === 'single_view' || rest.viewMode === 'heat_map') && (
+        {!isMultiView && (
           <React.Fragment>
             <Map
               mapType="leaflet"

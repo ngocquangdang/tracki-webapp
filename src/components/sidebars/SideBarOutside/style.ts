@@ -106,6 +106,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '26px',
     marginRight: '15px',
   },
+  trackerWrap: {
+    backgroundColor: theme.palette.primary.main,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    padding: '10px 8px',
+  },
+  trackerImg: {
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%',
+  },
 }));
 
 export {
