@@ -13,6 +13,7 @@ import TrackerGeofences from './TrackerGeofences';
 import { Container, ContentCardDetail, MapView } from './styles';
 
 interface Props {
+  t(key: string, format?: object): string;
   [data: string]: any;
 }
 

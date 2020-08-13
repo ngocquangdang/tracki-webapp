@@ -6,7 +6,8 @@ import { Slide } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 
 import { Button } from '@Components/buttons';
-import AddContact from '../AddContact';
+import AddContact from '@Containers/AddNewContact';
+import { addContactRequestAction } from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 interface Props {
@@ -14,17 +15,14 @@ interface Props {
   show: boolean;
   onClose: () => void;
   t(key: string, format?: object): string;
+  addContactAction(data: object, callback: void): void;
   [data: string]: any;
 }
 
 function ContactList(props: Props) {
   const [showAddContact, setShowAddContact] = useState(false);
   const classes = useStyles();
-  const {
-    show,
-    // t,
-    onClose,
-  } = props;
+  const { show, t, onClose, addContactAction } = props;
 
   const onSaveClick = () => {
     console.log('onSaveClick');
@@ -42,7 +40,6 @@ function ContactList(props: Props) {
           <div className={classes.content}>
             <Button
               text="Add New Contact"
-              color="primary"
               variant="contained"
               startIcon={<Add />}
               className={classes.addNewBtn}
@@ -62,12 +59,21 @@ function ContactList(props: Props) {
           </div>
         </div>
       </Slide>
-      <AddContact show={showAddContact} onClose={onCloseAddContact} />
+      <AddContact
+        isMobile={true}
+        showAddContact={showAddContact}
+        onClose={onCloseAddContact}
+        addContactAction={addContactAction}
+        t={t}
+      />
     </React.Fragment>
   );
 }
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  addContactAction: (data: object, callback: void) =>
+    dispatch(addContactRequestAction(data, callback)),
+});
 
 const mapStateToProps = createStructuredSelector({});
 
