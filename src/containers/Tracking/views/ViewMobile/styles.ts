@@ -11,6 +11,7 @@ export default makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: 8,
+    borderBottom: '1px solid #dedede',
   },
   headerLeft: {
     display: 'flex',

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
-import { Slide, Tabs, Tab, IconButton, Typography } from '@material-ui/core';
+import { Tabs, Tab, IconButton, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import Router from 'next/router';
 
 import { Button } from '@Components/buttons';
+import { MainLayout } from '@Layouts';
 import { TAB_KEYS } from '@Containers/Tracking/store/constants';
 import TrackingSingleView from './components/SingleView';
+import SelectTracker from './components/SelectTracker';
 import useStyles from './styles';
 
 interface Props {
@@ -29,7 +32,7 @@ export default function ViewHomeMobile(props: Props) {
     changeTrackingView,
     changeTrackersTracking,
   } = props;
-  const [showTracking, setShowTracking] = useState(true);
+  const [showSelectTracker, setShowSelectTracker] = useState(true);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
   const [currentTab, setTab] = useState(0);
   const classes = useStyles();
@@ -47,11 +50,15 @@ export default function ViewHomeMobile(props: Props) {
   };
 
   const onCloseTracking = () => {
-    setShowTracking(false);
+    Router.push('/trackers');
+  };
+
+  const onCloseSelectTracker = () => {
+    setShowSelectTracker(false);
   };
 
   const onClickSelectDevice = () => {
-    console.log('___comming...');
+    setShowSelectTracker(true);
   };
 
   useEffect(() => {
@@ -82,50 +89,65 @@ export default function ViewHomeMobile(props: Props) {
   const tracker = trackers[trackeId];
   const isMultiView = [TAB_KEYS[2], TAB_KEYS[3]].includes(viewMode);
 
-  return (
-    <Slide in={showTracking} direction="right" mountOnEnter unmountOnExit>
-      <div className={classes.container}>
-        <div className={classes.header}>
-          <div className={classes.headerLeft}>
-            <IconButton onClick={onCloseTracking} className={classes.iconBack}>
-              <ArrowBackIosIcon className={classes.icon} />
-            </IconButton>
-            <Typography className={classes.headerTitle}>Tracking</Typography>
-          </div>
-          <Button
-            text={'Select device'}
-            color="secondary"
-            startIcon={<FaMapMarkerAlt className={classes.headerBtnIcon} />}
-            onClick={onClickSelectDevice}
-            className={`${classes.headerTitle} ${classes.headerBtn}`}
-          />
-        </div>
-        {isMultiView ? (
-          <div className={classes.mapView}>Hello</div>
-        ) : (
-          <TrackingSingleView tracker={tracker} {...props} />
-        )}
-        <div className={classes.footer}>
-          <Tabs
-            value={currentTab}
-            onChange={onChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            TabIndicatorProps={{ className: classes.indicator }}
-            className={classes.tabs}
-          >
-            {TAB_KEYS.map((key: string, index: number) => (
-              <Tab
-                key={key}
-                label={t('tracker:' + key)}
-                value={index}
-                className={classes.tabItem}
-              />
-            ))}
-          </Tabs>
-        </div>
+  const renderHeader = () => (
+    <div className={classes.header}>
+      <div className={classes.headerLeft}>
+        <IconButton onClick={onCloseTracking} className={classes.iconBack}>
+          <ArrowBackIosIcon className={classes.icon} />
+        </IconButton>
+        <Typography className={classes.headerTitle}>Tracking</Typography>
       </div>
-    </Slide>
+      {!isMultiView && (
+        <Button
+          text={'Select device'}
+          color="secondary"
+          startIcon={<FaMapMarkerAlt className={classes.headerBtnIcon} />}
+          onClick={onClickSelectDevice}
+          className={`${classes.headerTitle} ${classes.headerBtn}`}
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <React.Fragment>
+      <MainLayout isMobile={true} header={renderHeader()} hasFooter={false}>
+        <div className={classes.container}>
+          {isMultiView ? (
+            <div className={classes.mapView}>Hello</div>
+          ) : (
+            <TrackingSingleView tracker={tracker} {...props} />
+          )}
+          <div className={classes.footer}>
+            <Tabs
+              value={currentTab}
+              onChange={onChangeTab}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+              TabIndicatorProps={{ className: classes.indicator }}
+              className={classes.tabs}
+            >
+              {TAB_KEYS.map((key: string, index: number) => (
+                <Tab
+                  key={key}
+                  label={t('tracker:' + key)}
+                  value={index}
+                  className={classes.tabItem}
+                />
+              ))}
+            </Tabs>
+          </div>
+        </div>
+      </MainLayout>
+      <SelectTracker
+        show={showSelectTracker}
+        onClose={onCloseSelectTracker}
+        trackers={trackers}
+        selectedTracker={trackeId}
+        t={t}
+        onChangeTrackers={changeTrackersTracking}
+      />
+    </React.Fragment>
   );
 }
