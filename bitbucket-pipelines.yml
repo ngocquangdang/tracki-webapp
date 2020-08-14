@@ -64,6 +64,7 @@ pipelines:
                 - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=.*/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=${NEXT_PUBLIC_OAUTH_CLIENT_SECRET}/g' .env
                 - sed -i -e 's#NEXT_PUBLIC_API_URL=.*#NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}#g' .env
                 - sed -i -e 's#NEXT_PUBLIC_OAUTH_REDIRECT_URI=.*#NEXT_PUBLIC_OAUTH_REDIRECT_URI=${NEXT_PUBLIC_OAUTH_REDIRECT_URI}#g' .env
+                - yarn
                 - yarn build
                 - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
                 - docker build -t mtrk2021/tracki-frontend:$TAG .
@@ -94,6 +95,7 @@ pipelines:
                 - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=.*/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=${NEXT_PUBLIC_OAUTH_CLIENT_SECRET}/g' .env
                 - sed -i -e 's#NEXT_PUBLIC_API_URL=.*#NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}#g' .env
                 - sed -i -e 's#NEXT_PUBLIC_OAUTH_REDIRECT_URI=.*#NEXT_PUBLIC_OAUTH_REDIRECT_URI=${NEXT_PUBLIC_OAUTH_REDIRECT_URI}#g' .env
+                - yarn
                 - yarn build
                 - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
                 - docker build -t mtrk2021/tracki-frontend:$TAG .
