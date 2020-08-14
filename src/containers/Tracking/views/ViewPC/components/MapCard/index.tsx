@@ -1,6 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import { withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
@@ -13,6 +14,7 @@ interface IProps {
   isFullWidth: boolean;
   isMultiScreen: boolean;
   trackers: object;
+  isMobile?: boolean;
   selectedTrackerId: number;
   trackingIds: number[];
   classes: any;
@@ -224,6 +226,7 @@ class MapCard extends React.Component<IProps, IState> {
       trackers,
       selectedTrackerId,
       trackingIds,
+      isMobile,
       t,
     } = this.props;
 
@@ -240,7 +243,12 @@ class MapCard extends React.Component<IProps, IState> {
       <React.Fragment>
         <div id={mapId} className={classes.mapCard} />
         {isMultiScreen ? (
-          <div className={classes.selects} style={{ position: 'absolute' }}>
+          <div
+            className={clsx(classes.selects, {
+              [classes.selectMobile]: isMobile,
+            })}
+            style={{ position: 'absolute' }}
+          >
             <SelectTracker
               id={mapId}
               value={selectedTrackerId.toString()}
@@ -249,7 +257,12 @@ class MapCard extends React.Component<IProps, IState> {
             />
           </div>
         ) : (
-          <div className={classes.mapLabel} style={{ position: 'absolute' }}>
+          <div
+            className={clsx(classes.mapLabel, {
+              [classes.labelMobile]: isMobile,
+            })}
+            style={{ position: 'absolute' }}
+          >
             {mapLabel}
           </div>
         )}
@@ -260,6 +273,7 @@ class MapCard extends React.Component<IProps, IState> {
         {isInitiatedMap && (
           <MapToolBar
             t={t}
+            isMobile={isMobile}
             mapTile={mapStyle}
             changeMapTile={this.changeMapTile}
             myLocationClick={this.getUserLocation}

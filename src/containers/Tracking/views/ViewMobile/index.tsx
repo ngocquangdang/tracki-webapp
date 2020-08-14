@@ -4,6 +4,7 @@ import { Tabs, Tab, IconButton, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 
 import { Button } from '@Components/buttons';
 import { MainLayout } from '@Layouts';
@@ -11,6 +12,10 @@ import { TAB_KEYS } from '@Containers/Tracking/store/constants';
 import TrackingSingleView from './components/SingleView';
 import SelectTracker from './components/SelectTracker';
 import useStyles from './styles';
+
+const TrackingMultiView = dynamic(() => import('./components/MultiView'), {
+  ssr: false,
+});
 
 interface Props {
   isMobile: boolean;
@@ -97,13 +102,19 @@ export default function ViewHomeMobile(props: Props) {
         </IconButton>
         <Typography className={classes.headerTitle}>Tracking</Typography>
       </div>
-      {!isMultiView && (
+      {viewMode !== TAB_KEYS[3] ? (
         <Button
-          text={'Select device'}
+          text={t('tracker:select_device')}
           color="secondary"
           startIcon={<FaMapMarkerAlt className={classes.headerBtnIcon} />}
           onClick={onClickSelectDevice}
-          className={`${classes.headerTitle} ${classes.headerBtn}`}
+          className={classes.headerBtn}
+        />
+      ) : (
+        <Button
+          text={t('tracker:show_multiple_trackers')}
+          color="secondary"
+          className={classes.headerBtn}
         />
       )}
     </div>
@@ -114,7 +125,16 @@ export default function ViewHomeMobile(props: Props) {
       <MainLayout isMobile={true} header={renderHeader()} hasFooter={false}>
         <div className={classes.container}>
           {isMultiView ? (
-            <div className={classes.mapView}>Hello</div>
+            <div className={classes.mapView}>
+              <TrackingMultiView
+                t={t}
+                isMultiScreen={viewMode === TAB_KEYS[3]}
+                isFullWidth={true}
+                trackers={trackers}
+                trackingIds={trackingIds}
+                changeTrackersTracking={changeTrackersTracking}
+              />
+            </div>
           ) : (
             <TrackingSingleView tracker={tracker} {...props} />
           )}
@@ -144,7 +164,7 @@ export default function ViewHomeMobile(props: Props) {
         show={showSelectTracker}
         onClose={onCloseSelectTracker}
         trackers={trackers}
-        selectedTracker={trackeId}
+        selectedTrackerId={trackeId}
         t={t}
         onChangeTrackers={changeTrackersTracking}
       />

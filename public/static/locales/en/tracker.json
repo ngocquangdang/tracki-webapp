@@ -165,5 +165,6 @@
   "map_position": "Map Position",
   "map_follow": "Map Follow",
   "map_satellite": "Satellite View",
-  "device_selected": "Device Selected"
+  "device_selected": "Device Selected",
+  "show_multiple_trackers": "Show Multiple Trackers"
 }
