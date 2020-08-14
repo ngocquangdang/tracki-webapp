@@ -51,6 +51,7 @@ export default makeStyles(() => ({
     position: 'relative',
     height: 'calc(100% - 101px)',
     width: '100%',
+    overflowY: 'auto',
   },
   tabs: {
     minHeight: '100%',
