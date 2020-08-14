@@ -1,9 +1,8 @@
 import React, { memo, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-
-import View from './views';
 
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
@@ -23,17 +22,24 @@ import {
   addContactRequestAction,
 } from './store/actions/index.';
 
+const ContactsPC = dynamic(() => import('./views/ContactsPC'));
+const ContactsSP = dynamic(() => import('./views/ContactsSP'));
+
 function ContactView(props) {
   useInjectSaga({ key: 'contacts', saga });
   useInjectReducer({ key: 'contacts', reducer });
 
-  const { getContactListRequest } = props;
+  const { getContactListRequest, isMobile } = props;
 
   useEffect(() => {
     getContactListRequest();
   }, [getContactListRequest]);
 
-  return <View {...props} />;
+  if (isMobile) {
+    return <ContactsSP {...props} />;
+  } else {
+    return <ContactsPC {...props} />;
+  }
 }
 
 const mapStateToProps = createStructuredSelector({

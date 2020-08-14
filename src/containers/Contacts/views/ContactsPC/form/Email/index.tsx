@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Button } from '@Components/buttons';
-import { emailSchema } from '../../../schema';
+import { emailSchema } from '@Containers/Contacts/schema';
 
 import { useStyles, TextInputStyle } from './styles';
 

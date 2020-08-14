@@ -85,6 +85,21 @@ const Logo = styled.img`
   height: 29px;
 `;
 
+const TextAddNew = styled.span`
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.19;
+`;
+
+const ButtonAdd = styled.div`
+  display: flex;
+  align-items: center;
+  color: #666666;
+  padding-right: 15px;
+`;
+
 const useStyles = makeStyles((theme: Theme) => ({
   buttonClose: {
     width: '46.8px',
@@ -118,6 +133,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     height: '100%',
   },
+  iconAdd: {
+    margin: 5,
+  },
 }));
 
 export {
@@ -131,5 +149,7 @@ export {
   ButtonSave,
   TextSave,
   Logo,
+  TextAddNew,
+  ButtonAdd,
   useStyles,
 };

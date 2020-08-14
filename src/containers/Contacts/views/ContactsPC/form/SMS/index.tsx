@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import { Button } from '@Components/buttons';
-import { smsSchema } from '../../../schema';
+import { smsSchema } from '@Containers/Contacts/schema';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 import { useStyles, TextInputStyle } from './styles';
