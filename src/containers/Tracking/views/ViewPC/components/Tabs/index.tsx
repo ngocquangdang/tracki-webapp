@@ -7,6 +7,7 @@ import SingleView from '../SingleView';
 import TrackersSelected from '../MultiView/TrackersSelected';
 import { useStyles } from './styles';
 import HeatMap from '../HeatMap';
+import { TAB_KEYS } from '@Containers/Tracking/store/constants';
 
 interface Props {
   isMobile: boolean;
@@ -18,8 +19,6 @@ interface Props {
   [data: string]: any;
   getHistoryTracker(data: object): void;
 }
-
-const TAB_KEYS = ['single_view', 'heat_map', 'multi_view', 'multi_screen'];
 
 export default function TabsPC(props: Props) {
   const {

@@ -17,7 +17,7 @@ export default function AccountSetting(props: Props) {
   const url = [{ name: 'Account Setting ', pathname: '#' }];
 
   return (
-    <MainLayout isMobile={isMobile} header={<Header />} noFooter>
+    <MainLayout isMobile={isMobile} header={<Header />} hasFooter={false}>
       <SettingContainer>
         {!isMobile && <BreadCrumb title={'Account Setting'} url={url} />}
         <SettingContent {...rest} />

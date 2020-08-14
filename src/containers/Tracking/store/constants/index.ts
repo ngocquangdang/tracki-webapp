@@ -19,3 +19,10 @@ export const DATE_OPTIONS = [
   { value: 'specific_date', content: 'Specific date + Hourly Range' },
 ];
 export const CHANGE_TRACKING_VIEW = 'Tracki/CHANGE_TRACKING_VIEW';
+
+export const TAB_KEYS = [
+  'single_view',
+  'heat_map',
+  'multi_view',
+  'multi_screen',
+];

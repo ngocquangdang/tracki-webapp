@@ -10,14 +10,14 @@ import SettingTracker from '@Containers/SingleTracker/components/SettingTracker'
 
 interface Props {
   header?: JSX.Element;
-  noFooter?: boolean;
+  hasFooter?: boolean;
   t(key: string): string;
   [data: string]: any;
   trackers: object;
 }
 
 function MainLayoutMobile(props: Props) {
-  const { header, noFooter, trackers, ...rest } = props;
+  const { header, hasFooter = true, trackers, ...rest } = props;
   const [isSetting, showSetting] = useState(false);
   const [selectedId, setSelectId] = useState<number | null>(null);
   const classes = useStyles();
@@ -72,7 +72,7 @@ function MainLayoutMobile(props: Props) {
         >
           {props.children}
         </Content>
-        {!noFooter && <Footer t={rest.t} />}
+        {hasFooter && <Footer t={rest.t} />}
       </div>
     </MainWrapper>
   );

@@ -51,7 +51,7 @@ class MapCard extends React.Component<IProps, IState> {
     this.state = {
       isInitiatedMap: false,
       mapCenter: [40.866667, 34.566667],
-      mapZoom: 8,
+      mapZoom: 15,
       userLocation: null,
       mapStyle: 'streets-v11',
     };
