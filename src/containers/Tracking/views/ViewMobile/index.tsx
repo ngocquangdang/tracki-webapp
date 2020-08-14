@@ -4,17 +4,9 @@ import { Slide, Tabs, Tab, IconButton, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
-import Map from '@Components/Maps';
 import { Button } from '@Components/buttons';
-import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
-import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
-import DetailTrackerCard from '@Components/DetailTrackerCard';
-
-import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
-import HistoryTracker from '@Containers/SingleTracker/components/HistoryTracker';
-import ShareLocation from '@Containers/SingleTracker/components/ShareLocation';
-import TrackerGeofences from '@Containers/Trackers/views/ViewMobile/TrackerGeofences';
 import { TAB_KEYS } from '@Containers/Tracking/store/constants';
+import TrackingSingleView from './components/SingleView';
 import useStyles from './styles';
 
 interface Props {
@@ -32,26 +24,26 @@ export default function ViewHomeMobile(props: Props) {
   const {
     trackers,
     trackingIds,
+    viewMode,
     t,
     changeTrackingView,
     changeTrackersTracking,
   } = props;
   const [showTracking, setShowTracking] = useState(true);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
-  const [currentView, setCurrentView] = useState('');
   const [currentTab, setTab] = useState(0);
   const classes = useStyles();
 
   const onChangeTab = (event: any, newValue: any) => {
     setTab(newValue);
+    if (
+      [TAB_KEYS[2], TAB_KEYS[3]].includes(viewMode) &&
+      [0, 1].includes(newValue)
+    ) {
+      const trackerId = Object.keys(trackers)[0];
+      trackerId && changeTrackersTracking([+trackerId]);
+    }
     changeTrackingView(TAB_KEYS[newValue]);
-  };
-
-  const onCloseView = () => setCurrentView('');
-
-  const handleClickViewHistory = () => {
-    console.log('___view history');
-    onCloseView();
   };
 
   const onCloseTracking = () => {
@@ -64,14 +56,17 @@ export default function ViewHomeMobile(props: Props) {
 
   useEffect(() => {
     if (isFirstLoading && !isEmpty(trackers)) {
-      const [firsTrackerId] = isEmpty(trackingIds)
+      const [firstTrackerId] = isEmpty(trackingIds)
         ? Object.keys(trackers)
         : trackingIds;
 
-      if (firsTrackerId) {
-        const { lat, lng } = trackers[firsTrackerId];
-        lat && lng && window.mapEvents.setCenter([lat, lng]);
-        changeTrackersTracking([+firsTrackerId]);
+      if (firstTrackerId) {
+        const { lat, lng } = trackers[firstTrackerId];
+        lat &&
+          lng &&
+          window.mapEvents &&
+          window.mapEvents.setCenter([lat, lng]);
+        changeTrackersTracking([+firstTrackerId]);
         setIsFirstLoading(false);
       }
     }
@@ -85,6 +80,7 @@ export default function ViewHomeMobile(props: Props) {
 
   const trackeId = trackingIds[0];
   const tracker = trackers[trackeId];
+  const isMultiView = [TAB_KEYS[2], TAB_KEYS[3]].includes(viewMode);
 
   return (
     <Slide in={showTracking} direction="right" mountOnEnter unmountOnExit>
@@ -104,63 +100,11 @@ export default function ViewHomeMobile(props: Props) {
             className={`${classes.headerTitle} ${classes.headerBtn}`}
           />
         </div>
-        <div className={classes.mapView}>
-          <Map
-            fullWidth={true}
-            mapType="leaflet"
-            isTracking={true}
-            {...props}
-          />
-          {tracker && (
-            <React.Fragment>
-              <TopToolBar t={props.t} />
-              <BottomToolBar
-                t={props.t}
-                tracker={tracker}
-                isBeep={props.isBeep}
-                resetBeep={props.resetBeep}
-                onClickSendBeep={props.onClickSendBeep}
-                showSnackbar={props.showSnackbar}
-                onChangeView={setCurrentView}
-              />
-              <div className={classes.trackerCard}>
-                <DetailTrackerCard
-                  tracker={tracker}
-                  isMobile={true}
-                  t={props.t}
-                />
-              </div>
-              <SettingTracker
-                t={props.t}
-                show={currentView === 'settingsView'}
-                tracker={tracker}
-                handleClose={onCloseView}
-                isMobile={true}
-              />
-              <TrackerGeofences
-                show={currentView === 'geofenceListView'}
-                onClickBack={onCloseView}
-                geofences={props.geofences}
-                tracker={tracker}
-                isMobile={true}
-                t={props.t}
-              />
-              <HistoryTracker
-                handleClose={onCloseView}
-                t={props.t}
-                show={currentView === 'historyView'}
-                isMobile={true}
-                onClickViewHistory={handleClickViewHistory}
-              />
-              <ShareLocation
-                handleClose={onCloseView}
-                t={props.t}
-                show={currentView === 'shareLocationView'}
-                isMobile={true}
-              />
-            </React.Fragment>
-          )}
-        </div>
+        {isMultiView ? (
+          <div className={classes.mapView}>Hello</div>
+        ) : (
+          <TrackingSingleView tracker={tracker} {...props} />
+        )}
         <div className={classes.footer}>
           <Tabs
             value={currentTab}
