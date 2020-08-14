@@ -7,6 +7,7 @@ import { ActionType } from '@Interfaces';
 export const initialState = {
   profile: {},
   errors: {},
+  errorPrefrences: {},
   isRequesting: false,
 };
 
@@ -33,7 +34,7 @@ const UserProfileReducer = (
         break;
       case types.UPDATE_PREFRENCE_FAILED:
         draft.isRequesting = false;
-        draft.errors = payload.errors;
+        draft.errorPrefrences = payload.errors;
         break;
       case types.UPDATE_PREFRENCE_SUCCEED:
         draft.profile = {
@@ -41,7 +42,7 @@ const UserProfileReducer = (
           ...payload?.profile,
         };
         draft.isRequesting = false;
-        draft.errors = {};
+        draft.errorPrefrences = {};
         break;
       case types.UPDATE_INFO_USER_REQUESTED:
         draft.isRequesting = true;

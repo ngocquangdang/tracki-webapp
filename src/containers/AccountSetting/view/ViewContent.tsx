@@ -161,7 +161,7 @@ export default function AccountSetting(props: any) {
                   errorInput={
                     errorsForm.first_name && touched.first_name
                       ? t(errorsForm.first_name)
-                      : errors.first_name
+                      : errors?.firstName
                   }
                   variant="outlined"
                 />
@@ -174,7 +174,7 @@ export default function AccountSetting(props: any) {
                   errorInput={
                     errorsForm.last_name && touched.last_name
                       ? t(errorsForm.last_name)
-                      : errors.last_name
+                      : errors?.lastName
                   }
                   variant="outlined"
                 />
@@ -190,7 +190,7 @@ export default function AccountSetting(props: any) {
                       ? t(errorsForm.phone)
                       : values.phone && !isValidPhone
                       ? t('auth:wrong_phone_format')
-                      : errors.phone
+                      : errors?.phone
                   }
                   onChangeInput={handleChange('phone_code')}
                   searchStyle={{ width: '93%', height: '35px' }}
@@ -229,10 +229,13 @@ export default function AccountSetting(props: any) {
               <Title>{t('auth:login_details')}</Title>
               <LoginForm>
                 <TextInput
-                  className={classes.margin}
+                  name="email_address"
                   label={t('auth:email_address')}
                   value={values.email}
                   variant="outlined"
+                  onChange={handleChange('email_address')}
+                  onBlur={handleBlur('email_address')}
+                  className={classes.margin}
                   disabled
                 />
                 <Link href="/change-password">

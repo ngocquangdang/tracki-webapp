@@ -27,6 +27,7 @@ const SelectForm = withStyles(theme => ({
       },
     },
     '& .MuiInputLabel-outlined': {
+      color: '#1a1a1a',
       transform: 'translate(14px, 17px) scale(1)',
       '&.MuiInputLabel-shrink': {
         transform: 'translate(14px, -6px) scale(0.7)',
@@ -38,6 +39,12 @@ const SelectForm = withStyles(theme => ({
     },
     '& .MuiOutlinedInput-input': {
       padding: '15.5px 14px',
+    },
+    '& .MuiFormLabel-root.Mui-focused': {
+      color: '#168449',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#1a1a1a',
     },
   },
 }))(FormControl);

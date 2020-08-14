@@ -11,6 +11,7 @@ declare namespace UserDatails {
       date_format: string;
     };
     isRequesting: boolean;
+    fetchUserRequested(): void;
     getUserRequestAction(): void;
     updateUSerRequestAction(): void;
   }

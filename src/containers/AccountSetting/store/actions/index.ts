@@ -1,9 +1,10 @@
 import { PayloadType } from '@Interfaces';
 import * as types from '../definitions';
 
-export function getUserRequestAction() {
+export function getUserRequestAction(accountId: number) {
   return {
     type: types.USER_REQUESTED,
+    payload: { accountId },
   };
 }
 
