@@ -140,7 +140,7 @@ export default function Contact(props: Props) {
   const debounceSearch = debounce((v: string) => searchContactRequest(v), 300);
 
   return (
-    <MainLayout noFooter={true}>
+    <MainLayout hasFooter={false}>
       <div>
         <HeaderContact>
           <LogoContact>
