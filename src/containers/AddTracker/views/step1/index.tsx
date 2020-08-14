@@ -11,11 +11,16 @@ import {
   AdornmentStyle,
   TooltipStyle,
   ToolTip,
+  ScanQR,
+  QRImage,
+  QR1,
+  QR2,
 } from './styles';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { AddTrackerSchema } from '../../schema';
+import { AiOutlineQrcode } from 'react-icons/ai';
 interface Props {
   t(key: string, format?: object): string;
   onNextStep: Function;
@@ -30,6 +35,7 @@ interface Props {
     imei: string;
     order: string;
   };
+  isMobile: boolean;
 }
 
 export default function Step1(props: Props) {
@@ -43,6 +49,7 @@ export default function Step1(props: Props) {
     assigned,
     errorMessage,
     formData,
+    isMobile,
   } = props;
   const classes = useStyles();
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
@@ -54,6 +61,27 @@ export default function Step1(props: Props) {
   };
   return (
     <>
+      <ScanQR className={isMobile ? '' : classes.hidden}>
+        <Typography>{t('tracker:scan_qr_subscription')}</Typography>
+        <QRImage>
+          <QR1>
+            <img src="./images/1qr.png" alt="" className={classes.maxWidth} />
+          </QR1>
+          <QR2>
+            <img src="./images/2qr.png" alt="" className={classes.maxWidth} />
+          </QR2>
+        </QRImage>
+        <Button
+          variant="contained"
+          text={t('tracker:scan_qr_code')}
+          className={`${classes.maxWidth} ${classes.btn}`}
+          startIcon={<AiOutlineQrcode />}
+          isLoading={isRequesting}
+        />
+      </ScanQR>
+      <div className={`${classes.or} ${isMobile ? '' : classes.hidden}`}>
+        or
+      </div>
       <Typography>{t('tracker:add_tracker_description')}</Typography>
       <StepOneContainer>
         <Formik

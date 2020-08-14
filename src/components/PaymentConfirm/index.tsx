@@ -60,15 +60,10 @@ export default function PaymentConfrim(props: Props) {
               <Date>{today}</Date>
             </BigTitle>
             <SubItem>
-              {t('tracker:device_id')} {device_id}
+              {t('tracker:device_id')}: {device_id}
             </SubItem>
             <SubItem>
-              {t('tracker:device_plan')}
-              <strong>
-                {' '}
-                ${price} {t('tracker:month')}
-              </strong>
-              {t('tracker:month_subcription')}
+              {t('tracker:device_plan')} {price}
             </SubItem>
             <SubItem>
               {t('tracker:activation_date', { date: activation_date })}

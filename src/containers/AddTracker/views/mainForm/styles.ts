@@ -37,11 +37,16 @@ const SubTitle = styled.h3`
 `;
 const Content = styled.div`
   max-width: 921px;
-
+  border: solid 1px #e0e0e0;
+  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
   background-color: #ffffff;
   @media (max-width: 995.95px) {
     max-width: 375px;
     margin: auto;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
   }
 `;
 const Review = styled.div`
@@ -55,7 +60,6 @@ const CongratulationTitle = styled.h2`
   margin: 15px auto;
 `;
 const Congratulation = styled.div`
-  padding: 0 46.5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,9 +107,8 @@ const useStyles = makeStyles(theme => ({
 const StepperStyle = withStyles(theme => ({
   root: {
     paddingRight: 59,
+    color: 'black',
     borderRadius: 4,
-    boxShadow: '0 8px 14px 0 rgba(0, 0, 0, 0.12)',
-    border: 'solid 1px #e0e0e0',
     [theme.breakpoints.down('sm')]: {
       paddingLeft: 6,
       paddingRight: 15,

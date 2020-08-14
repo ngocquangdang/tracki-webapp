@@ -60,6 +60,7 @@
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.11.1",
     "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
     "next": "9.4.4",
     "next-auth": "^2.2.0",
     "next-compose-plugins": "^2.2.0",

@@ -7,6 +7,9 @@ const Header = styled.div`
 const Icon = styled.div`
   color: #168449;
   margin-bottom: 19px;
+  @media (max-width: 995.95px) {
+    margin: 52px auto 19px;
+  }
 `;
 const Title = styled.div`
   font-size: 42px;
@@ -43,6 +46,9 @@ const Container = styled.div`
   background-color: #ffffff;
   @media (max-width: 995.95px) {
     max-width: 349px;
+  }
+  @media (max-width: 374.95px) {
+    max-width: 300px;
   }
 `;
 const Footer = styled.div`
