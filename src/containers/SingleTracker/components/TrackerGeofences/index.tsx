@@ -72,7 +72,7 @@ interface Props {
   removeGeofenceRequestAction(id: number): void;
   changeMapAction(mapAction: string): void;
   getContactListRequestAction(): void;
-  addContactAction(data, callback): void;
+  addContactPageRequest(data, callback): void;
   [data: string]: any;
 }
 
@@ -101,7 +101,7 @@ function SingleTrackerGeofences(props: Props) {
     linkTrackerAction,
     unlinkTrackerAction,
     getContactListRequestAction,
-    addContactAction,
+    addContactPageRequest,
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -253,7 +253,7 @@ function SingleTrackerGeofences(props: Props) {
           isMobile={isMobile}
           contacts={contacts}
           t={t}
-          addContactAction={addContactAction}
+          addContactPageRequest={addContactPageRequest}
         />
       </div>
     </Slide>
@@ -280,7 +280,7 @@ const mapDispatchToProps = dispatch => ({
   updateNewGeofence: (geo: object) => dispatch(updateNewGeofence(geo)),
   resetNewGeofenceAction: () => dispatch(resetNewGeofenceAction()),
   getContactListRequestAction: () => dispatch(getContactListRequestAction()),
-  addContactAction: (data, callback) =>
+  addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
 });
 

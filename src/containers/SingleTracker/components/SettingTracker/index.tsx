@@ -69,7 +69,7 @@ interface Props {
   updateSettings(id: number, data: object): void;
   getContactListRequest(): void;
   contacts: object;
-  addContactAction(data, callback): void;
+  addContactPageRequest(data, callback): void;
 }
 
 function SettingTracker(props: Props) {
@@ -87,7 +87,7 @@ function SettingTracker(props: Props) {
     isMobile,
     isRequesting,
     getContactListRequest,
-    addContactAction,
+    addContactPageRequest,
     contacts,
   } = props;
   const trackerSettings = settings[tracker?.settings_id];
@@ -450,7 +450,7 @@ function SettingTracker(props: Props) {
         isMobile={isMobile}
         contacts={contacts}
         t={t}
-        addContactAction={addContactAction}
+        addContactPageRequest={addContactPageRequest}
       />
     </SideBarOutside>
   );
@@ -466,7 +466,7 @@ const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
   getContactListRequest: () => dispatch(getContactListRequestAction()),
-  addContactAction: (data, callback) =>
+  addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
 });
 

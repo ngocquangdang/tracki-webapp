@@ -15,14 +15,14 @@ interface Props {
   show: boolean;
   onClose: () => void;
   t(key: string, format?: object): string;
-  addContactAction(data: object, callback: void): void;
+  addContactPageRequest(data: object, callback: void): void;
   [data: string]: any;
 }
 
 function ContactList(props: Props) {
   const [showAddContact, setShowAddContact] = useState(false);
   const classes = useStyles();
-  const { show, t, onClose, addContactAction } = props;
+  const { show, t, onClose, addContactPageRequest } = props;
 
   const onSaveClick = () => {
     console.log('onSaveClick');
@@ -63,7 +63,7 @@ function ContactList(props: Props) {
         isMobile={true}
         showAddContact={showAddContact}
         onClose={onCloseAddContact}
-        addContactAction={addContactAction}
+        addContactPageRequest={addContactPageRequest}
         t={t}
       />
     </React.Fragment>
@@ -71,7 +71,7 @@ function ContactList(props: Props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addContactAction: (data: object, callback: void) =>
+  addContactPageRequest: (data: object, callback: void) =>
     dispatch(addContactRequestAction(data, callback)),
 });
 

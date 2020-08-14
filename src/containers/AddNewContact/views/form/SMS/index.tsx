@@ -5,7 +5,7 @@ import { Button } from '@Components/buttons';
 import { smsSchema } from '../../../schema';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
-import { useStyles } from './styles';
+import { useStyles, Notifi } from './styles';
 
 const initialData = {
   name: '',
@@ -14,12 +14,19 @@ const initialData = {
 export default function SMSForm(props) {
   const classes = useStyles();
   const [code, setCode] = useState(1);
-  const { t, type, addContactAction, isRequesting, onClose } = props;
+  const {
+    t,
+    type,
+    addContactPageRequest,
+    isRequesting,
+    onClose,
+    errors,
+  } = props;
 
   const onSubmit = value => {
     const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
 
-    addContactAction(
+    addContactPageRequest(
       { name: value.name, type, address: phoneNumber?.number },
       onClose
     );
@@ -74,6 +81,7 @@ export default function SMSForm(props) {
                 onChangeInput={(code: any) => setCode(code)}
                 searchStyle={{ width: '93%', height: '35px' }}
               />
+              <Notifi>{errors.code}</Notifi>
               <Button
                 classes={`${classes.fullWidth} ${classes.btn}`}
                 text={t('auth:add_contact')}

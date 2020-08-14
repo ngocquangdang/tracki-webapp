@@ -1,37 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
-import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
-import { emailSchema } from '../../../schema';
+import { emailSchema } from '@Containers/Contacts/schema';
 
-import { useStyles, Notifi } from './styles';
+import { useStyles, TextInputStyle } from './styles';
 
-const initialData = {
-  name: '',
-  email: '',
-};
 export default function EmailForm(props) {
   const {
     t,
-    type,
-    addContactPageRequest,
     isRequesting,
-    onClose,
-    errors,
+    contact,
+    type,
+    editContactRequest,
+    onCancel,
+    callback,
   } = props;
   const classes = useStyles();
+
+  const [initialData, setInitialData] = useState({
+    name: '',
+    email: '',
+  });
+
   const onSubmit = value => {
-    addContactPageRequest(
-      { name: value.name, type, address: value.email },
-      onClose
-    );
+    if (value.name !== contact.name || value.email !== contact.address) {
+      editContactRequest(
+        { name: value.name, type, address: value.email },
+        contact.id,
+        callback
+      );
+    }
   };
+
+  const handleCancel = () => {
+    onCancel();
+  };
+
+  useEffect(() => {
+    setInitialData({
+      email: contact.address || '',
+      name: contact.name || '',
+    });
+  }, [contact]);
+
   return (
-    <div>
+    <>
       <Formik
         initialValues={initialData}
         onSubmit={onSubmit}
         validationSchema={emailSchema}
+        enableReinitialize
       >
         {({
           values,
@@ -42,19 +60,22 @@ export default function EmailForm(props) {
           touched,
         }) => {
           return (
-            <form onSubmit={handleSubmit}>
-              <TextInput
+            <form onSubmit={handleSubmit} className={classes.flex}>
+              <TextInputStyle
                 label={t('auth:name')}
                 name="code"
                 value={values.name}
                 onChange={handleChange('name')}
                 onBlur={handleBlur('name')}
                 variant="outlined"
+                InputProps={{
+                  className: classes.heightInput,
+                }}
                 errorInput={
                   errorsForm.name && touched.name ? t(errorsForm.name) : ''
                 }
               />
-              <TextInput
+              <TextInputStyle
                 label={t('auth:email_address')}
                 name="email"
                 value={values.email}
@@ -65,19 +86,25 @@ export default function EmailForm(props) {
                   errorsForm.email && touched.email ? t(errorsForm.email) : ''
                 }
               />
-              <Notifi>{errors.code}</Notifi>
               <Button
-                className={`${classes.fullWidth} ${classes.btn}`}
-                text={t('auth:add_contact')}
+                className={`${classes.fullWidth} ${classes.btnPrimary}`}
+                text={t('auth:add')}
                 isLoading={isRequesting}
                 color="primary"
                 type="submit"
                 variant="outlined"
               />
+              <Button
+                className={`${classes.fullWidth} ${classes.btn}`}
+                text={t('auth:cancel')}
+                isLoading={isRequesting}
+                variant="contained"
+                onClick={handleCancel}
+              />
             </form>
           );
         }}
       </Formik>
-    </div>
+    </>
   );
 }

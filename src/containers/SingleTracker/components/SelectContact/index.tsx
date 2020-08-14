@@ -21,12 +21,19 @@ interface Props {
   handleClose(): void;
   selectedContacts?: number[];
   t(key: string): string;
-  addContactAction(data, callback): void;
+  addContactPageRequest(data, callback): void;
 }
 
 export default function SelectContact(props: Props) {
   const classes = useStyles();
-  const { contacts, show, isMobile, handleClose, addContactAction, t } = props;
+  const {
+    contacts,
+    show,
+    isMobile,
+    handleClose,
+    addContactPageRequest,
+    t,
+  } = props;
 
   const [checked, setPhoneChecked] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
@@ -87,7 +94,7 @@ export default function SelectContact(props: Props) {
       <AddNewContact
         showAddContact={showAddContact}
         onClose={onHiddenAddContact}
-        addContactAction={addContactAction}
+        addContactPageRequest={addContactPageRequest}
         t={t}
         isMobile={isMobile}
       />

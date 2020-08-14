@@ -11,12 +11,15 @@ import {
   TextSave,
   Title,
   Logo,
+  TextAddNew,
+  ButtonAdd,
 } from './style';
 import { GrFormClose } from 'react-icons/gr';
 import { Slide } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DoneIcon from '@material-ui/icons/Done';
 import Link from 'next/link';
+import { IoMdPersonAdd } from 'react-icons/io';
 
 interface Props {
   title: string;
@@ -30,6 +33,8 @@ interface Props {
   hasHeader?: boolean;
   direction?: 'left' | 'right' | 'down' | 'up';
   isLogo?: boolean;
+  isAddContact?: boolean;
+  onShowAddContact?(): void;
 }
 
 export default function SideBarOut(props: Props) {
@@ -45,6 +50,8 @@ export default function SideBarOut(props: Props) {
     show,
     direction,
     isLogo,
+    isAddContact,
+    onShowAddContact,
     hasHeader = true,
   } = props;
 
@@ -86,13 +93,20 @@ export default function SideBarOut(props: Props) {
               )}
               {isMobile ? (
                 isLogo ? (
-                  <Link href="/">
-                    <Logo
-                      src="/images/logo.png"
-                      className={classes.logo}
-                      alt=""
-                    />
-                  </Link>
+                  isAddContact ? (
+                    <ButtonAdd onClick={onShowAddContact}>
+                      <IoMdPersonAdd className={classes.iconAdd} />
+                      <TextAddNew>Add New</TextAddNew>
+                    </ButtonAdd>
+                  ) : (
+                    <Link href="/">
+                      <Logo
+                        src="/images/logo.png"
+                        className={classes.logo}
+                        alt=""
+                      />
+                    </Link>
+                  )
                 ) : (
                   <ButtonSave>
                     <DoneIcon className={classes.iconSave} />
