@@ -29,7 +29,7 @@ interface Props {
   [data: string]: any;
 }
 
-export default function ViewHomeMobile(props: Props) {
+export default function TrackingMobile(props: Props) {
   const {
     trackers,
     trackingIds,
@@ -37,7 +37,6 @@ export default function ViewHomeMobile(props: Props) {
     t,
     changeTrackingView,
     changeTrackersTracking,
-    isMobile,
     getHistoryTracker,
   } = props;
   const [showSelectTracker, setShowSelectTracker] = useState(false);
@@ -170,8 +169,7 @@ export default function ViewHomeMobile(props: Props) {
         selectedTrackerId={trackeId}
         t={t}
         onChangeTrackers={changeTrackersTracking}
-        isHeatMap={props.viewMode === 'heat_map'}
-        isMobile={isMobile}
+        isHeatMap={viewMode === 'heat_map'}
         getHistoryTracker={getHistoryTracker}
       />
     </React.Fragment>

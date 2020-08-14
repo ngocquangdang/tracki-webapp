@@ -15,7 +15,6 @@ interface Props {
   onClose(): void;
   onChangeTrackers(ids: number[]): void;
   isHeatMap: boolean;
-  isMobile: boolean;
   getHistoryTracker(data): void;
   [data: string]: any;
 }
@@ -29,7 +28,6 @@ function SelectTracker(props: Props) {
     onClose,
     onChangeTrackers,
     isHeatMap,
-    isMobile,
     getHistoryTracker,
   } = props;
   const classes = useStyles();
@@ -49,24 +47,24 @@ function SelectTracker(props: Props) {
             <div className={classes.headerLeft}>
               <FaMapMarkerAlt className={classes.locationIcon} />
               <Typography className={classes.headerTitle}>
-                {t('tracker:select_device')}
+                {isHeatMap
+                  ? t('tracker:select_date_and_device')
+                  : t('tracker:select_device')}
               </Typography>
             </div>
             <IconButton onClick={onClose} className={classes.closeBtn}>
               <IoIosClose />
             </IconButton>
           </div>
-          {isHeatMap ? (
-            <div>
+          <div className={classes.list}>
+            {isHeatMap && (
               <DateTimePicker
                 tracker={trackers[selectedTrackerId]}
-                isMobile={isMobile}
+                isMobile={true}
                 t={t}
                 getHistoryTracker={getHistoryTracker}
               />
-            </div>
-          ) : null}
-          <div className={classes.list}>
+            )}
             {trackerIds.map(id => (
               <div key={id} className={classes.trackeItem}>
                 {selectedTrackerId.toString() === id && (
