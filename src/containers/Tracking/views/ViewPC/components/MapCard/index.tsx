@@ -241,7 +241,12 @@ class MapCard extends React.Component<IProps, IState> {
 
     return (
       <React.Fragment>
-        <div id={mapId} className={classes.mapCard} />
+        <div
+          id={mapId}
+          className={clsx(classes.mapCard, {
+            [classes.mapCardMobile]: isMobile,
+          })}
+        />
         {isMultiScreen ? (
           <div
             className={clsx(classes.selects, {

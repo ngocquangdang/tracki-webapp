@@ -4,6 +4,9 @@ export default {
     height: '100%',
     borderRadius: 4,
   },
+  mapCardMobile: {
+    borderRadius: 0,
+  },
   mapLabel: {
     zIndex: 410,
     right: 8,

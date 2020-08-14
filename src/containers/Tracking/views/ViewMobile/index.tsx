@@ -37,7 +37,7 @@ export default function ViewHomeMobile(props: Props) {
     changeTrackingView,
     changeTrackersTracking,
   } = props;
-  const [showSelectTracker, setShowSelectTracker] = useState(true);
+  const [showSelectTracker, setShowSelectTracker] = useState(false);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
   const [currentTab, setTab] = useState(0);
   const classes = useStyles();
