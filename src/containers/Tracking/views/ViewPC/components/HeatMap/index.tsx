@@ -50,7 +50,7 @@ export default function HeatMap(props: Props) {
   const classes = useStyles();
 
   const [isFirstLoading, setIsFirstLoading] = useState(true);
-  const [dateOptions, setDateOption] = useState<any>(DATE_OPTIONS[0].value);
+  const [dateOptions, setDateOption] = useState<any>('');
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
   const tracker = trackers[selectedTrackerId];
@@ -139,6 +139,10 @@ export default function HeatMap(props: Props) {
       page: 1,
       type: 2,
     });
+  };
+
+  const handleBlur = date => {
+    console.log('ssssssssss', date);
   };
 
   return (
@@ -247,11 +251,12 @@ export default function HeatMap(props: Props) {
                   <TimePicker
                     label="Time to"
                     placeholder="08:00 AM"
-                    variant="inline"
+                    variant="dialog"
                     inputVariant="outlined"
                     mask="__:__ _M"
                     value={selectedSpecificTimeTo}
                     onChange={handleChangeSpecificTimeTo}
+                    onAccept={handleBlur}
                   />
                 </div>
               </div>

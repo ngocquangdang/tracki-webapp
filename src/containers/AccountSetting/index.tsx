@@ -13,6 +13,7 @@ import {
   updatePrefrenceRequestAction,
   updateInfoUserRequestAction,
 } from './store/actions';
+import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
@@ -27,13 +28,12 @@ function SettingContainer(props: UserDetail.IProps) {
   useInjectSaga({ key: 'profile', saga });
   useInjectReducer({ key: 'profile', reducer });
 
-  const { getUserRequestAction } = props;
-
+  const { fetchUserRequested, ...rest } = props;
   useEffect(() => {
-    getUserRequestAction();
-  }, [getUserRequestAction]);
+    fetchUserRequested();
+  }, [fetchUserRequested]);
 
-  return <View {...props} />;
+  return <View {...rest} />;
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -44,10 +44,11 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getUserRequestAction: () => dispatch(getUserRequestAction()),
+  getUserRequestAction: accountId => dispatch(getUserRequestAction(accountId)),
   updatePrefrence: (data: object) =>
     dispatch(updatePrefrenceRequestAction(data)),
   updateInfoUser: (data: object) => dispatch(updateInfoUserRequestAction(data)),
+  fetchUserRequested: () => dispatch(fetchUserRequestedAction()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

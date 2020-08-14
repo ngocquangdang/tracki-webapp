@@ -56,6 +56,18 @@ function DetailTrackerCard(props: Prop) {
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
+  const onZoomClick = () => {
+    if (tracker) {
+      const { lat, lng } = tracker;
+      if (!!lat && !!lng) {
+        window.mapEvents.setCenterFlyTo({ lat, lng }, { speed: 1, zoom: 15 });
+      }
+    }
+  };
+
+  const onRefreshClick = () => {
+    callApiGetAddress();
+  };
 
   const callApiGetAddress = useCallback(async () => {
     if (tracker && !!tracker.lat && !!tracker.lng) {
@@ -100,8 +112,11 @@ function DetailTrackerCard(props: Prop) {
           </LeftItem>
 
           <RightItem>
-            <RefreshIcon className={classes.rightIcon} />
-            <ZoomInIcon className={classes.rightIcon} />
+            <RefreshIcon
+              className={classes.rightIcon}
+              onClick={onRefreshClick}
+            />
+            <ZoomInIcon className={classes.rightIcon} onClick={onZoomClick} />
           </RightItem>
         </Item>
         <Address isMobile={isMobile}>
@@ -168,8 +183,11 @@ function DetailTrackerCard(props: Prop) {
               </Address>
             </LeftItem>
             <RightItem>
-              <RefreshIcon className={classes.iconRefresh} />
-              <IconZoom src="/images/icon-zoom.svg" />
+              <RefreshIcon
+                className={classes.iconRefresh}
+                onClick={onRefreshClick}
+              />
+              <IconZoom src="/images/icon-zoom.svg" onClick={onZoomClick} />
             </RightItem>
           </Item>
         </TrackerInfomation>
@@ -196,7 +214,7 @@ function DetailTrackerCard(props: Prop) {
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
           <span className={`${classes.textBold} ${classes.textSpace}`}>
-            {tracker?.speed || 0}
+            {tracker?.speed === 0 ? 'Stopped' : tracker?.speed}
           </span>
         </StatusTracker>
         <ConnectionTracker>
