@@ -3,6 +3,7 @@ import { Slide, IconButton, Typography } from '@material-ui/core';
 import { IoIosClose } from 'react-icons/io';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
+import DateTimePicker from '@Components/DateTimePicker';
 import TrackerCard from '@Components/TrackerCard';
 import useStyles from './styles';
 
@@ -13,6 +14,8 @@ interface Props {
   t(key: string): string;
   onClose(): void;
   onChangeTrackers(ids: number[]): void;
+  isHeatMap: boolean;
+  getHistoryTracker(data): void;
   [data: string]: any;
 }
 
@@ -24,6 +27,8 @@ function SelectTracker(props: Props) {
     t,
     onClose,
     onChangeTrackers,
+    isHeatMap,
+    getHistoryTracker,
   } = props;
   const classes = useStyles();
 
@@ -42,7 +47,9 @@ function SelectTracker(props: Props) {
             <div className={classes.headerLeft}>
               <FaMapMarkerAlt className={classes.locationIcon} />
               <Typography className={classes.headerTitle}>
-                {t('tracker:select_device')}
+                {isHeatMap
+                  ? t('tracker:select_date_and_device')
+                  : t('tracker:select_device')}
               </Typography>
             </div>
             <IconButton onClick={onClose} className={classes.closeBtn}>
@@ -50,6 +57,14 @@ function SelectTracker(props: Props) {
             </IconButton>
           </div>
           <div className={classes.list}>
+            {isHeatMap && (
+              <DateTimePicker
+                tracker={trackers[selectedTrackerId]}
+                isMobile={true}
+                t={t}
+                getHistoryTracker={getHistoryTracker}
+              />
+            )}
             {trackerIds.map(id => (
               <div key={id} className={classes.trackeItem}>
                 {selectedTrackerId.toString() === id && (

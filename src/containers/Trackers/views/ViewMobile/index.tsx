@@ -36,7 +36,7 @@ export default function ViewHomeMobile(props: Props) {
         <Map fullWidth={true} mapType="leaflet" {...props} />
         {props.selectedTrackerId && (
           <React.Fragment>
-            <TopToolBar />
+            <TopToolBar t={props.t} />
             <BottomToolBar
               t={props.t}
               tracker={tracker}
