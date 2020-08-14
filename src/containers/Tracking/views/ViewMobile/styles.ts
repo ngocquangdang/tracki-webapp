@@ -36,6 +36,10 @@ export default makeStyles(() => ({
   },
   headerBtn: {
     color: '#666',
+    fontSize: 15,
+    lineHeight: '18px',
+    fontWeight: 300,
+    alignSelf: 'center',
   },
   headerBtnIcon: {
     fontSize: '16px !important',

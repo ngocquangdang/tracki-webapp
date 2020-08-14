@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export default makeStyles(() => ({
+export default makeStyles(theme => ({
   container: {
     position: 'fixed',
     height: '100% ',
@@ -50,5 +50,36 @@ export default makeStyles(() => ({
     lineHeight: '19px',
     fontWeight: 400,
     color: '#1a1a1a',
+  },
+  list: {
+    maxHeight: 'calc(100% - 56px)',
+    overflowY: 'auto',
+  },
+  trackeItem: {
+    position: 'relative',
+    padding: '0 15px',
+    borderBottom: '1px solid #ddd',
+    '& > div:last-child': {
+      backgroundColor: 'unset',
+      paddingRight: 0,
+    },
+    '&:last-child': {
+      borderBottom: 'none',
+    },
+
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      '& div:last-child': {
+        backgroundColor: 'unset',
+      },
+    },
+  },
+  selectedTracker: {
+    position: 'absolute',
+    top: 8,
+    left: 0,
+    width: 3,
+    height: 50,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
