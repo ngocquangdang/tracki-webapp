@@ -68,7 +68,10 @@ function MapToolBars(props: Props) {
           </Tooltip>
         </ZoomButton>
       ) : (
-        <IconButtonStyle onClick={onFullScreen}>
+        <IconButtonStyle
+          onClick={onFullScreen}
+          className={clsx({ [classes.btnMobile]: isMobile })}
+        >
           <MdFullscreen />
         </IconButtonStyle>
       )}
@@ -77,7 +80,10 @@ function MapToolBars(props: Props) {
         placement="left"
         arrow
       >
-        <IconButtonStyle onClick={myLocationClick}>
+        <IconButtonStyle
+          onClick={myLocationClick}
+          className={clsx({ [classes.btnMobile]: isMobile })}
+        >
           <MdMyLocation />
         </IconButtonStyle>
       </Tooltip>
@@ -88,7 +94,10 @@ function MapToolBars(props: Props) {
             placement="left"
             arrow
           >
-            <IconButtonStyle onClick={onShowLayer}>
+            <IconButtonStyle
+              onClick={onShowLayer}
+              className={clsx({ [classes.btnMobile]: isMobile })}
+            >
               <MdLayers />
             </IconButtonStyle>
           </Tooltip>

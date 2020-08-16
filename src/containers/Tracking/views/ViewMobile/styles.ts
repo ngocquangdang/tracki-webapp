@@ -20,6 +20,7 @@ export default makeStyles(() => ({
     width: 32,
     height: 32,
     alignSelf: 'center',
+    padding: 0,
   },
   icon: {
     position: 'relative',
@@ -45,6 +46,10 @@ export default makeStyles(() => ({
     fontSize: '16px !important',
   },
   footer: {
+    position: 'fixed',
+    bottom: 0,
+    borderTop: '1px solid #ddd',
+    width: '100%',
     height: 45,
   },
   mapView: {
