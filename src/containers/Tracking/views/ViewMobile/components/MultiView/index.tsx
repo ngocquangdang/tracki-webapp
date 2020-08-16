@@ -35,16 +35,17 @@ export default function MultiView(props: Props) {
           />
         </div>
       )}
-      <div
-        className={clsx(classes.container, {
-          [classes.multiView]: !isMultiScreen,
-        })}
-      >
-        <div className={classes.item}>
+      <div className={classes.container}>
+        <div
+          className={clsx(classes.item, {
+            [classes.itemMultiView]: !isMultiScreen,
+          })}
+        >
           <MapCard
             isMobile={true}
             mapId="mapPosition"
             mapLabel={props.t('tracker:map_position')}
+            isMultiView={true}
             selectedTrackerId={
               isMultiScreen
                 ? trackingIds[0] || selectedTrackerId
@@ -53,9 +54,14 @@ export default function MultiView(props: Props) {
             {...props}
           />
         </div>
-        <div className={classes.item}>
+        <div
+          className={clsx(classes.item, {
+            [classes.itemMultiView]: !isMultiScreen,
+          })}
+        >
           <MapCard
             isMobile={true}
+            isMultiView={true}
             mapId="mapFollow"
             mapLabel={props.t('tracker:map_follow')}
             selectedTrackerId={
@@ -66,10 +72,15 @@ export default function MultiView(props: Props) {
             {...props}
           />
         </div>
-        <div className={classes.item}>
+        <div
+          className={clsx(classes.item, {
+            [classes.itemMultiView]: !isMultiScreen,
+          })}
+        >
           {isMultiScreen ? (
             <MapCard
               isMobile={true}
+              isMultiView={true}
               mapId="mapStreetView"
               mapLabel={props.t('tracker:map_street_panorama')}
               selectedTrackerId={
@@ -87,9 +98,14 @@ export default function MultiView(props: Props) {
             />
           )}
         </div>
-        <div className={classes.item}>
+        <div
+          className={clsx(classes.item, {
+            [classes.itemMultiView]: !isMultiScreen,
+          })}
+        >
           <MapCard
             isMobile={true}
+            isMultiView={true}
             mapId="mapSatelliteView"
             mapLabel={props.t('tracker:map_satellite')}
             selectedTrackerId={
@@ -100,6 +116,7 @@ export default function MultiView(props: Props) {
             {...props}
           />
         </div>
+        <div className={clsx({ [classes.emptyMultiView]: !isMultiScreen })} />
       </div>
     </React.Fragment>
   );

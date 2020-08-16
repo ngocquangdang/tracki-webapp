@@ -59,6 +59,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main + ' !important',
     color: '#ffffff',
   },
+  btnMobile: {
+    width: '32px !important',
+    height: '32px !important',
+    padding: '8px !important',
+  },
   borderRadiusTop: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,

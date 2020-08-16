@@ -13,6 +13,7 @@ interface IProps {
   mapId: string;
   isFullWidth: boolean;
   isMultiScreen: boolean;
+  isMultiView: boolean;
   trackers: object;
   isMobile?: boolean;
   selectedTrackerId: number;
@@ -124,24 +125,26 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    const { mapId, tracker, isMultiScreen } = this.props;
+    const { mapId, tracker, isMultiScreen, isMobile, isMultiView } = this.props;
     const { mapCenter, mapZoom } = this.state;
     const mapTile = this.getMapTile(isMultiScreen, mapId);
     let center = mapCenter;
+
+    const zoom = isMobile && isMultiView ? 8 : mapZoom;
 
     if (tracker && tracker.lat && tracker.lng) {
       center = [tracker.lat, tracker.lng];
       this.isFirstFitBounce = true;
     }
 
-    this.map = L.map(mapId).setView(center, mapZoom);
+    this.map = L.map(mapId).setView(center, zoom);
     this.mapTile = L.tileLayer(TILE_TOKEN, {
       ...TILE_OPTIONS,
       id: 'mapbox/' + mapTile,
     }).addTo(this.map);
 
     this.map.on('locationfound', (e: L.LocationEvent) => {
-      this.map.panTo(e.latlng, { zoom: 15 });
+      this.map.panTo(e.latlng, { zoom });
       this.setState({ userLocation: e.latlng });
     });
 
