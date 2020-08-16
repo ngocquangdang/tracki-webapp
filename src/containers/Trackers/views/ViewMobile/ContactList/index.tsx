@@ -1,29 +1,35 @@
 import React, { useState } from 'react';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { Slide, InputAdornment } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 
 import { Button } from '@Components/buttons';
 import AddContact from '@Containers/AddNewContact';
-import { addContactRequestAction } from '@Containers/SingleTracker/store/actions';
 import { useStyles, SearchInput, TextInput, ButtonClose } from './styles';
 import ContactCard from '@Components/ContactCardSP';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { debounce } from 'lodash';
 import { IoMdClose } from 'react-icons/io';
+import { ITracker } from '@Interfaces';
 
 interface Props {
-  contacts: object;
+  isMobile: boolean;
   show: boolean;
-  onClose: () => void;
-  t(key: string, format?: object): string;
-  addContactPageRequest(data: object, callback: void): void;
-  [data: string]: any;
+  contacts: object;
+  handleClose(): void;
+  onSearch(v): void;
+  contactIds: Array<number>;
+  contactAssigneds?: object;
+  contactAssignedIds?: Array<number>;
+  addContactRequest(data, eventTypes): void;
+  removeContactRequest(data, eventTypes): void;
+  eventTypes?: string;
+  addContactPageRequest(data, callback): void;
+  t(key: string): string;
+  tracker: ITracker;
+  errors: any;
 }
 
-function ContactList(props: Props) {
+export default function ContactList(props: Props) {
   const [showAddContact, setShowAddContact] = useState(false);
   const classes = useStyles();
   const {
@@ -46,6 +52,7 @@ function ContactList(props: Props) {
   const debounceSearch = debounce((v: string) => onSearch(v), 300);
 
   const onShowAddContact = () => {
+    console.log('aaaa');
     setShowAddContact(true);
   };
   const onHiddenAddContact = () => {
@@ -151,14 +158,3 @@ function ContactList(props: Props) {
     </>
   );
 }
-
-const mapDispatchToProps = dispatch => ({
-  addContactPageRequest: (data: object, callback: void) =>
-    dispatch(addContactRequestAction(data, callback)),
-});
-
-const mapStateToProps = createStructuredSelector({});
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default compose(withConnect)(ContactList);

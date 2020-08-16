@@ -250,22 +250,6 @@ function TrackerGeofencesMobile(props: Props) {
         tracker={tracker}
         errors={errors}
       />
-      {/* <SelectContact
-        handleClose={onCloseContactList}
-        show={showContactList}
-        isMobile={isMobile}
-        contacts={contacts}
-        contactIds={contactIds}
-        onSearch={searchContactRequest}
-        t={t}
-        contactAssigneds={contactAssigneds}
-        contactAssignedIds={contactAssignedIds}
-        addContactRequest={addContactRequest}
-        removeContactRequest={removeContactRequest}
-        addContactPageRequest={addContactPageRequest}
-        tracker={tracker}
-        errors={errors}
-      /> */}
     </React.Fragment>
   );
 }
