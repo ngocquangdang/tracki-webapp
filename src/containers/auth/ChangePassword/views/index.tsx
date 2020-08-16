@@ -20,7 +20,7 @@ export default function ChangePassword(props: Props) {
   ];
 
   return (
-    <MainLayout isMobile={isMobile} header={<Header />} noFooter>
+    <MainLayout isMobile={isMobile} header={<Header />} hasFooter={false}>
       <ChangePWContainer>
         {!isMobile && <BreadCrumb title={'Change Password'} url={url} />}
         <SettingContent {...rest} />

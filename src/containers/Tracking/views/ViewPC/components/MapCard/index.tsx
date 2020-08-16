@@ -1,6 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import { withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
@@ -12,7 +13,9 @@ interface IProps {
   mapId: string;
   isFullWidth: boolean;
   isMultiScreen: boolean;
+  isMultiView: boolean;
   trackers: object;
+  isMobile?: boolean;
   selectedTrackerId: number;
   trackingIds: number[];
   classes: any;
@@ -51,7 +54,7 @@ class MapCard extends React.Component<IProps, IState> {
     this.state = {
       isInitiatedMap: false,
       mapCenter: [40.866667, 34.566667],
-      mapZoom: 8,
+      mapZoom: 15,
       userLocation: null,
       mapStyle: 'streets-v11',
     };
@@ -122,24 +125,26 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    const { mapId, tracker, isMultiScreen } = this.props;
+    const { mapId, tracker, isMultiScreen, isMobile, isMultiView } = this.props;
     const { mapCenter, mapZoom } = this.state;
     const mapTile = this.getMapTile(isMultiScreen, mapId);
     let center = mapCenter;
+
+    const zoom = isMobile && isMultiView ? 8 : mapZoom;
 
     if (tracker && tracker.lat && tracker.lng) {
       center = [tracker.lat, tracker.lng];
       this.isFirstFitBounce = true;
     }
 
-    this.map = L.map(mapId).setView(center, mapZoom);
+    this.map = L.map(mapId).setView(center, zoom);
     this.mapTile = L.tileLayer(TILE_TOKEN, {
       ...TILE_OPTIONS,
       id: 'mapbox/' + mapTile,
     }).addTo(this.map);
 
     this.map.on('locationfound', (e: L.LocationEvent) => {
-      this.map.panTo(e.latlng, { zoom: 15 });
+      this.map.panTo(e.latlng, { zoom });
       this.setState({ userLocation: e.latlng });
     });
 
@@ -224,6 +229,7 @@ class MapCard extends React.Component<IProps, IState> {
       trackers,
       selectedTrackerId,
       trackingIds,
+      isMobile,
       t,
     } = this.props;
 
@@ -238,9 +244,19 @@ class MapCard extends React.Component<IProps, IState> {
 
     return (
       <React.Fragment>
-        <div id={mapId} className={classes.mapCard} />
+        <div
+          id={mapId}
+          className={clsx(classes.mapCard, {
+            [classes.mapCardMobile]: isMobile,
+          })}
+        />
         {isMultiScreen ? (
-          <div className={classes.selects} style={{ position: 'absolute' }}>
+          <div
+            className={clsx(classes.selects, {
+              [classes.selectMobile]: isMobile,
+            })}
+            style={{ position: 'absolute' }}
+          >
             <SelectTracker
               id={mapId}
               value={selectedTrackerId.toString()}
@@ -249,7 +265,12 @@ class MapCard extends React.Component<IProps, IState> {
             />
           </div>
         ) : (
-          <div className={classes.mapLabel} style={{ position: 'absolute' }}>
+          <div
+            className={clsx(classes.mapLabel, {
+              [classes.labelMobile]: isMobile,
+            })}
+            style={{ position: 'absolute' }}
+          >
             {mapLabel}
           </div>
         )}
@@ -260,6 +281,7 @@ class MapCard extends React.Component<IProps, IState> {
         {isInitiatedMap && (
           <MapToolBar
             t={t}
+            isMobile={isMobile}
             mapTile={mapStyle}
             changeMapTile={this.changeMapTile}
             myLocationClick={this.getUserLocation}

@@ -64,6 +64,7 @@ import {
   removeContactAssignedRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
+import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
 
 interface Props {
   handleClose(): void;
@@ -78,12 +79,13 @@ interface Props {
   contacts: object;
   contactIds: Array<number>;
   searchContactRequest(v): void;
-  addContactAction(data, callback): void;
   getContactAssignedRequest(device_id): void;
-  contactAssigneds: object;
-  contactAssignedIds: Array<number>;
+  contactAssigneds?: object;
+  contactAssignedIds?: Array<number>;
   addContactRequest(data, eventType): void;
   removeContactRequest(data, eventType): void;
+  addContactPageRequest(data, callback): void;
+  errors: any;
 }
 
 function SettingTracker(props: Props) {
@@ -101,7 +103,7 @@ function SettingTracker(props: Props) {
     isMobile,
     isRequesting,
     getContactListRequest,
-    addContactAction,
+    addContactPageRequest,
     contacts,
     contactIds,
     searchContactRequest,
@@ -110,7 +112,9 @@ function SettingTracker(props: Props) {
     contactAssignedIds,
     addContactRequest,
     removeContactRequest,
+    errors,
   } = props;
+
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
@@ -479,19 +483,22 @@ function SettingTracker(props: Props) {
         contacts={contacts}
         contactIds={contactIds}
         onSearch={searchContactRequest}
-        addContactAction={addContactAction}
-        t={t}
         contactAssigneds={contactAssigneds}
         contactAssignedIds={contactAssignedIds}
         addContactRequest={addContactRequest}
         removeContactRequest={removeContactRequest}
         eventTypes={eventType}
+        t={t}
+        addContactPageRequest={addContactPageRequest}
+        tracker={tracker}
+        errors={errors}
       />
     </SideBarOutside>
   );
 }
 
 const mapStateToProps = createStructuredSelector({
+  errors: makeSelectErrors(),
   isRequesting: makeSelectLoading(),
   settings: makeSelectTrackerSettings(),
   contacts: makeSelectContactList(),
@@ -505,7 +512,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
   getContactListRequest: () => dispatch(getContactListRequestAction()),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
-  addContactAction: (data, callback) =>
+  addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
   getContactAssignedRequest: (device_id: number) =>
     dispatch(getContactAssignedRequestedAction(device_id)),

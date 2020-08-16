@@ -4,17 +4,27 @@ import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { emailSchema } from '../../../schema';
 
-import { useStyles } from './styles';
+import { useStyles, Notifi } from './styles';
 
 const initialData = {
   name: '',
   email: '',
 };
 export default function EmailForm(props) {
-  const { t, type, addContactAction, isRequesting, onClose } = props;
+  const {
+    t,
+    type,
+    addContactPageRequest,
+    isRequesting,
+    onClose,
+    errors,
+  } = props;
   const classes = useStyles();
   const onSubmit = value => {
-    addContactAction({ name: value.name, type, address: value.email }, onClose);
+    addContactPageRequest(
+      { name: value.name, type, address: value.email },
+      onClose
+    );
   };
   return (
     <div>
@@ -55,6 +65,7 @@ export default function EmailForm(props) {
                   errorsForm.email && touched.email ? t(errorsForm.email) : ''
                 }
               />
+              <Notifi>{errors.code}</Notifi>
               <Button
                 className={`${classes.fullWidth} ${classes.btn}`}
                 text={t('auth:add_contact')}

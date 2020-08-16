@@ -8,9 +8,6 @@ const ToolBar = styled.div`
   left: 9px;
   bottom: 9px;
   z-index: 400;
-  @media (max-width: 959.95px) {
-    display: none;
-  }
 `;
 
 const ZoomButton = styled.div`
@@ -62,6 +59,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main + ' !important',
     color: '#ffffff',
   },
+  btnMobile: {
+    width: '32px !important',
+    height: '32px !important',
+    padding: '8px !important',
+  },
   borderRadiusTop: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -87,7 +89,7 @@ const IconButtonStyle = withStyles(theme => ({
     height: 40,
     fontSize: 20,
     backgroundColor: '#ffffff',
-    margin: '5px 0',
+    margin: '0 0 5px',
     '&:hover': {
       background: theme.palette.primary.main,
       color: '#ffffff',

@@ -17,7 +17,10 @@ const apiMiddleware = (store: any) => (next: any) => (action: ActionType) => {
   }
 
   if (actionType.includes('FAILED')) {
-    const { message, code, message_key } = payloadAction;
+    const {
+      error: { message = '', code = '', message_key = '' } = {},
+    } = payloadAction;
+
     if (code === '400') {
       console.log('___400 ERROR', message);
     }

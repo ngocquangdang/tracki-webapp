@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SideBarOutsideContact } from '@Components/sidebars';
 import { debounce } from 'lodash';
 import ContactCard from '@Components/ContactCardSP';
@@ -15,6 +15,7 @@ import {
 import { AiOutlineSearch } from 'react-icons/ai';
 import { InputAdornment } from '@material-ui/core';
 import AddNewContact from '@Containers/AddNewContact';
+import { ITracker } from '@Interfaces';
 
 interface Props {
   isMobile: boolean;
@@ -23,13 +24,15 @@ interface Props {
   handleClose(): void;
   onSearch(v): void;
   contactIds: Array<number>;
-  contactAssigneds: object;
-  contactAssignedIds: Array<number>;
+  contactAssigneds?: object;
+  contactAssignedIds?: Array<number>;
   addContactRequest(data, eventTypes): void;
   removeContactRequest(data, eventTypes): void;
   eventTypes?: string;
-  addContactAction(data, callback): void;
+  addContactPageRequest(data, callback): void;
   t(key: string): string;
+  tracker: ITracker;
+  errors: any;
 }
 
 export default function SelectContactSP(props: Props) {
@@ -41,54 +44,34 @@ export default function SelectContactSP(props: Props) {
     handleClose,
     onSearch,
     contactIds,
-    contactAssignedIds,
-    contactAssigneds,
     addContactRequest,
     removeContactRequest,
-    addContactAction,
+    addContactPageRequest,
     t,
     eventTypes,
+    tracker,
+    errors,
   } = props;
 
-  const [initialAssigned, setInitialAssigned] = useState<number[]>([]);
-  const [intialContactIds, seIintialContactIds] = useState<number[]>([]);
-  const [intialContacts, setInitialContacts] = useState({});
-  const [checked, setChecked] = useState<number[]>([]); // day la mang ban dau a
-
-  useEffect(() => {
-    const speedLimit = contactAssignedIds.filter(contactId => {
-      return contactAssigneds[contactId].eventTypes.find(
-        item => item === eventTypes
-      );
-    });
-    setChecked(speedLimit);
-    setInitialAssigned(speedLimit);
-  }, [contactAssignedIds, contactAssigneds, eventTypes]);
-
-  useEffect(() => {
-    setInitialContacts(contacts);
-    seIintialContactIds(contactIds);
-  }, [contacts, contactIds]);
+  const { contacts: contactOfTracker = [] } = tracker;
+  const [contactSelected, setContactSelected] = useState([...contactOfTracker]);
 
   const [showAddContact, setShowAddContact] = useState(false);
 
   const debounceSearch = debounce((v: string) => onSearch(v), 300);
-
   const onShowAddContact = () => {
     setShowAddContact(true);
   };
   const onHiddenAddContact = () => {
     setShowAddContact(false);
   };
-  const onChecked = value => {
-    const index = checked.indexOf(value);
-    if (checked[index] === value) {
-      return setChecked([
-        ...checked.slice(0, index),
-        ...checked.slice(index + 1),
-      ]);
+
+  const handleChecked = (contact_id: number) => {
+    if (contactSelected.includes(contact_id)) {
+      setContactSelected(contactSelected.filter(item => item !== contact_id));
+    } else {
+      setContactSelected([...contactSelected, contact_id]);
     }
-    setChecked([...checked, value]);
   };
 
   const getRemoveData = (initArr: any, currentArr: any) => {
@@ -104,8 +87,11 @@ export default function SelectContactSP(props: Props) {
   };
 
   const onSubmit = () => {
-    const addContactAssign = getAddData(initialAssigned, checked);
-    const removeContactAssign = getRemoveData(initialAssigned, checked);
+    const addContactAssign = getAddData(contactOfTracker, contactSelected);
+    const removeContactAssign = getRemoveData(
+      contactOfTracker,
+      contactSelected
+    );
     if (addContactAssign.length > 0) {
       addContactRequest(addContactAssign, eventTypes);
     }
@@ -138,23 +124,15 @@ export default function SelectContactSP(props: Props) {
       isMobile={isMobile}
     >
       <SelectContactContainer>
-        {intialContactIds?.map(item => (
+        {contactIds?.map(item => (
           <ContactCard
-            contact={intialContacts[item]}
-            checked={checked.includes(item)}
-            handleChange={onChecked}
+            contact={contacts[item]}
+            contactSelected={contactSelected}
+            handleChange={handleChecked}
             key={item}
           />
         ))}
-        <Save>
-          <Button
-            className={`${classes.btn} ${classes.margin}`}
-            variant="outlined"
-            // isLoading={isRequesting}
-            text={'save'}
-            onClick={onSubmit}
-          />
-        </Save>
+
         <Button
           className={`${classes.addBtn} ${classes.margin}`}
           variant="contained"
@@ -166,11 +144,21 @@ export default function SelectContactSP(props: Props) {
         <AddNewContact
           showAddContact={showAddContact}
           onClose={onHiddenAddContact}
-          addContactAction={addContactAction}
+          addContactPageRequest={addContactPageRequest}
           t={t}
           isMobile={isMobile}
+          errors={errors}
         />
       </SelectContactContainer>
+      <Save>
+        <Button
+          className={`${classes.btn} ${classes.margin}`}
+          variant="outlined"
+          // isLoading={isRequesting}
+          text={'save'}
+          onClick={onSubmit}
+        />
+      </Save>
     </SideBarOutsideContact>
   );
 }

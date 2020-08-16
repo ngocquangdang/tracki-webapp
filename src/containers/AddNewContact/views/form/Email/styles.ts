@@ -1,4 +1,10 @@
 import { makeStyles } from '@material-ui/core';
+import styled from 'styled-components';
+
+const Notifi = styled.p`
+  color: #ff0000;
+  text-align: center;
+`;
 
 const useStyles = makeStyles(theme => ({
   fullWidth: {
@@ -17,4 +23,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export { useStyles };
+export { useStyles, Notifi };

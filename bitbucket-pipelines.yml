@@ -57,6 +57,10 @@ pipelines:
                 - docker
               script:
                 - export TAG="dev_${BITBUCKET_COMMIT::7}"
+<<<<<<< Updated upstream
+                - yarn
+                - yarn build:development
+=======
                 - cp .env.example .env
                 - sed -i -e 's/FACEBOOK_ID=.*/FACEBOOK_ID=${FACEBOOK_ID}/g' .env
                 - sed -i -e 's/FACEBOOK_SECRET=.*/FACEBOOK_SECRET=${FACEBOOK_SECRET}/g' .env
@@ -64,7 +68,9 @@ pipelines:
                 - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=.*/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=${NEXT_PUBLIC_OAUTH_CLIENT_SECRET}/g' .env
                 - sed -i -e 's#NEXT_PUBLIC_API_URL=.*#NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}#g' .env
                 - sed -i -e 's#NEXT_PUBLIC_OAUTH_REDIRECT_URI=.*#NEXT_PUBLIC_OAUTH_REDIRECT_URI=${NEXT_PUBLIC_OAUTH_REDIRECT_URI}#g' .env
+                - yarn
                 - yarn build
+>>>>>>> Stashed changes
                 - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
                 - docker build -t mtrk2021/tracki-frontend:$TAG .
                 - docker push mtrk2021/tracki-frontend:$TAG
@@ -87,6 +93,10 @@ pipelines:
                 - docker
               script:
                 - export TAG="dev2_${BITBUCKET_COMMIT::7}"
+<<<<<<< Updated upstream
+                - yarn
+                - yarn build:preproduction
+=======
                 - cp .env.example .env
                 - sed -i -e 's/FACEBOOK_ID=.*/FACEBOOK_ID=${FACEBOOK_ID}/g' .env
                 - sed -i -e 's/FACEBOOK_SECRET=.*/FACEBOOK_SECRET=${FACEBOOK_SECRET}/g' .env
@@ -94,7 +104,9 @@ pipelines:
                 - sed -i -e 's/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=.*/NEXT_PUBLIC_OAUTH_CLIENT_SECRET=${NEXT_PUBLIC_OAUTH_CLIENT_SECRET}/g' .env
                 - sed -i -e 's#NEXT_PUBLIC_API_URL=.*#NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}#g' .env
                 - sed -i -e 's#NEXT_PUBLIC_OAUTH_REDIRECT_URI=.*#NEXT_PUBLIC_OAUTH_REDIRECT_URI=${NEXT_PUBLIC_OAUTH_REDIRECT_URI}#g' .env
+                - yarn
                 - yarn build
+>>>>>>> Stashed changes
                 - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
                 - docker build -t mtrk2021/tracki-frontend:$TAG .
                 - docker push mtrk2021/tracki-frontend:$TAG

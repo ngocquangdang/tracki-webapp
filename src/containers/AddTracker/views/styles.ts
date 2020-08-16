@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Container = styled.div`
+interface Props {
+  stepChild: string;
+}
+const Container = styled.div<Props>`
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100%;
   background-color: #f4f5f6;
   @media (max-width: 995.95px) {
-    background: #ffffff;
+    background: ${props => (props.stepChild !== '' ? '#f4f5f6' : '#ffffff')};
   }
 `;
 
@@ -46,13 +49,16 @@ const Header = styled.header`
   justify-content: space-between;
   @media (max-width: 995.95px) {
     padding: 5px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccd0d5;
+    height: 56px;
   }
 `;
 
 const useStyles = makeStyles(theme => ({
   backBtn: {
     color: '#1a1a1a',
-    fontSize: 17,
+    fontSize: 16,
     padding: 0,
     '& span svg': {
       fontSize: '36px !important',

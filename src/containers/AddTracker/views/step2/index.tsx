@@ -5,7 +5,6 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
 import { Button } from '@Components/buttons';
 import { paymentService } from '../../services/payment';
-// import * as apiServices from '../../services';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import {
@@ -22,6 +21,7 @@ import {
   PlanList,
   PlanItem,
   Paner,
+  Text,
 } from './styles';
 
 interface Props {
@@ -49,6 +49,7 @@ export default function Step2(props: Props) {
     onNextStep,
     isMobile,
     braintreeDropinAction,
+    updateStepChild,
   } = props;
 
   const dataPlan = {
@@ -102,6 +103,7 @@ export default function Step2(props: Props) {
     `${t('tracker:no_activation')}`,
   ];
 
+  const [step] = useState('payment_confirm');
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [disablePayment, setDisableSubmitCard] = useState(false);
@@ -121,7 +123,7 @@ export default function Step2(props: Props) {
   };
 
   const onPaymentSubmit = () => {
-    braintreeDropinAction(formData, onNextStep);
+    braintreeDropinAction(formData, renderStep);
   };
 
   function BraintreePaymentGateway(selectedPlan, account_id) {
@@ -163,18 +165,18 @@ export default function Step2(props: Props) {
     return classes.card;
   };
 
-  // const renderStep = () => {
-  //   switch (step) {
-  //     case 'payment_confirm':
-  //       return updateStepChild('payment_confirm');
-  //     case 'referral_code':
-  //       return updateStepChild('referral_code');
-  //     case 'congratulation':
-  //       return updateStepChild('congratulation');
-  //     default:
-  //       return 'no case';
-  //   }
-  // };
+  const renderStep = () => {
+    switch (step) {
+      case 'payment_confirm':
+        return updateStepChild('payment_confirm');
+      case 'referral_code':
+        return updateStepChild('referral_code');
+      case 'congratulation':
+        return updateStepChild('congratulation');
+      default:
+        return 'no case';
+    }
+  };
 
   const onHiddenOtherPlan = () => {
     setPaymentPlan(null);
@@ -229,7 +231,7 @@ export default function Step2(props: Props) {
               </CardDescription>
             </CardContent>
             <Paner mostPopular={dataPlan[card.id]?.most_popular}>
-              {t('tracker:most_popular')}
+              {isMobile ? '20%' : t('tracker:most_popular')}
             </Paner>
           </Card>
         ))}
@@ -252,7 +254,7 @@ export default function Step2(props: Props) {
       </Image2>
       <div className={`${!isShowOtherPlan ? classes.hidden : ''}`}>
         <div id="dropin-container"></div>
-        <p>All transactions are secure and encrypted.</p>
+        <Text>All transactions are secure and encrypted.</Text>
         <Button
           onClick={onPaymentSubmit}
           disabled={disablePayment}

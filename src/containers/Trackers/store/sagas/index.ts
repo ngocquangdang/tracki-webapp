@@ -23,7 +23,7 @@ function* fetchTrackersSaga(action) {
     console.log('reducer', assignmentsData);
     tracker = assignmentsData.reduce(
       (result, item) => {
-        const { fences, device_id, geozones, settings } = item;
+        const { fences, device_id, geozones, settings, contacts } = item;
 
         // fence reduce
         result.fences = fences.reduce((objFences, fItem) => {
@@ -34,6 +34,16 @@ function* fetchTrackersSaga(action) {
           ];
           return objFences;
         }, result.fences);
+
+        // contact reduce
+        result.contacts = contacts.reduce((objContacts, cItem) => {
+          objContacts[cItem.id] = cItem;
+          result.trackers[device_id].contacts = [
+            ...(result.trackers[device_id].contacts || []),
+            cItem.id,
+          ];
+          return objContacts;
+        }, result.contacts);
 
         // geozones reduce => reference to Geofence list
         geozones.map(geoItem => {

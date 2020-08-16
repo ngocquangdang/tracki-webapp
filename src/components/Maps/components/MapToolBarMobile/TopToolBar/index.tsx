@@ -8,6 +8,10 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import {
+  makeSelectShowGeofences,
+  makeSelectShowTrackersName,
+} from '@Containers/App/store/selectors';
+import {
   toggleGeofenceAction,
   toggleTrackerNameAction,
 } from '@Containers/App/store/actions';
@@ -43,14 +47,22 @@ const StyledMenu = withStyles({
 
 interface Props {
   mapTile: string;
+  showGeofences: boolean;
+  showTrackerName: boolean;
   t(key: string): string;
-  toggleGeofencs(): void;
+  toggleGeofences(): void;
   toggleTrackerName(): void;
   [data: string]: any;
 }
 
 function MapToolBarMobile(props: Props) {
-  const { toggleTrackerName, toggleGeofencs } = props;
+  const {
+    showGeofences,
+    showTrackerName,
+    t,
+    toggleTrackerName,
+    toggleGeofences,
+  } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -88,7 +100,7 @@ function MapToolBarMobile(props: Props) {
               anchorEl ? '' : classes.displayText
             }`}
           >
-            View on Google Maps
+            {t('common:view_on_gg_map')}
           </ItemText>
           <Icon className={classes.menuItemIcon}>
             <FaStreetView className={classes.menuIcon} />
@@ -103,14 +115,16 @@ function MapToolBarMobile(props: Props) {
               anchorEl ? '' : classes.displayText
             }`}
           >
-            Show Device Name
+            {showTrackerName
+              ? t('common:hide_tracker_name')
+              : t('common:show_tracker_name')}
           </ItemText>{' '}
           <Icon className={classes.menuItemIcon}>
             <Text>A</Text>
           </Icon>
         </MenuItem>
         <MenuItem
-          onClick={toggleGeofencs}
+          onClick={toggleGeofences}
           className={anchorEl ? '' : classes.fullWidth}
         >
           <ItemText
@@ -118,7 +132,9 @@ function MapToolBarMobile(props: Props) {
               anchorEl ? '' : classes.displayText
             }`}
           >
-            Show Fences
+            {showGeofences
+              ? t('common:hide_geofences')
+              : t('common:show_geofences')}
           </ItemText>{' '}
           <Icon className={classes.menuItemIcon}>
             <MdBorderStyle className={classes.menuIcon} />
@@ -129,7 +145,10 @@ function MapToolBarMobile(props: Props) {
   );
 }
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  showGeofences: makeSelectShowGeofences(),
+  showTrackerName: makeSelectShowTrackersName(),
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleGeofences: () => dispatch(toggleGeofenceAction()),

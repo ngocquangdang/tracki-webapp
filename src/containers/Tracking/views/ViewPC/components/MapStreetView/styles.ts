@@ -5,6 +5,9 @@ export default {
     height: '100%',
     overflow: 'hidden',
   },
+  mobile: {
+    borderRadius: 0,
+  },
   mapLabel: {
     zIndex: 410,
     right: 8,
@@ -17,5 +20,10 @@ export default {
     fontSize: 14,
     lineHeight: '18px',
     fontFamily: 'Roboto',
+  },
+  labelMobile: {
+    fontSize: 11,
+    lineHeight: '13px',
+    padding: '4px 10px',
   },
 };

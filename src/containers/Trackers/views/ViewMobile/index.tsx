@@ -13,6 +13,7 @@ import TrackerGeofences from './TrackerGeofences';
 import { Container, ContentCardDetail, MapView } from './styles';
 
 interface Props {
+  t(key: string, format?: object): string;
   [data: string]: any;
 }
 
@@ -35,7 +36,7 @@ export default function ViewHomeMobile(props: Props) {
         <Map fullWidth={true} mapType="leaflet" {...props} />
         {props.selectedTrackerId && (
           <React.Fragment>
-            <TopToolBar />
+            <TopToolBar t={props.t} />
             <BottomToolBar
               t={props.t}
               tracker={tracker}

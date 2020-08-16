@@ -10,6 +10,7 @@ import {
 } from '@Containers/Trackers/store/selectors';
 // import notification from '@Utils/notification';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
 
 function* fetchTrackerSettingsSaga(action) {
   try {
@@ -193,7 +194,6 @@ function* getContactAssignedSaga(action) {
         contactAssignedIds: [],
       }
     );
-    console.log(contactAssigned);
     yield put(actions.getContactAssignedSucceedAction(contactAssigned));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -231,6 +231,7 @@ function* addContactAssignSaga(action) {
       data,
       eventType
     );
+    yield put(selectTrackerIdAction(device_id));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -240,13 +241,10 @@ function* addContactAssignSaga(action) {
 
 function* removeContactAssignSaga(action) {
   const { data, eventType } = action.payload;
-  console.log('function*removeContactAssignSaga -> eventType', eventType);
-  console.log('function*removeContactAssignSaga -> data', data);
 
   try {
     const profile = yield select(makeSelectProfile());
     const device_id = yield select(makeSelectTrackerId());
-    console.log('aaaaaaaa');
     yield call(
       apiServices.removeContactAssigned,
       profile.account_id,

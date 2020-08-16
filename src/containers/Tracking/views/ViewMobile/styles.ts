@@ -1,27 +1,81 @@
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core';
 
-const Container = styled.div`
-  display: flex;
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 101px);
-`;
-
-const MapView = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-`;
-const ContentCardDetail = styled.div`
-  opacity: 0.95;
-  border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-  background-color: #ffffff;
-  position: absolute;
-  bottom: 5px;
-  width: calc(100% - 10px);
-  left: 5px;
-  right: 5px;
-  z-index: 400;
-`;
-export { Container, MapView, ContentCardDetail };
+export default makeStyles(() => ({
+  container: {
+    position: 'fixed',
+    width: '100%',
+    height: '100%',
+  },
+  header: {
+    height: 56,
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: 8,
+    borderBottom: '1px solid #dedede',
+  },
+  headerLeft: {
+    display: 'flex',
+  },
+  iconBack: {
+    width: 32,
+    height: 32,
+    alignSelf: 'center',
+    padding: 0,
+  },
+  icon: {
+    position: 'relative',
+    left: 3,
+    padding: 2,
+    color: '#1a1a1a',
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 16,
+    lineHeight: '19px',
+    fontWeight: 400,
+    color: '#1a1a1a',
+  },
+  headerBtn: {
+    color: '#666',
+    fontSize: 15,
+    lineHeight: '18px',
+    fontWeight: 300,
+    alignSelf: 'center',
+  },
+  headerBtnIcon: {
+    fontSize: '16px !important',
+  },
+  footer: {
+    position: 'fixed',
+    bottom: 0,
+    borderTop: '1px solid #ddd',
+    width: '100%',
+    height: 45,
+  },
+  mapView: {
+    position: 'relative',
+    height: 'calc(100% - 101px)',
+    width: '100%',
+    overflowY: 'auto',
+  },
+  tabs: {
+    minHeight: '100%',
+    height: '100%',
+    '& div div': {
+      height: '100%',
+    },
+  },
+  indicator: {
+    height: 4,
+  },
+  tabItem: {
+    padding: 0,
+    width: '25%',
+    minWidth: '25%',
+    flexDirection: 'row',
+    fontWeight: 300,
+    fontSize: 14,
+    lineHeight: '17px',
+    minHeight: '100%',
+  },
+}));

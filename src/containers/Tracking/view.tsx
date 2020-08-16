@@ -17,9 +17,12 @@ interface Props {
 }
 
 function View(props: Props) {
+  if (props.isMobile) {
+    return <ViewMobile {...props} />;
+  }
   return (
     <MainLayout isMobile={props.isMobile}>
-      {props.isMobile ? <ViewMobile {...props} /> : <ViewPC {...props} />}
+      <ViewPC {...props} />
     </MainLayout>
   );
 }

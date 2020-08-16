@@ -8,7 +8,7 @@ const Form = styled.form`
   width: 100%;
   margin: 76px auto;
   @media (max-width: 995.95px) {
-    padding: 30px 15px;
+    padding: 30px 10px;
     margin: 0;
   }
 `;
@@ -69,6 +69,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20,
     fontWeight: 'bold',
     textDecoration: 'underline',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+    },
   },
 
   marginInput: {

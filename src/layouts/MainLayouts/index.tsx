@@ -6,19 +6,19 @@ const LayoutMobile = dynamic(() => import('./LayoutMobile'));
 
 interface Props {
   isMobile?: boolean;
-  noFooter?: boolean;
+  hasFooter?: boolean;
   header?: JSX.Element;
   children: any;
 }
 
 function MainLayout(props: Props) {
-  const { isMobile, header, children, noFooter } = props;
+  const { isMobile, header, children, hasFooter = true } = props;
   if (isMobile) {
     return (
       <LayoutMobile
         t={children.props.t}
         header={header}
-        noFooter={noFooter}
+        hasFooter={hasFooter}
         trackers={children.props.trackers}
       >
         {children}

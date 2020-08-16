@@ -4,6 +4,9 @@ export default {
     height: '100%',
     borderRadius: 4,
   },
+  mapCardMobile: {
+    borderRadius: 0,
+  },
   mapLabel: {
     zIndex: 410,
     right: 8,
@@ -17,6 +20,11 @@ export default {
     lineHeight: '18px',
     fontFamily: 'Roboto',
   },
+  labelMobile: {
+    fontSize: 11,
+    lineHeight: '13px',
+    padding: '4px 10px',
+  },
   selects: {
     zIndex: 410,
     right: 8,
@@ -24,6 +32,13 @@ export default {
     width: '50%',
     '& > div': {
       margin: '0 !important',
+    },
+  },
+  selectMobile: {
+    maxWidth: '50%',
+    width: 'auto',
+    '& > div > div > div': {
+      padding: '5px 26px 5px 10px',
     },
   },
 };

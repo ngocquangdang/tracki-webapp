@@ -43,6 +43,7 @@ import View from './view';
 
 interface Props {
   trackerId?: any;
+  t(key: string, format?: object): string;
   fetchUserRequestedAction(): void;
   [data: string]: any;
 }

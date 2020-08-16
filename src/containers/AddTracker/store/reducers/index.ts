@@ -46,8 +46,8 @@ const AddTrackerReducer = (
         draft.errors = {};
         break;
       case types.ADD_DEVICE_SUCCESSED:
+        draft.isRequesting = false;
         break;
-
       case types.CHECK_DEVICEID_ASSIGNED_FAILED:
       case types.GET_TOKEN_FOR_PAYMENT_FAILED:
         draft.isRequesting = false;

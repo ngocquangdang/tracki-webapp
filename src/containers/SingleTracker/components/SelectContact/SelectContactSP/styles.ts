@@ -3,13 +3,15 @@ import { TextField, withStyles, makeStyles } from '@material-ui/core';
 
 const SelectContactContainer = styled.div`
   margin-top: 56px;
-  height: calc(100% - 56px);
+  height: calc(100% - 146px);
+  position: relative;
   background: #363640;
   color: #ffffff;
   overflow: auto;
 `;
 const Save = styled.div`
-  margin: 10px;
+  padding: 10px;
+  background: #363640;
 `;
 const SelectContactAddButton = styled.div``;
 const SearchInput = styled.div``;
@@ -43,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   addBtn: {
     position: 'absolute',
-    top: '75%',
+    bottom: '0',
     right: 15,
     borderRadius: 100,
     background: '#ffffff',

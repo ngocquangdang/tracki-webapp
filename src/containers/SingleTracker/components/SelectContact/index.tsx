@@ -1,5 +1,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { ITracker } from '@Interfaces';
 
 const SelectContactSP = dynamic(() => import('./SelectContactSP'));
 const SelectContactPC = dynamic(() => import('./SelectContactPC'));
@@ -11,13 +12,15 @@ interface Props {
   handleClose(): void;
   onSearch(v): void;
   contactIds: Array<number>;
-  contactAssigneds: object;
-  contactAssignedIds: Array<number>;
+  contactAssigneds?: object;
+  contactAssignedIds?: Array<number>;
   addContactRequest(data, eventTypes): void;
   removeContactRequest(data, eventTypes): void;
   eventTypes?: string;
-  addContactAction(data, callback): void;
+  addContactPageRequest(data, callback): void;
   t(key: string): string;
+  tracker: ITracker;
+  errors: any;
 }
 
 export default function SelectContact(props: Props) {
@@ -25,7 +28,6 @@ export default function SelectContact(props: Props) {
 
   if (isMobile) {
     return <SelectContactSP {...props} />;
-  } else {
-    return <SelectContactPC {...props} />;
   }
+  return <SelectContactPC {...props} />;
 }

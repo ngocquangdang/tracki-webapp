@@ -1,4 +1,9 @@
-import { makeStyles } from '@material-ui/core';
+import { TextField, withStyles, makeStyles } from '@material-ui/core';
+import styled from 'styled-components';
+
+const SearchInput = styled.div``;
+
+const ButtonClose = styled.div``;
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -11,10 +16,15 @@ const useStyles = makeStyles(theme => ({
   },
   header: {
     height: 60,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '0 10px',
   },
   content: {
     height: 'calc(100% - 140px)',
     position: 'relative',
+    color: '#ffffff',
   },
   saveBtn: {
     height: 50,
@@ -41,6 +51,38 @@ const useStyles = makeStyles(theme => ({
     height: 80,
     padding: 15,
   },
+  buttonClose: {
+    width: '25px',
+    height: '25px',
+    color: '#ffffff',
+    cursor: 'pointer',
+    marginRight: 14.5,
+  },
 }));
 
-export { useStyles };
+const TextInput = withStyles(theme => ({
+  root: {
+    width: '100%',
+    '& .MuiInputBase-root': {
+      height: '50px',
+      color: '#ffffff',
+    },
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+    '& .MuiOutlinedInput-input': {
+      padding: '15.5px 0',
+      fontSize: 15,
+    },
+    '& .MuiInput-underline:before': {
+      border: 0,
+    },
+    '.MuiInput-underline:hover:not(.Mui-disabled):before': {
+      border: 0,
+    },
+  },
+}))(TextField);
+
+export { useStyles, SearchInput, TextInput, ButtonClose };

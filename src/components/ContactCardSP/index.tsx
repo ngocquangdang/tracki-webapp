@@ -10,13 +10,13 @@ import {
 } from './styles';
 
 interface Props {
-  checked?: boolean;
+  contactSelected?: number[];
   handleChange(value): void;
   contact: any;
 }
 
 export default function ContactCard(props: Props) {
-  const { checked, handleChange, contact } = props;
+  const { contactSelected, handleChange, contact } = props;
   const onChecked = e => () => {
     handleChange(e);
   };
@@ -25,7 +25,7 @@ export default function ContactCard(props: Props) {
       <Card>
         <SelectCard>
           <Checkbox
-            checked={checked}
+            checked={contactSelected?.includes(contact.id)}
             onClick={onChecked(contact.id)}
             color="primary"
             inputProps={{ 'aria-label': 'primary checkbox' }}
