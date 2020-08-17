@@ -11,7 +11,11 @@ const useStyles = makeStyles(theme => ({
   content: {
     backgroundColor: 'white',
   },
-  listDevice: {},
+  listDevice: {
+    '& li': {
+      display: 'block',
+    },
+  },
   title: {
     padding: '25px 15px 0',
     fontSize: 18,

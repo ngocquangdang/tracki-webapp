@@ -8,7 +8,7 @@ import {
   WrapTitle,
   TitleMobile,
   ButtonSave,
-  TextSave,
+  // TextSave,
   Title,
   Logo,
   TextAddNew,
@@ -110,7 +110,7 @@ export default function SideBarOut(props: Props) {
                 ) : (
                   <ButtonSave>
                     <DoneIcon className={classes.iconSave} />
-                    <TextSave>Save</TextSave>
+                    {/* <TextSave>Save</TextSave> */}
                   </ButtonSave>
                 )
               ) : (

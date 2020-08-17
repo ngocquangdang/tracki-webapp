@@ -110,6 +110,7 @@
   "edit_geofence": "Edit Geofence",
   "deactive": "Deactive",
   "delete_this_fence": "Delete this Fence",
+  "delete_fence": "Delete Fence",
   "add_a_geofence": "Add a Geo-Fence",
   "add_device_to": "Add Device to {{text}}",
   "trackers_linked_to": "Tracker's Linked to {{text}}",
