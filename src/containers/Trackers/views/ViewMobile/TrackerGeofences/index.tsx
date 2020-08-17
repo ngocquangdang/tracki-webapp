@@ -26,7 +26,9 @@ import {
 } from '@Containers/Trackers/store/actions';
 import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
 import { changeMapAction } from '@Containers/App/store/actions';
+import AddGeoFenceToDevice from '@Components/GeofenceListPC/components/AddGeoFenceToDevice';
 import ContactList from '../ContactList';
+import CreateGeofence from '../CreateGeofence';
 import { useStyles } from './styles';
 
 interface Props {
@@ -65,12 +67,22 @@ function TrackerGeofencesMobile(props: Props) {
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
-  const [showContactList, setShowContactList] = useState(false);
+  const [currentView, setCurrentView] = useState('');
   const [selectedTrackerId, setSelectedTrackerId] = useState<number | null>(
     null
   );
+  const [selectedGeofenceId, setSelectedGeofenceId] = useState<number | null>(
+    null
+  );
+
+  const onCloseCurrentView = () => {
+    setCurrentView('');
+    setSelectedGeofenceId(null);
+    setSelectedTrackerId(null);
+  };
 
   const onAddFence = () => {
+    setCurrentView('createGeofence');
     createNewGeofence({ ...GEOFENCE_DEFAULT, id: uniqueId('new_geo_') });
     changeMapAction(MAP_ACTIONS.CREATE_RECTANGLE);
   };
@@ -89,17 +101,23 @@ function TrackerGeofencesMobile(props: Props) {
 
   const editGeofence = (geoId: number) => {
     editGeofenceAction(geoId);
+    setCurrentView('createGeofence');
   };
 
   const onAddContact = (trackerId: number) => {
     getContactListRequestAction();
     setSelectedTrackerId(trackerId);
-    setShowContactList(true);
+    setCurrentView('contactList');
+  };
+
+  const onAddGeofenceToDevices = (geoId: number) => {
+    setSelectedGeofenceId(geoId);
+    setCurrentView('addGeofenceToDevice');
   };
 
   const onCloseContactList = () => {
     setSelectedTrackerId(null);
-    setShowContactList(false);
+    setCurrentView('');
   };
 
   const geofenceNotLinkedByTracker = Object.keys(geofences).filter(
@@ -172,6 +190,7 @@ function TrackerGeofencesMobile(props: Props) {
                     geofence={geofences[id]}
                     addContact={onAddContact}
                     isLinked={false}
+                    onAddGeofenceToDevices={onAddGeofenceToDevices}
                     linkGeofence={linkTrackers}
                     editGeofence={editGeofence}
                     removeGeofence={removeGeofenceRequestAction}
@@ -209,9 +228,21 @@ function TrackerGeofencesMobile(props: Props) {
       </Slide>
       <ContactList
         t={props.t}
-        show={showContactList}
+        show={currentView === 'contactList'}
         onClose={onCloseContactList}
         selectedTrackerId={selectedTrackerId}
+      />
+      <CreateGeofence
+        t={props.t}
+        show={currentView === 'createGeofence'}
+        onClose={onCloseCurrentView}
+      />
+      <AddGeoFenceToDevice
+        t={t}
+        isMobile={true}
+        show={currentView === 'addGeofenceToDevice'}
+        onClose={onCloseCurrentView}
+        geofence={selectedGeofenceId ? geofences[selectedGeofenceId] : {}}
       />
     </React.Fragment>
   );

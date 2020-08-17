@@ -1,44 +1,28 @@
 import React from 'react';
-import { Toolbar, AppBar, IconButton, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { IconButton, Typography } from '@material-ui/core';
+import { ArrowBackIos } from '@material-ui/icons';
+
 import { useStyles } from './styles';
 
-export default function HeaderMobile(props: any) {
+interface Props {
+  title: string;
+  onLeftClick(): void;
+  rightElement?: JSX.Element;
+}
+
+export default function HeaderSecondary(props: Props) {
   const classes = useStyles();
-  const { title } = props;
-  const goBack = () => {
-    console.log('___goBack clicked');
-  };
+  const { title, onLeftClick, rightElement } = props;
 
   return (
-    <div className={classes.root}>
-      <AppBar
-        position="static"
-        color="transparent"
-        className={`${classes.appBar}`}
-      >
-        <Toolbar className={classes.wrapper}>
-          <div className={classes.menuMobile}>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              onClick={goBack}
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon className={classes.menuIcon} />
-            </IconButton>
-            <Typography
-              variant="h6"
-              color="inherit"
-              className={classes.textHeader}
-              noWrap
-            >
-              {title}
-            </Typography>
-          </div>
-        </Toolbar>
-      </AppBar>
+    <div className={classes.header}>
+      <div className={classes.headerLeft}>
+        <IconButton onClick={onLeftClick} className={classes.iconBtn}>
+          <ArrowBackIos className={classes.iconBack} />
+        </IconButton>
+        <Typography className={classes.headerTitle}>{title}</Typography>
+      </div>
+      {rightElement}
     </div>
   );
 }

@@ -1,51 +1,34 @@
 import { makeStyles } from '@material-ui/core/styles';
-const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  header: {
     display: 'flex',
-    backgroundColor: theme.palette.primary.main,
-    color: '#fff',
-    height: '56px',
-  },
-  wrapper: {
-    display: 'flex',
+    height: 55,
     justifyContent: 'space-between',
-    minHeight: '56px',
-    paddingLeft: '8px',
-    paddingRight: '0px',
+    color: '#1a1a1a',
+    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    boxShadow: '1px 0 0 0 rgba(0, 0, 0, 0.12)',
+    padding: '12px 8px 11px 8px',
   },
-  textHeader: {
+  headerTitle: {
+    fontSize: 16,
+    lineHeight: '19px',
+    alignSelf: 'center',
+  },
+  headerLeft: {
     display: 'flex',
-    fontSize: '20px',
   },
-  menuButton: {
-    objectFit: 'contain',
+  iconBack: {
+    width: 20,
+    height: 20,
+    position: 'relative',
+    left: 3,
   },
-  menuIcon: {
-    fontSize: '36px',
-  },
-  menuMobile: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  appBar: {
-    zIndex: 8,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    zIndex: 8,
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+  iconBtn: {
+    width: 32,
+    height: 32,
+    padding: 0,
+    color: '#1a1a1a',
   },
 }));
 
