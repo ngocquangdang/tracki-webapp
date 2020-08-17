@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Slide, IconButton } from '@material-ui/core';
 import { Done as DoneIcon } from '@material-ui/icons';
+import dynamic from 'next/dynamic';
 
 import { HeaderSecondary } from '@Layouts';
 import GeofenceCard from '../GeofenceCard';
 import { changeMapAction } from '@Containers/App/store/actions';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
+  makeSelectTrackers,
+  makeSelectTrackerId,
   makeSelectGeofences,
   makeSelectGeofenceId,
   makeSelectGeofenceIds,
@@ -30,10 +33,14 @@ import {
 import { IGeofence } from '@Interfaces';
 import { useStyles } from './styles';
 
+const GeofenceMap = dynamic(() => import('../GeofenceMap'), { ssr: false });
+
 interface Props {
   show: boolean;
   geofences: object;
+  trackers: object;
   isRequesting: boolean;
+  selectedTrackerId: number;
   newGeofence: IGeofence;
   onClose: () => void;
   t(key: string, format?: object): string;
@@ -55,6 +62,8 @@ function CreateGeofenceMobile(props: Props) {
     editGeofenceId,
     isRequesting,
     newGeofence,
+    trackers,
+    selectedTrackerId,
     t,
     onClose,
     updateGeofence,
@@ -65,11 +74,9 @@ function CreateGeofenceMobile(props: Props) {
     resetNewGeofenceAction,
   } = props;
   const selectedGeofence = geofences[editGeofenceId];
-  const [cloneSelectedGeofence, setCloneGeofence] = React.useState(
-    selectedGeofence
-  );
+  const [cloneSelectedGeofence, setCloneGeofence] = useState(selectedGeofence);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!cloneSelectedGeofence) {
       setCloneGeofence(selectedGeofence);
     }
@@ -123,7 +130,13 @@ function CreateGeofenceMobile(props: Props) {
               </IconButton>
             }
           />
-          <div className={classes.content}>1111</div>
+          <div className={classes.content}>
+            <GeofenceMap
+              tracker={trackers[selectedTrackerId]}
+              t={t}
+              mapId="geofenceMap"
+            />
+          </div>
           <div className={classes.geofenceCard}>
             <GeofenceCard
               isRequesting={isRequesting}
@@ -149,6 +162,8 @@ const mapStateToProps = createStructuredSelector({
   selectedGeofenceId: makeSelectGeofenceId(),
   editGeofenceId: makeSelectEditGeofenceId(),
   newGeofence: makeSelectNewGeofence(),
+  selectedTrackerId: makeSelectTrackerId(),
+  trackers: makeSelectTrackers(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
