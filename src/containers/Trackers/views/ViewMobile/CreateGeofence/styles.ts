@@ -24,6 +24,19 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     left: 3,
   },
+  geofenceCard: {
+    position: 'absolute',
+    bottom: 6,
+    width: 'calc(100% - 12px)',
+    left: 6,
+    borderRadius: 4,
+    borderColor: '#ddd',
+    boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#ffffff',
+    '& > div': {
+      borderRadius: 4,
+    },
+  },
 }));
 
 export { useStyles };
