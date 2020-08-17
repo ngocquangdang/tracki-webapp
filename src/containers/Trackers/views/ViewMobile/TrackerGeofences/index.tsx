@@ -101,6 +101,7 @@ function TrackerGeofencesMobile(props: Props) {
 
   const editGeofence = (geoId: number) => {
     editGeofenceAction(geoId);
+    setCurrentView('createGeofence');
   };
 
   const onAddContact = (trackerId: number) => {

@@ -97,12 +97,12 @@ function CreateGeofenceMobile(props: Props) {
   const onCloseCreateGeofence = () => {
     if (newGeofence) {
       removeGeofence(newGeofence.id);
-      resetNewGeofenceAction();
     }
     if (cloneSelectedGeofence) {
       removeGeofence(cloneSelectedGeofence.id);
       updateGeofence(cloneSelectedGeofence.id, cloneSelectedGeofence);
     }
+    resetNewGeofenceAction();
     changeMapAction('DEFAULT');
     onClose();
   };

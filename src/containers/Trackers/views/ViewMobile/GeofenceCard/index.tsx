@@ -37,7 +37,9 @@ function GeofenceCard(props: Props) {
     updateNewGeofence,
     onSaveRequest,
   } = props;
-  const [formData, updateFormData] = useState(newGeofence);
+  const [formData, updateFormData] = useState(
+    newGeofence || selectedGeofence || GEOFENCE_DEFAULT
+  );
   const [cloneSelectedGeofence, setCloneGeofence] = useState(selectedGeofence);
 
   useEffect(() => {
