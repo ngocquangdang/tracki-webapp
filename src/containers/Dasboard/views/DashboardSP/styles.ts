@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 const HeaderDashboard = styled.div`
   display: flex;
   align-items: center;
-  margin: 28px 26px;
+  margin: 56px 15px 0;
 `;
 
 const TitleDashBoard = styled.div`
@@ -15,64 +15,46 @@ const TitleDashBoard = styled.div`
 
 const DeviceSelection = styled.div`
   width: 280px;
+  margin-right: 10px;
 `;
 
 const ContainerDashboard = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin: 25px;
 `;
 
-const ColumnCard = styled.div`
-  width: calc((100% - 28px) / 2);
-`;
+const ColumnCard = styled.div``;
 
 const MapViewCard = styled.div`
-  background: red;
-  height: 533px;
-  margin-bottom: 30px;
-  border-radius: 4px;
-  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px #e0e0e0;
-  background-color: #ffffff;
+  height: 421px;
+  margin: 15px 0;
 `;
 
 const SummaryCard = styled.div`
   background: green;
   height: 288px;
-  margin-bottom: 30px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #e0e0e0;
   background-color: #ffffff;
+  margin: 0 15px;
 `;
 
 const DeviceInfoCard = styled.div`
-  background: blue;
-  height: 510px;
-  border-radius: 4px;
-  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px #e0e0e0;
-  background-color: #ffffff;
+  margin: 15px;
 `;
 
 const RecentAlertCard = styled.div`
-  background: yellow;
-  height: 658px;
-  border-radius: 4px;
-  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px #e0e0e0;
-  background-color: #ffffff;
+  margin: 15px;
 `;
 
 const ContentCard = styled.div`
-  height: calc(100% - 15px);
-  overflow-y: auto;
-  padding: 15px;
+  height: 100%;
 `;
 
 const MapView = styled.div`
-  height: 437px;
+  height: 386px;
   position: relative;
 `;
 
@@ -97,41 +79,94 @@ const Description = styled.div`
 `;
 const HeaderCard = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   padding: 0 15px;
+  margin-bottom: 10px;
 `;
 
 const CardTitle = styled.div``;
+
 const DetailSummary = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 20px;
 `;
+
 const Card = styled.div`
-  flex: 1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   flex-direction: column;
   text-align: center;
+  justify-content: space-between;
+  width: calc(100% / 2);
+  height: calc(100% / 2);
+  padding: 10px 0;
 `;
+
 const TitleCard = styled.div`
   font-size: 18px;
   font-weight: bold;
 `;
+
 const Content = styled.div``;
+
 const DataView = styled.div`
-  font-size: 42px;
+  font-size: 28px;
   font-weight: 500;
-  margin-top: 20px;
 `;
+
 const SubCard = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   margin: 7px 0;
 `;
+
 const SummaryDate = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
 `;
+
+const InfoCard = styled.div`
+  border-bottom: 1px solid #e0e0e0;
+`;
+
+const TitleInfo = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  padding-top: 18px;
+`;
+
+const AddressInfo = styled.div`
+  font-size: 14px;
+  font-weight: 300;
+  padding: 10px 0 14px;
+`;
+
+const AlertCard = styled.div`
+  padding: 15px 0;
+  border-bottom: 1px solid #e0e0e0;
+  &:last-child {
+    border-bottom: 0;
+  }
+`;
+
+const TitleAlert = styled.div`
+  padding: 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const AddressAlert = styled.div`
+  font-size: 14px;
+  font-weight: 300;
+`;
+
+const DateAlert = styled.div`
+  font-size: 14px;
+`;
+
 const useStyles = makeStyles(theme => ({
   color: {
     fontSize: 16,
@@ -143,12 +178,8 @@ const useStyles = makeStyles(theme => ({
     height: 32,
     color: '#168449',
   },
-  paddingHeaderCard: {
-    paddingTop: 25,
-  },
-  flexWrap: {
-    display: 'flex',
-    flexWrap: 'wrap',
+  padding: {
+    padding: 0,
   },
   primaryColor: {
     color: theme.palette.primary.main,
@@ -167,8 +198,9 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     display: 'flex',
-    alignItem: 'center',
+    justifyContent: 'center',
     width: '100%',
+    margin: '30px 0',
   },
   colorText: {
     color: '#1a1a1a',
@@ -179,7 +211,7 @@ const useStyles = makeStyles(theme => ({
   cellHeader: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: '18px',
+    fontSize: '14px',
     padding: 0,
   },
   col1: {
@@ -189,18 +221,6 @@ const useStyles = makeStyles(theme => ({
   col2: {
     width: '65%',
     textAlign: 'left',
-  },
-  iconSearch: {
-    color: '#999999',
-  },
-  deviceCol1: {
-    width: '25%',
-  },
-  deviceCol2: {
-    width: '25%',
-  },
-  deviceCol3: {
-    width: '50%',
   },
   font14: {
     fontSize: 14,
@@ -236,4 +256,11 @@ export {
   DataView,
   SubCard,
   SummaryDate,
+  InfoCard,
+  TitleInfo,
+  AddressInfo,
+  AlertCard,
+  TitleAlert,
+  AddressAlert,
+  DateAlert,
 };

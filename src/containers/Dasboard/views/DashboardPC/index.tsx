@@ -318,6 +318,9 @@ export default function DashboardContainer(props) {
                 </TableBody>
               </Table>
             </ContentCard>
+            <div className={classes.footer}>
+              {t('dashboard:load_more_alerts')}
+            </div>
           </RecentAlertCard>
         </ColumnCard>
       </ContainerDashboard>

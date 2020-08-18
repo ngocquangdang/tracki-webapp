@@ -29,6 +29,7 @@ import { getHistoryTrackerRequest } from '../store/actions';
 import { makeSelectTrackerHistories } from '../store/selectors';
 
 const DashboardPC = dynamic(() => import('./DashboardPC'));
+const DashboardSP = dynamic(() => import('./DashboardSP'));
 
 function Dashboard(props) {
   useInjectSaga({ key: 'tracker', saga: trackersSaga });
@@ -36,12 +37,15 @@ function Dashboard(props) {
   useInjectSaga({ key: 'history', saga: historySaga });
   useInjectReducer({ key: 'history', reducer: historyReducer });
 
-  const { fetchUserRequestedAction } = props;
+  const { fetchUserRequestedAction, isMobile } = props;
 
   useEffect(() => {
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 
+  if (isMobile) {
+    return <DashboardSP {...props} />;
+  }
   return <DashboardPC {...props} />;
 }
 
