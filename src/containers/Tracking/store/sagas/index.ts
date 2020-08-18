@@ -25,6 +25,7 @@ function* changeTrackingViewSaga(action) {
 }
 
 function* getHistoryTrackerSaga(action) {
+  console.log('function*getHistoryTrackerSaga -> action', action);
   try {
     const { account_id } = yield select(makeSelectProfile());
     const { data: historyData } = yield call(
