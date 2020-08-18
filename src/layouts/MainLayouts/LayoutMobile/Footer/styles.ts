@@ -1,29 +1,20 @@
-import styled from 'styled-components';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Link } from '@material-ui/core';
 
-const Item = styled.li`
-  list-style: none;
-  text-decoration: none;
-  padding-top: 3px;
-`;
-
-const Content = styled.div`
-  position: relative;
-  /* height: calc(100vh - 70px); */
-  width: 100%;
-`;
-
-const Menu = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: #168449;
-  height: 45px;
-  width: 100%;
-  justify-content: space-around;
-`;
-
 const useStyles = makeStyles(theme => ({
+  footer: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: '#168449',
+    height: 45,
+    width: '100%',
+    justifyContent: 'space-around',
+  },
+  navLink: {
+    listStyle: 'none',
+    textDecoration: 'none',
+    paddingTop: 3,
+  },
   linkBtnMobile: {
     display: 'flex',
     flexDirection: 'column',
@@ -59,4 +50,4 @@ const LinkStyle = withStyles(() => ({
   },
 }))(Link);
 
-export { Content, Menu, Item, LinkStyle, useStyles };
+export { LinkStyle, useStyles };
