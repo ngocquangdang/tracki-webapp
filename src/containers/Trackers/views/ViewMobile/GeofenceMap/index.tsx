@@ -5,15 +5,24 @@ import clsx from 'clsx';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
+import Geofences from '@Components/Maps/Leaflet/components/Geofences';
+import DrawTool from '@Components/Maps/Leaflet/components/DrawTool';
 import MapToolBar from './MapToolBar';
-import { ITracker } from '@Interfaces';
+import { ITracker, IGeofence } from '@Interfaces';
 import style from './styles';
 
 interface IProps {
   mapId: string;
+  newGeofence: IGeofence;
+  geofences: object;
+  editGeofenceId: number;
+  mapAction: string;
   tracker: ITracker;
   classes: any;
   t(key: string, format?: object): string;
+  changeMapAction(action: string): void;
+  updateNewGeofence(data): void;
+  updateGeofence(id: number, data: object): void;
   [data: string]: any;
 }
 
@@ -54,12 +63,6 @@ class MapCard extends React.Component<IProps, IState> {
     this.isFirstFitBounce = false;
   }
 
-  getMapTile = (isMultiScreen: boolean, mapId: string) => {
-    if (isMultiScreen) return 'streets-v11';
-    if (mapId === 'mapSatelliteView') return 'satellite-v9';
-    return 'streets-v11';
-  };
-
   trackerName = (name: string) => {
     const nameWidth = name.length * 9;
     return `<div class='title-device' style='width:${nameWidth}px; left:-${
@@ -68,9 +71,8 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    const { mapId, tracker, isMultiScreen } = this.props;
+    const { mapId, tracker } = this.props;
     const { mapCenter, mapZoom } = this.state;
-    const mapTile = this.getMapTile(isMultiScreen, mapId);
     let center = mapCenter;
 
     if (tracker && tracker.lat && tracker.lng) {
@@ -79,18 +81,30 @@ class MapCard extends React.Component<IProps, IState> {
     }
 
     this.map = L.map(mapId).setView(center, mapZoom);
-    this.mapTile = L.tileLayer(TILE_TOKEN, {
-      ...TILE_OPTIONS,
-      id: 'mapbox/' + mapTile,
-    }).addTo(this.map);
-
-    this.map.on('locationfound', (e: L.LocationEvent) => {
-      this.map.panTo(e.latlng, { zoom: mapZoom });
-      this.setState({ userLocation: e.latlng });
-    });
-
+    this.mapTile = L.tileLayer(TILE_TOKEN, TILE_OPTIONS).addTo(this.map);
+    this.map.on('locationfound', this.foundLocation);
+    window.geoMapMobile = this.map;
     this.setState({ isInitiatedMap: true });
   }
+
+  componentWillUnmount() {
+    window.geoMapMobile = undefined;
+    window.geosMobile = {};
+  }
+
+  foundLocation = (e: L.LocationEvent) => {
+    const { mapId } = this.props;
+    const mapDiv = document.getElementById(mapId);
+    const { width, height } = mapDiv
+      ? mapDiv.getBoundingClientRect()
+      : { width: 0, height: 0 };
+
+    this.map.panInside(e.latlng, {
+      zoom: this.state.mapZoom,
+      paddingTopLeft: [width / 2, height / 3],
+    });
+    this.setState({ userLocation: e.latlng });
+  };
 
   getUserLocation = () => {
     this.map.locate({ enableHighAccuracy: true });
@@ -105,11 +119,6 @@ class MapCard extends React.Component<IProps, IState> {
       id: 'mapbox/' + tile,
     }).addTo(this.map);
     this.setState({ mapStyle: tile });
-  };
-
-  changeZoom = (value: number) => {
-    const currentZoom = this.map.getZoom();
-    this.map.setZoom(currentZoom + value * 2);
   };
 
   onClickTracker = (id: string | number) => {
@@ -141,8 +150,25 @@ class MapCard extends React.Component<IProps, IState> {
     return null;
   };
 
+  gotoLocation = latlng => {
+    this.setState({ userLocation: latlng });
+    this.map.panTo(latlng, { zoom: 13 });
+  };
+
   render() {
-    const { mapId, classes, t } = this.props;
+    const {
+      mapId,
+      classes,
+      t,
+      mapAction,
+      geofences,
+      newGeofence,
+      editGeofenceId,
+      showGeofences,
+      changeMapAction,
+      updateNewGeofence,
+      updateGeofence,
+    } = this.props;
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
 
     return (
@@ -151,16 +177,37 @@ class MapCard extends React.Component<IProps, IState> {
         {userLocation && (
           <UserLocation map={this.map} location={userLocation} />
         )}
-        {isInitiatedMap && this.renderMarker()}
         {isInitiatedMap && (
-          <MapToolBar
-            t={t}
-            isMobile={false}
-            mapTile={mapStyle}
-            changeMapTile={this.changeMapTile}
-            myLocationClick={this.getUserLocation}
-            changeZoom={this.changeZoom}
-          />
+          <React.Fragment>
+            {this.renderMarker()}
+            <MapToolBar
+              t={t}
+              mapTile={mapStyle}
+              gotoLocation={this.gotoLocation}
+              changeMapTile={this.changeMapTile}
+              myLocationClick={this.getUserLocation}
+            />
+            <DrawTool
+              map={this.map}
+              mapAction={mapAction}
+              changeMapAction={changeMapAction}
+              newGeofence={newGeofence}
+              editGeofence={geofences[editGeofenceId]}
+              updateNewGeofence={updateNewGeofence}
+              updateGeofence={updateGeofence}
+              t={t}
+            />
+            <Geofences
+              map={this.map}
+              isGeofenceMobile={true}
+              newGeofence={newGeofence}
+              geofences={geofences}
+              showGeofences={showGeofences}
+              editGeofenceId={editGeofenceId}
+              updateNewGeofence={updateNewGeofence}
+              updateGeofence={updateGeofence}
+            />
+          </React.Fragment>
         )}
       </React.Fragment>
     );

@@ -102,6 +102,12 @@ function TrackerGeofencesMobile(props: Props) {
   const editGeofence = (geoId: number) => {
     editGeofenceAction(geoId);
     setCurrentView('createGeofence');
+    setTimeout(() => {
+      window.geosMobile[geoId] &&
+        window.geoMapMobile.fitBounds(window.geosMobile[geoId].getBounds(), {
+          paddingBottomRight: [0, 200],
+        });
+    }, 300);
   };
 
   const onAddContact = (trackerId: number) => {

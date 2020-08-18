@@ -8,10 +8,40 @@ const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#fff',
-    padding: '0px 8px 8px',
+    backgroundColor: 'transparent',
   },
-  formContent: {},
+  formContent: {
+    padding: '0px 8px 8px',
+    borderRadius: 4,
+    borderColor: '#ddd',
+    boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#fff',
+  },
+  createInfo: {
+    padding: '12px 15px 12px',
+    borderRadius: 4,
+    boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.16)',
+    backgroundColor: '#323232',
+    marginBottom: 5,
+    '& p': {
+      fontSize: 13,
+      color: '#999',
+      lineHeight: '17px',
+    },
+  },
+  checkboxWrap: {
+    height: 20,
+    marginBottom: 16,
+    '& label': {
+      position: 'relative',
+      top: -10,
+      '& span': {
+        fontSize: 13,
+        lineHeight: '17px',
+        fontWeight: 400,
+      },
+    },
+  },
   inputWrap: {
     display: 'flex',
     height: 55,
