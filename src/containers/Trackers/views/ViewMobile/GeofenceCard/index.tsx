@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Avatar } from '@material-ui/core';
+import {
+  Typography,
+  Grid,
+  Avatar,
+  Checkbox,
+  FormControlLabel,
+} from '@material-ui/core';
 import { Formik } from 'formik';
 import clsx from 'clsx';
 
@@ -9,7 +15,7 @@ import {
   GEOFENCE_DEFAULT,
   GEO_SHAPES,
 } from '@Components/GeofenceListPC/constant';
-import { IGeofence } from '@Interfaces';
+import { IGeofence, ITracker } from '@Interfaces';
 import { ADD_GEO_SCHEMA } from '@Components/GeofenceListPC/components/AddGeoFence/schema';
 import ColorPickerModal from '@Components/GeofenceListPC/components/PickerColor';
 import { useStyles } from './styles';
@@ -19,6 +25,7 @@ interface Props {
   selectedGeofence: IGeofence;
   isRequesting: boolean;
   mapAction: string;
+  tracker: ITracker;
   t(key: string, format?: object): string;
   onSaveRequest(data: object): void;
   changeMapAction(mapAction: string): void;
@@ -33,6 +40,7 @@ function GeofenceCard(props: Props) {
     newGeofence,
     selectedGeofence,
     mapAction,
+    tracker,
     t,
     changeMapAction,
     updateGeofence,
@@ -43,6 +51,7 @@ function GeofenceCard(props: Props) {
     newGeofence || selectedGeofence || GEOFENCE_DEFAULT
   );
   const [cloneSelectedGeofence, setCloneGeofence] = useState(selectedGeofence);
+  const [isLinkedTracker, setIsLinkedTracker] = useState(true);
 
   useEffect(() => {
     if (!cloneSelectedGeofence) {
@@ -58,11 +67,21 @@ function GeofenceCard(props: Props) {
   }, [selectedGeofence, newGeofence, cloneSelectedGeofence]);
 
   const removeGeofence = (id: number) => {
-    if (window.geosDrawn[id]) {
-      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
-      delete window.geosDrawn[id];
+    if (window.geosMobile[id]) {
+      window.geoMapMobile.removeLayer(window.geosMobile[id]);
+      delete window.geosMobile[id];
     }
   };
+
+  const onSubmit = values => {
+    onSaveRequest({
+      ...values,
+      isLinked: isLinkedTracker,
+      trackerId: tracker.device_id,
+    });
+  };
+
+  const onChangeLinkedTracker = () => setIsLinkedTracker(!isLinkedTracker);
 
   const onChangeTypeGeofence = (type: string) => () => {
     const newAction = `create_${type}`.toUpperCase();
@@ -100,7 +119,7 @@ function GeofenceCard(props: Props) {
         )}
         <Formik
           initialValues={formData}
-          onSubmit={onSaveRequest}
+          onSubmit={onSubmit}
           enableReinitialize
           validationSchema={ADD_GEO_SCHEMA}
           disabled={isRequesting}
@@ -162,6 +181,20 @@ function GeofenceCard(props: Props) {
                   <ColorPickerModal
                     selectedColor={values.color}
                     onChangeColor={onChangeColorGeofence}
+                  />
+                </div>
+                <div className={classes.checkboxWrap}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isLinkedTracker}
+                        onChange={onChangeLinkedTracker}
+                        color="primary"
+                      />
+                    }
+                    label={t('tracker:link_geofence_to', {
+                      text: tracker.device_name,
+                    })}
                   />
                 </div>
                 <div className={classes.saveBtnWrap}>

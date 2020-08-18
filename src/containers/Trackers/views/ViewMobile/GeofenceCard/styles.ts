@@ -29,6 +29,19 @@ const useStyles = makeStyles(theme => ({
       lineHeight: '17px',
     },
   },
+  checkboxWrap: {
+    height: 20,
+    marginBottom: 16,
+    '& label': {
+      position: 'relative',
+      top: -10,
+      '& span': {
+        fontSize: 13,
+        lineHeight: '17px',
+        fontWeight: 400,
+      },
+    },
+  },
   inputWrap: {
     display: 'flex',
     height: 55,

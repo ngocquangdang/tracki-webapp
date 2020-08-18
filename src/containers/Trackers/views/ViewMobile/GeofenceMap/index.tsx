@@ -83,7 +83,13 @@ class MapCard extends React.Component<IProps, IState> {
     this.map = L.map(mapId).setView(center, mapZoom);
     this.mapTile = L.tileLayer(TILE_TOKEN, TILE_OPTIONS).addTo(this.map);
     this.map.on('locationfound', this.foundLocation);
+    window.geoMapMobile = this.map;
     this.setState({ isInitiatedMap: true });
+  }
+
+  componentWillUnmount() {
+    window.geoMapMobile = undefined;
+    window.geosMobile = {};
   }
 
   foundLocation = (e: L.LocationEvent) => {
@@ -193,6 +199,7 @@ class MapCard extends React.Component<IProps, IState> {
             />
             <Geofences
               map={this.map}
+              isGeofenceMobile={true}
               newGeofence={newGeofence}
               geofences={geofences}
               showGeofences={showGeofences}

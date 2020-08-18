@@ -92,15 +92,20 @@ function CreateGeofenceMobile(props: Props) {
   const onSaveRequest = (values: any) => {
     selectedGeofence
       ? saveGeofenceRequestAction(selectedGeofence.id, values)
-      : createNewGeofenceRequestAction({ ...newGeofence, name: values.name });
+      : createNewGeofenceRequestAction({
+          ...newGeofence,
+          name: values.name,
+          isLinked: values.isLinked,
+          trackerId: values.trackerId,
+        });
     changeMapAction('DEFAULT');
     onClose();
   };
 
   const removeGeofence = (id: number) => {
-    if (window.geosDrawn[id]) {
-      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
-      delete window.geosDrawn[id];
+    if (window.geosMobile[id]) {
+      window.geoMapMobile.removeLayer(window.geosMobile[id]);
+      delete window.geosMobile[id];
     }
   };
 
@@ -153,6 +158,7 @@ function CreateGeofenceMobile(props: Props) {
               selectedGeofence={selectedGeofence}
               newGeofence={newGeofence}
               t={t}
+              tracker={trackers[selectedTrackerId]}
               mapAction={mapAction}
               onSaveRequest={onSaveRequest}
               updateNewGeofence={updateNewGeofence}

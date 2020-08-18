@@ -21,8 +21,6 @@ const useStyles = makeStyles(theme => ({
   iconBack: {
     width: 20,
     height: 20,
-    position: 'relative',
-    left: 3,
   },
   iconBtn: {
     width: 32,
