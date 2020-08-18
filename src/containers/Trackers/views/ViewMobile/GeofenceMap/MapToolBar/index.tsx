@@ -1,38 +1,66 @@
 import React, { useState } from 'react';
 import { MdMyLocation, MdLayers } from 'react-icons/md';
-import { Tooltip, ClickAwayListener } from '@material-ui/core';
+import { Tooltip, ClickAwayListener, Fade } from '@material-ui/core';
 import { FiSearch } from 'react-icons/fi';
 
+import SearchLocation from '@Components/SearchLocation';
 import MapTiles from '@Components/Maps/components/MapTiles';
 import { useStyles, IconButtonStyle } from './styles';
+
+type LatLng = {
+  lat: number;
+  lng: number;
+};
 
 interface Props {
   mapTile: string;
   t(key: string): string;
   changeMapTile(tile: string): void;
   myLocationClick(): void;
-  changeZoom(v: number): void;
+  gotoLocation(latlng: LatLng): void;
   [data: string]: any;
 }
 
 function MapToolBars(props: Props) {
-  const { mapTile, t, changeMapTile, myLocationClick } = props;
+  const { mapTile, t, gotoLocation, changeMapTile, myLocationClick } = props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
-  const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [showSearchLocation, setShowSearchLocation] = useState(false);
 
-  const onShowLayer = () => setShowLayerPanel(!showLayerPanel);
+  const onShowLayer = () => setShowLayerPanel(true);
   const onCloseLayer = () => setShowLayerPanel(false);
-
-  const toggleSearch = () => {
-    setShowSearchPanel(!showSearchPanel);
+  const onShowSearch = () => setShowSearchLocation(true);
+  const onCloseSearch = () => setShowSearchLocation(false);
+  const goLocation = (latlng: LatLng) => {
+    gotoLocation(latlng);
+    onCloseSearch();
   };
 
   return (
     <div className={classes.toolbar}>
-      <IconButtonStyle onClick={toggleSearch}>
+      <IconButtonStyle onClick={onShowSearch}>
         <FiSearch />
       </IconButtonStyle>
+      <Fade in={showSearchLocation}>
+        <div className={classes.searchLocationWrapper}>
+          <div className={classes.searchIconWrapper} onClick={onCloseSearch}>
+            <FiSearch />
+          </div>
+          {showSearchLocation && (
+            <ClickAwayListener onClickAway={onCloseSearch}>
+              <div>
+                <SearchLocation
+                  t={t}
+                  gotoLocation={goLocation}
+                  className={classes.searchInput}
+                  // autoFocus={true}
+                  placeholder={t('tracker:search_address_location')}
+                />
+              </div>
+            </ClickAwayListener>
+          )}
+        </div>
+      </Fade>
       <Tooltip
         title={<span>{t('common:my_location')}</span>}
         placement="left"

@@ -16,6 +16,18 @@ class UserLocation extends React.Component<Props> {
     this.renderLocation();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { location: nextLocation } = nextProps;
+    const { location: currentLocation } = this.props;
+    if (
+      this.marker &&
+      nextLocation &&
+      nextLocation.lat !== currentLocation.lat
+    ) {
+      this.marker.setLatLng(nextLocation);
+    }
+  }
+
   renderLocation = () => {
     const {
       map,

@@ -30,13 +30,6 @@ const useStyles = makeStyles(theme => ({
     width: 'calc(100% - 12px)',
     left: 6,
     zIndex: 404,
-    borderRadius: 4,
-    borderColor: '#ddd',
-    boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.2)',
-    backgroundColor: '#ffffff',
-    '& > div': {
-      borderRadius: 4,
-    },
   },
 }));
 

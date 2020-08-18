@@ -5,7 +5,6 @@ import clsx from 'clsx';
 
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
-import { changeMapAction } from '@Containers/App/store/actions';
 import {
   GEOFENCE_DEFAULT,
   GEO_SHAPES,
@@ -19,6 +18,7 @@ interface Props {
   newGeofence: IGeofence;
   selectedGeofence: IGeofence;
   isRequesting: boolean;
+  mapAction: string;
   t(key: string, format?: object): string;
   onSaveRequest(data: object): void;
   changeMapAction(mapAction: string): void;
@@ -32,7 +32,9 @@ function GeofenceCard(props: Props) {
     isRequesting,
     newGeofence,
     selectedGeofence,
+    mapAction,
     t,
+    changeMapAction,
     updateGeofence,
     updateNewGeofence,
     onSaveRequest,
@@ -91,6 +93,11 @@ function GeofenceCard(props: Props) {
   return (
     <React.Fragment>
       <div className={classes.container}>
+        {mapAction === 'CREATE_POLYGON' && (
+          <div className={classes.createInfo}>
+            <Typography>{t('tracker:create_polygon_info')}</Typography>
+          </div>
+        )}
         <Formik
           initialValues={formData}
           onSubmit={onSaveRequest}
