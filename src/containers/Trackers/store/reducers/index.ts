@@ -64,7 +64,11 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = null;
         break;
       case types.GET_GEOFENCES_FAILED:
+        draft.geofence.geofenceIds = [];
+        draft.errors = payload.error;
+        break;
       case types.GET_TRACKERS_FAILED:
+        draft.tracker.trackerIds = [];
         draft.errors = payload.error;
         break;
       case singleTrackerTypes.GET_TRACKER_SETTINGS_SUCCEED:

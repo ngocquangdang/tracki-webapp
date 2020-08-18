@@ -238,7 +238,7 @@ class MapCard extends React.Component<IProps, IState> {
       .filter(
         id =>
           id.toString() === selectedTrackerId.toString() ||
-          !trackingIds.includes(+id)
+          !(trackingIds || []).includes(+id)
       )
       .map(id => ({ value: id, label: trackers[id].device_name }));
 
