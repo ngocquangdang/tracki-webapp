@@ -1,26 +1,27 @@
-const mqtt = require('mqtt');
+import mqtt from 'mqtt';
+
+let instance;
 
 export default class IoTClient {
   options: any;
-  instance: any;
   mqttClient: any;
 
   constructor(createNewClient = false) {
-    if (createNewClient && this.instance) {
-      this.instance.disconnect();
-      this.instance = null;
+    if (createNewClient && instance) {
+      instance.disconnect();
+      instance = null;
     }
 
-    if (this.instance) {
-      return this.instance;
+    if (instance) {
+      return instance;
     }
 
-    this.instance = this;
+    instance = this;
   }
 
   initClient = options => {
     this.options = options;
-    this.mqttClient = mqtt.connect('mqtt.tracki.dev', options);
+    this.mqttClient = mqtt.connect(null, options);
 
     if (typeof options.debug !== 'undefined' && options.debug) {
       this.attachDebugHandlers();
@@ -55,6 +56,7 @@ export default class IoTClient {
   };
 
   attachConnectHandler = onConnectHandler => {
+    console.log('IOT > attachConnectHandler');
     this.mqttClient.on('connect', connack => {
       if (typeof this.options.debug !== 'undefined' && this.options.debug) {
         console.log('connected', connack);
@@ -80,6 +82,7 @@ export default class IoTClient {
   };
 
   subscribe = topic => {
+    console.log('IOT > subscribe', topic);
     this.mqttClient.subscribe(topic);
   };
 

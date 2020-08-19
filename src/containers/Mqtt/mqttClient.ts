@@ -11,6 +11,7 @@ const MQTTClient = () => {
   };
 
   const attachConnectHandler = onConnectHandler => {
+    console.log('MQTT_CLIENT > attachConnectHandler');
     const iotClient = new IoTClient();
     iotClient.attachConnectHandler(onConnectHandler);
   };
@@ -29,6 +30,7 @@ const MQTTClient = () => {
   };
 
   const subscribe = topic => {
+    console.log('MQTT_CLIENT > subscribe', topic);
     const iotClient = new IoTClient();
     iotClient.subscribe(topic);
   };

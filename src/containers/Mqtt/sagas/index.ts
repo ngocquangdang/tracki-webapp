@@ -60,17 +60,19 @@ function* mqttStartSaga() {
     yield MQTTClient.connect({
       user: 'tracki',
       password: 'mypasstracki',
-      protocol: 'mqtt',
-      port: 8081,
-      SSL: true,
+      protocol: 'wss',
+      servers: [
+        {
+          host: 'mqtt.tracki.dev',
+          port: 8081,
+        },
+      ],
       debug: true,
-      clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-      protocolId: 'MQTT',
     });
-    yield MQTTClient.attachConnectHandler(() => {
+    MQTTClient.attachConnectHandler(() => {
       // subscribe MQTT
       // ex: MQTTClient.subscribe('weather')
-      MQTTClient.subscribe('+/+/app');
+      MQTTClient.subscribe('testtopic/tracki');
     });
 
     yield fork(handleMQTT);
