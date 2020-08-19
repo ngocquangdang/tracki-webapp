@@ -20,7 +20,6 @@ interface Props {
 export default function MultiView(props: Props) {
   const { isMultiScreen, trackers, trackingIds, settings } = props;
   const classes = useStyles();
-  console.log('multi view', settings);
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
 
