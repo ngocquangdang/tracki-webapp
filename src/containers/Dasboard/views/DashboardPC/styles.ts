@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 const HeaderDashboard = styled.div`
   display: flex;
   align-items: center;
-  margin: 28px 26px;
+  margin: 10px 26px 0;
 `;
 
 const TitleDashBoard = styled.div`
@@ -20,7 +20,7 @@ const DeviceSelection = styled.div`
 const ContainerDashboard = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 25px;
+  margin: 0 25px 25px;
 `;
 
 const ColumnCard = styled.div`
@@ -28,8 +28,7 @@ const ColumnCard = styled.div`
 `;
 
 const MapViewCard = styled.div`
-  background: red;
-  height: 533px;
+  min-height: 533px;
   margin-bottom: 30px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
@@ -38,8 +37,7 @@ const MapViewCard = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  background: green;
-  height: 288px;
+  min-height: 288px;
   margin-bottom: 30px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
@@ -48,8 +46,7 @@ const SummaryCard = styled.div`
 `;
 
 const DeviceInfoCard = styled.div`
-  background: blue;
-  height: 510px;
+  min-height: 510px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #e0e0e0;
@@ -66,7 +63,7 @@ const RecentAlertCard = styled.div`
 `;
 
 const ContentCard = styled.div`
-  height: calc(100% - 15px);
+  height: calc(100% - 35px);
   overflow-y: auto;
   padding: 15px;
 `;
@@ -112,6 +109,25 @@ const Card = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: center;
+  position: relative;
+  &::after {
+    content: '';
+    border-left: 1px solid #e0e0e0;
+    width: 1px;
+    height: 104px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  &:last-child::after {
+    content: '';
+    border: 0;
+    width: 1px;
+    height: 104px;
+    position: absolute;
+    top: 10px;
+    right: 0;
+  }
 `;
 const TitleCard = styled.div`
   font-size: 18px;
@@ -146,9 +162,8 @@ const useStyles = makeStyles(theme => ({
   paddingHeaderCard: {
     paddingTop: 25,
   },
-  flexWrap: {
-    display: 'flex',
-    flexWrap: 'wrap',
+  unitSize: {
+    fontSize: 21,
   },
   primaryColor: {
     color: theme.palette.primary.main,
@@ -167,8 +182,9 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     display: 'flex',
-    alignItem: 'center',
+    justifyContent: 'center',
     width: '100%',
+    color: '#999999',
   },
   colorText: {
     color: '#1a1a1a',
@@ -192,15 +208,6 @@ const useStyles = makeStyles(theme => ({
   },
   iconSearch: {
     color: '#999999',
-  },
-  deviceCol1: {
-    width: '25%',
-  },
-  deviceCol2: {
-    width: '25%',
-  },
-  deviceCol3: {
-    width: '50%',
   },
   font14: {
     fontSize: 14,

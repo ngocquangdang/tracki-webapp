@@ -20,13 +20,22 @@ import { withTranslation } from '@Server/i18n';
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
 
+import trackingSaga from '@Containers/Tracking/store/sagas';
+import trackingReducer from '@Containers/Tracking/store/reducers';
+
+// import historySaga from '../store/sagas';
+// import historyReducer from '../store/reducers';
+import {
+  getHistoryTrackerRequest,
+  changeTrackersTracking,
+} from '@Containers/Tracking/store/actions';
+import {
+  makeSelectTrackerHistories,
+  makeSelectTrackerIdsTracking,
+} from '@Containers/Tracking/store/selectors';
+
 import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
-
-import historySaga from '../store/sagas';
-import historyReducer from '../store/reducers';
-import { getHistoryTrackerRequest } from '../store/actions';
-import { makeSelectTrackerHistories } from '../store/selectors';
 
 const DashboardPC = dynamic(() => import('./DashboardPC'));
 const DashboardSP = dynamic(() => import('./DashboardSP'));
@@ -34,12 +43,16 @@ const DashboardSP = dynamic(() => import('./DashboardSP'));
 function Dashboard(props) {
   useInjectSaga({ key: 'tracker', saga: trackersSaga });
   useInjectReducer({ key: 'tracker', reducer: trackersReducer });
-  useInjectSaga({ key: 'history', saga: historySaga });
-  useInjectReducer({ key: 'history', reducer: historyReducer });
+  useInjectSaga({ key: 'tracking', saga: trackingSaga });
+  useInjectReducer({ key: 'tracking', reducer: trackingReducer });
+
+  // useInjectSaga({ key: 'history', saga: historySaga });
+  // useInjectReducer({ key: 'history', reducer: historyReducer });
 
   const { fetchUserRequestedAction, isMobile } = props;
 
   useEffect(() => {
+    console.log('aaaa');
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 
@@ -56,12 +69,15 @@ const mapStateToProps = createStructuredSelector({
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
   history: makeSelectTrackerHistories(),
+  trackingIds: makeSelectTrackerIdsTracking(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
+  changeTrackersTracking: (ids: number[]) =>
+    dispatch(changeTrackersTracking(ids)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

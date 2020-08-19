@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
 
 import SelectOption from '@Components/selections';
@@ -40,6 +40,9 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import { FaBell } from 'react-icons/fa';
 import { SideBarOutside } from '@Components/sidebars';
 
+import DateTimePicker from '@Components/DateTimePicker';
+import axios from 'axios';
+import { MAPBOX_API_KEY } from '@Definitions/app';
 interface Props {
   trackerIds: number[];
   trackers: ITracker;
@@ -56,52 +59,59 @@ export default function DashboardContainer(props) {
     history,
     t,
     isMobile,
+    changeTrackersTracking,
   } = props;
-  console.log('DashboardContainer -> history', history);
+  const [trackerList = [], setTrackerList] = useState([
+    { value: '', content: '' },
+  ]);
+  const [trackerSelected, setTrackerSelected] = useState(trackerList[0]?.value);
+  const [historyTracker, setHistoryTracker] = useState([]);
+  const [currentAddress, setCurrentAddress] = useState(null);
 
-  const [trackerList, setTrackerList] = useState([{ value: '', content: '' }]);
-  const [trackerSlected, setTrackerSelected] = useState('');
+  const callApiGetAddress = useCallback(async () => {
+    const { data } = await axios.get(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+        trackers[parseInt(trackerSelected)]?.lng
+      },${
+        trackers[parseInt(trackerSelected)]?.lat
+      }.json?types=poi&access_token=${MAPBOX_API_KEY}`
+    );
+    const address = data.features[0] || { place_name: 'Unknow location' };
+    setCurrentAddress(address.place_name);
+  }, [setCurrentAddress, trackerSelected, trackers]);
+
+  useEffect(() => {
+    callApiGetAddress();
+  }, [callApiGetAddress]);
 
   const deviceInfo = [
     {
-      title: t('dashboard:device_information'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
-    },
-    {
       title: t('dashboard:current_address'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: currentAddress,
     },
     {
       title: t('dashboard:total_time_travel'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: 'NaN',
     },
     {
       title: t('dashboard:odometer'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: 'NaN',
     },
     {
       title: t('dashboard:total_trip'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: 'NaN',
     },
     {
       title: t('dashboard:maximum_speed'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: 'NaN',
     },
     {
       title: t('dashboard:tracker_contenction'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: trackers[parseInt(trackerSelected)]?.location_type || 'NaN',
     },
     {
       title: t('dashboard:total_fuel_consumption'),
-      data:
-        '25845, Railton St, Moreno Valley, Riverside County, California, 92553, USA',
+      data: 'NaN',
     },
   ];
 
@@ -110,28 +120,32 @@ export default function DashboardContainer(props) {
       title: t('dashboard:distance'),
       dataView: 876.2,
       subTitle: t('dashboard:total_distance'),
-      date: '22/12/2020',
+      date: moment().format('L'),
+      unit: 'km',
     },
     {
       title: t('dashboard:trips'),
-      dataView: 222,
+      dataView: historyTracker?.length || 0,
       subTitle: t('dashboard:total_trip'),
-      date: '22/12/2020',
+      date: moment().format('L'),
     },
     {
       title: t('dashboard:battery'),
-      dataView: 87,
+      dataView: trackers[parseInt(trackerSelected)]?.battery || 0,
       subTitle: t('dashboard:battery_level'),
-      date: '22/12/2020',
+      date: moment().format('L'),
     },
     {
       title: t('dashboard:fuel'),
       dataView: 30,
       subTitle: t('dashboard:fuel_consumption'),
-      date: '22/12/2020',
+      date: moment().format('L'),
     },
   ];
-  const online = true;
+
+  useEffect(() => {
+    setHistoryTracker(history);
+  }, [history]);
 
   useEffect(() => {
     let newTrackerLIst = [];
@@ -146,18 +160,11 @@ export default function DashboardContainer(props) {
 
   const changeSelectTracker = device_id => {
     setTrackerSelected(device_id);
-    getHistoryTracker({
-      trackerId: device_id,
-      fromDate: moment().unix(),
-      toDate: moment().unix(),
-      limit: 2000,
-      page: 1,
-      type: '',
-    });
+    changeTrackersTracking([device_id]);
   };
 
   const onCloseAdd = () => console.log('aaaaa');
-  console.log('tracker info,:', trackers[trackerSlected], moment().unix());
+  console.log('tracker info,:', trackers[trackerSelected], moment().unix());
   return (
     <SideBarOutside
       title={t('tracker:add_geofence')}
@@ -173,17 +180,17 @@ export default function DashboardContainer(props) {
               name=""
               options={trackerList}
               label={'Sellect Tracker'}
-              value={trackerSlected}
+              value={trackerSelected}
               onChangeOption={changeSelectTracker}
             />
           </DeviceSelection>
           <SelectGroup>
-            <SelectOption
-              name=""
-              options={trackerList}
-              label={'Sellect Tracker'}
-              value={trackerSlected}
-              onChangeOption={changeSelectTracker}
+            <DateTimePicker
+              tracker={trackers[parseInt(trackerSelected)]}
+              isMobile={false}
+              t={t}
+              getHistoryTracker={getHistoryTracker}
+              showDescriptionTime={false}
             />
           </SelectGroup>
         </HeaderDashboard>
@@ -214,10 +221,15 @@ export default function DashboardContainer(props) {
               <Description>
                 <GoPrimitiveDot
                   className={
-                    online ? classes.primaryColor : classes.secondaryColor
+                    trackers[parseInt(trackerSelected)]?.status === 'active'
+                      ? classes.primaryColor
+                      : classes.secondaryColor
                   }
                 />{' '}
-                {t('dasboard:online')} | {t('dashboard:last_update')} {''}
+                {t('dasboard:online')} | {t('dashboard:last_update')}
+                {moment(
+                  trackers[parseInt(trackerSelected)]?.time * 1000
+                ).format('lll')}
               </Description>
             </HeaderCard>
             <ContentCard>
