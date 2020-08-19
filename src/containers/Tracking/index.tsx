@@ -19,11 +19,14 @@ import {
   getHistoryTrackerRequest,
   changeTrackingView,
 } from '@Containers/Tracking/store/actions';
+import { mqttStart, mqttDisconnect } from '@Containers/Mqtt/actions';
 
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
 import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
+import mqttSaga from '@Containers/Mqtt/sagas';
+import mqttReducer from '@Containers/Mqtt/reducers';
 import trackingSaga from './store/sagas';
 import trackingReducer from './store/reducers';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
@@ -42,6 +45,8 @@ interface Props {
   isMobile: boolean;
   trackers: object;
   trackingIds: number[];
+  mqttStart(): void;
+  mqttDisconnect(): void;
   fetchUserRequestedAction(): void;
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
@@ -57,10 +62,21 @@ function TrackingContainer(props: Props) {
   useInjectReducer({ key: 'tracker', reducer: trackersReducer });
   useInjectSaga({ key: 'tracking', saga: trackingSaga });
   useInjectReducer({ key: 'tracking', reducer: trackingReducer });
-  const { fetchUserRequestedAction, ...rest } = props;
+  useInjectSaga({ key: 'mqtt', saga: mqttSaga });
+  useInjectReducer({ key: 'mqtt', reducer: mqttReducer });
+  const {
+    fetchUserRequestedAction,
+    mqttStart,
+    mqttDisconnect,
+    ...rest
+  } = props;
   useEffect(() => {
     fetchUserRequestedAction();
-  }, [fetchUserRequestedAction]);
+    mqttStart();
+    return () => {
+      mqttDisconnect();
+    };
+  }, [fetchUserRequestedAction, mqttStart, mqttDisconnect]);
 
   return <View {...rest} />;
 }
@@ -77,6 +93,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+  mqttStart: () => dispatch(mqttStart()),
+  mqttDisconnect: () => dispatch(mqttDisconnect()),
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   changeTrackingView: (mode: string) => dispatch(changeTrackingView(mode)),
   changeTrackersTracking: (ids: number[]) =>
