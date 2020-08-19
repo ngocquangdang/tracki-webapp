@@ -6,6 +6,7 @@ import * as apiServices from '../services';
 import * as actions from '../actions';
 import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { updateContactListSucceedAction } from '@Containers/Contacts/store/actions/index.';
 
 function* fetchTrackersSaga(action) {
   try {
@@ -69,7 +70,23 @@ function* fetchTrackersSaga(action) {
         settings: {},
       }
     );
-    yield put(actions.fetchTrackersSucceedAction(tracker));
+    const {
+      contacts,
+      contactIds,
+      contactAssigneds,
+      contactAssignedIds,
+      ...trackerData
+    } = tracker;
+
+    yield put(
+      updateContactListSucceedAction({
+        contacts,
+        contactIds,
+        contactAssigneds,
+        contactAssignedIds,
+      })
+    );
+    yield put(actions.fetchTrackersSucceedAction(trackerData));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

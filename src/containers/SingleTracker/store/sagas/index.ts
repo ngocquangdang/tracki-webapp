@@ -2,15 +2,16 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
+
 import * as actions from '../actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
-import {
-  makeSelectTrackerId,
-  makeSelectContactList,
-} from '@Containers/Trackers/store/selectors';
-// import notification from '@Utils/notification';
+import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
+
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
+import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import { makeSelectContacts } from '@Containers/Contacts/store/selector';
+import { getContactListSucceedAction } from '@Containers/Contacts/store/actions/index.';
 
 function* fetchTrackerSettingsSaga(action) {
   try {
@@ -77,8 +78,11 @@ function* updateTrackerSettingSaga(action) {
 }
 function* getContactListSaga(action) {
   try {
-    const { account_id } = yield select(makeSelectProfile());
-    const { data } = yield call(apiServices.getContactList, account_id);
+    const { data: profile } = yield put(fetchUserRequestedAction());
+    const { data } = yield call(
+      apiServices.getContactList,
+      profile?.account_id
+    );
     const contacts = data.reduce(
       (obj, item) => {
         obj.contacts = { ...obj.contacts, [item.id]: item };
@@ -91,7 +95,7 @@ function* getContactListSaga(action) {
       }
     );
 
-    yield put(actions.getContactListSucceedAction(contacts));
+    yield put(getContactListSucceedAction(contacts));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -204,7 +208,7 @@ function* getContactAssignedSaga(action) {
 
 function* searchContactsSaga(action) {
   try {
-    const contacts = yield select(makeSelectContactList());
+    const contacts = yield select(makeSelectContacts());
     const searchKey = action.payload.search || '';
     const newIds = Object.keys(contacts).filter(id =>
       contacts[id].name.toLowerCase().includes(searchKey.toLowerCase())
@@ -258,23 +262,23 @@ function* removeContactAssignSaga(action) {
     yield put(actions.removeContactAssignedFailedAction(payload));
   }
 }
-function* addNewContactSaga(action) {
-  const { data, callback } = action.payload;
-  try {
-    const profile = yield select(makeSelectProfile());
-    yield call(apiServices.createContact, profile.account_id, data);
-    yield put(actions.getContactListRequestAction());
-    yield callback();
-    yield put(actions.addContactSuccesstAction(action.payload));
-  } catch (error) {
-    const { data = {} } = { ...error };
-    const payload = {
-      ...data,
-      errors: { code: data.message },
-    };
-    yield put(actions.addContactFailAction(payload));
-  }
-}
+// function* addNewContactSaga(action) {
+//   const { data, callback } = action.payload;
+//   try {
+//     const profile = yield select(makeSelectProfile());
+//     yield call(apiServices.createContact, profile.account_id, data);
+//     yield put(actions.getContactListRequestAction(profile.account_id));
+//     yield callback();
+//     yield put(actions.addContactSuccesstAction(action.payload));
+//   } catch (error) {
+//     const { data = {} } = { ...error };
+//     const payload = {
+//       ...data,
+//       errors: { code: data.message },
+//     };
+//     yield put(actions.addContactFailAction(payload));
+//   }
+// }
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -304,5 +308,5 @@ export default function* appWatcher() {
     types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
     removeContactAssignSaga
   );
-  yield takeLatest(types.CREATE_NEW_CONTACT_REQUESTED, addNewContactSaga);
+  // yield takeLatest(types.CREATE_NEW_CONTACT_REQUESTED, addNewContactSaga);
 }

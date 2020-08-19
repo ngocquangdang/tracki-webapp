@@ -17,13 +17,7 @@ import {
 import { isNumber } from 'lodash';
 
 import { makeSelectLoading } from '@Containers/App/store/selectors';
-import {
-  makeSelectTrackerSettings,
-  makeSelectContactList,
-  makeSelectContactIds,
-  makeSelectcontactAssigneds,
-  makeSelectcontactAssignedIds,
-} from '@Containers/Trackers/store/selectors';
+
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
@@ -56,15 +50,27 @@ import {
 import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
-  getContactListRequestAction,
   searchContactRequestedAction,
   addContactRequestAction,
   getContactAssignedRequestedAction,
   addContactAssignedRequestedAction,
   removeContactAssignedRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
+
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
+import {
+  makeSelectTrackerSettings,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
+} from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectContacts,
+  makeSelectContactIds,
+  makeSelectContactOfTracker,
+} from '@Containers/Contacts/store/selector';
+import { getContactListRequestAction } from '@Containers/Contacts/store/actions/index.';
 
 interface Props {
   handleClose(): void;
@@ -75,7 +81,7 @@ interface Props {
   isRequesting?: boolean;
   show: boolean;
   updateSettings(id: number, data: object): void;
-  getContactListRequest(): void;
+  getContactListRequest(account_id: number): void;
   contacts: object;
   contactIds: Array<number>;
   searchContactRequest(v): void;
@@ -86,6 +92,8 @@ interface Props {
   removeContactRequest(data, eventType): void;
   addContactPageRequest(data, callback): void;
   errors: any;
+  profile: any;
+  contactOfTracker: object;
 }
 
 function SettingTracker(props: Props) {
@@ -113,7 +121,10 @@ function SettingTracker(props: Props) {
     addContactRequest,
     removeContactRequest,
     errors,
+    profile,
+    contactOfTracker,
   } = props;
+  console.log('SettingTracker -> profile', profile);
 
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
@@ -205,8 +216,9 @@ function SettingTracker(props: Props) {
   };
 
   const onShowSelectContact = value => {
+    console.log('aaaaaaa');
     getContactAssignedRequest(infoTracker.device_id);
-    getContactListRequest();
+    getContactListRequest(profile.account_id);
     setShowSelectContat(!isShowSelectContact);
     setEventype(value);
   };
@@ -492,6 +504,7 @@ function SettingTracker(props: Props) {
         addContactPageRequest={addContactPageRequest}
         tracker={tracker}
         errors={errors}
+        contactOfTracker={contactOfTracker}
       />
     </SideBarOutside>
   );
@@ -501,16 +514,19 @@ const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
   isRequesting: makeSelectLoading(),
   settings: makeSelectTrackerSettings(),
-  contacts: makeSelectContactList(),
+  contacts: makeSelectContacts(),
   contactIds: makeSelectContactIds(),
+  contactOfTracker: makeSelectContactOfTracker(),
   contactAssigneds: makeSelectcontactAssigneds(),
   contactAssignedIds: makeSelectcontactAssignedIds(),
+  profile: makeSelectProfile(),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
-  getContactListRequest: () => dispatch(getContactListRequestAction()),
+  getContactListRequest: account_id =>
+    dispatch(getContactListRequestAction(account_id)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),

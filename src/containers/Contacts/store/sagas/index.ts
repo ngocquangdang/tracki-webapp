@@ -22,12 +22,9 @@ import {
 import { makeSelectContacts } from '../selector';
 
 function* getContactListSaga(action: ActionType) {
+  const { account_id } = action.payload;
   try {
-    const { data: profile } = yield call(apiServices.getUserInfo);
-    const { data } = yield call(
-      apiServices.getContactList,
-      profile?.account_id
-    );
+    const { data } = yield call(apiServices.getContactList, account_id);
     const contacts = data.reduce(
       (obj, item) => {
         obj.contacts = { ...obj.contacts, [item.id]: item };
@@ -79,7 +76,7 @@ function* addNewContactSaga(action: ActionType) {
     const { data: profile } = yield call(apiServices.getUserInfo);
 
     yield call(apiServices.createContact, profile?.account_id, data);
-    yield put(getContactListRequestAction());
+    yield put(getContactListRequestAction(profile?.account_id));
     yield callback();
     yield put(addContactSuccesstAction(action.payload));
   } catch (error) {
@@ -97,7 +94,7 @@ function* deleteContactSaga(action: ActionType) {
   try {
     const { data: profile } = yield call(apiServices.getUserInfo);
     yield call(apiServices.deleteContactList, profile?.account_id, contact_id);
-    yield put(getContactListRequestAction());
+    yield put(getContactListRequestAction(profile?.account_id));
     yield put(deleteContactSucceedAction(action.payload));
     yield callback();
   } catch (error) {
@@ -120,7 +117,7 @@ function* updateContactSaga(action: ActionType) {
       contact_id,
       data
     );
-    yield put(getContactListRequestAction());
+    yield put(getContactListRequestAction(profile?.account_id));
     yield put(editContactSucceedAction(action.payload));
     yield callback();
   } catch (error) {

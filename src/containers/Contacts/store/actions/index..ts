@@ -1,8 +1,10 @@
 import * as types from '../constants';
 
-export function getContactListRequestAction() {
+export function getContactListRequestAction(account_id: number) {
+  console.log('getContactListRequestAction -> account_id', account_id);
   return {
     type: types.GET_LIST_CONTACT_REQUESTED,
+    payload: { account_id },
   };
 }
 
@@ -16,6 +18,26 @@ export function getContactListSucceedAction(contacts: object) {
 export function getContactListFailedAction(error: object) {
   return {
     type: types.GET_LIST_CONTACT_FAILED,
+    payload: { error },
+  };
+}
+
+export function updateContactListRequestAction() {
+  return {
+    type: types.UPDATE_LIST_CONTACT_REQUESTED,
+  };
+}
+
+export function updateContactListSucceedAction(contacts: object) {
+  return {
+    type: types.UPDATE_LIST_CONTACT_SUCCESSED,
+    payload: { contacts },
+  };
+}
+
+export function updateContactListFailedAction(error: object) {
+  return {
+    type: types.UPDATE_LIST_CONTACT_FAILED,
     payload: { error },
   };
 }

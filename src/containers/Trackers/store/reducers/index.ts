@@ -10,11 +10,7 @@ export const initialState: TrackerDataTypes = {
     trackerIds: null,
     trackerPlans: {},
     selectedTrackerId: null,
-    contacts: {},
-    contactIds: [],
     settings: {},
-    contactAssigneds: {},
-    contactAssignedIs: [],
   },
   geofence: {
     geofences: {},
@@ -157,16 +153,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.UPDATE_TRACKERS_UNLINK_GEOFENCE:
         draft.tracker.trackers = { ...payload.trackers };
         break;
-      case singleTrackerTypes.GET_LIST_CONTACT_REQUESTED:
-        draft.errors = null;
-        break;
-      case singleTrackerTypes.GET_LIST_CONTACT_SUCCESSED:
-        draft.tracker.contacts = {
-          ...draft.tracker.contacts,
-          ...payload.contacts,
-        };
-        draft.tracker.contactIds = payload.contactIds;
-        break;
+
       case singleTrackerTypes.SEND_BEEP_SUCCEED:
         draft.dataSendBeep = payload?.data;
         draft.isBeep = true;
@@ -176,22 +163,6 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case singleTrackerTypes.RESET_BEEP:
         draft.isBeep = false;
-        break;
-      case singleTrackerTypes.GET_CONTACT_ASSIGNED_REQUESTED:
-      case singleTrackerTypes.ADD_CONTACT_ASSIGNED_REQUESTED:
-      case singleTrackerTypes.REMOVE_CONTACT_ASSIGNED_REQUESTED:
-        draft.errors = null;
-        break;
-      case singleTrackerTypes.GET_CONTACT_ASSIGNED_SUCCESSED:
-      case singleTrackerTypes.ADD_CONTACT_ASSIGNED_SUCCESSED:
-      case singleTrackerTypes.REMOVE_CONTACT_ASSIGNED_SUCCESSED:
-        draft.tracker.contactAssigneds = payload.contactAssigneds;
-        draft.tracker.contactAssignedIds = payload.contactAssignedIds;
-        break;
-      case singleTrackerTypes.GET_CONTACT_ASSIGNED_FAILED:
-      case singleTrackerTypes.ADD_CONTACT_ASSIGNED_FAILED:
-      case singleTrackerTypes.REMOVE_CONTACT_ASSIGNED_FAILED:
-        draft.errors = payload.error;
         break;
       default:
         break;

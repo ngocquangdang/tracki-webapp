@@ -9,15 +9,22 @@ const makeSelectErrors = () =>
 const makeSelectIsRequesting = () => {
   return createSelector(contactsState, state => state.isRequesting || false);
 };
+
 const makeSelectContacts = () => {
   return createSelector(contactsState, state => state.contacts || {});
 };
+
 const makeSelectContactIds = () => {
   return createSelector(contactsState, state => state.contactIds || []);
+};
+
+const makeSelectContactOfTracker = () => {
+  return createSelector(contactsState, state => state.contactOfTracker || {});
 };
 export {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectContacts,
   makeSelectContactIds,
+  makeSelectContactOfTracker,
 };

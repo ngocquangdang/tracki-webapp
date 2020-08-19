@@ -40,9 +40,9 @@ export const updateTrackerSettingsFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const getContactListRequestAction = () => ({
-  type: types.GET_LIST_CONTACT_REQUESTED,
-});
+// export const getContactListRequestAction = (account_id: number) => {
+//   return { type: types.GET_LIST_CONTACT_REQUESTED, payload: { account_id } };
+// };
 export const getContactListSucceedAction = (payload: object) => ({
   type: types.GET_LIST_CONTACT_SUCCESSED,
   payload,

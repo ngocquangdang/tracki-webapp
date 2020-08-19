@@ -8,6 +8,7 @@ export const initialState = {
   isRequesting: false,
   contacts: {},
   contactIds: [],
+  contactOfTracker: {},
 };
 const AddTrackerReducer = (
   state = initialState,
@@ -25,6 +26,9 @@ const AddTrackerReducer = (
       case types.GET_LIST_CONTACT_SUCCESSED:
         draft.contacts = payload.contacts.contacts;
         draft.contactIds = payload.contacts.contactIds;
+        break;
+      case types.UPDATE_LIST_CONTACT_SUCCESSED:
+        draft.contactOfTracker = payload.contacts.contacts;
         break;
       case types.SEARCH_CONTACT_SUCCEED:
         draft.contactIds = payload.contactIds;
