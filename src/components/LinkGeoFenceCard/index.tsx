@@ -9,12 +9,13 @@ import {
   ListItemSecondaryAction,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import { Edit, Delete } from '@material-ui/icons';
+import { Edit, Delete, Add } from '@material-ui/icons';
 import { IoIosLink, IoMdClose } from 'react-icons/io';
 
 import ConfirmPanel from '@Components/GeofenceListPC/components/DeleteConfirm';
 import { IGeofence } from '@Interfaces';
 import { Button } from '@Components/buttons';
+import { SkeletonLinkTracker } from '@Components/Skeletons';
 import { useStyles, Image, ListItemStyle } from './styles';
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
   unLinkGeofence?(id: number): void;
   linkGeofence?(id: number): void;
   editGeofence(id: number): void;
+  onAddGeofenceToDevices?(id: number): void;
   removeGeofence(id: number): void;
   [data: string]: any;
 }
@@ -45,6 +47,7 @@ export default function LinkGeofenceCard(props: Props) {
     addContact,
     editGeofence,
     linkGeofence,
+    onAddGeofenceToDevices,
   } = props;
   const classes = useStyles();
 
@@ -73,6 +76,10 @@ export default function LinkGeofenceCard(props: Props) {
       window.mapEvents.setFitBounds(window.geosDrawn[geofence.id].getBounds());
   };
 
+  const onClickAddDevice = () => {
+    onAddGeofenceToDevices && onAddGeofenceToDevices(geofence.id);
+  };
+
   const onClickEdit = () => {
     gotoGeofence();
     editGeofence(geofence.id);
@@ -97,6 +104,10 @@ export default function LinkGeofenceCard(props: Props) {
 
   const onCloseConfirm = () => setShowConfirm(false);
 
+  if (!geofence) {
+    return <SkeletonLinkTracker />;
+  }
+
   return (
     <React.Fragment>
       <ListItemStyle
@@ -110,31 +121,7 @@ export default function LinkGeofenceCard(props: Props) {
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={geofence.name} className={clsx(classes.text)} />
-        <ListItemSecondaryAction className={classes.actions}>
-          {isLinked && (
-            <Button
-              text={t('tracker:contact')}
-              startIcon={<img src="/images/add_contact.svg" alt="" />}
-              onClick={onAddContact}
-              className={classes.actionBtn}
-            />
-          )}
-          <Button
-            text={isLinked ? t('tracker:unlink') : t('tracker:link')}
-            startIcon={
-              isLinked ? <img src="/images/unlink.svg" alt="" /> : <IoIosLink />
-            }
-            onClick={isLinked ? onUnlinkClick : onLinkClick}
-            className={classes.actionBtn}
-          />
-          <Button
-            text={t('tracker:edit')}
-            startIcon={<img src="/images/edit.svg" alt="" />}
-            onClick={editClick}
-            className={classes.actionBtn}
-          />
-        </ListItemSecondaryAction>
-        {showMoreAction && (
+        {showMoreAction ? (
           <Slide
             in={showMoreAction}
             mountOnEnter
@@ -150,7 +137,19 @@ export default function LinkGeofenceCard(props: Props) {
                   className={classes.actionBtn}
                 />
               </div>
-              <div className={classes.moreRight}>
+              <div
+                className={clsx(classes.moreRight, {
+                  [classes.moreRight2]: !isLinked,
+                })}
+              >
+                {!isLinked && (
+                  <Button
+                    text={t('tracker:add_device')}
+                    startIcon={<Add />}
+                    onClick={onClickAddDevice}
+                    className={classes.moreActionBtn}
+                  />
+                )}
                 <Button
                   text={t('tracker:edit_geofence')}
                   startIcon={<Edit />}
@@ -158,7 +157,7 @@ export default function LinkGeofenceCard(props: Props) {
                   className={classes.moreActionBtn}
                 />
                 <Button
-                  text={t('tracker:delete_this_fence')}
+                  text={t('tracker:delete_fence')}
                   startIcon={<Delete />}
                   onClick={deleteGeofence}
                   className={classes.moreActionBtn}
@@ -166,6 +165,35 @@ export default function LinkGeofenceCard(props: Props) {
               </div>
             </div>
           </Slide>
+        ) : (
+          <ListItemSecondaryAction className={classes.actions}>
+            {isLinked && (
+              <Button
+                text={t('tracker:contact')}
+                startIcon={<img src="/images/add_contact.svg" alt="" />}
+                onClick={onAddContact}
+                className={classes.actionBtn}
+              />
+            )}
+            <Button
+              text={isLinked ? t('tracker:unlink') : t('tracker:link')}
+              startIcon={
+                isLinked ? (
+                  <img src="/images/unlink.svg" alt="" />
+                ) : (
+                  <IoIosLink />
+                )
+              }
+              onClick={isLinked ? onUnlinkClick : onLinkClick}
+              className={classes.actionBtn}
+            />
+            <Button
+              text={t('tracker:edit')}
+              startIcon={<img src="/images/edit.svg" alt="" />}
+              onClick={editClick}
+              className={classes.actionBtn}
+            />
+          </ListItemSecondaryAction>
         )}
       </ListItemStyle>
       <ConfirmPanel

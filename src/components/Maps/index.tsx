@@ -47,6 +47,8 @@ declare global {
     mapEvents: any;
     mapFullWidth: boolean;
     geosDrawn: object;
+    geosMobile: object;
+    geoMapMobile: any;
     trackerMarkers: object;
   }
 }

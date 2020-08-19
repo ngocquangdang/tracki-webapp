@@ -9,3 +9,5 @@ export const GEOFENCE_DEFAULT = {
     vertices: [],
   },
 };
+
+export const GEO_SHAPES = ['rectangle', 'circle', 'polygon'];

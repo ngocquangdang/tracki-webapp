@@ -14,7 +14,7 @@ import {
 import { makeSelectMapTile } from '@Containers/App/store/selectors';
 import { changeMapTileAction } from '@Containers/App/store/actions';
 import MapTiles from '@Components/Maps/components/MapTiles';
-import { Menu, useStyles, LinkStyle, Item } from './styles';
+import { useStyles, LinkStyle } from './styles';
 
 interface Props {
   t(key: string): string;
@@ -33,12 +33,12 @@ function Footer(props: Props) {
   const onCloseLayer = () => setIsOpen(false);
 
   return (
-    <Menu>
+    <div className={classes.footer}>
       {trackerId ? (
         <div> hihi</div>
       ) : (
         <>
-          <Item>
+          <div className={classes.navLink}>
             <Link href="/notifications">
               <LinkStyle
                 color="secondary"
@@ -48,8 +48,8 @@ function Footer(props: Props) {
                 {<NotificationsIcon />} {t('common:notifications')}
               </LinkStyle>
             </Link>
-          </Item>
-          <Item>
+          </div>
+          <div className={classes.navLink}>
             <Link href="/dashboard">
               <LinkStyle
                 color="secondary"
@@ -59,8 +59,8 @@ function Footer(props: Props) {
                 {<MyLocationIcon />} {t('common:current_location')}
               </LinkStyle>
             </Link>
-          </Item>
-          <Item>
+          </div>
+          <div className={classes.navLink}>
             <Link href="/trackers">
               <LinkStyle
                 color="secondary"
@@ -70,8 +70,8 @@ function Footer(props: Props) {
                 {<NearMeIcon />} {t('common:view_all')}
               </LinkStyle>
             </Link>
-          </Item>
-          <Item>
+          </div>
+          <div className={classes.navLink}>
             <Link href="/tracking">
               <LinkStyle
                 color="secondary"
@@ -81,10 +81,10 @@ function Footer(props: Props) {
                 {<ShoppingBasketIcon />} {t('common:store')}
               </LinkStyle>
             </Link>
-          </Item>
+          </div>
           <ClickAwayListener onClickAway={onCloseLayer}>
-            <div>
-              <Item onClick={!isOpen ? onShowLayer : undefined}>
+            <div className={classes.navLink}>
+              <div onClick={!isOpen ? onShowLayer : undefined}>
                 <LinkStyle
                   color="secondary"
                   className={classes.linkBtnMobile}
@@ -92,7 +92,7 @@ function Footer(props: Props) {
                 >
                   {<LayerIcon />} {t('common:map_type')}
                 </LinkStyle>
-              </Item>
+              </div>
               <MapTiles
                 t={t}
                 mapTile={mapTile}
@@ -104,7 +104,7 @@ function Footer(props: Props) {
           </ClickAwayListener>
         </>
       )}
-    </Menu>
+    </div>
   );
 }
 

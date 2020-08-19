@@ -7,6 +7,8 @@ class Geofences extends React.Component {
   constructor(props) {
     super(props);
     window.geosDrawn = {};
+    window.geosMobile = {};
+    this.windowGeoKey = props.isGeofenceMobile ? 'geosMobile' : 'geosDrawn';
   }
 
   onClick = geoId => () => {
@@ -63,9 +65,9 @@ class Geofences extends React.Component {
   };
 
   removeGeofence = id => {
-    if (window.geosDrawn[id]) {
-      this.props.map.removeLayer(window.geosDrawn[id]);
-      delete window.geosDrawn[id];
+    if (window[this.windowGeoKey][id]) {
+      this.props.map.removeLayer(window[this.windowGeoKey][id]);
+      delete window[this.windowGeoKey][id];
     }
   };
 
@@ -89,11 +91,11 @@ class Geofences extends React.Component {
       }
     }
     if (editGeofenceId !== currentGeoId) {
-      if (window.geosDrawn[editGeofenceId]) {
-        window.geosDrawn[editGeofenceId].editing.enable();
+      if (window[this.windowGeoKey][editGeofenceId]) {
+        window[this.windowGeoKey][editGeofenceId].editing.enable();
       }
-      if (window.geosDrawn[currentGeoId]) {
-        window.geosDrawn[currentGeoId].editing.disable();
+      if (window[this.windowGeoKey][currentGeoId]) {
+        window[this.windowGeoKey][currentGeoId].editing.disable();
       }
     }
 
@@ -115,7 +117,7 @@ class Geofences extends React.Component {
     } = geofence;
     const { map } = this.props;
     if (
-      !window.geosDrawn[id] &&
+      !window[this.windowGeoKey][id] &&
       vertices &&
       vertices.northeast &&
       vertices.southwest
@@ -131,7 +133,7 @@ class Geofences extends React.Component {
       rectangle.on('dragstart', this.onDragStart);
       rectangle.on('dragend', this.onDragEnd(id));
       rectangle.on('edit', this.onDragEnd(id));
-      window.geosDrawn[id] = rectangle;
+      window[this.windowGeoKey][id] = rectangle;
     }
   };
 
@@ -142,7 +144,7 @@ class Geofences extends React.Component {
       preferences: { center, radius },
     } = geofence;
     const { map } = this.props;
-    if (!window.geosDrawn[id] && center) {
+    if (!window[this.windowGeoKey][id] && center) {
       const circle = L.circle(center, {
         radius,
         color,
@@ -155,7 +157,7 @@ class Geofences extends React.Component {
       circle.on('dragstart', this.onDragStart);
       circle.on('dragend', this.onDragEnd(id));
       circle.on('edit', this.changeRadius(id));
-      window.geosDrawn[id] = circle;
+      window[this.windowGeoKey][id] = circle;
     }
   };
 
@@ -166,7 +168,7 @@ class Geofences extends React.Component {
       preferences: { vertices },
     } = geofence;
     const { map } = this.props;
-    if (!window.geosDrawn[id] && vertices && vertices.length > 0) {
+    if (!window[this.windowGeoKey][id] && vertices && vertices.length > 0) {
       const polygon = L.polygon(vertices, {
         color,
         weight: 2,
@@ -177,7 +179,7 @@ class Geofences extends React.Component {
       polygon.on('click', this.onClick(id));
       polygon.on('dragstart', this.onDragStart);
       polygon.on('dragend', this.onDragEnd(id));
-      window.geosDrawn[id] = polygon;
+      window[this.windowGeoKey][id] = polygon;
     }
   };
 

@@ -12,12 +12,13 @@ import { TAB_KEYS } from '@Containers/Tracking/store/constants';
 interface Props {
   isMobile: boolean;
   trackers: object;
+  settings: object;
   trackingIds: number[];
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
-  [data: string]: any;
   getHistoryTracker(data: object): void;
+  [data: string]: any;
 }
 
 export default function TabsPC(props: Props) {
@@ -25,6 +26,7 @@ export default function TabsPC(props: Props) {
     isMobile,
     trackers,
     trackingIds,
+    settings,
     t,
     changeTrackingView,
     changeTrackersTracking,
@@ -63,6 +65,7 @@ export default function TabsPC(props: Props) {
       {(currentTab === 0 || currentTab === 2) && (
         <SingleView
           t={t}
+          settings={settings}
           isMobile={isMobile}
           trackers={trackers}
           trackingIds={trackingIds}
@@ -76,6 +79,7 @@ export default function TabsPC(props: Props) {
           isMobile={isMobile}
           trackers={trackers}
           trackingIds={trackingIds}
+          settings={settings}
           changeTrackersTracking={changeTrackersTracking}
           getHistoryTracker={getHistoryTracker}
           currentTab={currentTab}

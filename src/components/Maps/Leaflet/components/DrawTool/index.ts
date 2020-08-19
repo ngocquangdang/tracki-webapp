@@ -44,26 +44,7 @@ class LeafletTool extends React.Component<Props> {
     } = this.props;
 
     if (mapAction !== currentAction) {
-      this.polygonDrawHandler.disable();
-      this.circleDrawHandler.disable();
-      this.rectangleDrawHandler.disable();
-      this.polygonDrawHandler.setOptions(optionsDefault);
-      this.circleDrawHandler.setOptions(optionsDefault);
-      this.rectangleDrawHandler.setOptions(optionsDefault);
-
-      switch (mapAction) {
-        case MAP_ACTIONS.CREATE_RECTANGLE:
-          this.rectangleDrawHandler.enable();
-          return;
-        case MAP_ACTIONS.CREATE_CIRCLE:
-          this.circleDrawHandler.enable();
-          return;
-        case MAP_ACTIONS.CREATE_POLYGON:
-          this.polygonDrawHandler.enable();
-          return;
-        default:
-          break;
-      }
+      this.toggleDrawTool(mapAction);
     }
 
     // update draw color
@@ -83,6 +64,29 @@ class LeafletTool extends React.Component<Props> {
       this.rectangleDrawHandler.setOptions(newOpts);
     }
   }
+
+  toggleDrawTool = (mapAction: string) => {
+    this.polygonDrawHandler.disable();
+    this.circleDrawHandler.disable();
+    this.rectangleDrawHandler.disable();
+    this.polygonDrawHandler.setOptions(optionsDefault);
+    this.circleDrawHandler.setOptions(optionsDefault);
+    this.rectangleDrawHandler.setOptions(optionsDefault);
+
+    switch (mapAction) {
+      case MAP_ACTIONS.CREATE_RECTANGLE:
+        this.rectangleDrawHandler.enable();
+        return;
+      case MAP_ACTIONS.CREATE_CIRCLE:
+        this.circleDrawHandler.enable();
+        return;
+      case MAP_ACTIONS.CREATE_POLYGON:
+        this.polygonDrawHandler.enable();
+        return;
+      default:
+        break;
+    }
+  };
 
   vertexEditing = event => {
     console.log('vertexEditing', event);
@@ -162,7 +166,7 @@ class LeafletTool extends React.Component<Props> {
   };
 
   componentDidMount() {
-    const { t, map } = this.props;
+    const { t, map, mapAction } = this.props;
 
     if (L.drawLocal) {
       L.drawLocal.draw.handlers.polygon = {
@@ -203,7 +207,7 @@ class LeafletTool extends React.Component<Props> {
       this.polygonDrawHandler = new L.Draw.Polygon(map, optionsDefault);
       this.circleDrawHandler = new L.Draw.Circle(map, optionsDefault);
       this.rectangleDrawHandler = new L.Draw.Rectangle(map, optionsDefault);
-
+      this.toggleDrawTool(mapAction);
       map.on(L.Draw.Event.CREATED, this.createGeofence);
       map.on(L.Draw.Event.EDITVERTEX, this.vertexEditing);
     }

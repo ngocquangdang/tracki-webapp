@@ -188,6 +188,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       newGeofence,
       editGeofenceId,
       showGeofences,
+      isMobile,
       changeMapAction,
       updateNewGeofence,
       updateGeofence,
@@ -200,7 +201,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
         {userLocation && (
           <UserLocation map={this.map} location={userLocation} />
         )}
-        {isInitiatedMap && (
+        {isInitiatedMap && !isMobile && (
           <DrawTool
             map={this.map}
             mapAction={mapAction}

@@ -8,6 +8,7 @@ import { useStyles } from './styles';
 
 interface Props {
   trackers: object;
+  settings: object;
   trackingIds: number[];
   isMobile: boolean;
   currentTab: number;
@@ -23,6 +24,7 @@ export default function SingleView(props: Props) {
     isMobile,
     currentTab,
     t,
+    settings,
     changeTrackersTracking,
   } = props;
   const classes = useStyles();
@@ -61,6 +63,7 @@ export default function SingleView(props: Props) {
         isMobile={isMobile}
         className={classes.tracker}
         tracker={tracker}
+        settings={settings[tracker?.settings_id]}
       />
       <p className={classes.text}>{t('tracker:select_device')}</p>
       <div className={classes.list}>
