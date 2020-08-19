@@ -9,9 +9,7 @@ import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
 
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
-import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { makeSelectContacts } from '@Containers/Contacts/store/selector';
-import { getContactListSucceedAction } from '@Containers/Contacts/store/actions/index.';
 
 function* fetchTrackerSettingsSaga(action) {
   try {
@@ -76,42 +74,7 @@ function* updateTrackerSettingSaga(action) {
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
-function* getContactListSaga(action) {
-  try {
-    const { data: profile } = yield put(fetchUserRequestedAction());
-    const { data } = yield call(
-      apiServices.getContactList,
-      profile?.account_id
-    );
-    const contacts = data.reduce(
-      (obj, item) => {
-        obj.contacts = { ...obj.contacts, [item.id]: item };
-        obj.contactIds.push(item.id);
-        return obj;
-      },
-      {
-        contacts: {},
-        contactIds: [],
-      }
-    );
 
-    yield put(getContactListSucceedAction(contacts));
-  } catch (error) {
-    const { data = {} } = { ...error };
-    const payload = {
-      ...data,
-    };
-    if (data.error || data.message) {
-      yield put(
-        showSnackbar({
-          snackType: 'error',
-          snackMessage: data.error || data.message,
-        })
-      );
-    }
-    yield put(actions.getContactListFailedAction(payload));
-  }
-}
 function* activeLinkShareLocationSaga(action) {
   const device_id = yield select(makeSelectTrackerId());
   try {
@@ -288,7 +251,6 @@ export default function* appWatcher() {
     types.UPDATE_TRACKER_SETTINGS_REQUESTED,
     updateTrackerSettingSaga
   );
-  yield takeLatest(types.GET_LIST_CONTACT_REQUESTED, getContactListSaga);
   yield takeLatest(
     types.ACTIVE_LINK_SHARE_REQUESTED,
     activeLinkShareLocationSaga

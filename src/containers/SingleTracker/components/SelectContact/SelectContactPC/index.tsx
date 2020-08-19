@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SideBarOutside } from '@Components/sidebars';
 import { debounce } from 'lodash';
 import ContactCard from '@Components/ContactCard';

@@ -40,17 +40,6 @@ export const updateTrackerSettingsFailedAction = (error: object) => ({
   payload: { error },
 });
 
-// export const getContactListRequestAction = (account_id: number) => {
-//   return { type: types.GET_LIST_CONTACT_REQUESTED, payload: { account_id } };
-// };
-export const getContactListSucceedAction = (payload: object) => ({
-  type: types.GET_LIST_CONTACT_SUCCESSED,
-  payload,
-});
-export const getContactListFailedAction = (error: object) => ({
-  type: types.GET_LIST_CONTACT_FAILED,
-  payload: { error },
-});
 export const generateLinkShareLocationRequest = (duration: object) => ({
   type: types.ACTIVE_LINK_SHARE_REQUESTED,
   payload: { duration },
