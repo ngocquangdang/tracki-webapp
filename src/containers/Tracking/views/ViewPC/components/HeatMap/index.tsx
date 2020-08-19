@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
-
+import moment from 'moment';
 import TrackerDetailCard from '@Components/DetailTrackerCard';
 import TrackerCard from '@Components/TrackerCard';
 
@@ -36,6 +36,12 @@ export default function HeatMap(props: Props) {
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
   const tracker = trackers[selectedTrackerId];
 
+  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
+  const [selectedDateTo, setSelectedDateTo] = useState(moment());
+  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
+  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
+    moment(new Date())
+  );
   useEffect(() => {
     if (isFirstLoading && tracker && tracker.lat && tracker.lng) {
       const options =
@@ -58,6 +64,54 @@ export default function HeatMap(props: Props) {
     changeTrackersTracking([id]);
   };
 
+  const onChangeDateOption = value => {
+    if (value !== 'date_range' && value !== 'specific_date') {
+      getHistoryTracker({
+        trackerId: tracker?.device_id,
+        fromDate: value,
+        toDate: moment().unix(),
+        limit: 2000,
+        page: 1,
+        type: 2,
+      });
+    }
+  };
+  const onChangeDateFrom = date => {
+    const fromDate = moment(date.getTime());
+    setSelectedDateFrom(fromDate);
+  };
+
+  const onChangeDateTo = date => {
+    const toDate = moment(date.getTime());
+    setSelectedDateTo(toDate);
+
+    getHistoryTracker({
+      trackerId: tracker?.device_id,
+      fromDate: selectedDateFrom.unix(),
+      toDate: toDate.unix(),
+      limit: 2000,
+      page: 1,
+      type: 2,
+    });
+  };
+
+  const onChangeSpecificDate = date => {
+    setSelectedSpecificDate(date);
+    setSelectedSpecificTimeTo(date);
+  };
+
+  const onChangeSpecificTimeTo = date => {
+    setSelectedSpecificTimeTo(date);
+    getHistoryTracker({
+      trackerId: trackers[selectedTrackerId]?.device_id,
+      fromDate: moment(selectedSpecificDate).unix(),
+      toDate: moment(date).unix(),
+      limit: 2000,
+      page: 1,
+      type: 2,
+    });
+  };
+
   return (
     <div className={classes.container}>
       <TrackerDetailCard
@@ -66,12 +120,22 @@ export default function HeatMap(props: Props) {
         className={classes.tracker}
         tracker={tracker}
       />
-      <DateTimePicker
-        tracker={tracker}
-        isMobile={isMobile}
-        t={t}
-        getHistoryTracker={getHistoryTracker}
-      />
+      <div className={classes.formSelect}>
+        <DateTimePicker
+          isMobile={false}
+          isHistory={true}
+          t={t}
+          onChangeDateFrom={onChangeDateFrom}
+          onChangeDateTo={onChangeDateTo}
+          onChangeSpecificDate={onChangeSpecificDate}
+          onChangeSpecificTimeTo={onChangeSpecificTimeTo}
+          onChangeDateOption={onChangeDateOption}
+          valueDateFrom={selectedDateFrom}
+          valueDateTo={selectedDateTo}
+          valueSpecificDate={selectedSpecificDate}
+          valueSpecificTimeTo={selectedSpecificTimeTo}
+        />
+      </div>
       <p className={classes.text}>{t('tracker:select_device')}</p>
       <div className={classes.list}>
         {trackerIds.map(id => (

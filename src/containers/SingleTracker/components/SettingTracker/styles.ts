@@ -198,6 +198,9 @@ const useStyles = makeStyles(theme => ({
   questionIconMargin: {
     marginRight: '8px',
   },
+  selectOption: {
+    margin: '15px 0',
+  },
 }));
 
 const LimitInput = withStyles(theme => ({

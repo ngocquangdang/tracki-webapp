@@ -94,13 +94,15 @@ function HistoryTracker(props: Props) {
                     />
                   </RadioGroup>
                 </SelectGroup>
-                <SelectOption
-                  name="history_option"
-                  options={HISTORY_OPTIONS}
-                  label={t('tracker:history_view_option')}
-                  value={values.history_option}
-                  onChangeOption={handleChange('history_option')}
-                />
+                <div className={classes.selectOption}>
+                  <SelectOption
+                    name="history_option"
+                    options={HISTORY_OPTIONS}
+                    label={t('tracker:history_view_option')}
+                    value={values.history_option}
+                    onChangeOption={handleChange('history_option')}
+                  />
+                </div>
                 <Button
                   className={`${classes.btn} ${classes.margin}`}
                   variant="outlined"

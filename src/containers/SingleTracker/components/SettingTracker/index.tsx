@@ -247,13 +247,15 @@ function SettingTracker(props: Props) {
                     variant="outlined"
                     disabled
                   />
-                  <SelectOption
-                    name="tracking_mode"
-                    options={LOCATION_UPDATE_OPTIONS}
-                    label={t('tracker:location_updated')}
-                    value={values.tracking_mode}
-                    onChangeOption={handleChange('tracking_mode')}
-                  />
+                  <div className={classes.selectOption}>
+                    <SelectOption
+                      name="tracking_mode"
+                      options={LOCATION_UPDATE_OPTIONS}
+                      label={t('tracker:location_updated')}
+                      value={values.tracking_mode}
+                      onChangeOption={handleChange('tracking_mode')}
+                    />
+                  </div>
                   <TextDescription1>
                     Tracker's path tracking Intervals (to save battery set to
                     less frequent)

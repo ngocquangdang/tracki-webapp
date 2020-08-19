@@ -113,13 +113,15 @@ export default function Step3(props: Props) {
               </InputSubcription>
             </GroupInput>
             <GroupInput>
-              <SelectOption
-                name="device_traking"
-                options={LOCATION_UPDATE_OPTIONS}
-                label={t('tracker:tracking_intervals')}
-                value={values.device_traking}
-                onChangeOption={handleChange('device_traking')}
-              />
+              <div className={classes.selectOption}>
+                <SelectOption
+                  name="device_traking"
+                  options={LOCATION_UPDATE_OPTIONS}
+                  label={t('tracker:tracking_intervals')}
+                  value={values.device_traking}
+                  onChangeOption={handleChange('device_traking')}
+                />
+              </div>
               <InputSubcription>
                 {t('tracker:tracking_intervals_subcription')}
               </InputSubcription>
