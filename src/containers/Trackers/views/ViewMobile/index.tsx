@@ -51,6 +51,7 @@ export default function ViewHomeMobile(props: Props) {
                 tracker={props.trackers[props.selectedTrackerId]}
                 isMobile={true}
                 t={props.t}
+                settings={props.settings[tracker?.settings_id]}
               />
             </ContentCardDetail>
             <SettingTracker

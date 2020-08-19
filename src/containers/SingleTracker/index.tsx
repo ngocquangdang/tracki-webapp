@@ -74,6 +74,7 @@ function SingleTracker(props: Props) {
     tracker,
     isBeep,
     geofences,
+    settings,
     onClickBack,
     t,
     resetBeep,
@@ -156,7 +157,12 @@ function SingleTracker(props: Props) {
             />
           ) : (
             <Card key={tracker.device_id}>
-              <DetailTrackerCard isMobile={false} tracker={tracker} t={t} />
+              <DetailTrackerCard
+                isMobile={false}
+                tracker={tracker}
+                t={t}
+                settings={settings[tracker.settings_id]}
+              />
               <TrackerMenu>
                 <TrackerMenuUp>
                   {renderBlock(
