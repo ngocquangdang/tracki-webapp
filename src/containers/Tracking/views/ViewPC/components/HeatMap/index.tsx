@@ -15,8 +15,9 @@ interface Props {
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   currentTab: number;
-  [data: string]: any;
+  settings: object;
   getHistoryTracker(data: object): void;
+  [data: string]: any;
 }
 
 export default function HeatMap(props: Props) {
@@ -25,6 +26,7 @@ export default function HeatMap(props: Props) {
     trackingIds,
     isMobile,
     t,
+    settings,
     changeTrackersTracking,
     currentTab,
     getHistoryTracker,
@@ -119,6 +121,7 @@ export default function HeatMap(props: Props) {
         isMobile={isMobile}
         className={classes.tracker}
         tracker={tracker}
+        settings={settings[tracker?.settings_id]}
       />
       <div className={classes.formSelect}>
         <DateTimePicker

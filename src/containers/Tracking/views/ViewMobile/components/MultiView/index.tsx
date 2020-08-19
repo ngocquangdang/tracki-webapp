@@ -18,20 +18,21 @@ interface Props {
 }
 
 export default function MultiView(props: Props) {
-  const { isMultiScreen, trackers, trackingIds } = props;
+  const { isMultiScreen, trackers, trackingIds, settings } = props;
   const classes = useStyles();
-
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
+  const tracker = trackers[selectedTrackerId];
 
   return (
     <React.Fragment>
-      {!isMultiScreen && trackers[selectedTrackerId] && (
+      {!isMultiScreen && tracker && (
         <div className={classes.trackerCard}>
           <DetailTrackerCard
-            tracker={trackers[selectedTrackerId]}
+            tracker={tracker}
             isMobile={true}
             t={props.t}
+            settings={settings[tracker.settings_id]}
           />
         </div>
       )}
@@ -94,7 +95,7 @@ export default function MultiView(props: Props) {
             <MapStreetView
               isMobile={true}
               mapLabel={props.t('tracker:map_street_panorama')}
-              tracker={trackers[selectedTrackerId]}
+              tracker={tracker}
             />
           )}
         </div>

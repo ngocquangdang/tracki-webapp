@@ -15,6 +15,7 @@ import { IoIosLink, IoMdClose } from 'react-icons/io';
 import ConfirmPanel from '@Components/GeofenceListPC/components/DeleteConfirm';
 import { IGeofence } from '@Interfaces';
 import { Button } from '@Components/buttons';
+import { SkeletonLinkTracker } from '@Components/Skeletons';
 import { useStyles, Image, ListItemStyle } from './styles';
 
 interface Props {
@@ -102,6 +103,10 @@ export default function LinkGeofenceCard(props: Props) {
   const closeMoreAction = () => setShowMoreAction(false);
 
   const onCloseConfirm = () => setShowConfirm(false);
+
+  if (!geofence) {
+    return <SkeletonLinkTracker />;
+  }
 
   return (
     <React.Fragment>

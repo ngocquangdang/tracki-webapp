@@ -134,6 +134,7 @@ export default function TrackingMobile(props: Props) {
                 isFullWidth={true}
                 trackers={trackers}
                 trackingIds={trackingIds}
+                settings={props.settings}
                 changeTrackersTracking={changeTrackersTracking}
               />
             </div>
