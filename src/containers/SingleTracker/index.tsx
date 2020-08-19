@@ -161,7 +161,7 @@ function SingleTracker(props: Props) {
                 isMobile={false}
                 tracker={tracker}
                 t={t}
-                settings={settings[tracker?.settings_id]}
+                settings={settings[tracker.settings_id]}
               />
               <TrackerMenu>
                 <TrackerMenuUp>

@@ -215,13 +215,15 @@ function DetailTrackerCard(props: Prop) {
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
           <span className={`${classes.textBold} ${classes.textSpace}`}>
-            {tracker?.speed === 0
+            {tracker && tracker.speed === 0
               ? 'Stopped'
-              : (settings.preferences?.speed_limit?.unit === 'kph'
-                  ? tracker?.speed
-                  : tracker?.speed / 1.609) +
-                ' ' +
-                settings.preferences?.speed_limit?.unit}
+              : settings?.preferences?.speed_limit?.unit === 'kph'
+              ? tracker?.speed || 0
+              : (tracker?.speed || 0) / 1.609}
+            {(tracker &&
+              tracker.speed !== 0 &&
+              settings?.preferences?.speed_limit?.unit) ||
+              ''}
           </span>
         </StatusTracker>
         <ConnectionTracker>

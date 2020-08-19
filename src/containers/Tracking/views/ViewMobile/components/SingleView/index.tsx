@@ -57,7 +57,7 @@ function TrackingSingleView(props: Props) {
               tracker={tracker}
               isMobile={true}
               t={props.t}
-              settings={settings[tracker]}
+              settings={settings[tracker.settings_id]}
             />
           </div>
           <SettingTracker
