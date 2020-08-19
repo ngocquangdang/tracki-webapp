@@ -9,12 +9,16 @@ const SelectContactContainer = styled.div`
   color: #ffffff;
   overflow: auto;
 `;
+
 const Save = styled.div`
   padding: 10px;
   background: #363640;
 `;
 const SelectContactAddButton = styled.div``;
-const SearchInput = styled.div``;
+
+const SearchInput = styled.div`
+  width: 100%;
+`;
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -44,8 +48,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   addBtn: {
-    position: 'absolute',
-    bottom: '0',
+    position: 'fixed',
+    bottom: '80px',
     right: 15,
     borderRadius: 100,
     background: '#ffffff',

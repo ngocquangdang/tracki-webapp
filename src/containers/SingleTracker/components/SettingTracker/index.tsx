@@ -50,27 +50,33 @@ import {
 import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
+  // searchContactRequestedAction,
+  // addContactRequestAction,
+  // getContactAssignedRequestedAction,
+  // addContactAssignedRequestedAction,
+  // removeContactAssignedRequestedAction,
+} from '@Containers/SingleTracker/store/actions';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
+
+import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
+
+import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectErrors,
+  makeSelectContacts,
+  makeSelectContactIds,
+  makeSelectContactOfTracker,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
+} from '@Containers/Contacts/store/selector';
+import {
+  getContactListRequestAction,
   searchContactRequestedAction,
   addContactRequestAction,
   getContactAssignedRequestedAction,
   addContactAssignedRequestedAction,
   removeContactAssignedRequestedAction,
-} from '@Containers/SingleTracker/store/actions';
-import { makeSelectProfile } from '@Containers/App/store/selectors';
-
-import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
-import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
-import {
-  makeSelectTrackerSettings,
-  makeSelectcontactAssigneds,
-  makeSelectcontactAssignedIds,
-} from '@Containers/Trackers/store/selectors';
-import {
-  makeSelectContacts,
-  makeSelectContactIds,
-  makeSelectContactOfTracker,
-} from '@Containers/Contacts/store/selector';
-import { getContactListRequestAction } from '@Containers/Contacts/store/actions/index.';
+} from '@Containers/Contacts/store/actions/index.';
 
 interface Props {
   handleClose(): void;
@@ -122,9 +128,8 @@ function SettingTracker(props: Props) {
     removeContactRequest,
     errors,
     profile,
-    contactOfTracker,
+    // contactOfTracker,
   } = props;
-  console.log('SettingTracker -> profile', profile);
 
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
@@ -216,7 +221,6 @@ function SettingTracker(props: Props) {
   };
 
   const onShowSelectContact = value => {
-    console.log('aaaaaaa');
     getContactAssignedRequest(infoTracker.device_id);
     getContactListRequest(profile.account_id);
     setShowSelectContat(!isShowSelectContact);
@@ -504,7 +508,7 @@ function SettingTracker(props: Props) {
         addContactPageRequest={addContactPageRequest}
         tracker={tracker}
         errors={errors}
-        contactOfTracker={contactOfTracker}
+        // contactOfTracker={contactOfTracker}
       />
     </SideBarOutside>
   );

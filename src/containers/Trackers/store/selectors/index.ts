@@ -31,12 +31,6 @@ const makeSelectTrackerSettings = () =>
 const makeSelectEditGeofenceId = () =>
   createSelector(globalState, state => state.geofence?.editGeofenceId);
 
-// const makeSelectContactList = () =>
-//   createSelector(globalState, state => state.tracker.contacts.contacts);
-
-// const makeSelectContactIds = () =>
-//   createSelector(globalState, state => state.tracker.contacts.contactIds);
-
 const makeSelectErrors = () =>
   createSelector(globalState, state => state.errors);
 
@@ -48,10 +42,7 @@ const makeSelectBeep = () =>
 
 const makeSelectNewGeofence = () =>
   createSelector(globalState, state => state.geofence?.newGeofence);
-const makeSelectcontactAssigneds = () =>
-  createSelector(globalState, state => state.tracker?.contactAssigneds);
-const makeSelectcontactAssignedIds = () =>
-  createSelector(globalState, state => state.tracker?.contactAssignedIds);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -62,12 +53,8 @@ export {
   makeSelectGeofenceId,
   makeSelectTrackerSettings,
   makeSelectEditGeofenceId,
-  // makeSelectContactList,
-  // makeSelectContactIds,
   makeSelectDataLink,
   makeSelectBeep,
   makeSelectNewGeofence,
-  makeSelectcontactAssigneds,
-  makeSelectcontactAssignedIds,
   makeSelectErrors,
 };

@@ -10,7 +10,7 @@ const MenuWrap = styled.div`
   height: 100%;
   position: fixed;
   top: 0;
-  z-index: 403;
+  z-index: 411;
   left: 0;
 `;
 const MenuHeader = styled.div`
@@ -42,6 +42,7 @@ const WrapTitle = styled.div`
   display: flex;
   padding-left: 15px;
   cursor: pointer;
+  width: 85%;
 `;
 
 const useStyles = makeStyles((theme: Theme) => ({

@@ -14,22 +14,17 @@ import { MdPhoneIphone, MdEmail } from 'react-icons/md';
 
 interface Props {
   contactSelected?: number[];
-  handleChange(value): void;
+  handleChange(value: number): void;
   contact: any;
 }
 
 export default function ContactCard(props: Props) {
   const { contactSelected, handleChange, contact } = props;
   const classes = useStyles();
-  const onChecked = e => () => {
-    handleChange(e);
+  const onChecked = (contact_id: number) => () => {
+    handleChange(contact_id);
   };
-  console.log(
-    'checked: ',
-    contactSelected?.includes(contact.id),
-    contact.id,
-    contactSelected
-  );
+
   return (
     <ListItemStyle button key={contact.id}>
       <Card>

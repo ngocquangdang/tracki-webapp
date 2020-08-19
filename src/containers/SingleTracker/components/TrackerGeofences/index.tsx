@@ -32,13 +32,7 @@ import {
   createGeofenceRequestAction,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
-import {
-  // getContactListRequestAction,
-  addContactRequestAction,
-  addContactAssignedRequestedAction,
-  removeContactAssignedRequestedAction,
-  searchContactRequestedAction,
-} from '@Containers/SingleTracker/store/actions';
+import {} from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
@@ -47,15 +41,21 @@ import {
   makeSelectGeofenceIds,
   makeSelectEditGeofenceId,
   makeSelectNewGeofence,
-  makeSelectcontactAssigneds,
-  makeSelectcontactAssignedIds,
 } from '@Containers/Trackers/store/selectors';
 import { IGeofence } from '@Interfaces';
 import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
 import {
   makeSelectContacts,
   makeSelectContactIds,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
 } from '@Containers/Contacts/store/selector';
+import {
+  addContactRequestAction,
+  addContactAssignedRequestedAction,
+  removeContactAssignedRequestedAction,
+  searchContactRequestedAction,
+} from '@Containers/Contacts/store/actions/index.';
 
 interface Props {
   tracker: ITracker;

@@ -10,6 +10,9 @@ const Save = styled.div`
 `;
 const SelectContactAddButton = styled.div``;
 const SearchInput = styled.div``;
+const ErrorText = styled.div`
+  color: #ce3630;
+`;
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -93,7 +96,7 @@ const TextInput = withStyles(theme => ({
       },
     },
     '& .MuiOutlinedInput-input': {
-      padding: '15.5px 0',
+      padding: '15.5px 10px 15.5px 0',
       fontSize: 15,
     },
   },
@@ -105,4 +108,5 @@ export {
   TextInput,
   Save,
   useStyles,
+  ErrorText,
 };

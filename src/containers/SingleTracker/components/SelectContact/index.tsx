@@ -21,6 +21,7 @@ interface Props {
   t(key: string): string;
   tracker: ITracker;
   errors: any;
+  // contactOfTracker: number[];
 }
 
 export default function SelectContact(props: Props) {

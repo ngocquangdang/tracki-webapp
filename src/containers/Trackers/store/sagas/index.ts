@@ -14,14 +14,13 @@ function* fetchTrackersSaga(action) {
     const { data } = yield call(apiServices.fetchTrackers, accountId);
 
     let tracker = normalizeTrackers(data);
-    console.log('function*fetchTrackersSaga -> tracker', tracker);
 
     const { data: assignmentsData } = yield call(
       apiServices.fetchAssignmentsByTrackerIds,
       accountId,
       tracker.trackerIds
     );
-    console.log('reducer', assignmentsData);
+
     tracker = assignmentsData.reduce(
       (result, item) => {
         const { fences, device_id, geozones, settings, contacts } = item;

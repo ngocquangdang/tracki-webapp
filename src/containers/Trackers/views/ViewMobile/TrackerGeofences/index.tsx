@@ -24,28 +24,28 @@ import {
   removeGeofenceRequestAction,
   createNewGeofence,
 } from '@Containers/Trackers/store/actions';
-import {
-  // getContactListRequestAction,
-  addContactRequestAction,
-  removeContactAssignedRequestedAction,
-  searchContactRequestedAction,
-  addContactAssignedRequestedAction,
-} from '@Containers/SingleTracker/store/actions';
-import {
-  makeSelectcontactAssigneds,
-  makeSelectcontactAssignedIds,
-} from '@Containers/Trackers/store/selectors';
+
 import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
 
 import { changeMapAction } from '@Containers/App/store/actions';
 
 import { useStyles } from './styles';
-// import SelectContact from '@Containers/SingleTracker/components/SelectContact';
-import ContactList from '../ContactList';
+
 import {
   makeSelectContacts,
   makeSelectContactIds,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
 } from '@Containers/Contacts/store/selector';
+import {
+  addContactRequestAction,
+  addContactAssignedRequestedAction,
+  removeContactAssignedRequestedAction,
+  searchContactRequestedAction,
+  getContactListRequestAction,
+} from '@Containers/Contacts/store/actions/index.';
+import SelectContact from '@Containers/SingleTracker/components/SelectContact';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 interface Props {
   tracker: ITracker;
@@ -125,7 +125,7 @@ function TrackerGeofencesMobile(props: Props) {
 
   const onAddContact = (trackerId: number) => {
     setShowContactList(true);
-    getContactListRequestAction(profile.account_id);
+    getContactListRequestAction(profile?.account_id);
   };
 
   const onCloseContactList = () => {
@@ -237,7 +237,7 @@ function TrackerGeofencesMobile(props: Props) {
           </Tabs>
         </div>
       </Slide>
-      <ContactList
+      <SelectContact
         handleClose={onCloseContactList}
         show={showContactList}
         isMobile={isMobile}
@@ -267,8 +267,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(removeGeofenceRequestAction(id)),
   changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
   createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
-  // getContactListRequestAction: (account_id: number) =>
-  //   dispatch(getContactListRequestAction(account_id)),
+  getContactListRequestAction: (account_id: number) =>
+    dispatch(getContactListRequestAction(account_id)),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
   addContactRequest: (data, eventType) =>
@@ -284,6 +284,7 @@ const mapStateToProps = createStructuredSelector({
   contactAssigneds: makeSelectcontactAssigneds(),
   contactAssignedIds: makeSelectcontactAssignedIds(),
   errors: makeSelectErrors(),
+  profile: makeSelectProfile(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

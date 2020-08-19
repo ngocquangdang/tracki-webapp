@@ -17,9 +17,16 @@ import {
   deleteContactFailedAction,
   editContactFailedAction,
   editContactSucceedAction,
+  getContactAssignedSucceedAction,
+  getContactAssignedFailedAction,
+  addContactAssignedFailedAction,
+  removeContactAssignedFailedAction,
 } from '../actions/index.';
 
 import { makeSelectContacts } from '../selector';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
+import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
 
 function* getContactListSaga(action: ActionType) {
   const { account_id } = action.payload;
@@ -59,8 +66,10 @@ function* searchContactsSaga(action) {
   try {
     const contacts = yield select(makeSelectContacts());
     const searchKey = action.payload.search || '';
-    const newIds = Object.keys(contacts).filter(id =>
-      contacts[id].name.toLowerCase().includes(searchKey.toLowerCase())
+    const newIds = Object.keys(contacts).filter(
+      id =>
+        contacts[id].name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        contacts[id].address.toLowerCase().includes(searchKey.toLowerCase())
     );
     yield put(searchContactSucceedAction(newIds));
   } catch (error) {
@@ -103,6 +112,14 @@ function* deleteContactSaga(action: ActionType) {
       ...data,
       errors: { code: data.message },
     };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
     yield put(deleteContactFailedAction(payload));
   }
 }
@@ -126,7 +143,88 @@ function* updateContactSaga(action: ActionType) {
       ...data,
       errors: { code: data.message },
     };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
     yield put(editContactFailedAction(payload));
+  }
+}
+
+function* getContactAssignedSaga(action) {
+  const { device_id } = action.payload;
+  try {
+    const profile = yield select(makeSelectProfile());
+
+    const { data } = yield call(
+      apiServices.contactAssigned,
+      profile.account_id,
+      device_id
+    );
+    const contactAssigned = data.contactAssignments.reduce(
+      (obj, item) => {
+        obj.contactAssigneds = {
+          ...obj.contactAssigneds,
+          [item.contactId]: item,
+        };
+        obj.contactAssignedIds.push(item.contactId);
+        return obj;
+      },
+      {
+        contactAssigneds: {},
+        contactAssignedIds: [],
+      }
+    );
+    yield put(getContactAssignedSucceedAction(contactAssigned));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(getContactAssignedFailedAction(payload));
+  }
+}
+
+function* addContactAssignSaga(action) {
+  const { data, eventType } = action.payload;
+  try {
+    const profile = yield select(makeSelectProfile());
+    const device_id = yield select(makeSelectTrackerId());
+
+    yield call(
+      apiServices.addContactAssign,
+      profile.account_id,
+      device_id,
+      data,
+      eventType
+    );
+    yield put(selectTrackerIdAction(device_id));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(addContactAssignedFailedAction(payload));
+  }
+}
+
+function* removeContactAssignSaga(action) {
+  const { data, eventType } = action.payload;
+
+  try {
+    const profile = yield select(makeSelectProfile());
+    const device_id = yield select(makeSelectTrackerId());
+    yield call(
+      apiServices.removeContactAssigned,
+      profile.account_id,
+      device_id,
+      data,
+      eventType
+    );
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = { ...data };
+    yield put(removeContactAssignedFailedAction(payload));
   }
 }
 export default function* appWatcher() {
@@ -135,4 +233,13 @@ export default function* appWatcher() {
   yield takeLatest(types.SEARCH_CONTACT_REQUESTED, searchContactsSaga);
   yield takeLatest(types.DELETE_CONTACT_REQUESTED, deleteContactSaga);
   yield takeLatest(types.EDIT_CONTACT_REQUESTED, updateContactSaga);
+  yield takeLatest(
+    types.GET_CONTACT_ASSIGNED_REQUESTED,
+    getContactAssignedSaga
+  );
+  yield takeLatest(types.ADD_CONTACT_ASSIGNED_REQUESTED, addContactAssignSaga);
+  yield takeLatest(
+    types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
+    removeContactAssignSaga
+  );
 }

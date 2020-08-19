@@ -21,10 +21,18 @@ const makeSelectContactIds = () => {
 const makeSelectContactOfTracker = () => {
   return createSelector(contactsState, state => state.contactOfTracker || {});
 };
+const makeSelectcontactAssigneds = () =>
+  createSelector(contactsState, state => state.contactAssigneds);
+
+const makeSelectcontactAssignedIds = () =>
+  createSelector(contactsState, state => state.contactAssignedIds);
+
 export {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectContacts,
   makeSelectContactIds,
   makeSelectContactOfTracker,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
 };

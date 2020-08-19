@@ -26,18 +26,22 @@ const AddTrackerReducer = (
       case types.GET_LIST_CONTACT_SUCCESSED:
         draft.contacts = payload.contacts.contacts;
         draft.contactIds = payload.contacts.contactIds;
+        draft.isRequesting = false;
         break;
       case types.UPDATE_LIST_CONTACT_SUCCESSED:
         draft.contactOfTracker = payload.contacts.contacts;
+        draft.isRequesting = false;
         break;
       case types.SEARCH_CONTACT_SUCCEED:
         draft.contactIds = payload.contactIds;
+        draft.isRequesting = false;
         break;
       case types.GET_LIST_CONTACT_FAILED:
       case types.CREATE_NEW_CONTACT_FAILED:
       case types.DELETE_CONTACT_FAILED:
       case types.EDIT_CONTACT_FAILED:
         draft.errors = payload.errors;
+        draft.isRequesting = false;
         break;
       default:
         break;

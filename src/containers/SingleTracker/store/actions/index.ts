@@ -86,92 +86,92 @@ export const resetBeepAction = () => ({
   type: types.RESET_BEEP,
 });
 
-export const searchContactRequestedAction = (search: string | null) => ({
-  type: types.SEARCH_CONTACT_REQUESTED,
-  payload: { search },
-});
+// export const searchContactRequestedAction = (search: string | null) => ({
+//   type: types.SEARCH_CONTACT_REQUESTED,
+//   payload: { search },
+// });
 
-export const searchContactSucceedAction = (
-  contactIds: Array<number | string>
-) => ({
-  type: types.SEARCH_CONTACT_SUCCEED,
-  payload: { contactIds },
-});
+// export const searchContactSucceedAction = (
+//   contactIds: Array<number | string>
+// ) => ({
+//   type: types.SEARCH_CONTACT_SUCCEED,
+//   payload: { contactIds },
+// });
 
-export const searchContactFailedAction = (error: object) => ({
-  type: types.SEARCH_CONTACT_FAILED,
-  payload: { error },
-});
-export function addContactRequestAction(data, callback) {
-  return {
-    type: types.CREATE_NEW_CONTACT_REQUESTED,
-    payload: {
-      data,
-      callback,
-    },
-  };
-}
+// export const searchContactFailedAction = (error: object) => ({
+//   type: types.SEARCH_CONTACT_FAILED,
+//   payload: { error },
+// });
+// export function addContactRequestAction(data, callback) {
+//   return {
+//     type: types.CREATE_NEW_CONTACT_REQUESTED,
+//     payload: {
+//       data,
+//       callback,
+//     },
+//   };
+// }
 
-export function addContactSuccesstAction(payload) {
-  return {
-    type: types.CREATE_NEW_CONTACT_SUCCESSED,
-    payload,
-  };
-}
+// export function addContactSuccesstAction(payload) {
+//   return {
+//     type: types.CREATE_NEW_CONTACT_SUCCESSED,
+//     payload,
+//   };
+// }
 
-export function addContactFailAction(payload) {
-  return {
-    type: types.CREATE_NEW_CONTACT_FAILED,
-    payload,
-  };
-}
+// export function addContactFailAction(payload) {
+//   return {
+//     type: types.CREATE_NEW_CONTACT_FAILED,
+//     payload,
+//   };
+// }
 
-export const getContactAssignedRequestedAction = device_id => ({
-  type: types.GET_CONTACT_ASSIGNED_REQUESTED,
-  payload: {
-    device_id,
-  },
-});
+// export const getContactAssignedRequestedAction = device_id => ({
+//   type: types.GET_CONTACT_ASSIGNED_REQUESTED,
+//   payload: {
+//     device_id,
+//   },
+// });
 
-export const getContactAssignedSucceedAction = payload => ({
-  type: types.GET_CONTACT_ASSIGNED_SUCCESSED,
-  payload,
-});
+// export const getContactAssignedSucceedAction = payload => ({
+//   type: types.GET_CONTACT_ASSIGNED_SUCCESSED,
+//   payload,
+// });
 
-export const getContactAssignedFailedAction = (error: object) => ({
-  type: types.GET_CONTACT_ASSIGNED_FAILED,
-  payload: { error },
-});
+// export const getContactAssignedFailedAction = (error: object) => ({
+//   type: types.GET_CONTACT_ASSIGNED_FAILED,
+//   payload: { error },
+// });
 
-export const addContactAssignedRequestedAction = (data, eventType) => ({
-  type: types.ADD_CONTACT_ASSIGNED_REQUESTED,
-  payload: { data, eventType },
-});
+// export const addContactAssignedRequestedAction = (data, eventType) => ({
+//   type: types.ADD_CONTACT_ASSIGNED_REQUESTED,
+//   payload: { data, eventType },
+// });
 
-export const addContactAssignedSucceedAction = payload => ({
-  type: types.ADD_CONTACT_ASSIGNED_SUCCESSED,
-  payload,
-});
+// export const addContactAssignedSucceedAction = payload => ({
+//   type: types.ADD_CONTACT_ASSIGNED_SUCCESSED,
+//   payload,
+// });
 
-export const addContactAssignedFailedAction = (error: object) => ({
-  type: types.ADD_CONTACT_ASSIGNED_FAILED,
-  payload: { error },
-});
+// export const addContactAssignedFailedAction = (error: object) => ({
+//   type: types.ADD_CONTACT_ASSIGNED_FAILED,
+//   payload: { error },
+// });
 
-export const removeContactAssignedRequestedAction = (data, eventType) => ({
-  type: types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
-  payload: {
-    data,
-    eventType,
-  },
-});
+// export const removeContactAssignedRequestedAction = (data, eventType) => ({
+//   type: types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
+//   payload: {
+//     data,
+//     eventType,
+//   },
+// });
 
-export const removeContactAssignedSucceedAction = payload => ({
-  type: types.REMOVE_CONTACT_ASSIGNED_SUCCESSED,
-  payload,
-});
+// export const removeContactAssignedSucceedAction = payload => ({
+//   type: types.REMOVE_CONTACT_ASSIGNED_SUCCESSED,
+//   payload,
+// });
 
-export const removeContactAssignedFailedAction = (error: object) => ({
-  type: types.REMOVE_CONTACT_ASSIGNED_FAILED,
-  payload: { error },
-});
+// export const removeContactAssignedFailedAction = (error: object) => ({
+//   type: types.REMOVE_CONTACT_ASSIGNED_FAILED,
+//   payload: { error },
+// });

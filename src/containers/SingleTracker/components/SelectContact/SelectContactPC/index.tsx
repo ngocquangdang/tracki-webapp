@@ -53,19 +53,10 @@ export default function SelectContactPC(props: Props) {
     errors,
   } = props;
 
-  console.log('SelectContactPC -> tracker', tracker);
-  console.log('SelectContactPC -> contacts', contacts);
-  console.log('SelectContactPC -> contacts', contactIds);
-
   const { contacts: contactOfTracker = [] } = tracker;
-  console.log('SelectContactPC -> contactOfTracker', contactOfTracker);
   const [contactSelected, setContactSelected] = useState([...contactOfTracker]);
 
   const [showAddContact, setShowAddContact] = useState(false);
-
-  // useEffect(() => {
-  //   setContactSelected(contactOfTracker);
-  // }, [contactOfTracker]);
 
   const debounceSearch = debounce((v: string) => onSearch(v), 300);
   const onShowAddContact = () => {

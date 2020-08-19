@@ -31,9 +31,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.SEARCH_TRACKERS_SUCCEED:
         draft.tracker.trackerIds = payload.trackerIds;
         break;
-      case singleTrackerTypes.SEARCH_CONTACT_SUCCEED:
-        draft.tracker.contactIds = payload.contactIds;
-        break;
+
       case types.SEARCH_GEOFENCES_SUCCEED:
         draft.geofence.geofenceIds = payload.geofenceIds;
         break;
