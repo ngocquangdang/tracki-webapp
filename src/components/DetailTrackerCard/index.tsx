@@ -48,11 +48,12 @@ interface Prop {
   tracker: ITracker;
   isMobile: boolean;
   t(key: string, format?: object): string;
+  settings: any;
 }
 
 function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile, className = '' } = props;
+  const { tracker, isMobile, className = '', settings } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
@@ -214,7 +215,12 @@ function DetailTrackerCard(props: Prop) {
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
           <span className={`${classes.textBold} ${classes.textSpace}`}>
-            {tracker?.speed === 0 ? 'Stopped' : tracker?.speed}
+            {tracker?.speed === 0 
+              ? 'Stopped'  
+              : ( settings.preferences?.speed_limit?.unit === 'kph'
+                ? tracker?.speed 
+                : (tracker?.speed/1.609) ) 
+              +' '+ settings.preferences?.speed_limit?.unit}
           </span>
         </StatusTracker>
         <ConnectionTracker>
