@@ -157,7 +157,12 @@ function SingleTracker(props: Props) {
             />
           ) : (
             <Card key={tracker.device_id}>
-              <DetailTrackerCard isMobile={false} tracker={tracker} t={t} settings={settings[tracker?.settings_id]}/>
+              <DetailTrackerCard
+                isMobile={false}
+                tracker={tracker}
+                t={t}
+                settings={settings[tracker?.settings_id]}
+              />
               <TrackerMenu>
                 <TrackerMenuUp>
                   {renderBlock(

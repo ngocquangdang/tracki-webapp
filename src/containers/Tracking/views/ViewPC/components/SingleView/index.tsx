@@ -23,6 +23,7 @@ export default function SingleView(props: Props) {
     isMobile,
     currentTab,
     t,
+    settings,
     changeTrackersTracking,
   } = props;
   const classes = useStyles();
@@ -61,6 +62,7 @@ export default function SingleView(props: Props) {
         isMobile={isMobile}
         className={classes.tracker}
         tracker={tracker}
+        settings={settings[tracker]}
       />
       <p className={classes.text}>{t('tracker:select_device')}</p>
       <div className={classes.list}>

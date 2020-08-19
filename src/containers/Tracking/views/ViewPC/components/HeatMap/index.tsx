@@ -25,6 +25,7 @@ export default function HeatMap(props: Props) {
     trackingIds,
     isMobile,
     t,
+    settings,
     changeTrackersTracking,
     currentTab,
     getHistoryTracker,
@@ -65,6 +66,7 @@ export default function HeatMap(props: Props) {
         isMobile={isMobile}
         className={classes.tracker}
         tracker={tracker}
+        settings={settings[tracker]}
       />
       <DateTimePicker
         tracker={tracker}
