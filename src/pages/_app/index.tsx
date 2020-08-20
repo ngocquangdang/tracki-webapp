@@ -90,7 +90,7 @@ class WebApp extends App<AppWithStore & Props> {
                 type="image/png"
               />
             </Header>
-            <Snackbar />
+            <Snackbar isMobile={isMobile} />
             <Component {...pageProps} isMobile={isMobile} />
           </ThemeProvider>
         </AuthProvider>
