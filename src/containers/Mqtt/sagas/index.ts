@@ -57,7 +57,7 @@ function* handleMQTT() {
 
 function* mqttStartSaga() {
   try {
-    yield MQTTClient.connect({
+    MQTTClient.connect({
       user: 'tracki',
       password: 'mypasstracki',
       protocol: 'wss',

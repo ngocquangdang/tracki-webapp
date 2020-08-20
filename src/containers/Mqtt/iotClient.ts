@@ -20,8 +20,11 @@ export default class IoTClient {
   }
 
   initClient = options => {
-    this.options = options;
-    this.mqttClient = mqtt.connect(null, options);
+    this.options = {
+      connectTimeout: 3 * 1000,
+      ...options,
+    };
+    this.mqttClient = mqtt.connect(null, this.options);
 
     if (typeof options.debug !== 'undefined' && options.debug) {
       this.attachDebugHandlers();

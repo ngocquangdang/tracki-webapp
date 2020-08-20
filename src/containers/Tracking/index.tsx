@@ -44,6 +44,8 @@ interface Props {
   viewMode: string;
   isMobile: boolean;
   trackers: object;
+  histories: object;
+  settings: object;
   trackingIds: number[];
   mqttStart(): void;
   mqttDisconnect(): void;
@@ -54,7 +56,6 @@ interface Props {
   onResetSelectedTrackerID(): void;
   getHistoryTracker(data: object): void;
   [data: string]: any;
-  histories: object;
 }
 
 function TrackingContainer(props: Props) {
