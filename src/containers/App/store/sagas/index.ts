@@ -9,6 +9,7 @@ import {
   fetchGeofencesRequestedAction,
 } from '@Containers/Trackers/store/actions';
 import { getUserRequestAction } from '@Containers/AccountSetting/store/actions';
+import { getContactListRequestAction } from '@Containers/Contacts/store/actions/index.';
 function* fetchProfileSaga() {
   try {
     const { data } = yield call(apiServices.fetchUser);
@@ -16,6 +17,7 @@ function* fetchProfileSaga() {
     yield put(getUserRequestAction(data.account_id));
     yield put(fetchTrackersRequestedAction(data.account_id));
     yield put(fetchGeofencesRequestedAction(data.account_id));
+    yield put(getContactListRequestAction(data.account_id));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

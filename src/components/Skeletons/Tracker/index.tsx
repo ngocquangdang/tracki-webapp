@@ -18,7 +18,7 @@ export default function TrackerCard(props: Props) {
         animation="wave"
         width={40}
         height={40}
-        style={{ marginRight: 8 }}
+        style={{ marginRight: 8, borderRadius: 20 }}
         classes={{ root: classes.skeleton }}
       />
       <div>

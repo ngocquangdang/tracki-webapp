@@ -38,7 +38,6 @@ export interface TrackerDataTypes {
     trackerIds: Array<number | string> | null;
     trackerPlans: object | null;
     selectedTrackerId: number | null;
-    contacts: object;
     settings: object;
     [data: string]: any;
   };

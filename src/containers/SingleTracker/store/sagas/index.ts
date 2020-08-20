@@ -2,9 +2,11 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
+
 import * as actions from '../actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
+
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 function* fetchTrackerSettingsSaga(action) {
@@ -70,31 +72,7 @@ function* updateTrackerSettingSaga(action) {
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
-function* getContactListSaga(action) {
-  try {
-    const { account_id } = yield select(makeSelectProfile());
-    const { data } = yield call(apiServices.getContactList, account_id);
-    const contacts = data.reduce(
-      (obj, item) => ({ ...obj, [item.id]: item }),
-      {}
-    );
-    yield put(actions.getContactListSucceedAction(contacts));
-  } catch (error) {
-    const { data = {} } = { ...error };
-    const payload = {
-      ...data,
-    };
-    if (data.error || data.message) {
-      yield put(
-        showSnackbar({
-          snackType: 'error',
-          snackMessage: data.error || data.message,
-        })
-      );
-    }
-    yield put(actions.getContactListFailedAction(payload));
-  }
-}
+
 function* activeLinkShareLocationSaga(action) {
   const device_id = yield select(makeSelectTrackerId());
   try {
@@ -156,23 +134,6 @@ function* sendBeepSaga(action) {
   }
 }
 
-function* addNewContactSaga(action) {
-  const { data, callback } = action.payload;
-  try {
-    const profile = yield select(makeSelectProfile());
-    yield call(apiServices.createContact, profile.account_id, data);
-    yield put(actions.getContactListRequestAction());
-    yield callback();
-    yield put(actions.addContactSuccesstAction(action.payload));
-  } catch (error) {
-    const { data = {} } = { ...error };
-    const payload = {
-      ...data,
-      errors: { code: data.message },
-    };
-    yield put(actions.addContactFailAction(payload));
-  }
-}
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -182,7 +143,6 @@ export default function* appWatcher() {
     types.UPDATE_TRACKER_SETTINGS_REQUESTED,
     updateTrackerSettingSaga
   );
-  yield takeLatest(types.GET_LIST_CONTACT_REQUESTED, getContactListSaga);
   yield takeLatest(
     types.ACTIVE_LINK_SHARE_REQUESTED,
     activeLinkShareLocationSaga
@@ -192,5 +152,4 @@ export default function* appWatcher() {
     deactiveLinkShareLocationSaga
   );
   yield takeLatest(types.SEND_BEEP_REQUESTED, sendBeepSaga);
-  yield takeLatest(types.CREATE_NEW_CONTACT_REQUESTED, addNewContactSaga);
 }

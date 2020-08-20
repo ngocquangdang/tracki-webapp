@@ -19,6 +19,7 @@ export default function EmailForm(props) {
     onClose,
     errors,
   } = props;
+
   const classes = useStyles();
   const onSubmit = value => {
     addContactPageRequest(

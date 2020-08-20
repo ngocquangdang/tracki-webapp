@@ -24,12 +24,29 @@ import {
   removeGeofenceRequestAction,
   createNewGeofence,
 } from '@Containers/Trackers/store/actions';
-import { getContactListRequestAction } from '@Containers/SingleTracker/store/actions';
+
+import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
+
 import { changeMapAction } from '@Containers/App/store/actions';
 import AddGeoFenceToDevice from '@Components/GeofenceListPC/components/AddGeoFenceToDevice';
-import ContactList from '../ContactList';
 import CreateGeofence from '../CreateGeofence';
 import { useStyles } from './styles';
+
+import {
+  makeSelectContacts,
+  makeSelectContactIds,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
+} from '@Containers/Contacts/store/selector';
+import {
+  addContactRequestAction,
+  addContactAssignedRequestedAction,
+  removeContactAssignedRequestedAction,
+  searchContactRequestedAction,
+  getContactListRequestAction,
+} from '@Containers/Contacts/store/actions/index.';
+import SelectContact from '@Containers/SingleTracker/components/SelectContact';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 interface Props {
   tracker: ITracker;
@@ -44,8 +61,15 @@ interface Props {
   createNewGeofence(geofence: object): void;
   removeGeofenceRequestAction(id: number): void;
   changeMapAction(mapAction: string): void;
-  getContactListRequestAction(): void;
+  getContactListRequestAction(account_id: number): void;
   [data: string]: any;
+  removeContactRequest(data, eventType): void;
+  addContactPageRequest(data, callback): void;
+  contactAssigneds?: object;
+  contactAssignedIds?: Array<number>;
+  searchContactRequest(v): void;
+  errors: any;
+  profile: any;
 }
 
 function TrackerGeofencesMobile(props: Props) {
@@ -64,13 +88,24 @@ function TrackerGeofencesMobile(props: Props) {
     linkTrackerAction,
     unlinkTrackerAction,
     getContactListRequestAction,
+    contacts,
+    contactIds,
+    addContactPageRequest,
+    addContactRequest,
+    removeContactRequest,
+    searchContactRequest,
+    contactAssigneds,
+    contactAssignedIds,
+    errors,
+    profile,
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
+  // const [showContactList, setShowContactList] = useState(false);
   const [currentView, setCurrentView] = useState('');
-  const [selectedTrackerId, setSelectedTrackerId] = useState<number | null>(
-    null
-  );
+  // const [selectedTrackerId, setSelectedTrackerId] = useState<number | null>(
+  //   null
+  // );
   const [selectedGeofenceId, setSelectedGeofenceId] = useState<number | null>(
     null
   );
@@ -78,7 +113,7 @@ function TrackerGeofencesMobile(props: Props) {
   const onCloseCurrentView = () => {
     setCurrentView('');
     setSelectedGeofenceId(null);
-    setSelectedTrackerId(null);
+    // setSelectedTrackerId(null);
   };
 
   const onAddFence = () => {
@@ -102,12 +137,19 @@ function TrackerGeofencesMobile(props: Props) {
   const editGeofence = (geoId: number) => {
     editGeofenceAction(geoId);
     setCurrentView('createGeofence');
+    setTimeout(() => {
+      window.geosMobile[geoId] &&
+        window.geoMapMobile.fitBounds(window.geosMobile[geoId].getBounds(), {
+          paddingBottomRight: [0, 200],
+        });
+    }, 300);
   };
 
   const onAddContact = (trackerId: number) => {
-    getContactListRequestAction();
-    setSelectedTrackerId(trackerId);
+    // setShowContactList(true);
+    getContactListRequestAction(profile?.account_id);
     setCurrentView('contactList');
+    // setSelectedTrackerId(trackerId);
   };
 
   const onAddGeofenceToDevices = (geoId: number) => {
@@ -116,8 +158,9 @@ function TrackerGeofencesMobile(props: Props) {
   };
 
   const onCloseContactList = () => {
-    setSelectedTrackerId(null);
+    // setSelectedTrackerId(null);
     setCurrentView('');
+    // setShowContactList(false);
   };
 
   const geofenceNotLinkedByTracker = Object.keys(geofences).filter(
@@ -226,11 +269,21 @@ function TrackerGeofencesMobile(props: Props) {
           </Tabs>
         </div>
       </Slide>
-      <ContactList
-        t={props.t}
+      <SelectContact
+        handleClose={onCloseContactList}
         show={currentView === 'contactList'}
-        onClose={onCloseContactList}
-        selectedTrackerId={selectedTrackerId}
+        isMobile={isMobile}
+        contacts={contacts}
+        contactIds={contactIds}
+        onSearch={searchContactRequest}
+        t={t}
+        contactAssigneds={contactAssigneds}
+        contactAssignedIds={contactAssignedIds}
+        addContactRequest={addContactRequest}
+        removeContactRequest={removeContactRequest}
+        addContactPageRequest={addContactPageRequest}
+        tracker={tracker}
+        errors={errors}
       />
       <CreateGeofence
         t={props.t}
@@ -258,10 +311,25 @@ const mapDispatchToProps = dispatch => ({
     dispatch(removeGeofenceRequestAction(id)),
   changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
   createNewGeofence: (geo: object) => dispatch(createNewGeofence(geo)),
-  getContactListRequestAction: () => dispatch(getContactListRequestAction()),
+  getContactListRequestAction: (account_id: number) =>
+    dispatch(getContactListRequestAction(account_id)),
+  addContactPageRequest: (data, callback) =>
+    dispatch(addContactRequestAction(data, callback)),
+  addContactRequest: (data, eventType) =>
+    dispatch(addContactAssignedRequestedAction(data, eventType)),
+  removeContactRequest: (data, eventType) =>
+    dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
 });
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  contacts: makeSelectContacts(),
+  contactIds: makeSelectContactIds(),
+  contactAssigneds: makeSelectcontactAssigneds(),
+  contactAssignedIds: makeSelectcontactAssignedIds(),
+  errors: makeSelectErrors(),
+  profile: makeSelectProfile(),
+});
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

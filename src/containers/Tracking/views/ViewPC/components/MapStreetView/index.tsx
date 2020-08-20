@@ -16,12 +16,8 @@ interface Props {
 
 class MapStreetView extends React.PureComponent<Props> {
   render() {
-    const {
-      classes,
-      mapLabel,
-      tracker: { lat, lng },
-      isMobile,
-    } = this.props;
+    const { classes, mapLabel, tracker, isMobile } = this.props;
+    const { lat, lng } = tracker || { lat: 0, lng: 0 };
     const position = lat && lng ? { lat, lng } : null;
 
     return (

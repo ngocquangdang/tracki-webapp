@@ -30,6 +30,7 @@ import {
   updateGeofence,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
+import { makeSelectMapAction } from '@Containers/App/store/selectors';
 import { IGeofence } from '@Interfaces';
 import { useStyles } from './styles';
 
@@ -40,6 +41,7 @@ interface Props {
   geofences: object;
   trackers: object;
   isRequesting: boolean;
+  mapAction: string;
   selectedTrackerId: number;
   newGeofence: IGeofence;
   onClose: () => void;
@@ -64,6 +66,7 @@ function CreateGeofenceMobile(props: Props) {
     newGeofence,
     trackers,
     selectedTrackerId,
+    mapAction,
     t,
     onClose,
     updateGeofence,
@@ -89,15 +92,20 @@ function CreateGeofenceMobile(props: Props) {
   const onSaveRequest = (values: any) => {
     selectedGeofence
       ? saveGeofenceRequestAction(selectedGeofence.id, values)
-      : createNewGeofenceRequestAction({ ...newGeofence, name: values.name });
+      : createNewGeofenceRequestAction({
+          ...newGeofence,
+          name: values.name,
+          isLinked: values.isLinked,
+          trackerId: values.trackerId,
+        });
     changeMapAction('DEFAULT');
     onClose();
   };
 
   const removeGeofence = (id: number) => {
-    if (window.geosDrawn[id]) {
-      window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[id]);
-      delete window.geosDrawn[id];
+    if (window.geosMobile[id]) {
+      window.geoMapMobile.removeLayer(window.geosMobile[id]);
+      delete window.geosMobile[id];
     }
   };
 
@@ -134,7 +142,14 @@ function CreateGeofenceMobile(props: Props) {
             <GeofenceMap
               tracker={trackers[selectedTrackerId]}
               t={t}
+              geofences={geofences}
+              editGeofenceId={editGeofenceId}
+              newGeofence={newGeofence}
               mapId="geofenceMap"
+              mapAction={mapAction}
+              updateGeofence={updateGeofence}
+              updateNewGeofence={updateNewGeofence}
+              changeMapAction={changeMapAction}
             />
           </div>
           <div className={classes.geofenceCard}>
@@ -143,6 +158,8 @@ function CreateGeofenceMobile(props: Props) {
               selectedGeofence={selectedGeofence}
               newGeofence={newGeofence}
               t={t}
+              tracker={trackers[selectedTrackerId]}
+              mapAction={mapAction}
               onSaveRequest={onSaveRequest}
               updateNewGeofence={updateNewGeofence}
               updateGeofence={updateGeofence}
@@ -164,6 +181,7 @@ const mapStateToProps = createStructuredSelector({
   newGeofence: makeSelectNewGeofence(),
   selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
+  mapAction: makeSelectMapAction(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

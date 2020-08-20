@@ -18,18 +18,19 @@ import cookieClient from '@Utils/cookie';
 
 import { AuthProvider } from '../../providers/Auth';
 import Snackbar from '@Containers/Snackbar';
+import { isMobileView } from '@Utils/helper';
 
 import '@Static/scss/main.scss';
 
-class WebApp extends App<AppWithStore, { isMobile: boolean }> {
-  state = {
-    isMobile: false,
-  };
+interface Props {
+  isMobile: boolean;
+}
 
+class WebApp extends App<AppWithStore & Props> {
   static async getInitialProps({
     Component,
     ctx,
-  }: AppContext): Promise<AppInitialProps & AppInitialPropsWithAuth> {
+  }: AppContext): Promise<AppInitialProps & AppInitialPropsWithAuth & Props> {
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
       : {};
@@ -40,7 +41,8 @@ class WebApp extends App<AppWithStore, { isMobile: boolean }> {
       request.cookies = cookie.parse(request.headers.cookie || '');
       authenticated = !!request.cookies[process.env.COOKIE_NAME || 'token'];
     }
-    return { pageProps, authenticated };
+    const isMobile = isMobileView(ctx.req);
+    return { pageProps, authenticated, isMobile };
   }
 
   componentDidMount() {
@@ -58,15 +60,10 @@ class WebApp extends App<AppWithStore, { isMobile: boolean }> {
         );
       }
     }
-    // detect size of mobile view
-    if (window.innerWidth < 1023) {
-      this.setState({ isMobile: true });
-    }
   }
 
   render() {
-    const { Component, pageProps, authenticated } = this.props;
-    const { isMobile } = this.state;
+    const { Component, pageProps, authenticated, isMobile } = this.props;
 
     return (
       <Provider
@@ -93,7 +90,7 @@ class WebApp extends App<AppWithStore, { isMobile: boolean }> {
                 type="image/png"
               />
             </Header>
-            <Snackbar />
+            <Snackbar isMobile={isMobile} />
             <Component {...pageProps} isMobile={isMobile} />
           </ThemeProvider>
         </AuthProvider>

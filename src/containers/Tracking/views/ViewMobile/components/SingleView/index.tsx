@@ -15,12 +15,13 @@ interface Props {
   isMobile: boolean;
   viewMode: string;
   trackers: object;
+  settings: object;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
 
 function TrackingSingleView(props: Props) {
-  const { tracker, viewMode, t } = props;
+  const { tracker, viewMode, t, settings } = props;
   const [currentView, setCurrentView] = useState('');
   const classes = useStyles();
 
@@ -53,7 +54,12 @@ function TrackingSingleView(props: Props) {
             onChangeView={setCurrentView}
           />
           <div className={classes.trackerCard}>
-            <DetailTrackerCard tracker={tracker} isMobile={true} t={props.t} />
+            <DetailTrackerCard
+              tracker={tracker}
+              isMobile={true}
+              t={props.t}
+              settings={settings[tracker.settings_id]}
+            />
           </div>
           <SettingTracker
             t={t}

@@ -2,14 +2,23 @@ import styled from 'styled-components';
 import { TextField, withStyles, makeStyles } from '@material-ui/core';
 
 const SelectContactContainer = styled.div`
-  margin-top: 70px;
-  height: cacl(100% - 70px);
+  margin-top: 56px;
+  height: calc(100% - 146px);
+  position: relative;
+  background: #363640;
+  color: #ffffff;
+  overflow: auto;
 `;
+
 const Save = styled.div`
-  margin: 10px;
+  padding: 10px;
+  background: #363640;
 `;
 const SelectContactAddButton = styled.div``;
-const SearchInput = styled.div``;
+
+const SearchInput = styled.div`
+  width: 100%;
+`;
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -38,11 +47,14 @@ const useStyles = makeStyles(theme => ({
       borderColor: theme.palette.primary.main,
     },
   },
-
   addBtn: {
-    width: '83px',
-    height: 32,
-    margin: '10px',
+    position: 'fixed',
+    bottom: '80px',
+    right: 15,
+    borderRadius: 100,
+    background: '#ffffff',
+    color: '#1a1a1a',
+    fontSize: 16,
   },
   errorText: {
     textAlign: 'center',
@@ -73,14 +85,21 @@ const useStyles = makeStyles(theme => ({
   questionIconMargin: {
     marginRight: '8px',
   },
+  color: {
+    color: '#999999',
+    width: 22.6,
+    height: 22.6,
+  },
+  background: {
+    background: '#363640',
+  },
 }));
 const TextInput = withStyles(theme => ({
   root: {
     width: '100%',
-    padding: '15px 15px 0',
     '& .MuiInputBase-root': {
       height: '50px',
-      color: '#1a1a1a',
+      color: '#ffffff',
     },
     '& .MuiOutlinedInput-root': {
       '&:hover fieldset': {
@@ -88,8 +107,14 @@ const TextInput = withStyles(theme => ({
       },
     },
     '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
-      textAlign: 'center',
+      padding: '15.5px 0',
+      fontSize: 15,
+    },
+    '& .MuiInput-underline:before': {
+      border: 0,
+    },
+    '.MuiInput-underline:hover:not(.Mui-disabled):before': {
+      border: 0,
     },
   },
 }))(TextField);

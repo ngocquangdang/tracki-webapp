@@ -9,18 +9,19 @@ import { useInjectReducer } from '@Utils/injectReducer';
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import {
-  makeSelectErrors,
-  makeSelectIsRequesting,
-  makeSelectContacts,
-  makeSelectContactIds,
-} from './store/selector';
-import {
-  getContactListRequestAction,
-  searchContactRequestedAction,
   editContactRequestedAction,
   deleteContactRequestedAction,
   addContactRequestAction,
+  getContactListRequestAction,
+  searchContactRequestedAction,
 } from './store/actions/index.';
+
+import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import {
+  makeSelectErrors,
+  makeSelectContacts,
+  makeSelectContactIds,
+} from './store/selector';
 
 const ContactsPC = dynamic(() => import('./views/ContactsPC'));
 const ContactsSP = dynamic(() => import('./views/ContactsSP'));
@@ -29,11 +30,11 @@ function ContactView(props) {
   useInjectSaga({ key: 'contacts', saga });
   useInjectReducer({ key: 'contacts', reducer });
 
-  const { getContactListRequest, isMobile } = props;
+  const { fetchUserRequestedAction, isMobile } = props;
 
   useEffect(() => {
-    getContactListRequest();
-  }, [getContactListRequest]);
+    fetchUserRequestedAction();
+  }, [fetchUserRequestedAction]);
 
   if (isMobile) {
     return <ContactsSP {...props} />;
@@ -44,15 +45,16 @@ function ContactView(props) {
 
 const mapStateToProps = createStructuredSelector({
   errors: makeSelectErrors(),
-  iRequesting: makeSelectIsRequesting(),
   contacts: makeSelectContacts(),
   contactIds: makeSelectContactIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+  fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
-  getContactListRequest: () => dispatch(getContactListRequestAction()),
+  getContactListRequest: account_id =>
+    dispatch(getContactListRequestAction(account_id)),
   searchContactRequest: (key: string) =>
     dispatch(searchContactRequestedAction(key)),
   editContactRequest: (data, contact_id, callback) =>

@@ -6,23 +6,23 @@ import * as apiServices from '../services';
 import * as actions from '../actions';
 import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { updateContactListSucceedAction } from '@Containers/Contacts/store/actions/index.';
 
 function* fetchTrackersSaga(action) {
   try {
     const { accountId } = action.payload;
     const { data } = yield call(apiServices.fetchTrackers, accountId);
-
     let tracker = normalizeTrackers(data);
 
-    const { data: assignmentsData } = yield call(
-      apiServices.fetchAssignmentsByTrackerIds,
-      accountId,
-      tracker.trackerIds
-    );
+    if (tracker.trackerIds.length > 0) {
+      const { data: assignmentsData } = yield call(
+        apiServices.fetchAssignmentsByTrackerIds,
+        accountId,
+        tracker.trackerIds
+      );
 
-    tracker = assignmentsData.reduce(
-      (result, item) => {
-        const { fences, contacts, device_id, geozones, settings } = item;
+      tracker = assignmentsData.reduce((result, item) => {
+        const { fences, device_id, geozones, settings, contacts } = item;
 
         // fence reduce
         result.fences = fences.reduce((objFences, fItem) => {
@@ -57,15 +57,26 @@ function* fetchTrackersSaga(action) {
         result.settings[settings.id] = settings;
 
         return result;
-      },
-      {
-        ...tracker,
-        fences: {},
-        contacts: {},
-        settings: {},
-      }
+      }, tracker);
+    }
+
+    const {
+      contacts,
+      contactIds,
+      contactAssigneds,
+      contactAssignedIds,
+      ...trackerData
+    } = tracker;
+
+    yield put(
+      updateContactListSucceedAction({
+        contacts,
+        contactIds,
+        contactAssigneds,
+        contactAssignedIds,
+      })
     );
-    yield put(actions.fetchTrackersSucceedAction(tracker));
+    yield put(actions.fetchTrackersSucceedAction(trackerData));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -100,6 +111,12 @@ function normalizeTrackers(data: { devices: Array<any> }) {
       trackerIds: [],
       trackerPlans: {},
       selectedTrackerId: null,
+      fences: {},
+      contacts: {},
+      contactIds: [],
+      contactAssigneds: {},
+      contactAssignedIds: [],
+      settings: {},
     }
   );
   return tracker;
@@ -188,10 +205,16 @@ function* saveGeofenceSaga(action) {
   try {
     const geofences = yield select(makeSelectGeofences());
     const { account_id } = yield select(makeSelectProfile());
-    const { geoId, data } = action.payload;
-    const geo = { ...geofences[geoId], ...data };
+    const {
+      geoId,
+      data: { isLinked, trackerId, ...dataBody },
+    } = action.payload;
+    const geo = { ...geofences[geoId], ...dataBody };
     yield call(apiServices.updateGeofence, account_id, geoId, geo);
     yield put(actions.saveGeofenceSucceedAction(geoId, geo));
+    isLinked
+      ? yield put(actions.linkTrackersRequestAction(geoId, [trackerId]))
+      : yield put(actions.unlinkTrackersRequestAction(geoId, [trackerId]));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -226,7 +249,9 @@ function* linkTrackersSaga(action) {
     const newTrackers = produce(trackers, draf => {
       trackerIds.map(id => {
         draf[id].geozones = draf[id].geozones || [];
-        draf[id].geozones.push(geofenceId);
+        if (!draf[id].geozones.includes(geofenceId)) {
+          draf[id].geozones.push(geofenceId);
+        }
         return id;
       });
     });
@@ -266,11 +291,22 @@ function* unlinkTrackersSaga(action) {
 function* createNewGeofenceSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
-    const { geofence } = action.payload;
-    yield call(apiServices.createNewGeofence, account_id, geofence);
+    const {
+      geofence: { isLinked, trackerId, ...dataBody },
+    } = action.payload;
+    const { data: responseData } = yield call(
+      apiServices.createNewGeofence,
+      account_id,
+      dataBody
+    );
     yield put(actions.fetchGeofencesRequestedAction(account_id));
     yield put(actions.createGeofenceSuccessAction());
-    window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[geofence.id]);
+    window.mapEvents.map.mapApi.removeLayer(window.geosDrawn[dataBody.id]);
+    if (isLinked) {
+      yield put(
+        actions.linkTrackersRequestAction(responseData.id, [trackerId])
+      );
+    }
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };

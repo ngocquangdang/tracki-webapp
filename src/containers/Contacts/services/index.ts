@@ -30,3 +30,38 @@ export const updateContactList = async (
 export const getUserInfo = async () => {
   return await axiosClient.get(`/v3/user`);
 };
+
+export const addContactAssign = async (
+  account_id,
+  device_id,
+  data,
+  eventType
+) => {
+  return await data.map(contact_id => {
+    return axiosClient.put(
+      `v3/accounts/${account_id}/devices/${device_id}/contacts/${contact_id}`,
+      [eventType]
+    );
+  });
+};
+
+export const removeContactAssigned = async (
+  account_id,
+  device_id,
+  data,
+  eventType
+) => {
+  return await data.map(contact_id => {
+    return axiosClient.delete(
+      `v3/accounts/${account_id}/devices/${device_id}/contacts/${contact_id}`,
+      {},
+      { data: [eventType] }
+    );
+  });
+};
+
+export const contactAssigned = async (account_id, device_id) => {
+  return axiosClient.get(
+    `v3/accounts/${account_id}/devices/${device_id}/contacts`
+  );
+};

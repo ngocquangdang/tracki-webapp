@@ -10,7 +10,6 @@ export const initialState: TrackerDataTypes = {
     trackerIds: null,
     trackerPlans: {},
     selectedTrackerId: null,
-    contacts: {},
     settings: {},
   },
   geofence: {
@@ -32,6 +31,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.SEARCH_TRACKERS_SUCCEED:
         draft.tracker.trackerIds = payload.trackerIds;
         break;
+
       case types.SEARCH_GEOFENCES_SUCCEED:
         draft.geofence.geofenceIds = payload.geofenceIds;
         break;
@@ -64,7 +64,11 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = null;
         break;
       case types.GET_GEOFENCES_FAILED:
+        draft.geofence.geofenceIds = [];
+        draft.errors = payload.error;
+        break;
       case types.GET_TRACKERS_FAILED:
+        draft.tracker.trackerIds = [];
         draft.errors = payload.error;
         break;
       case singleTrackerTypes.GET_TRACKER_SETTINGS_SUCCEED:
@@ -153,15 +157,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.UPDATE_TRACKERS_UNLINK_GEOFENCE:
         draft.tracker.trackers = { ...payload.trackers };
         break;
-      case singleTrackerTypes.GET_LIST_CONTACT_REQUESTED:
-        draft.errors = null;
-        break;
-      case singleTrackerTypes.GET_LIST_CONTACT_SUCCESSED:
-        draft.tracker.contacts = {
-          ...draft.tracker.contacts,
-          ...payload.contacts,
-        };
-        break;
+
       case singleTrackerTypes.SEND_BEEP_SUCCEED:
         draft.dataSendBeep = payload?.data;
         draft.isBeep = true;

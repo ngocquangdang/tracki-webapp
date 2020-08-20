@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 
 import { SideBarInnerMobile } from '@Components/sidebars';
 import ListTrakerMobile from '@Components/TrackerListMobile';
 import MainWrapper from './MainWrapper';
 import HeaderMobile from './Header';
 import Footer from './Footer';
-import { Content, useStyles } from './styles';
+import { useStyles } from './styles';
 import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 
 interface Props {
@@ -35,7 +36,11 @@ function MainLayoutMobile(props: Props) {
   };
   return (
     <MainWrapper className={classes.root}>
-      <div className={openSidebar ? classes.blurHeader : ''}>
+      <div
+        className={clsx({
+          [classes.blurHeader]: openSidebar,
+        })}
+      >
         {header || (
           <HeaderMobile
             open={openSidebar}
@@ -63,15 +68,14 @@ function MainLayoutMobile(props: Props) {
           isMobile={true}
         />
       )}
-      <div className={openSidebar ? classes.blurHeader : ''}>
-        <Content
-          className={`${classes.content} ${
-            openSidebar ? classes.contentShift : ''
-          }`}
-          onClick={handleCloseSideBar}
-        >
-          {props.children}
-        </Content>
+      <div
+        className={clsx(classes.container, classes.content, {
+          [classes.contentShift]: openSidebar,
+          [classes.blurHeader]: openSidebar,
+        })}
+        onClick={handleCloseSideBar}
+      >
+        {props.children}
         {hasFooter && <Footer t={rest.t} />}
       </div>
     </MainWrapper>

@@ -22,6 +22,7 @@ interface Props {
   viewMode: string;
   trackingIds: number[];
   trackers: object;
+  settings: object;
   t(key: string, format?: object): string;
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
@@ -134,6 +135,7 @@ export default function TrackingMobile(props: Props) {
                 isFullWidth={true}
                 trackers={trackers}
                 trackingIds={trackingIds}
+                settings={props.settings}
                 changeTrackersTracking={changeTrackersTracking}
               />
             </div>

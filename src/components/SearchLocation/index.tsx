@@ -40,6 +40,10 @@ interface PlaceType {
 }
 
 interface Props {
+  className?: string;
+  placeholder?: string;
+  autoFocus?: boolean;
+  gotoLocation?(latlng: { lat: number; lng: number }): void;
   t(k: string): string;
 }
 
@@ -122,6 +126,9 @@ export default function GoogleMaps(props: Props) {
       geocodeByPlaceId(newValue.place_id)
         .then(results => getLatLng(results[0]))
         .then(latLng => {
+          if (props.gotoLocation) {
+            return props.gotoLocation(latLng);
+          }
           window.mapEvents.setCenterFlyTo(latLng, { zoom: 15 });
         })
         .catch(error => console.error('Error', error));
@@ -141,6 +148,7 @@ export default function GoogleMaps(props: Props) {
       filterSelectedOptions
       value={value}
       fullWidth
+      openOnFocus={props.autoFocus || false}
       onChange={onChangeOptions}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -149,10 +157,14 @@ export default function GoogleMaps(props: Props) {
         <TextInput
           {...params}
           value={inputValue}
-          label={props.t('tracker:search_address_location')}
+          label={
+            props.placeholder ? '' : props.t('tracker:search_address_location')
+          }
+          placeholder={props.placeholder}
           variant="outlined"
           fullWidth
-          className={classes.inputContainer}
+          autoFocus={props.autoFocus || false}
+          className={`${classes.inputContainer} ${props.className || ''}`}
         />
       )}
       renderOption={option => {
