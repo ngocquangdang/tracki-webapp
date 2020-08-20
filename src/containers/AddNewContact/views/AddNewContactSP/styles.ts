@@ -7,6 +7,8 @@ const Type = styled.div`
 const Container = styled.div`
   margin-top: 56px;
   padding: 20px 15px;
+  color: #1a1a1a;
+  font-size: 15px;
 `;
 const Typography = styled.span`
   font-size: 13px;

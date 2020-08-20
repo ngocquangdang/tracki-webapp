@@ -1,8 +1,9 @@
 import * as types from '../constants';
 
-export function getContactListRequestAction() {
+export function getContactListRequestAction(account_id: number) {
   return {
     type: types.GET_LIST_CONTACT_REQUESTED,
+    payload: { account_id },
   };
 }
 
@@ -16,6 +17,26 @@ export function getContactListSucceedAction(contacts: object) {
 export function getContactListFailedAction(error: object) {
   return {
     type: types.GET_LIST_CONTACT_FAILED,
+    payload: { error },
+  };
+}
+
+export function updateContactListRequestAction() {
+  return {
+    type: types.UPDATE_LIST_CONTACT_REQUESTED,
+  };
+}
+
+export function updateContactListSucceedAction(contacts: object) {
+  return {
+    type: types.UPDATE_LIST_CONTACT_SUCCESSED,
+    payload: { contacts },
+  };
+}
+
+export function updateContactListFailedAction(error: object) {
+  return {
+    type: types.UPDATE_LIST_CONTACT_FAILED,
     payload: { error },
   };
 }
@@ -88,5 +109,55 @@ export const editContactSucceedAction = payload => ({
 
 export const editContactFailedAction = (error: object) => ({
   type: types.EDIT_CONTACT_FAILED,
+  payload: { error },
+});
+
+export const getContactAssignedRequestedAction = device_id => ({
+  type: types.GET_CONTACT_ASSIGNED_REQUESTED,
+  payload: {
+    device_id,
+  },
+});
+
+export const getContactAssignedSucceedAction = payload => ({
+  type: types.GET_CONTACT_ASSIGNED_SUCCESSED,
+  payload,
+});
+
+export const getContactAssignedFailedAction = (error: object) => ({
+  type: types.GET_CONTACT_ASSIGNED_FAILED,
+  payload: { error },
+});
+
+export const addContactAssignedRequestedAction = (data, eventType) => ({
+  type: types.ADD_CONTACT_ASSIGNED_REQUESTED,
+  payload: { data, eventType },
+});
+
+export const addContactAssignedSucceedAction = payload => ({
+  type: types.ADD_CONTACT_ASSIGNED_SUCCESSED,
+  payload,
+});
+
+export const addContactAssignedFailedAction = (error: object) => ({
+  type: types.ADD_CONTACT_ASSIGNED_FAILED,
+  payload: { error },
+});
+
+export const removeContactAssignedRequestedAction = (data, eventType) => ({
+  type: types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
+  payload: {
+    data,
+    eventType,
+  },
+});
+
+export const removeContactAssignedSucceedAction = payload => ({
+  type: types.REMOVE_CONTACT_ASSIGNED_SUCCESSED,
+  payload,
+});
+
+export const removeContactAssignedFailedAction = (error: object) => ({
+  type: types.REMOVE_CONTACT_ASSIGNED_FAILED,
   payload: { error },
 });

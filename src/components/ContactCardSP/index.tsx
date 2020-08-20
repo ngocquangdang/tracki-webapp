@@ -6,40 +6,23 @@ import {
   Card,
   CardContent,
   Content,
-  Icon,
   SelectCard,
-  useStyles,
 } from './styles';
-import { MdPhoneIphone, MdEmail } from 'react-icons/md';
 
 interface Props {
   contactSelected?: number[];
-  handleChange(value: number): void;
+  handleChange(value): void;
   contact: any;
 }
 
 export default function ContactCard(props: Props) {
   const { contactSelected, handleChange, contact } = props;
-  const classes = useStyles();
-  const onChecked = (contact_id: number) => () => {
-    handleChange(contact_id);
+  const onChecked = e => () => {
+    handleChange(e);
   };
-
   return (
     <ListItemStyle button key={contact.id}>
       <Card>
-        <CardContent>
-          <Icon>
-            {contact.type === 'PHONE' ? (
-              <MdPhoneIphone className={classes.icon} />
-            ) : (
-              <MdEmail className={classes.icon} />
-            )}
-          </Icon>
-          <Content>
-            {contact.name} ( {contact.address} )
-          </Content>
-        </CardContent>
         <SelectCard>
           <Checkbox
             checked={contactSelected?.includes(contact.id)}
@@ -48,6 +31,11 @@ export default function ContactCard(props: Props) {
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
         </SelectCard>
+        <CardContent>
+          <Content>
+            {contact.name} ( {contact.address} )
+          </Content>
+        </CardContent>
       </Card>
     </ListItemStyle>
   );

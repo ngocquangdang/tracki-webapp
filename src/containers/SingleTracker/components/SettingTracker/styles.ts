@@ -191,6 +191,7 @@ const useStyles = makeStyles(theme => ({
   personAddIcon: {
     height: '25.4px;',
     color: '#1a1a1a',
+    cursor: 'pointer',
   },
   speedLimit: {
     marginRight: '20px',
