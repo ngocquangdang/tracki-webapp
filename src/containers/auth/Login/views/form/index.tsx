@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import Link from 'next/link';
 
-import { TextInput } from '@Components/inputs';
+import { TextInput, PasswordInput } from '@Components/inputs';
 import Button from '@Components/buttons/Button';
 import { LoginSchema } from '../../schema';
 import ILoginPage from '../../interfaces';
@@ -62,12 +62,11 @@ function LoginForm(props: ILoginPage.IProps) {
             autoComplete="off"
             InputLabelProps={{ shrink: true }}
           />
-          <TextInput
+          <PasswordInput
             id="password"
             className={classes.margin}
             label={t('password')}
             name="password"
-            type="password"
             errorInput={
               errorsForm.password && touched.password
                 ? t(errorsForm.password)
