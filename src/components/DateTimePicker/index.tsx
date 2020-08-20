@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import DateUtils from '@date-io/date-fns';
 import { ThemeProvider } from '@material-ui/styles';
@@ -68,7 +68,7 @@ export default function DateTimePicker(props: Props) {
   };
 
   return (
-    <Fragment>
+    <div className={isHistory ? '' : classes.inLine}>
       <div className={classes.selectOption}>
         <SelectOption
           name="date_option"
@@ -123,7 +123,13 @@ export default function DateTimePicker(props: Props) {
       {isSpecificDate && (
         <PickerProvider libInstance={moment} utils={DateUtils}>
           <ThemeProvider theme={themePickerDate}>
-            <div className={classes.containerSpecificTime}>
+            <div
+              className={
+                isHistory
+                  ? classes.containerSpecificTimeHistory
+                  : classes.containerSpecificTime
+              }
+            >
               <DatePicker
                 autoOk
                 disableToolbar
@@ -132,11 +138,12 @@ export default function DateTimePicker(props: Props) {
                 label="Specific Date and Hours"
                 format="dd/MM/yyyy"
                 value={valueSpecificDate}
-                margin="normal"
                 onChange={onChangeSpecificDate}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
+                maxDate={moment(new Date())}
+                className={isHistory ? '' : classes.marginRight}
               />
               <div style={{ display: 'none' }}>
                 <DatePicker
@@ -147,14 +154,19 @@ export default function DateTimePicker(props: Props) {
                   label="Specific Date and Hours"
                   format="dd/MM/yyyy"
                   value={valueSpecificDate}
-                  margin="normal"
                   onChange={onChangeSpecificDate}
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
                   }}
                 />
               </div>
-              <div className={classes.controlTimePicker}>
+              <div
+                className={
+                  isHistory
+                    ? classes.controlTimePickerHistory
+                    : classes.controlTimePicker
+                }
+              >
                 <TimePicker
                   label="Time from"
                   placeholder="08:00 AM"
@@ -199,6 +211,6 @@ export default function DateTimePicker(props: Props) {
           </div>
         </div>
       ) : null}
-    </Fragment>
+    </div>
   );
 }

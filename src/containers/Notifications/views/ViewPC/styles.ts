@@ -39,6 +39,7 @@ const ListOptionView = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 20px;
 `;
 const SearchInput = styled.div``;
 const OptionView = styled.div`
@@ -94,7 +95,12 @@ const TrackerType = styled.div`
   margin-right: 12px;
 `;
 const StatusType = styled.span``;
-
+const OptionViewDatePicker = styled.div`
+  width: ${(props: { isDateRange: boolean }) =>
+    props.isDateRange ? '45%' : '258px'};
+  padding-right: ${(props: { isDateRange: boolean }) =>
+    props.isDateRange ? '15px' : '0'};
+`;
 const PaginationStyle = withStyles(theme => ({
   root: {
     paddingRight: 30,
@@ -209,6 +215,7 @@ export {
   SearchInput,
   SortOption,
   OptionView,
+  OptionViewDatePicker,
   NotificationInfo,
   NotficationType,
   NotificationTime,
