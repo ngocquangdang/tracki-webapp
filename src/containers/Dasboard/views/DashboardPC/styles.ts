@@ -185,6 +185,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     width: '100%',
     color: '#999999',
+    cursor: 'pointer',
+    '&:hover': {
+      color: '#1a1a1a',
+    },
   },
   colorText: {
     color: '#1a1a1a',

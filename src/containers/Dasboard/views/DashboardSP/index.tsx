@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
+import L from 'leaflet';
 
 import SelectOption from '@Components/selections';
 import Map from '@Components/Maps';
@@ -29,10 +30,6 @@ import {
   InfoCard,
   TitleInfo,
   AddressInfo,
-  AlertCard,
-  TitleAlert,
-  AddressAlert,
-  DateAlert,
 } from './styles';
 import { ITracker } from '@Interfaces';
 import { AiFillInfoCircle } from 'react-icons/ai';
@@ -43,6 +40,7 @@ import { SideBarOutside } from '@Components/sidebars';
 import DateTimePicker from '@Components/DateTimePicker';
 import axios from 'axios';
 import { MAPBOX_API_KEY } from '@Definitions/app';
+import RecentAlertComponent from './components/RecentAlert';
 interface Props {
   trackerIds: number[];
   trackers: ITracker;
@@ -56,17 +54,29 @@ export default function DashboardContainer(props) {
     trackers,
     trackerIds,
     getHistoryTracker,
-    history,
+    historyTracker,
+    historyTrackerIds,
     t,
-    isMobile,
+    getAlarmsTracker,
     changeTrackersTracking,
+    alarmsTracker,
+    isMobile,
   } = props;
   const [trackerList = [], setTrackerList] = useState([
     { value: '', content: '' },
   ]);
   const [trackerSelected, setTrackerSelected] = useState(trackerList[0]?.value);
-  const [historyTracker, setHistoryTracker] = useState([]);
+  const [initialHistories, setInitialHistories] = useState<object>({});
+  const [initialHistoryIds, setInitialHistoryIds] = useState<number[]>([]);
+  const [alarmList, setAlarmList] = useState({ alarms: {}, alarmIds: [] });
+  const [distance, setDistance] = useState(0);
   const [currentAddress, setCurrentAddress] = useState(null);
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
+
+  const onUpdateRowPerPage = () => {
+    setPage(page + 1);
+  };
 
   const callApiGetAddress = useCallback(async () => {
     const { data } = await axios.get(
@@ -118,7 +128,7 @@ export default function DashboardContainer(props) {
   const summary = [
     {
       title: t('dashboard:distance'),
-      dataView: 876.2,
+      dataView: distance,
       subTitle: t('dashboard:total_distance'),
       date: moment().format('L'),
       unit: 'km',
@@ -143,9 +153,30 @@ export default function DashboardContainer(props) {
     },
   ];
 
+  const callApiCurrentAddress = useCallback(async () => {
+    const { data } = await axios.get(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+        trackers[parseInt(trackerSelected)]?.lng
+      },${
+        trackers[parseInt(trackerSelected)]?.lat
+      }.json?types=poi&access_token=${MAPBOX_API_KEY}`
+    );
+    const address = data.features[0] || { place_name: 'Unknow location' };
+    setCurrentAddress(address.place_name);
+  }, [setCurrentAddress, trackerSelected, trackers]);
+
   useEffect(() => {
-    setHistoryTracker(history);
-  }, [history]);
+    callApiCurrentAddress();
+  }, [callApiCurrentAddress]);
+
+  useEffect(() => {
+    setInitialHistories(historyTracker);
+    setInitialHistoryIds(historyTrackerIds);
+  }, [historyTracker, historyTrackerIds]);
+
+  useEffect(() => {
+    setAlarmList(alarmsTracker);
+  }, [alarmsTracker]);
 
   useEffect(() => {
     let newTrackerLIst = [];
@@ -162,6 +193,27 @@ export default function DashboardContainer(props) {
     setTrackerSelected(device_id);
     changeTrackersTracking([device_id]);
   };
+
+  if (initialHistoryIds?.length > 0) {
+    let prevLatLng = L.latLng(
+      initialHistories[initialHistoryIds[0]]?.lat,
+      initialHistories[initialHistoryIds[0]]?.lng
+    );
+
+    const distanceTotal = initialHistoryIds?.reduce((result, item, index) => {
+      if (index !== 0) {
+        result += prevLatLng.distanceTo(
+          L.latLng(initialHistories[item]?.lat, initialHistories[item]?.lng)
+        );
+        prevLatLng = L.latLng(
+          initialHistories[item]?.lat,
+          initialHistories[item]?.lng
+        );
+      }
+      return result;
+    }, 0);
+    setDistance(distanceTotal);
+  }
 
   const onCloseAdd = () => console.log('aaaaa');
   console.log('tracker info,:', trackers[trackerSelected], moment().unix());
@@ -190,6 +242,7 @@ export default function DashboardContainer(props) {
               isMobile={false}
               t={t}
               getHistoryTracker={getHistoryTracker}
+              getAlarmsTracker={getAlarmsTracker}
               showDescriptionTime={false}
             />
           </SelectGroup>
@@ -198,8 +251,8 @@ export default function DashboardContainer(props) {
           <SummaryCard>
             <ContentCard>
               <DetailSummary>
-                {summary.map(item => (
-                  <Card>
+                {summary.map((item, index) => (
+                  <Card key={index}>
                     <TitleCard>{item.title}</TitleCard>
                     <Content>
                       <DataView>{item.dataView}</DataView>
@@ -244,8 +297,8 @@ export default function DashboardContainer(props) {
                 <AiFillInfoCircle className={classes.iconCard} />
                 {t('dashboard:device_information')}
               </div>
-              {deviceInfo.map(item => (
-                <InfoCard>
+              {deviceInfo.map((item, index) => (
+                <InfoCard key={index}>
                   <TitleInfo>{item.title}</TitleInfo>
                   <AddressInfo>{item.data}</AddressInfo>
                 </InfoCard>
@@ -259,15 +312,19 @@ export default function DashboardContainer(props) {
                 <FaBell className={classes.iconCard} />
                 {t('dashboard:recent_alerts')}
               </div>
-              {deviceInfo.map(item => (
-                <AlertCard>
-                  <TitleAlert>{item.title}</TitleAlert>
-                  <AddressAlert>{item.data}</AddressAlert>
-                  <DateAlert>{item.title}</DateAlert>
-                </AlertCard>
+              {(rowsPerPage > 0
+                ? alarmList?.alarmIds.slice(0, page * rowsPerPage + rowsPerPage)
+                : alarmList?.alarmIds
+              )?.map(item => (
+                // <AlertCard>
+                //   <TitleAlert>{item.title}</TitleAlert>
+                //   <AddressAlert>{item.data}</AddressAlert>
+                //   <DateAlert>{item.title}</DateAlert>
+                // </AlertCard>
+                <RecentAlertComponent rowAlert={item} />
               ))}
             </ContentCard>
-            <div className={classes.footer}>
+            <div className={classes.footer} onClick={onUpdateRowPerPage}>
               {t('dashboard:load_more_alerts')}
             </div>
           </RecentAlertCard>

@@ -28,10 +28,13 @@ import trackingReducer from '@Containers/Tracking/store/reducers';
 import {
   getHistoryTrackerRequest,
   changeTrackersTracking,
+  getAlarmTrackerRequest,
 } from '@Containers/Tracking/store/actions';
 import {
   makeSelectTrackerHistories,
   makeSelectTrackerIdsTracking,
+  makeSelectAlarmTracker,
+  makeSelectTrackerHistoryIds,
 } from '@Containers/Tracking/store/selectors';
 
 import trackersSaga from '@Containers/Trackers/store/sagas';
@@ -49,7 +52,8 @@ function Dashboard(props) {
   // useInjectSaga({ key: 'history', saga: historySaga });
   // useInjectReducer({ key: 'history', reducer: historyReducer });
 
-  const { fetchUserRequestedAction, isMobile } = props;
+  const { fetchUserRequestedAction, isMobile, alarms } = props;
+  console.log('Dashboard -> alarms', alarms);
 
   useEffect(() => {
     console.log('aaaa');
@@ -68,14 +72,17 @@ const mapStateToProps = createStructuredSelector({
   selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
-  history: makeSelectTrackerHistories(),
+  historyTracker: makeSelectTrackerHistories(),
+  historyTrackerIds: makeSelectTrackerHistoryIds(),
   trackingIds: makeSelectTrackerIdsTracking(),
+  alarmsTracker: makeSelectAlarmTracker(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
+  getAlarmsTracker: (data: object) => dispatch(getAlarmTrackerRequest(data)),
   changeTrackersTracking: (ids: number[]) =>
     dispatch(changeTrackersTracking(ids)),
 });

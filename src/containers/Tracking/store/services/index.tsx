@@ -17,3 +17,15 @@ export const getHistoryTracker = async (
     `v3/accounts/${accountId}/devices/${trackerId}/history?from=${fromDate}&to=${toDate}&limit=${limit}&page=${page}&type=${type}`
   );
 };
+
+export const getAlarmTracker = async (
+  accountId: number,
+  trackerId: number,
+  limit: number,
+  page: number,
+  type: string
+) => {
+  return await axiosClient.get(
+    `v3/accounts/${accountId}/devices/${trackerId}/events?alarm_types=${type}&limit=${limit}&page=${page}`
+  );
+};

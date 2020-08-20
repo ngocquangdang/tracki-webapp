@@ -13,3 +13,7 @@ export const TAB_KEYS = [
   'multi_view',
   'multi_screen',
 ];
+
+export const GET_ALARM_TRACKER_REQUESTED = 'Tracki/GET_ALARM_TRACKER_REQUESTED';
+export const GET_ALARM_TRACKER_SUCCEED = 'Tracki/GET_ALARM_TRACKER_SUCCEED';
+export const GET_ALARM_TRACKER_FAILED = 'Tracki/GET_ALARM_TRACKER_FAILED';

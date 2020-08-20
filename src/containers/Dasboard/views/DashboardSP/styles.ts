@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core';
 
 const HeaderDashboard = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin: 56px 15px 0;
 `;
@@ -14,8 +15,7 @@ const TitleDashBoard = styled.div`
 `;
 
 const DeviceSelection = styled.div`
-  width: 280px;
-  margin-right: 10px;
+  width: 100%;
 `;
 
 const ContainerDashboard = styled.div`
@@ -69,7 +69,7 @@ const IconDashboard = styled.div`
 `;
 
 const SelectGroup = styled.div`
-  width: 240px;
+  width: 100%;
 `;
 const Description = styled.div`
   font-size: 14px;
