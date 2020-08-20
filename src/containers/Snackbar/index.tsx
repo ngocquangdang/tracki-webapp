@@ -16,6 +16,7 @@ import reducer from './store/reducers';
 
 interface Props {
   show: boolean;
+  isMobile: boolean;
   snackType: 'success' | 'error' | 'info' | 'warning';
   snackMessage: string;
   clearSnackbar(): void;
@@ -27,14 +28,16 @@ function Alert(props: AlertProps) {
 
 function SnackContainer(props: Props) {
   useInjectReducer({ key: 'snack', reducer });
-  const { show, snackType, snackMessage, clearSnackbar } = props;
+  const { show, isMobile, snackType, snackMessage, clearSnackbar } = props;
+  const vertical = isMobile ? 'bottom' : 'top';
+  const horizontal = isMobile ? 'center' : 'right';
 
   return (
     <Snackbar
       open={show}
       autoHideDuration={5000}
       onClose={clearSnackbar}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical, horizontal }}
     >
       <Alert onClose={clearSnackbar} severity={snackType}>
         {snackMessage}
