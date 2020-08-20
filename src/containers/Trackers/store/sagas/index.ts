@@ -12,17 +12,16 @@ function* fetchTrackersSaga(action) {
   try {
     const { accountId } = action.payload;
     const { data } = yield call(apiServices.fetchTrackers, accountId);
-
     let tracker = normalizeTrackers(data);
 
-    const { data: assignmentsData } = yield call(
-      apiServices.fetchAssignmentsByTrackerIds,
-      accountId,
-      tracker.trackerIds
-    );
+    if (tracker.trackerIds.length > 0) {
+      const { data: assignmentsData } = yield call(
+        apiServices.fetchAssignmentsByTrackerIds,
+        accountId,
+        tracker.trackerIds
+      );
 
-    tracker = assignmentsData.reduce(
-      (result, item) => {
+      tracker = assignmentsData.reduce((result, item) => {
         const { fences, device_id, geozones, settings, contacts } = item;
 
         // fence reduce
@@ -58,17 +57,9 @@ function* fetchTrackersSaga(action) {
         result.settings[settings.id] = settings;
 
         return result;
-      },
-      {
-        ...tracker,
-        fences: {},
-        contacts: {},
-        contactIds: [],
-        contactAssigneds: {},
-        contactAssignedIds: [],
-        settings: {},
-      }
-    );
+      }, tracker);
+    }
+
     const {
       contacts,
       contactIds,
@@ -120,6 +111,12 @@ function normalizeTrackers(data: { devices: Array<any> }) {
       trackerIds: [],
       trackerPlans: {},
       selectedTrackerId: null,
+      fences: {},
+      contacts: {},
+      contactIds: [],
+      contactAssigneds: {},
+      contactAssignedIds: [],
+      settings: {},
     }
   );
   return tracker;
