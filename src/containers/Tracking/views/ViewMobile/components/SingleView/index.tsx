@@ -15,6 +15,7 @@ interface Props {
   isMobile: boolean;
   viewMode: string;
   trackers: object;
+  settings: object;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
