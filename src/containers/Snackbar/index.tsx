@@ -58,4 +58,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(SnackContainer) as React.ComponentType;
+export default withConnect(SnackContainer);
