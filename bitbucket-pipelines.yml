@@ -64,7 +64,6 @@ pipelines:
                 - docker push mtrk2021/tracki-frontend:$TAG
                 - apk add --update --no-cache openssh sshpass
                 - mkdir -p /root/.ssh
-                - cat deploy.sh
                 - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
                 - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
                 - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
@@ -91,9 +90,10 @@ pipelines:
                 - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
                 - sed -i -e 's/tracki-frontend/tracki-frontend_dev2/g' deploy.sh
                 - sed -i -e 's/3001/3002/g' deploy.sh
-                - cat deploy.sh
+                - sed -i -e 's/dev_/dev2_/g' deploy.sh
                 - sshpass -p "$SERVER_PASS" scp ./deploy.sh $USER_SSH_SERVER@$IP_SSH_SERVER:/tmp
                 - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER chmod -R 777 /tmp/deploy.sh
+                - cat deploy.sh
                 - sshpass -p "$SERVER_PASS" ssh $USER_SSH_SERVER@$IP_SSH_SERVER /tmp/deploy.sh $REGISTRY_PASSWORD $REGISTRY_USER mtrk2021/tracki-frontend:$TAG
               services:
                 - docker
