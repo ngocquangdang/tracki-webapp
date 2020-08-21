@@ -1,7 +1,7 @@
 import { call, fork, takeEvery, put, take } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
-import MQTTClient from '../mqttClient';
+import TrackiMQTTClient from '../../../utils/mqtt/trackiMqttClient';
 import { mqttConnected } from '../actions';
 import * as types from '../constants';
 
@@ -11,7 +11,7 @@ function subscribe() {
   };
 
   return eventChannel(emit => {
-    MQTTClient.attachMessageHandler((topic, message) => {
+    TrackiMQTTClient.attachMessageHandler((topic, message) => {
       if (topic) {
         // Action Topic
         // EX: emit(mqttAction(...))
@@ -37,7 +37,7 @@ function* publish() {
   while (true) {
     const action = yield take(types.MQTT_PUBLISH);
     if (action.payload) {
-      MQTTClient.publish(action.payload.topic, action.payload.message);
+      TrackiMQTTClient.publish(action.payload.topic, action.payload.message);
     }
   }
 }
@@ -45,7 +45,7 @@ function* publish() {
 function* disconnect() {
   while (true) {
     yield take(types.MQTT_DISCONNECT);
-    MQTTClient.disconnect();
+    TrackiMQTTClient.disconnect();
   }
 }
 
@@ -57,10 +57,11 @@ function* handleMQTT() {
 
 function* mqttStartSaga() {
   try {
-    MQTTClient.connect({
-      user: 'tracki',
+    TrackiMQTTClient.connect({
+      username: 'tracki',
       password: 'mypasstracki',
       protocol: 'wss',
+      clientId: 'tracki_' + Math.random().toString(16).substr(2, 8),
       servers: [
         {
           host: 'mqtt.tracki.dev',
@@ -69,10 +70,9 @@ function* mqttStartSaga() {
       ],
       debug: true,
     });
-    MQTTClient.attachConnectHandler(() => {
-      // subscribe MQTT
-      // ex: MQTTClient.subscribe('weather')
-      MQTTClient.subscribe('testtopic/tracki');
+
+    TrackiMQTTClient.attachConnectHandler(() => {
+      TrackiMQTTClient.subscribe('#');
     });
 
     yield fork(handleMQTT);

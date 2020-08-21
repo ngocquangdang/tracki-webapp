@@ -2,7 +2,7 @@ import mqtt from 'mqtt';
 
 let instance;
 
-export default class IoTClient {
+export default class MQTTClient {
   options: any;
   mqttClient: any;
 
@@ -59,7 +59,6 @@ export default class IoTClient {
   };
 
   attachConnectHandler = onConnectHandler => {
-    console.log('IOT > attachConnectHandler');
     this.mqttClient.on('connect', connack => {
       if (typeof this.options.debug !== 'undefined' && this.options.debug) {
         console.log('connected', connack);
@@ -85,7 +84,6 @@ export default class IoTClient {
   };
 
   subscribe = topic => {
-    console.log('IOT > subscribe', topic);
     this.mqttClient.subscribe(topic);
   };
 

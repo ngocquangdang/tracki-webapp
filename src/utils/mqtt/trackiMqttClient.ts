@@ -1,7 +1,7 @@
-import IoTClient from './iotClient';
+import IoTClient from './mqttClient';
 import { extend } from 'lodash';
 
-const MQTTClient = () => {
+const TrackiMQTTClient = () => {
   const connect = option => {
     return new Promise(resolve => {
       const iotClient = new IoTClient(true);
@@ -50,4 +50,4 @@ const MQTTClient = () => {
   };
 };
 
-export default MQTTClient();
+export default TrackiMQTTClient();
