@@ -133,27 +133,27 @@ export default function DashboardContainer(props) {
     },
     {
       title: t('dashboard:total_time_travel'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:odometer'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:total_trip'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:maximum_speed'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:tracker_contenction'),
-      data: trackers[parseInt(trackerSelected)]?.location_type || 'NaN',
+      data: trackers[parseInt(trackerSelected)]?.location_type || '-',
     },
     {
       title: t('dashboard:total_fuel_consumption'),
-      data: 'NaN',
+      data: '-',
     },
   ];
 
