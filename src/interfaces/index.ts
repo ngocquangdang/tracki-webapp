@@ -59,6 +59,8 @@ export interface TrackingDataTypes {
   viewMode: string;
   errors: object | null;
   histories: object;
+  historyIds: number[];
+  alarms: object;
 }
 
 export type {

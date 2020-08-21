@@ -2,7 +2,7 @@ import { makeStyles, createMuiTheme } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   formSelect: {
     padding: '0 15px',
-    marginBottom: '15px',
+    // marginBottom: '15px',
   },
   descriptionTime: {
     fontSize: 13,
@@ -35,6 +35,9 @@ const useStyles = makeStyles(theme => ({
   timeFrom: {
     float: 'left',
     paddingRight: '5px',
+  },
+  hidden: {
+    display: 'none',
   },
 }));
 

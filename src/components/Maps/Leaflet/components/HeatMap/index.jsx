@@ -17,8 +17,12 @@ class HeatMap extends React.Component {
   }
   renderHeatMap = () => {
     const { map, histories } = this.props;
-    const trackerHistories = histories.reduce(
-      (result, item) => [...result, [item[0], item[1], 0.2]],
+    const historyIds = Object.keys(histories);
+    const trackerHistories = historyIds.reduce(
+      (result, item) => [
+        ...result,
+        [histories[item].lat, histories[item].lng, 0.2],
+      ],
       []
     );
     this.heatMap = new L.heatLayer(trackerHistories, {

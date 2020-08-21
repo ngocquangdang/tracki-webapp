@@ -13,8 +13,19 @@ const makeSelectViewMode = () =>
 const makeSelectTrackerHistories = () =>
   createSelector(trackingState, state => state.histories[state.trackingIds[0]]);
 
+const makeSelectTrackerHistoryIds = () =>
+  createSelector(
+    trackingState,
+    state => state.historyIds[state.trackingIds[0]]
+  );
+
+const makeSelectAlarmTracker = () =>
+  createSelector(trackingState, state => state.alarms[state.trackingIds[0]]);
+
 export {
   makeSelectTrackerIdsTracking,
   makeSelectViewMode,
   makeSelectTrackerHistories,
+  makeSelectTrackerHistoryIds,
+  makeSelectAlarmTracker,
 };

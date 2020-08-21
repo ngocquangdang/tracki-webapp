@@ -31,10 +31,18 @@ interface Props {
   isMobile: boolean;
   t(key: string, format?: object): string;
   getHistoryTracker(data: object): void;
+  getAlarmsTracker?(data: object): void;
+  showDescriptionTime?: boolean;
 }
 
 export default function DateTimePicker(props: Props) {
-  const { tracker, isMobile, getHistoryTracker } = props;
+  const {
+    tracker,
+    isMobile,
+    getHistoryTracker,
+    showDescriptionTime,
+    getAlarmsTracker,
+  } = props;
   const classes = useStyles();
 
   const [dateOptions, setDateOption] = useState<any>('');
@@ -65,6 +73,14 @@ export default function DateTimePicker(props: Props) {
         type: 2,
       });
     }
+    if (getAlarmsTracker) {
+      getAlarmsTracker({
+        trackerId: tracker?.device_id,
+        limit: 500,
+        page: 1,
+        type: 'all',
+      });
+    }
   };
 
   const handleDateChangeDateFrom = date => {
@@ -84,6 +100,15 @@ export default function DateTimePicker(props: Props) {
       page: 1,
       type: 2,
     });
+
+    if (getAlarmsTracker) {
+      getAlarmsTracker({
+        trackerId: tracker?.device_id,
+        limit: 500,
+        page: 1,
+        type: 'all',
+      });
+    }
   };
 
   const handleChangeSpecificDate = date => {
@@ -101,6 +126,15 @@ export default function DateTimePicker(props: Props) {
       page: 1,
       type: 2,
     });
+
+    if (getAlarmsTracker) {
+      getAlarmsTracker({
+        trackerId: tracker?.device_id,
+        limit: 500,
+        page: 1,
+        type: 'all',
+      });
+    }
   };
 
   return (
@@ -214,7 +248,11 @@ export default function DateTimePicker(props: Props) {
         </PickerProvider>
       )}
 
-      <div className={classes.descriptionTime}>
+      <div
+        className={
+          showDescriptionTime ? classes.descriptionTime : classes.hidden
+        }
+      >
         <div className={isMobile ? '' : classes.timeFrom}>
           From:{' '}
           {isDateRange
@@ -223,7 +261,11 @@ export default function DateTimePicker(props: Props) {
             ? moment(selectedSpecificDate.valueOf()).format('LLL')
             : moment(dateOptions * 1000).format('LLL')}
         </div>
-        <div>
+        <div
+          className={
+            showDescriptionTime ? classes.descriptionTime : classes.hidden
+          }
+        >
           To:{' '}
           {isDateRange
             ? moment(selectedDateTo.valueOf()).format('LLL')

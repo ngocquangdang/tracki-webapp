@@ -70,7 +70,7 @@ export default function MainForm(props: any) {
     resetStoreAddTracker();
   };
   const onNextStep1 = (assigned: boolean) =>
-    assigned ? setActiveStep(1) : setActiveStep(0);
+    assigned ? setActiveStep(0) : setActiveStep(1);
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:

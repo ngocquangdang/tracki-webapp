@@ -5,7 +5,7 @@ import { SelectForm, useStyles } from './styles';
 
 interface Props {
   options: {
-    value: any;
+    value: string | number;
     content: string;
   }[];
   label: string;
@@ -30,7 +30,7 @@ export default function SelectOption(props: Props) {
         value={value}
         className={classes.menuItem}
       >
-        {options.map((item, index: number) => (
+        {options?.map((item, index: number) => (
           <MenuItem value={item.value} key={index} className={classes.menuItem}>
             {item.content}
           </MenuItem>

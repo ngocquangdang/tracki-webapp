@@ -195,6 +195,8 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       trackerHistories,
       viewMode,
     } = this.props;
+    console.log('LeafletMap -> render -> trackerHistories', trackerHistories);
+
     return (
       <React.Fragment>
         {this.renderMarkers()}
