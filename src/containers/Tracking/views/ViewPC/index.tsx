@@ -16,12 +16,13 @@ interface Props {
   viewMode: string;
   trackingIds: number[];
   trackers: object;
+  settings: object;
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   onResetSelectedTrackerID(): void;
-  [data: string]: any;
   getHistoryTracker(data: object): void;
+  [data: string]: any;
 }
 
 export default function TrackingContainer(props: Props) {

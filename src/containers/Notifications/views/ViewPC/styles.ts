@@ -8,16 +8,6 @@ const NotificationContainer = styled.div`
   background-color: #ffffff;
   margin: 28px 26px;
 `;
-const Icon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-  width: 50px;
-  height: 50px;
-  color: #999999;
-  background: #e6e5e9;
-`;
 const HeaderNotification = styled.header`
   display: flex;
   flex-direction: column;
@@ -41,7 +31,6 @@ const ListOptionView = styled.div`
   align-items: center;
   margin-top: 20px;
 `;
-const SearchInput = styled.div``;
 const OptionView = styled.div`
   width: 258px;
   padding-right: 15px;
@@ -51,50 +40,6 @@ const SortOption = styled.div`
   width: 193px;
   max-width: 193px;
 `;
-const NotificationInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const NotficationType = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const NotificationTime = styled.div`
-  display: flex;
-`;
-const IconExpand = styled.div`
-  display: flex;
-`;
-const TrackerName = styled.span`
-  font-size: 17px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.94;
-`;
-const TrackerLocation = styled.div`
-  display: flex;
-  padding-top: 12px;
-`;
-const DetailLocation = styled.div`
-  font-size: 17px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.94;
-`;
-const TrackerType = styled.div`
-  width: 38px;
-  height: 38px;
-  border-radius: 6px;
-  background-color: #f1f1f1;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-`;
-const StatusType = styled.span``;
 const OptionViewDatePicker = styled.div`
   width: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '45%' : '258px'};
@@ -205,24 +150,13 @@ const useStyles = makeStyles(theme => ({
 export {
   useStyles,
   NotificationContainer,
-  Icon,
   PaginationStyle,
   IconNotification,
   LogoNotification,
   ListOptionView,
   HeaderNotification,
   Title,
-  SearchInput,
   SortOption,
   OptionView,
   OptionViewDatePicker,
-  NotificationInfo,
-  NotficationType,
-  NotificationTime,
-  IconExpand,
-  TrackerName,
-  TrackerLocation,
-  DetailLocation,
-  TrackerType,
-  StatusType,
 };

@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useCallback, Fragment } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-import axios from 'axios';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,11 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 
-import {
-  Notifications as NotificationsIcon,
-  LocationOn as LocationIcon,
-} from '@material-ui/icons';
-import { UNWIREDLABS_API_KEY } from '@Definitions/app';
+import { Notifications as NotificationsIcon } from '@material-ui/icons';
 
 import { Button } from '@Components/buttons';
 import DateTimePicker from '@Components/DateTimePicker';
@@ -23,6 +17,7 @@ import SelectOption from '@Components/selections';
 import { MainLayout } from '@Layouts';
 import { ALARM_TYPES, SORT_BY_OPTION } from '../../store/constants';
 
+import NotificationCardDetail from './components/NotificationCardDetail';
 import {
   useStyles,
   NotificationContainer,
@@ -31,21 +26,11 @@ import {
   LogoNotification,
   ListOptionView,
   HeaderNotification,
-  SortOption,
   Title,
+  SortOption,
   OptionView,
   OptionViewDatePicker,
-  NotificationInfo,
-  NotficationType,
-  NotificationTime,
-  IconExpand,
-  TrackerName,
-  TrackerLocation,
-  DetailLocation,
-  TrackerType,
-  StatusType,
 } from './styles';
-
 interface Props {
   trackers: object;
   fetchNotificationRequest(data: object): void;
@@ -56,7 +41,6 @@ export default function Notification(props: Props) {
   console.log('Notification => props', props);
   const { fetchNotificationRequest, notifications } = props;
   const classes = useStyles();
-  const [initialNotification, setInitialNotification] = useState<any>([]);
   const [alarmType, setAlarmType] = useState(ALARM_TYPES[0].value);
   const [sortBy, setSortBy] = useState(SORT_BY_OPTION[0].value);
   const [page, setPage] = useState(0);
@@ -73,30 +57,9 @@ export default function Notification(props: Props) {
   const handleChangePage = (event, newPage: number) => {
     setPage(newPage);
   };
-  const getAddress = useCallback(
-    async (lat, lng) => {
-      const { data } = await axios.get(
-        `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${lat}&lon=${lng}`
-      );
-      const add = notifications.reduce((result, item) => {
-        result.push({ ...item, address: data?.address.display_name });
-        return result;
-      }, []);
-      setInitialNotification(add);
-      return data;
-    },
-    [notifications]
-  );
 
-  useEffect(() => {
-    if (notifications && notifications.length > 0) {
-      Promise.all(notifications.map(item => getAddress(item.lat, item.lng)));
-    }
-  }, [notifications, getAddress]);
   const onClickExportCsv = () => {
     console.log('export csv');
-    //comment pass build
-    setInitialNotification([]);
   };
   const onClickViewPort = () => {
     fetchNotificationRequest({
@@ -141,7 +104,6 @@ export default function Notification(props: Props) {
   const onChangeAlarmType = (value: string) => {
     setAlarmType(value);
   };
-
   return (
     <MainLayout hasFooter={false}>
       <div>
@@ -223,51 +185,32 @@ export default function Notification(props: Props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  {(rowsPerPage > 0 && initialNotification.length > 0
-                    ? initialNotification.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : initialNotification
-                  ).map(item => {
-                    return (
-                      <Fragment key={item?.id}>
-                        <TableCell className={classes.contentBody}>
-                          <NotificationInfo>
-                            <TrackerName>{item?.device_name}</TrackerName>
-                            <TrackerLocation>
-                              <LocationIcon className={classes.iconLocation} />
-                              <DetailLocation>{item?.address}</DetailLocation>
-                            </TrackerLocation>
-                          </NotificationInfo>
-                          <NotficationType>
-                            <TrackerType>
-                              <img
-                                alt="near_me"
-                                className={classes.iconNearMe}
-                                src="/images/ic-alert-speed-violation.svg"
-                              />
-                            </TrackerType>
-                            <StatusType>{item?.alarm_type}</StatusType>
-                          </NotficationType>
-                          <NotificationTime>
-                            {moment(item?.created)}
-                          </NotificationTime>
-                          <IconExpand>
-                            <ArrowForwardIosIcon />
-                          </IconExpand>
-                        </TableCell>
-                      </Fragment>
-                    );
-                  })}
-                </TableRow>
+                {(notifications && rowsPerPage > 0
+                  ? notifications.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : notifications
+                ).map(item => {
+                  return (
+                    <TableRow key={item.id}>
+                      <NotificationCardDetail
+                        speed={item.speed}
+                        deviceName={item.device_name}
+                        lat={item?.lat}
+                        lng={item?.lng}
+                        alarmType={item?.alarm_type}
+                        created={item?.created}
+                      />
+                    </TableRow>
+                  );
+                })}
               </TableBody>
               <TableFooter className={classes.footer}>
                 <tr>
                   <PaginationStyle
                     rowsPerPageOptions={[10, 20, 30]}
-                    count={initialNotification.length}
+                    count={notifications?.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}

@@ -1,5 +1,13 @@
-export function isMobileView() {
-  // return window.screen.width < 959.95;
+export function isMobileView(req) {
+  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
+  const isMobile = userAgent
+    ? Boolean(
+        userAgent.match(
+          /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+        )
+      )
+    : false;
+  return isMobile;
 }
 
 export function formatNumber(num) {

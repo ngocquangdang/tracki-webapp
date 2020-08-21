@@ -16,8 +16,6 @@ function* fetchNotificationSaga(action) {
       action.payload.data.limit,
       action.payload.data.page
     );
-
-    console.log('dataAddress', data.length);
     yield put(actions.fetchNotficationSucceed(data));
   } catch (error) {
     const { data = {} } = { ...error };

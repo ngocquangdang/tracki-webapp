@@ -12,5 +12,5 @@ export const confirmCode = (payload: any) => {
 };
 
 export const resetPassword = (payload: any) => {
-  return axiosClient.post(RESET_PW_ENDPOINT, payload);
+  return axiosClient.put(RESET_PW_ENDPOINT, payload);
 };

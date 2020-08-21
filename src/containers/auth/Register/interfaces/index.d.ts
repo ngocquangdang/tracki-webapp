@@ -38,6 +38,7 @@ declare namespace IRegisterPage {
     isRequesting: boolean;
     errorMessage: string;
     errorMessageKey: string;
+    t(k: string, format?: object): string;
     registerRequestAction(data: RegisterState, callback): void;
     updateStore(data: RegisterFormStep1): void;
     onNextStep(isSuccess?: boolean): void;

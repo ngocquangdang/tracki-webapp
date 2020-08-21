@@ -17,10 +17,7 @@ import {
 import { isNumber } from 'lodash';
 
 import { makeSelectLoading } from '@Containers/App/store/selectors';
-import {
-  makeSelectTrackerSettings,
-  makeSelectContactList,
-} from '@Containers/Trackers/store/selectors';
+
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
@@ -53,10 +50,33 @@ import {
 import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
-  getContactListRequestAction,
-  addContactRequestAction,
+  // searchContactRequestedAction,
+  // addContactRequestAction,
+  // getContactAssignedRequestedAction,
+  // addContactAssignedRequestedAction,
+  // removeContactAssignedRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
+
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
+
+import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectErrors,
+  makeSelectContacts,
+  makeSelectContactIds,
+  makeSelectContactOfTracker,
+  makeSelectcontactAssigneds,
+  makeSelectcontactAssignedIds,
+} from '@Containers/Contacts/store/selector';
+import {
+  getContactListRequestAction,
+  searchContactRequestedAction,
+  addContactRequestAction,
+  getContactAssignedRequestedAction,
+  addContactAssignedRequestedAction,
+  removeContactAssignedRequestedAction,
+} from '@Containers/Contacts/store/actions/index.';
 
 interface Props {
   handleClose(): void;
@@ -67,9 +87,19 @@ interface Props {
   isRequesting?: boolean;
   show: boolean;
   updateSettings(id: number, data: object): void;
-  getContactListRequest(): void;
+  getContactListRequest(account_id: number): void;
   contacts: object;
+  contactIds: Array<number>;
+  searchContactRequest(v): void;
+  getContactAssignedRequest(device_id): void;
+  contactAssigneds?: object;
+  contactAssignedIds?: Array<number>;
+  addContactRequest(data, eventType): void;
+  removeContactRequest(data, eventType): void;
   addContactPageRequest(data, callback): void;
+  errors: any;
+  profile: any;
+  contactOfTracker: object;
 }
 
 function SettingTracker(props: Props) {
@@ -77,7 +107,7 @@ function SettingTracker(props: Props) {
   const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);
   const [isShowSelectContact, setShowSelectContat] = useState(false);
-
+  const [eventType, setEventype] = useState('');
   const classes = useStyles();
   const {
     handleClose,
@@ -89,7 +119,18 @@ function SettingTracker(props: Props) {
     getContactListRequest,
     addContactPageRequest,
     contacts,
+    contactIds,
+    searchContactRequest,
+    getContactAssignedRequest,
+    contactAssigneds,
+    contactAssignedIds,
+    addContactRequest,
+    removeContactRequest,
+    errors,
+    profile,
+    // contactOfTracker,
   } = props;
+
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
@@ -175,10 +216,17 @@ function SettingTracker(props: Props) {
 
   const onClickImage = () => document.getElementById('imageIcon')?.click();
 
-  const onShowSelectContact = () => {
-    getContactListRequest();
+  const handleShowSelectContact = () => {
     setShowSelectContat(!isShowSelectContact);
   };
+
+  const onShowSelectContact = value => {
+    getContactAssignedRequest(infoTracker.device_id);
+    getContactListRequest(profile.account_id);
+    setShowSelectContat(!isShowSelectContact);
+    setEventype(value);
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -318,7 +366,7 @@ function SettingTracker(props: Props) {
                         className={`${classes.questionIcon} ${classes.speedLimit}`}
                       />
                       <PersonAddIcon
-                        onClick={onShowSelectContact}
+                        onClick={() => onShowSelectContact('speed_limit')}
                         className={`${classes.personAddIcon} ${classes.speedLimit}`}
                       />
                       <Switch
@@ -447,29 +495,53 @@ function SettingTracker(props: Props) {
         t={t}
       />
       <SelectContact
-        handleClose={onShowSelectContact}
+        handleClose={handleShowSelectContact}
         show={isShowSelectContact}
         isMobile={isMobile}
         contacts={contacts}
+        contactIds={contactIds}
+        onSearch={searchContactRequest}
+        contactAssigneds={contactAssigneds}
+        contactAssignedIds={contactAssignedIds}
+        addContactRequest={addContactRequest}
+        removeContactRequest={removeContactRequest}
+        eventTypes={eventType}
         t={t}
         addContactPageRequest={addContactPageRequest}
+        tracker={tracker}
+        errors={errors}
+        // contactOfTracker={contactOfTracker}
       />
     </SideBarOutside>
   );
 }
 
 const mapStateToProps = createStructuredSelector({
+  errors: makeSelectErrors(),
   isRequesting: makeSelectLoading(),
   settings: makeSelectTrackerSettings(),
-  contacts: makeSelectContactList(),
+  contacts: makeSelectContacts(),
+  contactIds: makeSelectContactIds(),
+  contactOfTracker: makeSelectContactOfTracker(),
+  contactAssigneds: makeSelectcontactAssigneds(),
+  contactAssignedIds: makeSelectcontactAssignedIds(),
+  profile: makeSelectProfile(),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateSettings: (settingId: number, data: object) =>
     dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
-  getContactListRequest: () => dispatch(getContactListRequestAction()),
+  getContactListRequest: account_id =>
+    dispatch(getContactListRequestAction(account_id)),
+  searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
+  getContactAssignedRequest: (device_id: number) =>
+    dispatch(getContactAssignedRequestedAction(device_id)),
+  addContactRequest: (data, eventType) =>
+    dispatch(addContactAssignedRequestedAction(data, eventType)),
+  removeContactRequest: (data, eventType) =>
+    dispatch(removeContactAssignedRequestedAction(data, eventType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

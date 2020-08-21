@@ -1,6 +1,6 @@
 import * as types from '../constants';
 
-export const fetchNotficationRequest = (data: object) => ({
+export const fetchNotficationRequest = data => ({
   type: types.FETCH_NOTIFICATION_REQUESTED,
   payload: { data },
 });

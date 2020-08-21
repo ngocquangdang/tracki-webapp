@@ -73,7 +73,3 @@ export const sendBeep = async (accountId: number, data: object) => {
     data
   );
 };
-
-export const createContact = async (account_id, data) => {
-  return await axiosClient.post(`/v3/accounts/${account_id}/contacts`, data);
-};

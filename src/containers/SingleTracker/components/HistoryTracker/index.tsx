@@ -28,7 +28,7 @@ function HistoryTracker(props: Props) {
     onClickViewHistory,
   } = props;
   const onSubmitForm = () => {
-    console.log('xxxx');
+    console.log('xxxxY');
     //draft setHistory
     setHistory({
       map_view: true,

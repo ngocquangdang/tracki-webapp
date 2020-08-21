@@ -38,7 +38,6 @@ export interface TrackerDataTypes {
     trackerIds: Array<number | string> | null;
     trackerPlans: object | null;
     selectedTrackerId: number | null;
-    contacts: object;
     settings: object;
     [data: string]: any;
   };
@@ -60,6 +59,8 @@ export interface TrackingDataTypes {
   viewMode: string;
   errors: object | null;
   histories: object;
+  historyIds: number[];
+  alarms: object;
 }
 
 export type {
