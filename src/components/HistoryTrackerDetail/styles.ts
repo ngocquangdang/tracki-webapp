@@ -99,6 +99,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   footer: {
+    display: 'none',
     padding: '10px 15px',
   },
   timeline: {

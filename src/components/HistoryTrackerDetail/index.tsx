@@ -135,7 +135,7 @@ function HistoryTrackerDetail(props: Prop) {
             <span>Location within approx. 5-20m</span>
           </div>
         </div>
-        <div className={classes.footer}>
+        {/* <div className={classes.footer}>
           <div className={classes.speedStatus}>
             <div className={classes.stop}>
               <div className={classes.iconStop}></div>
@@ -158,7 +158,7 @@ function HistoryTrackerDetail(props: Prop) {
             <span>Stoppped Duration:</span>
             <span> 00d 00:09:11</span>
           </div>
-        </div>
+        </div> */}
         {!isMobile && (
           <div className={classes.timeline}>
             <Typography className={classes.timelineTitle}>

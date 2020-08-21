@@ -13,13 +13,14 @@ import TrackerGeofences from './TrackerGeofences';
 import { Container, ContentCardDetail, MapView } from './styles';
 
 interface Props {
+  getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
 
 export default function ViewHomeMobile(props: Props) {
   const [currentView, setCurrentView] = React.useState('');
-  const { trackers, selectedTrackerId } = props;
+  const { trackers, selectedTrackerId, getHistoryTracker } = props;
 
   const onCloseView = () => setCurrentView('');
 
@@ -72,8 +73,10 @@ export default function ViewHomeMobile(props: Props) {
             <HistoryTracker
               handleClose={onCloseView}
               t={props.t}
+              tracker={tracker}
               show={currentView === 'historyView'}
               isMobile={true}
+              getHistoryTracker={getHistoryTracker}
               onClickViewHistory={handleClickViewHistory}
             />
             <ShareLocation

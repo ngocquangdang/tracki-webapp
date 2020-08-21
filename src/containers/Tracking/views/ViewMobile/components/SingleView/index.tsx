@@ -16,12 +16,13 @@ interface Props {
   viewMode: string;
   trackers: object;
   settings: object;
+  getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
 
 function TrackingSingleView(props: Props) {
-  const { tracker, viewMode, t, settings } = props;
+  const { tracker, viewMode, t, settings, getHistoryTracker } = props;
   const [currentView, setCurrentView] = useState('');
   const classes = useStyles();
 
@@ -81,6 +82,8 @@ function TrackingSingleView(props: Props) {
             t={t}
             show={currentView === 'historyView'}
             isMobile={true}
+            getHistoryTracker={getHistoryTracker}
+            tracker={tracker}
             onClickViewHistory={handleClickViewHistory}
           />
           <ShareLocation
