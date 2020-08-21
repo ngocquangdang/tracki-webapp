@@ -4,6 +4,7 @@ import { eventChannel } from 'redux-saga';
 import TrackiMQTTClient from '../../../utils/mqtt/trackiMqttClient';
 import { mqttConnected } from '../actions';
 import * as types from '../constants';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 function subscribe() {
   const unsubscribe = () => {
@@ -76,6 +77,12 @@ function* mqttStartSaga() {
     });
 
     yield fork(handleMQTT);
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Connected MQTT server.',
+      })
+    );
     yield put(mqttConnected());
   } catch (e) {
     console.log(types.MQTT_START, 'ERROR', e);
