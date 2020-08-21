@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
 
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import DateTimePicker from '@Components/DateTimePicker';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { Button } from '@Components/buttons';
-
-import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
-import { makeSelectTrackerHistories } from '@Containers/Tracking/store/selectors';
-
 import { Container, Title, SelectGroup, Content, useStyles } from './styles';
 
 interface Tracker {
@@ -34,7 +28,7 @@ interface Props {
   isRequesting?: boolean;
   onClickViewHistory(): void;
   getHistoryTracker(data): void;
-  tracker?: Tracker;
+  tracker: Tracker;
 }
 
 function HistoryTracker(props: Props) {
@@ -200,12 +194,4 @@ function HistoryTracker(props: Props) {
   );
 }
 
-const mapStateToProps = createStructuredSelector({
-  historyTracker: makeSelectTrackerHistories(),
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HistoryTracker);
+export default HistoryTracker;

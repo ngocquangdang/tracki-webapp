@@ -6,16 +6,18 @@ import TableRow from '@material-ui/core/TableRow';
 import { useStyles } from './styles';
 
 export default function DeviceInfoComponent(props) {
-  const { device, index } = props;
+  const {
+    device: { title, data },
+  } = props;
   const classes = useStyles();
 
   return (
-    <TableRow key={index}>
+    <TableRow>
       <TableCell component="th" className={`${classes.color} ${classes.col1}`}>
-        {device.title}
+        {title}
       </TableCell>
       <TableCell align="left" className={`${classes.color} ${classes.col2}`}>
-        {device.data}
+        {data}
       </TableCell>
     </TableRow>
   );

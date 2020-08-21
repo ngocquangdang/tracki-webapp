@@ -26,9 +26,14 @@ import {
   makeSelectBeep,
 } from '@Containers/Trackers/store/selectors';
 import {
+  makeSelectHistories,
+  makeSelectHistoryIds,
+} from '@Containers/Tracking/store/selectors';
+import {
   sendBeepRequest,
   resetBeepAction,
 } from '@Containers/SingleTracker/store/actions';
+import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
@@ -48,7 +53,7 @@ import {
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
 import HistoryTracker from './components/HistoryTracker';
-import HistoryTrackerCard from '@Components/HistoryTrackerCard';
+import HistoryTrackerDetail from '@Components/HistoryTrackerDetail';
 // import SendBeep from './components/SendBeep';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
@@ -57,11 +62,14 @@ interface Props {
   settings: object;
   tracker: ITracker;
   geofences: object;
+  histories: object;
+  historyIds: object;
   onClickBack: () => void;
-  t(key: string): string;
+  t(key: string, format?: object): string;
   fetchTrackerSettings(id: number): void;
   onClickSendBeep(data: object): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
+  getHistoryTracker(data: object): void;
   resetBeep(): void;
   deviceId: number;
   isBeep: boolean;
@@ -75,7 +83,10 @@ function SingleTracker(props: Props) {
     isBeep,
     geofences,
     settings,
+    histories,
+    historyIds,
     onClickBack,
+    getHistoryTracker,
     t,
     resetBeep,
     showSnackbar,
@@ -103,14 +114,6 @@ function SingleTracker(props: Props) {
     updateChildView(view);
   };
 
-  const handleClickPreviosHisotry = () => {
-    console.log('previos history');
-  };
-
-  const handleClickNextHistory = () => {
-    console.log('next history');
-  };
-
   const onClickBeepDevice = () => () => {
     onOpenChildView('beepDevice');
     props?.onClickSendBeep({
@@ -118,12 +121,6 @@ function SingleTracker(props: Props) {
       beepType: 1,
       devices: [props?.deviceId],
     });
-  };
-
-  const handleBack = () => {
-    currentChildView === 'historyTracker'
-      ? updateChildView('history')
-      : onClickBack();
   };
 
   const renderBlock = (title: string, icon: JSX.Element, handlClick: any) => (
@@ -140,74 +137,70 @@ function SingleTracker(props: Props) {
           <Header>
             <ArrowBackIosIcon
               className={classes.iconBack}
-              onClick={handleBack}
+              onClick={onClickBack}
             />
-            <Title onClick={handleBack}>
-              {currentChildView === 'historyTracker'
-                ? 'History Result'
-                : 'Back'}
-            </Title>
+            <Title onClick={onClickBack}>Back</Title>
           </Header>
-          {currentChildView === 'historyTracker' ? (
-            <HistoryTrackerCard
+          <Card key={tracker.device_id}>
+            <DetailTrackerCard
               isMobile={false}
               tracker={tracker}
-              onClickPrevios={handleClickPreviosHisotry}
-              onClickNext={handleClickNextHistory}
+              t={t}
+              settings={settings[tracker.settings_id]}
             />
-          ) : (
-            <Card key={tracker.device_id}>
-              <DetailTrackerCard
-                isMobile={false}
-                tracker={tracker}
-                t={t}
-                settings={settings[tracker.settings_id]}
-              />
-              <TrackerMenu>
-                <TrackerMenuUp>
-                  {renderBlock(
-                    'Settings',
-                    <SettingsIcon />,
-                    onOpenChildView('settings')
-                  )}
-                  {renderBlock(
-                    'History',
-                    <HistoryIcon />,
-                    onOpenChildView('history')
-                  )}
-                  {renderBlock(
-                    'Geo-Fence',
-                    <BorderStyleIcon />,
-                    onOpenChildView('geofences')
-                  )}
-                </TrackerMenuUp>
-                <TrackerMenuDown>
-                  {renderBlock(
-                    'Beep Device',
-                    props.isBeep ? (
-                      <CircularProgress className={classes.iconLoading} />
-                    ) : (
-                      <VolumeUpIcon />
-                    ),
-                    onClickBeepDevice()
-                  )}
-                  {renderBlock(
-                    'Share Location',
-                    <ShareIcon />,
-                    onOpenChildView('shareLocation')
-                  )}
-                  {renderBlock(
-                    'Notifications',
-                    <NotificationsIcon />,
-                    onOpenChildView('notifications')
-                  )}
-                </TrackerMenuDown>
-                <Border></Border>
-              </TrackerMenu>
-            </Card>
-          )}
+            <TrackerMenu>
+              <TrackerMenuUp>
+                {renderBlock(
+                  'Settings',
+                  <SettingsIcon />,
+                  onOpenChildView('settings')
+                )}
+                {renderBlock(
+                  'History',
+                  <HistoryIcon />,
+                  onOpenChildView('history')
+                )}
+                {renderBlock(
+                  'Geo-Fence',
+                  <BorderStyleIcon />,
+                  onOpenChildView('geofences')
+                )}
+              </TrackerMenuUp>
+              <TrackerMenuDown>
+                {renderBlock(
+                  'Beep Device',
+                  props.isBeep ? (
+                    <CircularProgress className={classes.iconLoading} />
+                  ) : (
+                    <VolumeUpIcon />
+                  ),
+                  onClickBeepDevice()
+                )}
+                {renderBlock(
+                  'Share Location',
+                  <ShareIcon />,
+                  onOpenChildView('shareLocation')
+                )}
+                {renderBlock(
+                  'Notifications',
+                  <NotificationsIcon />,
+                  onOpenChildView('notifications')
+                )}
+              </TrackerMenuDown>
+              <Border></Border>
+            </TrackerMenu>
+          </Card>
         </Container>
       </Slide>
+      <HistoryTrackerDetail
+        isMobile={false}
+        tracker={tracker}
+        show={currentChildView === 'historyDetail'}
+        onClose={onOpenChildView('history')}
+        t={t}
+        histories={histories[tracker.device_id]}
+        historyIds={historyIds[tracker.device_id]}
+      />
       <SettingTracker
         handleClose={onCloseChildView}
         t={t}
@@ -220,7 +213,9 @@ function SingleTracker(props: Props) {
         t={t}
         show={currentChildView === 'history'}
         isMobile={false}
-        onClickViewHistory={onOpenChildView('historyTracker')}
+        tracker={tracker}
+        getHistoryTracker={getHistoryTracker}
+        onClickViewHistory={onOpenChildView('historyDetail')}
       />
       <TrackerGeofences
         show={currentChildView === 'geofences'}
@@ -245,6 +240,7 @@ const mapDispatchToProps = dispatch => ({
   onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -252,6 +248,8 @@ const mapStateToProps = createStructuredSelector({
   geofences: makeSelectGeofences(),
   deviceId: makeSelectTrackerId(),
   isBeep: makeSelectBeep(),
+  histories: makeSelectHistories(),
+  historyIds: makeSelectHistoryIds(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
