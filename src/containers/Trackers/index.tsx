@@ -41,6 +41,8 @@ import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import contactSaga from '@Containers/Contacts/store/sagas';
 import contactReducer from '@Containers/Contacts/store/reducers';
+import trackingSaga from '@Containers/Tracking/store/sagas';
+import trackingReducer from '@Containers/Tracking/store/reducers';
 
 import View from './view';
 
@@ -56,6 +58,8 @@ function TrackersContainer(props: Props) {
   useInjectReducer({ key: 'tracker', reducer });
   useInjectSaga({ key: 'contacts', saga: contactSaga });
   useInjectReducer({ key: 'contacts', reducer: contactReducer });
+  useInjectSaga({ key: 'tracking', saga: trackingSaga });
+  useInjectReducer({ key: 'tracking', reducer: trackingReducer });
 
   const { fetchUserRequestedAction, ...rest } = props;
 
