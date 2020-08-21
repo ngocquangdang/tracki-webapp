@@ -145,6 +145,13 @@ const useStyles = makeStyles(theme => ({
     height: '94px',
     borderTop: '1px solid #e0e0e0',
   },
+  dataFilter: {
+    color: '#1a1a1a',
+    display: 'flex',
+    fontSize: '22px',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 export {

@@ -19,9 +19,13 @@ import { makeSelectProfile } from '@Containers/App/store/selectors';
 import {
   makeSelectTrackers,
   makeSelectTrackerSettings,
+  makeSelectTrackerIds,
 } from '@Containers/Trackers/store/selectors';
 import { fetchNotficationRequest } from './store/actions';
-import { makeSelectNotifications } from './store/selectors';
+import {
+  makeSelectNotifications,
+  makeSelectNotificationsIds,
+} from './store/selectors';
 
 const NotificationViewPC = dynamic(() => import('./views/ViewPC'));
 
@@ -56,8 +60,10 @@ function NotificationView(props) {
 const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
   trackers: makeSelectTrackers(),
+  trackerIds: makeSelectTrackerIds(),
   settings: makeSelectTrackerSettings(),
   notifications: makeSelectNotifications(),
+  notificationsIds: makeSelectNotificationsIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
