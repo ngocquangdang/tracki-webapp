@@ -26,7 +26,7 @@ interface Props {
   t(key: string, format?: object): string;
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
-  getHistoryTracker(data): void;
+  getHistoryTracker(data: object): void;
   [data: string]: any;
 }
 

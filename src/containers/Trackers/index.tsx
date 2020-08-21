@@ -19,6 +19,7 @@ import {
   makeSelectBeep,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import {
   resetSelectedTrackerIdAction,
   selectTrackerIdAction,
@@ -50,6 +51,7 @@ interface Props {
   trackerId?: any;
   t(key: string, format?: object): string;
   fetchUserRequestedAction(): void;
+  getHistoryTracker(data: object): void;
   [data: string]: any;
 }
 
@@ -98,6 +100,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

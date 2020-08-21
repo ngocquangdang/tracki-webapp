@@ -5,6 +5,7 @@ import { ViewPC, ViewMobile } from './views';
 import { MainLayout } from '@Layouts';
 
 interface Props {
+  getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
