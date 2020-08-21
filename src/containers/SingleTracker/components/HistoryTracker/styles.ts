@@ -54,6 +54,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: 15,
     marginBottom: 15,
   },
+  selectOption: {
+    margin: '15px 0',
+  },
 }));
 
 export { Container, SelectGroup, Content, Title, useStyles };

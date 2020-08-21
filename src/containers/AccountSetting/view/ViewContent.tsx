@@ -216,13 +216,15 @@ export default function AccountSetting(props: any) {
                       className={classes.fontSize}
                     />
                   </RadioGroup>
-                  <SelectOption
-                    name="date_format"
-                    options={DATE_SETTINGS}
-                    label={t('auth:date_format')}
-                    value={values.date_format}
-                    onChangeOption={handleChange('date_format')}
-                  />
+                  <div className={classes.selectOption}>
+                    <SelectOption
+                      name="date_format"
+                      options={DATE_SETTINGS}
+                      label={t('auth:date_format')}
+                      value={values.date_format}
+                      onChangeOption={handleChange('date_format')}
+                    />
+                  </div>
                 </SelectGroup>
               </AccountForm>
               <Line />

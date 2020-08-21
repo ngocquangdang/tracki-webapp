@@ -157,9 +157,15 @@ const useStyles = makeStyles(theme => ({
     },
   },
   media: {
+    margin: '15px 0',
     [theme.breakpoints.down('sm')]: {
       padding: '0 15px',
     },
+  },
+  selectOption: {
+    marginTop: 15,
+    width: '100%',
+    maxWidth: '100%',
   },
 }));
 export {

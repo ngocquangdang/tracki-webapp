@@ -22,40 +22,41 @@ declare module '@material-ui/core/styles/overrides' {
   export interface ComponentNameToClassKey extends overridesNameToClassKey {}
 }
 
-interface Tracker {
-  device_id: number;
-}
-
 interface Props {
-  tracker: Tracker;
-  isMobile: boolean;
-  t(key: string, format?: object): string;
-  getHistoryTracker(data: object): void;
-  getAlarmsTracker?(data: object): void;
-  showDescriptionTime?: boolean;
+  isMobile?: boolean;
+  isHistory?: boolean;
+  t?(key: string, format?: object): string;
+  onChangeDateOption(value: number | string): void;
+  onChangeDateFrom(date): void;
+  onChangeDateTo(date): void;
+  onChangeSpecificDate(date): void;
+  onChangeSpecificTimeTo(date): void;
+  valueDateFrom: any;
+  valueDateTo: any;
+  valueSpecificDate: any;
+  valueSpecificTimeTo: any;
 }
 
 export default function DateTimePicker(props: Props) {
   const {
-    tracker,
     isMobile,
-    getHistoryTracker,
-    showDescriptionTime,
-    getAlarmsTracker,
+    isHistory,
+    onChangeDateOption,
+    onChangeDateFrom,
+    onChangeDateTo,
+    onChangeSpecificDate,
+    onChangeSpecificTimeTo,
+    valueDateFrom,
+    valueDateTo,
+    valueSpecificDate,
+    valueSpecificTimeTo,
   } = props;
   const classes = useStyles();
 
   const [dateOptions, setDateOption] = useState<any>('');
 
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
   const [isDateRange, showDateRange] = useState(false);
-
   const [isSpecificDate, showSpecificDate] = useState(false);
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
 
   const handleChangeOption = value => {
     setDateOption(value);
@@ -63,89 +64,20 @@ export default function DateTimePicker(props: Props) {
     value === 'specific_date'
       ? showSpecificDate(true)
       : showSpecificDate(false);
-    if (value !== 'date_range' && value !== 'specific_date') {
-      getHistoryTracker({
-        trackerId: tracker?.device_id,
-        fromDate: value,
-        toDate: moment().unix(),
-        limit: 2000,
-        page: 1,
-        type: 2,
-      });
-    }
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: tracker?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
-  };
-
-  const handleDateChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    setSelectedDateFrom(fromDate);
-  };
-
-  const handleDateChangeTo = date => {
-    const toDate = moment(date.getTime());
-    setSelectedDateTo(toDate);
-
-    getHistoryTracker({
-      trackerId: tracker?.device_id,
-      fromDate: selectedDateFrom.unix(),
-      toDate: toDate.unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: tracker?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
-  };
-
-  const handleChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
-  };
-
-  const handleChangeSpecificTimeTo = date => {
-    setSelectedSpecificTimeTo(date);
-    getHistoryTracker({
-      trackerId: tracker?.device_id,
-      fromDate: moment(selectedSpecificDate).unix(),
-      toDate: moment(date).unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: tracker?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
+    onChangeDateOption(value);
   };
 
   return (
-    <div className={classes.formSelect}>
-      <SelectOption
-        name="date_option"
-        options={DATE_OPTIONS}
-        label="Select Date"
-        value={dateOptions}
-        onChangeOption={handleChangeOption}
-      />
+    <div className={isHistory ? '' : classes.inLine}>
+      <div className={classes.selectOption}>
+        <SelectOption
+          name="date_option"
+          options={DATE_OPTIONS}
+          label="Select Date"
+          value={dateOptions}
+          onChangeOption={handleChangeOption}
+        />
+      </div>
       {isDateRange && (
         <PickerProvider libInstance={moment} utils={DateUtils}>
           <div className={classes.datePickerControl}>
@@ -157,8 +89,8 @@ export default function DateTimePicker(props: Props) {
                 inputVariant="outlined"
                 label="From"
                 format="dd/MM/yyyy"
-                value={selectedDateFrom}
-                onChange={handleDateChangeDateFrom}
+                value={valueDateFrom}
+                onChange={onChangeDateFrom}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -174,13 +106,13 @@ export default function DateTimePicker(props: Props) {
                 inputVariant="outlined"
                 label="To"
                 format="dd/MM/yyyy"
-                value={selectedDateTo}
-                onChange={handleDateChangeTo}
+                value={valueDateTo}
+                onChange={onChangeDateTo}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
                 color="primary"
-                minDate={selectedDateFrom}
+                minDate={valueDateTo}
                 maxDate={moment(new Date())}
               />
             </ThemeProvider>
@@ -191,7 +123,13 @@ export default function DateTimePicker(props: Props) {
       {isSpecificDate && (
         <PickerProvider libInstance={moment} utils={DateUtils}>
           <ThemeProvider theme={themePickerDate}>
-            <div className={classes.containerSpecificTime}>
+            <div
+              className={
+                isHistory
+                  ? classes.containerSpecificTimeHistory
+                  : classes.containerSpecificTime
+              }
+            >
               <DatePicker
                 autoOk
                 disableToolbar
@@ -199,12 +137,13 @@ export default function DateTimePicker(props: Props) {
                 inputVariant="outlined"
                 label="Specific Date and Hours"
                 format="dd/MM/yyyy"
-                value={selectedSpecificDate}
-                margin="normal"
-                onChange={handleChangeSpecificDate}
+                value={valueSpecificDate}
+                onChange={onChangeSpecificDate}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
+                maxDate={moment(new Date())}
+                className={isHistory ? '' : classes.marginRight}
               />
               <div style={{ display: 'none' }}>
                 <DatePicker
@@ -214,23 +153,28 @@ export default function DateTimePicker(props: Props) {
                   inputVariant="outlined"
                   label="Specific Date and Hours"
                   format="dd/MM/yyyy"
-                  value={selectedSpecificDate}
-                  margin="normal"
-                  onChange={handleChangeSpecificDate}
+                  value={valueSpecificDate}
+                  onChange={onChangeSpecificDate}
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
                   }}
                 />
               </div>
-              <div className={classes.controlTimePicker}>
+              <div
+                className={
+                  isHistory
+                    ? classes.controlTimePickerHistory
+                    : classes.controlTimePicker
+                }
+              >
                 <TimePicker
                   label="Time from"
                   placeholder="08:00 AM"
                   variant="inline"
                   mask="__:__ _M"
                   inputVariant="outlined"
-                  value={selectedSpecificDate}
-                  onChange={handleChangeSpecificDate}
+                  value={valueSpecificDate}
+                  onChange={onChangeSpecificDate}
                   className={classes.timePicker}
                 />
                 <TimePicker
@@ -239,41 +183,34 @@ export default function DateTimePicker(props: Props) {
                   variant="dialog"
                   inputVariant="outlined"
                   mask="__:__ _M"
-                  value={selectedSpecificTimeTo}
-                  onChange={handleChangeSpecificTimeTo}
+                  value={valueSpecificTimeTo}
+                  onChange={onChangeSpecificTimeTo}
                 />
               </div>
             </div>
           </ThemeProvider>
         </PickerProvider>
       )}
-
-      <div
-        className={
-          showDescriptionTime ? classes.descriptionTime : classes.hidden
-        }
-      >
-        <div className={isMobile ? '' : classes.timeFrom}>
-          From:{' '}
-          {isDateRange
-            ? moment(selectedDateFrom.valueOf()).format('LLL')
-            : isSpecificDate
-            ? moment(selectedSpecificDate.valueOf()).format('LLL')
-            : moment(dateOptions * 1000).format('LLL')}
+      {isHistory ? (
+        <div className={classes.descriptionTime}>
+          <div className={isMobile ? '' : classes.timeFrom}>
+            From:{' '}
+            {isDateRange
+              ? moment(valueDateFrom.valueOf()).format('LLL')
+              : isSpecificDate
+              ? moment(valueSpecificDate.valueOf()).format('LLL')
+              : moment(dateOptions * 1000).format('LLL')}
+          </div>
+          <div>
+            To:{' '}
+            {isDateRange
+              ? moment(valueDateTo.valueOf()).format('LLL')
+              : isSpecificDate
+              ? moment(valueSpecificTimeTo.valueOf()).format('LLL')
+              : moment(new Date()).format('LLL')}
+          </div>
         </div>
-        <div
-          className={
-            showDescriptionTime ? classes.descriptionTime : classes.hidden
-          }
-        >
-          To:{' '}
-          {isDateRange
-            ? moment(selectedDateTo.valueOf()).format('LLL')
-            : isSpecificDate
-            ? moment(selectedSpecificTimeTo.valueOf()).format('LLL')
-            : moment(new Date()).format('LLL')}
-        </div>
-      </div>
+      ) : null}
     </div>
   );
 }
