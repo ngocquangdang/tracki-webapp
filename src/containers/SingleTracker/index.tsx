@@ -48,7 +48,7 @@ import {
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
 import HistoryTracker from './components/HistoryTracker';
-import HistoryTrackerCard from '@Components/HistoryTrackerCard';
+import HistoryTrackerDetail from '@Components/HistoryTrackerDetail';
 // import SendBeep from './components/SendBeep';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
@@ -58,7 +58,7 @@ interface Props {
   tracker: ITracker;
   geofences: object;
   onClickBack: () => void;
-  t(key: string): string;
+  t(key: string, format?: object): string;
   fetchTrackerSettings(id: number): void;
   onClickSendBeep(data: object): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
@@ -103,14 +103,6 @@ function SingleTracker(props: Props) {
     updateChildView(view);
   };
 
-  const handleClickPreviosHisotry = () => {
-    console.log('previos history');
-  };
-
-  const handleClickNextHistory = () => {
-    console.log('next history');
-  };
-
   const onClickBeepDevice = () => () => {
     onOpenChildView('beepDevice');
     props?.onClickSendBeep({
@@ -118,12 +110,6 @@ function SingleTracker(props: Props) {
       beepType: 1,
       devices: [props?.deviceId],
     });
-  };
-
-  const handleBack = () => {
-    currentChildView === 'historyTracker'
-      ? updateChildView('history')
-      : onClickBack();
   };
 
   const renderBlock = (title: string, icon: JSX.Element, handlClick: any) => (
@@ -140,74 +126,68 @@ function SingleTracker(props: Props) {
           <Header>
             <ArrowBackIosIcon
               className={classes.iconBack}
-              onClick={handleBack}
+              onClick={onClickBack}
             />
-            <Title onClick={handleBack}>
-              {currentChildView === 'historyTracker'
-                ? 'History Result'
-                : 'Back'}
-            </Title>
+            <Title onClick={onClickBack}>Back</Title>
           </Header>
-          {currentChildView === 'historyTracker' ? (
-            <HistoryTrackerCard
+          <Card key={tracker.device_id}>
+            <DetailTrackerCard
               isMobile={false}
               tracker={tracker}
-              onClickPrevios={handleClickPreviosHisotry}
-              onClickNext={handleClickNextHistory}
+              t={t}
+              settings={settings[tracker.settings_id]}
             />
-          ) : (
-            <Card key={tracker.device_id}>
-              <DetailTrackerCard
-                isMobile={false}
-                tracker={tracker}
-                t={t}
-                settings={settings[tracker.settings_id]}
-              />
-              <TrackerMenu>
-                <TrackerMenuUp>
-                  {renderBlock(
-                    'Settings',
-                    <SettingsIcon />,
-                    onOpenChildView('settings')
-                  )}
-                  {renderBlock(
-                    'History',
-                    <HistoryIcon />,
-                    onOpenChildView('history')
-                  )}
-                  {renderBlock(
-                    'Geo-Fence',
-                    <BorderStyleIcon />,
-                    onOpenChildView('geofences')
-                  )}
-                </TrackerMenuUp>
-                <TrackerMenuDown>
-                  {renderBlock(
-                    'Beep Device',
-                    props.isBeep ? (
-                      <CircularProgress className={classes.iconLoading} />
-                    ) : (
-                      <VolumeUpIcon />
-                    ),
-                    onClickBeepDevice()
-                  )}
-                  {renderBlock(
-                    'Share Location',
-                    <ShareIcon />,
-                    onOpenChildView('shareLocation')
-                  )}
-                  {renderBlock(
-                    'Notifications',
-                    <NotificationsIcon />,
-                    onOpenChildView('notifications')
-                  )}
-                </TrackerMenuDown>
-                <Border></Border>
-              </TrackerMenu>
-            </Card>
-          )}
+            <TrackerMenu>
+              <TrackerMenuUp>
+                {renderBlock(
+                  'Settings',
+                  <SettingsIcon />,
+                  onOpenChildView('settings')
+                )}
+                {renderBlock(
+                  'History',
+                  <HistoryIcon />,
+                  onOpenChildView('history')
+                )}
+                {renderBlock(
+                  'Geo-Fence',
+                  <BorderStyleIcon />,
+                  onOpenChildView('geofences')
+                )}
+              </TrackerMenuUp>
+              <TrackerMenuDown>
+                {renderBlock(
+                  'Beep Device',
+                  props.isBeep ? (
+                    <CircularProgress className={classes.iconLoading} />
+                  ) : (
+                    <VolumeUpIcon />
+                  ),
+                  onClickBeepDevice()
+                )}
+                {renderBlock(
+                  'Share Location',
+                  <ShareIcon />,
+                  onOpenChildView('shareLocation')
+                )}
+                {renderBlock(
+                  'Notifications',
+                  <NotificationsIcon />,
+                  onOpenChildView('notifications')
+                )}
+              </TrackerMenuDown>
+              <Border></Border>
+            </TrackerMenu>
+          </Card>
         </Container>
       </Slide>
+      <HistoryTrackerDetail
+        isMobile={false}
+        tracker={tracker}
+        show={currentChildView === 'historyDetail'}
+        onClose={onOpenChildView('history')}
+        t={t}
+      />
       <SettingTracker
         handleClose={onCloseChildView}
         t={t}
@@ -220,7 +200,7 @@ function SingleTracker(props: Props) {
         t={t}
         show={currentChildView === 'history'}
         isMobile={false}
-        onClickViewHistory={onOpenChildView('historyTracker')}
+        onClickViewHistory={onOpenChildView('historyDetail')}
       />
       <TrackerGeofences
         show={currentChildView === 'geofences'}

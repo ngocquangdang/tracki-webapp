@@ -10,6 +10,9 @@ const useStyles = makeStyles(theme => ({
 }));
 const SelectForm = withStyles(theme => ({
   root: {
+    '& .MuiSelect-select:focus': {
+      backgroundColor: '#fff',
+    },
     '&.MuiFormControl-root': {
       width: '100% !important',
       margin: '18px 0',

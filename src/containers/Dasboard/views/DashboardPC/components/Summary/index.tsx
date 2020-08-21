@@ -12,9 +12,9 @@ import {
 
 export default function SummaryComponent(props) {
   const classes = useStyles();
-  const { summary, index } = props;
+  const { summary } = props;
   return (
-    <Card key={index}>
+    <Card>
       <TitleCard>{summary.title}</TitleCard>
       <Content>
         <DataView>
