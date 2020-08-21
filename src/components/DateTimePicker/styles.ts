@@ -1,9 +1,5 @@
 import { makeStyles, createMuiTheme } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
-  formSelect: {
-    padding: '0 15px',
-    // marginBottom: '15px',
-  },
   descriptionTime: {
     fontSize: 13,
     fontWeight: 'normal',
@@ -12,7 +8,6 @@ const useStyles = makeStyles(theme => ({
   datePickerControl: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: '20px',
   },
   dateFrom: {
     marginRight: '15px',
@@ -25,10 +20,17 @@ const useStyles = makeStyles(theme => ({
   },
   containerSpecificTime: {
     display: 'flex',
+    flexDirection: 'row',
+  },
+  containerSpecificTimeHistory: {
+    display: 'flex',
     flexDirection: 'column',
     marginBottom: '20px',
   },
   controlTimePicker: {
+    display: 'flex',
+  },
+  controlTimePickerHistory: {
     display: 'flex',
     marginTop: '15px',
   },
@@ -36,8 +38,15 @@ const useStyles = makeStyles(theme => ({
     float: 'left',
     paddingRight: '5px',
   },
-  hidden: {
-    display: 'none',
+  selectOption: {
+    width: '100%',
+    marginRight: 15,
+  },
+  inLine: {
+    display: 'flex',
+  },
+  marginRight: {
+    marginRight: 10,
   },
 }));
 

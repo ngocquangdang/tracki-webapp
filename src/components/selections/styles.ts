@@ -12,7 +12,6 @@ const SelectForm = withStyles(theme => ({
   root: {
     '&.MuiFormControl-root': {
       width: '100% !important',
-      margin: '18px 0',
     },
     '& .MuiInputBase-root': {
       height: '50px',

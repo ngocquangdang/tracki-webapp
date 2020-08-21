@@ -82,4 +82,8 @@ export default makeStyles(theme => ({
     height: 50,
     backgroundColor: theme.palette.primary.main,
   },
+  formSelect: {
+    padding: '0 15px',
+    marginBottom: '15px',
+  },
 }));

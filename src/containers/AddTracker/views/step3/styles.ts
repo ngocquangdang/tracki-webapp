@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
   marginInput: {
     marginBottom: 10,
   },
+  selectOption: {
+    margin: '15px 0',
+  },
 }));
 export {
   Header,
