@@ -6,7 +6,6 @@ export const changeTrackersTracking = (trackingIds: number[]) => ({
 });
 
 export const getHistoryTrackerRequest = (data: object) => {
-  console.log('getHistoryTrackerRequest -> data', data);
   return {
     type: types.GET_HISTORY_TRACKER_REQUESTED,
     payload: { data },
@@ -29,7 +28,6 @@ export const changeTrackingView = (viewMode: string) => ({
 });
 
 export const getAlarmTrackerRequest = (data: object) => {
-  console.log('getAlarmTrackerRequest -> data', data);
   return {
     type: types.GET_ALARM_TRACKER_REQUESTED,
     payload: { data },

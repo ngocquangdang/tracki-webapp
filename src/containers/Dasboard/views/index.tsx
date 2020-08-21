@@ -49,14 +49,9 @@ function Dashboard(props) {
   useInjectSaga({ key: 'tracking', saga: trackingSaga });
   useInjectReducer({ key: 'tracking', reducer: trackingReducer });
 
-  // useInjectSaga({ key: 'history', saga: historySaga });
-  // useInjectReducer({ key: 'history', reducer: historyReducer });
-
-  const { fetchUserRequestedAction, isMobile, alarms } = props;
-  console.log('Dashboard -> alarms', alarms);
+  const { fetchUserRequestedAction, isMobile } = props;
 
   useEffect(() => {
-    console.log('aaaa');
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 

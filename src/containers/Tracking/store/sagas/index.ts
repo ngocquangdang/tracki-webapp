@@ -25,7 +25,6 @@ function* changeTrackingViewSaga(action) {
 }
 
 function* getHistoryTrackerSaga(action) {
-  console.log('function*getHistoryTrackerSaga -> action', action);
   try {
     const { account_id } = yield select(makeSelectProfile());
     const { data: historyData } = yield call(
@@ -46,10 +45,6 @@ function* getHistoryTrackerSaga(action) {
         })
       );
     }
-    // const histories = historyData.reduce((result, item) => {
-    //   result.push([item]);
-    //   return result;
-    // }, []);
 
     const histories = historyData.reduce(
       (obj, item) => {
@@ -89,7 +84,7 @@ function* getHistoryTrackerSaga(action) {
 function* getAlarmTrackerSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
-    const { data: historyData } = yield call(
+    const { data: alarmData } = yield call(
       apiServices.getAlarmTracker,
       account_id,
       action.payload.data.trackerId,
@@ -97,7 +92,7 @@ function* getAlarmTrackerSaga(action) {
       action.payload.data.page,
       action.payload.data.type
     );
-    if (historyData === []) {
+    if (alarmData === []) {
       yield put(
         showSnackbar({
           snackType: 'success',
@@ -106,7 +101,7 @@ function* getAlarmTrackerSaga(action) {
       );
     }
 
-    const alarms = historyData.reduce(
+    const alarms = alarmData.reduce(
       (obj, item) => {
         obj.alarms = { ...obj.alarms, [item.created]: item };
         obj.alarmIds.push(item.created);

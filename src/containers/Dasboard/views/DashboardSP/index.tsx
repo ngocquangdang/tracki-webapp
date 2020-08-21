@@ -215,8 +215,7 @@ export default function DashboardContainer(props) {
     setDistance(distanceTotal);
   }
 
-  const onCloseAdd = () => console.log('aaaaa');
-  console.log('tracker info,:', trackers[trackerSelected], moment().unix());
+  const onCloseAdd = () => {};
   return (
     <SideBarOutside
       title={t('tracker:add_geofence')}
