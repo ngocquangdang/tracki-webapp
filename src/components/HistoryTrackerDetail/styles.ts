@@ -99,7 +99,22 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   footer: {
-    padding: 15,
+    padding: '10px 15px',
+  },
+  timeline: {
+    position: 'relative',
+    height: 'calc(100% - 427px)',
+    '& > div': {
+      position: 'absolute',
+      height: 'calc(100% - 24px)',
+      overflowY: 'auto',
+    },
+  },
+  timelineTitle: {
+    fontSize: 16,
+    lineHeight: '19px',
+    marginLeft: 15,
+    marginBottom: 5,
   },
   speedStatus: {
     display: 'flex',

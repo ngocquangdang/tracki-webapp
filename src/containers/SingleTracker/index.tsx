@@ -26,9 +26,14 @@ import {
   makeSelectBeep,
 } from '@Containers/Trackers/store/selectors';
 import {
+  makeSelectHistories,
+  makeSelectHistoryIds,
+} from '@Containers/Tracking/store/selectors';
+import {
   sendBeepRequest,
   resetBeepAction,
 } from '@Containers/SingleTracker/store/actions';
+import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
@@ -57,11 +62,14 @@ interface Props {
   settings: object;
   tracker: ITracker;
   geofences: object;
+  histories: object;
+  historyIds: object;
   onClickBack: () => void;
   t(key: string, format?: object): string;
   fetchTrackerSettings(id: number): void;
   onClickSendBeep(data: object): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
+  getHistoryTracker(data: object): void;
   resetBeep(): void;
   deviceId: number;
   isBeep: boolean;
@@ -75,7 +83,10 @@ function SingleTracker(props: Props) {
     isBeep,
     geofences,
     settings,
+    histories,
+    historyIds,
     onClickBack,
+    getHistoryTracker,
     t,
     resetBeep,
     showSnackbar,
@@ -187,6 +198,8 @@ function SingleTracker(props: Props) {
         show={currentChildView === 'historyDetail'}
         onClose={onOpenChildView('history')}
         t={t}
+        histories={histories[tracker.device_id]}
+        historyIds={historyIds[tracker.device_id]}
       />
       <SettingTracker
         handleClose={onCloseChildView}
@@ -200,6 +213,8 @@ function SingleTracker(props: Props) {
         t={t}
         show={currentChildView === 'history'}
         isMobile={false}
+        tracker={tracker}
+        getHistoryTracker={getHistoryTracker}
         onClickViewHistory={onOpenChildView('historyDetail')}
       />
       <TrackerGeofences
@@ -225,6 +240,7 @@ const mapDispatchToProps = dispatch => ({
   onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -232,6 +248,8 @@ const mapStateToProps = createStructuredSelector({
   geofences: makeSelectGeofences(),
   deviceId: makeSelectTrackerId(),
   isBeep: makeSelectBeep(),
+  histories: makeSelectHistories(),
+  historyIds: makeSelectHistoryIds(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

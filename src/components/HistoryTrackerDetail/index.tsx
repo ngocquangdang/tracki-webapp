@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
-import axios from 'axios';
-import { Slide } from '@material-ui/core';
+import { Slide, Typography } from '@material-ui/core';
 import {
   ArrowBackIos as ArrowBackIosIcon,
   LocationOn as LocationOnIcon,
@@ -11,13 +10,16 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import { AiOutlineDashboard } from 'react-icons/ai';
 
 import Skeleton from '@Components/Skeletons/Tracker';
-import { MAPBOX_API_KEY } from '@Definitions/app';
+import TrackerTimeline from '@Components/TrackerTimeline';
 import { ITracker } from '@Interfaces';
 import { Card, Item, TrackerInfomation, Address, useStyles } from './styles';
+import { getAddress } from '@Utils/helper';
 
 interface Prop {
   isLoading?: boolean;
   tracker: ITracker;
+  histories: object;
+  historyIds: number[];
   isMobile: boolean;
   show: boolean;
   onClose(): void;
@@ -26,16 +28,13 @@ interface Prop {
 
 function HistoryTrackerDetail(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile, show, onClose } = props;
+  const { tracker, isMobile, show, historyIds, histories, onClose } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState(null);
 
   const callApiGetAddress = useCallback(async () => {
-    const { data } = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${tracker.lng},${tracker.lat}.json?types=poi&access_token=${MAPBOX_API_KEY}`
-    );
-    const address = data.features[0] || { place_name: 'Unknow location' };
-    setDataAddress(address.place_name);
+    const address = await getAddress(tracker);
+    setDataAddress(address);
     setLoading(false);
   }, [setDataAddress, setLoading, tracker]);
 
@@ -147,21 +146,27 @@ function HistoryTrackerDetail(props: Prop) {
               <span className={classes.textIcon}>Speed</span>
             </div>
           </div>
-          <div>
-            <div className={classes.controlText}>
-              <span>Stopped on:</span>
-              <span> Jun 25, 2020 06:45: PM</span>
-            </div>
-            <div className={classes.controlText}>
-              <span>Started on:</span>
-              <span> Jun 25, 2020 06:52: PM</span>
-            </div>
-            <div className={classes.controlText}>
-              <span>Stoppped Duration:</span>
-              <span> 00d 00:09:11</span>
-            </div>
+          <div className={classes.controlText}>
+            <span>Stopped on:</span>
+            <span> Jun 25, 2020 06:45: PM</span>
+          </div>
+          <div className={classes.controlText}>
+            <span>Started on:</span>
+            <span> Jun 25, 2020 06:52: PM</span>
+          </div>
+          <div className={classes.controlText}>
+            <span>Stoppped Duration:</span>
+            <span> 00d 00:09:11</span>
           </div>
         </div>
+        {!isMobile && (
+          <div className={classes.timeline}>
+            <Typography className={classes.timelineTitle}>
+              History detail:
+            </Typography>
+            <TrackerTimeline historyIds={historyIds} histories={histories} />
+          </div>
+        )}
       </div>
     </Slide>
   );

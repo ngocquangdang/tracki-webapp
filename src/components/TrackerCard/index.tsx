@@ -64,8 +64,9 @@ export default function TrackerCard(props: Props) {
       className={clsx(isMobile ? classes.padding : classes.nonePadding, {
         [classes.noClick]: !onClickTracker,
       })}
+      onClick={handleClick}
     >
-      <Item onClick={handleClick}>
+      <Item>
         <ImageWrapper>
           <Image src={tracker.icon_url || '/images/image-device.png'} alt="" />
         </ImageWrapper>
