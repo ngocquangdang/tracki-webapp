@@ -11,6 +11,7 @@ export const initialState: GlobalTypes = {
   showGeofences: false,
   showTrackerName: false,
   mapAction: 'DEFAULT',
+  mapView: 'DEFAULT',
 };
 
 const appReducer = (state = initialState, { type, payload }: ActionType) =>
@@ -34,6 +35,9 @@ const appReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.CHANGE_MAP_TILE:
         draft.mapTile = payload.mapTile;
+        break;
+      case types.CHANGE_MAP_VIEW:
+        draft.mapView = payload.mapView;
         break;
       case types.TOGGLE_GEOFENCES:
         draft.showGeofences = !draft.showGeofences;

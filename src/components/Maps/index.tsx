@@ -7,12 +7,14 @@ import {
   makeSelectMapAction,
   makeSelectShowTrackersName,
   makeSelectShowGeofences,
+  makeSelectMapView,
 } from '@Containers/App/store/selectors';
 import { changeMapAction } from '@Containers/App/store/actions';
 import {
   updateNewGeofence,
   updateGeofence,
 } from '@Containers/Trackers/store/actions';
+import { makeSelectHistories } from '@Containers/Tracking/store/selectors';
 import {
   makeSelectNewGeofence,
   makeSelectGeofences,
@@ -26,7 +28,10 @@ const Leaflet = dynamic(() => import('./Leaflet'), { ssr: false });
 interface Props {
   mapType: string;
   mapAction: string;
+  mapView: string;
+  histories: object;
   trackers: object;
+  selectedTrackerId: number;
   trackerIds: Array<number>;
   mapTile: string;
   showGeofences: boolean;
@@ -95,6 +100,8 @@ const mapStateToProps = createStructuredSelector({
   editGeofenceId: makeSelectEditGeofenceId(),
   showGeofences: makeSelectShowGeofences(),
   showTrackerName: makeSelectShowTrackersName(),
+  mapView: makeSelectMapView(),
+  histories: makeSelectHistories(),
 });
 
 const mapDispatchToProps = dispatch => ({

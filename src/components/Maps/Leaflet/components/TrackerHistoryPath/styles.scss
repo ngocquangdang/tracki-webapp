@@ -1,0 +1,12 @@
+.point-dot {
+  border-radius: 6px;
+  border: 1px solid #168449;
+
+  &.point-moving {
+    background-color: yellow;
+  }
+
+  &.point-stop {
+    background-color: red;
+  }
+}

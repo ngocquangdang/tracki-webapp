@@ -28,6 +28,7 @@ export interface GlobalTypes {
   errors: object | null;
   mapTile: string;
   mapAction: string;
+  mapView: string;
   showGeofences: boolean;
   showTrackerName: boolean;
 }
