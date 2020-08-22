@@ -42,9 +42,7 @@ class TrackerHistoryPath extends React.Component<Props> {
     if (this.trackerPath) {
       map.removeLayer(this.trackerPath);
     }
-    Object.values(this.points).map(p => {
-      map.removeLayer(p);
-    });
+    Object.values(this.points).map(p => map.removeLayer(p));
   };
 
   renderPath = props => {
@@ -65,7 +63,7 @@ class TrackerHistoryPath extends React.Component<Props> {
         return obj;
       }, {});
 
-      this.trackerPath = L.polyline(path, { color: '#168449', weight: 2 });
+      this.trackerPath = L.polyline(path, { color: '#168449', weight: 4 });
       this.trackerPath.addTo(map);
       // zoom the map to the polyline
       const mapOption =
