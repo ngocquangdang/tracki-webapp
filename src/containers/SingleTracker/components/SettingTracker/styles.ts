@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles, TextField } from '@material-ui/core';
+import {
+  makeStyles,
+  withStyles,
+  TextField,
+  Tooltip,
+  InputAdornment,
+} from '@material-ui/core';
 
 const ImageWrapper = styled.div`
   width: 85px;
@@ -226,6 +232,26 @@ const LimitInput = withStyles(theme => ({
   },
 }))(TextField);
 
+const AdornmentStyle = withStyles(theme => ({
+  root: {
+    cursor: 'pointer',
+  },
+}))(InputAdornment);
+
+const TooltipStyle = withStyles({
+  tooltip: {
+    color: '#1a1a1a',
+    fontSize: '15px',
+    fontWeight: 'normal',
+    fontFamily: 'Roboto',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
+  },
+  arrow: {
+    color: 'white',
+  },
+})(Tooltip);
+
 export {
   ImageWrapper,
   Image,
@@ -248,4 +274,6 @@ export {
   ContainerPaddingSwitch,
   Container,
   useStyles,
+  AdornmentStyle,
+  TooltipStyle,
 };
