@@ -35,6 +35,7 @@ interface Props {
   valueDateTo: any;
   valueSpecificDate: any;
   valueSpecificTimeTo: any;
+  showDescriptionTime?: boolean;
 }
 
 export default function DateTimePicker(props: Props) {
@@ -50,6 +51,7 @@ export default function DateTimePicker(props: Props) {
     valueDateTo,
     valueSpecificDate,
     valueSpecificTimeTo,
+    showDescriptionTime,
   } = props;
   const classes = useStyles();
 
@@ -192,7 +194,13 @@ export default function DateTimePicker(props: Props) {
         </PickerProvider>
       )}
       {isHistory ? (
-        <div className={classes.descriptionTime}>
+        <div
+          className={
+            showDescriptionTime
+              ? classes.descriptionTime
+              : classes.hiddeDescription
+          }
+        >
           <div className={isMobile ? '' : classes.timeFrom}>
             From:{' '}
             {isDateRange

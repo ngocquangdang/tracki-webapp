@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import Router from 'next/router';
 import moment from 'moment';
-import L from 'leaflet';
-
+import { lineString } from '@turf/turf';
+import length from '@turf/length';
 import SelectOption from '@Components/selections';
 import Map from '@Components/Maps';
 
@@ -35,7 +36,7 @@ import { ITracker } from '@Interfaces';
 import { AiFillInfoCircle } from 'react-icons/ai';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { FaBell } from 'react-icons/fa';
-import { SideBarOutside } from '@Components/sidebars';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import DateTimePicker from '@Components/DateTimePicker';
 import axios from 'axios';
@@ -57,18 +58,19 @@ export default function DashboardContainer(props) {
     historyTracker,
     historyTrackerIds,
     t,
+    selectedTrackerId,
     getAlarmsTracker,
     changeTrackersTracking,
     alarmsTracker,
-    isMobile,
   } = props;
   const [trackerList = [], setTrackerList] = useState([
     { value: '', content: '' },
   ]);
   const [trackerSelected, setTrackerSelected] = useState(trackerList[0]?.value);
-  const [initialHistories, setInitialHistories] = useState<object>({});
-  const [initialHistoryIds, setInitialHistoryIds] = useState<number[]>([]);
-  const [alarmList, setAlarmList] = useState({ alarms: {}, alarmIds: [] });
+  const { alarms } = alarmsTracker || {};
+  const { alarmIds } = alarmsTracker || [];
+  const [trips, setTrip] = useState(0);
+
   const [distance, setDistance] = useState(0);
   const [currentAddress, setCurrentAddress] = useState(null);
   const [page, setPage] = useState(0);
@@ -181,41 +183,45 @@ export default function DashboardContainer(props) {
     },
     {
       title: t('dashboard:total_time_travel'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:odometer'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:total_trip'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:maximum_speed'),
-      data: 'NaN',
+      data: '-',
     },
     {
       title: t('dashboard:tracker_contenction'),
-      data: trackers[parseInt(trackerSelected)]?.location_type || 'NaN',
+      data: trackers[parseInt(trackerSelected)]?.location_type || '-',
     },
     {
       title: t('dashboard:total_fuel_consumption'),
-      data: 'NaN',
+      data: '-',
+    },
+    {
+      title: t('dashboard:maximum_altitued'),
+      data: '-',
     },
   ];
 
   const summary = [
     {
       title: t('dashboard:distance'),
-      dataView: distance,
+      dataView: Math.round(distance),
       subTitle: t('dashboard:total_distance'),
       date: moment().format('L'),
       unit: 'km',
     },
     {
       title: t('dashboard:trips'),
-      dataView: historyTracker?.length || 0,
+      dataView: trips,
       subTitle: t('dashboard:total_trip'),
       date: moment().format('L'),
     },
@@ -250,15 +256,6 @@ export default function DashboardContainer(props) {
   }, [callApiCurrentAddress]);
 
   useEffect(() => {
-    setInitialHistories(historyTracker);
-    setInitialHistoryIds(historyTrackerIds);
-  }, [historyTracker, historyTrackerIds]);
-
-  useEffect(() => {
-    setAlarmList(alarmsTracker);
-  }, [alarmsTracker]);
-
-  useEffect(() => {
     let newTrackerLIst = [];
     newTrackerLIst = trackerIds?.map(item => {
       return {
@@ -274,36 +271,50 @@ export default function DashboardContainer(props) {
     changeTrackersTracking([device_id]);
   };
 
-  if (initialHistoryIds?.length > 0) {
-    let prevLatLng = L.latLng(
-      initialHistories[initialHistoryIds[0]]?.lat,
-      initialHistories[initialHistoryIds[0]]?.lng
-    );
+  useEffect(() => {
+    if (historyTrackerIds && historyTrackerIds.length > 0) {
+      setTrip(historyTrackerIds.length);
+      const historyArrayPoints = historyTrackerIds.reduce(
+        (historyArrayPoints, item, index) => {
+          if (
+            historyTracker[historyTrackerIds[index]]?.lng &&
+            historyTracker[historyTrackerIds[index]]?.lat
+          ) {
+            historyArrayPoints.push([
+              historyTracker[historyTrackerIds[index]].lng,
+              historyTracker[historyTrackerIds[index]].lat,
+            ]);
+          }
+          return historyArrayPoints;
+        },
+        []
+      );
 
-    const distanceTotal = initialHistoryIds?.reduce((result, item, index) => {
-      if (index !== 0) {
-        result += prevLatLng.distanceTo(
-          L.latLng(initialHistories[item]?.lat, initialHistories[item]?.lng)
-        );
-        prevLatLng = L.latLng(
-          initialHistories[item]?.lat,
-          initialHistories[item]?.lng
-        );
+      if (historyArrayPoints.length > 0) {
+        const lineHistory = lineString(historyArrayPoints);
+        const totalDistance = length(lineHistory);
+        if (totalDistance !== distance) {
+          setDistance(totalDistance);
+        }
       }
-      return result;
-    }, 0);
-    setDistance(distanceTotal);
-  }
+    }
+    if (historyTrackerIds && historyTrackerIds.length === 0) {
+      setDistance(0);
+    }
+  }, [historyTracker, historyTrackerIds, distance]);
 
-  const onCloseAdd = () => {};
+  const onCloseDashboard = () => {
+    Router.push('/');
+  };
   return (
-    <SideBarOutside
-      title={t('tracker:add_geofence')}
-      show={true}
-      direction="right"
-      handleClose={onCloseAdd}
-      isMobile={isMobile || false}
-    >
+    <div>
+      <div className={classes.navBar}>
+        <ArrowBackIosIcon
+          className={classes.iconBack}
+          onClick={onCloseDashboard}
+        />{' '}
+        {t('dashboard:dashboard')}
+      </div>
       <>
         <HeaderDashboard>
           <DeviceSelection>
@@ -318,6 +329,7 @@ export default function DashboardContainer(props) {
           <SelectGroup>
             <DateTimePicker
               isMobile={false}
+              isHistory={true}
               onChangeDateFrom={onChangeDateFrom}
               onChangeDateTo={onChangeDateTo}
               onChangeSpecificDate={onChangeSpecificDate}
@@ -327,6 +339,7 @@ export default function DashboardContainer(props) {
               valueDateTo={selectedDateTo}
               valueSpecificDate={selectedSpecificDate}
               valueSpecificTimeTo={selectedSpecificTimeTo}
+              showDescriptionTime={false}
             />
           </SelectGroup>
         </HeaderDashboard>
@@ -370,7 +383,12 @@ export default function DashboardContainer(props) {
             </HeaderCard>
             <ContentCard>
               <MapView>
-                <Map fullWidth={true} mapType="leaflet" {...props} />
+                <Map
+                  fullWidth={true}
+                  mapType="leaflet"
+                  selectedTrackerId={selectedTrackerId}
+                  {...props}
+                />
               </MapView>
             </ContentCard>
           </MapViewCard>
@@ -395,17 +413,14 @@ export default function DashboardContainer(props) {
                 <FaBell className={classes.iconCard} />
                 {t('dashboard:recent_alerts')}
               </div>
-              {(rowsPerPage > 0
-                ? alarmList?.alarmIds.slice(0, page * rowsPerPage + rowsPerPage)
-                : alarmList?.alarmIds
-              )?.map(item => (
-                // <AlertCard>
-                //   <TitleAlert>{item.title}</TitleAlert>
-                //   <AddressAlert>{item.data}</AddressAlert>
-                //   <DateAlert>{item.title}</DateAlert>
-                // </AlertCard>
-                <RecentAlertComponent rowAlert={item} />
-              ))}
+              {alarmIds &&
+                alarmIds.length > 0 &&
+                (rowsPerPage > 0
+                  ? alarmIds.slice(0, page * rowsPerPage + rowsPerPage)
+                  : alarmIds
+                )?.map(item => (
+                  <RecentAlertComponent rowAlert={alarms[item]} />
+                ))}
             </ContentCard>
             <div className={classes.footer} onClick={onUpdateRowPerPage}>
               {t('dashboard:load_more_alerts')}
@@ -413,6 +428,6 @@ export default function DashboardContainer(props) {
           </RecentAlertCard>
         </ContainerDashboard>
       </>
-    </SideBarOutside>
+    </div>
   );
 }

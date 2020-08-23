@@ -6,8 +6,7 @@ import { UNWIREDLABS_API_KEY } from '@Definitions/app';
 
 import { AlertCard, TitleAlert, AddressAlert, DateAlert } from './styles';
 
-export default function RecentAlertComponent(props) {
-  const { rowAlert } = props;
+export default function RecentAlertComponent({ rowAlert }) {
   const [dataAddress, setDataAddress] = useState('');
 
   const callApiGetAddress = useCallback(async () => {
@@ -30,7 +29,7 @@ export default function RecentAlertComponent(props) {
   return (
     <AlertCard>
       <TitleAlert> {moment(rowAlert.created).format('lll')}</TitleAlert>
-      <AddressAlert> {rowAlert.message || 'No'}</AddressAlert>
+      <AddressAlert> {rowAlert.message || '-'}</AddressAlert>
       <DateAlert>{dataAddress}</DateAlert>
     </AlertCard>
   );

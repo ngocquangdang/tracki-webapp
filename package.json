@@ -28,6 +28,8 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@next/bundle-analyzer": "^9.4.4",
+    "@turf/length": "^6.0.2",
+    "@turf/turf": "^5.1.6",
     "@types/crypto-js": "^3.1.47",
     "@types/mapbox-gl": "^1.11.1",
     "@zeit/next-css": "^1.0.1",

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   containerSpecificTimeHistory: {
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: '20px',
+    padding: '15px 0',
   },
   controlTimePicker: {
     display: 'flex',
@@ -47,6 +47,9 @@ const useStyles = makeStyles(theme => ({
   },
   marginRight: {
     marginRight: 10,
+  },
+  hiddeDescription: {
+    display: 'none',
   },
 }));
 

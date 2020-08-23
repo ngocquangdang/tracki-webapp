@@ -134,13 +134,14 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       isBeep,
       selectedTrackerId,
       isTracking,
+      isDashboard,
       trackingIds,
       showTrackerName,
     } = this.props;
 
     if (this.state.isInitiatedMap && trackers) {
       // tracking view => show only tracker tracking
-      if (isTracking) {
+      if (isTracking || isDashboard) {
         const trackerIds = Object.keys(trackers);
         const [selectedTrackingId] = isEmpty(trackingIds)
           ? trackerIds

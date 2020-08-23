@@ -1,52 +1,37 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
-import L from 'leaflet';
+import { lineString } from '@turf/turf';
+import length from '@turf/length';
 
 import { MainLayout } from '@Layouts';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
 import SelectOption from '@Components/selections';
-import Map from '@Components/Maps';
 
 import {
   HeaderDashboard,
   TitleDashBoard,
   DeviceSelection,
   ContainerDashboard,
-  MapViewCard,
   SummaryCard,
   DeviceInfoCard,
   RecentAlertCard,
   ColumnCard,
   ContentCard,
-  MapView,
   Title,
   IconDashboard,
   useStyles,
-  SelectGroup,
-  Description,
-  HeaderCard,
-  CardTitle,
-  DetailSummary,
 } from './styles';
 
 import { ITracker } from '@Interfaces';
-import { AiOutlineDashboard, AiFillInfoCircle } from 'react-icons/ai';
-import { GoPrimitiveDot } from 'react-icons/go';
-import { FaMapMarkerAlt, FaBell } from 'react-icons/fa';
+import { AiOutlineDashboard } from 'react-icons/ai';
 
-import DateTimePicker from '@Components/DateTimePicker';
 import axios from 'axios';
-import { MAPBOX_API_KEY } from '@Definitions/app';
+import { UNWIREDLABS_API_KEY } from '@Definitions/app';
+
 import RecentAlertConponent from './components/RecentAlert';
 import SummaryComponent from './components/Summary';
 import DeviceInfoComponent from './components/DeviceInfo';
-
+import MapViewComponent from './components/MapView';
 interface Props {
   trackerIds: number[];
   trackers: ITracker;
@@ -54,10 +39,8 @@ interface Props {
   getAlarmsTracker(data): void;
   t(key: string, format?: object): string;
   changeTrackersTracking: any;
-
   historyTrackerIds: number[];
   historyTracker: object;
-
   alarmsTracker: {
     alarmIds: number[];
     alarms: Alarms;
@@ -85,11 +68,10 @@ export default function DashboardContainer(props) {
   const {
     trackers,
     trackerIds,
-    getHistoryTracker,
     historyTracker,
     historyTrackerIds,
+    selectedTrackerId,
     t,
-    getAlarmsTracker,
     changeTrackersTracking,
     alarmsTracker,
   } = props;
@@ -97,36 +79,22 @@ export default function DashboardContainer(props) {
   const [trackerList = [], setTrackerList] = useState([
     { value: '', content: '' },
   ]);
-  const [trackerSelected, setTrackerSelected] = useState(trackerList[0]?.value);
-  const [initialHistories, setInitialHistories] = useState<object>({});
-  const [initialHistoryIds, setInitialHistoryIds] = useState<number[]>([]);
-  const [alarmList, setAlarmList] = useState({ alarms: {}, alarmIds: [] });
+  const [trackerSelected, setTrackerSelected] = useState(selectedTrackerId);
+  const [trips, setTrip] = useState(0);
+  const { alarms } = alarmsTracker || {};
+  const { alarmIds } = alarmsTracker || [];
   const [distance, setDistance] = useState(0);
   const [currentAddress, setCurrentAddress] = useState(null);
-  const [page, setPage] = useState(0);
-  const rowsPerPage = 10;
-
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
-
-  const onUpdateRowPerPage = () => {
-    setPage(page + 1);
-  };
 
   const callApiCurrentAddress = useCallback(async () => {
     const { data } = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
-        trackers[parseInt(trackerSelected)]?.lng
-      },${
+      `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${
         trackers[parseInt(trackerSelected)]?.lat
-      }.json?types=poi&access_token=${MAPBOX_API_KEY}`
+      }&lon=${trackers[parseInt(trackerSelected)]?.lng}`
     );
-    const address = data.features[0] || { place_name: 'Unknow location' };
-    setCurrentAddress(address.place_name);
+    setCurrentAddress(
+      data.status === 'ok' ? data.address.display_name : 'Unknow location'
+    );
   }, [setCurrentAddress, trackerSelected, trackers]);
 
   useEffect(() => {
@@ -162,19 +130,23 @@ export default function DashboardContainer(props) {
       title: t('dashboard:total_fuel_consumption'),
       data: '-',
     },
+    {
+      title: t('dashboard:maximum_altitued'),
+      data: '-',
+    },
   ];
 
   const summary = [
     {
       title: t('dashboard:distance'),
-      dataView: distance,
+      dataView: Math.round(distance),
       subTitle: t('dashboard:total_distance'),
       date: moment().format('L'),
       unit: 'km',
     },
     {
       title: t('dashboard:trips'),
-      dataView: initialHistoryIds?.length || 0,
+      dataView: trips,
       subTitle: t('dashboard:total_trip'),
       date: moment().format('L'),
     },
@@ -193,11 +165,6 @@ export default function DashboardContainer(props) {
   ];
 
   useEffect(() => {
-    setInitialHistories(historyTracker);
-    setInitialHistoryIds(historyTrackerIds);
-  }, [historyTracker, historyTrackerIds]);
-
-  useEffect(() => {
     let newTrackerLIst = [];
     newTrackerLIst = trackerIds?.map(item => {
       return {
@@ -206,110 +173,45 @@ export default function DashboardContainer(props) {
       };
     });
     setTrackerList(newTrackerLIst);
-  }, [trackers, trackerIds]);
-
-  useEffect(() => {
-    setAlarmList(alarmsTracker);
-  }, [alarmsTracker]);
+  }, [trackers, trackerIds, changeTrackersTracking]);
 
   const changeSelectTracker = device_id => {
     setTrackerSelected(device_id);
     changeTrackersTracking([device_id]);
   };
 
-  const onChangeDateOption = value => {
-    if (value !== 'date_range' && value !== 'specific_date') {
-      getHistoryTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        fromDate: value,
-        toDate: moment().unix(),
-        limit: 2000,
-        page: 1,
-        type: 2,
-      });
-    }
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
-  };
+  useEffect(() => {
+    if (historyTrackerIds && historyTrackerIds.length > 0) {
+      setTrip(historyTrackerIds.length);
+      const historyArrayPoints = historyTrackerIds.reduce(
+        (historyArrayPoints, item, index) => {
+          if (
+            historyTracker[historyTrackerIds[index]]?.lng &&
+            historyTracker[historyTrackerIds[index]]?.lat
+          ) {
+            historyArrayPoints.push([
+              historyTracker[historyTrackerIds[index]].lng,
+              historyTracker[historyTrackerIds[index]].lat,
+            ]);
+          }
 
-  const onChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    setSelectedDateFrom(fromDate);
-  };
+          return historyArrayPoints;
+        },
+        []
+      );
 
-  const onChangeDateTo = date => {
-    const toDate = moment(date.getTime());
-    setSelectedDateTo(toDate);
-
-    getHistoryTracker({
-      trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-      fromDate: selectedDateFrom.unix(),
-      toDate: toDate.unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
-  };
-
-  const onChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
-  };
-
-  const onChangeSpecificTimeTo = date => {
-    setSelectedSpecificTimeTo(date);
-    getHistoryTracker({
-      trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-      fromDate: moment(selectedSpecificDate).unix(),
-      toDate: moment(date).unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
-  };
-
-  if (initialHistoryIds?.length > 0) {
-    let prevLatLng = L.latLng(
-      initialHistories[initialHistoryIds[0]]?.lat,
-      initialHistories[initialHistoryIds[0]]?.lng
-    );
-
-    const distanceTotal = initialHistoryIds?.reduce((result, item, index) => {
-      if (index !== 0) {
-        result += prevLatLng.distanceTo(
-          L.latLng(initialHistories[item]?.lat, initialHistories[item]?.lng)
-        );
-        prevLatLng = L.latLng(
-          initialHistories[item]?.lat,
-          initialHistories[item]?.lng
-        );
+      if (historyArrayPoints.length > 0) {
+        const lineHistory = lineString(historyArrayPoints);
+        const totalDistance = length(lineHistory);
+        if (totalDistance !== distance) {
+          setDistance(totalDistance);
+        }
       }
-      return result;
-    }, 0);
-    setDistance(distanceTotal);
-  }
+    }
+    if (historyTrackerIds && historyTrackerIds.length === 0) {
+      setDistance(0);
+    }
+  }, [historyTracker, historyTrackerIds, distance]);
 
   return (
     <MainLayout>
@@ -332,129 +234,32 @@ export default function DashboardContainer(props) {
       </HeaderDashboard>
       <ContainerDashboard>
         <ColumnCard>
-          <MapViewCard>
-            <HeaderCard className={classes.paddingHeaderCard}>
-              <CardTitle>
-                <div className={`${classes.color} ${classes.cellHeader}`}>
-                  <FaMapMarkerAlt className={classes.iconCard} />
-                  {t('dashboard:current_position')}
-                </div>
-              </CardTitle>
-              <Description>
-                <GoPrimitiveDot
-                  className={
-                    trackers[parseInt(trackerSelected)]?.status === 'active'
-                      ? classes.primaryColor
-                      : classes.secondaryColor
-                  }
-                />{' '}
-                {t('dasboard:online')} | {t('dashboard:last_update')}
-                {moment(
-                  trackers[parseInt(trackerSelected)]?.time * 1000
-                ).format('lll')}
-              </Description>
-            </HeaderCard>
-            <ContentCard>
-              <MapView>
-                <Map isTracking={true} mapType="leaflet" {...props} />
-              </MapView>
-            </ContentCard>
-          </MapViewCard>
+          <MapViewComponent
+            trackerSelected={trackers[selectedTrackerId]}
+            {...props}
+          />
           <DeviceInfoCard>
             <ContentCard>
-              <Table aria-label="spanning table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell colSpan={3} className={`${classes.color}`}>
-                      <div className={`${classes.color} ${classes.cellHeader}`}>
-                        <AiFillInfoCircle className={classes.iconCard} />
-                        {t('dashboard:device_information')}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {deviceInfo.map((item, index) => (
-                    <DeviceInfoComponent key={index} device={item} />
-                  ))}
-                </TableBody>
-              </Table>
+              <DeviceInfoComponent deviceInfo={deviceInfo} {...props} />
             </ContentCard>
           </DeviceInfoCard>
         </ColumnCard>
         <ColumnCard>
           <SummaryCard>
-            <HeaderCard>
-              <SelectGroup>
-                <DateTimePicker
-                  isMobile={false}
-                  onChangeDateFrom={onChangeDateFrom}
-                  onChangeDateTo={onChangeDateTo}
-                  onChangeSpecificDate={onChangeSpecificDate}
-                  onChangeSpecificTimeTo={onChangeSpecificTimeTo}
-                  onChangeDateOption={onChangeDateOption}
-                  valueDateFrom={selectedDateFrom}
-                  valueDateTo={selectedDateTo}
-                  valueSpecificDate={selectedSpecificDate}
-                  valueSpecificTimeTo={selectedSpecificTimeTo}
-                />
-              </SelectGroup>
-              <Description>{t('dashboard:summary_description')}</Description>
-            </HeaderCard>
-            <ContentCard>
-              <DetailSummary>
-                {summary.map((item, index) => (
-                  <SummaryComponent key={index} summary={item} />
-                ))}
-              </DetailSummary>
-            </ContentCard>
+            <SummaryComponent
+              summary={summary}
+              {...props}
+              tracker={trackers[selectedTrackerId]}
+            />
           </SummaryCard>
           <RecentAlertCard>
             <ContentCard>
-              <Table stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    <TableCell colSpan={3} className={`${classes.color}`}>
-                      <div className={`${classes.color} ${classes.cellHeader}`}>
-                        <FaBell className={classes.iconCard} />
-                        {t('dashboard:recent_alerts')}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className={`${classes.color} ${classes.col1}`}>
-                      {t('dashboard:when')}
-                    </TableCell>
-                    <TableCell
-                      className={`${classes.color} ${classes.col1}`}
-                      align="left"
-                    >
-                      {t('dashboard:description')}
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      className={`${classes.color} ${classes.col2}`}
-                    >
-                      {t('dashboard:address')}
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0
-                    ? alarmList?.alarmIds.slice(
-                        0,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : alarmList?.alarmIds
-                  )?.map(item => (
-                    <RecentAlertConponent rowAlert={alarmList?.alarms[item]} />
-                  ))}
-                </TableBody>
-              </Table>
+              <RecentAlertConponent
+                alarms={alarms}
+                alarmIds={alarmIds}
+                {...props}
+              />
             </ContentCard>
-            <div className={classes.footer} onClick={onUpdateRowPerPage}>
-              {t('dashboard:load_more_alerts')}
-            </div>
           </RecentAlertCard>
         </ColumnCard>
       </ContainerDashboard>

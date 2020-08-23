@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 const HeaderDashboard = styled.div`
   display: flex;
   align-items: center;
-  margin: 10px 26px 0;
+  margin: 25px 26px 18px;
 `;
 
 const TitleDashBoard = styled.div`
@@ -28,7 +28,6 @@ const ColumnCard = styled.div`
 `;
 
 const MapViewCard = styled.div`
-  min-height: 533px;
   margin-bottom: 30px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
@@ -37,7 +36,6 @@ const MapViewCard = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  min-height: 288px;
   margin-bottom: 30px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
@@ -46,7 +44,6 @@ const SummaryCard = styled.div`
 `;
 
 const DeviceInfoCard = styled.div`
-  min-height: 510px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #e0e0e0;
@@ -54,8 +51,6 @@ const DeviceInfoCard = styled.div`
 `;
 
 const RecentAlertCard = styled.div`
-  background: yellow;
-  height: 658px;
   border-radius: 4px;
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #e0e0e0;
@@ -63,7 +58,6 @@ const RecentAlertCard = styled.div`
 `;
 
 const ContentCard = styled.div`
-  height: calc(100% - 35px);
   overflow-y: auto;
   padding: 15px;
 `;
@@ -83,26 +77,8 @@ const IconDashboard = styled.div`
   margin-right: 8px;
 `;
 
-const SelectGroup = styled.div`
-  width: 240px;
-`;
-const Description = styled.div`
-  font-size: 14px;
-  color: #999999;
-  display: flex;
-  align-items: center;
-`;
-const HeaderCard = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
-`;
-
 const CardTitle = styled.div``;
-const DetailSummary = styled.div`
-  display: flex;
-`;
+
 const Card = styled.div`
   flex: 1;
   display: flex;
@@ -236,11 +212,7 @@ export {
   Title,
   IconDashboard,
   useStyles,
-  SelectGroup,
-  Description,
-  HeaderCard,
   CardTitle,
-  DetailSummary,
   Card,
   TitleCard,
   Content,

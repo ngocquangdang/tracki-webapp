@@ -1,0 +1,57 @@
+import React from 'react';
+
+import {
+  MapViewCard,
+  HeaderCard,
+  useStyles,
+  CardTitle,
+  Description,
+  ContentCard,
+  MapView,
+} from './styles';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { GoPrimitiveDot } from 'react-icons/go';
+import Map from '@Components/Maps';
+import moment from 'moment';
+import ToolBar from '@Containers/Dasboard/views/components/MapToolBar';
+
+export default function MapViewComponent(props) {
+  const classes = useStyles();
+  const { trackerSelected, t, trackers } = props;
+  return (
+    <MapViewCard>
+      <HeaderCard>
+        <CardTitle>
+          <div className={`${classes.color} ${classes.cellHeader}`}>
+            <FaMapMarkerAlt className={classes.iconCard} />
+            {t('dashboard:current_position')}
+          </div>
+        </CardTitle>
+        <Description>
+          <GoPrimitiveDot
+            className={
+              trackerSelected?.status === 'active'
+                ? classes.primaryColor
+                : classes.secondaryColor
+            }
+          />{' '}
+          {t('dashboard:online')} | {t('dashboard:last_update')}
+          {moment(trackerSelected?.time * 1000).format('lll')}
+        </Description>
+      </HeaderCard>
+      <ContentCard>
+        <MapView>
+          <Map
+            fullWidth={true}
+            trackers={trackers}
+            selectedTrackerId={trackerSelected}
+            showTrackerName={true}
+            mapType="leaflet"
+            {...props}
+          />
+          <ToolBar {...props} />
+        </MapView>
+      </ContentCard>
+    </MapViewCard>
+  );
+}
