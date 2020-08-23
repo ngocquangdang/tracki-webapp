@@ -37,11 +37,24 @@ const ImageWrapper = styled.div`
   background: #168449;
   margin-right: 16px;
 `;
-const Image = styled.img`
-  width: 34px;
+const Image = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
+`;
+const DefaultImage = styled.div`
+  width: 40px;
   height: 34px;
   margin: auto;
   object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
 `;
 const ItemInfo = styled.div`
   white-space: nowrap;
@@ -148,4 +161,5 @@ export {
   ControlTime,
   ControlButton,
   useStyles,
+  DefaultImage,
 };

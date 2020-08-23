@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toolbar, AppBar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import { useStyles, ImageWrapper, Image } from './styles';
+import { useStyles, ImageWrapper, Image, DefaultImage } from './styles';
 
 interface Props {
   [data: string]: any;
@@ -11,6 +11,7 @@ interface Props {
 export default function HeaderMobile(props: Props) {
   const classes = useStyles();
   const { open, handleOpenSideBar, ...rest } = props;
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -37,17 +38,22 @@ export default function HeaderMobile(props: Props) {
               }`}
               noWrap
             >
-              {rest.children?.props?.selectedTrackerId ? (
+              {rest.children?.props.selectedTrackerId ? (
                 <>
                   <ImageWrapper>
-                    <Image
-                      src={
-                        rest.children?.props.trackers[
-                          rest.children.props.selectedTrackerId
-                        ]?.images || '/images/image-device.png'
-                      }
-                      alt=""
-                    />
+                    {rest.children?.props.trackers[
+                      rest.children.props.selectedTrackerId
+                    ]?.icon_url ? (
+                      <Image
+                        background={
+                          rest.children?.props.trackers[
+                            rest.children.props.selectedTrackerId
+                          ]?.icon_url
+                        }
+                      />
+                    ) : (
+                      <DefaultImage src={'/images/image-device.png'} alt="" />
+                    )}
                   </ImageWrapper>
                   {
                     rest.children.props.trackers[
