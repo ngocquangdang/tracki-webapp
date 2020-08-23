@@ -40,8 +40,8 @@ import {
 import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
 
-const DashboardPC = dynamic(() => import('./DashboardPC'));
-const DashboardSP = dynamic(() => import('./DashboardSP'));
+const DashboardPC = dynamic(() => import('./DashboardPC'), { ssr: false });
+const DashboardSP = dynamic(() => import('./DashboardSP'), { ssr: false });
 
 function Dashboard(props) {
   useInjectSaga({ key: 'tracker', saga: trackersSaga });

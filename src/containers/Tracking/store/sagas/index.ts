@@ -1,4 +1,5 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
+import { isEmpty } from 'lodash';
 
 import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
 import { changeTrackersTracking } from '../actions';
@@ -27,17 +28,27 @@ function* changeTrackingViewSaga(action) {
 function* getHistoryTrackerSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
+    const {
+      trackerId,
+      fromDate,
+      toDate,
+      limit,
+      page,
+      type,
+    } = action.payload.data;
+
     const { data: historyData } = yield call(
       apiServices.getHistoryTracker,
       account_id,
-      action.payload.data.trackerId,
-      action.payload.data.fromDate,
-      action.payload.data.toDate,
-      action.payload.data.limit,
-      action.payload.data.page,
-      action.payload.data.type
+      trackerId,
+      fromDate,
+      toDate,
+      limit,
+      page,
+      type
     );
-    if (historyData === []) {
+
+    if (isEmpty(historyData)) {
       yield put(
         showSnackbar({
           snackType: 'success',
@@ -58,12 +69,7 @@ function* getHistoryTrackerSaga(action) {
       }
     );
 
-    yield put(
-      actions.getHistoryTrackerSucceed({
-        trackerId: action.payload.data.trackerId,
-        histories,
-      })
-    );
+    yield put(actions.getHistoryTrackerSucceed(trackerId, histories));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

@@ -12,9 +12,9 @@ export const getHistoryTrackerRequest = (data: object) => {
   };
 };
 
-export const getHistoryTrackerSucceed = (data: any) => ({
+export const getHistoryTrackerSucceed = (trackerId, data) => ({
   type: types.GET_HISTORY_TRACKER_SUCCEED,
-  payload: { trackerId: data.trackerId, histories: data.histories },
+  payload: { trackerId, ...data },
 });
 
 export const getHistoryTrackerFailed = (error: object) => ({

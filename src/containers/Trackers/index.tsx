@@ -19,6 +19,7 @@ import {
   makeSelectBeep,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import {
   resetSelectedTrackerIdAction,
   selectTrackerIdAction,
@@ -41,6 +42,8 @@ import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import contactSaga from '@Containers/Contacts/store/sagas';
 import contactReducer from '@Containers/Contacts/store/reducers';
+import trackingSaga from '@Containers/Tracking/store/sagas';
+import trackingReducer from '@Containers/Tracking/store/reducers';
 
 import View from './view';
 
@@ -48,6 +51,7 @@ interface Props {
   trackerId?: any;
   t(key: string, format?: object): string;
   fetchUserRequestedAction(): void;
+  getHistoryTracker(data: object): void;
   [data: string]: any;
 }
 
@@ -56,6 +60,8 @@ function TrackersContainer(props: Props) {
   useInjectReducer({ key: 'tracker', reducer });
   useInjectSaga({ key: 'contacts', saga: contactSaga });
   useInjectReducer({ key: 'contacts', reducer: contactReducer });
+  useInjectSaga({ key: 'tracking', saga: trackingSaga });
+  useInjectReducer({ key: 'tracking', reducer: trackingReducer });
 
   const { fetchUserRequestedAction, ...rest } = props;
 
@@ -94,6 +100,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

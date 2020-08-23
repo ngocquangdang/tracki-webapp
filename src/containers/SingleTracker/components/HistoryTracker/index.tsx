@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
+import moment from 'moment';
 
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
-import SelectOption from '@Components/selections';
+import DateTimePicker from '@Components/DateTimePicker';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { Button } from '@Components/buttons';
 import { Container, Title, SelectGroup, Content, useStyles } from './styles';
-import { HISTORY_OPTIONS } from '@Containers/SingleTracker/store/constants';
+
+interface Tracker {
+  device_id: number;
+  time: number;
+  battery: number;
+  speed: number;
+  location_type: string;
+  lat: number;
+  lng: number;
+  icon_url: string;
+  device_name: string;
+}
 
 interface Props {
   handleClose(): void;
@@ -15,6 +27,8 @@ interface Props {
   show: boolean;
   isRequesting?: boolean;
   onClickViewHistory(): void;
+  getHistoryTracker(data): void;
+  tracker: Tracker;
 }
 
 function HistoryTracker(props: Props) {
@@ -27,21 +41,75 @@ function HistoryTracker(props: Props) {
     isRequesting,
     onClickViewHistory,
   } = props;
-  const onSubmitForm = () => {
-    console.log('xxxxY');
+
+  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
+  const [selectedDateTo, setSelectedDateTo] = useState(moment());
+  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
+  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
+    moment(new Date())
+  );
+
+  const onChangeDateOption = value => {
+    if (value !== 'date_range' && value !== 'specific_date') {
+      props.getHistoryTracker({
+        trackerId: props.tracker?.device_id,
+        fromDate: value,
+        toDate: moment().unix(),
+        limit: 2000,
+        page: 1,
+        type: 2,
+      });
+    }
+  };
+  const onChangeDateFrom = date => {
+    const fromDate = moment(date.getTime());
+    setSelectedDateFrom(fromDate);
+  };
+
+  const onChangeDateTo = date => {
+    const toDate = moment(date.getTime());
+    setSelectedDateTo(toDate);
+
+    props.getHistoryTracker({
+      trackerId: props.tracker?.device_id,
+      fromDate: selectedDateFrom.unix(),
+      toDate: toDate.unix(),
+      limit: 2000,
+      page: 1,
+      type: 2,
+    });
+  };
+
+  const onChangeSpecificDate = date => {
+    setSelectedSpecificDate(date);
+    setSelectedSpecificTimeTo(date);
+  };
+
+  const onChangeSpecificTimeTo = date => {
+    setSelectedSpecificTimeTo(date);
+    props.getHistoryTracker({
+      trackerId: props.tracker?.device_id,
+      fromDate: moment(selectedSpecificDate).unix(),
+      toDate: moment(date).unix(),
+      limit: 2000,
+      page: 1,
+      type: 2,
+    });
+  };
+  const onSubmitForm = values => {
+    console.log('values');
     //draft setHistory
     setHistory({
       map_view: true,
       seven_day_report: false,
       alert_history_report: false,
-      history_option: HISTORY_OPTIONS[0].value,
     });
   };
+
   const [history, setHistory] = useState({
     map_view: true,
     seven_day_report: false,
     alert_history_report: false,
-    history_option: HISTORY_OPTIONS[0].value,
   });
   return (
     <SideBarOutside
@@ -95,12 +163,18 @@ function HistoryTracker(props: Props) {
                   </RadioGroup>
                 </SelectGroup>
                 <div className={classes.selectOption}>
-                  <SelectOption
-                    name="history_option"
-                    options={HISTORY_OPTIONS}
-                    label={t('tracker:history_view_option')}
-                    value={values.history_option}
-                    onChangeOption={handleChange('history_option')}
+                  <DateTimePicker
+                    isMobile={false}
+                    onChangeDateFrom={onChangeDateFrom}
+                    onChangeDateTo={onChangeDateTo}
+                    onChangeSpecificDate={onChangeSpecificDate}
+                    onChangeSpecificTimeTo={onChangeSpecificTimeTo}
+                    onChangeDateOption={onChangeDateOption}
+                    valueDateFrom={selectedDateFrom}
+                    valueDateTo={selectedDateTo}
+                    valueSpecificDate={selectedSpecificDate}
+                    valueSpecificTimeTo={selectedSpecificTimeTo}
+                    isHistory={true}
                   />
                 </div>
                 <Button

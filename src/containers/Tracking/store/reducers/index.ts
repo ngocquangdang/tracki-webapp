@@ -8,7 +8,7 @@ export const initialState: TrackingDataTypes = {
   viewMode: 'single_view',
   errors: null,
   histories: {},
-  historyIds: [],
+  historyIds: {},
   alarms: {},
 };
 
@@ -19,8 +19,8 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.trackingIds = payload.trackingIds;
         break;
       case types.GET_HISTORY_TRACKER_SUCCEED:
-        draft.histories[payload.trackerId] = payload.histories.histories;
-        draft.historyIds[payload.trackerId] = payload.histories.historieIds;
+        draft.histories[payload.trackerId] = payload.histories;
+        draft.historyIds[payload.trackerId] = payload.historieIds;
         draft.errors = null;
         break;
       case types.GET_HISTORY_TRACKER_FAILED:

@@ -375,7 +375,7 @@ export default function DashboardContainer(props) {
                 </TableHead>
                 <TableBody>
                   {deviceInfo.map((item, index) => (
-                    <DeviceInfoComponent device={item} index={index} />
+                    <DeviceInfoComponent key={index} device={item} />
                   ))}
                 </TableBody>
               </Table>
@@ -404,7 +404,7 @@ export default function DashboardContainer(props) {
             <ContentCard>
               <DetailSummary>
                 {summary.map((item, index) => (
-                  <SummaryComponent summary={item} index={index} />
+                  <SummaryComponent key={index} summary={item} />
                 ))}
               </DetailSummary>
             </ContentCard>
