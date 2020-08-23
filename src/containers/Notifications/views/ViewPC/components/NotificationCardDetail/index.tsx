@@ -76,14 +76,34 @@ function NotificationCardDetail(props: Props) {
                 src={`/images/${
                   alarmType === 'SPEED'
                     ? 'ic-alert-speed-violation.svg'
-                    : 'ic-alert-geofence.svg'
+                    : alarmType === 'GEOZONE'
+                    ? 'ic-alert-geofence.svg'
+                    : alarmType === 'MOVEMENT'
+                    ? 'ic-alert-start-moving.svg'
+                    : alarmType === 'BATTERY'
+                    ? 'ic-alert-battery.svg'
+                    : alarmType === 'SOS'
+                    ? 'ic-alert-SOS.svg'
+                    : alarmType === 'LEFT'
+                    ? 'ic-alert-left-click.svg'
+                    : 'ic-alert-right-click.svg'
                 }`}
               />
             </TrackerType>
             <StatusType>
               {alarmType === 'SPEED'
                 ? `Speed Violation (${speed})`
-                : 'Geo-fence Crossed (Home)'}
+                : alarmType === 'GEOZONE'
+                ? 'Geo-fence Crossed'
+                : alarmType === 'MOVEMENT'
+                ? 'Start Moving'
+                : alarmType === 'BATTERY'
+                ? 'Lower Battery'
+                : alarmType === 'SOS'
+                ? 'SOS Alert'
+                : alarmType === 'LEFT'
+                ? 'Left Click'
+                : 'Right Click'}
             </StatusType>
           </NotficationType>
           <NotificationTime>{moment(created).format('L, LT')}</NotificationTime>

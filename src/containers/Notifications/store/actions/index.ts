@@ -5,9 +5,9 @@ export const fetchNotficationRequest = data => ({
   payload: { data },
 });
 
-export const fetchNotficationSucceed = data => ({
+export const fetchNotficationSucceed = (notifications: object) => ({
   type: types.FETCH_NOTIFICATION_SUCCEED,
-  payload: { data },
+  payload: { notifications },
 });
 
 export const fetchNotficationFailed = (errors: object) => ({

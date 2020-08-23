@@ -16,7 +16,19 @@ function* fetchNotificationSaga(action) {
       action.payload.data.limit,
       action.payload.data.page
     );
-    yield put(actions.fetchNotficationSucceed(data));
+    const notifications = data.reduce(
+      (obj, item) => {
+        obj.notifications = { ...obj.notifications, [item.id]: item };
+        obj.notificationsIds.push(item.id);
+        return obj;
+      },
+      {
+        notifications: {},
+        notificationsIds: [],
+      }
+    );
+    console.log('notifications', notifications);
+    yield put(actions.fetchNotficationSucceed(notifications));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
