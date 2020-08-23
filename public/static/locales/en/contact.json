@@ -1,7 +1,7 @@
 {
   "contact_list": "Contact List",
   "add_new_contact": "Add New Contact",
-  "search_by": "Search Contact by Name, email or number",
+  "search_contact": "Search Contact",
   "row_per_page": "Rows per page",
   "add": "Add",
   "cancel": "Cancel"

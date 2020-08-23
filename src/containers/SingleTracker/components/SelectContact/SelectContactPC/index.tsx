@@ -53,6 +53,8 @@ export default function SelectContactPC(props: Props) {
     errors,
   } = props;
 
+  console.log('SelectContactPC -> tracker', tracker);
+
   const { contacts: contactOfTracker = [] } = tracker;
   const [contactSelected, setContactSelected] = useState([...contactOfTracker]);
 

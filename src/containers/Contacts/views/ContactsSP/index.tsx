@@ -146,7 +146,7 @@ export default function ContactsSP(props: Props) {
       <ContainerPage>
         <SearchInput>
           <TextInput
-            placeholder={t('contact:search_by')}
+            placeholder={t('contact:search_contact')}
             type="search"
             InputProps={{
               startAdornment: (
