@@ -42,7 +42,7 @@ const SortOption = styled.div`
 `;
 const OptionViewDatePicker = styled.div`
   width: ${(props: { isDateRange: boolean }) =>
-    props.isDateRange ? '45%' : '258px'};
+    props.isDateRange ? '80%' : '258px'};
   padding-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
 `;
@@ -96,6 +96,9 @@ const useStyles = makeStyles(theme => ({
   btnCsv: {
     width: 180,
     marginLeft: 10,
+  },
+  csvLink: {
+    textDecoration: 'none',
   },
   header: {
     height: '75px',

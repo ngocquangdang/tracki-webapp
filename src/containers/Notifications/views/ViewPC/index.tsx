@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import moment from 'moment';
-
+import { CSVLink } from 'react-csv';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -41,8 +41,11 @@ interface Notifications {
   created: number;
   speed: number;
 }
+interface Tracker {
+  device_name: string;
+}
 interface Props {
-  trackers: any;
+  trackers: Tracker;
   trackerIds: any;
   fetchNotificationRequest(data: object): void;
   notifications: Notifications;
@@ -78,11 +81,13 @@ export default function Notification(props: Props) {
   const [isDateRange, setDateRange] = useState(false);
   const [dataFilter, setDataFilter] = useState(true);
 
+  const [trackerName, setTrackerName] = useState('');
+
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
     result.push({ value: item, content: trackers[item].device_name });
     return result;
   }, []);
-  const [trackerName, setTrackerName] = useState('');
+
   useEffect(() => {
     setInitialNotificationsIds(notificationsIds);
     setInitialNotifications(notifications);
@@ -95,6 +100,7 @@ export default function Notification(props: Props) {
   const onClickExportCsv = () => {
     console.log('export csv');
   };
+
   const onClickViewPort = () => {
     fetchNotificationRequest({
       alarm_types: 'all',
@@ -102,6 +108,7 @@ export default function Notification(props: Props) {
       page: 1,
     });
   };
+
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -111,14 +118,33 @@ export default function Notification(props: Props) {
     value === 'date_range' || value === 'specific_date'
       ? setDateRange(true)
       : setDateRange(false);
+    if (value !== 'date_range' && value !== 'specific_date') {
+      const filterDate = notificationsIds.filter(
+        item => notifications[item]?.created >= value * 1000
+      );
+      setInitialNotificationsIds(filterDate);
+    }
   };
+
   const onChangeDateFrom = date => {
     const fromDate = moment(date.getTime());
+    const filterDate = notificationsIds.filter(
+      item =>
+        notifications[item]?.created <= selectedDateTo.valueOf() &&
+        notifications[item]?.created >= fromDate.valueOf()
+    );
+    setInitialNotificationsIds(filterDate);
     setSelectedDateFrom(fromDate);
   };
 
   const onChangeDateTo = date => {
     const toDate = moment(date.getTime());
+    const filterNotificationsByDate = notificationsIds.filter(
+      item =>
+        notifications[item]?.created <= toDate.valueOf() &&
+        notifications[item]?.created >= setSelectedDateFrom.valueOf()
+    );
+    setInitialNotificationsIds(filterNotificationsByDate);
     setSelectedDateTo(toDate);
   };
 
@@ -128,10 +154,33 @@ export default function Notification(props: Props) {
   };
 
   const onChangeSpecificTimeTo = date => {
+    const filterNotificationsByDate = notificationsIds.filter(
+      item =>
+        notifications[item]?.created <= moment(date.getTime()).valueOf() &&
+        notifications[item]?.created >= moment(selectedSpecificDate).valueOf()
+    );
+    setInitialNotificationsIds(filterNotificationsByDate);
     setSelectedSpecificTimeTo(date);
   };
 
   const onChangeSortBy = (value: string) => {
+    if (value === 'old' || value === 'new') {
+      const sortedNotificationsByDate = notificationsIds
+        .slice()
+        .sort((a, b) =>
+          value === 'old'
+            ? notifications[a]?.created - notifications[b]?.created
+            : notifications[b]?.created - notifications[a]?.created
+        );
+      setInitialNotificationsIds(sortedNotificationsByDate);
+    } else {
+      const filterIsRead = notificationsIds.filter(item =>
+        value === 'read'
+          ? notifications[item]?.read === true
+          : notifications[item]?.read === false
+      );
+      setInitialNotificationsIds(filterIsRead);
+    }
     setSortBy(value);
   };
 
@@ -141,11 +190,11 @@ export default function Notification(props: Props) {
       notifications[item]?.alarm_type.includes(value)
     );
     filterType.length === 0 ? setDataFilter(false) : setDataFilter(true);
-    console.log('filterType', filterType);
     value === 'all'
       ? setInitialNotificationsIds(notificationsIds)
       : setInitialNotificationsIds(filterType);
   };
+
   const onChangeTracker = value => {
     const filterTracker = notificationsIds.filter(
       item => notifications[item]?.device_id === value
@@ -154,7 +203,28 @@ export default function Notification(props: Props) {
     setInitialNotificationsIds(filterTracker);
     setTrackerName(value);
   };
-  console.log('data Filer', dataFilter);
+
+  const headers = [
+    { label: 'DATE', key: 'date' },
+    { label: 'TIME', key: 'time' },
+    { label: 'DEVICE NAME', key: 'deviceName' },
+    { label: 'ALERT TYPE', key: 'alertType' },
+    { label: 'EVENT MESSAGE', key: 'eventMessage' },
+    { label: 'SPEED', key: 'speed' },
+  ];
+  const dataCSV = [] as any;
+  notificationsIds.map(
+    item =>
+      dataCSV.push({
+        date: moment(notifications[item]?.created).format('DD-MM-YYYY'),
+        time: moment(notifications[item]?.created).format('hh:mm:ss'),
+        deviceName: notifications[item]?.device_name,
+        alertType: notifications[item]?.alarm_type,
+        eventMessage: notifications[item]?.message,
+        speed: notifications[item]?.speed,
+      }),
+    []
+  );
   return (
     <MainLayout hasFooter={false}>
       <div>
@@ -177,7 +247,7 @@ export default function Notification(props: Props) {
             </OptionView>
             <OptionView>
               <SelectOption
-                name="date_format"
+                name="alarm_type"
                 options={ALARM_TYPES}
                 label="Select Type"
                 value={alarmType}
@@ -224,13 +294,19 @@ export default function Notification(props: Props) {
                           onChangeOption={onChangeSortBy}
                         />
                       </SortOption>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        text="Export CSV"
-                        className={`${classes.btnCsv}`}
-                        onClick={onClickExportCsv}
-                      />
+                      <CSVLink
+                        data={dataCSV}
+                        headers={headers}
+                        className={classes.csvLink}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          text="Export CSV"
+                          className={`${classes.btnCsv}`}
+                          onClick={onClickExportCsv}
+                        />
+                      </CSVLink>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -244,16 +320,12 @@ export default function Notification(props: Props) {
                   : initialNotificationsIds
                 ).map(item => {
                   return (
-                    <TableRow key={initialNotifications[item]?.id}>
+                    <Fragment key={item}>
                       <NotificationCardDetail
-                        speed={initialNotifications[item]?.speed}
-                        deviceName={initialNotifications[item]?.device_name}
-                        lat={initialNotifications[item]?.lat}
-                        lng={initialNotifications[item]?.lng}
-                        alarmType={initialNotifications[item]?.alarm_type}
-                        created={initialNotifications[item]?.created}
+                        notifications={initialNotifications[item]}
+                        mapId={`map${item}`}
                       />
-                    </TableRow>
+                    </Fragment>
                   );
                 })}
                 {dataFilter ? null : (

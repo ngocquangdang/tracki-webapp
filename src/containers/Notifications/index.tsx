@@ -28,7 +28,7 @@ import {
 } from './store/selectors';
 
 const NotificationViewPC = dynamic(() => import('./views/ViewPC'));
-
+const NotificationViewMobile = dynamic(() => import('./views/ViewMobile'));
 function NotificationView(props) {
   useInjectSaga({ key: 'tracker', saga: trackersSaga });
   useInjectReducer({ key: 'tracker', reducer: trackersReducer });
@@ -54,7 +54,11 @@ function NotificationView(props) {
       });
     }
   }, [fetchNotificationRequest, profile]);
-  return <NotificationViewPC {...rest} />;
+  return rest.isMobile ? (
+    <NotificationViewMobile {...rest} />
+  ) : (
+    <NotificationViewPC {...rest} />
+  );
 }
 
 const mapStateToProps = createStructuredSelector({

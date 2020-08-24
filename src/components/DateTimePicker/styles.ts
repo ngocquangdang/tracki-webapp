@@ -4,10 +4,15 @@ const useStyles = makeStyles(theme => ({
     fontSize: 13,
     fontWeight: 'normal',
     lineHeight: 1.85,
+    marginTop: 15,
   },
   datePickerControl: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  datePickerControlHistory: {
+    marginTop: '15px',
+    marginBottom: '15px',
   },
   dateFrom: {
     marginRight: '15px',
@@ -25,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   containerSpecificTimeHistory: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '15px 0',
+    marginBottom: '20px',
+    marginTop: 15,
   },
   controlTimePicker: {
     display: 'flex',
