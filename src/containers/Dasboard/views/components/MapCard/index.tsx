@@ -190,17 +190,17 @@ class MapCard extends React.Component<IProps, IState> {
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
       <div class='icon-red'>
-      <span class='inner'></span>
-      <div class='marker-pin'>
-      <div class='image-maker'>
-      ${
-        icon_url
-          ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
-          : `<img src='/images/image-device.png'
-          } class='image-device'></img>`
-      }
-      </div>
-    <div>${this.trackerName(device_name)}`;
+        <span class='inner'></span>
+        <div class='marker-pin'>
+          ${
+            icon_url
+              ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+              : `<img src='/images/image-device.png'
+              } class='image-device'></img>`
+          }
+        </div>
+       ${this.trackerName(device_name)}
+      </div>`;
 
       const icon = new L.DivIcon({ html: elm });
       this.marker = L.marker([lat, lng], { icon });

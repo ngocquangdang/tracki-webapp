@@ -47,7 +47,6 @@ class TrackerMarker extends React.Component<Props> {
               } class='image-device'></img>`
           }
           </div>
-        <div>
         <div class='title-device' style='width:${nameWidth}px; left:-${
         nameWidth / 2
       }px'>${device_name}</div>

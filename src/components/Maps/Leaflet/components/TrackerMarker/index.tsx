@@ -53,14 +53,17 @@ class TrackerMarker extends React.Component<Props> {
         <div class='icon-red${isBeep && isSelected ? '-active' : ''}'>
           <span class='inner'></span>
           <div class='marker-pin'>
-          ${
-            tracker.icon_url
-              ? `<div class='image-maker' style='background-image: url(${tracker.icon_url})'></div>`
-              : `<img src='/images/image-device.png'
-              } class='image-device'></img>`
-          }
+            ${
+              tracker.icon_url
+                ? `<div class='image-maker' style='background-image: url(${tracker.icon_url})'></div>`
+                : `<img src='/images/image-device.png'
+                } class='image-device'></img>`
+            }
           </div>
-        <div>${showTrackerName ? this.trackerName(tracker.device_name) : ''}`;
+          <div>${
+            showTrackerName ? this.trackerName(tracker.device_name) : ''
+          }</div>
+        </div>`;
       const icon = new L.DivIcon({ html: elm2 });
       marker.setIcon(icon);
       if (element) {
@@ -120,15 +123,14 @@ class TrackerMarker extends React.Component<Props> {
         <div class='icon-red'>
           <span class='inner'></span>
           <div class='marker-pin'>
-          <div class='image-maker'>
-          ${
-            icon_url
-              ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
-              : `<img src='/images/image-device.png'
-              } class='image-device'></img>`
-          }
-          </div>
-        <div>${showTrackerName ? this.trackerName(device_name) : ''}`;
+            ${
+              icon_url
+                ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+                : `<img src='/images/image-device.png'
+                } class='image-device'></img>`
+            }
+          <div>${showTrackerName ? this.trackerName(device_name) : ''}</div>
+        </div>`;
 
       const icon = new L.DivIcon({ html: elm });
       elm.addEventListener('click', this.onClickMarker);
