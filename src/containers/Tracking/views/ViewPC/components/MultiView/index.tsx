@@ -28,13 +28,14 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             mapId="mapPosition"
-            mapLabel={props.t('tracker:map_position')}
+            mapLabel={props.t('tracker:map_toolbarPosition')}
             selectedTrackerId={
               isMultiScreen
                 ? trackingIds[0] || selectedTrackerId
                 : selectedTrackerId
             }
             {...props}
+            toolbarPosition={'bottom'}
           />
         </div>
         <div className={classes.item}>
@@ -47,6 +48,7 @@ export default function MultiView(props: Props) {
                 : selectedTrackerId
             }
             {...props}
+            toolbarPosition={'bottom'}
           />
         </div>
       </div>
@@ -62,6 +64,7 @@ export default function MultiView(props: Props) {
                   : selectedTrackerId
               }
               {...props}
+              toolbarPosition={'bottom'}
             />
           ) : (
             <MapStreetView
@@ -80,6 +83,7 @@ export default function MultiView(props: Props) {
                 : selectedTrackerId
             }
             {...props}
+            toolbarPosition={'bottom'}
           />
         </div>
       </div>

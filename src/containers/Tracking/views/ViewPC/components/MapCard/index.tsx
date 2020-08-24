@@ -234,6 +234,7 @@ class MapCard extends React.Component<IProps, IState> {
       trackingIds,
       isMobile,
       t,
+      toolbarPosition,
     } = this.props;
 
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
@@ -289,6 +290,7 @@ class MapCard extends React.Component<IProps, IState> {
             changeMapTile={this.changeMapTile}
             myLocationClick={this.getUserLocation}
             changeZoom={this.changeZoom}
+            position={toolbarPosition}
           />
         )}
       </React.Fragment>

@@ -1,8 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import moment from 'moment';
-import axios from 'axios';
-
-import { UNWIREDLABS_API_KEY } from '@Definitions/app';
+import { getAddress } from '@Utils/helper';
 
 import { useStyles } from './styles';
 import { FaBell } from 'react-icons/fa';
@@ -22,12 +20,8 @@ export default function RecentAlertComponent(props) {
 
     const callApiGetAddress = useCallback(async () => {
       if (rowAlert && !!rowAlert.lat && !!rowAlert.lng) {
-        const { data } = await axios.get(
-          `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${rowAlert.lat}&lon=${rowAlert.lng}`
-        );
-        setDataAddress(
-          data.status === 'ok' ? data.address.display_name : 'Unknow location'
-        );
+        const address = await getAddress(rowAlert);
+        setDataAddress(address);
       } else {
         setDataAddress('Unknow location');
       }

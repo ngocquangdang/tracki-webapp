@@ -8,7 +8,6 @@ import {
   makeSelectMapTile,
 } from '@Containers/App/store/selectors';
 import {
-  makeSelectTrackerId,
   makeSelectTrackers,
   makeSelectTrackerIds,
 } from '@Containers/Trackers/store/selectors';
@@ -64,7 +63,6 @@ function Dashboard(props) {
 const mapStateToProps = createStructuredSelector({
   profile: makeSelectProfile(),
   mapTile: makeSelectMapTile(),
-  selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
   trackerIds: makeSelectTrackerIds(),
   historyTracker: makeSelectTrackerHistories(),

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
 import { lineString } from '@turf/turf';
 import length from '@turf/length';
+import { getAddress } from '@Utils/helper';
 
 import { MainLayout } from '@Layouts';
 
@@ -24,9 +25,6 @@ import {
 
 import { ITracker } from '@Interfaces';
 import { AiOutlineDashboard } from 'react-icons/ai';
-
-import axios from 'axios';
-import { UNWIREDLABS_API_KEY } from '@Definitions/app';
 
 import RecentAlertConponent from './components/RecentAlert';
 import SummaryComponent from './components/Summary';
@@ -70,7 +68,6 @@ export default function DashboardContainer(props) {
     trackerIds,
     historyTracker,
     historyTrackerIds,
-    selectedTrackerId,
     t,
     changeTrackersTracking,
     alarmsTracker,
@@ -79,32 +76,28 @@ export default function DashboardContainer(props) {
   const [trackerList = [], setTrackerList] = useState([
     { value: '', content: '' },
   ]);
-  const [trackerSelected, setTrackerSelected] = useState(selectedTrackerId);
+  const [trackerSelected, setTrackerSelected] = useState(trackerList[0]?.value);
   const [trips, setTrip] = useState(0);
   const { alarms } = alarmsTracker || {};
   const { alarmIds } = alarmsTracker || [];
   const [distance, setDistance] = useState(0);
   const [currentAddress, setCurrentAddress] = useState(null);
 
-  const callApiCurrentAddress = useCallback(async () => {
-    const { data } = await axios.get(
-      `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${
-        trackers[parseInt(trackerSelected)]?.lat
-      }&lon=${trackers[parseInt(trackerSelected)]?.lng}`
-    );
-    setCurrentAddress(
-      data.status === 'ok' ? data.address.display_name : 'Unknow location'
-    );
-  }, [setCurrentAddress, trackerSelected, trackers]);
+  const callApiGetAddress = useCallback(async () => {
+    if (trackers[parseInt(trackerSelected)]) {
+      const address = await getAddress(trackers[parseInt(trackerSelected)]);
+      setCurrentAddress(address);
+    }
+  }, [trackers, setCurrentAddress, trackerSelected]);
 
   useEffect(() => {
-    callApiCurrentAddress();
-  }, [callApiCurrentAddress]);
+    callApiGetAddress();
+  }, [callApiGetAddress]);
 
   const deviceInfo = [
     {
       title: t('dashboard:current_address'),
-      data: currentAddress,
+      data: currentAddress || '-',
     },
     {
       title: t('dashboard:total_time_travel'),
@@ -235,7 +228,7 @@ export default function DashboardContainer(props) {
       <ContainerDashboard>
         <ColumnCard>
           <MapViewComponent
-            trackerSelected={trackers[selectedTrackerId]}
+            trackerSelected={trackers[parseInt(trackerSelected)]}
             {...props}
           />
           <DeviceInfoCard>
@@ -249,7 +242,7 @@ export default function DashboardContainer(props) {
             <SummaryComponent
               summary={summary}
               {...props}
-              tracker={trackers[selectedTrackerId]}
+              tracker={trackers[parseInt(trackerSelected)]}
             />
           </SummaryCard>
           <RecentAlertCard>

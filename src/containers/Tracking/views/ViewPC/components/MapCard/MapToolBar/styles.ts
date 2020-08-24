@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import { makeStyles, IconButton, withStyles } from '@material-ui/core';
 
+interface Props {
+  position: string;
+}
 const ToolBar = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
   left: 9px;
-  bottom: 9px;
+  bottom: ${(props: Props) => (props.position === 'bottom' ? '9px' : '58%')};
   z-index: 400;
 `;
 

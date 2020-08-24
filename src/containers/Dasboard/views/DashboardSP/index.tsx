@@ -39,9 +39,10 @@ import { FaBell } from 'react-icons/fa';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import DateTimePicker from '@Components/DateTimePicker';
-import axios from 'axios';
-import { MAPBOX_API_KEY } from '@Definitions/app';
 import RecentAlertComponent from './components/RecentAlert';
+import MapCard from '@Containers/Tracking/views/ViewPC/components/MapCard';
+import { ToolBar } from '../components/MapToolBar/styles';
+import { getAddress } from '@Utils/helper';
 interface Props {
   trackerIds: number[];
   trackers: ITracker;
@@ -54,15 +55,16 @@ export default function DashboardContainer(props) {
   const {
     trackers,
     trackerIds,
+    trackingIds,
     getHistoryTracker,
     historyTracker,
     historyTrackerIds,
     t,
-    selectedTrackerId,
     getAlarmsTracker,
     changeTrackersTracking,
     alarmsTracker,
   } = props;
+
   const [trackerList = [], setTrackerList] = useState([
     { value: '', content: '' },
   ]);
@@ -160,22 +162,6 @@ export default function DashboardContainer(props) {
     setPage(page + 1);
   };
 
-  const callApiGetAddress = useCallback(async () => {
-    const { data } = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
-        trackers[parseInt(trackerSelected)]?.lng
-      },${
-        trackers[parseInt(trackerSelected)]?.lat
-      }.json?types=poi&access_token=${MAPBOX_API_KEY}`
-    );
-    const address = data.features[0] || { place_name: 'Unknow location' };
-    setCurrentAddress(address.place_name);
-  }, [setCurrentAddress, trackerSelected, trackers]);
-
-  useEffect(() => {
-    callApiGetAddress();
-  }, [callApiGetAddress]);
-
   const deviceInfo = [
     {
       title: t('dashboard:current_address'),
@@ -239,21 +225,16 @@ export default function DashboardContainer(props) {
     },
   ];
 
-  const callApiCurrentAddress = useCallback(async () => {
-    const { data } = await axios.get(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${
-        trackers[parseInt(trackerSelected)]?.lng
-      },${
-        trackers[parseInt(trackerSelected)]?.lat
-      }.json?types=poi&access_token=${MAPBOX_API_KEY}`
-    );
-    const address = data.features[0] || { place_name: 'Unknow location' };
-    setCurrentAddress(address.place_name);
-  }, [setCurrentAddress, trackerSelected, trackers]);
+  const callApiGetAddress = useCallback(async () => {
+    if (trackers[parseInt(trackerSelected)]) {
+      const address = await getAddress(trackers[parseInt(trackerSelected)]);
+      setCurrentAddress(address);
+    }
+  }, [trackers, setCurrentAddress, trackerSelected]);
 
   useEffect(() => {
-    callApiCurrentAddress();
-  }, [callApiCurrentAddress]);
+    callApiGetAddress();
+  }, [callApiGetAddress]);
 
   useEffect(() => {
     let newTrackerLIst = [];
@@ -383,12 +364,30 @@ export default function DashboardContainer(props) {
             </HeaderCard>
             <ContentCard>
               <MapView>
-                <Map
-                  fullWidth={true}
-                  mapType="leaflet"
-                  selectedTrackerId={selectedTrackerId}
-                  {...props}
-                />
+                {trackingIds && trackingIds.length > 0 ? (
+                  <>
+                    <MapCard
+                      mapId="isDashboard"
+                      selectedTrackerId={trackerSelected}
+                      mapType="leaflet"
+                      toolbarPositon={'top'}
+                      {...props}
+                    />
+                  </>
+                ) : (
+                  <React.Fragment>
+                    <Map
+                      isDashboard={true}
+                      fullWidth={true}
+                      trackers={trackers}
+                      showTrackerName={true}
+                      isTracking={true}
+                      mapType="leaflet"
+                      {...props}
+                    />
+                    <ToolBar {...props} />
+                  </React.Fragment>
+                )}
               </MapView>
             </ContentCard>
           </MapViewCard>
@@ -406,7 +405,6 @@ export default function DashboardContainer(props) {
               ))}
             </ContentCard>
           </DeviceInfoCard>
-
           <RecentAlertCard>
             <ContentCard>
               <div className={`${classes.color} ${classes.cellHeader}`}>
