@@ -9,11 +9,24 @@ const ImageWrapper = styled.div`
   background: #168449;
   position: relative;
 `;
-const Image = styled.img`
-  width: 55px;
-  height: 55px;
+const Image = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
   margin: auto;
   object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
+`;
+const DefaultImage = styled.div`
+  width: 82%;
+  height: 74%;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
 `;
 const ImageTracker = styled.div`
   display: flex;
@@ -248,4 +261,5 @@ export {
   ContainerPaddingSwitch,
   Container,
   useStyles,
+  DefaultImage,
 };

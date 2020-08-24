@@ -11,11 +11,10 @@
 
 .image-device {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0px;
-  padding: 13px;
-  top: -7px;
+  width: 34px;
+  height: 34px;
+  top: 9px;
+  left: 9px;
   z-index: 2;
   object-fit: contain;
   text-align: center;
@@ -47,6 +46,19 @@
   left: -24px;
 }
 
+.image-maker {
+  width: 45px;
+  position: absolute;
+  height: 45px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  top: 3.5px;
+  left: 3.3px;
+
+}
 .icon-red {
   width: 15px;
   height: 15px;

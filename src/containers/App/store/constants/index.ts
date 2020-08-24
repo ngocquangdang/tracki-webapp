@@ -14,3 +14,4 @@ export const TOGGLE_GEOFENCES = 'Tracki/TOGGLE_GEOFENCES';
 export const TOGGLE_TRACKER_NAME = 'Tracki/TOGGLE_TRACKER_NAME';
 export const RESET_MAP = 'Tracki/RESET_MAP';
 export const CHANGE_MAP_ACTION = 'Tracki/CHANGE_MAP_ACTION';
+export const CHANGE_MAP_VIEW = 'Tracki/CHANGE_MAP_VIEW';

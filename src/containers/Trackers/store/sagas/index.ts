@@ -13,6 +13,7 @@ function* fetchTrackersSaga(action) {
     const { accountId } = action.payload;
     const { data } = yield call(apiServices.fetchTrackers, accountId);
     let tracker = normalizeTrackers(data);
+    console.log('fetchTrackersSaga => data', tracker);
 
     if (tracker.trackerIds.length > 0) {
       const { data: assignmentsData } = yield call(

@@ -6,10 +6,23 @@ const ImageWrapper = styled.div`
   width: 50px;
   border-radius: 25px;
   height: 50px;
+  margin-right: 10px;
   display: flex;
   background-color: #168449;
 `;
-const Image = styled.img`
+
+const Image = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
+  border: solid 1px rgba(255, 255, 255, 0.75);
+`;
+const DefaultImage = styled.img`
   width: 34px;
   height: 34px;
   margin: auto;
@@ -18,7 +31,6 @@ const Image = styled.img`
   border-radius: 100px;
   border: solid 1px rgba(255, 255, 255, 0.75);
 `;
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -75,4 +87,4 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export { useStyles, ImageWrapper, Image };
+export { useStyles, ImageWrapper, Image, DefaultImage };

@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
   },
   timeline: {
     position: 'relative',
-    height: 'calc(100% - 427px)',
+    height: 'calc(100% - 298px)',
     '& > div': {
       position: 'absolute',
       height: 'calc(100% - 24px)',
@@ -115,7 +115,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 16,
     lineHeight: '19px',
     marginLeft: 15,
-    marginBottom: 5,
+    marginTop: 10,
   },
   speedStatus: {
     display: 'flex',

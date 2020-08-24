@@ -53,6 +53,11 @@ export const changeMapAction = (mapAction: string) => ({
   payload: { mapAction },
 });
 
+export const changeMapView = (mapView: string) => ({
+  type: types.CHANGE_MAP_VIEW,
+  payload: { mapView },
+});
+
 export const changeMapTileAction = (mapTile: string) => ({
   type: types.CHANGE_MAP_TILE,
   payload: { mapTile },

@@ -1,10 +1,13 @@
 declare namespace IMap {
   interface IProps {
     trackers: object;
+    histories: object;
     trackerIds: Array<number>;
     mapTile: string;
     mapAction: string;
+    mapView: string;
     editGeofenceId: number;
+    selectedTrackerId: number;
     isBeep: boolean;
     isTracking?: boolean;
     showGeofences: boolean;
