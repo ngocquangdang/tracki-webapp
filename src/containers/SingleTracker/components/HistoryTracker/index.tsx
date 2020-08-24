@@ -54,6 +54,7 @@ function HistoryTracker(props: Props) {
   );
 
   const onChangeDateOption = value => {
+    console.log('HistoryTracker -> value', value);
     if (value !== 'date_range' && value !== 'specific_date') {
       props.getHistoryTracker({
         trackerId: props.tracker?.device_id,

@@ -16,6 +16,7 @@ const TitleDashBoard = styled.div`
 
 const DeviceSelection = styled.div`
   width: 100%;
+  padding-top: 15px;
 `;
 
 const ContainerDashboard = styled.div`
@@ -70,6 +71,7 @@ const IconDashboard = styled.div`
 
 const SelectGroup = styled.div`
   width: 100%;
+  padding: 15px 0;
 `;
 const Description = styled.div`
   font-size: 14px;
@@ -227,6 +229,24 @@ const useStyles = makeStyles(theme => ({
   },
   margin: {
     margin: 0,
+  },
+  navBar: {
+    height: '56px',
+    position: 'fixed',
+    top: 0,
+    borderBottom: '1px solid #e0e0e0',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    padding: 15,
+    background: '#ffffff',
+    zIndex: 402,
+  },
+  iconBack: {
+    fontSize: '20px',
+  },
+  unitSize: {
+    fontSize: 18,
   },
 }));
 
