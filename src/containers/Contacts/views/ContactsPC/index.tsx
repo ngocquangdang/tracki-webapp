@@ -152,7 +152,7 @@ export default function Contact(props: Props) {
           <ActionContact>
             <SearchInput>
               <TextInput
-                placeholder={t('contact:search_by')}
+                placeholder={t('contact:search_contact')}
                 variant="outlined"
                 type="search"
                 className={classes.search}

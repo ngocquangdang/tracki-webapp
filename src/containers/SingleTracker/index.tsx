@@ -33,6 +33,7 @@ import {
   sendBeepRequest,
   resetBeepAction,
 } from '@Containers/SingleTracker/store/actions';
+import { changeMapView } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
@@ -67,6 +68,7 @@ interface Props {
   onClickBack: () => void;
   t(key: string, format?: object): string;
   fetchTrackerSettings(id: number): void;
+  changeMapView(view: string): void;
   onClickSendBeep(data: object): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
   getHistoryTracker(data: object): void;
@@ -86,6 +88,7 @@ function SingleTracker(props: Props) {
     histories,
     historyIds,
     onClickBack,
+    changeMapView,
     getHistoryTracker,
     t,
     resetBeep,
@@ -121,6 +124,16 @@ function SingleTracker(props: Props) {
       beepType: 1,
       devices: [props?.deviceId],
     });
+  };
+
+  const onCloseTrackerHistory = () => {
+    updateChildView('history');
+    changeMapView('DEFAULT');
+  };
+
+  const onClickViewHistory = () => {
+    updateChildView('historyDetail');
+    changeMapView('tracker_history');
   };
 
   const renderBlock = (title: string, icon: JSX.Element, handlClick: any) => (
@@ -196,10 +209,10 @@ function SingleTracker(props: Props) {
         isMobile={false}
         tracker={tracker}
         show={currentChildView === 'historyDetail'}
-        onClose={onOpenChildView('history')}
+        onClose={onCloseTrackerHistory}
         t={t}
-        histories={histories[tracker.device_id]}
-        historyIds={historyIds[tracker.device_id]}
+        histories={histories[tracker.device_id] || {}}
+        historyIds={historyIds[tracker.device_id] || []}
       />
       <SettingTracker
         handleClose={onCloseChildView}
@@ -215,7 +228,7 @@ function SingleTracker(props: Props) {
         isMobile={false}
         tracker={tracker}
         getHistoryTracker={getHistoryTracker}
-        onClickViewHistory={onOpenChildView('historyDetail')}
+        onClickViewHistory={onClickViewHistory}
       />
       <TrackerGeofences
         show={currentChildView === 'geofences'}
@@ -240,6 +253,7 @@ const mapDispatchToProps = dispatch => ({
   onClickSendBeep: (data: object) => dispatch(sendBeepRequest(data)),
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  changeMapView: (mapView: string) => dispatch(changeMapView(mapView)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
 });
 

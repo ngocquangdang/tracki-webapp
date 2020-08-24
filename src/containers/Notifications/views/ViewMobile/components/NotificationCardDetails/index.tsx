@@ -22,7 +22,7 @@ function NotificationCardDetail(props) {
               : notifications?.alarm_type === 'GEOZONE'
               ? 'Geo-fence Crossed'
               : notifications?.alarm_type === 'MOVEMENT'
-              ? 'Start Moving'
+              ? 'Start Moving alert'
               : notifications?.alarm_type === 'BATTERY'
               ? 'Lower Battery'
               : notifications?.alarm_type === 'SOS'

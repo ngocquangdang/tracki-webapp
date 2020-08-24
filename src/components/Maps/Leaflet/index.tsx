@@ -10,6 +10,7 @@ import UserLocation from './components/UserLocation';
 import DrawTool from './components/DrawTool';
 import Geofences from './components/Geofences';
 import HeatMap from './components/HeatMap';
+import TrackerHistoryPath from './components/TrackerHistoryPath';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 const TILE_TOKEN =
@@ -18,7 +19,8 @@ const TILE_TOKEN =
 const TILE_OPTIONS = {
   attribution:
     'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  maxZoom: 18,
+  maxZoom: 21,
+  minZoom: 0,
   id: 'mapbox/streets-v11',
   accessToken: MAPBOX_API_KEY,
 };
@@ -194,8 +196,10 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       updateGeofence,
       trackerHistories,
       viewMode,
+      mapView,
+      histories,
+      selectedTrackerId,
     } = this.props;
-    console.log('LeafletMap -> render -> trackerHistories', trackerHistories);
 
     return (
       <React.Fragment>
@@ -227,8 +231,17 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           />
         )}
         {isInitiatedMap && viewMode === 'heat_map' && (
-          <HeatMap map={this.map} histories={trackerHistories || []} />
+          <HeatMap map={this.map} histories={trackerHistories || {}} />
         )}
+        {isInitiatedMap &&
+          mapView === 'tracker_history' &&
+          selectedTrackerId && (
+            <TrackerHistoryPath
+              map={this.map}
+              isMobile={isMobile}
+              history={histories[selectedTrackerId] || {}}
+            />
+          )}
       </React.Fragment>
     );
   }
