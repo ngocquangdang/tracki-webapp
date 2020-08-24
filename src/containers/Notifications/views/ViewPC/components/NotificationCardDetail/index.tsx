@@ -2,12 +2,11 @@ import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import moment from 'moment';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import axios from 'axios';
 import { LocationOn as LocationIcon } from '@material-ui/icons';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { UNWIREDLABS_API_KEY } from '@Definitions/app';
 import { SkeletonTracker } from '@Components/Skeletons';
 import MapCard from '../MapCard';
+import { getAddress } from '@Utils/helper';
 import {
   useStyles,
   NotificationInfo,
@@ -42,20 +41,12 @@ function NotificationCardDetail(props: Props) {
   const [loading, setLoading] = useState(true);
   const [address, updateAddress] = useState<string | null>(null);
   const [isExpand, setExpand] = useState(false);
+
   const callApiGetAddress = useCallback(async () => {
-    if (!!notifications?.lat && !!notifications?.lng) {
-      const { data } = await axios.get(
-        `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${notifications?.lat}&lon=${notifications?.lng}`
-      );
-      updateAddress(
-        data.status === 'ok' ? data.address.display_name : 'Unknow location'
-      );
-      setLoading(false);
-    } else {
-      updateAddress('Unknow location');
-      setLoading(false);
-    }
-  }, [updateAddress, notifications]);
+    const address = await getAddress(notifications);
+    updateAddress(address);
+    setLoading(false);
+  }, [updateAddress, setLoading, notifications]);
 
   useEffect(() => {
     callApiGetAddress();

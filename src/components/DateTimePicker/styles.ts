@@ -54,6 +54,9 @@ const useStyles = makeStyles(theme => ({
   marginRight: {
     marginRight: 10,
   },
+  hiddeDescription: {
+    display: 'none',
+  },
 }));
 
 const themePickerDate = createMuiTheme({

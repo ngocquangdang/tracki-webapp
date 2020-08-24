@@ -46,10 +46,45 @@ const SummaryDate = styled.div`
   font-size: 14px;
   font-weight: normal;
 `;
+const DetailSummary = styled.div`
+  display: flex;
+  padding: 15px 15px 36px;
+`;
+
+const SelectGroup = styled.div`
+  width: 240px;
+`;
+
+const Description = styled.div`
+  font-size: 14px;
+  color: #999999;
+  display: flex;
+  align-items: center;
+`;
+
+const HeaderCard = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+`;
+
 const useStyles = makeStyles(theme => ({
   unitSize: {
     fontSize: 21,
   },
 }));
 
-export { useStyles, Card, TitleCard, Content, DataView, SubCard, SummaryDate };
+export {
+  useStyles,
+  Card,
+  TitleCard,
+  Content,
+  DataView,
+  SubCard,
+  SummaryDate,
+  SelectGroup,
+  Description,
+  HeaderCard,
+  DetailSummary,
+};

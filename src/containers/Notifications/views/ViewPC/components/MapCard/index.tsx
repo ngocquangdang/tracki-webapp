@@ -2,7 +2,6 @@ import React from 'react';
 import L from 'leaflet';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
-import MapEvents from '@Components/Maps/MapEvent';
 
 const TILE_TOKEN =
   'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' +
@@ -48,7 +47,6 @@ class MapCard extends React.Component<IProps, IState> {
       mapZoom
     );
     window.mapType = 'leaflet';
-    window.mapEvents = new MapEvents('leaflet', this.map);
     this.map.zoomControl.setPosition('bottomright');
     this.tileLayer = L.tileLayer(TILE_TOKEN, TILE_OPTIONS).addTo(this.map);
     this.marker = L.marker([lat, lng]).addTo(this.map);

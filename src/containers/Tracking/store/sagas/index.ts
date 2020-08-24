@@ -57,7 +57,7 @@ function* getHistoryTrackerSaga(action) {
       );
     }
 
-    const histories = historyData.reduce(
+    const histories = yield historyData.reduce(
       (obj, item) => {
         obj.histories = { ...obj.histories, [item.time]: item };
         obj.historieIds.push(item.time);
