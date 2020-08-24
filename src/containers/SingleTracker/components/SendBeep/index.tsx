@@ -30,6 +30,7 @@ import {
   ControlTime,
   ControlButton,
   useStyles,
+  DefaultImage,
 } from './styles';
 
 interface Tracker {
@@ -153,10 +154,11 @@ function SendBeep(props: Props) {
           <Item isMobile={isMobile}>
             <LeftItem>
               <ImageWrapper>
-                <Image
-                  src={tracker.icon_url || '/images/image-device.png'}
-                  alt=""
-                />
+                {tracker.icon_url ? (
+                  <Image background={tracker.icon_url} />
+                ) : (
+                  <DefaultImage background={'/images/image-device.png'} />
+                )}
               </ImageWrapper>
               <ItemInfo>
                 <Name>{tracker.device_name}</Name>

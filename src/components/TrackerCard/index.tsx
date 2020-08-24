@@ -18,6 +18,7 @@ import {
   useStyles,
   ImageWrapper,
   ListItemStyle,
+  DefaultImage,
 } from './styles';
 import { ITracker } from '@Interfaces';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
@@ -68,7 +69,11 @@ export default function TrackerCard(props: Props) {
     >
       <Item>
         <ImageWrapper>
-          <Image src={tracker.icon_url || '/images/image-device.png'} alt="" />
+          {tracker.icon_url ? (
+            <Image background={tracker.icon_url} />
+          ) : (
+            <DefaultImage background={'/images/image-device.png'} />
+          )}
         </ImageWrapper>
         <ItemInfo>
           <Name>{tracker.device_name}</Name>

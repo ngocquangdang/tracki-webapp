@@ -53,9 +53,12 @@ class TrackerMarker extends React.Component<Props> {
         <div class='icon-red${isBeep && isSelected ? '-active' : ''}'>
           <span class='inner'></span>
           <div class='marker-pin'>
-            <img src=${
-              tracker.icon_url || '/images/image-device.png'
-            } class='image-device'></img>
+          ${
+            tracker.icon_url
+              ? `<div class='image-maker' style='background-image: url(${tracker.icon_url})'></div>`
+              : `<img src='/images/image-device.png'
+              } class='image-device'></img>`
+          }
           </div>
         <div>${showTrackerName ? this.trackerName(tracker.device_name) : ''}`;
       const icon = new L.DivIcon({ html: elm2 });
@@ -117,9 +120,13 @@ class TrackerMarker extends React.Component<Props> {
         <div class='icon-red'>
           <span class='inner'></span>
           <div class='marker-pin'>
-            <img src=${
-              icon_url || '/images/image-device.png'
-            } class='image-device'></img>
+          <div class='image-maker'>
+          ${
+            icon_url
+              ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+              : `<img src='/images/image-device.png'
+              } class='image-device'></img>`
+          }
           </div>
         <div>${showTrackerName ? this.trackerName(device_name) : ''}`;
 
