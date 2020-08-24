@@ -5,7 +5,17 @@ import { lineString } from '@turf/turf';
 import length from '@turf/length';
 import SelectOption from '@Components/selections';
 import Map from '@Components/Maps';
+import { getAddress } from '@Utils/helper';
+import { ITracker } from '@Interfaces';
+import { AiFillInfoCircle } from 'react-icons/ai';
+import { GoPrimitiveDot } from 'react-icons/go';
+import { FaBell } from 'react-icons/fa';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
+import DateTimePicker from '@Components/DateTimePicker';
+import RecentAlertComponent from './components/RecentAlert';
+import MapCard from '@Containers/Dasboard/views/components/MapCard';
+import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarSP';
 import {
   HeaderDashboard,
   DeviceSelection,
@@ -32,17 +42,7 @@ import {
   TitleInfo,
   AddressInfo,
 } from './styles';
-import { ITracker } from '@Interfaces';
-import { AiFillInfoCircle } from 'react-icons/ai';
-import { GoPrimitiveDot } from 'react-icons/go';
-import { FaBell } from 'react-icons/fa';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-import DateTimePicker from '@Components/DateTimePicker';
-import RecentAlertComponent from './components/RecentAlert';
-import MapCard from '@Containers/Tracking/views/ViewPC/components/MapCard';
-import { ToolBar } from '../components/MapToolBar/styles';
-import { getAddress } from '@Utils/helper';
 interface Props {
   trackerIds: number[];
   trackers: ITracker;
@@ -165,7 +165,7 @@ export default function DashboardContainer(props) {
   const deviceInfo = [
     {
       title: t('dashboard:current_address'),
-      data: currentAddress,
+      data: currentAddress || '-',
     },
     {
       title: t('dashboard:total_time_travel'),
@@ -332,7 +332,10 @@ export default function DashboardContainer(props) {
                   <Card key={index}>
                     <TitleCard>{item.title}</TitleCard>
                     <Content>
-                      <DataView>{item.dataView}</DataView>
+                      <DataView>
+                        {item.dataView}
+                        <span className={classes.unitSize}>{item.unit}</span>
+                      </DataView>
                       <SubCard>{item.subTitle}</SubCard>
                       <SummaryDate>{item.date}</SummaryDate>
                     </Content>
@@ -356,7 +359,7 @@ export default function DashboardContainer(props) {
                       : classes.secondaryColor
                   }
                 />{' '}
-                {t('dasboard:online')} | {t('dashboard:last_update')}
+                {t('dashboard:online')} | {t('dashboard:last_update')}
                 {moment(
                   trackers[parseInt(trackerSelected)]?.time * 1000
                 ).format('lll')}
@@ -370,24 +373,20 @@ export default function DashboardContainer(props) {
                       mapId="isDashboard"
                       selectedTrackerId={trackerSelected}
                       mapType="leaflet"
-                      toolbarPositon={'top'}
                       {...props}
                     />
                   </>
                 ) : (
                   <React.Fragment>
                     <Map
-                      isDashboard={true}
                       fullWidth={true}
-                      trackers={trackers}
                       showTrackerName={true}
-                      isTracking={true}
                       mapType="leaflet"
                       {...props}
                     />
                     <ToolBar {...props} />
                   </React.Fragment>
-                )}
+                )}{' '}
               </MapView>
             </ContentCard>
           </MapViewCard>
@@ -416,8 +415,8 @@ export default function DashboardContainer(props) {
                 (rowsPerPage > 0
                   ? alarmIds.slice(0, page * rowsPerPage + rowsPerPage)
                   : alarmIds
-                )?.map(item => (
-                  <RecentAlertComponent rowAlert={alarms[item]} />
+                )?.map((item, index) => (
+                  <RecentAlertComponent rowAlert={alarms[item]} key={index} />
                 ))}
             </ContentCard>
             <div className={classes.footer} onClick={onUpdateRowPerPage}>

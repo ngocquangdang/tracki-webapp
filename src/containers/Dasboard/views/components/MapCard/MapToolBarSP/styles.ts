@@ -5,12 +5,9 @@ const ToolBar = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  left: 10px;
-  top: 0;
+  right: 10px;
+  top: 10px;
   z-index: 400;
-  @media (max-width: 959.95px) {
-    display: none;
-  }
 `;
 
 const ZoomButton = styled.div`
@@ -77,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     borderTopRightRadius: 0,
   },
   display: {
-    display: 'block',
+    display: 'block !important',
     right: '-212px',
   },
 }));
@@ -87,6 +84,7 @@ const IconButtonStyle = withStyles(theme => ({
     height: 40,
     backgroundColor: '#ffffff',
     margin: '5px 0',
+    padding: 0,
     '&:hover': {
       background: theme.palette.primary.main,
       color: '#ffffff',

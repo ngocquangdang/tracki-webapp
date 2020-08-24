@@ -22,8 +22,6 @@ import { useInjectReducer } from '@Utils/injectReducer';
 import trackingSaga from '@Containers/Tracking/store/sagas';
 import trackingReducer from '@Containers/Tracking/store/reducers';
 
-// import historySaga from '../store/sagas';
-// import historyReducer from '../store/reducers';
 import {
   getHistoryTrackerRequest,
   changeTrackersTracking,

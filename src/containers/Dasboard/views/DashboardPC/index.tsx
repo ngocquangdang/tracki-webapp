@@ -3,9 +3,9 @@ import moment from 'moment';
 import { lineString } from '@turf/turf';
 import length from '@turf/length';
 import { getAddress } from '@Utils/helper';
-
+import { AiOutlineDashboard } from 'react-icons/ai';
 import { MainLayout } from '@Layouts';
-
+import { ITracker } from '@Interfaces';
 import SelectOption from '@Components/selections';
 
 import {
@@ -22,9 +22,6 @@ import {
   IconDashboard,
   useStyles,
 } from './styles';
-
-import { ITracker } from '@Interfaces';
-import { AiOutlineDashboard } from 'react-icons/ai';
 
 import RecentAlertConponent from './components/RecentAlert';
 import SummaryComponent from './components/Summary';

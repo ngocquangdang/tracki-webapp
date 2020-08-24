@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { MdMyLocation, MdLayers } from 'react-icons/md';
+import { MdLayers } from 'react-icons/md';
 import { Tooltip, ClickAwayListener } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
 import clsx from 'clsx';
 
-import {
-  makeSelectMapTile,
-  makeSelectShowTrackersName,
-} from '@Containers/App/store/selectors';
-import {
-  changeMapTileAction,
-  toggleTrackerNameAction,
-} from '@Containers/App/store/actions';
+import { makeSelectMapTile } from '@Containers/App/store/selectors';
+import { changeMapTileAction } from '@Containers/App/store/actions';
 import MapTiles from '@Components/Maps/components/MapTiles';
 
 import { ToolBar, ZoomButton, useStyles, IconButtonStyle } from './styles';
@@ -24,20 +18,34 @@ interface Props {
   showTrackerName: boolean;
   t(key: string): string;
   changeMapTile(tile: string): void;
-  resetMap(): void;
-  toggleGeofences(): void;
-  toggleTrackerName(): void;
   [data: string]: any;
+  isInitiatedMap: boolean;
+  changeMapTileSP(title: string): void;
+  mapTileSP: string;
 }
 
-function ToolBars(props: Props) {
-  const { mapTile, t, changeMapTile } = props;
+function MapToolBarsSP(props: Props) {
+  const {
+    mapTile,
+    t,
+    changeMapTile,
+    changeZoom,
+    isInitiatedMap,
+    changeMapTileSP,
+    mapTileSP,
+  } = props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
 
-  const onZoomClick = (zoom: number) => () => window.mapEvents.onZoom(zoom);
-  const getCurrentLocation = () => window.mapEvents.getUseLocation();
-  const onShowLayer = () => setShowLayerPanel(!showLayerPanel);
+  const onZoomClick = (zoom: number) => () => {
+    isInitiatedMap ? changeZoom(zoom) : window.mapEvents.onZoom(zoom);
+  };
+  const handleChangeMapTile = (tile: string) => {
+    isInitiatedMap ? changeMapTile(tile) : changeMapTileSP(tile);
+  };
+  const onShowLayer = () => {
+    setShowLayerPanel(!showLayerPanel);
+  };
   const onCloseLayer = () => setShowLayerPanel(false);
 
   return (
@@ -68,15 +76,6 @@ function ToolBars(props: Props) {
           </IconButtonStyle>
         </Tooltip>
       </ZoomButton>
-      <Tooltip
-        title={<span>{t('common:my_location')}</span>}
-        placement="left"
-        arrow
-      >
-        <IconButtonStyle onClick={getCurrentLocation}>
-          <MdMyLocation />
-        </IconButtonStyle>
-      </Tooltip>
       <ClickAwayListener onClickAway={onCloseLayer}>
         <div>
           <Tooltip
@@ -90,8 +89,8 @@ function ToolBars(props: Props) {
           </Tooltip>
           <MapTiles
             t={t}
-            mapTile={mapTile}
-            changeMapTile={changeMapTile}
+            mapTile={isInitiatedMap ? mapTile : mapTileSP}
+            changeMapTile={handleChangeMapTile}
             onClose={onCloseLayer}
             className={showLayerPanel ? classes.display : ''}
           />
@@ -102,15 +101,13 @@ function ToolBars(props: Props) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  mapTile: makeSelectMapTile(),
-  showTrackerName: makeSelectShowTrackersName(),
+  mapTileSP: makeSelectMapTile(),
 });
 
 const mapDispatchToProps = dispatch => ({
-  changeMapTile: (tile: string) => dispatch(changeMapTileAction(tile)),
-  toggleTrackerName: () => dispatch(toggleTrackerNameAction()),
+  changeMapTileSP: (tile: string) => dispatch(changeMapTileAction(tile)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(ToolBars);
+export default withConnect(MapToolBarsSP);

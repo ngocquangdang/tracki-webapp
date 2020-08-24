@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import moment from 'moment';
+import { getAddress } from '@Utils/helper';
 
 import { AlertCard, TitleAlert, AddressAlert, DateAlert } from './styles';
-import { getAddress } from '@Utils/helper';
 
 export default function RecentAlertComponent({ rowAlert }) {
   const [dataAddress, setDataAddress] = useState('');
@@ -21,7 +21,7 @@ export default function RecentAlertComponent({ rowAlert }) {
   }, [callApiGetAddress]);
 
   return (
-    <AlertCard>
+    <AlertCard key={rowAlert.id}>
       <TitleAlert> {moment(rowAlert.created).format('lll')}</TitleAlert>
       <AddressAlert> {rowAlert.message || '-'}</AddressAlert>
       <DateAlert>{dataAddress}</DateAlert>

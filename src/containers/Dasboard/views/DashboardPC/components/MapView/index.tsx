@@ -13,15 +13,14 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { GoPrimitiveDot } from 'react-icons/go';
 import Map from '@Components/Maps';
 import moment from 'moment';
-import ToolBar from '@Containers/Dasboard/views/components/MapToolBar';
+import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarPC';
 
 import { isEmpty } from 'lodash';
-import MapCard from '@Containers/Tracking/views/ViewPC/components/MapCard';
+import MapCard from '@Containers/Dasboard/views/components/MapCard';
 
 export default function MapViewComponent(props) {
-  console.log('MapViewComponent -> props', props);
   const classes = useStyles();
-  const { trackerSelected, t, trackers, trackerIds, trackingIds } = props;
+  const { trackerSelected, t, trackerIds, trackingIds } = props;
 
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
 
@@ -54,18 +53,14 @@ export default function MapViewComponent(props) {
                 mapId="isDashboard"
                 selectedTrackerId={selectedTrackerId}
                 mapType="leaflet"
-                toolbarPositon={'top'}
                 {...props}
               />
             </>
           ) : (
             <React.Fragment>
               <Map
-                isDashboard={true}
                 fullWidth={true}
-                trackers={trackers}
                 showTrackerName={true}
-                isTracking={true}
                 mapType="leaflet"
                 {...props}
               />

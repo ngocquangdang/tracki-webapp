@@ -6,7 +6,7 @@ const ToolBar = styled.div`
   display: flex;
   flex-direction: column;
   left: 9px;
-  bottom: 9px;
+  top: 10px;
   z-index: 400;
 `;
 
@@ -77,10 +77,18 @@ const useStyles = makeStyles(theme => ({
     borderTopRightRadius: 0,
   },
   display: {
-    display: 'block',
+    display: 'block !important',
     top: 'unset',
     bottom: 6,
     left: 45,
+  },
+  iconScale: {
+    fontSize: '17px',
+    width: '27px',
+    height: '26px',
+  },
+  tranform: {
+    transform: 'rotate(85deg)',
   },
 }));
 const IconButtonStyle = withStyles(theme => ({
@@ -90,6 +98,7 @@ const IconButtonStyle = withStyles(theme => ({
     fontSize: 20,
     backgroundColor: '#ffffff',
     margin: '0 0 5px',
+    padding: 0,
     '&:hover': {
       background: theme.palette.primary.main,
       color: '#ffffff',

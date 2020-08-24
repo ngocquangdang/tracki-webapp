@@ -245,6 +245,9 @@ const useStyles = makeStyles(theme => ({
   iconBack: {
     fontSize: '20px',
   },
+  unitSize: {
+    fontSize: 18,
+  },
 }));
 
 export {

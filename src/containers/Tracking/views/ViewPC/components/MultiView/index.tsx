@@ -35,7 +35,6 @@ export default function MultiView(props: Props) {
                 : selectedTrackerId
             }
             {...props}
-            toolbarPosition={'bottom'}
           />
         </div>
         <div className={classes.item}>
@@ -48,7 +47,6 @@ export default function MultiView(props: Props) {
                 : selectedTrackerId
             }
             {...props}
-            toolbarPosition={'bottom'}
           />
         </div>
       </div>
@@ -64,7 +62,6 @@ export default function MultiView(props: Props) {
                   : selectedTrackerId
               }
               {...props}
-              toolbarPosition={'bottom'}
             />
           ) : (
             <MapStreetView
@@ -83,7 +80,6 @@ export default function MultiView(props: Props) {
                 : selectedTrackerId
             }
             {...props}
-            toolbarPosition={'bottom'}
           />
         </div>
       </div>

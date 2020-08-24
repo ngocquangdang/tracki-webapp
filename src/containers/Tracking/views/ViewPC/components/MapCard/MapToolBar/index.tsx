@@ -16,7 +16,6 @@ interface Props {
   myLocationClick(): void;
   changeZoom(v: number): void;
   [data: string]: any;
-  position: string;
 }
 
 function MapToolBars(props: Props) {
@@ -27,7 +26,6 @@ function MapToolBars(props: Props) {
     changeMapTile,
     myLocationClick,
     changeZoom,
-    position,
   } = props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
@@ -41,7 +39,7 @@ function MapToolBars(props: Props) {
   };
 
   return (
-    <ToolBar position={position}>
+    <ToolBar>
       {!isMobile ? (
         <ZoomButton>
           <Tooltip
