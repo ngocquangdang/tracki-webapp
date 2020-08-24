@@ -26,7 +26,7 @@ import {
 import { makeSelectContacts } from '../selector';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
-import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
+import { fetchTrackersRequestedAction } from '@Containers/Trackers/store/actions';
 
 function* getContactListSaga(action: ActionType) {
   const { account_id } = action.payload;
@@ -88,6 +88,12 @@ function* addNewContactSaga(action: ActionType) {
     yield put(getContactListRequestAction(profile?.account_id));
     yield callback();
     yield put(addContactSuccesstAction(action.payload));
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Add New Contact Success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -106,6 +112,12 @@ function* deleteContactSaga(action: ActionType) {
     yield put(getContactListRequestAction(profile?.account_id));
     yield put(deleteContactSucceedAction(action.payload));
     yield callback();
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Delete Contact Success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -137,6 +149,12 @@ function* updateContactSaga(action: ActionType) {
     yield put(getContactListRequestAction(profile?.account_id));
     yield put(editContactSucceedAction(action.payload));
     yield callback();
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Update Contact Success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -200,7 +218,13 @@ function* addContactAssignSaga(action) {
       data,
       eventType
     );
-    yield put(selectTrackerIdAction(device_id));
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Assign Contact Success',
+      })
+    );
+    yield put(fetchTrackersRequestedAction(profile.account_id));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -221,6 +245,13 @@ function* removeContactAssignSaga(action) {
       data,
       eventType
     );
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Remove Contact Success',
+      })
+    );
+    yield put(fetchTrackersRequestedAction(profile.account_id));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
