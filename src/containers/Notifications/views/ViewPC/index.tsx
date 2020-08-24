@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-
 import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
 
@@ -31,16 +31,39 @@ import {
   OptionView,
   OptionViewDatePicker,
 } from './styles';
+
+interface Notifications {
+  id: number;
+  deviceName: string;
+  lat: number;
+  lng: number;
+  alarmType: string;
+  created: number;
+  speed: number;
+}
 interface Props {
-  trackers: object;
+  trackers: any;
+  trackerIds: any;
   fetchNotificationRequest(data: object): void;
-  notifications: any;
+  notifications: Notifications;
+  notificationsIds: number[];
 }
 
 export default function Notification(props: Props) {
-  console.log('Notification => props', props);
-  const { fetchNotificationRequest, notifications } = props;
+  const {
+    fetchNotificationRequest,
+    notifications,
+    notificationsIds,
+    trackerIds,
+    trackers,
+  } = props;
   const classes = useStyles();
+
+  const [initialNotifications, setInitialNotifications] = useState({});
+  const [initialNotificationsIds, setInitialNotificationsIds] = useState<
+    number[]
+  >([]);
+
   const [alarmType, setAlarmType] = useState(ALARM_TYPES[0].value);
   const [sortBy, setSortBy] = useState(SORT_BY_OPTION[0].value);
   const [page, setPage] = useState(0);
@@ -53,6 +76,17 @@ export default function Notification(props: Props) {
     moment(new Date())
   );
   const [isDateRange, setDateRange] = useState(false);
+  const [dataFilter, setDataFilter] = useState(true);
+
+  const TRACKER_NAME = trackerIds?.reduce((result, item) => {
+    result.push({ value: item, content: trackers[item].device_name });
+    return result;
+  }, []);
+  const [trackerName, setTrackerName] = useState('');
+  useEffect(() => {
+    setInitialNotificationsIds(notificationsIds);
+    setInitialNotifications(notifications);
+  }, [notificationsIds, notifications]);
 
   const handleChangePage = (event, newPage: number) => {
     setPage(newPage);
@@ -103,7 +137,24 @@ export default function Notification(props: Props) {
 
   const onChangeAlarmType = (value: string) => {
     setAlarmType(value);
+    const filterType = notificationsIds.filter(item =>
+      notifications[item]?.alarm_type.includes(value)
+    );
+    filterType.length === 0 ? setDataFilter(false) : setDataFilter(true);
+    console.log('filterType', filterType);
+    value === 'all'
+      ? setInitialNotificationsIds(notificationsIds)
+      : setInitialNotificationsIds(filterType);
   };
+  const onChangeTracker = value => {
+    const filterTracker = notificationsIds.filter(
+      item => notifications[item]?.device_id === value
+    );
+    filterTracker.length === 0 ? setDataFilter(false) : setDataFilter(true);
+    setInitialNotificationsIds(filterTracker);
+    setTrackerName(value);
+  };
+  console.log('data Filer', dataFilter);
   return (
     <MainLayout hasFooter={false}>
       <div>
@@ -118,10 +169,10 @@ export default function Notification(props: Props) {
             <OptionView>
               <SelectOption
                 name="select_tracker"
-                options={ALARM_TYPES}
+                options={TRACKER_NAME}
                 label="Select Tracker"
-                value={alarmType}
-                onChangeOption={value => console.log(value)}
+                value={trackerName}
+                onChangeOption={onChangeTracker}
               />
             </OptionView>
             <OptionView>
@@ -185,32 +236,39 @@ export default function Notification(props: Props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {(notifications && rowsPerPage > 0
-                  ? notifications.slice(
+                {(initialNotificationsIds && rowsPerPage > 0
+                  ? initialNotificationsIds.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
                     )
-                  : notifications
+                  : initialNotificationsIds
                 ).map(item => {
                   return (
-                    <TableRow key={item.id}>
+                    <TableRow key={initialNotifications[item]?.id}>
                       <NotificationCardDetail
-                        speed={item.speed}
-                        deviceName={item.device_name}
-                        lat={item?.lat}
-                        lng={item?.lng}
-                        alarmType={item?.alarm_type}
-                        created={item?.created}
+                        speed={initialNotifications[item]?.speed}
+                        deviceName={initialNotifications[item]?.device_name}
+                        lat={initialNotifications[item]?.lat}
+                        lng={initialNotifications[item]?.lng}
+                        alarmType={initialNotifications[item]?.alarm_type}
+                        created={initialNotifications[item]?.created}
                       />
                     </TableRow>
                   );
                 })}
+                {dataFilter ? null : (
+                  <TableRow>
+                    <TableCell className={classes.dataFilter}>
+                      No data filter
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
               <TableFooter className={classes.footer}>
                 <tr>
                   <PaginationStyle
                     rowsPerPageOptions={[10, 20, 30]}
-                    count={notifications?.length}
+                    count={initialNotificationsIds.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}

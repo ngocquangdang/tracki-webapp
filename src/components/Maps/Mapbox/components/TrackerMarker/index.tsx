@@ -40,9 +40,12 @@ class TrackerMarker extends React.Component<Props> {
         <div class=${isBeep ? 'icon-red-active' : 'icon-red'}>
           <span class='inner'></span>
           <div class='marker-pin'>
-            <img src=${
-              icon_url || '/images/image-device.png'
-            } class='image-device'></img>
+          ${
+            icon_url
+              ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+              : `<img src='/images/image-device.png'
+              } class='image-device'></img>`
+          }
           </div>
         <div>
         <div class='title-device' style='width:${nameWidth}px; left:-${

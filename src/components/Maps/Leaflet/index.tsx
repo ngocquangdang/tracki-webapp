@@ -10,6 +10,7 @@ import UserLocation from './components/UserLocation';
 import DrawTool from './components/DrawTool';
 import Geofences from './components/Geofences';
 import HeatMap from './components/HeatMap';
+import TrackerHistoryPath from './components/TrackerHistoryPath';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 
 const TILE_TOKEN =
@@ -195,6 +196,9 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       updateGeofence,
       trackerHistories,
       viewMode,
+      mapView,
+      histories,
+      selectedTrackerId,
     } = this.props;
     console.log('LeafletMap -> render -> trackerHistories', trackerHistories);
 
@@ -230,6 +234,15 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
         {isInitiatedMap && viewMode === 'heat_map' && (
           <HeatMap map={this.map} histories={trackerHistories || []} />
         )}
+        {isInitiatedMap &&
+          mapView === 'tracker_history' &&
+          selectedTrackerId && (
+            <TrackerHistoryPath
+              map={this.map}
+              isMobile={isMobile}
+              history={histories[selectedTrackerId] || {}}
+            />
+          )}
       </React.Fragment>
     );
   }
