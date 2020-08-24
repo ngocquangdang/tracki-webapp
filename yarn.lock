@@ -3160,6 +3160,13 @@
   dependencies:
     "@types/leaflet" "*"
 
+"@types/leaflet-polylinedecorator@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@types/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz#1572131ffedb3154c6e18e682d2fb700e203af19"
+  integrity sha512-Z2BXZDjKEqHclwrAmhYdF1RwyFfa/NFxsoF79sitzaj5D/4YWHp/zDRcUZar5cQFKRgK66AYEIF7nKVuMzUGdw==
+  dependencies:
+    "@types/leaflet" "*"
+
 "@types/leaflet@*", "@types/leaflet@^1.5.17":
   version "1.5.17"
   resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.5.17.tgz#b2153dc12c344e6896a93ffc6b61ac79da251e5b"
@@ -9040,6 +9047,18 @@ leaflet-path-drag@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/leaflet-path-drag/-/leaflet-path-drag-1.1.0.tgz#586e464b51ee3b712e74b4a92dc10a259f0eb9ff"
   integrity sha512-wd2uNgn3yuMl7HI0YG0z6qhxnRbvCQHE8ncpERfUZ6gTPbM5Xctwzyi+gE8cMnIDlv22GO3slSBupD9GW7jIEQ==
+
+leaflet-polylinedecorator@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz#9ef79fd1b5302d67b72efe959a8ecd2553f27266"
+  integrity sha1-nvef0bUwLWe3Lv6Vmo7NJVPycmY=
+  dependencies:
+    leaflet-rotatedmarker "^0.2.0"
+
+leaflet-rotatedmarker@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/leaflet-rotatedmarker/-/leaflet-rotatedmarker-0.2.0.tgz#4467f49f98d1bfd56959bd9c6705203dd2601277"
+  integrity sha1-RGf0n5jRv9VpWb2cZwUgPdJgEnc=
 
 leaflet.heat@^0.2.0:
   version "0.2.0"

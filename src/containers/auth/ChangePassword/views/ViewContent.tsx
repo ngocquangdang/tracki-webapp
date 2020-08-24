@@ -17,7 +17,8 @@ import { PasswordInput } from '@Components/inputs';
 import { ForgotPasswordFromSchema } from '../schema';
 
 const InitialPassword = {
-  password: '',
+  current_password: '',
+  new_password: '',
   confirm_password: '',
 };
 export default function ChangePassword(props: any) {
@@ -25,7 +26,10 @@ export default function ChangePassword(props: any) {
   const { t, errors, updatePasswordRequestAction } = props;
 
   const onHandleSubmit = (values: any) =>
-    updatePasswordRequestAction({ password: values.password });
+    updatePasswordRequestAction({
+      current_password: values.current_password,
+      new_password: values.new_password,
+    });
 
   return (
     <Container>
@@ -49,8 +53,15 @@ export default function ChangePassword(props: any) {
                 <div className={classes.media}>
                   <PasswordInput
                     label={t('auth:enter_current_password')}
-                    value=""
+                    value={values.current_password}
                     name="current_password"
+                    onChange={handleChange('current_password')}
+                    onBlur={handleBlur('current_password')}
+                    errorInput={
+                      errorsForm.current_password && touched.current_password
+                        ? t(errorsForm.current_password)
+                        : errors.current_password
+                    }
                   />
                   <Line />
                 </div>
@@ -58,18 +69,19 @@ export default function ChangePassword(props: any) {
                 <div className={classes.media}>
                   <PasswordInput
                     label={t('auth:password')}
-                    value={values.password}
-                    onChange={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    errorInput={
-                      errorsForm.password && touched.password
-                        ? t(errorsForm.password)
-                        : errors.password
-                    }
                     name="password"
+                    value={values.new_password}
+                    onChange={handleChange('new_password')}
+                    onBlur={handleBlur('new_password')}
+                    errorInput={
+                      errorsForm.new_password && touched.new_password
+                        ? t(errorsForm.new_password)
+                        : errors.new_password
+                    }
                   />
                   <PasswordInput
                     label={t('auth:confirm_new_password')}
+                    name="confirm_password"
                     value={values.confirm_password}
                     onChange={handleChange('confirm_password')}
                     onBlur={handleBlur('confirm_password')}
@@ -78,7 +90,6 @@ export default function ChangePassword(props: any) {
                         ? t(errorsForm.confirm_password)
                         : errors.confirm_password
                     }
-                    name="confirm_password"
                   />{' '}
                   <Info>
                     <InfoIcon className={classes.infoIcon} />
