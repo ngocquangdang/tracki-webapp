@@ -2,7 +2,7 @@ import React from 'react';
 
 import BreadCrumb from '@Components/BreadCrumb';
 import { MainLayout } from '@Layouts';
-import SettingContent from './ViewContent';
+import ViewContent from './ViewContent';
 import Header from './HeaderMobile';
 import { ChangePWContainer } from './styles';
 
@@ -23,7 +23,7 @@ export default function ChangePassword(props: Props) {
     <MainLayout isMobile={isMobile} header={<Header />} hasFooter={false}>
       <ChangePWContainer>
         {!isMobile && <BreadCrumb title={'Change Password'} url={url} />}
-        <SettingContent {...rest} />
+        <ViewContent {...rest} />
       </ChangePWContainer>
     </MainLayout>
   );
