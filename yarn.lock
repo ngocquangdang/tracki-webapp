@@ -1814,52 +1814,6 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@turf/bearing@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@turf/bearing/-/bearing-5.1.5.tgz#7a0b790136c4ef4797f0246305d45cbe2d27b3f7"
-  integrity sha1-egt5ATbE70eX8CRjBdRcvi0ns/c=
-  dependencies:
-    "@turf/helpers" "^5.1.5"
-    "@turf/invariant" "^5.1.5"
-
-"@turf/destination@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@turf/destination/-/destination-5.1.5.tgz#ed35381bdce83bbddcbd07a2e2bce2bddffbcc26"
-  integrity sha1-7TU4G9zoO73cvQei4rzivd/7zCY=
-  dependencies:
-    "@turf/helpers" "^5.1.5"
-    "@turf/invariant" "^5.1.5"
-
-"@turf/distance@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@turf/distance/-/distance-5.1.5.tgz#39cf18204bbf87587d707e609a60118909156409"
-  integrity sha1-Oc8YIEu/h1h9cH5gmmARiQkVZAk=
-  dependencies:
-    "@turf/helpers" "^5.1.5"
-    "@turf/invariant" "^5.1.5"
-
-"@turf/helpers@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-5.1.5.tgz#153405227ab933d004a5bb9641a9ed999fcbe0cf"
-  integrity sha1-FTQFInq5M9AEpbuWQantmZ/L4M8=
-
-"@turf/invariant@^5.1.5":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-5.2.0.tgz#f0150ff7290b38577b73d088b7932c1ee0aa90a7"
-  integrity sha1-8BUP9ykLOFd7c9CIt5MsHuCqkKc=
-  dependencies:
-    "@turf/helpers" "^5.1.5"
-
-"@turf/midpoint@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@turf/midpoint/-/midpoint-5.1.5.tgz#e261f6b2b0ea8124cceff552a262dd465c9d05f0"
-  integrity sha1-4mH2srDqgSTM7/VSomLdRlydBfA=
-  dependencies:
-    "@turf/bearing" "^5.1.5"
-    "@turf/destination" "^5.1.5"
-    "@turf/distance" "^5.1.5"
-    "@turf/helpers" "^5.1.5"
-
 "@types/autosuggest-highlight@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@types/autosuggest-highlight/-/autosuggest-highlight-3.1.0.tgz#62045417c2f6d841f9f12e715336218e4db0fcb1"
@@ -2027,6 +1981,13 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@types/leaflet-draw/-/leaflet-draw-1.0.3.tgz#73a003bf1def575c7cfd3205fa48d26bd0dc4273"
   integrity sha512-ayNnO40vafd1Do3h7v0++toEzcO1CEjtFBqPunF3695WU0OTPzJ82XUQcd4MlYTuPSP3OsZm5ni361tgmcjxNw==
+  dependencies:
+    "@types/leaflet" "*"
+
+"@types/leaflet-polylinedecorator@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@types/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz#1572131ffedb3154c6e18e682d2fb700e203af19"
+  integrity sha512-Z2BXZDjKEqHclwrAmhYdF1RwyFfa/NFxsoF79sitzaj5D/4YWHp/zDRcUZar5cQFKRgK66AYEIF7nKVuMzUGdw==
   dependencies:
     "@types/leaflet" "*"
 
@@ -7840,6 +7801,18 @@ leaflet-path-drag@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/leaflet-path-drag/-/leaflet-path-drag-1.1.0.tgz#586e464b51ee3b712e74b4a92dc10a259f0eb9ff"
   integrity sha512-wd2uNgn3yuMl7HI0YG0z6qhxnRbvCQHE8ncpERfUZ6gTPbM5Xctwzyi+gE8cMnIDlv22GO3slSBupD9GW7jIEQ==
+
+leaflet-polylinedecorator@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz#9ef79fd1b5302d67b72efe959a8ecd2553f27266"
+  integrity sha1-nvef0bUwLWe3Lv6Vmo7NJVPycmY=
+  dependencies:
+    leaflet-rotatedmarker "^0.2.0"
+
+leaflet-rotatedmarker@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/leaflet-rotatedmarker/-/leaflet-rotatedmarker-0.2.0.tgz#4467f49f98d1bfd56959bd9c6705203dd2601277"
+  integrity sha1-RGf0n5jRv9VpWb2cZwUgPdJgEnc=
 
 leaflet.heat@^0.2.0:
   version "0.2.0"

@@ -5,7 +5,6 @@ import TrackiMQTTClient from '../../../utils/mqtt/trackiMqttClient';
 import { mqttConnected } from '../actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import * as types from '../constants';
-import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 function subscribe() {
   const unsubscribe = () => {
