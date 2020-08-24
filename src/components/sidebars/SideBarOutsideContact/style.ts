@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 type PROPS = {
   isMobile: boolean;
+  isBlackView?: boolean;
 };
 
 const MenuWrap = styled.div`
@@ -25,6 +26,11 @@ const MenuHeader = styled.div`
   z-index: 10;
   width: ${(props: PROPS) => (props.isMobile ? '100%' : '450px')};
   background-color: #363640;
+  color: ${(props: PROPS) => (props.isBlackView ? '#fff' : '')};
+`;
+
+const Title = styled.div`
+  font-size: 16px;
 `;
 
 const ButtonClose = styled.div``;
@@ -33,7 +39,8 @@ const WrapDisabled = styled.div`
   width: ${(props: PROPS) => (props.isMobile ? '100%' : '450px')};
   max-height: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: ${(props: PROPS) =>
+    props.isBlackView ? '#363640' : '#fff'};
   overflow-y: auto;
 `;
 
@@ -45,6 +52,18 @@ const WrapTitle = styled.div`
   width: 85%;
 `;
 
+const WrapTitleBlackView = styled.div`
+  align-items: center;
+  display: flex;
+  padding-left: 15px;
+  cursor: pointer;
+`;
+
+const Clear = styled.div`
+  font-size: 14px;
+  padding-right: 10px;
+`;
+
 const useStyles = makeStyles((theme: Theme) => ({
   buttonClose: {
     width: '25px',
@@ -52,6 +71,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: '#ffffff',
     cursor: 'pointer',
     marginRight: 14.5,
+  },
+  buttonCloseBlackView: {
+    width: '25px',
+    height: '25px',
+    cursor: 'pointer',
+    marginRight: 5,
   },
 }));
 
@@ -62,4 +87,7 @@ export {
   ButtonClose,
   WrapDisabled,
   WrapTitle,
+  WrapTitleBlackView,
+  Title,
+  Clear,
 };

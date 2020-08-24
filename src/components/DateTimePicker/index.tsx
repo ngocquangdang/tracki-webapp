@@ -3,6 +3,7 @@ import moment from 'moment';
 import DateUtils from '@date-io/date-fns';
 import { ThemeProvider } from '@material-ui/styles';
 import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
+import clsx from 'clsx';
 import {
   MuiPickersUtilsProvider as PickerProvider,
   KeyboardDatePicker as DatePicker,
@@ -80,7 +81,11 @@ export default function DateTimePicker(props: Props) {
       </div>
       {isDateRange && (
         <PickerProvider libInstance={moment} utils={DateUtils}>
-          <div className={classes.datePickerControl}>
+          <div
+            className={clsx(classes.datePickerControl, {
+              [classes.datePickerControlHistory]: isHistory,
+            })}
+          >
             <ThemeProvider theme={themePickerDate}>
               <DatePicker
                 autoOk
@@ -112,7 +117,7 @@ export default function DateTimePicker(props: Props) {
                   'aria-label': 'change date',
                 }}
                 color="primary"
-                minDate={valueDateTo}
+                minDate={valueDateFrom}
                 maxDate={moment(new Date())}
               />
             </ThemeProvider>

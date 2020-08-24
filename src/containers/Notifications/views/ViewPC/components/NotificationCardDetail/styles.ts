@@ -68,18 +68,34 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     padding: '20px 0',
     margin: '0 25px',
-    '&:last-child': {
-      border: 'none',
-    },
+    position: 'relative',
   },
   footer: {
     display: 'flex',
     alignItems: 'center',
     height: '94px',
-    borderTop: '1px solid #e0e0e0',
   },
   skeContainer: {
     margin: 10,
+  },
+  expand: {
+    transition: 'transform .2s ease-in-out',
+    transform: 'rotate(90deg)',
+    cursor: 'pointer',
+  },
+  noExpand: {
+    transition: 'transform .2s ease-in-out',
+    transform: 'rotate(0)',
+    cursor: 'pointer',
+  },
+  rowContainer: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cellMap: {
+    padding: '0 15px',
+    border: 'none',
   },
 }));
 export {

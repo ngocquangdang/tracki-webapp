@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import moment from 'moment';
 import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
 import { LocationOn as LocationIcon } from '@material-ui/icons';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { UNWIREDLABS_API_KEY } from '@Definitions/app';
 import { SkeletonTracker } from '@Components/Skeletons';
-
+import MapCard from '../MapCard';
 import {
   useStyles,
   NotificationInfo,
@@ -21,24 +22,30 @@ import {
   IconAlarmType,
 } from './styles';
 
-interface Props {
-  deviceName: string;
+interface Notifications {
+  device_name: string;
   lat: number;
   lng: number;
-  alarmType: string;
+  alarm_type: string;
   created: number;
   speed: number;
 }
 
+interface Props {
+  notifications: Notifications;
+  mapId: string;
+}
+
 function NotificationCardDetail(props: Props) {
   const classes = useStyles();
-  const { deviceName, lat, lng, alarmType, created, speed } = props;
+  const { notifications, mapId } = props;
   const [loading, setLoading] = useState(true);
   const [address, updateAddress] = useState<string | null>(null);
+  const [isExpand, setExpand] = useState(false);
   const callApiGetAddress = useCallback(async () => {
-    if (!!lat && !!lng) {
+    if (!!notifications?.lat && !!notifications?.lng) {
       const { data } = await axios.get(
-        `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${lat}&lon=${lng}`
+        `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${notifications?.lat}&lon=${notifications?.lng}`
       );
       updateAddress(
         data.status === 'ok' ? data.address.display_name : 'Unknow location'
@@ -48,71 +55,90 @@ function NotificationCardDetail(props: Props) {
       updateAddress('Unknow location');
       setLoading(false);
     }
-  }, [updateAddress, lat, lng]);
+  }, [updateAddress, notifications]);
 
   useEffect(() => {
     callApiGetAddress();
   }, [callApiGetAddress]);
 
+  const onClickExpand = () => {
+    setExpand(!isExpand);
+  };
+
   return (
-    <TableCell className={classes.contentBody}>
-      {loading || (!lat && !lng) ? (
-        <div className={classes.skeContainer}>
-          <SkeletonTracker />
-        </div>
-      ) : (
-        <Fragment>
-          <NotificationInfo>
-            <TrackerName>{deviceName}</TrackerName>
-            <TrackerLocation>
-              <LocationIcon className={classes.iconLocation} />
-              <DetailLocation>{address}</DetailLocation>
-            </TrackerLocation>
-          </NotificationInfo>
-          <NotficationType>
-            <TrackerType>
-              <IconAlarmType
-                alt="near_me"
-                src={`/images/${
-                  alarmType === 'SPEED'
-                    ? 'ic-alert-speed-violation.svg'
-                    : alarmType === 'GEOZONE'
-                    ? 'ic-alert-geofence.svg'
-                    : alarmType === 'MOVEMENT'
-                    ? 'ic-alert-start-moving.svg'
-                    : alarmType === 'BATTERY'
-                    ? 'ic-alert-battery.svg'
-                    : alarmType === 'SOS'
-                    ? 'ic-alert-SOS.svg'
-                    : alarmType === 'LEFT'
-                    ? 'ic-alert-left-click.svg'
-                    : 'ic-alert-right-click.svg'
-                }`}
-              />
-            </TrackerType>
-            <StatusType>
-              {alarmType === 'SPEED'
-                ? `Speed Violation (${speed})`
-                : alarmType === 'GEOZONE'
-                ? 'Geo-fence Crossed'
-                : alarmType === 'MOVEMENT'
-                ? 'Start Moving'
-                : alarmType === 'BATTERY'
-                ? 'Lower Battery'
-                : alarmType === 'SOS'
-                ? 'SOS Alert'
-                : alarmType === 'LEFT'
-                ? 'Left Click'
-                : 'Right Click'}
-            </StatusType>
-          </NotficationType>
-          <NotificationTime>{moment(created).format('L, LT')}</NotificationTime>
-          <IconExpand>
-            <ArrowForwardIosIcon />
-          </IconExpand>
-        </Fragment>
+    <TableRow className={classes.rowContainer}>
+      <TableCell className={classes.contentBody}>
+        {loading || (!notifications?.lat && !notifications?.lng) ? (
+          <div className={classes.skeContainer}>
+            <SkeletonTracker />
+          </div>
+        ) : (
+          <Fragment>
+            <NotificationInfo>
+              <TrackerName>{notifications?.device_name}</TrackerName>
+              <TrackerLocation>
+                <LocationIcon className={classes.iconLocation} />
+                <DetailLocation>{address}</DetailLocation>
+              </TrackerLocation>
+            </NotificationInfo>
+            <NotficationType>
+              <TrackerType>
+                <IconAlarmType
+                  alt="near_me"
+                  src={`/images/${
+                    notifications?.alarm_type === 'SPEED'
+                      ? 'ic-alert-speed-violation.svg'
+                      : notifications?.alarm_type === 'GEOZONE'
+                      ? 'ic-alert-geofence.svg'
+                      : notifications?.alarm_type === 'MOVEMENT'
+                      ? 'ic-alert-start-moving.svg'
+                      : notifications?.alarm_type === 'BATTERY'
+                      ? 'ic-alert-battery.svg'
+                      : notifications?.alarm_type === 'SOS'
+                      ? 'ic-alert-SOS.svg'
+                      : notifications?.alarm_type === 'LEFT'
+                      ? 'ic-alert-left-click.svg'
+                      : 'ic-alert-right-click.svg'
+                  }`}
+                />
+              </TrackerType>
+              <StatusType>
+                {notifications?.alarm_type === 'SPEED'
+                  ? `Speed Violation (${notifications?.speed})`
+                  : notifications?.alarm_type === 'GEOZONE'
+                  ? 'Geo-fence Crossed'
+                  : notifications?.alarm_type === 'MOVEMENT'
+                  ? 'Start Moving'
+                  : notifications?.alarm_type === 'BATTERY'
+                  ? 'Lower Battery'
+                  : notifications?.alarm_type === 'SOS'
+                  ? 'SOS Alert'
+                  : notifications?.alarm_type === 'LEFT'
+                  ? 'Left Click'
+                  : 'Right Click'}
+              </StatusType>
+            </NotficationType>
+            <NotificationTime>
+              {moment(notifications?.created).format('L, LT')}
+            </NotificationTime>
+            <IconExpand
+              className={isExpand ? classes.expand : classes.noExpand}
+            >
+              <ArrowForwardIosIcon onClick={onClickExpand} />
+            </IconExpand>
+          </Fragment>
+        )}
+      </TableCell>
+      {isExpand && (
+        <TableCell className={classes.cellMap}>
+          <MapCard
+            lat={notifications?.lat}
+            lng={notifications?.lng}
+            mapId={mapId}
+          />
+        </TableCell>
       )}
-    </TableCell>
+    </TableRow>
   );
 }
 
