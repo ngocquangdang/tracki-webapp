@@ -253,7 +253,7 @@ export default function DashboardContainer(props) {
   };
 
   useEffect(() => {
-    if (historyTrackerIds && historyTrackerIds.length > 0) {
+    if (historyTrackerIds && historyTrackerIds.length > 1) {
       setTrip(historyTrackerIds.length);
       const historyArrayPoints = historyTrackerIds.reduce(
         (historyArrayPoints, item, index) => {
