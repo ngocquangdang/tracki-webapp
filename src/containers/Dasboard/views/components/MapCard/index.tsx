@@ -5,9 +5,9 @@ import clsx from 'clsx';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
-import SelectTracker from '../MultiView/SelectTracker';
 import style from './styles';
-import MapToolBar from './MapToolBar';
+import MapToolBarPC from './MapToolBarPC';
+import MapToolBarSP from './MapToolBarSP';
 
 interface IProps {
   mapId: string;
@@ -189,18 +189,17 @@ class MapCard extends React.Component<IProps, IState> {
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
-        <div class='icon-red'>
-          <span class='inner'></span>
-          <div class='marker-pin'>
-            ${
-              icon_url
-                ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
-                : `<img src='/images/image-device.png'
-                } class='image-device'></img>`
-            }
-          </div>
-          <div>${this.trackerName(device_name)}</div>
-        </div>`;
+      <div class='icon-red'>
+        <span class='inner'></span>
+        <div class='marker-pin'>
+        ${
+          icon_url
+            ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+            : `<img src='/images/image-device.png'
+            } class='image-device'></img>`
+        }
+        <div>${this.trackerName(device_name)}</div>
+      </div>`;
 
       const icon = new L.DivIcon({ html: elm });
       this.marker = L.marker([lat, lng], { icon });
@@ -225,26 +224,9 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   render() {
-    const {
-      mapId,
-      classes,
-      mapLabel,
-      isMultiScreen,
-      trackers,
-      selectedTrackerId,
-      trackingIds,
-      isMobile,
-      t,
-    } = this.props;
+    const { mapId, classes, isMobile, t } = this.props;
 
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
-    const options = Object.keys(trackers)
-      .filter(
-        id =>
-          id.toString() === selectedTrackerId.toString() ||
-          !(trackingIds || []).includes(+id)
-      )
-      .map(id => ({ value: id, label: trackers[id].device_name }));
 
     return (
       <React.Fragment>
@@ -254,42 +236,29 @@ class MapCard extends React.Component<IProps, IState> {
             [classes.mapCardMobile]: isMobile,
           })}
         />
-        {isMultiScreen ? (
-          <div
-            className={clsx(classes.selects, {
-              [classes.selectMobile]: isMobile,
-            })}
-            style={{ position: 'absolute' }}
-          >
-            <SelectTracker
-              id={mapId}
-              value={selectedTrackerId.toString()}
-              options={options}
-              onChange={this.onChangeOption}
-            />
-          </div>
-        ) : (
-          <div
-            className={clsx(classes.mapLabel, {
-              [classes.labelMobile]: isMobile,
-            })}
-            style={{ position: 'absolute' }}
-          >
-            {mapLabel}
-          </div>
-        )}
         {userLocation && (
           <UserLocation map={this.map} location={userLocation} />
         )}
         {isInitiatedMap && this.renderMarker()}
-        {isInitiatedMap && (
-          <MapToolBar
+        {isInitiatedMap && !isMobile ? (
+          <MapToolBarPC
             t={t}
             isMobile={isMobile}
             mapTile={mapStyle}
             changeMapTile={this.changeMapTile}
             myLocationClick={this.getUserLocation}
             changeZoom={this.changeZoom}
+            isInitiatedMap={isInitiatedMap}
+          />
+        ) : (
+          <MapToolBarSP
+            t={t}
+            isMobile={isMobile}
+            mapTile={mapStyle}
+            changeMapTile={this.changeMapTile}
+            myLocationClick={this.getUserLocation}
+            changeZoom={this.changeZoom}
+            isInitiatedMap={isInitiatedMap}
           />
         )}
       </React.Fragment>
