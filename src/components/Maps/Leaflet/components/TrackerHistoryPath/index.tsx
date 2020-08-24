@@ -1,6 +1,6 @@
 import React from 'react';
 import L from 'leaflet';
-import turfMidPoint from '@turf/midpoint';
+import 'leaflet-polylinedecorator';
 
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import './styles.scss';
@@ -13,6 +13,7 @@ interface Props {
 
 class TrackerHistoryPath extends React.Component<Props> {
   trackerPath: any;
+  decorator: any;
   points: object;
 
   constructor(props) {
@@ -43,16 +44,11 @@ class TrackerHistoryPath extends React.Component<Props> {
     if (this.trackerPath) {
       map.removeLayer(this.trackerPath);
     }
+    if (this.decorator) {
+      map.removeLayer(this.decorator);
+    }
     Object.values(this.points).map(p => map.removeLayer(p));
   };
-
-  getAngle(latLng1, latlng2, coef = -1) {
-    const dy = latlng2[0] - latLng1[0];
-    const dx =
-      Math.cos((Math.PI / 180) * latLng1[0]) * (latlng2[1] - latLng1[1]);
-    const ang = (Math.atan2(dy, dx) / Math.PI) * 180 * coef;
-    return ang.toFixed(2);
-  }
 
   renderPath = props => {
     const { history, map, isMobile } = props;
@@ -71,26 +67,27 @@ class TrackerHistoryPath extends React.Component<Props> {
           }`,
         });
         obj[p.id] = L.marker(p, { icon }).addTo(map);
-        if (index > 0) {
-          const prev = [path[index - 1].lng, path[index - 1].lat];
-          const curr = [p.lng, p.lat];
-          const midP = turfMidPoint(prev, curr);
-          const angle = this.getAngle([prev[1], prev[0]], [curr[1], curr[0]]);
-          const icon = L.divIcon({
-            className: 'arrow-icon',
-            bgPos: [5, 5],
-            html: '<div style="transform: rotate(' + angle + 'deg)">▶</div>',
-          });
-          if (midP.geometry) {
-            const [lng, lat] = midP.geometry.coordinates;
-            obj['mid_' + index] = L.marker([lat, lng], { icon }).addTo(map);
-          }
-        }
         return obj;
       }, {});
 
       this.trackerPath = L.polyline(path, { color: '#168449', weight: 2 });
       this.trackerPath.addTo(map);
+      this.decorator = L.polylineDecorator(this.trackerPath, {
+        patterns: [
+          {
+            offset: 0,
+            repeat: 40,
+            symbol: L.Symbol.arrowHead({
+              pixelSize: 6,
+              pathOptions: {
+                color: '#168449',
+                fillColor: '#168449',
+                opacity: 1,
+              },
+            }),
+          },
+        ],
+      }).addTo(map);
       // zoom the map to the polyline
       const mapOption =
         isMobile || window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS;
