@@ -46,6 +46,8 @@ import {
   SwitchGroupLast,
   Container,
   useStyles,
+  AdornmentStyle,
+  TooltipStyle,
   DefaultImage,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
@@ -131,7 +133,7 @@ function SettingTracker(props: Props) {
     profile,
     // contactOfTracker,
   } = props;
-
+  const [isOpenTooltip, setIsOpenTooltip] = useState(null);
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
@@ -228,6 +230,14 @@ function SettingTracker(props: Props) {
     setEventype(value);
   };
 
+  const handleShowTooltip = type => () => {
+    setIsOpenTooltip(type);
+  };
+  const handleTooltipClose = () => () => {
+    setTimeout(() => {
+      setIsOpenTooltip(null);
+    }, 3000);
+  };
   return (
     <SideBarOutside
       title="Settings"
@@ -368,9 +378,21 @@ function SettingTracker(props: Props) {
                         }}
                         variant="outlined"
                       />
-                      <AiOutlineQuestionCircle
-                        className={`${classes.questionIcon} ${classes.speedLimit}`}
-                      />
+                      <TooltipStyle
+                        open={isOpenTooltip === 'speed_limit_alert'}
+                        onClose={handleTooltipClose()}
+                        title="Add people to receive email or SMS alerts when the device exceeds the speed set here. Speed must be set to more than 0 (Zero)"
+                        // placement="right"
+                        arrow
+                      >
+                        <AdornmentStyle position="end">
+                          <AiOutlineQuestionCircle
+                            onClick={handleShowTooltip('speed_limit_alert')}
+                            className={`${classes.questionIcon} ${classes.speedLimit}`}
+                          />
+                        </AdornmentStyle>
+                      </TooltipStyle>
+
                       <PersonAddIcon
                         onClick={() => onShowSelectContact('speed_limit')}
                         className={`${classes.personAddIcon} ${classes.speedLimit}`}
@@ -390,9 +412,22 @@ function SettingTracker(props: Props) {
                   <SwitchGroup>
                     <span>{t('tracker:speed_moving_alert')}</span>
                     <OptionRight>
-                      <AiOutlineQuestionCircle
-                        className={`${classes.questionIcon} ${classes.questionIconMargin}`}
-                      />
+                      <TooltipStyle
+                        open={isOpenTooltip === 'speed_moving_alert'}
+                        onClose={handleTooltipClose()}
+                        title={
+                          'Add people to receive email or SMS alerts when this tracker starts moving'
+                        }
+                        // placement="right"
+                        arrow
+                      >
+                        <AdornmentStyle position="end">
+                          <AiOutlineQuestionCircle
+                            onClick={handleShowTooltip('speed_moving_alert')}
+                            className={`${classes.questionIcon} ${classes.speedLimit}`}
+                          />
+                        </AdornmentStyle>
+                      </TooltipStyle>
                       <Switch
                         checked={values.moving_start || false}
                         value={values.moving_start}
@@ -406,9 +441,22 @@ function SettingTracker(props: Props) {
                   <SwitchGroup>
                     <span>{t('tracker:low_battery_alert')}</span>
                     <OptionRight>
-                      <AiOutlineQuestionCircle
-                        className={`${classes.questionIcon} ${classes.questionIconMargin}`}
-                      />
+                      <TooltipStyle
+                        open={isOpenTooltip === 'low_battery_alert'}
+                        onClose={handleTooltipClose()}
+                        title={
+                          'Add people to receive email or SMS alerts when battery on this device runs low'
+                        }
+                        // placement="right"
+                        arrow
+                      >
+                        <AdornmentStyle position="end">
+                          <AiOutlineQuestionCircle
+                            onClick={handleShowTooltip('low_battery_alert')}
+                            className={`${classes.questionIcon} ${classes.speedLimit}`}
+                          />
+                        </AdornmentStyle>
+                      </TooltipStyle>
                       <Switch
                         checked={values.low_battery}
                         value={values.low_battery}
@@ -422,9 +470,22 @@ function SettingTracker(props: Props) {
                   <SwitchGroup>
                     <span>{t('tracker:enable_beeper')}</span>
                     <OptionRight>
-                      <AiOutlineQuestionCircle
-                        className={`${classes.questionIcon} ${classes.questionIconMargin}`}
-                      />
+                      <TooltipStyle
+                        open={isOpenTooltip === 'enable_beeper'}
+                        onClose={handleTooltipClose()}
+                        title={
+                          'This switch will enable/disable the beeper on the device. There is a tiny beeper inside the tracker that you can send beep to from the app. The beeper will also beep on the device itself when the battery runs low'
+                        }
+                        // placement="right"
+                        arrow
+                      >
+                        <AdornmentStyle position="end">
+                          <AiOutlineQuestionCircle
+                            onClick={handleShowTooltip('enable_beeper')}
+                            className={`${classes.questionIcon} ${classes.speedLimit}`}
+                          />
+                        </AdornmentStyle>
+                      </TooltipStyle>
                       <Switch
                         checked={values.device_beep_sound}
                         value={values.device_beep_sound}
