@@ -65,6 +65,7 @@ const Info = styled.div`
   border: solid 1px #fefefe;
   background-color: #ffffff;
   padding: 10px;
+  margin-top: 15px;
 `;
 const InfoText = styled.p`
   font-size: 14px;

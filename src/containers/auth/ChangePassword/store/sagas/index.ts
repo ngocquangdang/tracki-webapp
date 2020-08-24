@@ -15,9 +15,20 @@ function* updatePasswordSaga(action: ActionType) {
     yield Router.push('/settings');
   } catch (error) {
     const { data = {} } = { ...error };
+    const errors = data.errors
+      ? data.errors.reduce((obj, e) => {
+          const key =
+            e.property_name === 'newPassword'
+              ? 'new_password'
+              : 'current_password';
+          obj[key] = e.message;
+          return obj;
+        }, {})
+      : { current_password: data.message };
+
     const payload = {
       ...data,
-      errors: { code: data.message },
+      errors: errors,
     };
     yield put(updatePasswordFailAction(payload));
   }
