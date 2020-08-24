@@ -3,6 +3,7 @@ import { eventChannel } from 'redux-saga';
 
 import TrackiMQTTClient from '../../../utils/mqtt/trackiMqttClient';
 import { mqttConnected } from '../actions';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import * as types from '../constants';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
@@ -46,6 +47,12 @@ function* publish() {
 function* disconnect() {
   while (true) {
     yield take(types.MQTT_DISCONNECT);
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Closed connect to MQTT server',
+      })
+    );
     TrackiMQTTClient.disconnect();
   }
 }
