@@ -10,3 +10,18 @@
     background-color: red;
   }
 }
+
+.leaflet-marker-icon.arrow-icon {
+  width: 14px !important;
+  height: 14px !important;
+  margin-left: -6px !important;
+  margin-top: -7px !important;
+
+  &>div {
+    margin-left: -1px;
+    margin-top: -3px;
+    transform-origin: center center;
+    color: #168449;
+    font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+  }
+}
