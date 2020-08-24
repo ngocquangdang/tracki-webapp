@@ -48,6 +48,7 @@ import {
   useStyles,
   AdornmentStyle,
   TooltipStyle,
+  DefaultImage,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
 import {
@@ -258,14 +259,19 @@ function SettingTracker(props: Props) {
             {loading && (
               <CircularProgress className={classes.loading} color="secondary" />
             )}
-            <Image
+            {tracker.icon_url || imageFile.result ? (
+              <Image background={tracker.icon_url || imageFile.result} />
+            ) : (
+              <DefaultImage background={'/images/image-device.png'} />
+            )}
+            {/* <Image
               src={
                 imageFile.result ||
                 tracker.icon_url ||
                 '/images/image-device.png'
               }
               alt=""
-            />
+            /> */}
             <UploadImage>
               <AiOutlineCamera style={{ color: '#fff' }} />
               <TextUpload>Upload</TextUpload>

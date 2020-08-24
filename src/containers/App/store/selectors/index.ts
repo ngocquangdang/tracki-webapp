@@ -16,6 +16,9 @@ const makeSelectMapTile = () =>
 const makeSelectMapAction = () =>
   createSelector(globalState, state => state.mapAction);
 
+const makeSelectMapView = () =>
+  createSelector(globalState, state => state.mapView);
+
 const makeSelectShowGeofences = () =>
   createSelector(globalState, state => state.showGeofences);
 
@@ -23,6 +26,7 @@ const makeSelectShowTrackersName = () =>
   createSelector(globalState, state => state.showTrackerName);
 
 export {
+  makeSelectMapView,
   makeSelectShowGeofences,
   makeSelectShowTrackersName,
   makeSelectProfile,

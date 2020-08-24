@@ -41,7 +41,11 @@ function HistoryTracker(props: Props) {
     isRequesting,
     onClickViewHistory,
   } = props;
-
+  const [history, setHistory] = useState({
+    map_view: true,
+    seven_day_report: false,
+    alert_history_report: false,
+  });
   const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
   const [selectedDateTo, setSelectedDateTo] = useState(moment());
   const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
@@ -97,20 +101,9 @@ function HistoryTracker(props: Props) {
     });
   };
   const onSubmitForm = values => {
-    console.log('values');
-    //draft setHistory
-    setHistory({
-      map_view: true,
-      seven_day_report: false,
-      alert_history_report: false,
-    });
+    setHistory(values);
   };
 
-  const [history, setHistory] = useState({
-    map_view: true,
-    seven_day_report: false,
-    alert_history_report: false,
-  });
   return (
     <SideBarOutside
       title={t('tracker:history')}
@@ -125,7 +118,6 @@ function HistoryTracker(props: Props) {
         <Formik
           initialValues={history}
           onSubmit={onSubmitForm}
-          enableReinitialize
           disabled={isRequesting}
         >
           {({
@@ -147,18 +139,36 @@ function HistoryTracker(props: Props) {
                       control={<Radio color="primary" />}
                       label={t('tracker:history_map_view')}
                       className={classes.fontSize}
+                      checked={values.map_view}
+                      onChange={() => {
+                        setFieldValue('map_view', true);
+                        setFieldValue('seven_day_report', false);
+                        setFieldValue('alert_history_report', false);
+                      }}
                     />
                     <FormControlLabel
                       value="seven_day_report"
                       control={<Radio color="primary" />}
                       label={t('tracker:history_7_day_report')}
                       className={classes.fontSize}
+                      checked={values.seven_day_report}
+                      onChange={() => {
+                        setFieldValue('map_view', false);
+                        setFieldValue('seven_day_report', true);
+                        setFieldValue('alert_history_report', false);
+                      }}
                     />
                     <FormControlLabel
                       value="alert_history_report"
                       control={<Radio color="primary" />}
                       label={t('tracker:history_alert_report')}
                       className={classes.fontSize}
+                      checked={values.alert_history_report}
+                      onChange={() => {
+                        setFieldValue('map_view', false);
+                        setFieldValue('seven_day_report', false);
+                        setFieldValue('alert_history_report', true);
+                      }}
                     />
                   </RadioGroup>
                 </SelectGroup>
