@@ -253,7 +253,7 @@ export default function DashboardContainer(props) {
   };
 
   useEffect(() => {
-    if (historyTrackerIds && historyTrackerIds.length > 0) {
+    if (historyTrackerIds && historyTrackerIds.length > 1) {
       setTrip(historyTrackerIds.length);
       const historyArrayPoints = historyTrackerIds.reduce(
         (historyArrayPoints, item, index) => {
@@ -271,7 +271,7 @@ export default function DashboardContainer(props) {
         []
       );
 
-      if (historyArrayPoints.length > 0) {
+      if (historyArrayPoints.length > 1) {
         const lineHistory = lineString(historyArrayPoints);
         const totalDistance = length(lineHistory);
         if (totalDistance !== distance) {
@@ -279,8 +279,9 @@ export default function DashboardContainer(props) {
         }
       }
     }
-    if (historyTrackerIds && historyTrackerIds.length === 0) {
+    if (historyTrackerIds && historyTrackerIds.length <= 1) {
       setDistance(0);
+      setTrip(historyTrackerIds.length);
     }
   }, [historyTracker, historyTrackerIds, distance]);
 
