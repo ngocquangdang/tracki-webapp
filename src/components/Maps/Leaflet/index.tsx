@@ -200,7 +200,6 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       histories,
       selectedTrackerId,
     } = this.props;
-    console.log('LeafletMap -> render -> trackerHistories', trackerHistories);
 
     return (
       <React.Fragment>
@@ -232,7 +231,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           />
         )}
         {isInitiatedMap && viewMode === 'heat_map' && (
-          <HeatMap map={this.map} histories={trackerHistories || []} />
+          <HeatMap map={this.map} histories={trackerHistories || {}} />
         )}
         {isInitiatedMap &&
           mapView === 'tracker_history' &&

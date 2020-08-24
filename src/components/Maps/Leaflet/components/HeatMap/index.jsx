@@ -10,11 +10,24 @@ class HeatMap extends React.Component {
   componentDidMount() {
     this.renderHeatMap();
   }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.histories !== this.props.histories) {
-      this.heatMap.setLatLngs(nextProps.histories);
+    const { histories } = nextProps;
+    const { histories: thisHistories } = this.props;
+
+    if (Object.keys(histories).length !== Object.keys(thisHistories).length) {
+      const historyIds = Object.keys(histories);
+      const latlngs = historyIds.reduce(
+        (result, item) => [
+          ...result,
+          [histories[item].lat, histories[item].lng, 0.2],
+        ],
+        []
+      );
+      this.heatMap.setLatLngs(latlngs);
     }
   }
+
   renderHeatMap = () => {
     const { map, histories } = this.props;
     const historyIds = Object.keys(histories);
