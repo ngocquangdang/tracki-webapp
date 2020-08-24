@@ -46,8 +46,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
   },
   formSelect: {
-    padding: '0 15px',
-    marginBottom: '15px',
+    padding: '15px',
   },
 }));
 

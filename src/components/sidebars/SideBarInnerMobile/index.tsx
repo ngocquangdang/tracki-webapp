@@ -22,7 +22,7 @@ const routes = [
   {
     label: 'Dashboard',
     icon: <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />,
-    link: '/trackers',
+    link: '/dashboard',
   },
   {
     label: 'Tracking',
