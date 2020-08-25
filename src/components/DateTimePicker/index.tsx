@@ -57,13 +57,15 @@ export default function DateTimePicker(props: Props) {
     setDateOption(value);
     showDateRange(value === 'date_range');
     showSpecificDate(value === 'specific_date');
+    if (!showDescriptionTime && isDateRange && isSpecificDate) {
+      onSelectOption(value);
+    }
 
     if (['date_range', 'specific_date'].includes(value)) {
       onChange({
         fromDate: moment().unix(),
         toDate: moment().unix(),
       });
-      onSelectOption(value);
     } else {
       onChange({
         fromDate: value,
