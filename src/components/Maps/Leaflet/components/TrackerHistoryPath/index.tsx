@@ -3,12 +3,18 @@ import L from 'leaflet';
 import 'leaflet-polylinedecorator';
 
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
+import PointTracking from '@Components/PointTracking';
+import { ITracker } from '@Interfaces';
+
 import './styles.scss';
 
 interface Props {
   history: object;
+  tracker: ITracker;
   isMobile: boolean;
   map: any;
+  pointTrackingIndex: number;
+  changePointTracking(pointIndex: number): void;
 }
 
 class TrackerHistoryPath extends React.Component<Props> {
@@ -96,7 +102,28 @@ class TrackerHistoryPath extends React.Component<Props> {
   };
 
   render() {
-    return null;
+    const {
+      tracker,
+      pointTrackingIndex,
+      history,
+      changePointTracking,
+    } = this.props;
+    const pointIds = Object.keys(history);
+    const location = history[pointIds[pointTrackingIndex]];
+
+    if (!location) {
+      return null;
+    }
+
+    return (
+      <PointTracking
+        tracker={tracker}
+        location={location}
+        pointIndex={pointTrackingIndex}
+        lastIndex={pointIds.length}
+        changePointTracking={changePointTracking}
+      />
+    );
   }
 }
 

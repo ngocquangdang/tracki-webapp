@@ -8,6 +8,7 @@ declare namespace IMap {
     mapView: string;
     editGeofenceId: number;
     selectedTrackerId: number;
+    pointTrackingIndex: number;
     isBeep: boolean;
     isTracking?: boolean;
     showGeofences: boolean;
@@ -16,6 +17,7 @@ declare namespace IMap {
     openSideBar(): void;
     onClickMarker(id: string | number): void;
     changeMapAction(action: string): void;
+    changePointTracking(pointIndex: number): void;
     updateNewGeofence(geo: object): void;
     updateGeofence(geoId: number, data: object): void;
     [data: string]: any;

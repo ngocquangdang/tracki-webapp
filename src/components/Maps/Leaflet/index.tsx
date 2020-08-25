@@ -193,6 +193,9 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       editGeofenceId,
       showGeofences,
       isMobile,
+      trackers,
+      pointTrackingIndex,
+      changePointTracking,
       changeMapAction,
       updateNewGeofence,
       updateGeofence,
@@ -241,6 +244,9 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
             <TrackerHistoryPath
               map={this.map}
               isMobile={isMobile}
+              tracker={trackers[selectedTrackerId]}
+              pointTrackingIndex={pointTrackingIndex}
+              changePointTracking={changePointTracking}
               history={histories[selectedTrackerId] || {}}
             />
           )}

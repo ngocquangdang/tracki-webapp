@@ -28,12 +28,14 @@ import {
 import {
   makeSelectHistories,
   makeSelectHistoryIds,
+  makeSelectPointTracking,
 } from '@Containers/Tracking/store/selectors';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 import {
   sendBeepRequest,
   resetBeepAction,
 } from '@Containers/SingleTracker/store/actions';
+import { changePointTracking } from '@Containers/Tracking/store/actions';
 import { changeMapView } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
@@ -67,6 +69,7 @@ interface Props {
   historyIds: object;
   isRequesting: boolean;
   deviceId: number;
+  pointTrackingIndex: number;
   isBeep: boolean;
   onClickBack: () => void;
   t(key: string, format?: object): string;
@@ -75,6 +78,7 @@ interface Props {
   onClickSendBeep(data: object): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
   getHistoryTracker(data: object): void;
+  changePointTracking(pointIndex: number): void;
   resetBeep(): void;
 }
 
@@ -89,9 +93,11 @@ function SingleTracker(props: Props) {
     histories,
     historyIds,
     isRequesting,
+    pointTrackingIndex,
     onClickBack,
     changeMapView,
     getHistoryTracker,
+    changePointTracking,
     t,
     resetBeep,
     showSnackbar,
@@ -220,6 +226,8 @@ function SingleTracker(props: Props) {
         histories={histories[tracker.device_id] || {}}
         historyIds={historyIds[tracker.device_id] || []}
         getHistoryTracker={getHistoryTracker}
+        pointTrackingIndex={pointTrackingIndex}
+        changePointTracking={changePointTracking}
         isRequesting={isRequesting}
       />
       <TrackerGeofences
@@ -247,6 +255,8 @@ const mapDispatchToProps = dispatch => ({
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
   changeMapView: (mapView: string) => dispatch(changeMapView(mapView)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
+  changePointTracking: (pointIndex: number) =>
+    dispatch(changePointTracking(pointIndex)),
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -257,6 +267,7 @@ const mapStateToProps = createStructuredSelector({
   histories: makeSelectHistories(),
   historyIds: makeSelectHistoryIds(),
   isRequesting: makeSelectLoading(),
+  pointTrackingIndex: makeSelectPointTracking(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

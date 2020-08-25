@@ -15,9 +15,21 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 48,
     flex: 0,
   },
+  empty2: {
+    paddingLeft: 60,
+    flex: 0,
+  },
+  height40: {
+    minHeight: 40,
+  },
   stop: {
     backgroundColor: 'red',
     color: '#fff',
+  },
+  loadMore: {
+    fontSize: 14,
+    lineHeight: '17px',
+    cursor: 'pointer',
   },
 }));
 

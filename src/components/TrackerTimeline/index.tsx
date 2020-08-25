@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Timeline,
   TimelineItem,
@@ -15,11 +15,21 @@ import useStyles from './styles';
 interface Props {
   histories: object;
   historyIds: number[];
+  pointTrackingIndex: number;
+  changePointTracking(pointIndex: number): void;
 }
 
 export default function TrackerTimeline(props: Props) {
-  const { histories, historyIds } = props;
+  const {
+    histories,
+    historyIds,
+    pointTrackingIndex,
+    changePointTracking,
+  } = props;
   const classes = useStyles();
+  const [page, setPage] = useState(1);
+  const showIds = historyIds.slice(0, 5 * page).filter(id => !!id);
+  const onLoadMore = () => setPage(page + 1);
 
   return (
     <div className={classes.container}>
@@ -34,10 +44,30 @@ export default function TrackerTimeline(props: Props) {
           </TimelineSeparator>
           <TimelineContent />
         </TimelineItem>
-        {historyIds.map((id, index) => (
-          <TimelineItemComp key={index} history={histories[id]} />
+        {showIds.map((id, index) => (
+          <TimelineItemComp
+            key={index}
+            pointIndex={index}
+            history={histories[id]}
+            isTracking={pointTrackingIndex === index}
+            changePointTracking={changePointTracking}
+          />
         ))}
-        <TimelineItem>
+        {showIds.length < historyIds.length && (
+          <TimelineItem className={classes.height40}>
+            <TimelineOppositeContent className={classes.empty2} />
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <span onClick={onLoadMore} className={classes.loadMore}>
+                Load more
+              </span>
+            </TimelineContent>
+          </TimelineItem>
+        )}
+        <TimelineItem className={classes.height40}>
           <TimelineOppositeContent className={classes.empty} />
           <TimelineSeparator>
             <TimelineDot className={classes.stop}>

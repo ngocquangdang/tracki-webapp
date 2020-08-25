@@ -20,7 +20,11 @@ export function formatNumber(num) {
   return num_parts.join('.');
 }
 
-export async function getAddress({ lat, lng }) {
+export async function getAddress(location) {
+  if (!location || !location.lat || !location.lng) {
+    return 'Unknow location';
+  }
+  const { lat, lng } = location;
   const { data } = await axios.get(
     `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${lat}&lon=${lng}`
   );
