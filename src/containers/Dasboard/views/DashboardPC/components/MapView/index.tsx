@@ -1,5 +1,8 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
+import moment from 'moment';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { GoPrimitiveDot } from 'react-icons/go';
 
 import {
   MapViewCard,
@@ -10,10 +13,8 @@ import {
   ContentCard,
   MapView,
 } from './styles';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { GoPrimitiveDot } from 'react-icons/go';
+
 import Map from '@Components/Maps';
-import moment from 'moment';
 import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarPC';
 
 const MapCard = dynamic(() =>
@@ -47,16 +48,7 @@ export default function MapViewComponent(props) {
       </HeaderCard>
       <ContentCard>
         <MapView>
-          <React.Fragment>
-            <Map
-              fullWidth={true}
-              showTrackerName={true}
-              mapType="leaflet"
-              {...props}
-            />
-            <ToolBar {...props} />
-          </React.Fragment>
-          {trackingIds && trackingIds.length > 0 && (
+          {trackingIds && trackingIds.length > 0 ? (
             <>
               <MapCard
                 mapId="isDashboard"
@@ -65,6 +57,16 @@ export default function MapViewComponent(props) {
                 {...props}
               />
             </>
+          ) : (
+            <React.Fragment>
+              <Map
+                fullWidth={true}
+                showTrackerName={true}
+                mapType="leaflet"
+                {...props}
+              />
+              <ToolBar {...props} />
+            </React.Fragment>
           )}
         </MapView>
       </ContentCard>
