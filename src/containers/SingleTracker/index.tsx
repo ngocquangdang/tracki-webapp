@@ -40,7 +40,7 @@ import { changeMapView } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
-
+import { refreshLocationRequestAction } from '@Containers/Trackers/store/actions';
 import {
   Container,
   Header,
@@ -79,6 +79,7 @@ interface Props {
   showSnackbar(data: SNACK_PAYLOAD): void;
   getHistoryTracker(data: object): void;
   changePointTracking(pointIndex: number): void;
+  refreshLocation(data: object): void;
   resetBeep(): void;
 }
 
@@ -101,6 +102,7 @@ function SingleTracker(props: Props) {
     t,
     resetBeep,
     showSnackbar,
+    refreshLocation,
   } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
@@ -167,6 +169,7 @@ function SingleTracker(props: Props) {
               tracker={tracker}
               t={t}
               settings={settings[tracker.settings_id]}
+              refreshLocation={refreshLocation}
             />
             <TrackerMenu>
               <TrackerMenuUp>
@@ -258,6 +261,8 @@ const mapDispatchToProps = dispatch => ({
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
   changePointTracking: (pointIndex: number) =>
     dispatch(changePointTracking(pointIndex)),
+  refreshLocation: (data: object) =>
+    dispatch(refreshLocationRequestAction(data)),
 });
 
 const mapStateToProps = createStructuredSelector({

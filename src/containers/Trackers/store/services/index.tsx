@@ -67,3 +67,9 @@ export const getAllAssignment = async (accountId: number, geofenceId: number) =>
 
 export const createNewGeofence = async (accountId: number, geofence: object) =>
   await axiosClient.post(`v3/accounts/${accountId}/geozones`, geofence);
+
+export const refreshLocaion = async (accountId: number, data: object) =>
+  await axiosClient.post(
+    `v3/accounts/${accountId}/devices/ops/getLocation`,
+    data
+  );

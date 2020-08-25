@@ -17,5 +17,5 @@ Notification.getInitialProps = async (): Promise<IPage.InitialProps> => {
 
 export default compose(
   withAuth,
-  withTranslation(['common', 'tracker'])
+  withTranslation(['common', 'notifications'])
 )(Notification);

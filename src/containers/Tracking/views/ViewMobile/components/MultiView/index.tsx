@@ -14,11 +14,18 @@ interface Props {
   trackingIds: number[];
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
 export default function MultiView(props: Props) {
-  const { isMultiScreen, trackers, trackingIds, settings } = props;
+  const {
+    isMultiScreen,
+    trackers,
+    trackingIds,
+    settings,
+    refreshLocation,
+  } = props;
   const classes = useStyles();
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
@@ -33,6 +40,7 @@ export default function MultiView(props: Props) {
             isMobile={true}
             t={props.t}
             settings={settings[tracker.settings_id]}
+            refreshLocation={refreshLocation}
           />
         </div>
       )}

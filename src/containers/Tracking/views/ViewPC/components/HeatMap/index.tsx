@@ -17,6 +17,7 @@ interface Props {
   currentTab: number;
   settings: object;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -30,6 +31,7 @@ export default function HeatMap(props: Props) {
     changeTrackersTracking,
     currentTab,
     getHistoryTracker,
+    refreshLocation,
   } = props;
   const classes = useStyles();
 
@@ -90,6 +92,7 @@ export default function HeatMap(props: Props) {
         className={classes.tracker}
         tracker={tracker}
         settings={settings[tracker?.settings_id]}
+        refreshLocation={refreshLocation}
       />
       <div className={classes.formSelect}>
         <DateTimePicker

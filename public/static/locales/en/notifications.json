@@ -1,0 +1,18 @@
+{
+  "notification": "Notifications",
+  "view_report": "View Report",
+  "sort_by": "Sort By",
+  "export_csv": "Export CSV",
+  "select_tracker": "Select Tracker",
+  "select_type": "Select Type",
+  "no_data": "No data found",
+  "item_per_page": "Items per page:",
+  "speed_violation": "Speed Violation",
+  "geo_fence_crossed": "Geo-fence Crossed",
+  "start_moving": "Start Moving",
+  "low_battery": "Low Battery",
+  "sos_alert": "SOS alert",
+  "left_click": "Left Click",
+  "right_click": "Right Click",
+  "notification_report": "Notification & History Report"
+}

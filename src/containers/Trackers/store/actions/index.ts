@@ -207,3 +207,8 @@ export const updateTrackersLinkedGeofence = (trackers: object) => ({
   type: types.UPDATE_TRACKERS_LINKED_GEOFENCE,
   payload: { trackers },
 });
+
+export const refreshLocationRequestAction = (data: object) => ({
+  type: types.REFRESH_LOACTION_REQUESTED,
+  payload: { data },
+});

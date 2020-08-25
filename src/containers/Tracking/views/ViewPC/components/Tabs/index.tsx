@@ -18,6 +18,7 @@ interface Props {
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -31,6 +32,7 @@ export default function TabsPC(props: Props) {
     changeTrackingView,
     changeTrackersTracking,
     getHistoryTracker,
+    refreshLocation,
   } = props;
 
   const classes = useStyles();
@@ -71,6 +73,7 @@ export default function TabsPC(props: Props) {
           trackingIds={trackingIds}
           currentTab={currentTab}
           changeTrackersTracking={changeTrackersTracking}
+          refreshLocation={refreshLocation}
         />
       )}
       <TabPanel value={currentTab} index={1} className={classes.tabPanel}>
@@ -83,6 +86,7 @@ export default function TabsPC(props: Props) {
           changeTrackersTracking={changeTrackersTracking}
           getHistoryTracker={getHistoryTracker}
           currentTab={currentTab}
+          refreshLocation={refreshLocation}
         />
       </TabPanel>
       <TabPanel value={currentTab} index={3} className={classes.tabPanel}>

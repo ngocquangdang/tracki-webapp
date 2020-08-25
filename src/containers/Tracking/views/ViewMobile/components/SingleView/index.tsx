@@ -18,11 +18,19 @@ interface Props {
   settings: object;
   getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
 function TrackingSingleView(props: Props) {
-  const { tracker, viewMode, t, settings, getHistoryTracker } = props;
+  const {
+    tracker,
+    viewMode,
+    t,
+    settings,
+    getHistoryTracker,
+    refreshLocation,
+  } = props;
   const [currentView, setCurrentView] = useState('');
   const classes = useStyles();
 
@@ -60,6 +68,7 @@ function TrackingSingleView(props: Props) {
               isMobile={true}
               t={props.t}
               settings={settings[tracker.settings_id]}
+              refreshLocation={refreshLocation}
             />
           </div>
           <SettingTracker
