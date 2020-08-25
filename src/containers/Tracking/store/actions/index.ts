@@ -27,6 +27,11 @@ export const changeTrackingView = (viewMode: string) => ({
   payload: { viewMode },
 });
 
+export const changePointTracking = (pointIndex: number) => ({
+  type: types.CHANGE_POINT_TRACKING,
+  payload: { pointIndex },
+});
+
 export const getAlarmTrackerRequest = (data: object) => {
   return {
     type: types.GET_ALARM_TRACKER_REQUESTED,

@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import {
+  Skeleton,
   TimelineOppositeContent,
   TimelineItem,
   TimelineSeparator,
@@ -8,16 +9,20 @@ import {
   TimelineDot,
 } from '@material-ui/lab';
 import moment from 'moment';
+import clsx from 'clsx';
 
 import { getAddress } from '@Utils/helper';
 import useStyles from './styles';
 
 interface Props {
   history: any;
+  pointIndex: number;
+  isTracking: boolean;
+  changePointTracking(pointIndex: number): void;
 }
 
 export default function TrackerTimeline(props: Props) {
-  const { history } = props;
+  const { history, pointIndex, isTracking, changePointTracking } = props;
   const [address, setAddress] = useState('');
   const classes = useStyles();
 
@@ -30,20 +35,53 @@ export default function TrackerTimeline(props: Props) {
     callApiGetAddress();
   }, [callApiGetAddress]);
 
+  const onSelect = () => {
+    changePointTracking(pointIndex);
+  };
+
   return (
-    <TimelineItem className={classes.item}>
-      <TimelineOppositeContent className={classes.oppositeText}>
-        {moment(history.time * 1000).format('hh:mm A')}
-      </TimelineOppositeContent>
-      <TimelineSeparator>
-        <TimelineDot
-          // color={history.moving ? 'secondary' : 'primary'}
-          variant="outlined"
-          className={classes[history.moving ? 'moving' : 'stop']}
-        />
-        <TimelineConnector />
-      </TimelineSeparator>
-      <TimelineContent className={classes.text}>{address}</TimelineContent>
-    </TimelineItem>
+    <div onClick={onSelect}>
+      <TimelineItem
+        className={clsx(classes.item, { [classes.active]: isTracking })}
+      >
+        <TimelineOppositeContent className={classes.oppositeText}>
+          {address ? (
+            moment(history.time * 1000).format('hh:mm A')
+          ) : (
+            <Skeleton
+              width={60}
+              height={16}
+              variant="text"
+              animation="wave"
+              classes={{ root: classes.skeleton }}
+            />
+          )}
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineDot
+            // color={history.moving ? 'secondary' : 'primary'}
+            variant="outlined"
+            className={clsx(
+              classes.dot,
+              classes[history.moving ? 'moving' : 'stop']
+            )}
+          >
+            {isTracking && <span className={classes.outter} />}
+          </TimelineDot>
+          <TimelineConnector />
+        </TimelineSeparator>
+        <TimelineContent className={classes.text}>
+          {address || (
+            <Skeleton
+              width={'100%'}
+              height={16}
+              variant="text"
+              animation="wave"
+              classes={{ root: classes.skeleton }}
+            />
+          )}
+        </TimelineContent>
+      </TimelineItem>
+    </div>
   );
 }

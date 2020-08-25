@@ -50,6 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   inLine: {
     display: 'flex',
+    width: '100%',
   },
   marginRight: {
     marginRight: 10,
