@@ -8,7 +8,13 @@ import SelectOption from '@Components/selections';
 import { ALARM_TYPES } from '../../store/constants';
 import NotificationCardDetail from './components/NotificationCardDetails';
 
-import { OptionView, DetailCard } from './styles';
+import {
+  OptionView,
+  DetailCard,
+  ListOptionView,
+  FilterData,
+  DatePicker,
+} from './styles';
 
 interface Notifications {
   id: number;
@@ -32,12 +38,13 @@ function NotificationMobile(props) {
 
   const [alarmType, setAlarmType] = useState(ALARM_TYPES[0].value);
 
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
+  const [dateTime, setDateTime] = useState({
+    fromDate: moment().unix(),
+    toDate: moment().unix(),
+  });
+
+  const [isDateRange, setDateRange] = useState(false);
+  const [dataFilter, setDataFilter] = useState(true);
 
   const [initialNotifications, setInitialNotifications] = useState({});
   const [initialNotificationsIds, setInitialNotificationsIds] = useState<
@@ -63,50 +70,25 @@ function NotificationMobile(props) {
       : setInitialNotificationsIds(filterType);
   };
 
-  const onChangeDateOption = value => {
-    if (value !== 'date_range' && value !== 'specific_date') {
-      const filterDate = notificationsIds.filter(
-        item => notifications[item]?.created >= value * 1000
-      );
-      setInitialNotificationsIds(filterDate);
-    }
-  };
-
-  const onChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    const filterDate = notificationsIds.filter(
-      item =>
-        notifications[item]?.created <= selectedDateTo.valueOf() &&
-        notifications[item]?.created >= fromDate.valueOf()
-    );
-    setInitialNotificationsIds(filterDate);
-    setSelectedDateFrom(fromDate);
-  };
-
-  const onChangeDateTo = date => {
-    const toDate = moment(date.getTime());
+  const onChangeDateTime = obj => {
+    const { fromDate, toDate } = obj || dateTime;
+    setDateTime(obj);
     const filterNotificationsByDate = notificationsIds.filter(
       item =>
-        notifications[item]?.created <= toDate.valueOf() &&
-        notifications[item]?.created >= setSelectedDateFrom.valueOf()
+        moment(notifications[item]?.created).unix() <= toDate.valueOf() &&
+        moment(notifications[item]?.created).unix() >= fromDate.valueOf()
     );
+    filterNotificationsByDate.length === 0
+      ? setDataFilter(false)
+      : setDataFilter(true);
+
     setInitialNotificationsIds(filterNotificationsByDate);
-    setSelectedDateTo(toDate);
   };
 
-  const onChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
-  };
-
-  const onChangeSpecificTimeTo = date => {
-    const filterNotificationsByDate = notificationsIds.filter(
-      item =>
-        notifications[item]?.created <= moment(date.getTime()).valueOf() &&
-        notifications[item]?.created >= moment(selectedSpecificDate).valueOf()
-    );
-    setInitialNotificationsIds(filterNotificationsByDate);
-    setSelectedSpecificTimeTo(date);
+  const onSelectOption = value => {
+    value === 'date_range' || value === 'specific_date'
+      ? setDateRange(true)
+      : setDateRange(false);
   };
 
   return (
@@ -118,27 +100,26 @@ function NotificationMobile(props) {
       isBlackView={true}
       title={`Notification & History Report`}
     >
-      <OptionView>
-        <SelectOption
-          name="alarm_type"
-          options={ALARM_TYPES}
-          label="Select Type"
-          value={alarmType}
-          onChangeOption={onChangeAlarmType}
-        />
-        <DateTimePicker
-          isMobile={false}
-          onChangeDateFrom={onChangeDateFrom}
-          onChangeDateTo={onChangeDateTo}
-          onChangeSpecificDate={onChangeSpecificDate}
-          onChangeSpecificTimeTo={onChangeSpecificTimeTo}
-          onChangeDateOption={onChangeDateOption}
-          valueDateFrom={selectedDateFrom}
-          valueDateTo={selectedDateTo}
-          valueSpecificDate={selectedSpecificDate}
-          valueSpecificTimeTo={selectedSpecificTimeTo}
-        />
-      </OptionView>
+      <ListOptionView isDateRange={isDateRange}>
+        <OptionView isDateRange={isDateRange}>
+          <SelectOption
+            name="alarm_type"
+            options={ALARM_TYPES}
+            label="Select Type"
+            value={alarmType}
+            onChangeOption={onChangeAlarmType}
+          />
+        </OptionView>
+        <DatePicker isDateRange={isDateRange}>
+          <DateTimePicker
+            isMobile={false}
+            dateTime={dateTime}
+            onChange={onChangeDateTime}
+            isHistory={true}
+            onSelectOption={onSelectOption}
+          />
+        </DatePicker>
+      </ListOptionView>
       <DetailCard>
         {(initialNotificationsIds && initialNotificationsIds).map(item => {
           return (
@@ -149,6 +130,7 @@ function NotificationMobile(props) {
             </Fragment>
           );
         })}
+        {dataFilter ? null : <FilterData>No data filter</FilterData>}
       </DetailCard>
     </SideBarOutsideContact>
   );

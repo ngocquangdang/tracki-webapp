@@ -72,12 +72,11 @@ export default function Notification(props: Props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
+  const [dateTime, setDateTime] = useState({
+    fromDate: moment().unix(),
+    toDate: moment().unix(),
+  });
+
   const [isDateRange, setDateRange] = useState(false);
   const [dataFilter, setDataFilter] = useState(true);
 
@@ -114,53 +113,25 @@ export default function Notification(props: Props) {
     setPage(0);
   };
 
-  const onChangeDateOption = value => {
+  const onChangeDateTime = obj => {
+    const { fromDate, toDate } = obj || dateTime;
+    setDateTime(obj);
+    const filterNotificationsByDate = notificationsIds.filter(
+      item =>
+        moment(notifications[item]?.created).unix() <= toDate.valueOf() &&
+        moment(notifications[item]?.created).unix() >= fromDate.valueOf()
+    );
+    filterNotificationsByDate.length === 0
+      ? setDataFilter(false)
+      : setDataFilter(true);
+
+    setInitialNotificationsIds(filterNotificationsByDate);
+  };
+
+  const onSelectOption = value => {
     value === 'date_range' || value === 'specific_date'
       ? setDateRange(true)
       : setDateRange(false);
-    if (value !== 'date_range' && value !== 'specific_date') {
-      const filterDate = notificationsIds.filter(
-        item => notifications[item]?.created >= value * 1000
-      );
-      setInitialNotificationsIds(filterDate);
-    }
-  };
-
-  const onChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    const filterDate = notificationsIds.filter(
-      item =>
-        notifications[item]?.created <= selectedDateTo.valueOf() &&
-        notifications[item]?.created >= fromDate.valueOf()
-    );
-    setInitialNotificationsIds(filterDate);
-    setSelectedDateFrom(fromDate);
-  };
-
-  const onChangeDateTo = date => {
-    const toDate = moment(date.getTime());
-    const filterNotificationsByDate = notificationsIds.filter(
-      item =>
-        notifications[item]?.created <= toDate.valueOf() &&
-        notifications[item]?.created >= setSelectedDateFrom.valueOf()
-    );
-    setInitialNotificationsIds(filterNotificationsByDate);
-    setSelectedDateTo(toDate);
-  };
-
-  const onChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
-  };
-
-  const onChangeSpecificTimeTo = date => {
-    const filterNotificationsByDate = notificationsIds.filter(
-      item =>
-        notifications[item]?.created <= moment(date.getTime()).valueOf() &&
-        notifications[item]?.created >= moment(selectedSpecificDate).valueOf()
-    );
-    setInitialNotificationsIds(filterNotificationsByDate);
-    setSelectedSpecificTimeTo(date);
   };
 
   const onChangeSortBy = (value: string) => {
@@ -225,6 +196,7 @@ export default function Notification(props: Props) {
       }),
     []
   );
+
   return (
     <MainLayout hasFooter={false}>
       <div>
@@ -257,15 +229,10 @@ export default function Notification(props: Props) {
             <OptionViewDatePicker isDateRange={isDateRange}>
               <DateTimePicker
                 isMobile={false}
-                onChangeDateFrom={onChangeDateFrom}
-                onChangeDateTo={onChangeDateTo}
-                onChangeSpecificDate={onChangeSpecificDate}
-                onChangeSpecificTimeTo={onChangeSpecificTimeTo}
-                onChangeDateOption={onChangeDateOption}
-                valueDateFrom={selectedDateFrom}
-                valueDateTo={selectedDateTo}
-                valueSpecificDate={selectedSpecificDate}
-                valueSpecificTimeTo={selectedSpecificTimeTo}
+                dateTime={dateTime}
+                onChange={onChangeDateTime}
+                isHistory={false}
+                onSelectOption={onSelectOption}
               />
             </OptionViewDatePicker>
             <Button

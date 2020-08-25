@@ -35,6 +35,7 @@ interface Props {
   dateTime: DateTime;
   onChange(dateTime: DateTime): void;
   showDescriptionTime?: boolean;
+  onSelectOption?: any;
 }
 
 export default function DateTimePicker(props: Props) {
@@ -44,6 +45,7 @@ export default function DateTimePicker(props: Props) {
     dateTime,
     showDescriptionTime,
     onChange,
+    onSelectOption,
   } = props;
   const classes = useStyles();
 
@@ -61,10 +63,11 @@ export default function DateTimePicker(props: Props) {
         fromDate: moment().unix(),
         toDate: moment().unix(),
       });
+      onSelectOption(value);
     } else {
       onChange({
         fromDate: value,
-        toDate: dateTime.toDate,
+        toDate: moment().unix(),
       });
     }
   };

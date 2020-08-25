@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
   icon: {
     display: 'flex',
     alignItems: 'center',
+    flex: 1,
   },
   container: {
     display: 'flex',
@@ -27,6 +28,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    flex: 5,
   },
   deviceName: {
     display: 'flex',
@@ -60,6 +62,9 @@ const useStyles = makeStyles(theme => ({
     color: 'rgba(255, 255, 255, 0.87)',
     fontSize: 12,
     fontWeight: 500,
+  },
+  skeContainer: {
+    margin: 10,
   },
 }));
 

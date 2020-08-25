@@ -26,81 +26,45 @@ interface Props {
   isMobile: boolean;
   show: boolean;
   isRequesting?: boolean;
-  onClickViewHistory(): void;
   getHistoryTracker(data): void;
   tracker: Tracker;
 }
 
 function HistoryTracker(props: Props) {
   const classes = useStyles();
-  const {
-    handleClose,
-    t,
-    isMobile,
-    show,
-    isRequesting,
-    onClickViewHistory,
-  } = props;
+  const { handleClose, t, isMobile, show, isRequesting } = props;
   const [history, setHistory] = useState({
     map_view: true,
     seven_day_report: false,
     alert_history_report: false,
   });
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
 
-  const onChangeDateOption = value => {
-    console.log('HistoryTracker -> value', value);
-    if (value !== 'date_range' && value !== 'specific_date') {
-      props.getHistoryTracker({
-        trackerId: props.tracker?.device_id,
-        fromDate: value,
-        toDate: moment().unix(),
-        limit: 2000,
-        page: 1,
-        type: 2,
-      });
-    }
-  };
-  const onChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    setSelectedDateFrom(fromDate);
+  const [dateTime, setDateTime] = useState({
+    fromDate: moment().unix(),
+    toDate: moment().unix(),
+  });
+
+  const onChangeDateTime = obj => {
+    setDateTime(obj);
+    getHistory(obj);
   };
 
-  const onChangeDateTo = date => {
-    const toDate = moment(date.getTime());
-    setSelectedDateTo(toDate);
-
+  const getHistory = obj => {
+    const { fromDate, toDate } = obj || dateTime;
     props.getHistoryTracker({
-      trackerId: props.tracker?.device_id,
-      fromDate: selectedDateFrom.unix(),
-      toDate: toDate.unix(),
+      trackerId: props?.tracker?.device_id,
+      fromDate: fromDate,
+      toDate: toDate,
       limit: 2000,
       page: 1,
       type: 2,
     });
   };
 
-  const onChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
+  const onClickViewHistory = () => {
+    getHistory(null);
   };
 
-  const onChangeSpecificTimeTo = date => {
-    setSelectedSpecificTimeTo(date);
-    props.getHistoryTracker({
-      trackerId: props.tracker?.device_id,
-      fromDate: moment(selectedSpecificDate).unix(),
-      toDate: moment(date).unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-  };
   const onSubmitForm = values => {
     setHistory(values);
   };
@@ -176,15 +140,8 @@ function HistoryTracker(props: Props) {
                 <div className={classes.selectOption}>
                   <DateTimePicker
                     isMobile={false}
-                    onChangeDateFrom={onChangeDateFrom}
-                    onChangeDateTo={onChangeDateTo}
-                    onChangeSpecificDate={onChangeSpecificDate}
-                    onChangeSpecificTimeTo={onChangeSpecificTimeTo}
-                    onChangeDateOption={onChangeDateOption}
-                    valueDateFrom={selectedDateFrom}
-                    valueDateTo={selectedDateTo}
-                    valueSpecificDate={selectedSpecificDate}
-                    valueSpecificTimeTo={selectedSpecificTimeTo}
+                    dateTime={dateTime}
+                    onChange={onChangeDateTime}
                     isHistory={true}
                   />
                 </div>
