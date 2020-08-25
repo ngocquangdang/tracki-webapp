@@ -15,6 +15,11 @@ const useStyles = makeStyles(theme => ({
   text: {
     fontSize: 14,
     lineHeight: '17px',
+    whiteSpace: 'nowrap',
+    width: '100%',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    paddingRight: 0,
   },
   moving: {
     backgroundColor: 'yellow',

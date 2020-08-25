@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
   datePickerControl: {
     display: 'flex',
     justifyContent: 'space-between',
+    marginTop: 16,
   },
   datePickerControlHistory: {
     marginTop: '15px',
