@@ -86,92 +86,37 @@ export const resetBeepAction = () => ({
   type: types.RESET_BEEP,
 });
 
-// export const searchContactRequestedAction = (search: string | null) => ({
-//   type: types.SEARCH_CONTACT_REQUESTED,
-//   payload: { search },
-// });
+export const updatePreferancesRequestedAction = (speed_unit: string) => ({
+  type: types.UPDATE_PREFERANCES_TRACKER_REQUESTED,
+  payload: { speed_unit },
+});
 
-// export const searchContactSucceedAction = (
-//   contactIds: Array<number | string>
-// ) => ({
-//   type: types.SEARCH_CONTACT_SUCCEED,
-//   payload: { contactIds },
-// });
+export const updatePreferancesSucceedAction = (speed_unit: string) => ({
+  type: types.UPDATE_PREFERANCES_TRACKER_SUCCESSED,
+  payload: { speed_unit },
+});
 
-// export const searchContactFailedAction = (error: object) => ({
-//   type: types.SEARCH_CONTACT_FAILED,
-//   payload: { error },
-// });
-// export function addContactRequestAction(data, callback) {
-//   return {
-//     type: types.CREATE_NEW_CONTACT_REQUESTED,
-//     payload: {
-//       data,
-//       callback,
-//     },
-//   };
-// }
+export const updatePreferancesFailedAction = (error: object) => ({
+  type: types.UPDATE_PREFERANCES_TRACKER_FAILED,
+  payload: { error },
+});
 
-// export function addContactSuccesstAction(payload) {
-//   return {
-//     type: types.CREATE_NEW_CONTACT_SUCCESSED,
-//     payload,
-//   };
-// }
+export const getDeviceSettingRequestedAction = (
+  setting_id: number,
+  device_id: number
+) => ({
+  type: types.GET_DEVICE_SETTING_REQUESTED,
+  payload: { setting_id, device_id },
+});
 
-// export function addContactFailAction(payload) {
-//   return {
-//     type: types.CREATE_NEW_CONTACT_FAILED,
-//     payload,
-//   };
-// }
+export const getDeviceSettingSucceedAction = (settings: object) => {
+  return {
+    type: types.GET_DEVICE_SETTING_SUCCEED,
+    payload: { settings },
+  };
+};
 
-// export const getContactAssignedRequestedAction = device_id => ({
-//   type: types.GET_CONTACT_ASSIGNED_REQUESTED,
-//   payload: {
-//     device_id,
-//   },
-// });
-
-// export const getContactAssignedSucceedAction = payload => ({
-//   type: types.GET_CONTACT_ASSIGNED_SUCCESSED,
-//   payload,
-// });
-
-// export const getContactAssignedFailedAction = (error: object) => ({
-//   type: types.GET_CONTACT_ASSIGNED_FAILED,
-//   payload: { error },
-// });
-
-// export const addContactAssignedRequestedAction = (data, eventType) => ({
-//   type: types.ADD_CONTACT_ASSIGNED_REQUESTED,
-//   payload: { data, eventType },
-// });
-
-// export const addContactAssignedSucceedAction = payload => ({
-//   type: types.ADD_CONTACT_ASSIGNED_SUCCESSED,
-//   payload,
-// });
-
-// export const addContactAssignedFailedAction = (error: object) => ({
-//   type: types.ADD_CONTACT_ASSIGNED_FAILED,
-//   payload: { error },
-// });
-
-// export const removeContactAssignedRequestedAction = (data, eventType) => ({
-//   type: types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
-//   payload: {
-//     data,
-//     eventType,
-//   },
-// });
-
-// export const removeContactAssignedSucceedAction = payload => ({
-//   type: types.REMOVE_CONTACT_ASSIGNED_SUCCESSED,
-//   payload,
-// });
-
-// export const removeContactAssignedFailedAction = (error: object) => ({
-//   type: types.REMOVE_CONTACT_ASSIGNED_FAILED,
-//   payload: { error },
-// });
+export const getDeviceSettingFailedAction = (error: object) => ({
+  type: types.GET_DEVICE_SETTING_FAILED,
+  payload: { error },
+});

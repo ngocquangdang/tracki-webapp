@@ -8,6 +8,8 @@ import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
 
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { ActionType } from '@Interfaces';
+import { getUserRequestAction } from '@Containers/AccountSetting/store/actions';
 
 function* fetchTrackerSettingsSaga(action) {
   try {
@@ -134,6 +136,36 @@ function* sendBeepSaga(action) {
   }
 }
 
+function* updatePreferancesSaga(action: ActionType) {
+  const { speed_unit } = action.payload;
+  const { account_id, preferances } = yield select(makeSelectProfile());
+
+  try {
+    const newPreferance = {
+      ...preferances,
+      speed_unit,
+    };
+    yield call(apiServices.updatePreferences, account_id, newPreferance);
+    yield put(actions.updatePreferancesSucceedAction(speed_unit));
+    yield put(getUserRequestAction(account_id));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
+    }
+    yield put(actions.updatePreferancesFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -152,4 +184,8 @@ export default function* appWatcher() {
     deactiveLinkShareLocationSaga
   );
   yield takeLatest(types.SEND_BEEP_REQUESTED, sendBeepSaga);
+  yield takeLatest(
+    types.UPDATE_PREFERANCES_TRACKER_REQUESTED,
+    updatePreferancesSaga
+  );
 }

@@ -24,6 +24,7 @@ import {
   makeSelectGeofences,
   makeSelectTrackerId,
   makeSelectBeep,
+  makeSelectSpeedUnit,
 } from '@Containers/Trackers/store/selectors';
 import {
   makeSelectHistories,
@@ -58,6 +59,7 @@ import HistoryTrackerDetail from '@Components/HistoryTrackerDetail';
 // import SendBeep from './components/SendBeep';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
+import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 interface Props {
   settings: object;
@@ -75,6 +77,8 @@ interface Props {
   resetBeep(): void;
   deviceId: number;
   isBeep: boolean;
+  speedUnit: string;
+  profile: object;
 }
 
 function SingleTracker(props: Props) {
@@ -93,6 +97,8 @@ function SingleTracker(props: Props) {
     t,
     resetBeep,
     showSnackbar,
+    speedUnit,
+    profile,
   } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
@@ -160,6 +166,8 @@ function SingleTracker(props: Props) {
               tracker={tracker}
               t={t}
               settings={settings[tracker.settings_id]}
+              speedUnit={speedUnit}
+              profile={profile}
             />
             <TrackerMenu>
               <TrackerMenuUp>
@@ -264,6 +272,8 @@ const mapStateToProps = createStructuredSelector({
   isBeep: makeSelectBeep(),
   histories: makeSelectHistories(),
   historyIds: makeSelectHistoryIds(),
+  speedUnit: makeSelectSpeedUnit(),
+  profile: makeSelectProfile(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

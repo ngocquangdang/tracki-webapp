@@ -53,17 +53,17 @@ import {
 import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
-  // searchContactRequestedAction,
-  // addContactRequestAction,
-  // getContactAssignedRequestedAction,
-  // addContactAssignedRequestedAction,
-  // removeContactAssignedRequestedAction,
+  updatePreferancesRequestedAction,
+  getDeviceSettingRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
-import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectTrackerSettings,
+  makeSelectSpeedUnit,
+} from '@Containers/Trackers/store/selectors';
 import {
   makeSelectErrors,
   makeSelectContacts,
@@ -103,6 +103,9 @@ interface Props {
   errors: any;
   profile: any;
   contactOfTracker: object;
+  updatePreferancesAction(speed_unit: string): void;
+  getSettingDeviceAction(setting_id: number, device_id: number): void;
+  speedUnit: string;
 }
 
 function SettingTracker(props: Props) {
@@ -131,8 +134,11 @@ function SettingTracker(props: Props) {
     removeContactRequest,
     errors,
     profile,
-    // contactOfTracker,
+    updatePreferancesAction,
+    getSettingDeviceAction,
+    speedUnit,
   } = props;
+
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
@@ -151,6 +157,7 @@ function SettingTracker(props: Props) {
     tracking_mode: LOCATION_UPDATE_OPTIONS[0].value,
   });
 
+  const speed_unit = speedUnit || profile?.preferences.speed_unit;
   useEffect(() => {
     if (trackerSettings && tracker) {
       const {
@@ -238,6 +245,12 @@ function SettingTracker(props: Props) {
       setIsOpenTooltip(null);
     }, 3000);
   };
+
+  const handleUpdatePreferance = e => {
+    updatePreferancesAction(e.target.value);
+    getSettingDeviceAction(tracker.settings_id, infoTracker.device_id);
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -337,7 +350,7 @@ function SettingTracker(props: Props) {
                   <SelectGroup>
                     <SubTitle>{t('tracker:speed_unit')}</SubTitle>
                     <RadioGroup
-                      value={values.speed_limit.unit || 'kmp'}
+                      value={speed_unit}
                       onChange={e => {
                         setFieldValue('speed_limit', {
                           ...values.speed_limit,
@@ -350,12 +363,14 @@ function SettingTracker(props: Props) {
                         value="kph"
                         control={<Radio color="primary" />}
                         label="KPH"
+                        onClick={handleUpdatePreferance}
                         className={classes.fontSize}
                       />
                       <FormControlLabel
                         value="mph"
                         control={<Radio color="primary" />}
                         label="MPH"
+                        onClick={handleUpdatePreferance}
                         className={classes.fontSize}
                       />
                     </RadioGroup>
@@ -364,7 +379,7 @@ function SettingTracker(props: Props) {
                     <span>{t('tracker:speed_limit_alert')}</span>
                     <OptionRight>
                       <LimitInput
-                        label={t(`${values.speed_limit.unit.toUpperCase()}`)}
+                        label={t(`${speedUnit.toUpperCase()}`)}
                         name="speed_limit_value"
                         disabled={!values.speed_limit.enable}
                         value={values.speed_limit.value}
@@ -593,6 +608,7 @@ const mapStateToProps = createStructuredSelector({
   contactAssigneds: makeSelectcontactAssigneds(),
   contactAssignedIds: makeSelectcontactAssignedIds(),
   profile: makeSelectProfile(),
+  speedUnit: makeSelectSpeedUnit(),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -609,6 +625,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  updatePreferancesAction: (speed_unit: string) =>
+    dispatch(updatePreferancesRequestedAction(speed_unit)),
+  getSettingDeviceAction: (setting_id: number, device_id: number) =>
+    dispatch(getDeviceSettingRequestedAction(setting_id, device_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

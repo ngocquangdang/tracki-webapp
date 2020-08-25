@@ -21,6 +21,10 @@ export const uploadImage = async (
   );
 };
 
+export const getPreferance = async (account_id: number) => {
+  return await axiosClient.get(`v3/accounts/${account_id}/preferences`);
+};
+
 // v3/accounts/108384/preferences
 export const updatePreferences = async (
   accountId: number,

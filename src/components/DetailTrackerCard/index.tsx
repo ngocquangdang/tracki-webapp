@@ -50,14 +50,17 @@ interface Prop {
   isMobile: boolean;
   t(key: string, format?: object): string;
   settings: any;
+  speedUnit?: string;
+  profile?: any;
 }
 
 function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile, className = '', settings } = props;
+  const { tracker, isMobile, className = '', speedUnit, profile } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
+  const speed_unit = speedUnit || profile?.preferences?.speed_unit;
   const onZoomClick = () => {
     if (tracker) {
       const { lat, lng } = tracker;
@@ -139,7 +142,6 @@ function DetailTrackerCard(props: Prop) {
   };
 
   const renderContentMobile = () => {
-    console.log('data address', dataAddress?.length);
     return (
       <Card key={tracker.device_id}>
         <TrackerInfomation isMobile={isMobile}>
@@ -219,13 +221,10 @@ function DetailTrackerCard(props: Prop) {
           <span className={`${classes.textBold} ${classes.textSpace}`}>
             {tracker && tracker.speed === 0
               ? 'Stopped'
-              : settings?.preferences?.speed_limit?.unit === 'kph'
+              : speed_unit === 'kph'
               ? tracker?.speed || 0
-              : (tracker?.speed || 0) / 1.609}
-            {(tracker &&
-              tracker.speed !== 0 &&
-              settings?.preferences?.speed_limit?.unit) ||
-              ''}
+              : ((tracker?.speed || 0) / 1.609).toFixed(2)}{' '}
+            {tracker && tracker.speed !== 0 ? speed_unit : ''}
           </span>
         </StatusTracker>
         <ConnectionTracker>
