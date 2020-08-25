@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Router from 'next/router';
 import moment from 'moment';
+import dynamic from 'next/dynamic';
+
 import { lineString } from '@turf/turf';
 import length from '@turf/length';
 import SelectOption from '@Components/selections';
@@ -14,7 +16,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import DateTimePicker from '@Components/DateTimePicker';
 import RecentAlertComponent from './components/RecentAlert';
-import MapCard from '@Containers/Dasboard/views/components/MapCard';
+
 import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarSP';
 import {
   HeaderDashboard,
@@ -42,6 +44,11 @@ import {
   TitleInfo,
   AddressInfo,
 } from './styles';
+
+const MapCard = dynamic(
+  () => import('@Containers/Dasboard/views/components/MapCard'),
+  { ssr: false }
+);
 
 interface Props {
   trackerIds: number[];

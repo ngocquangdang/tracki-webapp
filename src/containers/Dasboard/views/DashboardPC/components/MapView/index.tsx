@@ -17,8 +17,9 @@ import {
 import Map from '@Components/Maps';
 import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarPC';
 
-const MapCard = dynamic(() =>
-  import('@Containers/Dasboard/views/components/MapCard')
+const MapCard = dynamic(
+  () => import('@Containers/Dasboard/views/components/MapCard'),
+  { ssr: false }
 );
 
 export default function MapViewComponent(props) {
