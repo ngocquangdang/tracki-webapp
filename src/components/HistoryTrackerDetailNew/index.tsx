@@ -6,6 +6,7 @@ import { ArrowBackIos as ArrowBackIosIcon } from '@material-ui/icons';
 import DateTimePicker from '@Components/DateTimePicker';
 import { Button } from '@Components/buttons';
 import TrackerTimeline from '@Components/TrackerTimeline';
+import HistoryChart from '@Components/HistoryChart';
 import { ITracker } from '@Interfaces';
 import { useStyles } from './styles';
 
@@ -114,6 +115,9 @@ function HistoryTrackerDetail(props: Prop) {
             fullWidth
             onClick={onClickViewHistory}
           />
+          {historyIds.length > 0 && (
+            <HistoryChart historyIds={historyIds} histories={histories} />
+          )}
           {historyIds.length > 0 && (
             <div className={classes.timeline}>
               <TrackerTimeline

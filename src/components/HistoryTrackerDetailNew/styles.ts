@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   timeline: {
     position: 'relative',
-    height: 'calc(100% - 228px)',
+    height: 'calc(100% - 365px)',
     '& > div': {
       position: 'absolute',
       height: 'calc(100% - 17px)',
@@ -165,7 +165,7 @@ const useStyles = makeStyles(theme => ({
   },
   filterWrapper: {
     padding: 15,
-    height: 'calc(100% - 224px)',
+    height: 'calc(100% - 55px)',
     position: 'relative',
     overflow: 'hidden',
   },

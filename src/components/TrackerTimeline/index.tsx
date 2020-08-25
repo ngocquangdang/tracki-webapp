@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Timeline,
   TimelineItem,
@@ -30,6 +30,13 @@ export default function TrackerTimeline(props: Props) {
   const [page, setPage] = useState(1);
   const showIds = historyIds.slice(0, 5 * page).filter(id => !!id);
   const onLoadMore = () => setPage(page + 1);
+
+  useEffect(() => {
+    const itemsOfPage = page * 5;
+    if (pointTrackingIndex >= itemsOfPage) {
+      setPage(page + 1);
+    }
+  }, [pointTrackingIndex, page]);
 
   return (
     <div className={classes.container}>
