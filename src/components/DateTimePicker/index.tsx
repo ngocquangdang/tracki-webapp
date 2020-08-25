@@ -35,6 +35,7 @@ interface Props {
   dateTime: DateTime;
   onChange(dateTime: DateTime): void;
   showDescriptionTime?: boolean;
+  onSelectOption?: any;
 }
 
 export default function DateTimePicker(props: Props) {
@@ -44,6 +45,7 @@ export default function DateTimePicker(props: Props) {
     dateTime,
     showDescriptionTime,
     onChange,
+    onSelectOption,
   } = props;
   const classes = useStyles();
 
@@ -55,6 +57,9 @@ export default function DateTimePicker(props: Props) {
     setDateOption(value);
     showDateRange(value === 'date_range');
     showSpecificDate(value === 'specific_date');
+    if (!showDescriptionTime && isDateRange && isSpecificDate) {
+      onSelectOption(value);
+    }
 
     if (['date_range', 'specific_date'].includes(value)) {
       onChange({
@@ -64,7 +69,7 @@ export default function DateTimePicker(props: Props) {
     } else {
       onChange({
         fromDate: value,
-        toDate: dateTime.toDate,
+        toDate: moment().unix(),
       });
     }
   };

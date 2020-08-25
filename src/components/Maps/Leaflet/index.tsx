@@ -93,13 +93,23 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { trackerHistories } = nextProps;
+    const { trackerHistories: currentTrackerHistories } = this.props;
     if (
-      nextProps.trackerHistories !== this.props.trackerHistories &&
-      nextProps.trackerHistories?.length > 0
+      trackerHistories &&
+      Object.keys(trackerHistories).length > 0 &&
+      trackerHistories !== currentTrackerHistories
     ) {
-      const coords = nextProps.trackerHistories;
+      const trackerHistoryIds = Object.keys(trackerHistories);
+      const latlngs = trackerHistoryIds.reduce(
+        (result, item) => [
+          ...result,
+          [trackerHistories[item]?.lat, trackerHistories[item]?.lng],
+        ],
+        [] as any
+      );
       window.mapEvents.setFitBounds(
-        coords,
+        latlngs,
         window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS
       );
     }

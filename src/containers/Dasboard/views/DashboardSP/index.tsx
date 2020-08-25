@@ -78,24 +78,14 @@ export default function DashboardContainer(props) {
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
 
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
+  const [dateTime, setDateTime] = useState({
+    fromDate: moment().unix(),
+    toDate: moment().unix(),
+  });
 
-  const onChangeDateOption = value => {
-    if (value !== 'date_range' && value !== 'specific_date') {
-      getHistoryTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        fromDate: value,
-        toDate: moment().unix(),
-        limit: 2000,
-        page: 1,
-        type: 2,
-      });
-    }
+  const onChangeDateTime = obj => {
+    setDateTime(obj);
+    getHistory(obj);
     if (getAlarmsTracker) {
       getAlarmsTracker({
         trackerId: trackers[parseInt(trackerSelected)]?.device_id,
@@ -106,56 +96,16 @@ export default function DashboardContainer(props) {
     }
   };
 
-  const onChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    setSelectedDateFrom(fromDate);
-  };
-
-  const onChangeDateTo = date => {
-    const toDate = moment(date.getTime());
-    setSelectedDateTo(toDate);
-
+  const getHistory = obj => {
+    const { fromDate, toDate } = obj || dateTime;
     getHistoryTracker({
       trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-      fromDate: selectedDateFrom.unix(),
-      toDate: toDate.unix(),
+      fromDate: fromDate,
+      toDate: toDate,
       limit: 2000,
       page: 1,
       type: 2,
     });
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
-  };
-
-  const onChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
-  };
-
-  const onChangeSpecificTimeTo = date => {
-    setSelectedSpecificTimeTo(date);
-    getHistoryTracker({
-      trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-      fromDate: moment(selectedSpecificDate).unix(),
-      toDate: moment(date).unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-    if (getAlarmsTracker) {
-      getAlarmsTracker({
-        trackerId: trackers[parseInt(trackerSelected)]?.device_id,
-        limit: 500,
-        page: 1,
-        type: 'all',
-      });
-    }
   };
 
   const onUpdateRowPerPage = () => {
@@ -311,17 +261,9 @@ export default function DashboardContainer(props) {
           <SelectGroup>
             <DateTimePicker
               isMobile={false}
+              dateTime={dateTime}
+              onChange={onChangeDateTime}
               isHistory={true}
-              onChangeDateFrom={onChangeDateFrom}
-              onChangeDateTo={onChangeDateTo}
-              onChangeSpecificDate={onChangeSpecificDate}
-              onChangeSpecificTimeTo={onChangeSpecificTimeTo}
-              onChangeDateOption={onChangeDateOption}
-              valueDateFrom={selectedDateFrom}
-              valueDateTo={selectedDateTo}
-              valueSpecificDate={selectedSpecificDate}
-              valueSpecificTimeTo={selectedSpecificTimeTo}
-              showDescriptionTime={false}
             />
           </SelectGroup>
         </HeaderDashboard>
