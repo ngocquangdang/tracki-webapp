@@ -1,4 +1,5 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 
 import {
   MapViewCard,
@@ -15,14 +16,13 @@ import Map from '@Components/Maps';
 import moment from 'moment';
 import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarPC';
 
-import { isEmpty } from 'lodash';
-import MapCard from '@Containers/Dasboard/views/components/MapCard';
+const MapCard = dynamic(() =>
+  import('@Containers/Dasboard/views/components/MapCard')
+);
 
 export default function MapViewComponent(props) {
   const classes = useStyles();
-  const { trackerSelected, t, trackerIds, trackingIds } = props;
-
-  const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
+  const { trackerSelected, t, trackingIds } = props;
 
   return (
     <MapViewCard>
@@ -47,25 +47,24 @@ export default function MapViewComponent(props) {
       </HeaderCard>
       <ContentCard>
         <MapView>
-          {trackingIds && trackingIds.length > 0 ? (
+          <React.Fragment>
+            <Map
+              fullWidth={true}
+              showTrackerName={true}
+              mapType="leaflet"
+              {...props}
+            />
+            <ToolBar {...props} />
+          </React.Fragment>
+          {trackingIds && trackingIds.length > 0 && (
             <>
               <MapCard
                 mapId="isDashboard"
-                selectedTrackerId={selectedTrackerId}
+                selectedTrackerId={trackerSelected.device_id}
                 mapType="leaflet"
                 {...props}
               />
             </>
-          ) : (
-            <React.Fragment>
-              <Map
-                fullWidth={true}
-                showTrackerName={true}
-                mapType="leaflet"
-                {...props}
-              />
-              <ToolBar {...props} />
-            </React.Fragment>
           )}
         </MapView>
       </ContentCard>
