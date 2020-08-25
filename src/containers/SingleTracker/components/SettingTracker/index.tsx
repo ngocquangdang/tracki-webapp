@@ -51,11 +51,7 @@ import {
   DefaultImage,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
-import {
-  updateTrackerSettingsRequestedAction,
-  updatePreferancesRequestedAction,
-  getDeviceSettingRequestedAction,
-} from '@Containers/SingleTracker/store/actions';
+import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
@@ -89,7 +85,7 @@ interface Props {
   isMobile: boolean;
   isRequesting?: boolean;
   show: boolean;
-  updateSettings(id: number, data: object): void;
+  updateSettings(id: number, data: object, speed_unit: string): void;
   getContactListRequest(account_id: number): void;
   contacts: object;
   contactIds: Array<number>;
@@ -103,8 +99,6 @@ interface Props {
   errors: any;
   profile: any;
   contactOfTracker: object;
-  updatePreferancesAction(speed_unit: string): void;
-  getSettingDeviceAction(setting_id: number, device_id: number): void;
   speedUnit: string;
 }
 
@@ -134,8 +128,6 @@ function SettingTracker(props: Props) {
     removeContactRequest,
     errors,
     profile,
-    updatePreferancesAction,
-    getSettingDeviceAction,
     speedUnit,
   } = props;
 
@@ -166,21 +158,29 @@ function SettingTracker(props: Props) {
         tracking_measurment,
       } = trackerSettings.preferences.tracking_mode;
       setInfoTracker({
-        device_name: tracker.device_name,
-        device_id: tracker.device_id,
+        device_name: tracker.device_name || '',
+        device_id: tracker.device_id || 0,
         speed_limit: trackerSettings.preferences.speed_limit,
-        moving_start: trackerSettings.preferences.moving_start,
-        low_battery: trackerSettings.preferences.low_battery,
-        device_beep_sound: trackerSettings.preferences.device_beep_sound,
-        zone_entry: trackerSettings.preferences.zone_entry,
-        zone_exit: trackerSettings.preferences.zone_exit,
+        moving_start: trackerSettings.preferences.moving_start || false,
+        low_battery: trackerSettings.preferences.low_battery || false,
+        device_beep_sound:
+          trackerSettings.preferences.device_beep_sound || false,
+        zone_entry: trackerSettings.preferences.zone_entry || false,
+        zone_exit: trackerSettings.preferences.zone_exit || false,
         tracking_mode: `${sample_rate}_${samples_per_report}_${tracking_measurment}`,
       });
     }
   }, [tracker, trackerSettings]);
 
   const onSubmitForm = (values: any) => {
-    const { tracking_mode, device_name, device_id, ...preferences } = values;
+    console.log('onSubmitForm -> values', values);
+    const { infoTracker, speed_unit } = values;
+    const {
+      tracking_mode,
+      device_name,
+      device_id,
+      ...preferences
+    } = infoTracker;
     const [
       sample_rate,
       samples_per_report,
@@ -201,7 +201,7 @@ function SettingTracker(props: Props) {
       },
       file: imageFile.file,
     };
-    props.updateSettings(tracker.settings_id, bodyRequest);
+    props.updateSettings(tracker.settings_id, bodyRequest, speed_unit);
   };
 
   const onOpenModalSubscription = () => {
@@ -246,11 +246,6 @@ function SettingTracker(props: Props) {
     }, 3000);
   };
 
-  const handleUpdatePreferance = e => {
-    updatePreferancesAction(e.target.value);
-    getSettingDeviceAction(tracker.settings_id, infoTracker.device_id);
-  };
-
   return (
     <SideBarOutside
       title="Settings"
@@ -292,7 +287,7 @@ function SettingTracker(props: Props) {
           </ImageWrapper>
         </ImageTracker>
         <Formik
-          initialValues={infoTracker}
+          initialValues={{ infoTracker, speed_unit }}
           onSubmit={onSubmitForm}
           enableReinitialize
           disabled={isRequesting}
@@ -309,28 +304,28 @@ function SettingTracker(props: Props) {
                 <ContainerPadding>
                   <TextInput
                     label={t('tracker:tracker_name')}
-                    name="device_name"
-                    value={values.device_name}
-                    onChange={handleChange('device_name')}
-                    onBlur={handleBlur('device_name')}
+                    name="infoTracker.device_name"
+                    value={values.infoTracker?.device_name}
+                    onChange={handleChange('infoTracker.device_name')}
+                    onBlur={handleBlur('infoTracker.device_name')}
                     variant="outlined"
                   />
                   <TextInput
                     label={t('tracker:tracker_id')}
-                    name="device_id"
-                    value={values.device_id}
-                    onChange={handleChange('device_id')}
-                    onBlur={handleBlur('device_id')}
+                    name="infoTracker.device_id"
+                    value={values.infoTracker?.device_id}
+                    onChange={handleChange('infoTracker.device_id')}
+                    onBlur={handleBlur('infoTracker.device_id')}
                     variant="outlined"
                     disabled
                   />
                   <div className={classes.selectOption}>
                     <SelectOption
-                      name="tracking_mode"
+                      name="infoTracker.tracking_mode"
                       options={LOCATION_UPDATE_OPTIONS}
                       label={t('tracker:location_updated')}
-                      value={values.tracking_mode}
-                      onChangeOption={handleChange('tracking_mode')}
+                      value={values.infoTracker?.tracking_mode}
+                      onChangeOption={handleChange('infoTracker.tracking_mode')}
                     />
                   </div>
                   <TextDescription1>
@@ -350,12 +345,12 @@ function SettingTracker(props: Props) {
                   <SelectGroup>
                     <SubTitle>{t('tracker:speed_unit')}</SubTitle>
                     <RadioGroup
-                      value={speed_unit}
+                      value={values.speed_unit}
                       onChange={e => {
-                        setFieldValue('speed_limit', {
-                          ...values.speed_limit,
-                          unit: e.target.value,
-                        });
+                        setFieldValue(
+                          'speed_unit',
+                          (values.speed_unit = e.target.value)
+                        );
                       }}
                       style={{ flexDirection: 'row' }}
                     >
@@ -363,14 +358,14 @@ function SettingTracker(props: Props) {
                         value="kph"
                         control={<Radio color="primary" />}
                         label="KPH"
-                        onClick={handleUpdatePreferance}
+                        // onClick={handleUpdatePreferance}
                         className={classes.fontSize}
                       />
                       <FormControlLabel
                         value="mph"
                         control={<Radio color="primary" />}
                         label="MPH"
-                        onClick={handleUpdatePreferance}
+                        // onClick={handleUpdatePreferance}
                         className={classes.fontSize}
                       />
                     </RadioGroup>
@@ -379,14 +374,14 @@ function SettingTracker(props: Props) {
                     <span>{t('tracker:speed_limit_alert')}</span>
                     <OptionRight>
                       <LimitInput
-                        label={t(`${speed_unit.toUpperCase()}`)}
-                        name="speed_limit_value"
-                        disabled={!values.speed_limit.enable}
-                        value={values.speed_limit.value}
+                        label={t(`${values.speed_unit.toUpperCase()}`)}
+                        name="infoTracker.speed_limit_value"
+                        disabled={!values.infoTracker?.speed_limit.enable}
+                        value={values.infoTracker?.speed_limit.value}
                         onChange={e => {
                           if (isNumber(+e.target.value)) {
-                            setFieldValue('speed_limit', {
-                              ...values.speed_limit,
+                            setFieldValue('infoTracker.speed_limit', {
+                              ...values.infoTracker?.speed_limit,
                               value: +e.target.value,
                             });
                           }
@@ -409,14 +404,18 @@ function SettingTracker(props: Props) {
                       </TooltipStyle>
 
                       <PersonAddIcon
-                        onClick={() => onShowSelectContact('speed_limit')}
+                        onClick={() =>
+                          onShowSelectContact('infoTracker.speed_limit')
+                        }
                         className={`${classes.personAddIcon} ${classes.speedLimit}`}
                       />
                       <Switch
-                        checked={values.speed_limit.enable || false}
+                        checked={
+                          values.infoTracker?.speed_limit.enable || false
+                        }
                         onChange={e => {
-                          setFieldValue('speed_limit', {
-                            ...values.speed_limit,
+                          setFieldValue('infoTracker.speed_limit', {
+                            ...values.infoTracker?.speed_limit,
                             enable: e.target.checked,
                           });
                         }}
@@ -444,10 +443,13 @@ function SettingTracker(props: Props) {
                         </AdornmentStyle>
                       </TooltipStyle>
                       <Switch
-                        checked={values.moving_start || false}
-                        value={values.moving_start}
+                        checked={values.infoTracker?.moving_start || false}
+                        value={values.infoTracker?.moving_start}
                         onChange={e =>
-                          setFieldValue('moving_start', e.target.checked)
+                          setFieldValue(
+                            'infoTracker.moving_start',
+                            e.target.checked
+                          )
                         }
                         color="primary"
                       />
@@ -467,16 +469,21 @@ function SettingTracker(props: Props) {
                       >
                         <AdornmentStyle position="end">
                           <AiOutlineQuestionCircle
-                            onClick={handleShowTooltip('low_battery_alert')}
+                            onClick={handleShowTooltip(
+                              'infoTracker.low_battery_alert'
+                            )}
                             className={`${classes.questionIcon} ${classes.speedLimit}`}
                           />
                         </AdornmentStyle>
                       </TooltipStyle>
                       <Switch
-                        checked={values.low_battery}
-                        value={values.low_battery}
+                        checked={values.infoTracker?.low_battery}
+                        value={values.infoTracker?.low_battery}
                         onChange={e =>
-                          setFieldValue('low_battery', e.target.checked)
+                          setFieldValue(
+                            'infoTracker.low_battery',
+                            e.target.checked
+                          )
                         }
                         color="primary"
                       />
@@ -502,10 +509,13 @@ function SettingTracker(props: Props) {
                         </AdornmentStyle>
                       </TooltipStyle>
                       <Switch
-                        checked={values.device_beep_sound}
-                        value={values.device_beep_sound}
+                        checked={values.infoTracker?.device_beep_sound}
+                        value={values.infoTracker?.device_beep_sound}
                         onChange={e =>
-                          setFieldValue('device_beep_sound', e.target.checked)
+                          setFieldValue(
+                            'infoTracker.device_beep_sound',
+                            e.target.checked
+                          )
                         }
                         color="primary"
                       />
@@ -518,10 +528,13 @@ function SettingTracker(props: Props) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.zone_entry || false}
-                        value={values.zone_entry}
+                        checked={values.infoTracker?.zone_entry || false}
+                        value={values.infoTracker?.zone_entry}
                         onChange={e =>
-                          setFieldValue('zone_entry', e.target.checked)
+                          setFieldValue(
+                            'infoTracker.zone_entry',
+                            e.target.checked
+                          )
                         }
                         color="primary"
                       />
@@ -534,10 +547,13 @@ function SettingTracker(props: Props) {
                         className={`${classes.questionIcon} ${classes.questionIconMargin}`}
                       />
                       <Switch
-                        checked={values.zone_exit || false}
-                        value={values.zone_exit}
+                        checked={values.infoTracker?.zone_exit || false}
+                        value={values.infoTracker?.zone_exit}
                         onChange={e =>
-                          setFieldValue('zone_exit', e.target.checked)
+                          setFieldValue(
+                            'infoTracker.zone_exit',
+                            e.target.checked
+                          )
                         }
                         color="primary"
                       />
@@ -612,8 +628,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateSettings: (settingId: number, data: object) =>
-    dispatch(updateTrackerSettingsRequestedAction(settingId, data)),
+  updateSettings: (settingId: number, data: object, speed_unit: string) =>
+    dispatch(updateTrackerSettingsRequestedAction(settingId, data, speed_unit)),
   getContactListRequest: account_id =>
     dispatch(getContactListRequestAction(account_id)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
@@ -625,10 +641,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
-  updatePreferancesAction: (speed_unit: string) =>
-    dispatch(updatePreferancesRequestedAction(speed_unit)),
-  getSettingDeviceAction: (setting_id: number, device_id: number) =>
-    dispatch(getDeviceSettingRequestedAction(setting_id, device_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

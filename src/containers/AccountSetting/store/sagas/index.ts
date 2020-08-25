@@ -17,9 +17,13 @@ import * as types from '../definitions';
 
 function* getUserSaga() {
   const { account_id } = yield select(makeSelectProfile());
+  console.log(5.1);
+
   try {
     const { data } = yield call(apiServices.getUser, account_id);
+    console.log(5);
     yield put(getUserSuccessAction(data));
+    console.log(6);
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

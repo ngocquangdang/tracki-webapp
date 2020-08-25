@@ -222,10 +222,10 @@ function DetailTrackerCard(props: Prop) {
           <span className={`${classes.textBold} ${classes.textSpace}`}>
             {tracker && tracker.speed === 0
               ? 'Stopped'
-              : speed_unit === 'kph'
+              : speed_unit === 'mph'
               ? tracker?.speed || 0
-              : ((tracker?.speed || 0) / 1.609).toFixed(2)}{' '}
-            {tracker && tracker.speed !== 0 ? speed_unit : ''}
+              : ((tracker?.speed || 0) * 1.609).toFixed(2)}{' '}
+            {tracker && tracker.speed !== 0 ? speed_unit.toUpperCase() : ''}
           </span>
         </StatusTracker>
         <ConnectionTracker>

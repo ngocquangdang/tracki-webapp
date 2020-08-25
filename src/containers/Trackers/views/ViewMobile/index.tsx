@@ -15,8 +15,8 @@ import { Container, ContentCardDetail, MapView } from './styles';
 interface Props {
   getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
-  speedUnit: string;
-  profile: object;
+  speedUnit?: string;
+  profile?: object;
   [data: string]: any;
 }
 

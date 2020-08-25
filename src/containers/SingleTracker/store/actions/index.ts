@@ -24,10 +24,11 @@ export const updateTrackerAction = (trackerId: number, data: object) => ({
 
 export const updateTrackerSettingsRequestedAction = (
   settingId: number,
-  settings: object
+  settings: object,
+  speed_unit: string
 ) => ({
   type: types.UPDATE_TRACKER_SETTINGS_REQUESTED,
-  payload: { settingId, settings },
+  payload: { settingId, settings, speed_unit },
 });
 
 export const updateTrackerSettingsSucceedAction = (settings: object) => ({
