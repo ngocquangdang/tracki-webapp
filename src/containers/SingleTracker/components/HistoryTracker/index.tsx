@@ -27,12 +27,20 @@ interface Props {
   show: boolean;
   isRequesting?: boolean;
   getHistoryTracker(data): void;
+  onClickViewHistory(): void;
   tracker: Tracker;
 }
 
 function HistoryTracker(props: Props) {
   const classes = useStyles();
-  const { handleClose, t, isMobile, show, isRequesting } = props;
+  const {
+    handleClose,
+    t,
+    onClickViewHistory,
+    isMobile,
+    show,
+    isRequesting,
+  } = props;
   const [history, setHistory] = useState({
     map_view: true,
     seven_day_report: false,
@@ -61,8 +69,9 @@ function HistoryTracker(props: Props) {
     });
   };
 
-  const onClickViewHistory = () => {
+  const clickViewHistory = () => {
     getHistory(null);
+    onClickViewHistory();
   };
 
   const onSubmitForm = values => {
@@ -151,7 +160,7 @@ function HistoryTracker(props: Props) {
                   isLoading={isRequesting}
                   text="View History"
                   type="submit"
-                  onClick={onClickViewHistory}
+                  onClick={clickViewHistory}
                 />
               </Content>
             );
