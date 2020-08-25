@@ -33,11 +33,12 @@ interface Notifications {
 interface Props {
   notifications: Notifications;
   mapId: string;
+  t(key: string, format?: object): string;
 }
 
 function NotificationCardDetail(props: Props) {
   const classes = useStyles();
-  const { notifications, mapId } = props;
+  const { notifications, mapId, t } = props;
   const [loading, setLoading] = useState(true);
   const [address, updateAddress] = useState<string | null>(null);
   const [isExpand, setExpand] = useState(false);
@@ -95,18 +96,20 @@ function NotificationCardDetail(props: Props) {
               </TrackerType>
               <StatusType>
                 {notifications?.alarm_type === 'SPEED'
-                  ? `Speed Violation (${notifications?.speed})`
+                  ? `${t('notifications:speed_violation')} (${
+                      notifications?.speed
+                    })`
                   : notifications?.alarm_type === 'GEOZONE'
-                  ? 'Geo-fence Crossed'
+                  ? t('notifications:geo_fence_crossed')
                   : notifications?.alarm_type === 'MOVEMENT'
-                  ? 'Start Moving'
+                  ? t('notifications:start_moving')
                   : notifications?.alarm_type === 'BATTERY'
-                  ? 'Lower Battery'
+                  ? t('notifications:low_battery')
                   : notifications?.alarm_type === 'SOS'
-                  ? 'SOS Alert'
+                  ? t('notifications:sos_alert')
                   : notifications?.alarm_type === 'LEFT'
-                  ? 'Left Click'
-                  : 'Right Click'}
+                  ? t('notifications:left_click')
+                  : t('notifications:right_click')}
               </StatusType>
             </NotficationType>
             <NotificationTime>

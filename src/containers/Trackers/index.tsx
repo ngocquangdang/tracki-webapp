@@ -28,6 +28,7 @@ import {
   resetSelectedGeofenceAction,
   searchGeofencesRequestedAction,
   saveGeofenceRequestedAction,
+  refreshLocationRequestAction,
 } from '@Containers/Trackers/store/actions';
 import {
   resetBeepAction,
@@ -52,6 +53,7 @@ interface Props {
   t(key: string, format?: object): string;
   fetchUserRequestedAction(): void;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -101,6 +103,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
+  refreshLocation: (data: object) =>
+    dispatch(refreshLocationRequestAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

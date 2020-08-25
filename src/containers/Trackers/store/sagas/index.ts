@@ -7,6 +7,7 @@ import * as actions from '../actions';
 import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { updateContactListSucceedAction } from '@Containers/Contacts/store/actions/index.';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 function* fetchTrackersSaga(action) {
   try {
@@ -314,6 +315,26 @@ function* createNewGeofenceSaga(action) {
   }
 }
 
+function* refreshLocationSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    yield call(apiServices.refreshLocaion, account_id, action.payload.data);
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Refresh location is success',
+      })
+    );
+  } catch (error) {
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Refresh location is faile',
+      })
+    );
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -324,4 +345,5 @@ export default function* appWatcher() {
   yield takeLatest(types.REMOVE_GEOFENCE_REQUESTED, removeGeofenceSaga);
   yield takeLatest(types.LINK_TRACKERS_REQUESTED, linkTrackersSaga);
   yield takeLatest(types.UNLINK_TRACKERS_REQUESTED, unlinkTrackersSaga);
+  yield takeLatest(types.REFRESH_LOACTION_REQUESTED, refreshLocationSaga);
 }

@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { SkeletonTracker } from '@Components/Skeletons';
 
 import { useStyles } from './styles';
+import MapCard from '../MapCardMobile';
 
-function NotificationCardDetail(props) {
-  const { notifications } = props;
+interface Notifications {
+  device_name: string;
+  lat: number;
+  lng: number;
+  alarm_type: string;
+  created: number;
+  speed: number;
+}
+
+interface Props {
+  notifications: Notifications;
+  mapId: string;
+  t(key: string, format?: object): string;
+}
+
+function NotificationCardDetail(props: Props) {
+  const { notifications, t, mapId } = props;
+
+  const [isViewMap, setViewMap] = useState(false);
+  const onClickViewMap = () => {
+    setViewMap(!isViewMap);
+  };
   const classes = useStyles();
   return (
-    <div className={classes.container}>
+    <div className={isViewMap ? classes.containerViewMap : classes.container}>
       {notifications ? (
         <div className={classes.content}>
           <div className={classes.icon}>
@@ -22,21 +43,25 @@ function NotificationCardDetail(props) {
             </div>
             <div className={classes.typeAlert}>
               {notifications?.alarm_type === 'SPEED'
-                ? `Speed Violation`
+                ? `${t('notifications:speed_violation')} (${
+                    notifications?.speed
+                  })`
                 : notifications?.alarm_type === 'GEOZONE'
-                ? 'Geo-fence Crossed'
+                ? t('notifications:geo_fence_crossed')
                 : notifications?.alarm_type === 'MOVEMENT'
-                ? 'Start Moving alert'
+                ? t('notifications:start_moving')
                 : notifications?.alarm_type === 'BATTERY'
-                ? 'Lower Battery'
+                ? t('notifications:low_battery')
                 : notifications?.alarm_type === 'SOS'
-                ? 'SOS Alert'
+                ? t('notifications:sos_alert')
                 : notifications?.alarm_type === 'LEFT'
-                ? 'Left Click'
-                : 'Right Click'}{' '}
-              {moment(notifications?.create).format('LLL')}
+                ? t('notifications:left_click')
+                : t('notifications:right_click')}
+              {moment(notifications?.created).format('LLL')}
             </div>
-            <div className={classes.viewMap}>View on Map</div>
+            <div className={classes.viewMap} onClick={onClickViewMap}>
+              View on Map
+            </div>
           </div>
           <div className={classes.statusSpeed}>
             <AiOutlineDashboard className={classes.iconDashboard} />
@@ -48,6 +73,15 @@ function NotificationCardDetail(props) {
           <SkeletonTracker />
         </div>
       )}
+      {isViewMap ? (
+        <div>
+          <MapCard
+            lat={notifications?.lat}
+            lng={notifications?.lng}
+            mapId={mapId}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

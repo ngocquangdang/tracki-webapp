@@ -48,6 +48,7 @@ interface Props {
   trackers: Tracker;
   trackerIds: any;
   fetchNotificationRequest(data: object): void;
+  t(key: string, format?: object): string;
   notifications: Notifications;
   notificationsIds: number[];
 }
@@ -59,6 +60,7 @@ export default function Notification(props: Props) {
     notificationsIds,
     trackerIds,
     trackers,
+    t,
   } = props;
   const classes = useStyles();
 
@@ -205,14 +207,14 @@ export default function Notification(props: Props) {
             <IconNotification>
               <NotificationsIcon className={classes.iconHeader} />
             </IconNotification>
-            <Title>Notifications</Title>
+            <Title>{t('notifications:notification')}</Title>
           </LogoNotification>
           <ListOptionView>
             <OptionView>
               <SelectOption
                 name="select_tracker"
                 options={TRACKER_NAME}
-                label="Select Tracker"
+                label={t('notifications:select_tracker')}
                 value={trackerName}
                 onChangeOption={onChangeTracker}
               />
@@ -221,7 +223,7 @@ export default function Notification(props: Props) {
               <SelectOption
                 name="alarm_type"
                 options={ALARM_TYPES}
-                label="Select Type"
+                label={t('notifications:select_type')}
                 value={alarmType}
                 onChangeOption={onChangeAlarmType}
               />
@@ -238,7 +240,7 @@ export default function Notification(props: Props) {
             <Button
               variant="contained"
               color="primary"
-              text="View Report"
+              text={t('notifications:select_type')}
               className={`${classes.btn}`}
               onClick={onClickViewPort}
             />
@@ -256,7 +258,7 @@ export default function Notification(props: Props) {
                         <SelectOption
                           name="sort_by"
                           options={SORT_BY_OPTION}
-                          label="Sort By"
+                          label={t('notifications:sort_by')}
                           value={sortBy}
                           onChangeOption={onChangeSortBy}
                         />
@@ -269,7 +271,7 @@ export default function Notification(props: Props) {
                         <Button
                           variant="contained"
                           color="primary"
-                          text="Export CSV"
+                          text={t('notifications:export_csv')}
                           className={`${classes.btnCsv}`}
                           onClick={onClickExportCsv}
                         />
@@ -291,6 +293,7 @@ export default function Notification(props: Props) {
                       <NotificationCardDetail
                         notifications={initialNotifications[item]}
                         mapId={`map${item}`}
+                        t={t}
                       />
                     </Fragment>
                   );
@@ -298,7 +301,7 @@ export default function Notification(props: Props) {
                 {dataFilter ? null : (
                   <TableRow>
                     <TableCell className={classes.dataFilter}>
-                      No data filter
+                      {t('notifications:no_data')}
                     </TableCell>
                   </TableRow>
                 )}
@@ -313,7 +316,7 @@ export default function Notification(props: Props) {
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                     className={`${classes.color} ${classes.flexWrap}`}
-                    labelRowsPerPage="Items per page:"
+                    labelRowsPerPage={t('notifications:item_per_page')}
                   />
                 </tr>
               </TableFooter>
