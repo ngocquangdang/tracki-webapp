@@ -1,4 +1,8 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
+import moment from 'moment';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { GoPrimitiveDot } from 'react-icons/go';
 
 import {
   MapViewCard,
@@ -9,20 +13,18 @@ import {
   ContentCard,
   MapView,
 } from './styles';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { GoPrimitiveDot } from 'react-icons/go';
+
 import Map from '@Components/Maps';
-import moment from 'moment';
 import ToolBar from '@Containers/Dasboard/views/components/MapCard/MapToolBarPC';
 
-import { isEmpty } from 'lodash';
-import MapCard from '@Containers/Dasboard/views/components/MapCard';
+const MapCard = dynamic(
+  () => import('@Containers/Dasboard/views/components/MapCard'),
+  { ssr: false }
+);
 
 export default function MapViewComponent(props) {
   const classes = useStyles();
-  const { trackerSelected, t, trackerIds, trackingIds } = props;
-
-  const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
+  const { trackerSelected, t, trackingIds } = props;
 
   return (
     <MapViewCard>
@@ -51,7 +53,7 @@ export default function MapViewComponent(props) {
             <>
               <MapCard
                 mapId="isDashboard"
-                selectedTrackerId={selectedTrackerId}
+                selectedTrackerId={trackerSelected.device_id}
                 mapType="leaflet"
                 {...props}
               />

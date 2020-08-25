@@ -379,7 +379,7 @@ function SettingTracker(props: Props) {
                     <span>{t('tracker:speed_limit_alert')}</span>
                     <OptionRight>
                       <LimitInput
-                        label={t(`${speedUnit.toUpperCase()}`)}
+                        label={t(`${speed_unit.toUpperCase()}`)}
                         name="speed_limit_value"
                         disabled={!values.speed_limit.enable}
                         value={values.speed_limit.value}

@@ -28,7 +28,11 @@ const makeSelectTrackerHistoryIds = () =>
 const makeSelectAlarmTracker = () =>
   createSelector(trackingState, state => state.alarms[state.trackingIds[0]]);
 
+const makeSelectPointTracking = () =>
+  createSelector(trackingState, state => state.pointTrackingIndex);
+
 export {
+  makeSelectPointTracking,
   makeSelectHistories,
   makeSelectHistoryIds,
   makeSelectTrackerIdsTracking,

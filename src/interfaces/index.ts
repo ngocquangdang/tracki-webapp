@@ -58,6 +58,7 @@ export interface TrackerDataTypes {
 
 export interface TrackingDataTypes {
   trackingIds: Number[];
+  pointTrackingIndex: number;
   viewMode: string;
   errors: object | null;
   histories: object;

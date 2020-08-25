@@ -39,46 +39,22 @@ function SelectTracker(props: Props) {
 
   const trackerIds = Object.keys(trackers);
 
-  const [selectedDateFrom, setSelectedDateFrom] = useState(moment());
-  const [selectedDateTo, setSelectedDateTo] = useState(moment());
-  const [selectedSpecificDate, setSelectedSpecificDate] = useState(moment());
-  const [selectedSpecificTimeTo, setSelectedSpecificTimeTo] = useState(
-    moment(new Date())
-  );
+  const [dateTime, setDateTime] = useState({
+    fromDate: moment().unix(),
+    toDate: moment().unix(),
+  });
 
-  const onChangeDateOption = value => {
-    console.log('onChangeDateOption', value);
-  };
-  const onChangeDateFrom = date => {
-    const fromDate = moment(date.getTime());
-    setSelectedDateFrom(fromDate);
+  const onChangeDateTime = obj => {
+    setDateTime(obj);
+    getHistory(obj);
   };
 
-  const onChangeDateTo = date => {
-    const toDate = moment(date.getTime());
-    setSelectedDateTo(toDate);
-
+  const getHistory = obj => {
+    const { fromDate, toDate } = obj || dateTime;
     getHistoryTracker({
       trackerId: trackers[selectedTrackerId]?.device_id,
-      fromDate: selectedDateFrom.unix(),
-      toDate: toDate.unix(),
-      limit: 2000,
-      page: 1,
-      type: 2,
-    });
-  };
-
-  const onChangeSpecificDate = date => {
-    setSelectedSpecificDate(date);
-    setSelectedSpecificTimeTo(date);
-  };
-
-  const onChangeSpecificTimeTo = date => {
-    setSelectedSpecificTimeTo(date);
-    getHistoryTracker({
-      trackerId: trackers[selectedTrackerId]?.device_id,
-      fromDate: moment(selectedSpecificDate).unix(),
-      toDate: moment(date).unix(),
+      fromDate: fromDate,
+      toDate: toDate,
       limit: 2000,
       page: 1,
       type: 2,
@@ -106,18 +82,10 @@ function SelectTracker(props: Props) {
             {isHeatMap && (
               <div className={classes.formSelect}>
                 <DateTimePicker
-                  isMobile={true}
+                  isMobile={false}
+                  dateTime={dateTime}
+                  onChange={onChangeDateTime}
                   isHistory={true}
-                  t={t}
-                  onChangeDateFrom={onChangeDateFrom}
-                  onChangeDateTo={onChangeDateTo}
-                  onChangeSpecificDate={onChangeSpecificDate}
-                  onChangeSpecificTimeTo={onChangeSpecificTimeTo}
-                  onChangeDateOption={onChangeDateOption}
-                  valueDateFrom={selectedDateFrom}
-                  valueDateTo={selectedDateTo}
-                  valueSpecificDate={selectedSpecificDate}
-                  valueSpecificTimeTo={selectedSpecificTimeTo}
                 />
               </div>
             )}

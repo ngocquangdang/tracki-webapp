@@ -23,51 +23,90 @@ declare module '@material-ui/core/styles/overrides' {
   export interface ComponentNameToClassKey extends overridesNameToClassKey {}
 }
 
+interface DateTime {
+  fromDate: number;
+  toDate: number;
+}
+
 interface Props {
   isMobile?: boolean;
   isHistory?: boolean;
   t?(key: string, format?: object): string;
-  onChangeDateOption(value: number | string): void;
-  onChangeDateFrom(date): void;
-  onChangeDateTo(date): void;
-  onChangeSpecificDate(date): void;
-  onChangeSpecificTimeTo(date): void;
-  valueDateFrom: any;
-  valueDateTo: any;
-  valueSpecificDate: any;
-  valueSpecificTimeTo: any;
+  dateTime: DateTime;
+  onChange(dateTime: DateTime): void;
   showDescriptionTime?: boolean;
+  onSelectOption?: any;
 }
 
 export default function DateTimePicker(props: Props) {
   const {
     isMobile,
     isHistory,
-    onChangeDateOption,
-    onChangeDateFrom,
-    onChangeDateTo,
-    onChangeSpecificDate,
-    onChangeSpecificTimeTo,
-    valueDateFrom,
-    valueDateTo,
-    valueSpecificDate,
-    valueSpecificTimeTo,
+    dateTime,
     showDescriptionTime,
+    onChange,
+    onSelectOption,
   } = props;
   const classes = useStyles();
 
   const [dateOptions, setDateOption] = useState<any>('');
-
   const [isDateRange, showDateRange] = useState(false);
   const [isSpecificDate, showSpecificDate] = useState(false);
 
   const handleChangeOption = value => {
     setDateOption(value);
-    value === 'date_range' ? showDateRange(true) : showDateRange(false);
-    value === 'specific_date'
-      ? showSpecificDate(true)
-      : showSpecificDate(false);
-    onChangeDateOption(value);
+    showDateRange(value === 'date_range');
+    showSpecificDate(value === 'specific_date');
+    if (!showDescriptionTime && isDateRange && isSpecificDate) {
+      onSelectOption(value);
+    }
+
+    if (['date_range', 'specific_date'].includes(value)) {
+      onChange({
+        fromDate: moment().unix(),
+        toDate: moment().unix(),
+      });
+    } else {
+      onChange({
+        fromDate: value,
+        toDate: moment().unix(),
+      });
+    }
+  };
+
+  const onChangeDateFrom = date => {
+    onChange({
+      fromDate: moment(date).unix(),
+      toDate: dateTime.toDate,
+    });
+  };
+
+  const onChangeDateTo = date => {
+    onChange({
+      fromDate: dateTime.fromDate,
+      toDate: moment(date).unix(),
+    });
+  };
+
+  const onChangeSpecificDate = date => {
+    onChange({
+      fromDate: moment(date).unix(),
+      toDate: moment(date).unix(),
+    });
+  };
+
+  const onChangeHourFrom = date => {
+    onChange({
+      fromDate: moment(date).unix(),
+      toDate: dateTime.toDate,
+    });
+  };
+
+  const onChangeHourTo = date => {
+    onChange({
+      fromDate: dateTime.fromDate,
+      toDate: moment(date).unix(),
+    });
   };
 
   return (
@@ -96,7 +135,7 @@ export default function DateTimePicker(props: Props) {
                 inputVariant="outlined"
                 label="From"
                 format="dd/MM/yyyy"
-                value={valueDateFrom}
+                value={dateTime.fromDate * 1000}
                 onChange={onChangeDateFrom}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
@@ -113,13 +152,13 @@ export default function DateTimePicker(props: Props) {
                 inputVariant="outlined"
                 label="To"
                 format="dd/MM/yyyy"
-                value={valueDateTo}
+                value={dateTime.toDate * 1000}
                 onChange={onChangeDateTo}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
                 color="primary"
-                minDate={valueDateFrom}
+                minDate={dateTime.fromDate}
                 maxDate={moment(new Date())}
               />
             </ThemeProvider>
@@ -144,7 +183,7 @@ export default function DateTimePicker(props: Props) {
                 inputVariant="outlined"
                 label="Specific Date and Hours"
                 format="dd/MM/yyyy"
-                value={valueSpecificDate}
+                value={dateTime.fromDate * 1000}
                 onChange={onChangeSpecificDate}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
@@ -152,21 +191,6 @@ export default function DateTimePicker(props: Props) {
                 maxDate={moment(new Date())}
                 className={isHistory ? '' : classes.marginRight}
               />
-              <div style={{ display: 'none' }}>
-                <DatePicker
-                  autoOk
-                  disableToolbar
-                  variant="inline"
-                  inputVariant="outlined"
-                  label="Specific Date and Hours"
-                  format="dd/MM/yyyy"
-                  value={valueSpecificDate}
-                  onChange={onChangeSpecificDate}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                />
-              </div>
               <div
                 className={
                   isHistory
@@ -180,8 +204,8 @@ export default function DateTimePicker(props: Props) {
                   variant="inline"
                   mask="__:__ _M"
                   inputVariant="outlined"
-                  value={valueSpecificDate}
-                  onChange={onChangeSpecificDate}
+                  value={dateTime.fromDate * 1000}
+                  onChange={onChangeHourFrom}
                   className={classes.timePicker}
                 />
                 <TimePicker
@@ -190,8 +214,8 @@ export default function DateTimePicker(props: Props) {
                   variant="dialog"
                   inputVariant="outlined"
                   mask="__:__ _M"
-                  value={valueSpecificTimeTo}
-                  onChange={onChangeSpecificTimeTo}
+                  value={dateTime.toDate * 1000}
+                  onChange={onChangeHourTo}
                 />
               </div>
             </div>
@@ -208,18 +232,14 @@ export default function DateTimePicker(props: Props) {
         >
           <div className={isMobile ? '' : classes.timeFrom}>
             From:{' '}
-            {isDateRange
-              ? moment(valueDateFrom.valueOf()).format('LLL')
-              : isSpecificDate
-              ? moment(valueSpecificDate.valueOf()).format('LLL')
+            {isDateRange || isSpecificDate
+              ? moment(dateTime.fromDate * 1000).format('LLL')
               : moment(dateOptions * 1000).format('LLL')}
           </div>
           <div>
             To:{' '}
-            {isDateRange
-              ? moment(valueDateTo.valueOf()).format('LLL')
-              : isSpecificDate
-              ? moment(valueSpecificTimeTo.valueOf()).format('LLL')
+            {isDateRange || isSpecificDate
+              ? moment(dateTime.toDate * 1000).format('LLL')
               : moment(new Date()).format('LLL')}
           </div>
         </div>

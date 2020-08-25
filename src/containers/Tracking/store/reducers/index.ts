@@ -7,6 +7,7 @@ export const initialState: TrackingDataTypes = {
   trackingIds: [],
   viewMode: 'single_view',
   errors: null,
+  pointTrackingIndex: -1,
   histories: {},
   historyIds: {},
   alarms: {},
@@ -21,6 +22,7 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.GET_HISTORY_TRACKER_SUCCEED:
         draft.histories[payload.trackerId] = payload.histories;
         draft.historyIds[payload.trackerId] = payload.historieIds;
+        draft.pointTrackingIndex = 0;
         draft.errors = null;
         break;
       case types.GET_HISTORY_TRACKER_FAILED:
@@ -35,6 +37,11 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.CHANGE_TRACKING_VIEW:
         draft.viewMode = payload.viewMode;
+        break;
+      case types.CHANGE_POINT_TRACKING:
+        draft.pointTrackingIndex = payload.pointIndex;
+        draft.histories = payload.pointIndex === -1 ? {} : draft.histories;
+        draft.historyIds = payload.pointIndex === -1 ? {} : draft.historyIds;
         break;
       default:
         break;

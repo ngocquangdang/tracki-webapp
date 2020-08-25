@@ -14,7 +14,11 @@ import {
   updateNewGeofence,
   updateGeofence,
 } from '@Containers/Trackers/store/actions';
-import { makeSelectHistories } from '@Containers/Tracking/store/selectors';
+import {
+  makeSelectHistories,
+  makeSelectPointTracking,
+} from '@Containers/Tracking/store/selectors';
+import { changePointTracking } from '@Containers/Tracking/store/actions';
 import {
   makeSelectNewGeofence,
   makeSelectGeofences,
@@ -37,9 +41,11 @@ interface Props {
   showGeofences: boolean;
   showTrackerName: boolean;
   editGeofenceId: number;
+  pointTrackingIndex: number;
   isBeep: boolean;
   fullWidth: boolean;
   changeMapAction(action: string): void;
+  changePointTracking(pointIndex: number): void;
   updateGeofence(id: number, data: object): void;
   updateNewGeofence(geo: object): void;
   openSideBar(): void;
@@ -102,9 +108,12 @@ const mapStateToProps = createStructuredSelector({
   showTrackerName: makeSelectShowTrackersName(),
   mapView: makeSelectMapView(),
   histories: makeSelectHistories(),
+  pointTrackingIndex: makeSelectPointTracking(),
 });
 
 const mapDispatchToProps = dispatch => ({
+  changePointTracking: (pointIndex: number) =>
+    dispatch(changePointTracking(pointIndex)),
   changeMapAction: (mapAction: string) => dispatch(changeMapAction(mapAction)),
   updateNewGeofence: (data: object) => dispatch(updateNewGeofence(data)),
   updateGeofence: (id: number, data: object) =>

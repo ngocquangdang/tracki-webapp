@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
-import { Slide, Typography } from '@material-ui/core';
+import { Slide } from '@material-ui/core';
 import {
   ArrowBackIos as ArrowBackIosIcon,
   LocationOn as LocationOnIcon,
@@ -10,7 +10,6 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import { AiOutlineDashboard } from 'react-icons/ai';
 
 import Skeleton from '@Components/Skeletons/Tracker';
-import TrackerTimeline from '@Components/TrackerTimeline';
 import { ITracker } from '@Interfaces';
 import { Card, Item, TrackerInfomation, Address, useStyles } from './styles';
 import { getAddress } from '@Utils/helper';
@@ -28,7 +27,7 @@ interface Prop {
 
 function HistoryTrackerDetail(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile, show, historyIds, histories, onClose } = props;
+  const { tracker, isMobile, show, onClose } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState(null);
 
@@ -159,14 +158,6 @@ function HistoryTrackerDetail(props: Prop) {
             <span> 00d 00:09:11</span>
           </div>
         </div> */}
-        {!isMobile && (
-          <div className={classes.timeline}>
-            <Typography className={classes.timelineTitle}>
-              History detail:
-            </Typography>
-            <TrackerTimeline historyIds={historyIds} histories={histories} />
-          </div>
-        )}
       </div>
     </Slide>
   );

@@ -17,6 +17,7 @@ import {
   makeSelectGeofenceIds,
   makeSelectTrackerSettings,
   makeSelectBeep,
+  makeSelectSpeedUnit,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
@@ -83,6 +84,7 @@ const mapStateToProps = createStructuredSelector({
   selectedGeofenceId: makeSelectGeofenceId(),
   settings: makeSelectTrackerSettings(),
   isBeep: makeSelectBeep(),
+  speedUnit: makeSelectSpeedUnit(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

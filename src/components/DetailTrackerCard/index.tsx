@@ -61,6 +61,7 @@ function DetailTrackerCard(props: Prop) {
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
   const speed_unit = speedUnit || profile?.preferences?.speed_unit;
+
   const onZoomClick = () => {
     if (tracker) {
       const { lat, lng } = tracker;
