@@ -18,6 +18,7 @@ const options = {
   credits: { enabled: false },
   title: { text: '' },
   subtitle: { text: '' },
+  colors: ['#168449'],
   xAxis: {
     title: { enabled: false },
     labels: { enabled: false },
@@ -52,7 +53,7 @@ const options = {
     },
   },
   tooltip: {
-    pointFormat: 'Logs: <b>{point.y}</b>',
+    pointFormat: 'Location records: <b>{point.y}</b>',
   },
   series: [
     {
