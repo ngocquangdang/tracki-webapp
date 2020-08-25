@@ -97,6 +97,7 @@ export default function HeatMap(props: Props) {
           dateTime={dateTime}
           onChange={onChangeDateTime}
           isHistory={true}
+          showDescriptionTime={true}
         />
       </div>
       <p className={classes.text}>{t('tracker:select_device')}</p>
