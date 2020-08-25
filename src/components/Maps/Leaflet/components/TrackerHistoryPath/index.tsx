@@ -20,6 +20,7 @@ interface Props {
 class TrackerHistoryPath extends React.Component<Props> {
   trackerPath: any;
   decorator: any;
+  pointTracking: any;
   points: object;
 
   constructor(props) {
@@ -33,15 +34,31 @@ class TrackerHistoryPath extends React.Component<Props> {
 
   componentWillUnmount() {
     this.removeLayer();
+    if (this.pointTracking) {
+      this.pointTracking && this.props.map.removeLayer(this.pointTracking);
+      this.pointTracking = undefined;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { history } = nextProps;
-    const { history: thisHistory } = this.props;
+    const { history, pointTrackingIndex, map } = nextProps;
+    const {
+      history: thisHistory,
+      pointTrackingIndex: thisPointTrackingIndex,
+    } = this.props;
 
     if (Object.keys(history).length !== Object.keys(thisHistory).length) {
       this.removeLayer();
       this.renderPath(nextProps);
+    }
+    if (pointTrackingIndex !== thisPointTrackingIndex) {
+      const pointIds = Object.keys(history);
+      const location = history[pointIds[pointTrackingIndex]];
+      this.pointTracking && map.removeLayer(this.pointTracking);
+      if (location) {
+        this.pointTracking = undefined;
+        this.renderPointTracking(location);
+      }
     }
   }
 
@@ -56,14 +73,29 @@ class TrackerHistoryPath extends React.Component<Props> {
     Object.values(this.points).map(p => map.removeLayer(p));
   };
 
+  renderPointTracking = point => {
+    const { map } = this.props;
+    if (point && !this.pointTracking) {
+      const icon = new L.DivIcon({
+        className: 'point-tracking',
+        html:
+          '<div class="wrapper"><div class="outer"><div class="inner"></div></div></div>',
+      });
+      this.pointTracking = L.marker(point, { icon }).addTo(map);
+    }
+  };
+
   renderPath = props => {
-    const { history, map, isMobile } = props;
+    const { history, map, isMobile, pointTrackingIndex } = props;
     const path = Object.keys(history).map(id => ({
       id,
       lat: history[id].lat,
       lng: history[id].lng,
       moving: history[id].moving,
     }));
+
+    const pTracking = path[pointTrackingIndex];
+    this.renderPointTracking(pTracking);
 
     if (path.length) {
       this.points = path.reduce((obj, p, index) => {

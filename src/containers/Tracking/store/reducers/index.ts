@@ -40,6 +40,8 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.CHANGE_POINT_TRACKING:
         draft.pointTrackingIndex = payload.pointIndex;
+        draft.histories = payload.pointIndex === -1 ? {} : draft.histories;
+        draft.historyIds = payload.pointIndex === -1 ? {} : draft.historyIds;
         break;
       default:
         break;

@@ -140,6 +140,7 @@ function SingleTracker(props: Props) {
   const onCloseTrackerHistory = () => {
     onCloseChildView();
     changeMapView('DEFAULT');
+    changePointTracking(-1);
   };
 
   const renderBlock = (title: string, icon: JSX.Element, handlClick: any) => (
