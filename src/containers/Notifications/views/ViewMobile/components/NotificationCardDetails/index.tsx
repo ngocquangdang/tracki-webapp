@@ -56,7 +56,7 @@ function NotificationCardDetail(props: Props) {
                 ? t('notifications:sos_alert')
                 : notifications?.alarm_type === 'LEFT'
                 ? t('notifications:left_click')
-                : t('notifications:right_click')}
+                : t('notifications:right_click')}{' '}
               {moment(notifications?.created).format('LLL')}
             </div>
             <div className={classes.viewMap} onClick={onClickViewMap}>

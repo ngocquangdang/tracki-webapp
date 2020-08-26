@@ -146,7 +146,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     height: '94px',
-    borderTop: '1px solid #e0e0e0',
   },
   dataFilter: {
     color: '#1a1a1a',

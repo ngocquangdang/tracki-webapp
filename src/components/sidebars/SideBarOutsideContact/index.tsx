@@ -40,7 +40,6 @@ export default function SideBarOut(props: Props) {
     isBlackView,
     title,
   } = props;
-
   return (
     <Slide in={show} direction={direction || 'left'} mountOnEnter unmountOnExit>
       <MenuWrap isMobile={isMobile}>
@@ -48,7 +47,7 @@ export default function SideBarOut(props: Props) {
           {isBlackView ? (
             <MenuHeader isMobile={isMobile} isBlackView={isBlackView}>
               <WrapTitleBlackView>
-                <Link href={''}>
+                <Link href="/">
                   <div>
                     <IoMdClose
                       className={classes.buttonCloseBlackView}
@@ -68,7 +67,6 @@ export default function SideBarOut(props: Props) {
               </ButtonClose>
             </MenuHeader>
           )}
-
           {children}
         </WrapDisabled>
       </MenuWrap>

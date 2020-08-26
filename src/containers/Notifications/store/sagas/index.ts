@@ -27,7 +27,6 @@ function* fetchNotificationSaga(action) {
         notificationsIds: [],
       }
     );
-    console.log('notifications', notifications);
     yield put(actions.fetchNotficationSucceed(notifications));
   } catch (error) {
     const { data = {} } = { ...error };
