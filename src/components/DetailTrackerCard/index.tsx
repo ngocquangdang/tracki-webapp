@@ -8,7 +8,6 @@ import {
 } from '@material-ui/icons';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { AiOutlineDashboard } from 'react-icons/ai';
-
 import { SkeletonTracker } from '@Components/Skeletons';
 import { UNWIREDLABS_API_KEY } from '@Definitions/app';
 import { ITracker } from '@Interfaces';
@@ -41,6 +40,7 @@ import {
   TextNameViewMore,
   useStyles,
   DefaultImage,
+  ButtonIcon,
 } from './styles';
 
 interface Prop {
@@ -50,17 +50,18 @@ interface Prop {
   isMobile: boolean;
   t(key: string, format?: object): string;
   settings: any;
-  speedUnit?: string;
   profile?: any;
+  refreshLocation(data: object): void;
 }
 
 function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile, className = '', speedUnit, profile } = props;
+  const { tracker, isMobile, className = '', profile, refreshLocation } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
-  const speed_unit = speedUnit || profile?.preferences?.speed_unit;
+
+  const speed_unit = profile?.preferences?.speed_unit;
 
   const onZoomClick = () => {
     if (tracker) {
@@ -72,7 +73,11 @@ function DetailTrackerCard(props: Prop) {
   };
 
   const onRefreshClick = () => {
-    callApiGetAddress();
+    refreshLocation({
+      devices: [tracker.device_id],
+      forceGpsRead: true,
+      sendGsmBeforeLock: true,
+    });
   };
 
   const callApiGetAddress = useCallback(async () => {
@@ -119,11 +124,15 @@ function DetailTrackerCard(props: Prop) {
           </LeftItem>
 
           <RightItem>
-            <RefreshIcon
-              className={classes.rightIcon}
-              onClick={onRefreshClick}
-            />
-            <ZoomInIcon className={classes.rightIcon} onClick={onZoomClick} />
+            <ButtonIcon>
+              <RefreshIcon
+                className={classes.rightIcon}
+                onClick={onRefreshClick}
+              />
+            </ButtonIcon>
+            <ButtonIcon>
+              <ZoomInIcon className={classes.rightIcon} onClick={onZoomClick} />
+            </ButtonIcon>
           </RightItem>
         </Item>
         <Address isMobile={isMobile}>

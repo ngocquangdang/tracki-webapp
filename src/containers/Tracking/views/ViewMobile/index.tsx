@@ -27,6 +27,7 @@ interface Props {
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -39,6 +40,7 @@ export default function TrackingMobile(props: Props) {
     changeTrackingView,
     changeTrackersTracking,
     getHistoryTracker,
+    refreshLocation,
   } = props;
   const [showSelectTracker, setShowSelectTracker] = useState(false);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
@@ -137,6 +139,7 @@ export default function TrackingMobile(props: Props) {
                 trackingIds={trackingIds}
                 settings={props.settings}
                 changeTrackersTracking={changeTrackersTracking}
+                refreshLocation={refreshLocation}
               />
             </div>
           ) : (

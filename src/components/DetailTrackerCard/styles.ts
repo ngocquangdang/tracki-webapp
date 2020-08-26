@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 const TrackerInfomation = styled.div`
   display: flex;
@@ -220,6 +221,17 @@ const useStyles = makeStyles(theme => ({
     color: '#168449',
   },
 }));
+
+const ButtonIcon = withStyles(theme => ({
+  root: {
+    padding: 0,
+    '& .MuiButton-root': {
+      padding: 0,
+      minWidth: 20,
+    },
+  },
+}))(Button);
+
 export {
   Card,
   Item,
@@ -248,5 +260,6 @@ export {
   IconZoom,
   TextNameViewMore,
   useStyles,
+  ButtonIcon,
   DefaultImage,
 };

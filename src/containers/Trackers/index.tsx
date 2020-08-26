@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { withTranslation } from '@Server/i18n';
-import {
-  makeSelectProfile,
-  makeSelectMapTile,
-} from '@Containers/App/store/selectors';
+import { makeSelectMapTile } from '@Containers/App/store/selectors';
 import {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -17,7 +14,6 @@ import {
   makeSelectGeofenceIds,
   makeSelectTrackerSettings,
   makeSelectBeep,
-  makeSelectSpeedUnit,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
@@ -29,6 +25,7 @@ import {
   resetSelectedGeofenceAction,
   searchGeofencesRequestedAction,
   saveGeofenceRequestedAction,
+  refreshLocationRequestAction,
 } from '@Containers/Trackers/store/actions';
 import {
   resetBeepAction,
@@ -45,14 +42,17 @@ import contactSaga from '@Containers/Contacts/store/sagas';
 import contactReducer from '@Containers/Contacts/store/reducers';
 import trackingSaga from '@Containers/Tracking/store/sagas';
 import trackingReducer from '@Containers/Tracking/store/reducers';
-
+import profileSaga from '@Containers/AccountSetting/store/sagas';
+import profileReducer from '@Containers/AccountSetting/store/reducers';
 import View from './view';
+import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 
 interface Props {
   trackerId?: any;
   t(key: string, format?: object): string;
   fetchUserRequestedAction(): void;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -63,6 +63,8 @@ function TrackersContainer(props: Props) {
   useInjectReducer({ key: 'contacts', reducer: contactReducer });
   useInjectSaga({ key: 'tracking', saga: trackingSaga });
   useInjectReducer({ key: 'tracking', reducer: trackingReducer });
+  useInjectSaga({ key: 'profile', saga: profileSaga });
+  useInjectReducer({ key: 'profile', reducer: profileReducer });
 
   const { fetchUserRequestedAction, ...rest } = props;
 
@@ -74,7 +76,7 @@ function TrackersContainer(props: Props) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  profile: makeSelectProfile(),
+  profile: makeSelectUserProfile(),
   mapTile: makeSelectMapTile(),
   selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),
@@ -84,7 +86,6 @@ const mapStateToProps = createStructuredSelector({
   selectedGeofenceId: makeSelectGeofenceId(),
   settings: makeSelectTrackerSettings(),
   isBeep: makeSelectBeep(),
-  speedUnit: makeSelectSpeedUnit(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -103,6 +104,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   resetBeep: () => dispatch(resetBeepAction()),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
+  refreshLocation: (data: object) =>
+    dispatch(refreshLocationRequestAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

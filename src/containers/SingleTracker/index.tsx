@@ -24,7 +24,6 @@ import {
   makeSelectGeofences,
   makeSelectTrackerId,
   makeSelectBeep,
-  makeSelectSpeedUnit,
 } from '@Containers/Trackers/store/selectors';
 import {
   makeSelectHistories,
@@ -41,7 +40,7 @@ import { changeMapView } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
-
+import { refreshLocationRequestAction } from '@Containers/Trackers/store/actions';
 import {
   Container,
   Header,
@@ -61,7 +60,7 @@ import HistoryTrackerDetail from '@Components/HistoryTrackerDetailNew';
 // import SendBeep from './components/SendBeep';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
-import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 
 interface Props {
   settings: object;
@@ -81,8 +80,8 @@ interface Props {
   showSnackbar(data: SNACK_PAYLOAD): void;
   getHistoryTracker(data: object): void;
   changePointTracking(pointIndex: number): void;
+  refreshLocation(data: object): void;
   resetBeep(): void;
-  speedUnit: string;
   profile: object;
 }
 
@@ -105,8 +104,8 @@ function SingleTracker(props: Props) {
     t,
     resetBeep,
     showSnackbar,
-    speedUnit,
     profile,
+    refreshLocation,
   } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
@@ -173,8 +172,8 @@ function SingleTracker(props: Props) {
               tracker={tracker}
               t={t}
               settings={settings[tracker.settings_id]}
-              speedUnit={speedUnit}
               profile={profile}
+              refreshLocation={refreshLocation}
             />
             <TrackerMenu>
               <TrackerMenuUp>
@@ -266,6 +265,8 @@ const mapDispatchToProps = dispatch => ({
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
   changePointTracking: (pointIndex: number) =>
     dispatch(changePointTracking(pointIndex)),
+  refreshLocation: (data: object) =>
+    dispatch(refreshLocationRequestAction(data)),
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -275,8 +276,7 @@ const mapStateToProps = createStructuredSelector({
   isBeep: makeSelectBeep(),
   histories: makeSelectHistories(),
   historyIds: makeSelectHistoryIds(),
-  speedUnit: makeSelectSpeedUnit(),
-  profile: makeSelectProfile(),
+  profile: makeSelectUserProfile(),
   isRequesting: makeSelectLoading(),
   pointTrackingIndex: makeSelectPointTracking(),
 });

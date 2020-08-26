@@ -17,6 +17,7 @@ interface Props {
   t(key: string, format?: object): string;
   speedUnit?: string;
   profile?: object;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -26,8 +27,8 @@ export default function ViewHomeMobile(props: Props) {
     trackers,
     selectedTrackerId,
     getHistoryTracker,
-    speedUnit,
     profile,
+    refreshLocation,
   } = props;
 
   const onCloseView = () => setCurrentView('');
@@ -61,8 +62,8 @@ export default function ViewHomeMobile(props: Props) {
                 isMobile={true}
                 t={props.t}
                 settings={props.settings[tracker?.settings_id]}
-                speedUnit={speedUnit}
                 profile={profile}
+                refreshLocation={refreshLocation}
               />
             </ContentCardDetail>
             <SettingTracker

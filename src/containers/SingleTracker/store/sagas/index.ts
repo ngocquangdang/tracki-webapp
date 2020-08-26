@@ -61,7 +61,7 @@ function* updateTrackerSettingSaga(action) {
     yield put(actions.updatePreferancesRequestedAction(speed_unit));
     yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
     yield put(actions.updateTrackerAction(tracker.device_id, tracker));
-    yield put(getUserRequestAction(account_id));
+    // yield put(getUserRequestAction(account_id));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -151,7 +151,7 @@ function* updatePreferancesSaga(action) {
     };
     yield call(apiServices.updatePreferences, account_id, newPreferance);
     yield put(actions.updatePreferancesSucceedAction(speed_unit));
-    // yield put(getUserRequestAction(account_id));
+    yield put(getUserRequestAction(account_id));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

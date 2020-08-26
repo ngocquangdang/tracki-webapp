@@ -25,6 +25,7 @@ import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
 import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
+import { refreshLocationRequestAction } from '@Containers/Trackers/store/actions';
 import mqttSaga from '@Containers/Mqtt/sagas';
 import mqttReducer from '@Containers/Mqtt/reducers';
 import trackingSaga from './store/sagas';
@@ -55,6 +56,7 @@ interface Props {
   t(key: string, format?: object): string;
   onResetSelectedTrackerID(): void;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
@@ -102,6 +104,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(changeTrackersTracking(ids)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  refreshLocation: (data: object) =>
+    dispatch(refreshLocationRequestAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

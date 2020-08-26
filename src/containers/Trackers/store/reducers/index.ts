@@ -22,7 +22,6 @@ export const initialState: TrackerDataTypes = {
   dataLink: {},
   dataSendBeep: {},
   isBeep: false,
-  speed_unit: '',
   errors: null,
 };
 
@@ -168,9 +167,6 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case singleTrackerTypes.RESET_BEEP:
         draft.isBeep = false;
-        break;
-      case singleTrackerTypes.UPDATE_PREFERANCES_TRACKER_SUCCESSED:
-        draft.speed_unit = payload.speed_unit;
         break;
       default:
         break;

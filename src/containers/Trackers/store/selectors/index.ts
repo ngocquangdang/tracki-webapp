@@ -43,9 +43,6 @@ const makeSelectBeep = () =>
 const makeSelectNewGeofence = () =>
   createSelector(globalState, state => state.geofence?.newGeofence);
 
-const makeSelectSpeedUnit = () =>
-  createSelector(globalState, state => state.speed_unit);
-
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -60,5 +57,4 @@ export {
   makeSelectBeep,
   makeSelectNewGeofence,
   makeSelectErrors,
-  makeSelectSpeedUnit,
 };

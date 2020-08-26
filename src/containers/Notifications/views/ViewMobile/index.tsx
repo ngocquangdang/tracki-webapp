@@ -30,10 +30,11 @@ interface Props {
   fetchNotificationRequest(data: object): void;
   notifications: Notifications;
   notificationsIds: number[];
+  t(key: string, format?: object): string;
 }
 
 function NotificationMobile(props) {
-  const { notifications, notificationsIds } = props;
+  const { notifications, notificationsIds, t } = props;
   const [showNotfication, setShowNotification] = useState(true);
 
   const [alarmType, setAlarmType] = useState(ALARM_TYPES[0].value);
@@ -98,14 +99,14 @@ function NotificationMobile(props) {
       show={showNotfication}
       direction="left"
       isBlackView={true}
-      title={`Notification & History Report`}
+      title={t('notifications:notification_report')}
     >
       <ListOptionView isDateRange={isDateRange}>
         <OptionView isDateRange={isDateRange}>
           <SelectOption
             name="alarm_type"
             options={ALARM_TYPES}
-            label="Select Type"
+            label={t('notifications:select_type')}
             value={alarmType}
             onChangeOption={onChangeAlarmType}
           />
@@ -126,11 +127,15 @@ function NotificationMobile(props) {
             <Fragment key={item}>
               <NotificationCardDetail
                 notifications={initialNotifications[item]}
+                t={t}
+                mapId={`map${item}`}
               />
             </Fragment>
           );
         })}
-        {dataFilter ? null : <FilterData>No data filter</FilterData>}
+        {dataFilter ? null : (
+          <FilterData>{t('notifications:no_data')}</FilterData>
+        )}
       </DetailCard>
     </SideBarOutsideContact>
   );

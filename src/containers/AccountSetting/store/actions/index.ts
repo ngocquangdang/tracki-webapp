@@ -8,7 +8,7 @@ export function getUserRequestAction(accountId: number) {
   };
 }
 
-export function getUserSuccessAction(profile: PayloadType) {
+export function getUserSuccessAction(profile: object) {
   return {
     type: types.USER_SUCCEED,
     payload: { profile },

@@ -52,14 +52,10 @@ import {
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
 import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
-import { makeSelectProfile } from '@Containers/App/store/selectors';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
-import {
-  makeSelectTrackerSettings,
-  makeSelectSpeedUnit,
-} from '@Containers/Trackers/store/selectors';
+import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
 import {
   makeSelectErrors,
   makeSelectContacts,
@@ -76,6 +72,7 @@ import {
   addContactAssignedRequestedAction,
   removeContactAssignedRequestedAction,
 } from '@Containers/Contacts/store/actions/index.';
+import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 
 interface Props {
   handleClose(): void;
@@ -99,7 +96,6 @@ interface Props {
   errors: any;
   profile: any;
   contactOfTracker: object;
-  speedUnit: string;
 }
 
 function SettingTracker(props: Props) {
@@ -128,7 +124,6 @@ function SettingTracker(props: Props) {
     removeContactRequest,
     errors,
     profile,
-    speedUnit,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -149,7 +144,8 @@ function SettingTracker(props: Props) {
     tracking_mode: LOCATION_UPDATE_OPTIONS[0].value,
   });
 
-  const speed_unit = speedUnit || profile?.preferences.speed_unit;
+  const speed_unit = profile?.preferences.speed_unit;
+
   useEffect(() => {
     if (trackerSettings && tracker) {
       const {
@@ -173,7 +169,6 @@ function SettingTracker(props: Props) {
   }, [tracker, trackerSettings]);
 
   const onSubmitForm = (values: any) => {
-    console.log('onSubmitForm -> values', values);
     const { infoTracker, speed_unit } = values;
     const {
       tracking_mode,
@@ -623,8 +618,7 @@ const mapStateToProps = createStructuredSelector({
   contactOfTracker: makeSelectContactOfTracker(),
   contactAssigneds: makeSelectcontactAssigneds(),
   contactAssignedIds: makeSelectcontactAssignedIds(),
-  profile: makeSelectProfile(),
-  speedUnit: makeSelectSpeedUnit(),
+  profile: makeSelectUserProfile(),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -15,8 +15,15 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: 80,
     borderRadius: 4,
-    border: ' 1px solid rgba(255, 255, 255, 0.12)',
+    border: '1px solid rgba(255, 255, 255, 0.12)',
     marginBottom: 5,
+  },
+  containerViewMap: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    borderRadius: 4,
+    border: '1px solid rgba(255, 255, 255, 0.12)',
   },
   content: {
     display: 'flex',

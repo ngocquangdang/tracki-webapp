@@ -7,6 +7,7 @@ import { MainLayout } from '@Layouts';
 interface Props {
   getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 

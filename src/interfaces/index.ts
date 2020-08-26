@@ -52,7 +52,6 @@ export interface TrackerDataTypes {
   dataLink: object | null;
   dataSendBeep: object | null;
   isBeep: boolean | null;
-  speed_unit: string;
   errors: object | null;
 }
 

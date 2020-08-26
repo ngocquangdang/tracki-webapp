@@ -13,6 +13,7 @@ interface Props {
   isMobile: boolean;
   currentTab: number;
   changeTrackersTracking(ids: number[]): void;
+  refreshLocation(data: object): void;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
@@ -26,6 +27,7 @@ export default function SingleView(props: Props) {
     t,
     settings,
     changeTrackersTracking,
+    refreshLocation,
   } = props;
   const classes = useStyles();
   const [isFirstLoading, setIsFirstLoading] = useState(true);
@@ -64,6 +66,7 @@ export default function SingleView(props: Props) {
         className={classes.tracker}
         tracker={tracker}
         settings={settings[tracker?.settings_id]}
+        refreshLocation={refreshLocation}
       />
       <p className={classes.text}>{t('tracker:select_device')}</p>
       <div className={classes.list}>

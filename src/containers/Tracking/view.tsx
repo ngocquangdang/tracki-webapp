@@ -14,6 +14,7 @@ interface Props {
   t(key: string, format?: object): string;
   onResetSelectedTrackerID(): void;
   getHistoryTracker(data: object): void;
+  refreshLocation(data: object): void;
   [data: string]: any;
 }
 
