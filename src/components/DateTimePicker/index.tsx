@@ -13,7 +13,7 @@ import {
 import SelectOption from '@Components/selections';
 
 import { DATE_OPTIONS } from './constants';
-import { useStyles, themePickerDate } from './styles';
+import { useStyles, themePickerDate, themePickerDateBlackView } from './styles';
 
 type overridesNameToClassKey = {
   [P in keyof MuiPickersOverrides]: keyof MuiPickersOverrides[P];
@@ -36,12 +36,16 @@ interface Props {
   onChange(dateTime: DateTime): void;
   showDescriptionTime?: boolean;
   onSelectOption?: any;
+  isGetOnSelectOption?: boolean;
+  isBlackView?: boolean;
 }
 
 export default function DateTimePicker(props: Props) {
   const {
     isMobile,
     isHistory,
+    isGetOnSelectOption,
+    isBlackView,
     dateTime,
     showDescriptionTime,
     onChange,
@@ -57,7 +61,7 @@ export default function DateTimePicker(props: Props) {
     setDateOption(value);
     showDateRange(value === 'date_range');
     showSpecificDate(value === 'specific_date');
-    if (!showDescriptionTime && isDateRange && isSpecificDate) {
+    if (isGetOnSelectOption && (isDateRange || isSpecificDate)) {
       onSelectOption(value);
     }
 
@@ -118,6 +122,7 @@ export default function DateTimePicker(props: Props) {
           label="Select Date"
           value={dateOptions}
           onChangeOption={handleChangeOption}
+          isBlackView={isBlackView}
         />
       </div>
       {isDateRange && (
@@ -127,7 +132,9 @@ export default function DateTimePicker(props: Props) {
               [classes.datePickerControlHistory]: isHistory,
             })}
           >
-            <ThemeProvider theme={themePickerDate}>
+            <ThemeProvider
+              theme={isBlackView ? themePickerDateBlackView : themePickerDate}
+            >
               <DatePicker
                 autoOk
                 disableToolbar
@@ -144,7 +151,9 @@ export default function DateTimePicker(props: Props) {
                 className={classes.dateFrom}
               />
             </ThemeProvider>
-            <ThemeProvider theme={themePickerDate}>
+            <ThemeProvider
+              theme={isBlackView ? themePickerDateBlackView : themePickerDate}
+            >
               <DatePicker
                 autoOk
                 disableToolbar
@@ -168,7 +177,9 @@ export default function DateTimePicker(props: Props) {
 
       {isSpecificDate && (
         <PickerProvider libInstance={moment} utils={DateUtils}>
-          <ThemeProvider theme={themePickerDate}>
+          <ThemeProvider
+            theme={isBlackView ? themePickerDateBlackView : themePickerDate}
+          >
             <div
               className={
                 isHistory

@@ -235,12 +235,13 @@ export default function Notification(props: Props) {
                 onChange={onChangeDateTime}
                 isHistory={false}
                 onSelectOption={onSelectOption}
+                isGetOnSelectOption={true}
               />
             </OptionViewDatePicker>
             <Button
               variant="contained"
               color="primary"
-              text={t('notifications:select_type')}
+              text={t('notifications:view_report')}
               className={`${classes.btn}`}
               onClick={onClickViewPort}
             />
