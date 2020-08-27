@@ -27,7 +27,7 @@ export default function TrackerSelected(props: Props) {
       <div className={classes.list}>
         {trackerIds.map((id: number, index: number) => (
           <div key={index} className={classes.trackeItem}>
-            <TrackerCard tracker={trackers[id]} isMobile={isMobile} />
+            <TrackerCard t={t} tracker={trackers[id]} isMobile={isMobile} />
           </div>
         ))}
       </div>

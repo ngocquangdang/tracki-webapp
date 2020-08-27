@@ -251,7 +251,7 @@ export default function RenewPayment(props: Props) {
           <LayoutConfirm title={t('tracker:renew_tracker')}>
             <div className={classes.container}>
               <Header>
-                <Typography>{t('tracker:select_your_plan')}</Typography>
+                <Typography>{t('tracker:update_plan')}</Typography>
                 {isShowOtherPlan ? (
                   <ButtonStyle
                     variant="text"
