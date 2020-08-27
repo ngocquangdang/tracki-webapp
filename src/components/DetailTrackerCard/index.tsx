@@ -41,6 +41,7 @@ import {
   useStyles,
   DefaultImage,
   ButtonIcon,
+  TimeActiveMobile,
 } from './styles';
 
 interface Prop {
@@ -190,12 +191,12 @@ function DetailTrackerCard(props: Prop) {
                   )}
                   <Time>
                     <GoPrimitiveDot className={classes.icon} />
-                    <TimeActive>
+                    <TimeActiveMobile>
                       Last Updated:{' '}
                       {tracker?.time
                         ? moment(tracker.time * 1000).fromNow()
                         : 'unknow'}
-                    </TimeActive>
+                    </TimeActiveMobile>
                   </Time>
                 </Text>
               </Address>
@@ -227,11 +228,13 @@ function DetailTrackerCard(props: Prop) {
       <TrackerStatus isMobile={isMobile}>
         <BatteryTracker>
           <IconBattery src="/images/icon-battery.png" />
-          <span className={classes.textSpace}>{tracker?.battery || 0}%</span>
+          <span className={isMobile ? classes.textMobile : classes.textPC}>
+            {tracker?.battery || 0}%
+          </span>
         </BatteryTracker>
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
-          <span className={`${classes.textBold} ${classes.textSpace}`}>
+          <span className={isMobile ? classes.textMobile : classes.textSpeedPC}>
             {tracker && tracker.speed === 0
               ? 'Stopped'
               : settings?.preferences?.speed_limit?.unit === 'kph'
@@ -244,13 +247,15 @@ function DetailTrackerCard(props: Prop) {
           </span>
         </StatusTracker>
         <ConnectionTracker>
-          <Connection>
+          <Connection isMobile={isMobile}>
             Connection:{' '}
             <span className={classes.textBold}>
               {tracker?.location_type || '--'}
             </span>
           </Connection>
-          <LocationApprox>Location within approx. 5-20m</LocationApprox>
+          <LocationApprox isMobile={isMobile}>
+            Location within approx. 5-20m
+          </LocationApprox>
         </ConnectionTracker>
       </TrackerStatus>
     </Fragment>

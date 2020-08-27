@@ -50,8 +50,14 @@ const TrackerStatus = styled.div`
   border-radius: ${(props: { isMobile: boolean }) =>
     props.isMobile ? '4px' : ''};
 `;
-const LocationApprox = styled.span``;
-const Connection = styled.div``;
+const LocationApprox = styled.span`
+  font-size: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '9px' : '12px'};
+`;
+const Connection = styled.div`
+  font-size: ${(props: { isMobile: boolean }) =>
+    props.isMobile ? '10px' : '14px'};
+`;
 const BatteryTracker = styled.div`
   border-right: 1px solid #e0e0e0;
   padding: 0 8px;
@@ -69,7 +75,7 @@ const StatusTracker = styled.div`
   justify-content: center;
 `;
 const ConnectionTracker = styled.div`
-  flex: 2.5;
+  flex: 1.75;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,13 +184,34 @@ const IconBattery = styled.img`
 const IconZoom = styled.img`
   margin-top: 12px;
 `;
+const TimeActiveMobile = styled.span`
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.42;
+  color: #1a1a1a;
+`;
+
 const useStyles = makeStyles(theme => ({
   textBold: {
     fontWeight: 600,
   },
-  textSpace: {
-    marginLeft: '8px',
-    fontSize: '12px',
+  textSpeedPC: {
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  textMobile: {
+    marginLeft: 8,
+    fontSize: 11,
+    fontWeight: 'normal',
+    fontFamily: 'Open Sans, san-serif',
+  },
+  textPC: {
+    fontSize: 14,
+    marginLeft: 8,
+    fontWeight: 'normal',
   },
   iconLocation: {
     width: '20px',
@@ -198,6 +225,7 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     color: theme.palette.primary.main,
+    fontSize: 18,
   },
   skeleton: {
     backgroundColor: '#f2f2f2',
@@ -262,4 +290,5 @@ export {
   useStyles,
   ButtonIcon,
   DefaultImage,
+  TimeActiveMobile,
 };
