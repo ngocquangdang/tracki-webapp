@@ -7,7 +7,6 @@ import RenewTrackerForm from './views';
 import {
   getDevicePlanRequestAction,
   updateStore,
-  getTokenForPaymentRequestAction,
   braintreeDropInRequestAction,
   renewDeviceRequestAction,
 } from './store/actions';
@@ -55,8 +54,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch: any) => ({
   getDevicePlanAction: (data: any) =>
     dispatch(getDevicePlanRequestAction(data)),
-  getTokenForPaymentAction: data =>
-    dispatch(getTokenForPaymentRequestAction(data)),
   updateStore: (data: any) => dispatch(updateStore(data)),
   braintreeDropinAction: (formData, callback) =>
     dispatch(braintreeDropInRequestAction(formData, callback)),

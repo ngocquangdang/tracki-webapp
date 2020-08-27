@@ -27,56 +27,9 @@ export function getDevicePlanFailAction(payload: any) {
   };
 }
 
-export function getTokenForPaymentRequestAction(payload: any) {
-  return {
-    type: types.GET_TOKEN_FOR_PAYMENT_REQUESTED,
-    payload,
-  };
-}
-
-export function getTokenForPaymentSuccesAction(trackerPlan: any) {
-  console.log('getTokenForPaymentSuccesAction -> trackerPlan', trackerPlan);
-  return {
-    type: types.GET_TOKEN_FOR_PAYMENT_SUCCESSED,
-    payload: trackerPlan,
-  };
-}
-
-export function getTokenForPaymentFailAction(payload: any) {
-  return {
-    type: types.GET_TOKEN_FOR_PAYMENT_FAILED,
-    payload,
-  };
-}
-
-export function setBrainTreeDeviceRequestAction(account_id, device_id, data) {
-  return {
-    type: types.SET_BRAINTREE_DEVICE_REQUESTED,
-    payload: {
-      account_id,
-      device_id,
-      data,
-    },
-  };
-}
-
-export function setBrainTreeDeviceSuccesAction(payload) {
-  return {
-    type: types.SET_BRAINTREE_DEVICE_SUCCESSED,
-    payload,
-  };
-}
-
-export function setBrainTreeDeviceFailAction(payload: any) {
-  return {
-    type: types.SET_BRAINTREE_DEVICE_FAILED,
-    payload,
-  };
-}
-
 export function braintreeDropInRequestAction(formData, callback) {
   return {
-    type: types.BRAINTREE_DROPIN_REQUESTED,
+    type: types.BRAINTREE_DROPIN_RENEW_REQUESTED,
     payload: {
       formData,
       callback,
@@ -86,14 +39,14 @@ export function braintreeDropInRequestAction(formData, callback) {
 
 export function braintreeDropInSuccesAction(payload) {
   return {
-    type: types.BRAINTREE_DROPIN_SUCCESSED,
+    type: types.BRAINTREE_DROPIN_RENEW_SUCCESSED,
     payload,
   };
 }
 
 export function braintreeDropInFailAction(payload: any) {
   return {
-    type: types.BRAINTREE_DROPIN_FAILED,
+    type: types.BRAINTREE_DROPIN_RENEW_FAILED,
     payload,
   };
 }

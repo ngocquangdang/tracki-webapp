@@ -13,7 +13,6 @@ export const initialState = {
     order: '',
     selectedPlan: [],
   },
-  token: '',
   account_id: 0,
 };
 const RenewTrackerReducer = (
@@ -23,7 +22,6 @@ const RenewTrackerReducer = (
   produce(state, draft => {
     switch (type) {
       case types.GET_RENEW_DEVICE_PLAN_REQUESTED:
-      case types.GET_TOKEN_FOR_PAYMENT_REQUESTED:
       case types.RENEW_DEVICE_REQUESTED:
         draft.isRequesting = true;
         break;
@@ -35,16 +33,6 @@ const RenewTrackerReducer = (
         break;
       case types.RENEW_DEVICE_SUCCESSED:
         draft.isRequesting = false;
-        break;
-      case types.GET_TOKEN_FOR_PAYMENT_SUCCESSED:
-        draft.isRequesting = false;
-        draft.token = payload;
-        draft.errors = {};
-        break;
-      case types.GET_TOKEN_FOR_PAYMENT_FAILED:
-        draft.isRequesting = false;
-        draft.errorsMessage = payload.message;
-        draft.errors = payload;
         break;
       case types.UPDATE_STORE:
         draft.formData = {

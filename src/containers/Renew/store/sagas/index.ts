@@ -62,7 +62,6 @@ function* braintreeDropinSaga(action: ActionType) {
     yield callback('payment_confirm');
     yield put(braintreeDropInSuccesAction(action.payload));
   } catch (error) {
-    console.log('function*braintreeDropinSaga -> error', error);
     yield put(braintreeDropInFailAction(error));
   }
 }
@@ -121,6 +120,6 @@ export default function* watcher() {
     types.GET_RENEW_DEVICE_PLAN_REQUESTED,
     getRenewDevicePlanSaga
   );
-  yield takeLatest(types.BRAINTREE_DROPIN_REQUESTED, braintreeDropinSaga);
+  yield takeLatest(types.BRAINTREE_DROPIN_RENEW_REQUESTED, braintreeDropinSaga);
   yield takeLatest(types.RENEW_DEVICE_REQUESTED, renewDeviceSaga);
 }
