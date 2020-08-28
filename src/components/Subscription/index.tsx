@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from '@Components/modals';
-import Link from 'next/link';
+
 import {
   Title,
   SubTitle,
@@ -16,6 +16,13 @@ interface Props {
   onClickCancel?(): void;
   open: boolean;
   onCloseSubscription(): void;
+  smsCounter?: SMSCounter;
+  devcieSubscription?: object;
+}
+
+interface SMSCounter {
+  smsCounter: number;
+  smsLimit: number;
 }
 
 function SubscriptionModal(props: Props) {
@@ -25,6 +32,8 @@ function SubscriptionModal(props: Props) {
     onClickIncrease,
     onClickCancel,
     onCloseSubscription,
+    smsCounter,
+    // devcieSubscription,
   } = props;
   const classes = useStyles();
 
@@ -37,28 +46,28 @@ function SubscriptionModal(props: Props) {
       <Content>
         <WrapTitle>
           <Title>{t('tracker:device_active')}: </Title>
-          <SubTitle>March 30, 2020</SubTitle>
+          <SubTitle>-</SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:current_plan')}: </Title>
-          <SubTitle>6 Months</SubTitle>
+          <SubTitle>-</SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:limit_month_use')}: </Title>
-          <SubTitle>0 out of 30 text alerts</SubTitle>
+          <SubTitle>
+            {smsCounter?.smsCounter} out of {smsCounter?.smsLimit} text alerts
+          </SubTitle>
         </WrapTitle>
       </Content>
       <ButtonControl>
-        <Link href="/subscription">
-          <Button
-            variant="contained"
-            text={t('tracker:increase_subscription')}
-            onClick={onClickIncrease}
-            color={'primary'}
-            fullWidth={true}
-            className={classes.btn}
-          />
-        </Link>
+        <Button
+          variant="contained"
+          text={t('tracker:increase_subscription')}
+          onClick={onClickIncrease}
+          color={'primary'}
+          fullWidth={true}
+          className={classes.btn}
+        />
 
         <Button
           onClick={onClickCancel}

@@ -19,6 +19,8 @@ export const initialState: TrackerDataTypes = {
     editGeofenceId: null,
     newGeofence: null,
   },
+  smsCounter: {},
+  subscription: {},
   dataLink: {},
   dataSendBeep: {},
   isBeep: false,
@@ -167,6 +169,21 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case singleTrackerTypes.RESET_BEEP:
         draft.isBeep = false;
+        break;
+      case types.GET_DEVICE_SUBSCRIPTION_REQUESTED:
+      case types.GET_SMS_COUNTER_REQUESTED:
+        draft.errors = null;
+
+        break;
+      case types.GET_DEVICE_SUBSCRIPTION_SUCCEED:
+        draft.subscription = payload.data;
+        break;
+      case types.GET_SMS_COUNTER_SUCCEED:
+        draft.smsCounter = payload.data;
+        break;
+      case types.GET_DEVICE_SUBSCRIPTION_FAILED:
+      case types.GET_SMS_COUNTER_FAILED:
+        draft.errors = payload.error;
         break;
       default:
         break;

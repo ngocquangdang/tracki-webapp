@@ -212,3 +212,37 @@ export const refreshLocationRequestAction = (data: object) => ({
   type: types.REFRESH_LOACTION_REQUESTED,
   payload: { data },
 });
+
+export const getDeviceSubscripttionRequestedAction = (data: object) => ({
+  type: types.GET_DEVICE_SUBSCRIPTION_REQUESTED,
+  payload: { data },
+});
+
+export const getDeviceSubscripttionSucceedAction = (data: object) => {
+  return {
+    type: types.GET_DEVICE_SUBSCRIPTION_SUCCEED,
+    payload: { data },
+  };
+};
+
+export const getDeviceSubscripttionFailedAction = (error: object) => ({
+  type: types.GET_DEVICE_SUBSCRIPTION_FAILED,
+  payload: { error },
+});
+
+export const getDeviceSMSCounterRequestedAction = (device_id: number) => ({
+  type: types.GET_SMS_COUNTER_REQUESTED,
+  payload: { device_id },
+});
+
+export const getDeviceSMSCounterSucceedAction = (data: object) => {
+  return {
+    type: types.GET_SMS_COUNTER_SUCCEED,
+    payload: { data },
+  };
+};
+
+export const getDeviceSMSCounterFailedAction = (error: object) => ({
+  type: types.GET_SMS_COUNTER_FAILED,
+  payload: { error },
+});

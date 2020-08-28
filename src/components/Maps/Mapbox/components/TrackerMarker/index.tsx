@@ -28,7 +28,7 @@ class TrackerMarker extends React.Component<Props> {
   renderTracker = () => {
     const {
       map,
-      tracker: { lat, lng, icon_url, device_name },
+      tracker: { lat, lng, icon_url, device_name, status },
       isBeep,
     } = this.props;
 
@@ -39,15 +39,22 @@ class TrackerMarker extends React.Component<Props> {
       elm.innerHTML = `
         <div class=${isBeep ? 'icon-red-active' : 'icon-red'}>
           <span class='inner'></span>
-          <div class='marker-pin'>
+          <div class='marker-pin' style='background-image:url(${
+            status === 'active'
+              ? '/images/icon-marker.svg'
+              : '/images/red-marker.svg'
+          })'
+          >
           ${
             icon_url
-              ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+              ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
               : `<img src='/images/image-device.png'
               } class='image-device'></img>`
           }
           </div>
-        <div class='title-device' style='width:${nameWidth}px; left:-${
+        <div class=${
+          status === 'active' ? 'title-device' : 'red-title-device'
+        } style='width:${nameWidth}px; left:-${
         nameWidth / 2
       }px'>${device_name}</div>
         `;

@@ -73,3 +73,15 @@ export const refreshLocaion = async (accountId: number, data: object) =>
     `v3/accounts/${accountId}/devices/ops/getLocation`,
     data
   );
+
+export const deviceSubscriptionDetail = async data => {
+  return axiosClient.get(
+    `/support/v1/device/all?search=${data.device_id}&page=${data.page}&size=4${data.size}`
+  );
+};
+
+export const getSmsCounter = async (account_id: number, device_id: number) => {
+  return axiosClient.get(
+    `/v3/accounts/${account_id}/devices/${device_id}/smscounters`
+  );
+};

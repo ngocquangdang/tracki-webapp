@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core';
+import { makeStyles, withStyles, Tooltip } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 
 const Item = styled.div`
@@ -70,6 +70,20 @@ const TimeActive = styled.span`
   color: #b7b7b7;
   text-overflow: ellipsis;
 `;
+
+const TooltipStyle = withStyles({
+  tooltip: {
+    color: '#1a1a1a',
+    fontSize: '15px',
+    fontWeight: 'normal',
+    fontFamily: 'Roboto',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
+  },
+  arrow: {
+    color: 'white',
+  },
+})(Tooltip);
 const useStyles = makeStyles(theme => ({
   input: {
     '&::placeholder': {
@@ -113,10 +127,16 @@ const useStyles = makeStyles(theme => ({
     cursor: 'default',
   },
   show: {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
   },
   hidden: {
     display: 'none',
+  },
+  questionIcon: {
+    width: 13,
+    height: 13,
+    marginLeft: 5,
   },
 }));
 
@@ -144,4 +164,5 @@ export {
   ListItemStyle,
   DefaultImage,
   Renew,
+  TooltipStyle,
 };

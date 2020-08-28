@@ -11,7 +11,7 @@ const Subscription: NextPage = (props: any) => {
 };
 
 Subscription.getInitialProps = async (): Promise<IPage.InitialProps> => {
-  return { namespacesRequired: ['common', 'subscription'] };
+  return { namespacesRequired: ['common', 'subscription', 'tracker'] };
 };
 
 export default compose(withAuth, withTranslation('common'))(Subscription);

@@ -335,6 +335,59 @@ function* refreshLocationSaga(action) {
   }
 }
 
+function* getSmsCounterSaga(action) {
+  const { account_id } = yield select(makeSelectProfile());
+  const { device_id } = action.payload;
+  try {
+    const { data: smsCounter } = yield call(
+      apiServices.getSmsCounter,
+      account_id,
+      device_id
+    );
+    yield put(actions.getDeviceSMSCounterSucceedAction(smsCounter));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(showSnackbar({ snackType: 'error', snackMessage: data.error }));
+    }
+    yield put(actions.getDeviceSMSCounterFailedAction(payload));
+  }
+}
+
+function* getdeviceSubscriptionDetailSaga(action) {
+  const { data } = action.payload;
+  try {
+    const { data: deviceSubscription } = yield call(
+      apiServices.deviceSubscriptionDetail,
+      data
+    );
+
+    yield put(actions.getDeviceSubscripttionSucceedAction(deviceSubscription));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
+    }
+    yield put(actions.getDeviceSubscripttionFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -346,4 +399,9 @@ export default function* appWatcher() {
   yield takeLatest(types.LINK_TRACKERS_REQUESTED, linkTrackersSaga);
   yield takeLatest(types.UNLINK_TRACKERS_REQUESTED, unlinkTrackersSaga);
   yield takeLatest(types.REFRESH_LOACTION_REQUESTED, refreshLocationSaga);
+  yield takeLatest(types.GET_SMS_COUNTER_REQUESTED, getSmsCounterSaga);
+  yield takeLatest(
+    types.GET_DEVICE_SUBSCRIPTION_REQUESTED,
+    getdeviceSubscriptionDetailSaga
+  );
 }

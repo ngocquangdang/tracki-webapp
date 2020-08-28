@@ -24,7 +24,7 @@ interface Props {
   t(key: string, format?: object): string;
   today: string;
   device_id: number | string;
-  price: number;
+  price: number | string | JSX.Element;
   activation_date: string;
   subscription_expiration: string;
   type_payment: string;

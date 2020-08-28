@@ -117,11 +117,11 @@ class MapCard extends React.Component<IProps, IState> {
     }
   }
 
-  trackerName = (name: string) => {
+  trackerName = (name: string, status: string) => {
     const nameWidth = name.length * 9;
-    return `<div class='title-device' style='width:${nameWidth}px; left:-${
-      nameWidth / 2 - 4
-    }px'>${name}</div>`;
+    return `<div class=${
+      status === 'active' ? 'title-device' : 'red-title-device'
+    } style='width:${nameWidth}px; left:-${nameWidth / 2 - 4}px'>${name}</div>`;
   };
 
   componentDidMount() {
@@ -185,7 +185,7 @@ class MapCard extends React.Component<IProps, IState> {
     const tracker = trackers[selectedTrackerId];
 
     if (!this.marker && tracker && tracker.lat && tracker.lng) {
-      const { device_name, lat, lng, icon_url } = tracker;
+      const { device_name, lat, lng, icon_url, status } = tracker;
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
@@ -194,12 +194,12 @@ class MapCard extends React.Component<IProps, IState> {
         <div class='marker-pin'>
           ${
             icon_url
-              ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+              ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
               : `<img src='/images/image-device.png'
               } class='image-device'></img>`
           }
         </div>
-       ${this.trackerName(device_name)}
+       ${this.trackerName(device_name, status)}
       </div>`;
 
       const icon = new L.DivIcon({ html: elm });

@@ -91,6 +91,9 @@ const useStyles = makeStyles(theme => ({
     color: '#999999',
     fontSize: '18px',
   },
+  hidden: {
+    display: 'none',
+  },
 }));
 
 export {

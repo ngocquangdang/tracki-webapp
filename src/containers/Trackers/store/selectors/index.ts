@@ -43,6 +43,12 @@ const makeSelectBeep = () =>
 const makeSelectNewGeofence = () =>
   createSelector(globalState, state => state.geofence?.newGeofence);
 
+const makeSelectSubscription = () =>
+  createSelector(globalState, state => state.subscription);
+
+const makeSelectSmsCounter = () =>
+  createSelector(globalState, state => state.smsCounter);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -57,4 +63,6 @@ export {
   makeSelectBeep,
   makeSelectNewGeofence,
   makeSelectErrors,
+  makeSelectSubscription,
+  makeSelectSmsCounter,
 };

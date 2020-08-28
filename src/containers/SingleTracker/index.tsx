@@ -42,7 +42,11 @@ import { changeMapView } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
-import { refreshLocationRequestAction } from '@Containers/Trackers/store/actions';
+import {
+  refreshLocationRequestAction,
+  getDeviceSubscripttionRequestedAction,
+  getDeviceSMSCounterRequestedAction,
+} from '@Containers/Trackers/store/actions';
 import {
   Container,
   Header,
@@ -86,6 +90,8 @@ interface Props {
   refreshLocation(data: object): void;
   resetBeep(): void;
   profile: object;
+  getDeviceSubscripttionRequest(data: object): void;
+  getDeviceSMSCounterRequest(device_id: number): void;
 }
 
 function SingleTracker(props: Props) {
@@ -109,6 +115,8 @@ function SingleTracker(props: Props) {
     showSnackbar,
     profile,
     refreshLocation,
+    getDeviceSubscripttionRequest,
+    getDeviceSMSCounterRequest,
   } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
@@ -134,6 +142,15 @@ function SingleTracker(props: Props) {
       updateChildView(view);
       if (view === 'history') {
         changeMapView('tracker_history');
+      }
+      if (view === 'settings') {
+        const devcieData = {
+          device_id: tracker.device_id,
+          page: 1,
+          size: 10,
+        };
+        getDeviceSubscripttionRequest(devcieData);
+        getDeviceSMSCounterRequest(tracker.device_id);
       }
     } else {
       onRenewTrackerPage();
@@ -291,6 +308,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(changePointTracking(pointIndex)),
   refreshLocation: (data: object) =>
     dispatch(refreshLocationRequestAction(data)),
+  getDeviceSubscripttionRequest: (data: object) =>
+    dispatch(getDeviceSubscripttionRequestedAction(data)),
+  getDeviceSMSCounterRequest: (device_id: number) =>
+    dispatch(getDeviceSMSCounterRequestedAction(device_id)),
 });
 
 const mapStateToProps = createStructuredSelector({
