@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core';
+import { makeStyles, withStyles, Tooltip } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
 const TrackerInfomation = styled.div`
@@ -155,7 +155,9 @@ const ItemInfo = styled.div`
   text-overflow: ellipsis;
   max-width: 172px;
 `;
-const Name = styled.p`
+const Name = styled.div`
+  display: flex;
+  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 4px 0;
@@ -183,6 +185,24 @@ const IconBattery = styled.img`
 `;
 const IconZoom = styled.img`
   margin-top: 12px;
+`;
+const Warning = styled.div`
+  text-align: center;
+  margin: 0 32px 20px 12px;
+  justify-content: center;
+  font-size: 13px;
+`;
+
+const Renew = styled.div`
+  align-items: center;
+  color: white;
+  background: #a41b0d;
+  padding: 4px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  margin-left: 7px;
+  cursor: pointer;
 `;
 const TimeActiveMobile = styled.span`
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
@@ -248,6 +268,26 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     color: '#168449',
   },
+  iconWarning: {
+    width: '14px',
+    height: '14px',
+    color: '#f44336',
+    marginRight: 5,
+  },
+  show: {
+    display: 'flex',
+  },
+  hidden: {
+    display: 'none',
+  },
+  redIcon: {
+    color: '#f44336',
+  },
+  questionIcon: {
+    width: 13,
+    height: 13,
+    marginLeft: 5,
+  },
 }));
 
 const ButtonIcon = withStyles(theme => ({
@@ -259,6 +299,20 @@ const ButtonIcon = withStyles(theme => ({
     },
   },
 }))(Button);
+
+const TooltipStyle = withStyles({
+  tooltip: {
+    color: '#1a1a1a',
+    fontSize: '15px',
+    fontWeight: 'normal',
+    fontFamily: 'Roboto',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
+  },
+  arrow: {
+    color: 'white',
+  },
+})(Tooltip);
 
 export {
   Card,
@@ -290,5 +344,8 @@ export {
   useStyles,
   ButtonIcon,
   DefaultImage,
+  Warning,
+  Renew,
+  TooltipStyle,
   TimeActiveMobile,
 };
