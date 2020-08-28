@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Tooltip } from '@material-ui/core';
+import Router from 'next/router';
+
 import { FaHistory } from 'react-icons/fa';
 import { MdBorderStyle, MdShare } from 'react-icons/md';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
@@ -59,14 +61,28 @@ export default function BottomToolBar(props: Props) {
   const toggleFullButton = () => setIsFullButton(!isFullButton);
 
   const onClickBeep = () => {
-    onClickSendBeep({
-      beepPeriod: 2,
-      beepType: 1,
-      devices: [tracker.device_id],
-    });
+    if (tracker.status === 'active') {
+      onClickSendBeep({
+        beepPeriod: 2,
+        beepType: 1,
+        devices: [tracker.device_id],
+      });
+    } else {
+      onRenewTrackerPage();
+    }
   };
 
-  const changeView = (view: string) => () => onChangeView(view);
+  const changeView = (view: string) => () => {
+    if (tracker.status === 'active' || view === 'settingsView') {
+      onChangeView(view);
+    } else {
+      onRenewTrackerPage();
+    }
+  };
+
+  const onRenewTrackerPage = () => {
+    Router.push(`/trackers/${tracker.device_id}/renew`);
+  };
 
   return (
     <ToolBar>
