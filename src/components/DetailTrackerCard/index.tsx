@@ -137,7 +137,7 @@ function DetailTrackerCard(props: Prop) {
                       'Device subscription cancelled or charges were declined.'
                     }
                     arrow
-                    placement="right"
+                    placement="left"
                   >
                     <div>
                       <FaRegQuestionCircle
@@ -273,7 +273,7 @@ function DetailTrackerCard(props: Prop) {
               : speed_unit === 'mph'
               ? tracker?.speed || 0
               : ((tracker?.speed || 0) * 1.609).toFixed(2)}{' '}
-            {tracker && tracker.speed !== 0 ? speed_unit.toUpperCase() : ''}
+            {tracker && tracker.speed !== 0 ? speed_unit?.toUpperCase() : ''}
           </span>
         </StatusTracker>
         <ConnectionTracker>

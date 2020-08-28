@@ -49,6 +49,8 @@ export interface TrackerDataTypes {
     editGeofenceId: number | null;
     [data: string]: any;
   };
+  smsCounter: object | null;
+  subscription: object | null;
   dataLink: object | null;
   dataSendBeep: object | null;
   isBeep: boolean | null;

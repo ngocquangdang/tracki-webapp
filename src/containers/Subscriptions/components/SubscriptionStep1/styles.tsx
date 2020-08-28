@@ -39,6 +39,10 @@ const MessageItem = styled.div`
   padding: 12px;
   margin: 5px;
   cursor: pointer;
+  @media (max-width: 995.95px) {
+    margin: 0;
+    margin-bottom: 11px;
+  }
 `;
 const ContentMessageItem = styled.div`
   display: flex;
@@ -46,6 +50,9 @@ const ContentMessageItem = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  @media (max-width: 995.95px) {
+    justify-content: space-between;
+  }
 `;
 const TypeMessage = styled.span`
   font-size: 23px;
@@ -103,9 +110,6 @@ const SelectForm = withStyles(theme => ({
   root: {
     '&.MuiFormControl-root': {
       width: '100%',
-      [theme.breakpoints.down('sm')]: {
-        width: '93%',
-      },
       margin: '18px 0',
     },
     '& .MuiInputBase-root': {

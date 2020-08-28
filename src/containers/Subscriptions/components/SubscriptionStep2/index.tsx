@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import PaymentOption from '@Components/Payment';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
+import { Button } from '@Components/buttons';
 
 import {
   Container,
@@ -14,6 +16,8 @@ import {
   SelectPayment,
   useStyles,
 } from './styles';
+import { BraintreePaymentGateway } from '@Containers/paymentService/braintree';
+import { CircularProgress } from '@material-ui/core';
 
 interface DetailMessage {
   currency: string;
@@ -24,41 +28,88 @@ interface DetailMessage {
 }
 
 interface Props {
-  detailMessage: DetailMessage;
   isMobile: boolean;
-  onChangePlan(): void;
-  selectedCountry: string;
+  onUpdateStep(value): void;
   t(key: string): string;
+  formData: any;
 }
-function SubscriptionStep2(props: Props) {
-  const { isMobile, detailMessage, selectedCountry, onChangePlan, t } = props;
+function SubscriptionStep2(props) {
+  const {
+    isMobile,
+    onUpdateStep,
+    t,
+    formData,
+    braintreeDropInSubscriptionRequest,
+  } = props;
+  console.log('formData', formData);
   const classes = useStyles();
+  const [isLoadingGateway, setLoadingGateway] = useState(true);
+  const [disablePayment, setDisableSubmitCard] = useState(false);
+
+  useEffect(() => {
+    BraintreePaymentGateway(
+      formData,
+      formData.selectedPlan,
+      formData.account_id,
+      setLoadingPaymentgateway,
+      setDisableSubmitCard,
+      '#dropin-container-web'
+    );
+  }, [formData]);
+
+  const setLoadingPaymentgateway = () => {
+    setLoadingGateway(false);
+  };
+
+  const handleChangeStep = (step: number) => () => {
+    onUpdateStep(step);
+  };
+  const onPaymentSubmit = () => {
+    braintreeDropInSubscriptionRequest(formData, handleChangeStep(3));
+  };
+
   return (
     <Container>
-      <ControlChangePlan onClick={onChangePlan}>
+      <ControlChangePlan onClick={handleChangeStep(1)}>
         <ArrowBackIosIcon className={classes.backBtn} />
         <TextChange>{t('subscription:change_plan')}</TextChange>
       </ControlChangePlan>
       <InfoSubcription>
-        <Country>{selectedCountry}</Country>
+        <Country>{formData?.country.description}</Country>
         <DetailIncrease>
           <TypeMessage>
-            {`${t('subscription:text_plan')} ${detailMessage.smsLimit} ${t(
-              'subscription:monthly'
-            )}`}
+            {`${t('subscription:text_plan')} ${
+              formData?.selectedPlan.smsLimit
+            } ${t('subscription:monthly')}`}
           </TypeMessage>
           <Price>
-            {detailMessage.price} {detailMessage.currency}
+            {formData?.selectedPlan.price} {formData?.selectedPlan.currency}
           </Price>
         </DetailIncrease>
       </InfoSubcription>
       <SelectPayment>
-        {isMobile ? null : (
-          <PaymentOption
-            handleClickPayment={() => console.log('xxxxxxxxx')}
-            isMobile={isMobile}
-            t={t}
-          />
+        {!isMobile && (
+          <div>
+            <div id="dropin-container-web"></div>
+            <div className={!isLoadingGateway ? classes.hidden : ''}>
+              <CircularProgress />
+            </div>
+            <p>All transactions are secure and encrypted.</p>
+            <Button
+              onClick={onPaymentSubmit}
+              id="submit-payment-button-web"
+              disabled={disablePayment}
+              color="primary"
+              variant="contained"
+              type="submit"
+              text={
+                isMobile
+                  ? t('subscription:credit_card_pay_now')
+                  : t('subscription:credit_card_proceed')
+              }
+              endIcon={isMobile ? null : <ArrowForwardIosIcon />}
+            />
+          </div>
         )}
       </SelectPayment>
     </Container>

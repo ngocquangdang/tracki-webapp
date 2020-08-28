@@ -133,6 +133,7 @@ const Footer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 15px auto;
+  width: 100%;
 `;
 const useStyles = makeStyles(theme => ({
   icon: {

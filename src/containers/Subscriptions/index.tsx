@@ -1,107 +1,85 @@
-import React, { useState } from 'react';
-import { FiChevronLeft } from 'react-icons/fi';
-import Link from 'next/link';
-import InfoIcon from '@material-ui/icons/Info';
-import { Button } from '@Components/buttons';
-import PaymentOption from '@Components/Payment';
+import React, { memo, useEffect } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import SubscriptionPage from './views';
+
+import { useInjectSaga } from '@Utils/injectSaga';
+import { useInjectReducer } from '@Utils/injectReducer';
+
+import trackerSaga from '@Containers/Trackers/store/sagas';
+import trackerReducer from '@Containers/Trackers/store/reducers';
+import saga from './store/sagas';
+import reducer from './store/reducers';
+
+import { makeSelectSmsCounter } from '@Containers/Trackers/store/selectors';
 import {
-  Container,
-  Header,
-  Content,
-  Logo,
-  WrapTitle,
-  Title,
-  SubTitle,
-  TextSub,
-  TextNormal,
-  TextBold,
-  MainContent,
-  useStyles,
-} from './styles';
-import SubscriptionStep1 from './components/SubscriptionStep1';
-import SubscriptionStep2 from './components/SubscriptionStep2';
+  getCountryCodeRequestedAction,
+  getCountryCodeFollowRequestedAction,
+  updateSubscriptionStore,
+  braintreeDropInSubscriptionRequestAction,
+  buySmsSubscriptionRequestAction,
+} from './store/actions';
+import {
+  makeSelectErrors,
+  makeSelectIsRequesting,
+  makeSelectFormData,
+  makeSelectCountryCode,
+  makeSelectCountryCodeFollow,
+} from './store/selectors';
+import { getDeviceSMSCounterRequestedAction } from '@Containers/Trackers/store/actions';
 
-interface Props {
-  isMobile: boolean;
-  t(key: string): string;
-}
-function Subscription(props: Props) {
-  const { isMobile, t } = props;
-  const classes = useStyles();
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [dataMessage, setDataMessage] = useState({
-    currency: '',
-    groupId: 2,
-    planId: 1,
-    price: 3.95,
-    smsLimit: 50,
-  });
-  const handleClickItemMessage = (item, country) => {
-    setDataMessage(item);
-    setSelectedCountry(country.description);
-    updateStep(2);
-  };
-  const [step, updateStep] = useState(1);
-  const renderStep = () => {
-    switch (step) {
-      case 2:
-        return (
-          <SubscriptionStep2
-            isMobile={isMobile}
-            onChangePlan={() => updateStep(1)}
-            detailMessage={dataMessage}
-            selectedCountry={selectedCountry}
-            t={t}
-          />
-        );
-      default:
-        return (
-          <SubscriptionStep1
-            onClickItemMessage={handleClickItemMessage}
-            t={t}
-          />
-        );
-    }
-  };
+function RenewTrackerContainer(props: any) {
+  useInjectSaga({ key: 'tracker', saga: trackerSaga });
+  useInjectReducer({ key: 'tracker', reducer: trackerReducer });
+  useInjectSaga({ key: 'subscription', saga });
+  useInjectReducer({ key: 'subscription', reducer });
 
-  return (
-    <Container>
-      <Header>
-        <Link href="/trackers">
-          <Button
-            variant="text"
-            classes={classes.backBtn}
-            startIcon={<FiChevronLeft size={28} />}
-            text={isMobile ? 'Increase Text Alert Limit' : 'Back'}
-          />
-        </Link>
-        <Link href="/">
-          <Logo src="/images/logo.png" className={classes.logo2} alt="" />
-        </Link>
-      </Header>
-      <Content>
-        <WrapTitle>
-          <Title>Increase Monthly Text Alert Limit</Title>
-          <SubTitle>
-            <InfoIcon className={classes.infoIcon} />
-            <TextSub>
-              <TextNormal>This month you used: </TextNormal>
-              <TextBold>0 out of 30 text alerts</TextBold>
-            </TextSub>
-          </SubTitle>
-        </WrapTitle>
-        <MainContent isStep2={step === 2}>{renderStep()}</MainContent>
-        {isMobile && step === 2 && (
-          <PaymentOption
-            handleClickPayment={() => console.log('xxxxxxxxx')}
-            isMobile={isMobile}
-            t={t}
-          />
-        )}
-      </Content>
-    </Container>
-  );
+  const {
+    getDeviceSMSCounterRequest,
+    getCountryCodeRequest,
+    updateSubscriptionStore,
+    formData,
+  } = props;
+  useEffect(() => {
+    const path_name = window.location.pathname;
+    const device_id = path_name.split('/')[2];
+    updateSubscriptionStore({ ...formData, device_id });
+    getDeviceSMSCounterRequest(device_id);
+    getCountryCodeRequest();
+  }, [getDeviceSMSCounterRequest, getCountryCodeRequest]);
+
+  return <SubscriptionPage {...props} />;
 }
 
-export default Subscription;
+const mapStateToProps = createStructuredSelector({
+  smsCounter: makeSelectSmsCounter(),
+  errors: makeSelectErrors(),
+  isRequesting: makeSelectIsRequesting(),
+  formData: makeSelectFormData(),
+  countryCode: makeSelectCountryCode(),
+  countryCodeFollow: makeSelectCountryCodeFollow(),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  getDeviceSMSCounterRequest: (device_id: number) =>
+    dispatch(getDeviceSMSCounterRequestedAction(device_id)),
+  getCountryCodeRequest: () => dispatch(getCountryCodeRequestedAction()),
+  getCountryCodeFollowRequest: (code: number) =>
+    dispatch(getCountryCodeFollowRequestedAction(code)),
+  updateSubscriptionStore: data => dispatch(updateSubscriptionStore(data)),
+  braintreeDropInSubscriptionRequest: (formData, callback) =>
+    dispatch(braintreeDropInSubscriptionRequestAction(formData, callback)),
+  buySmsSubscriptionRequest: (formData, account_id, paymentData) =>
+    dispatch(
+      buySmsSubscriptionRequestAction(formData, account_id, paymentData)
+    ),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  memo
+)(RenewTrackerContainer) as React.ComponentType;

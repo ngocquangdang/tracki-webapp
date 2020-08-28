@@ -60,7 +60,7 @@ class TrackerMarker extends React.Component<Props> {
           >
             ${
               tracker.icon_url
-                ? `<div class='image-maker' style='background-image: url(${tracker.icon_url})'></div>`
+                ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
                 : `<img src='/images/image-device.png'
                 } class='image-device'></img>`
             }
@@ -137,7 +137,7 @@ class TrackerMarker extends React.Component<Props> {
           >
             ${
               icon_url
-                ? `<div class='image-maker' style='background-image: url(${icon_url})'></div>`
+                ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
                 : `<img src='/images/image-device.png'
                 } class='image-device'></img>`
             }

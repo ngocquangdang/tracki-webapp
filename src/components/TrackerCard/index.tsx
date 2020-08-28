@@ -1,12 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 import clsx from 'clsx';
-
+import Router from 'next/router';
+import { FaRegQuestionCircle } from 'react-icons/fa';
 import { GoPrimitiveDot } from 'react-icons/go';
 import {
   Settings as SettingsIcon,
   Done as DoneIcon,
 } from '@material-ui/icons/';
+import { ITracker } from '@Interfaces';
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
+
 import {
   Item,
   Image,
@@ -20,10 +24,8 @@ import {
   ListItemStyle,
   DefaultImage,
   Renew,
+  TooltipStyle,
 } from './styles';
-import { ITracker } from '@Interfaces';
-import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
-import Router from 'next/router';
 
 interface Props {
   tracker: ITracker;
@@ -84,7 +86,7 @@ export default function TrackerCard(props: Props) {
         </ImageWrapper>
         <ItemInfo>
           <Name>
-            {tracker.device_name}{' '}
+            {tracker.device_name}
             <Renew
               className={
                 tracker.status === 'active' ? classes.hidden : classes.show
@@ -92,6 +94,17 @@ export default function TrackerCard(props: Props) {
               onClick={onRenewTrackerPage}
             >
               RENEW
+              <TooltipStyle
+                title={
+                  'Device subscription cancelled or charges were declined.'
+                }
+                arrow
+                placement="left"
+              >
+                <div>
+                  <FaRegQuestionCircle className={`${classes.questionIcon}`} />
+                </div>
+              </TooltipStyle>
             </Renew>
           </Name>
           <Time>
@@ -101,11 +114,8 @@ export default function TrackerCard(props: Props) {
               }
             />
             <TimeActive>
-              {tracker.status === 'active'
-                ? ` ${t('tracker:last_update')}: ${
-                    tracker.time ? moment(tracker.time * 1000).fromNow() : '--'
-                  }`
-                : t('tracker:device_subscription')}
+              {t('tracker:last_update')}
+              {tracker.time ? moment(tracker.time * 1000).fromNow() : '---'}
             </TimeActive>
           </Time>
         </ItemInfo>

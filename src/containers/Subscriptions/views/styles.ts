@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
+
+interface Props {
+  isStep2?: boolean;
+  isStep3?: boolean;
+}
 const Container = styled.div`
   background-color: #f4f5f6;
   width: 100%;
@@ -11,12 +16,20 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: 995.95px) {
+    margin-top: 20px;
+    padding-bottom: 30px;
+  }
 `;
 const Header = styled.header`
   display: flex;
   width: 100%;
   padding: 8px 10px;
   justify-content: space-between;
+  @media (max-width: 995.95px) {
+    border-bottom: 1px solid #999999;
+    background: #ffffff;
+  }
 `;
 const Logo = styled.img`
   object-fit: contain;
@@ -26,8 +39,8 @@ const Logo = styled.img`
     height: 29px;
   }
 `;
-const WrapTitle = styled.div`
-  display: flex;
+const WrapTitle = styled.div<Props>`
+  display: ${props => (props.isStep3 ? 'none' : 'flex')};
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -74,20 +87,22 @@ const TextBold = styled.span`
   line-height: 1.19;
   @media (max-width: 959.95px) {
     font-size: 16px;
+    margin-top: 42px;
   }
 `;
-const MainContent = styled.div`
+const MainContent = styled.div<Props>`
   display: flex;
   flex-direction: column;
   width: 921px;
-  background-color: #ffffff;
-  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
-  border: 1px solid #e0e0e0;
+  background-color: ${props => (props.isStep3 ? 'inherit' : '#ffffff')};
+  box-shadow: ${props =>
+    props.isStep3 ? 'none' : '0 8px 14px 0 rgba(0, 0, 0, 0.12)'};
+  border: ${props => (props.isStep3 ? '0' : '1px solid #e0e0e0')};
   margin-top: 11px;
-  padding: ${(props: { isStep2: boolean }) =>
-    props.isStep2 ? '20px' : '0px 260px 40px 260px'};
+  padding: ${props =>
+    props.isStep3 ? '0' : props.isStep2 ? '20px' : '0px 260px 40px 260px'};
   @media (max-width: 959.95px) {
-    width: 90%;
+    width: 345px;
     padding: 14px;
     margin-bottom: 40px;
   }
@@ -120,6 +135,15 @@ const useStyles = makeStyles(theme => ({
       width: '90.5px',
       height: '26px',
     },
+  },
+  hidden: {
+    display: 'none',
+  },
+  fullWidth: {
+    width: 345,
+  },
+  textcolor: {
+    color: '#666666',
   },
 }));
 

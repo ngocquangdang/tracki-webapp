@@ -49,13 +49,18 @@ import {
   AdornmentStyle,
   TooltipStyle,
   DefaultImage,
+  Warning,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
 import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
-import { makeSelectTrackerSettings } from '@Containers/Trackers/store/selectors';
+import {
+  makeSelectTrackerSettings,
+  makeSelectSubscription,
+  makeSelectSmsCounter,
+} from '@Containers/Trackers/store/selectors';
 import {
   makeSelectErrors,
   makeSelectContacts,
@@ -73,6 +78,8 @@ import {
   removeContactAssignedRequestedAction,
 } from '@Containers/Contacts/store/actions/index.';
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
+import { RiErrorWarningFill } from 'react-icons/ri';
+import Router from 'next/router';
 
 interface Props {
   handleClose(): void;
@@ -96,6 +103,13 @@ interface Props {
   errors: any;
   profile: any;
   contactOfTracker: object;
+  smsCounter: SMSCounter;
+  devcieSubscription: object;
+}
+
+interface SMSCounter {
+  smsCounter: number;
+  smsLimit: number;
 }
 
 function SettingTracker(props: Props) {
@@ -124,6 +138,8 @@ function SettingTracker(props: Props) {
     removeContactRequest,
     errors,
     profile,
+    devcieSubscription,
+    smsCounter,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -144,7 +160,7 @@ function SettingTracker(props: Props) {
     tracking_mode: LOCATION_UPDATE_OPTIONS[0].value,
   });
 
-  const speed_unit = profile?.preferences.speed_unit;
+  const speed_unit = profile?.preferences?.speed_unit;
 
   useEffect(() => {
     if (trackerSettings && tracker) {
@@ -241,6 +257,9 @@ function SettingTracker(props: Props) {
     }, 3000);
   };
 
+  const onClickIncrease = () => {
+    Router.push(`/trackers/${tracker.device_id}/subscription`);
+  };
   return (
     <SideBarOutside
       title="Settings"
@@ -333,7 +352,18 @@ function SettingTracker(props: Props) {
                 </ContainerPadding>
                 <ContainerButtonModal onClick={onOpenModalSubscription}>
                   <Text>Subscriptions</Text>
-                  <NavigateNextIcon className={classes.iconNext} />
+                  <div className={classes.flexStyle}>
+                    <Warning
+                      className={
+                        tracker.status === 'expired'
+                          ? classes.show
+                          : classes.hidden
+                      }
+                    >
+                      <RiErrorWarningFill className={classes.iconWarning} />{' '}
+                    </Warning>{' '}
+                    <NavigateNextIcon className={classes.iconNext} />
+                  </div>
                 </ContainerButtonModal>
                 <TitleAlert>{t('tracker:alert_setting')}</TitleAlert>
                 <ContainerPadding>
@@ -583,9 +613,12 @@ function SettingTracker(props: Props) {
         </Formik>
       </Container>
       <SubscriptionModal
+        onClickIncrease={onClickIncrease}
         onCloseSubscription={onCloseModalSubscription}
         open={openSubscription}
         t={t}
+        smsCounter={smsCounter}
+        devcieSubscription={devcieSubscription}
       />
       <SelectContact
         handleClose={handleShowSelectContact}
@@ -619,6 +652,8 @@ const mapStateToProps = createStructuredSelector({
   contactAssigneds: makeSelectcontactAssigneds(),
   contactAssignedIds: makeSelectcontactAssignedIds(),
   profile: makeSelectUserProfile(),
+  devcieSubscription: makeSelectSubscription(),
+  smsCounter: makeSelectSmsCounter(),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -150,6 +150,12 @@ const OptionRight = styled.div`
   justify-content: space-around;
   align-items: center;
 `;
+
+const Warning = styled.div`
+  text-align: center;
+  justify-content: center;
+  font-size: 13px;
+`;
 const useStyles = makeStyles(theme => ({
   loading: {
     position: 'absolute',
@@ -221,6 +227,25 @@ const useStyles = makeStyles(theme => ({
   selectOption: {
     margin: '15px 0',
   },
+  show: {
+    display: 'flex',
+  },
+  hidden: {
+    display: 'none',
+  },
+  redIcon: {
+    color: '#f44336',
+  },
+  iconWarning: {
+    width: '23px',
+    height: '23px',
+    color: '#f44336',
+    marginRight: 5,
+  },
+  flexStyle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 const LimitInput = withStyles(theme => ({
@@ -290,4 +315,5 @@ export {
   AdornmentStyle,
   TooltipStyle,
   DefaultImage,
+  Warning,
 };
