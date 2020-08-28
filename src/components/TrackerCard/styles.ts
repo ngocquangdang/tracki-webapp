@@ -4,7 +4,6 @@ import ListItem from '@material-ui/core/ListItem';
 
 const Item = styled.div`
   display: flex;
-  align-items: center;
 `;
 const ImageWrapper = styled.div`
   width: 50px;
@@ -34,7 +33,6 @@ const DefaultImage = styled.div`
   background-size: cover;
 `;
 const ItemInfo = styled.div`
-  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 const Name = styled.div`
