@@ -100,6 +100,7 @@ function ListTrackerMobile(props: Props) {
             ? trackerIds.map(id => (
                 // eslint-disable-next-line react/jsx-indent
                 <TrackerCard
+                  t={t}
                   key={id}
                   tracker={trackers[id]}
                   isMobile

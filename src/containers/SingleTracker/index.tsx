@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
+import Router from 'next/router';
+
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -14,6 +15,7 @@ import {
 } from '@material-ui/icons';
 import Slide from '@material-ui/core/Slide';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { RiErrorWarningFill } from 'react-icons/ri';
 
 import { useInjectSaga } from '@Utils/injectSaga';
 import saga from './store/sagas';
@@ -53,6 +55,7 @@ import {
   TrackerMenuUp,
   Border,
   useStyles,
+  Warning,
 } from './styles';
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import { ITracker } from '@Interfaces';
@@ -127,19 +130,27 @@ function SingleTracker(props: Props) {
   };
 
   const onOpenChildView = (view: string) => () => {
-    updateChildView(view);
-    if (view === 'history') {
-      changeMapView('tracker_history');
+    if (tracker.status === 'active' || view === 'settings') {
+      updateChildView(view);
+      if (view === 'history') {
+        changeMapView('tracker_history');
+      }
+    } else {
+      onRenewTrackerPage();
     }
   };
 
   const onClickBeepDevice = () => () => {
-    onOpenChildView('beepDevice');
-    props?.onClickSendBeep({
-      beepPeriod: 2,
-      beepType: 1,
-      devices: [props?.deviceId],
-    });
+    if (tracker.status === 'active') {
+      onOpenChildView('beepDevice');
+      props?.onClickSendBeep({
+        beepPeriod: 2,
+        beepType: 1,
+        devices: [props?.deviceId],
+      });
+    } else {
+      onRenewTrackerPage();
+    }
   };
 
   const onCloseTrackerHistory = () => {
@@ -148,10 +159,23 @@ function SingleTracker(props: Props) {
     changePointTracking(-1);
   };
 
+  const onRenewTrackerPage = () => {
+    Router.push(`/trackers/${tracker.device_id}/renew`);
+  };
+
   const renderBlock = (title: string, icon: JSX.Element, handlClick: any) => (
     <ContainerControl onClick={handlClick}>
       {icon}
       <TitleMenu>{title}</TitleMenu>
+      <Warning
+        className={
+          tracker.status === 'expired' && title === 'Settings'
+            ? classes.show
+            : classes.hidden
+        }
+      >
+        <RiErrorWarningFill className={classes.iconWarning} />
+      </Warning>
     </ContainerControl>
   );
 

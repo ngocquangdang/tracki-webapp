@@ -1,12 +1,15 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import Router from 'next/router';
+
 import {
   Refresh as RefreshIcon,
   ZoomIn as ZoomInIcon,
   LocationOn as LocationOnIcon,
 } from '@material-ui/icons';
 import { GoPrimitiveDot } from 'react-icons/go';
+
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { SkeletonTracker } from '@Components/Skeletons';
 import { UNWIREDLABS_API_KEY } from '@Definitions/app';
@@ -41,7 +44,11 @@ import {
   useStyles,
   DefaultImage,
   ButtonIcon,
+  Renew,
+  TooltipStyle,
+  TimeActiveMobile,
 } from './styles';
+import { FaRegQuestionCircle } from 'react-icons/fa';
 
 interface Prop {
   isLoading?: boolean;
@@ -99,6 +106,10 @@ function DetailTrackerCard(props: Prop) {
     callApiGetAddress();
   }, [callApiGetAddress]);
 
+  const onRenewTrackerPage = () => {
+    Router.push(`/trackers/${tracker.device_id}/renew`);
+  };
+
   const renderContentPC = () => {
     return (
       <TrackerInfomation isMobile={isMobile} className={className}>
@@ -112,9 +123,36 @@ function DetailTrackerCard(props: Prop) {
               )}
             </ImageWrapper>
             <ItemInfo>
-              <Name>{tracker.device_name}</Name>
+              <Name>
+                {tracker.device_name}
+                <Renew
+                  className={
+                    tracker.status === 'active' ? classes.hidden : classes.show
+                  }
+                  onClick={onRenewTrackerPage}
+                >
+                  RENEW
+                  <TooltipStyle
+                    title={
+                      'Device subscription cancelled or charges were declined.'
+                    }
+                    arrow
+                    placement="right"
+                  >
+                    <div>
+                      <FaRegQuestionCircle
+                        className={`${classes.questionIcon}`}
+                      />
+                    </div>
+                  </TooltipStyle>
+                </Renew>
+              </Name>
               <Time>
-                <GoPrimitiveDot className={classes.icon} />
+                <GoPrimitiveDot
+                  className={
+                    tracker.status === 'active' ? classes.icon : classes.redIcon
+                  }
+                />
                 <TimeActive>
                   Last Updated:{' '}
                   {tracker.time ? moment(tracker.time * 1000).fromNow() : '---'}
@@ -122,7 +160,6 @@ function DetailTrackerCard(props: Prop) {
               </Time>
             </ItemInfo>
           </LeftItem>
-
           <RightItem>
             <ButtonIcon>
               <RefreshIcon
@@ -187,12 +224,12 @@ function DetailTrackerCard(props: Prop) {
                   )}
                   <Time>
                     <GoPrimitiveDot className={classes.icon} />
-                    <TimeActive>
+                    <TimeActiveMobile>
                       Last Updated:{' '}
                       {tracker?.time
                         ? moment(tracker.time * 1000).fromNow()
                         : 'unknow'}
-                    </TimeActive>
+                    </TimeActiveMobile>
                   </Time>
                 </Text>
               </Address>
@@ -224,11 +261,13 @@ function DetailTrackerCard(props: Prop) {
       <TrackerStatus isMobile={isMobile}>
         <BatteryTracker>
           <IconBattery src="/images/icon-battery.png" />
-          <span className={classes.textSpace}>{tracker?.battery || 0}%</span>
+          <span className={isMobile ? classes.textMobile : classes.textPC}>
+            {tracker?.battery || 0}%
+          </span>
         </BatteryTracker>
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
-          <span className={`${classes.textBold} ${classes.textSpace}`}>
+          <span className={isMobile ? classes.textMobile : classes.textSpeedPC}>
             {tracker && tracker.speed === 0
               ? 'Stopped'
               : speed_unit === 'mph'
@@ -238,13 +277,15 @@ function DetailTrackerCard(props: Prop) {
           </span>
         </StatusTracker>
         <ConnectionTracker>
-          <Connection>
+          <Connection isMobile={isMobile}>
             Connection:{' '}
             <span className={classes.textBold}>
               {tracker?.location_type || '--'}
             </span>
           </Connection>
-          <LocationApprox>Location within approx. 5-20m</LocationApprox>
+          <LocationApprox isMobile={isMobile}>
+            Location within approx. 5-20m
+          </LocationApprox>
         </ConnectionTracker>
       </TrackerStatus>
     </Fragment>

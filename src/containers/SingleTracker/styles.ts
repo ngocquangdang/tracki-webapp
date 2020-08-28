@@ -25,6 +25,7 @@ const ContainerControl = styled.div`
   align-items: center;
   padding: 24px;
   width: 132.33px;
+  position: relative;
   &:hover {
     background-color: #c3c3c329;
   }
@@ -78,6 +79,13 @@ const TrackerMenuUp = styled.div`
     border: 1px solid #e0e0e0;
   }
 `;
+
+const Warning = styled.div`
+  position: absolute;
+  top: 7px;
+  right: 10px;
+`;
+
 const useStyles = makeStyles(theme => ({
   input: {
     '&::placeholder': {
@@ -129,6 +137,17 @@ const useStyles = makeStyles(theme => ({
     width: '22px !important',
     height: '22px !important',
   },
+  iconWarning: {
+    width: '24px',
+    height: '24px',
+    color: '#f44336',
+  },
+  show: {
+    display: 'block',
+  },
+  hidden: {
+    display: 'none',
+  },
 }));
 export {
   Container,
@@ -142,4 +161,5 @@ export {
   TrackerMenuUp,
   Border,
   useStyles,
+  Warning,
 };

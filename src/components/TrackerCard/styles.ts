@@ -4,7 +4,6 @@ import ListItem from '@material-ui/core/ListItem';
 
 const Item = styled.div`
   display: flex;
-  align-items: center;
 `;
 const ImageWrapper = styled.div`
   width: 50px;
@@ -34,17 +33,28 @@ const DefaultImage = styled.div`
   background-size: cover;
 `;
 const ItemInfo = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 172px;
 `;
-const Name = styled.p`
+const Name = styled.div`
+  display: flex;
+  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 4px 0;
   font-size: 14px;
 `;
+
+const Renew = styled.div`
+  color: white;
+  background: #a41b0d;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  margin-left: 7px;
+  cursor: pointer;
+`;
+
 const Time = styled.div`
   display: flex;
   align-items: center;
@@ -58,6 +68,7 @@ const CardDetail = styled.div`
 const TimeActive = styled.span`
   font-size: 12px;
   color: #b7b7b7;
+  text-overflow: ellipsis;
 `;
 const useStyles = makeStyles(theme => ({
   input: {
@@ -86,6 +97,9 @@ const useStyles = makeStyles(theme => ({
   icon: {
     color: theme.palette.primary.main,
   },
+  redIcon: {
+    color: '#f44336',
+  },
   skeleton: {
     backgroundColor: '#f2f2f2',
   },
@@ -98,6 +112,12 @@ const useStyles = makeStyles(theme => ({
   noClick: {
     cursor: 'default',
   },
+  show: {
+    display: 'block',
+  },
+  hidden: {
+    display: 'none',
+  },
 }));
 
 const ListItemStyle = withStyles(theme => ({
@@ -105,6 +125,7 @@ const ListItemStyle = withStyles(theme => ({
     borderBottom: '1px solid #e0e0e0',
     justifyContent: 'space-between',
     alignItem: 'center',
+    overFlow: 'hidden',
     '&:last-child': {
       borderBottom: 'none',
     },
@@ -122,4 +143,5 @@ export {
   useStyles,
   ListItemStyle,
   DefaultImage,
+  Renew,
 };

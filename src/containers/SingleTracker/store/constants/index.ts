@@ -42,6 +42,10 @@ export const GET_DEVICE_SETTING_FAILED = 'Tracki/GET_DEVICE_SETTING_FAILED';
 
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
+  { value: '3_1_seconds', content: 'Once every 3 seconds' },
+  { value: '5_1_seconds', content: 'Once every 5 seconds' },
+  { value: '10_1_seconds', content: 'Once every 10 seconds' },
+  { value: '30_1_seconds', content: 'Once every 30 seconds' },
   { value: '1_1_minutes', content: 'Once every 1 minute' },
   { value: '2_1_minutes', content: 'Once every 2 minutes' },
   { value: '5_1_minutes', content: 'Once every 5 minutes' },

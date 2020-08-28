@@ -63,9 +63,12 @@ function NotificationMobile(props) {
 
   const onChangeAlarmType = (value: string) => {
     setAlarmType(value);
-    const filterType = notificationsIds.filter(item =>
-      notifications[item]?.alarm_type.includes(value)
+    const filterType = initialNotificationsIds.filter(item =>
+      initialNotifications[item]?.alarm_type.includes(value)
     );
+
+    filterType.length === 0 ? setDataFilter(false) : setDataFilter(true);
+
     value === 'all'
       ? setInitialNotificationsIds(notificationsIds)
       : setInitialNotificationsIds(filterType);
@@ -109,15 +112,18 @@ function NotificationMobile(props) {
             label={t('notifications:select_type')}
             value={alarmType}
             onChangeOption={onChangeAlarmType}
+            isBlackView={true}
           />
         </OptionView>
         <DatePicker isDateRange={isDateRange}>
           <DateTimePicker
-            isMobile={false}
+            isMobile={true}
             dateTime={dateTime}
             onChange={onChangeDateTime}
             isHistory={true}
             onSelectOption={onSelectOption}
+            isGetOnSelectOption={true}
+            isBlackView={true}
           />
         </DatePicker>
       </ListOptionView>

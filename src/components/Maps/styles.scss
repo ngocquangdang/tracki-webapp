@@ -20,24 +20,34 @@
   text-align: center;
 }
 
-.title-device {
+.title-device, 
+.red-title-device {
   padding: 2px 0;
   border-radius: 2px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
-  background-color: #ffffff;
   line-height: 1.17;
   letter-spacing: normal;
   text-align: center;
-  color: #1a1a1a;
   position: relative;
   top: 12px;
 }
+
+.title-device {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.red-title-device {
+  color: #ffffff;
+  background-color: #a41b0d;
+}
+
 
 .marker-pin {
   width: 59px;
   height: 72px;
   cursor: pointer;
-  background-image: url('/images/icon-marker.svg');
+  // background-image: url('/images/icon-marker.svg');
   background-repeat: no-repeat;
   background-position: top;
   background-size: 59px;

@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds, onClickTracker } = props;
+  const { trackers, trackerIds, onClickTracker, t } = props;
   const classes = useStyles();
 
   const onAddtracker = () => {
@@ -36,6 +36,7 @@ export default function ListDevice(props: Props) {
               ? trackerIds.map(id => (
                   // eslint-disable-next-line react/jsx-indent
                   <TrackerCard
+                    t={t}
                     key={id}
                     tracker={trackers[id]}
                     onClickTracker={handleClickTracker}

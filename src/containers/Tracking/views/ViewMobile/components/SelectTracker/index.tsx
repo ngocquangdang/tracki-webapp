@@ -95,6 +95,7 @@ function SelectTracker(props: Props) {
                   <div className={classes.selectedTracker} />
                 )}
                 <TrackerCard
+                  t={t}
                   isChecked={selectedTrackerId.toString() === id}
                   tracker={trackers[id]}
                   isTracking={true}

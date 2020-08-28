@@ -19,9 +19,11 @@ import {
   ImageWrapper,
   ListItemStyle,
   DefaultImage,
+  Renew,
 } from './styles';
 import { ITracker } from '@Interfaces';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
+import Router from 'next/router';
 
 interface Props {
   tracker: ITracker;
@@ -30,6 +32,7 @@ interface Props {
   isTracking?: boolean;
   onClickTracker?(id: number): void;
   onClickSetting?: any;
+  t(key: string): string;
 }
 
 export default function TrackerCard(props: Props) {
@@ -40,6 +43,7 @@ export default function TrackerCard(props: Props) {
     onClickTracker,
     isChecked,
     onClickSetting,
+    t,
   } = props;
 
   const handleClick = () => {
@@ -58,6 +62,9 @@ export default function TrackerCard(props: Props) {
     onClickSetting(tracker.device_id);
   };
 
+  const onRenewTrackerPage = () => {
+    Router.push(`/trackers/${tracker.device_id}/renew`);
+  };
   return (
     <ListItemStyle
       button
@@ -76,12 +83,29 @@ export default function TrackerCard(props: Props) {
           )}
         </ImageWrapper>
         <ItemInfo>
-          <Name>{tracker.device_name}</Name>
+          <Name>
+            {tracker.device_name}{' '}
+            <Renew
+              className={
+                tracker.status === 'active' ? classes.hidden : classes.show
+              }
+              onClick={onRenewTrackerPage}
+            >
+              RENEW
+            </Renew>
+          </Name>
           <Time>
-            <GoPrimitiveDot className={classes.icon} />
+            <GoPrimitiveDot
+              className={
+                tracker.status === 'active' ? classes.icon : classes.redIcon
+              }
+            />
             <TimeActive>
-              Last Updated:{' '}
-              {tracker.time ? moment(tracker.time * 1000).fromNow() : '--'}
+              {tracker.status === 'active'
+                ? ` ${t('tracker:last_update')}: ${
+                    tracker.time ? moment(tracker.time * 1000).fromNow() : '--'
+                  }`
+                : t('tracker:device_subscription')}
             </TimeActive>
           </Time>
         </ItemInfo>
