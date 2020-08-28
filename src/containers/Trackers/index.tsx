@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { withTranslation } from '@Server/i18n';
-import {
-  makeSelectProfile,
-  makeSelectMapTile,
-} from '@Containers/App/store/selectors';
+import { makeSelectMapTile } from '@Containers/App/store/selectors';
 import {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -45,8 +42,10 @@ import contactSaga from '@Containers/Contacts/store/sagas';
 import contactReducer from '@Containers/Contacts/store/reducers';
 import trackingSaga from '@Containers/Tracking/store/sagas';
 import trackingReducer from '@Containers/Tracking/store/reducers';
-
+import profileSaga from '@Containers/AccountSetting/store/sagas';
+import profileReducer from '@Containers/AccountSetting/store/reducers';
 import View from './view';
+import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 
 interface Props {
   trackerId?: any;
@@ -64,6 +63,8 @@ function TrackersContainer(props: Props) {
   useInjectReducer({ key: 'contacts', reducer: contactReducer });
   useInjectSaga({ key: 'tracking', saga: trackingSaga });
   useInjectReducer({ key: 'tracking', reducer: trackingReducer });
+  useInjectSaga({ key: 'profile', saga: profileSaga });
+  useInjectReducer({ key: 'profile', reducer: profileReducer });
 
   const { fetchUserRequestedAction, ...rest } = props;
 
@@ -75,7 +76,7 @@ function TrackersContainer(props: Props) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  profile: makeSelectProfile(),
+  profile: makeSelectUserProfile(),
   mapTile: makeSelectMapTile(),
   selectedTrackerId: makeSelectTrackerId(),
   trackers: makeSelectTrackers(),

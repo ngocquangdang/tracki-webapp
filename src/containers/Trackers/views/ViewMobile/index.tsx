@@ -15,6 +15,8 @@ import { Container, ContentCardDetail, MapView } from './styles';
 interface Props {
   getHistoryTracker(data: object): void;
   t(key: string, format?: object): string;
+  speedUnit?: string;
+  profile?: object;
   refreshLocation(data: object): void;
   [data: string]: any;
 }
@@ -25,8 +27,10 @@ export default function ViewHomeMobile(props: Props) {
     trackers,
     selectedTrackerId,
     getHistoryTracker,
+    profile,
     refreshLocation,
   } = props;
+
   const onCloseView = () => setCurrentView('');
 
   const handleClickViewHistory = () => {
@@ -58,6 +62,7 @@ export default function ViewHomeMobile(props: Props) {
                 isMobile={true}
                 t={props.t}
                 settings={props.settings[tracker?.settings_id]}
+                profile={profile}
                 refreshLocation={refreshLocation}
               />
             </ContentCardDetail>

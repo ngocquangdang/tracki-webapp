@@ -15,8 +15,9 @@ import {
 import * as apiServices from '../../services';
 import * as types from '../definitions';
 
-function* getUserSaga() {
+function* getUserSaga(action: ActionType) {
   const { account_id } = yield select(makeSelectProfile());
+
   try {
     const { data } = yield call(apiServices.getUser, account_id);
     yield put(getUserSuccessAction(data));

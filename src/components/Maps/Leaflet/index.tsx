@@ -159,7 +159,6 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           ? trackerIds
           : trackingIds;
         const tracker = trackers[selectedTrackingId];
-        console.log('LeafletMap -> renderMarkers -> tracker', tracker);
 
         if (tracker) {
           return (

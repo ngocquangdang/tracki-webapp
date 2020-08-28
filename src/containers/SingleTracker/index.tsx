@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
+import Router from 'next/router';
+
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -62,7 +63,7 @@ import HistoryTrackerDetail from '@Components/HistoryTrackerDetailNew';
 // import SendBeep from './components/SendBeep';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
-import Router from 'next/router';
+import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 
 interface Props {
   settings: object;
@@ -84,6 +85,7 @@ interface Props {
   changePointTracking(pointIndex: number): void;
   refreshLocation(data: object): void;
   resetBeep(): void;
+  profile: object;
 }
 
 function SingleTracker(props: Props) {
@@ -105,6 +107,7 @@ function SingleTracker(props: Props) {
     t,
     resetBeep,
     showSnackbar,
+    profile,
     refreshLocation,
   } = props;
 
@@ -193,6 +196,7 @@ function SingleTracker(props: Props) {
               tracker={tracker}
               t={t}
               settings={settings[tracker.settings_id]}
+              profile={profile}
               refreshLocation={refreshLocation}
             />
             <TrackerMenu>
@@ -296,6 +300,7 @@ const mapStateToProps = createStructuredSelector({
   isBeep: makeSelectBeep(),
   histories: makeSelectHistories(),
   historyIds: makeSelectHistoryIds(),
+  profile: makeSelectUserProfile(),
   isRequesting: makeSelectLoading(),
   pointTrackingIndex: makeSelectPointTracking(),
 });

@@ -57,21 +57,18 @@ interface Prop {
   isMobile: boolean;
   t(key: string, format?: object): string;
   settings: any;
+  profile?: any;
   refreshLocation(data: object): void;
 }
 
 function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
-  const {
-    tracker,
-    isMobile,
-    className = '',
-    settings,
-    refreshLocation,
-  } = props;
+  const { tracker, isMobile, className = '', profile, refreshLocation } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
+
+  const speed_unit = profile?.preferences?.speed_unit;
 
   const onZoomClick = () => {
     if (tracker) {
@@ -273,13 +270,10 @@ function DetailTrackerCard(props: Prop) {
           <span className={isMobile ? classes.textMobile : classes.textSpeedPC}>
             {tracker && tracker.speed === 0
               ? 'Stopped'
-              : settings?.preferences?.speed_limit?.unit === 'kph'
+              : speed_unit === 'mph'
               ? tracker?.speed || 0
-              : (tracker?.speed || 0) / 1.609}
-            {(tracker &&
-              tracker.speed !== 0 &&
-              settings?.preferences?.speed_limit?.unit) ||
-              ''}
+              : ((tracker?.speed || 0) * 1.609).toFixed(2)}{' '}
+            {tracker && tracker.speed !== 0 ? speed_unit.toUpperCase() : ''}
           </span>
         </StatusTracker>
         <ConnectionTracker>
