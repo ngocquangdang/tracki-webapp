@@ -7,7 +7,6 @@ import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
 import style from './styles';
 import MapToolBarPC from './MapToolBarPC';
-import MapToolBarSP from './MapToolBarSP';
 
 interface IProps {
   mapId: string;
@@ -68,42 +67,36 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentWillReceiveProps(nextProps) {
+    const { isFullWidth, viewMode, isMultiScreen } = nextProps;
     const {
-      selectedTrackerId,
-      isFullWidth,
-      viewMode,
-      isMultiScreen,
-    } = nextProps;
-    const {
-      selectedTrackerId: thisSelectedTracker,
       isFullWidth: thisIsFull,
       trackers,
       viewMode: currentViewMode,
       mapId,
     } = this.props;
-    const tracker = trackers[selectedTrackerId];
 
     // fitbound map
     if (
       this.map &&
-      tracker &&
-      tracker.lat &&
-      tracker.lng &&
+      trackers[0] &&
+      trackers[0]?.geoLocation?.latitude &&
+      trackers[0]?.geoLocation?.longitude &&
       !this.isFirstFitBounce
     ) {
-      this.map.panTo([tracker.lat, tracker.lng]);
+      console.log('xxxx');
+      this.map.panTo([
+        trackers[0]?.geoLocation?.latitude,
+        trackers[0]?.geoLocation?.longitude,
+      ]);
       this.isFirstFitBounce = true;
     }
-
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
+      this.marker = undefined;
+    }
     // resize map
     if (isFullWidth !== thisIsFull) {
       this.map.fire('resize');
-    }
-
-    // remove current marker
-    if (selectedTrackerId !== thisSelectedTracker && this.marker) {
-      this.map.removeLayer(this.marker);
-      this.marker = undefined;
     }
 
     // reset map tile
@@ -117,23 +110,36 @@ class MapCard extends React.Component<IProps, IState> {
     }
   }
 
-  trackerName = (name: string, status: string) => {
+  trackersName = (name: string) => {
     const nameWidth = name.length * 9;
-    return `<div class=${
-      status === 'active' ? 'title-device' : 'red-title-device'
-    } style='width:${nameWidth}px; left:-${nameWidth / 2 - 4}px'>${name}</div>`;
+    return `<div class='title-device' style='width:${nameWidth}px; left:-${
+      nameWidth / 2 - 4
+    }px'>${name}</div>`;
   };
 
   componentDidMount() {
-    const { mapId, tracker, isMultiScreen, isMobile, isMultiView } = this.props;
+    const {
+      mapId,
+      trackers,
+      isMultiScreen,
+      isMobile,
+      isMultiView,
+    } = this.props;
     const { mapCenter, mapZoom } = this.state;
     const mapTile = this.getMapTile(isMultiScreen, mapId);
     let center = mapCenter;
 
     const zoom = isMobile && isMultiView ? 8 : mapZoom;
 
-    if (tracker && tracker.lat && tracker.lng) {
-      center = [tracker.lat, tracker.lng];
+    if (
+      trackers[0] &&
+      trackers[0]?.geoLocation?.latitude &&
+      trackers[0]?.geoLocation?.longitude
+    ) {
+      center = [
+        trackers[0]?.geoLocation?.latitude,
+        trackers[0]?.geoLocation?.longitude,
+      ];
       this.isFirstFitBounce = true;
     }
 
@@ -176,57 +182,39 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   renderMarker = () => {
-    const {
-      trackers,
-      // trackingIds,
-      // isMultiScreen,
-      selectedTrackerId,
-    } = this.props;
-    const tracker = trackers[selectedTrackerId];
+    const { trackers } = this.props;
 
-    if (!this.marker && tracker && tracker.lat && tracker.lng) {
-      const { device_name, lat, lng, icon_url, status } = tracker;
+    if (
+      !this.marker &&
+      trackers[0] &&
+      trackers[0]?.geoLocation?.latitude &&
+      trackers[0]?.geoLocation?.longitude
+    ) {
+      const { deviceName, icon_url, geoLocation } = trackers[0];
+      const { latitude, longitude } = geoLocation;
+
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
       <div class='icon-red'>
         <span class='inner'></span>
-        <div class='marker-pin' style='background-image:url(${
-          tracker.status === 'active'
-            ? '/images/icon-marker.svg'
-            : '/images/red-marker.svg'
-        })'
-        >
+        <div class='marker-pin' style='background-image:url("/images/icon-marker.svg")'>
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
               : `<img src='/images/image-device.png'
-              class='image-device'></img>`
+             class='image-device'></img>`
           }
         </div>
-       ${this.trackerName(device_name, status)}
+       ${this.trackersName(deviceName)}
       </div>`;
 
       const icon = new L.DivIcon({ html: elm });
-      this.marker = L.marker([lat, lng], { icon });
+      this.marker = L.marker([latitude, longitude], { icon });
       this.marker.addTo(this.map);
-      this.map.panTo([lat, lng]);
+      this.map.panTo([latitude, longitude]);
     }
     return null;
-  };
-
-  onChangeOption = (value: string | number) => {
-    const {
-      selectedTrackerId,
-      trackingIds,
-      changeTrackersTracking,
-    } = this.props;
-    const selectedIndex = trackingIds.findIndex(
-      id => id.toString() === selectedTrackerId.toString()
-    );
-    const newTrackings = [...trackingIds];
-    newTrackings[selectedIndex] = +value;
-    changeTrackersTracking(newTrackings);
   };
 
   render() {
@@ -246,18 +234,8 @@ class MapCard extends React.Component<IProps, IState> {
           <UserLocation map={this.map} location={userLocation} />
         )}
         {isInitiatedMap && this.renderMarker()}
-        {isInitiatedMap && !isMobile ? (
+        {isInitiatedMap && (
           <MapToolBarPC
-            t={t}
-            isMobile={isMobile}
-            mapTile={mapStyle}
-            changeMapTile={this.changeMapTile}
-            myLocationClick={this.getUserLocation}
-            changeZoom={this.changeZoom}
-            isInitiatedMap={isInitiatedMap}
-          />
-        ) : (
-          <MapToolBarSP
             t={t}
             isMobile={isMobile}
             mapTile={mapStyle}
