@@ -89,6 +89,7 @@ function* activeLinkShareLocationSaga(action) {
       device_id,
       action.payload.duration
     );
+    console.log('function*activeLinkShareLocationSaga -> data', data);
     yield put(actions.generateLinkShareLocationSucceed(data[0]));
   } catch (error) {
     const { data = {} } = { ...error };

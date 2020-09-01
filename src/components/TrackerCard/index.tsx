@@ -86,7 +86,9 @@ export default function TrackerCard(props: Props) {
         </ImageWrapper>
         <ItemInfo>
           <Name>
-            {tracker.device_name}
+            {tracker.device_name !== ''
+              ? tracker.device_name
+              : tracker.device_id}
             <Renew
               className={
                 tracker.status === 'active' ? classes.hidden : classes.show

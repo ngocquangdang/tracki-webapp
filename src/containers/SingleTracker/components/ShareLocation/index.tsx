@@ -66,8 +66,12 @@ function ShareLocation(props: Props) {
     handleClose();
   };
   const linkDomain = window.location.host;
-  const linkShareLocation = `${linkDomain}/#/public-map?token=${props.dataLink?.token}`;
-  const codeShareLocation = `<iframe width="853" height="480" src="${linkDomain}/#/public-map?token=3hvdkd1qjjnj3qm7vlg9jmauj5${props.dataLink?.token} frameborder="0" allowfullscreen></iframe>`;
+  const linkShareLocation = `${
+    props.dataLink?.token
+      ? `${linkDomain}/public-map?token=${props.dataLink?.token}`
+      : ''
+  }`;
+  const codeShareLocation = `<iframe width="853" height="480" src="${linkDomain}/public-map?token=${props.dataLink?.token} frameborder="0" allowfullscreen></iframe>`;
   const copyLink = (isCopyLink: boolean) => () => {
     isCopyLink ? copy(linkShareLocation) : copy(codeShareLocation);
   };

@@ -51,6 +51,8 @@ export const updateSettings = async (
 export const getContactList = async (accountId: number) => {
   return await axiosClient.get(`/v3/accounts/${accountId}/contacts`);
 };
+
+//share location api
 export const activeLinkShareLocation = async (
   accountId: number,
   trackerId: number,
