@@ -69,8 +69,9 @@ export default function MainForm(props: any) {
     fetchTrackersRequestedAction(account_id);
     resetStoreAddTracker();
   };
-  const onNextStep1 = (assigned: boolean) =>
-    assigned ? setActiveStep(0) : setActiveStep(1);
+  const onNextStep1 = (assigned: boolean) => {
+    assigned ? setActiveStep(1) : setActiveStep(0);
+  };
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
