@@ -246,3 +246,8 @@ export const getDeviceSMSCounterFailedAction = (error: object) => ({
   type: types.GET_SMS_COUNTER_FAILED,
   payload: { error },
 });
+
+export const updateTrackerAction = (tracker: object) => ({
+  type: types.UPDATE_TRACKER,
+  payload: { tracker },
+});
