@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { MdMyLocation, MdLayers } from 'react-icons/md';
 import { Tooltip, ClickAwayListener } from '@material-ui/core';
 import { Add, Remove } from '@material-ui/icons';
-import { connect } from 'react-redux';
 
 import clsx from 'clsx';
-import { createStructuredSelector } from 'reselect';
 
 import MapTiles from '@Components/Maps/components/MapTiles';
 import { ToolBar, ZoomButton, useStyles, IconButtonStyle } from './styles';
-
-import { changeMapTileAction } from '@Containers/App/store/actions';
-import { makeSelectMapTile } from '@Containers/App/store/selectors';
 
 interface Props {
   mapTile: string;
@@ -21,11 +16,9 @@ interface Props {
   changeZoom(v: number): void;
   [data: string]: any;
   isInitiatedMap: boolean;
-  changeMapTilePC(title: string): void;
-  mapTilePC: string;
 }
 
-function MapToolBars(props: Props) {
+export default function MapToolBars(props: Props) {
   const {
     mapTile,
     t,
@@ -33,8 +26,6 @@ function MapToolBars(props: Props) {
     myLocationClick,
     changeZoom,
     isInitiatedMap,
-    changeMapTilePC,
-    mapTilePC,
   } = props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
@@ -45,9 +36,7 @@ function MapToolBars(props: Props) {
   const getCurrentPosition = () => {
     isInitiatedMap ? myLocationClick() : window.mapEvents.getUseLocation();
   };
-  const handleChangeMapTile = (tile: string) => {
-    isInitiatedMap ? changeMapTile(tile) : changeMapTilePC(tile);
-  };
+
   const onShowLayer = () => setShowLayerPanel(!showLayerPanel);
   const onCloseLayer = () => setShowLayerPanel(false);
 
@@ -101,8 +90,8 @@ function MapToolBars(props: Props) {
           </Tooltip>
           <MapTiles
             t={t}
-            mapTile={isInitiatedMap ? mapTile : mapTilePC}
-            changeMapTile={handleChangeMapTile}
+            mapTile={mapTile}
+            changeMapTile={changeMapTile}
             onClose={onCloseLayer}
             className={showLayerPanel ? classes.display : ''}
           />
@@ -111,15 +100,3 @@ function MapToolBars(props: Props) {
     </ToolBar>
   );
 }
-
-const mapStateToProps = createStructuredSelector({
-  mapTilePC: makeSelectMapTile(),
-});
-
-const mapDispatchToProps = dispatch => ({
-  changeMapTilePC: (tile: string) => dispatch(changeMapTileAction(tile)),
-});
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default withConnect(MapToolBars);

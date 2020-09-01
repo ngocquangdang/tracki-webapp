@@ -14,6 +14,9 @@ const Container = styled.div`
   height: calc(100% - 70px);
   background: #e5e6e9;
   position: relative;
+  @media (max-width: 995.95px) {
+    height: calc(100% - 56px);
+  }
 `;
 const Image = styled.img`
   height: 35.4px;

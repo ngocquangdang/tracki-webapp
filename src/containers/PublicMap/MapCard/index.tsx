@@ -177,10 +177,6 @@ class MapCard extends React.Component<IProps, IState> {
     this.map.setZoom(currentZoom + value * 2);
   };
 
-  onClickTracker = (id: string | number) => {
-    console.log(id);
-  };
-
   renderMarker = () => {
     const { trackers } = this.props;
 
