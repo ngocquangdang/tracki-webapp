@@ -49,6 +49,14 @@ const makeSelectSubscription = () =>
 const makeSelectSmsCounter = () =>
   createSelector(globalState, state => state.smsCounter);
 
+const makeSelectAlerts = () =>
+  createSelector(globalState, state => state.alert?.alerts);
+const makeSelectAlertsIds = () =>
+  createSelector(globalState, state => state.alert?.alertsIds);
+
+const makeSelectAlertSosTrackerId = () =>
+  createSelector(globalState, state => state.alert?.alertSosTrackerId);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -65,4 +73,7 @@ export {
   makeSelectErrors,
   makeSelectSubscription,
   makeSelectSmsCounter,
+  makeSelectAlerts,
+  makeSelectAlertsIds,
+  makeSelectAlertSosTrackerId,
 };

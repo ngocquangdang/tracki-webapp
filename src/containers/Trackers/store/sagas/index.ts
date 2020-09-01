@@ -388,6 +388,53 @@ function* getdeviceSubscriptionDetailSaga(action) {
   }
 }
 
+function* getSOSalertSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { data } = yield call(
+      apiServices.getSOSalert,
+      account_id,
+      action.payload.data.alarm_types,
+      action.payload.data.device_ids,
+      action.payload.data.limit,
+      action.payload.data.page,
+      action.payload.data.read_status,
+      action.payload.data.sort_direction
+    );
+
+    const alerts = data.reduce(
+      (obj, item) => {
+        obj.alerts = { ...obj.alerts, [item.id]: item };
+        obj.alertsIds.push(item.id);
+        obj.alertSosTrackerId = item.device_id;
+        return obj;
+      },
+      {
+        alerts: {},
+        alertsIds: [],
+        alertSosTrackerId: null,
+      }
+    );
+
+    yield put(actions.getSOSalertTrackerSucceed(alerts));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
+    }
+    yield put(actions.getSOSalertTrackerFailed(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -404,4 +451,5 @@ export default function* appWatcher() {
     types.GET_DEVICE_SUBSCRIPTION_REQUESTED,
     getdeviceSubscriptionDetailSaga
   );
+  yield takeLatest(types.GET_SOS_ALERT_TRACKER_REQUESTED, getSOSalertSaga);
 }

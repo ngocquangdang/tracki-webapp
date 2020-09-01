@@ -11,9 +11,17 @@ import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { Container, MapView } from './styles';
 
 export default function TrackersContainer(props: any) {
-  const { onResetSelectedTrackerID, ...rest } = props;
+  const {
+    onResetSelectedTrackerID,
+    getSOSalertTracker,
+    alerts,
+    alertsIds,
+    profile,
+    trackerIds,
+    ...rest
+  } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
-
+  const [isAlertSos, setAlertSos] = useState(false);
   const toggleSideBar = () => {
     if (!isOpenSidebar) {
       if (rest.selectedTrackerId) {
@@ -38,6 +46,29 @@ export default function TrackersContainer(props: any) {
   useEffect(() => {
     window.mapFullWidth = false;
   }, []);
+
+  useEffect(() => {
+    if (profile && profile.id && trackerIds && trackerIds.length > 0) {
+      getSOSalertTracker({
+        alarm_types: 'SOS',
+        device_ids: trackerIds.join(','),
+        limit: 500,
+        page: 1,
+        read_status: '',
+        sort_direction: 'DESC',
+      });
+    }
+  }, [profile, trackerIds, getSOSalertTracker]);
+
+  useEffect(() => {
+    if (
+      alertsIds &&
+      alertsIds.length > 0 &&
+      alerts[alertsIds[alertsIds.length - 1]]?.alarm_type === 'SOS'
+    ) {
+      setAlertSos(true);
+    }
+  }, [alertsIds, alerts]);
 
   const openSideBar = () => setOpenSidebar(true);
 
@@ -69,7 +100,12 @@ export default function TrackersContainer(props: any) {
         )}
       </SideBarInnerPC>
       <MapView>
-        <Map mapType="leaflet" openSideBar={openSideBar} {...rest} />
+        <Map
+          mapType="leaflet"
+          openSideBar={openSideBar}
+          isAlertSos={isAlertSos}
+          {...rest}
+        />
         <MapToolBars t={rest.t} />
       </MapView>
     </Container>

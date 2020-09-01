@@ -144,6 +144,8 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     const {
       trackers,
       isBeep,
+      isAlertSos,
+      alertSosTrackerId,
       selectedTrackerId,
       isTracking,
       isDashboard,
@@ -169,6 +171,8 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
               isBeep={isBeep}
               showTrackerName={showTrackerName}
               selectedTrackerId={selectedTrackingId}
+              alertSosTrackerId={alertSosTrackerId}
+              isAlertSos={isAlertSos}
             />
           );
         }
@@ -186,6 +190,8 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           isBeep={isBeep}
           showTrackerName={showTrackerName}
           selectedTrackerId={selectedTrackerId}
+          alertSosTrackerId={alertSosTrackerId}
+          isAlertSos={isAlertSos}
         />
       ));
     }

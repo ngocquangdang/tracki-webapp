@@ -85,3 +85,17 @@ export const getSmsCounter = async (account_id: number, device_id: number) => {
     `/v3/accounts/${account_id}/devices/${device_id}/smscounters`
   );
 };
+
+export const getSOSalert = async (
+  accountId: number,
+  alarmTypes: string,
+  deviceIds: number[] | string,
+  limit: number,
+  page: number,
+  readStatus: string,
+  sortDirection: string
+) => {
+  return axiosClient.get(
+    `v3/accounts/${accountId}/events?alarm_types=${alarmTypes}&device_ids=${deviceIds}&limit=${limit}&page=${page}&read_status=${readStatus}&sort_direction=${sortDirection}`
+  );
+};
