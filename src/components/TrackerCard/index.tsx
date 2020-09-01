@@ -114,7 +114,7 @@ export default function TrackerCard(props: Props) {
               }
             />
             <TimeActive>
-              {t('tracker:last_update')}
+              {t('tracker:last_update')}:{' '}
               {tracker.time ? moment(tracker.time * 1000).fromNow() : '---'}
             </TimeActive>
           </Time>
