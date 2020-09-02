@@ -107,6 +107,25 @@
   backface-visibility: hidden;
 }
 
+.icon-red-sos {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f4433675;
+  padding: 4px;
+  position: relative;
+  display: block;
+  background: #e60000;
+  margin: 0 auto;
+  border: solid 2px rgba(230, 0, 0, 0.2);
+  box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2);
+  animation: sos 0.7s ease infinite;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 @keyframes no-beep {
   0% {
     transform: scale(1);
@@ -117,6 +136,24 @@
 }
 
 @keyframes beep {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    box-shadow: 0 0 0 5px rgba(230, 0, 0, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 0 10px rgba(230, 0, 0, 0.2), 0 0 0 20px rgba(230, 0, 0, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 0 15px rgba(230, 0, 0, 0.4), 0 0 0 30px rgba(230, 0, 0, 0.2);
+  }
+  40% {
+    box-shadow: 0 0 0 20px rgba(230, 0, 0, 0.2), 0 0 0 40px rgba(230, 0, 0, 0.2);
+  }
+}
+
+@keyframes sos {
   0% {
     transform: scale(1);
   }

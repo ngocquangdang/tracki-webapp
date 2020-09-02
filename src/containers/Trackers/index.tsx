@@ -14,6 +14,9 @@ import {
   makeSelectGeofenceIds,
   makeSelectTrackerSettings,
   makeSelectBeep,
+  makeSelectAlerts,
+  makeSelectAlertsIds,
+  makeSelectAlertSosTrackerId,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
@@ -26,6 +29,7 @@ import {
   searchGeofencesRequestedAction,
   saveGeofenceRequestedAction,
   refreshLocationRequestAction,
+  getSOSalertTrackerRequestAction,
 } from '@Containers/Trackers/store/actions';
 import {
   resetBeepAction,
@@ -53,6 +57,7 @@ interface Props {
   fetchUserRequestedAction(): void;
   getHistoryTracker(data: object): void;
   refreshLocation(data: object): void;
+  getSOSalertTracker(data: object): void;
   [data: string]: any;
 }
 
@@ -86,6 +91,9 @@ const mapStateToProps = createStructuredSelector({
   selectedGeofenceId: makeSelectGeofenceId(),
   settings: makeSelectTrackerSettings(),
   isBeep: makeSelectBeep(),
+  alerts: makeSelectAlerts(),
+  alertsIds: makeSelectAlertsIds(),
+  alertSosTrackerId: makeSelectAlertSosTrackerId(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -106,6 +114,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
   refreshLocation: (data: object) =>
     dispatch(refreshLocationRequestAction(data)),
+  getSOSalertTracker: (data: object) =>
+    dispatch(getSOSalertTrackerRequestAction(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

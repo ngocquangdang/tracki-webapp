@@ -49,6 +49,11 @@ export interface TrackerDataTypes {
     editGeofenceId: number | null;
     [data: string]: any;
   };
+  alert: {
+    alerts: object;
+    alertsIds: Array<number | string> | null;
+    alertSosTrackerId: number | null;
+  };
   smsCounter: object | null;
   subscription: object | null;
   dataLink: object | null;
