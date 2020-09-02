@@ -70,6 +70,9 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       window.mapEvents.setCenterFlyTo(e.latlng, { zoom: 15 });
       this.setState({ userLocation: e.latlng });
     });
+    this.map.on('click', e => {
+      console.log('___MAP CLICKED', e);
+    });
 
     // this.map.addControl(geolocate);
     window.mapEvents.getUseLocation = () => {
@@ -161,6 +164,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           ? trackerIds
           : trackingIds;
         const tracker = trackers[selectedTrackingId];
+        console.log('___trackers', trackers, tracker);
 
         if (tracker) {
           return (

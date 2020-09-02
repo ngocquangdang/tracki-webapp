@@ -10,7 +10,7 @@ import {
 } from '../actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { GET_TRACKERS_SUCCEED } from '@Containers/Trackers/store/constants';
-import { updateTrackerAction } from '@Containers/Trackers/store/actions';
+import { mqttUpdateTrackerAction } from '@Containers/Trackers/store/actions';
 import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
 import * as types from '../constants';
 
@@ -30,7 +30,7 @@ function subscribe() {
           const action = mqttClientGetHandler.messageHandler(message);
           switch (action.type) {
             case types.MQTT_TRACKER_UPDATE:
-              emit(updateTrackerAction(action.payload));
+              emit(mqttUpdateTrackerAction(action.payload));
               break;
             default:
               break;

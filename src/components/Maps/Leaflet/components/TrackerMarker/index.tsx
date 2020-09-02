@@ -1,6 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 
+import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { ITracker } from '@Interfaces';
 
 interface Props {
@@ -15,15 +16,43 @@ interface Props {
 }
 
 class TrackerMarker extends React.Component<Props> {
+  steps = 100;
+  counter = 1;
+  currentLat = 0;
+  currentLng = 0;
+
   constructor(props) {
     super(props);
     window.trackerMarkers = window.trackerMarkers || {};
   }
 
+  moveMarker = tracker => () => {
+    const history = tracker.histories || [];
+    const startPoint = history[history.length - 1];
+    const DELTA_LAT = (startPoint.lat - tracker.lat) / this.steps;
+    const DELTA_LNG = (startPoint.lng - tracker.lng) / this.steps;
+    this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
+    this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
+    const latlng = L.latLng(this.currentLat, this.currentLng);
+
+    if (window.trackerMarkers[tracker.device_id]) {
+      if (this.counter < this.steps) {
+        this.counter += 1;
+        const options = !window.mapFullWidth ? LEAFLET_PADDING_OPTIONS : {};
+        window.mapEvents.setFitBounds([latlng], options);
+        window.trackerMarkers[tracker.device_id].setLatLng(latlng);
+        requestAnimationFrame(this.moveMarker(tracker));
+      } else {
+        this.counter = 0;
+      }
+    }
+  };
+
   componentWillReceiveProps(nextProps) {
     const {
       isBeep,
       showTrackerName,
+      tracker: nextTracker,
       selectedTrackerId: nextSelectedTrackerId,
       isAlertSos,
     } = nextProps;
@@ -41,6 +70,12 @@ class TrackerMarker extends React.Component<Props> {
     if (nextSelectedTrackerId !== selectedTrackerId && element) {
       element.style.zIndex =
         tracker.device_id === nextSelectedTrackerId ? 2 : 1;
+    }
+
+    if (
+      (nextTracker.histories || []).length !== (tracker.histories || []).length
+    ) {
+      this.moveMarker(nextTracker)();
     }
 
     if (

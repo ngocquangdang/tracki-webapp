@@ -247,8 +247,13 @@ export const getDeviceSMSCounterFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const updateTrackerAction = (tracker: object) => ({
-  type: types.UPDATE_TRACKER,
+export const mqttUpdateTrackerAction = (tracker: object) => ({
+  type: types.MQTT_UPDATE_TRACKER,
+  payload: { tracker },
+});
+
+export const mqttUpdateTrackerSuccessAction = (tracker: object) => ({
+  type: types.MQTT_UPDATE_TRACKER_SUCCESS,
   payload: { tracker },
 });
 

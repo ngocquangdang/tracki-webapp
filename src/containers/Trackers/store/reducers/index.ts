@@ -112,11 +112,8 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           ...payload.geofence,
         };
         break;
-      case types.UPDATE_TRACKER:
-        draft.tracker.trackers[payload.tracker.device_id] = {
-          ...draft.tracker.trackers[payload.tracker.device_id],
-          ...payload.tracker,
-        };
+      case types.MQTT_UPDATE_TRACKER_SUCCESS:
+        draft.tracker.trackers[payload.tracker.device_id] = payload.tracker;
         break;
       case types.RESET_NEW_GEOFENCE:
         draft.geofence.newGeofence = null;
