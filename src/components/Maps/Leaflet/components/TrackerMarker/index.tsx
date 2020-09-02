@@ -7,8 +7,10 @@ interface Props {
   map: any;
   tracker: ITracker;
   isBeep: boolean;
+  isAlertSos?: boolean;
   showTrackerName: boolean;
   selectedTrackerId?: number | null;
+  alertSosTrackerId?: number | null;
   onClickMarker(id: string | number): void;
 }
 
@@ -23,12 +25,15 @@ class TrackerMarker extends React.Component<Props> {
       isBeep,
       showTrackerName,
       selectedTrackerId: nextSelectedTrackerId,
+      isAlertSos,
     } = nextProps;
     const {
       isBeep: currentIsBeep,
       tracker,
       selectedTrackerId,
       showTrackerName: thisShowTrackerName,
+      alertSosTrackerId,
+      isAlertSos: currentIsAlertSos,
     } = this.props;
     const marker = window.trackerMarkers[tracker.device_id];
     const element = marker ? marker.getElement() : undefined;
@@ -76,6 +81,39 @@ class TrackerMarker extends React.Component<Props> {
       if (element) {
         element.style.zIndex = isSelected ? 2 : 1;
       }
+    }
+    // console.log('currentIsAlertSos', currentIsAlertSos);
+
+    if (isAlertSos !== currentIsAlertSos && tracker && marker) {
+      const isSelected =
+        tracker.device_id.toString() === alertSosTrackerId?.toString();
+
+      const elm2 = document.createElement('div');
+      elm2.className = 'custom-div-icon-sos';
+      elm2.innerHTML = `
+        <div class='icon-red${isAlertSos && isSelected ? '-sos' : ''}'>
+          <span class='inner'></span>
+          <div class='marker-pin' style='background-image:url(${
+            tracker.status === 'active'
+              ? '/images/icon-marker.svg'
+              : '/images/red-marker.svg'
+          })'
+          >
+            ${
+              tracker.icon_url
+                ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
+                : `<img src='/images/image-device.png'
+                } class='image-device'></img>`
+            }
+            ${
+              showTrackerName
+                ? this.trackerName(tracker.device_name, tracker.status)
+                : ''
+            }
+          </div>
+        </div>`;
+      const icon = new L.DivIcon({ html: elm2 });
+      marker.setIcon(icon);
     }
   }
 

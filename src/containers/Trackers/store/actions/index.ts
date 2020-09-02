@@ -251,3 +251,18 @@ export const updateTrackerAction = (tracker: object) => ({
   type: types.UPDATE_TRACKER,
   payload: { tracker },
 });
+
+export const getSOSalertTrackerRequestAction = (data: object) => ({
+  type: types.GET_SOS_ALERT_TRACKER_REQUESTED,
+  payload: { data },
+});
+
+export const getSOSalertTrackerSucceed = (alert: object) => ({
+  type: types.GET_SOS_ALERT_TRACKER_SUCCEED,
+  payload: { alert },
+});
+
+export const getSOSalertTrackerFailed = (error: object) => ({
+  type: types.GET_SOS_ALERT_TRACKER_FAILED,
+  payload: { error },
+});
