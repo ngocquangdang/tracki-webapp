@@ -1,4 +1,11 @@
-import { takeLatest, call, put, select, all } from 'redux-saga/effects';
+import {
+  takeLatest,
+  call,
+  put,
+  select,
+  all,
+  takeEvery,
+} from 'redux-saga/effects';
 import produce from 'immer';
 
 import * as types from '../constants';
@@ -435,6 +442,33 @@ function* getSOSalertSaga(action) {
   }
 }
 
+function* mqttUpdateTrackerSaga(action) {
+  const {
+    payload: { tracker: trackerAct },
+  } = action;
+  const trackers = yield select(makeSelectTrackers());
+  const newTrackers = produce(trackers, draf => {
+    let tracker = draf[trackerAct.device_id];
+    tracker.histories = tracker.histories || [];
+    tracker.histories.push({
+      lat: tracker.lat,
+      lng: tracker.lng,
+      speed: tracker.speed,
+      battery: tracker.battery,
+      altitude: tracker.altitude,
+      hdop: tracker.hdop,
+    });
+    tracker = {
+      ...tracker,
+      ...trackerAct,
+    };
+    draf[trackerAct.device_id] = tracker;
+  });
+  const tracker = newTrackers[trackerAct.device_id];
+
+  yield put(actions.mqttUpdateTrackerSuccessAction(tracker));
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -452,4 +486,5 @@ export default function* appWatcher() {
     getdeviceSubscriptionDetailSaga
   );
   yield takeLatest(types.GET_SOS_ALERT_TRACKER_REQUESTED, getSOSalertSaga);
+  yield takeEvery(types.MQTT_UPDATE_TRACKER, mqttUpdateTrackerSaga);
 }
