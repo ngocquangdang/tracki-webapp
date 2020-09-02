@@ -96,7 +96,7 @@ export default function TrackersContainer(props: any) {
             t={rest.t}
           />
         ) : (
-          <Tabs {...rest} />
+          <Tabs {...rest} trackerIds={trackerIds} />
         )}
       </SideBarInnerPC>
       <MapView>
