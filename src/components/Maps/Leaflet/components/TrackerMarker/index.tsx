@@ -89,7 +89,10 @@ class TrackerMarker extends React.Component<Props> {
         </div>
       ${
         showTrackerName
-          ? this.trackerName(tracker.device_name, tracker.status)
+          ? this.trackerName(
+              tracker.device_name || tracker.device_id,
+              tracker.status
+            )
           : ''
       }
       </div>`;
@@ -122,7 +125,10 @@ class TrackerMarker extends React.Component<Props> {
           }
           ${
             showTrackerName
-              ? this.trackerName(tracker.device_name, tracker.status)
+              ? this.trackerName(
+                  tracker.device_name || tracker.device_id,
+                  tracker.status
+                )
               : ''
           }
         </div>
