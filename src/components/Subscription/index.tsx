@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@Components/modals';
+import moment from 'moment';
 
 import { Title, SubTitle, WrapTitle, Content, useStyles } from './styles';
 import { Button } from '@Components/buttons';
@@ -11,7 +12,7 @@ interface Props {
   open: boolean;
   onCloseSubscription(): void;
   smsCounter?: SMSCounter;
-  devcieSubscription?: object;
+  devcieSubscription?: any;
 }
 
 interface SMSCounter {
@@ -28,9 +29,13 @@ function SubscriptionModal(props: Props) {
     onClickCancel,
     onCloseSubscription,
     smsCounter,
+    devcieSubscription,
   } = props;
+  const { data } = devcieSubscription;
   const classes = useStyles();
 
+  const currentPlan = data[0]?.plans[0]?.name.split(' ');
+  console.log('SubscriptionModal -> currentPlan', currentPlan);
   return (
     <Modal
       open={open}
@@ -40,11 +45,15 @@ function SubscriptionModal(props: Props) {
       <Content>
         <WrapTitle>
           <Title>{t('tracker:device_active')}: </Title>
-          <SubTitle>-</SubTitle>
+          <SubTitle>
+            {moment(data[0]?.plans[0]?.activation_date).format('LL')}
+          </SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:current_plan')}: </Title>
-          <SubTitle>-</SubTitle>
+          <SubTitle>
+            {currentPlan[2]} {currentPlan[3]}
+          </SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:limit_month_use')}: </Title>

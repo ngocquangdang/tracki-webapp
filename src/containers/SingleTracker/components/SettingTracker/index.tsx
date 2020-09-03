@@ -80,7 +80,10 @@ import {
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
-import { getDeviceSMSCounterRequestedAction } from '@Containers/Trackers/store/actions';
+import {
+  getDeviceSMSCounterRequestedAction,
+  getDeviceSubscripttionRequestedAction,
+} from '@Containers/Trackers/store/actions';
 
 interface Props {
   handleClose(): void;
@@ -107,6 +110,7 @@ interface Props {
   smsCounter: SMSCounter;
   devcieSubscription: object;
   getDeviceSMSCounterRequest(device_id: number): void;
+  getDeviceSubscripttionRequest(data): void;
 }
 
 interface SMSCounter {
@@ -143,6 +147,7 @@ function SettingTracker(props: Props) {
     devcieSubscription,
     smsCounter,
     getDeviceSMSCounterRequest,
+    getDeviceSubscripttionRequest,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -219,8 +224,13 @@ function SettingTracker(props: Props) {
   };
 
   const onOpenModalSubscription = () => {
+    const data = {
+      device_id: tracker.device_id,
+      page: 1,
+      size: 10,
+    };
     getDeviceSMSCounterRequest(tracker.device_id);
-
+    getDeviceSubscripttionRequest(data);
     setOpenSubsription(true);
   };
 
@@ -683,6 +693,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
   getDeviceSMSCounterRequest: (device_id: number) =>
     dispatch(getDeviceSMSCounterRequestedAction(device_id)),
+  getDeviceSubscripttionRequest: data =>
+    dispatch(getDeviceSubscripttionRequestedAction(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);
