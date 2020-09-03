@@ -3,7 +3,7 @@ import { MQTT_TRACKER_UPDATE } from '../constants';
 class TrackerHandler {
   topicFormat: any;
   constructor() {
-    this.topicFormat = /^tracker\/.*\/telemetry$/;
+    this.topicFormat = /^\/tracker\/.*\/telemetry$/;
   }
 
   messageHandler = payload => {
