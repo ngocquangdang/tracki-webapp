@@ -2,6 +2,7 @@ import React from 'react';
 import L from 'leaflet';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { uniqueId } from 'lodash';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
@@ -53,6 +54,7 @@ class MapCard extends React.Component<IProps, IState> {
   counter = 0;
   currentLat = 0;
   currentLng = 0;
+  pointsTemp = {};
 
   constructor(props) {
     super(props);
@@ -152,12 +154,30 @@ class MapCard extends React.Component<IProps, IState> {
         this.map.removeLayer(this.route);
         this.route = null;
       }
+      if (this.props.mapId !== 'mapPosition') {
+        const pointIds = Object.keys(this.pointsTemp);
+        pointIds.map(id => {
+          this.map.removeLayer(this.pointsTemp[id]);
+          delete this.pointsTemp[id];
+          return null;
+        });
+      }
     }
 
     const nextTracker = nextTrackers[selectedTrackerId];
     if (
       (nextTracker.histories || []).length !== (tracker.histories || []).length
     ) {
+      if (this.props.mapId !== 'mapPosition') {
+        const lastPoint =
+          nextTracker.histories[nextTracker.histories.length - 1];
+        const icon = new L.DivIcon({
+          className: 'point-dot',
+        });
+        this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
+          icon,
+        }).addTo(this.map);
+      }
       this.moveMarker(nextTracker)();
     }
 

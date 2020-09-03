@@ -1,5 +1,6 @@
 import React from 'react';
 import L from 'leaflet';
+import { uniqueId } from 'lodash';
 
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { ITracker } from '@Interfaces';
@@ -22,6 +23,7 @@ class TrackerMarker extends React.Component<Props> {
   currentLat = 0;
   currentLng = 0;
   trackerRoute: any = null;
+  pointsTemp = {};
 
   constructor(props) {
     super(props);
@@ -87,7 +89,10 @@ class TrackerMarker extends React.Component<Props> {
         </div>
       ${
         showTrackerName
-          ? this.trackerName(tracker.device_name, tracker.status)
+          ? this.trackerName(
+              tracker.device_name || tracker.device_id,
+              tracker.status
+            )
           : ''
       }
       </div>`;
@@ -120,7 +125,10 @@ class TrackerMarker extends React.Component<Props> {
           }
           ${
             showTrackerName
-              ? this.trackerName(tracker.device_name, tracker.status)
+              ? this.trackerName(
+                  tracker.device_name || tracker.device_id,
+                  tracker.status
+                )
               : ''
           }
         </div>
@@ -161,6 +169,14 @@ class TrackerMarker extends React.Component<Props> {
         (nextTracker.histories || []).length !==
           (tracker.histories || []).length
       ) {
+        const lastPoint =
+          nextTracker.histories[nextTracker.histories.length - 1];
+        const icon = new L.DivIcon({
+          className: 'point-dot',
+        });
+        this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
+          icon,
+        }).addTo(map);
         this.moveMarker(nextTracker)();
       }
       if (nextTracker.device_id !== tracker.device_id) {
@@ -172,6 +188,12 @@ class TrackerMarker extends React.Component<Props> {
           map.removeLayer(window.trackerMarkers[tracker.device_id]);
           delete window.trackerMarkers[tracker.device_id];
         }
+        const pointIds = Object.keys(this.pointsTemp);
+        pointIds.map(id => {
+          map.removeLayer(this.pointsTemp[id]);
+          delete this.pointsTemp[id];
+          return null;
+        });
       }
     }
 
