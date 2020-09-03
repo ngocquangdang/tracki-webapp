@@ -17,7 +17,7 @@ interface Props {
 }
 
 class TrackerMarker extends React.Component<Props> {
-  steps = 100;
+  steps = 60;
   counter = 1;
   currentLat = 0;
   currentLng = 0;
