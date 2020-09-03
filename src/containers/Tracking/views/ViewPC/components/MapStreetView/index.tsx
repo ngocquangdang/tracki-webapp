@@ -57,14 +57,17 @@ class MapStreetView extends React.Component<Props, State> {
     const { tracker: nextTracker } = nextProps;
     const { tracker } = this.props;
 
-    if (nextTracker.device_id !== tracker.device_id) {
-      const { lat, lng } = nextTracker;
-      const position = lat && lng ? { lat, lng } : null;
-      position && this.panorama.setPosition(position);
-    } else if (
-      (nextTracker.histories || []).length !== (tracker.histories || []).length
-    ) {
-      this.moveView(nextTracker)();
+    if (this.panorama) {
+      if (nextTracker.device_id !== tracker.device_id) {
+        const { lat, lng } = nextTracker;
+        const position = lat && lng ? { lat, lng } : null;
+        position && this.panorama.setPosition(position);
+      } else if (
+        (nextTracker.histories || []).length !==
+        (tracker.histories || []).length
+      ) {
+        this.moveView(nextTracker)();
+      }
     }
   }
 
@@ -73,10 +76,10 @@ class MapStreetView extends React.Component<Props, State> {
       position: { lat: 49.2853171, lng: -123.1119202 },
       pov: { heading: 4, pitch: 10 },
     };
-    this.panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('googelMapPano'),
-      panoramaOptions
-    );
+    const elm = document.getElementById('googelMapPano');
+    if (elm) {
+      this.panorama = new google.maps.StreetViewPanorama(elm, panoramaOptions);
+    }
   }
 
   render() {

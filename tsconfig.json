@@ -41,6 +41,7 @@
       "@Utils/*": ["src/utils/*"]
     }
   },
+  "typeRoots": ["node_modules/@types"],
   "exclude": [
     "node_modules",
     "dist",
