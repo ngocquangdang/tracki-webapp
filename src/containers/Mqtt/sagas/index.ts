@@ -1,9 +1,17 @@
-import { call, fork, takeEvery, put, take } from 'redux-saga/effects';
+import { call, fork, takeEvery, put, take, select } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
-import TrackiMQTTClient from '../../../utils/mqtt/trackiMqttClient';
-import { mqttConnected } from '../actions';
+import MQTTHandler from '../handlers';
+import TrackiMQTTClient from '@Utils/mqtt/trackiMqttClient';
+import {
+  mqttConnected,
+  mqttTrackersSubscribeTopic,
+  mqttTrackersUnsubscribeTopic,
+} from '../actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { GET_TRACKERS_SUCCEED } from '@Containers/Trackers/store/constants';
+import { mqttUpdateTrackerAction } from '@Containers/Trackers/store/actions';
+import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
 import * as types from '../constants';
 
 function subscribe() {
@@ -16,9 +24,18 @@ function subscribe() {
       if (topic) {
         // Action Topic
         // EX: emit(mqttAction(...))
-        console.log('emit ', emit);
-        console.log('message ', message);
-        console.log('Topic ', topic);
+        const topicHandler = new MQTTHandler();
+        const mqttClientGetHandler = topicHandler.mqttClientGetHandler(topic);
+        if (mqttClientGetHandler) {
+          const action = mqttClientGetHandler.messageHandler(message);
+          switch (action.type) {
+            case types.MQTT_TRACKER_UPDATE:
+              emit(mqttUpdateTrackerAction(action.payload));
+              break;
+            default:
+              break;
+          }
+        }
       }
     });
 
@@ -46,6 +63,9 @@ function* publish() {
 function* disconnect() {
   while (true) {
     yield take(types.MQTT_DISCONNECT);
+    const trackers = yield select(makeSelectTrackers());
+    const ids = Object.keys(trackers).map(id => +id);
+    yield put(mqttTrackersUnsubscribeTopic(ids));
     yield put(
       showSnackbar({
         snackType: 'success',
@@ -56,10 +76,36 @@ function* disconnect() {
   }
 }
 
+function* subscribeTopic() {
+  while (true) {
+    const action = yield take(types.MQTT_TRACKERS_SUBSCRIBE_TOPIC);
+    const {
+      payload: { trackerIds },
+    } = action;
+    trackerIds.map(id => {
+      TrackiMQTTClient.subscribe(`/tracker/${id}/telemetry`);
+    });
+  }
+}
+
+function* unSubscribeTopic() {
+  while (true) {
+    const action = yield take(types.MQTT_TRACKERS_UN_SUBSCRIBE_TOPIC);
+    const {
+      payload: { trackerIds },
+    } = action;
+    trackerIds.map(id => {
+      TrackiMQTTClient.unsubscribe(`/tracker/${id}/telemetry`);
+    });
+  }
+}
+
 function* handleMQTT() {
   yield fork(read);
   yield fork(disconnect);
   yield fork(publish);
+  yield fork(subscribeTopic);
+  yield fork(unSubscribeTopic);
 }
 
 function* mqttStartSaga() {
@@ -78,8 +124,10 @@ function* mqttStartSaga() {
       debug: true,
     });
 
-    TrackiMQTTClient.attachConnectHandler(() => {
-      TrackiMQTTClient.subscribe('#');
+    TrackiMQTTClient.attachConnectHandler(function* () {
+      const trackers = yield select(makeSelectTrackers());
+      const ids = Object.keys(trackers).map(id => +id);
+      yield put(mqttTrackersSubscribeTopic(ids));
     });
 
     yield fork(handleMQTT);
@@ -95,6 +143,18 @@ function* mqttStartSaga() {
   }
 }
 
+function* fetchTrackerSucceedSaga(action) {
+  try {
+    const { tracker } = action.payload;
+    if (tracker.trackerIds.length > 0) {
+      yield put(mqttTrackersSubscribeTopic(tracker.trackerIds));
+    }
+  } catch (error) {
+    console.log(GET_TRACKERS_SUCCEED, 'ERROR', error);
+  }
+}
+
 export default function* watchMQTTSaga() {
   yield takeEvery(types.MQTT_START, mqttStartSaga);
+  yield takeEvery(GET_TRACKERS_SUCCEED, fetchTrackerSucceedSaga);
 }

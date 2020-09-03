@@ -35,6 +35,11 @@ const TrackiMQTTClient = () => {
     iotClient.subscribe(topic);
   };
 
+  const unsubscribe = (topic: string) => {
+    const iotClient = new IoTClient();
+    iotClient.unsubscribe(topic);
+  };
+
   const disconnect = () => {
     const iotClient = new IoTClient();
     iotClient.disconnect();
@@ -46,6 +51,7 @@ const TrackiMQTTClient = () => {
     connect,
     disconnect,
     subscribe,
+    unsubscribe,
     publish,
   };
 };

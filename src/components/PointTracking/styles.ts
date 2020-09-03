@@ -4,8 +4,9 @@ const useStyles = makeStyles(theme => ({
   trackingContainer: {
     position: 'absolute',
     left: 405,
-    width: 300,
+    width: 320,
     zIndex: 400,
+    cursor: 'move',
     backgroundColor: 'white',
     bottom: 5,
     padding: 8,
@@ -44,9 +45,10 @@ const useStyles = makeStyles(theme => ({
     marginRight: 8,
     minHeight: 30,
     height: 30,
-    fontSize: 14,
-    color: 'white',
-    fontWeight: 400,
+    width: 30,
+    '&:first-child': {
+      paddingLeft: 8,
+    },
     '& svg': {
       fontSize: '16px !important',
     },

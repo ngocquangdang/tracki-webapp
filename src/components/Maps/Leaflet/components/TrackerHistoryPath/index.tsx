@@ -41,7 +41,7 @@ class TrackerHistoryPath extends React.Component<Props> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { history, pointTrackingIndex, map } = nextProps;
+    const { history, pointTrackingIndex, map, isMobile } = nextProps;
     const {
       history: thisHistory,
       pointTrackingIndex: thisPointTrackingIndex,
@@ -55,6 +55,9 @@ class TrackerHistoryPath extends React.Component<Props> {
       const pointIds = Object.keys(history);
       const location = history[pointIds[pointTrackingIndex]];
       this.pointTracking && map.removeLayer(this.pointTracking);
+      const mapOption =
+        isMobile || window.mapFullWidth ? {} : LEAFLET_PADDING_OPTIONS;
+      map.fitBounds([location, location], mapOption);
       if (location) {
         this.pointTracking = undefined;
         this.renderPointTracking(location);
@@ -85,6 +88,10 @@ class TrackerHistoryPath extends React.Component<Props> {
     }
   };
 
+  onClickPointIndex = (index: number) => () => {
+    this.props.changePointTracking(index);
+  };
+
   renderPath = props => {
     const { history, map, isMobile, pointTrackingIndex } = props;
     const path = Object.keys(history).map(id => ({
@@ -105,6 +112,7 @@ class TrackerHistoryPath extends React.Component<Props> {
           }`,
         });
         obj[p.id] = L.marker(p, { icon }).addTo(map);
+        obj[p.id].on('click', this.onClickPointIndex(index));
         return obj;
       }, {});
 
@@ -139,6 +147,7 @@ class TrackerHistoryPath extends React.Component<Props> {
       pointTrackingIndex,
       history,
       changePointTracking,
+      map,
     } = this.props;
     const pointIds = Object.keys(history);
     const location = history[pointIds[pointTrackingIndex]];
@@ -151,6 +160,7 @@ class TrackerHistoryPath extends React.Component<Props> {
       <PointTracking
         tracker={tracker}
         location={location}
+        map={map}
         pointIndex={pointTrackingIndex}
         lastIndex={pointIds.length}
         changePointTracking={changePointTracking}

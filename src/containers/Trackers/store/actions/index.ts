@@ -246,3 +246,28 @@ export const getDeviceSMSCounterFailedAction = (error: object) => ({
   type: types.GET_SMS_COUNTER_FAILED,
   payload: { error },
 });
+
+export const mqttUpdateTrackerAction = (tracker: object) => ({
+  type: types.MQTT_UPDATE_TRACKER,
+  payload: { tracker },
+});
+
+export const mqttUpdateTrackerSuccessAction = (tracker: object) => ({
+  type: types.MQTT_UPDATE_TRACKER_SUCCESS,
+  payload: { tracker },
+});
+
+export const getSOSalertTrackerRequestAction = (data: object) => ({
+  type: types.GET_SOS_ALERT_TRACKER_REQUESTED,
+  payload: { data },
+});
+
+export const getSOSalertTrackerSucceed = (alert: object) => ({
+  type: types.GET_SOS_ALERT_TRACKER_SUCCEED,
+  payload: { alert },
+});
+
+export const getSOSalertTrackerFailed = (error: object) => ({
+  type: types.GET_SOS_ALERT_TRACKER_FAILED,
+  payload: { error },
+});

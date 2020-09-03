@@ -11,14 +11,15 @@ import { IconButton } from '@material-ui/core';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { CgBattery } from 'react-icons/cg';
 import moment from 'moment';
+import Draggable from 'react-draggable';
 
 import { ITracker } from '@Interfaces';
-import { Button } from '@Components/buttons';
 import { getAddress } from '@Utils/helper';
 import { useStyles } from './styles';
 import clsx from 'clsx';
 
 interface Prop {
+  map: any;
   location: {
     lat: number;
     lng: number;
@@ -40,6 +41,7 @@ function PointTrackingInfo(props: Prop) {
     location,
     pointIndex,
     lastIndex,
+    map,
     changePointTracking,
   } = props;
   const [showInfo, setShowInfo] = useState(!!location);
@@ -62,82 +64,97 @@ function PointTrackingInfo(props: Prop) {
   const onChangePoint = (index: number) => () =>
     changePointTracking(pointIndex + index);
 
+  const handleDrag = () => {
+    map.dragging.disable();
+  };
+
+  const handleDragEnd = () => {
+    map.dragging.enable();
+  };
+
   return (
-    <div
-      className={clsx(classes.trackingContainer, { [classes.show]: showInfo })}
-    >
-      <IconButton className={classes.closeBtn} onClick={onClose}>
-        <CloseIcon />
-      </IconButton>
-      <div className={classes.rowInfo}>
-        <div className={classes.rowIcon}>
-          <AdjustIcon color="primary" />
-        </div>
-        <div className={classes.rowText}>
-          <p className={classes.title}>{tracker.device_name}</p>
-          <p className={classes.subtitle}>
-            {'Date: ' + moment(tracker.time * 1000).format('lll')}
-          </p>
-        </div>
-      </div>
-      <div className={classes.rowInfo}>
-        <div className={classes.rowIcon}>
-          <LocationIcon />
-        </div>
-        <div className={classes.rowText}>{address}</div>
-      </div>
-      <div className={classes.rowInfo}>
-        <div className={classes.rowIcon}>
-          <PublicIcon />
-        </div>
-        <div className={classes.rowText}>
-          {`Lat: ${location.lat || '-'}, Lng: ${location.lng || '-'}`}
-        </div>
-      </div>
-      <div className={classes.rowInfo}>
-        <div className={classes.rowLeft}>
-          <div className={classes.block}>
-            <AiOutlineDashboard className={classes.dashIcon} />
-            <span className={classes.text}>
-              {(location.speed || 0) +
-                ' ' +
-                (location.speed_unit || '').toUpperCase()}
-            </span>
+    <Draggable onDrag={handleDrag} onStop={handleDragEnd}>
+      <div
+        className={clsx(classes.trackingContainer, {
+          [classes.show]: showInfo,
+        })}
+      >
+        <IconButton className={classes.closeBtn} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+        <div className={classes.rowInfo}>
+          <div className={classes.rowIcon}>
+            <AdjustIcon color="primary" />
           </div>
-          <div className={classes.block}>
-            <CgBattery className={classes.dashIcon} />
-            <span className={classes.text}>{location.battery || '-'}</span>
+          <div className={classes.rowText}>
+            <p className={classes.title}>{tracker.device_name}</p>
+            <p className={classes.subtitle}>
+              {'Date: ' +
+                moment(tracker.time * 1000).format('MMM DD YYYY, hh:MM:SS A')}
+            </p>
           </div>
         </div>
-        <div className={classes.rowRight}>
-          <div>Tracker Connection: {(location.type || '-').toUpperCase()}</div>
-          <div>Accuracy within: -</div>
+        <div className={classes.rowInfo}>
+          <div className={classes.rowIcon}>
+            <LocationIcon />
+          </div>
+          <div className={classes.rowText}>{address}</div>
+        </div>
+        <div className={classes.rowInfo}>
+          <div className={classes.rowIcon}>
+            <PublicIcon />
+          </div>
+          <div className={classes.rowText}>
+            {`Lat: ${location.lat || '-'}, Lng: ${location.lng || '-'}`}
+          </div>
+        </div>
+        <div className={classes.rowInfo}>
+          <div className={classes.rowLeft}>
+            <div className={classes.block}>
+              <AiOutlineDashboard className={classes.dashIcon} />
+              <span className={classes.text}>
+                {(location.speed || 0) +
+                  ' ' +
+                  (location.speed_unit || '').toUpperCase()}
+              </span>
+            </div>
+            <div className={classes.block}>
+              <CgBattery className={classes.dashIcon} />
+              <span className={classes.text} style={{ marginLeft: 4 }}>
+                {location.battery ? location.battery + '%' : '-'}
+              </span>
+            </div>
+          </div>
+          <div className={classes.rowRight}>
+            <div>
+              Tracker Connection: {(location.type || '-').toUpperCase()}
+            </div>
+            <div>Accuracy within: -</div>
+          </div>
+        </div>
+        <div className={classes.rowInfo} style={{ justifyContent: 'flex-end' }}>
+          <IconButton
+            color="primary"
+            className={classes.prevBtn}
+            size="small"
+            onClick={onChangePoint(-1)}
+            disabled={pointIndex === 0}
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+          <IconButton
+            color="primary"
+            disabled={pointIndex === lastIndex - 1}
+            style={{ marginRight: 0 }}
+            className={classes.prevBtn}
+            size="small"
+            onClick={onChangePoint(1)}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
         </div>
       </div>
-      <div className={classes.rowInfo}>
-        <Button
-          text="Prev"
-          color="secondary"
-          variant="contained"
-          fullWidth
-          startIcon={<ArrowBackIosIcon />}
-          className={classes.prevBtn}
-          onClick={onChangePoint(-1)}
-          disabled={pointIndex === 0}
-        />
-        <Button
-          text="Next"
-          color="secondary"
-          variant="contained"
-          fullWidth
-          disabled={pointIndex === lastIndex - 1}
-          endIcon={<ArrowForwardIosIcon />}
-          style={{ marginRight: 0 }}
-          className={classes.prevBtn}
-          onClick={onChangePoint(1)}
-        />
-      </div>
-    </div>
+    </Draggable>
   );
 }
 

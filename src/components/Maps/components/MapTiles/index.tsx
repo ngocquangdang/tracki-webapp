@@ -37,7 +37,7 @@ function MapTiles(props: Props) {
 
   const onChangeLayler = (tile: string) => () => {
     changeMapTile(tile);
-    window.mapEvents.changeLayer(tile);
+    window.mapEvents?.changeLayer(tile);
   };
 
   return (

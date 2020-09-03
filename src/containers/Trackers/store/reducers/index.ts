@@ -19,6 +19,11 @@ export const initialState: TrackerDataTypes = {
     editGeofenceId: null,
     newGeofence: null,
   },
+  alert: {
+    alerts: {},
+    alertsIds: null,
+    alertSosTrackerId: null,
+  },
   smsCounter: {},
   subscription: {},
   dataLink: {},
@@ -107,6 +112,9 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
           ...payload.geofence,
         };
         break;
+      case types.MQTT_UPDATE_TRACKER_SUCCESS:
+        draft.tracker.trackers[payload.tracker.device_id] = payload.tracker;
+        break;
       case types.RESET_NEW_GEOFENCE:
         draft.geofence.newGeofence = null;
         draft.geofence.selectedGeofenceId = null;
@@ -183,6 +191,12 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.GET_DEVICE_SUBSCRIPTION_FAILED:
       case types.GET_SMS_COUNTER_FAILED:
+        draft.errors = payload.error;
+        break;
+      case types.GET_SOS_ALERT_TRACKER_SUCCEED:
+        draft.alert = payload.alert;
+        break;
+      case types.GET_SOS_ALERT_TRACKER_FAILED:
         draft.errors = payload.error;
         break;
       default:

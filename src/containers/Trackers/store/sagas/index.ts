@@ -1,4 +1,11 @@
-import { takeLatest, call, put, select, all } from 'redux-saga/effects';
+import {
+  takeLatest,
+  call,
+  put,
+  select,
+  all,
+  takeEvery,
+} from 'redux-saga/effects';
 import produce from 'immer';
 
 import * as types from '../constants';
@@ -391,6 +398,80 @@ function* getdeviceSubscriptionDetailSaga(action) {
   }
 }
 
+function* getSOSalertSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { data } = yield call(
+      apiServices.getSOSalert,
+      account_id,
+      action.payload.data.alarm_types,
+      action.payload.data.device_ids,
+      action.payload.data.limit,
+      action.payload.data.page,
+      action.payload.data.read_status,
+      action.payload.data.sort_direction
+    );
+
+    const alerts = data.reduce(
+      (obj, item) => {
+        obj.alerts = { ...obj.alerts, [item.id]: item };
+        obj.alertsIds.push(item.id);
+        obj.alertSosTrackerId = item.device_id;
+        return obj;
+      },
+      {
+        alerts: {},
+        alertsIds: [],
+        alertSosTrackerId: null,
+      }
+    );
+
+    yield put(actions.getSOSalertTrackerSucceed(alerts));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
+    }
+    yield put(actions.getSOSalertTrackerFailed(payload));
+  }
+}
+
+function* mqttUpdateTrackerSaga(action) {
+  const {
+    payload: { tracker: trackerAct },
+  } = action;
+  const trackers = yield select(makeSelectTrackers());
+  const newTrackers = produce(trackers, draf => {
+    let tracker = draf[trackerAct.device_id];
+    tracker.histories = tracker.histories || [];
+    tracker.histories.push({
+      lat: tracker.lat,
+      lng: tracker.lng,
+      speed: tracker.speed,
+      battery: tracker.battery,
+      altitude: tracker.altitude,
+      hdop: tracker.hdop,
+    });
+    tracker = {
+      ...tracker,
+      ...trackerAct,
+    };
+    draf[trackerAct.device_id] = tracker;
+  });
+  const tracker = newTrackers[trackerAct.device_id];
+
+  yield put(actions.mqttUpdateTrackerSuccessAction(tracker));
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -407,4 +488,6 @@ export default function* appWatcher() {
     types.GET_DEVICE_SUBSCRIPTION_REQUESTED,
     getdeviceSubscriptionDetailSaga
   );
+  yield takeLatest(types.GET_SOS_ALERT_TRACKER_REQUESTED, getSOSalertSaga);
+  yield takeEvery(types.MQTT_UPDATE_TRACKER, mqttUpdateTrackerSaga);
 }
