@@ -83,7 +83,7 @@ function* subscribeTopic() {
       payload: { trackerIds },
     } = action;
     trackerIds.map(id => {
-      TrackiMQTTClient.subscribe(`tracker/${id}/telemetry`);
+      TrackiMQTTClient.subscribe(`/tracker/${id}/telemetry`);
     });
   }
 }
@@ -95,7 +95,7 @@ function* unSubscribeTopic() {
       payload: { trackerIds },
     } = action;
     trackerIds.map(id => {
-      TrackiMQTTClient.unsubscribe(`tracker/${id}/telemetry`);
+      TrackiMQTTClient.unsubscribe(`/tracker/${id}/telemetry`);
     });
   }
 }
