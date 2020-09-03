@@ -34,8 +34,6 @@ function SubscriptionModal(props: Props) {
   const { data } = devcieSubscription;
   const classes = useStyles();
 
-  const currentPlan = data[0]?.plans[0]?.name.split(' ');
-  console.log('SubscriptionModal -> currentPlan', currentPlan);
   return (
     <Modal
       open={open}
@@ -46,19 +44,27 @@ function SubscriptionModal(props: Props) {
         <WrapTitle>
           <Title>{t('tracker:device_active')}: </Title>
           <SubTitle>
-            {moment(data[0]?.plans[0]?.activation_date).format('LL')}
+            {data && data.length > 0 && data[0]?.plans
+              ? moment(data[0]?.plans[0]?.activation_date).format('LL')
+              : ''}
           </SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:current_plan')}: </Title>
           <SubTitle>
-            {currentPlan[2]} {currentPlan[3]}
+            {data && data.length > 0 && data[0]?.plans
+              ? data[0]?.plans[0]?.name.split(' ')[2]
+              : ''}{' '}
+            {data && data.length > 0 && data[0]?.plans
+              ? data[0]?.plans[0]?.name.split(' ')[3]
+              : ''}
           </SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:limit_month_use')}: </Title>
           <SubTitle>
-            {smsCounter?.smsCounter} out of {smsCounter?.smsLimit} text alerts
+            {smsCounter?.smsCounter || 0} out of {smsCounter?.smsLimit || 0}{' '}
+            text alerts
           </SubTitle>
         </WrapTitle>
         <Button

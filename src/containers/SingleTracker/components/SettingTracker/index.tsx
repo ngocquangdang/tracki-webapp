@@ -108,7 +108,7 @@ interface Props {
   profile: any;
   contactOfTracker: object;
   smsCounter: SMSCounter;
-  devcieSubscription: object;
+  devcieSubscription: any;
   getDeviceSMSCounterRequest(device_id: number): void;
   getDeviceSubscripttionRequest(data): void;
 }

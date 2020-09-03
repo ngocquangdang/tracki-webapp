@@ -50,7 +50,7 @@ function Subscription(props: Props) {
 
   const classes = useStyles();
   const [isLoadingGateway, setLoadingGateway] = useState(true);
-  const [disablePayment, setDisableSubmitCard] = useState(false);
+  const [disablePayment, setDisableSubmitCard] = useState(true);
 
   const onUpdateStep = step => {
     updateStep(step);
