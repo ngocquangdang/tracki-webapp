@@ -30,7 +30,12 @@ function subscribe() {
           const action = mqttClientGetHandler.messageHandler(message);
           switch (action.type) {
             case types.MQTT_TRACKER_UPDATE:
-              emit(mqttUpdateTrackerAction(action.payload));
+              emit(
+                mqttUpdateTrackerAction({
+                  ...action.payload,
+                  device_id: +topic.split('/')[2],
+                })
+              );
               break;
             default:
               break;
