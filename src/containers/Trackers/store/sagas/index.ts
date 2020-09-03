@@ -31,7 +31,6 @@ function* fetchTrackersSaga(action) {
 
       tracker = assignmentsData.reduce((result, item) => {
         const { fences, device_id, geozones, settings, contacts } = item;
-
         // fence reduce
         result.fences = fences.reduce((objFences, fItem) => {
           objFences[fItem.id] = fItem;
@@ -75,6 +74,8 @@ function* fetchTrackersSaga(action) {
       contactAssignedIds,
       ...trackerData
     } = tracker;
+
+    console.log('trackerData >++++========', trackerData);
 
     yield put(
       updateContactListSucceedAction({
@@ -409,21 +410,22 @@ function* getSOSalertSaga(action) {
       action.payload.data.sort_direction
     );
 
-    const alerts = data.reduce(
-      (obj, item) => {
+    const trackers = yield select(makeSelectTrackers());
+    let alert = {
+      alerts: {},
+      alertsIds: [],
+    };
+    const newTrackers = produce(trackers, draf => {
+      alert = data.reduce((obj, item) => {
+        draf[item.device_id].alerts = draf[item.device_id].alerts || [];
+        draf[item.device_id].alerts.push(item.id);
         obj.alerts = { ...obj.alerts, [item.id]: item };
         obj.alertsIds.push(item.id);
-        obj.alertSosTrackerId = item.device_id;
         return obj;
-      },
-      {
-        alerts: {},
-        alertsIds: [],
-        alertSosTrackerId: null,
-      }
-    );
+      }, alert);
+    });
 
-    yield put(actions.getSOSalertTrackerSucceed(alerts));
+    yield put(actions.getSOSalertTrackerSucceed({ alert, newTrackers }));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -439,6 +441,34 @@ function* getSOSalertSaga(action) {
       );
     }
     yield put(actions.getSOSalertTrackerFailed(payload));
+  }
+}
+
+function* readSOSalertSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { data } = yield call(
+      apiServices.readSOSalert,
+      account_id,
+      action.payload.data
+    );
+
+    yield put(actions.readSOSalertSucceed(data));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({ snackType: 'error', snackMessage: data.message })
+      );
+    }
+    yield put(actions.readSOSalertFailed(payload));
   }
 }
 
@@ -486,5 +516,6 @@ export default function* appWatcher() {
     getdeviceSubscriptionDetailSaga
   );
   yield takeLatest(types.GET_SOS_ALERT_TRACKER_REQUESTED, getSOSalertSaga);
+  yield takeLatest(types.READ_SOS_ALERT_TRACKER_REQUESTED, readSOSalertSaga);
   yield takeEvery(types.MQTT_UPDATE_TRACKER, mqttUpdateTrackerSaga);
 }

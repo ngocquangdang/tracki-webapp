@@ -22,7 +22,6 @@ export const initialState: TrackerDataTypes = {
   alert: {
     alerts: {},
     alertsIds: null,
-    alertSosTrackerId: null,
   },
   smsCounter: {},
   subscription: {},
@@ -195,6 +194,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.GET_SOS_ALERT_TRACKER_SUCCEED:
         draft.alert = payload.alert;
+        draft.tracker.trackers = payload.newTrackers;
         break;
       case types.GET_SOS_ALERT_TRACKER_FAILED:
         draft.errors = payload.error;

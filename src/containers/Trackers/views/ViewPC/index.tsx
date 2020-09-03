@@ -1,14 +1,22 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState, useEffect } from 'react';
 import { isEmpty } from 'lodash';
-
+import moment from 'moment';
+import Fade from '@material-ui/core/Fade';
 import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
 import SingleTracker from '@Containers/SingleTracker';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from '../Tabs';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
-
-import { Container, MapView } from './styles';
+import {
+  Container,
+  MapView,
+  ContainerAlert,
+  ContentAlert,
+  ButtonClear,
+  IconSos,
+} from './styles';
 
 export default function TrackersContainer(props: any) {
   const {
@@ -64,7 +72,8 @@ export default function TrackersContainer(props: any) {
     if (
       alertsIds &&
       alertsIds.length > 0 &&
-      alerts[alertsIds[alertsIds.length - 1]]?.alarm_type === 'SOS'
+      alerts[alertsIds[0]]?.alarm_type === 'SOS' &&
+      alerts[alertsIds[0]]?.read === false
     ) {
       setAlertSos(true);
     }
@@ -86,6 +95,74 @@ export default function TrackersContainer(props: any) {
     }
   };
 
+  const trackerAlerts = trackerIds?.filter(
+    item => props.trackers[item].alerts?.length > 0
+  );
+
+  const trackerAlertSos = trackerAlerts?.filter(
+    item => alerts[props.trackers[item]?.alerts[0]]?.read === false
+  );
+
+  const renderDetailAlertSos = () => {
+    const { trackers, readSOSalert } = props;
+
+    // function showSOSTimer(device) {
+    //   const msToTime = function (duration: number) {
+    //     var seconds =
+    //       parseInt((duration % 60).toString(), 10) < 10
+    //         ? `0${seconds}`
+    //         : `${seconds}`;
+    //     var minutes =
+    //       parseInt(((duration / 60) % 60).toString(), 10) < 10
+    //         ? `0${minutes}`
+    //         : minutes;
+    //     var hours =
+    //       parseInt(((duration / (60 * 60)) % 24).toString(), 10) < 10
+    //         ? `0${hours}`
+    //         : hours;
+    //   };
+
+    //   var sosTimer = function (seconds, device) {
+    //     device.sosTimer = msToTime(seconds);
+    //     var procedure = function () {
+    //       setTimeout(function () {
+    //         seconds++;
+    //         sosTimer(seconds, device);
+    //       }, 1000);
+    //     };
+    //     if (!device.read) {
+    //       procedure();
+    //     }
+    //   };
+    //   sosTimer(device.age, device);
+    // }
+
+    const onClearSosAlert = item => () => {
+      readSOSalert({
+        alertId: props.trackers[item]?.alerts[0],
+        priority: 'NONE',
+        read: true,
+      });
+      setAlertSos(false);
+    };
+    return (
+      trackerAlertSos &&
+      trackerAlertSos?.map(item => (
+        <Fade in={isAlertSos} unmountOnExit mountOnEnter key={item}>
+          <ContainerAlert>
+            <IconSos src="/images/ic-alert-SOS.svg" />
+            <ContentAlert>
+              {`${moment().format('hh:mm:ss')} ${
+                trackers[item.device_id]?.device_name
+              } SOS button pressed`}{' '}
+            </ContentAlert>
+            <ButtonClear onClick={onClearSosAlert(item)}>Clear</ButtonClear>
+          </ContainerAlert>
+        </Fade>
+      ))
+    );
+  };
+
   return (
     <Container>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
@@ -104,9 +181,11 @@ export default function TrackersContainer(props: any) {
           mapType="leaflet"
           openSideBar={openSideBar}
           isAlertSos={isAlertSos}
+          alertSosTrackerId={trackerAlertSos}
           {...rest}
         />
         <MapToolBars t={rest.t} />
+        {isAlertSos ? renderDetailAlertSos() : null}
       </MapView>
     </Container>
   );

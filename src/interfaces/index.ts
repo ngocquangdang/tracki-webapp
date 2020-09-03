@@ -52,7 +52,6 @@ export interface TrackerDataTypes {
   alert: {
     alerts: object;
     alertsIds: Array<number | string> | null;
-    alertSosTrackerId: number | null;
   };
   smsCounter: object | null;
   subscription: object | null;

@@ -24,4 +24,42 @@ const ContentCardDetail = styled.div`
   right: 5px;
   z-index: 402;
 `;
-export { Container, MapView, ContentCardDetail };
+const ContainerAlert = styled.div`
+  position: absolute;
+  right: 0;
+  height: 50px;
+  z-index: 405;
+  margin: 16px;
+  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  display: flex;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  border-radius: 5px;
+`;
+const ContentAlert = styled.div`
+  padding-right: 15px;
+`;
+const ButtonClear = styled.div`
+  color: #168449;
+  cursor: pointer;
+`;
+
+const IconSos = styled.img`
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  margin-right: 15px;
+  width: 31px;
+  height: 30px;
+`;
+export {
+  Container,
+  MapView,
+  ContentCardDetail,
+  ContainerAlert,
+  ContentAlert,
+  ButtonClear,
+  IconSos,
+};

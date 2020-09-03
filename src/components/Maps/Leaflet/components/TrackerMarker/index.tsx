@@ -11,7 +11,7 @@ interface Props {
   isAlertSos?: boolean;
   showTrackerName: boolean;
   selectedTrackerId?: number | null;
-  alertSosTrackerId?: number | null;
+  alertSosTrackerId?: number[];
   onClickMarker(id: string | number): void;
 }
 
@@ -117,16 +117,19 @@ class TrackerMarker extends React.Component<Props> {
         element.style.zIndex = isSelected ? 2 : 1;
       }
     }
-    // console.log('currentIsAlertSos', currentIsAlertSos);
 
     if (isAlertSos !== currentIsAlertSos && tracker && marker) {
-      const isSelected =
-        tracker.device_id.toString() === alertSosTrackerId?.toString();
-
+      const isSelectedTrackerSos = Boolean(
+        alertSosTrackerId?.find(trackerSos => {
+          return trackerSos === tracker.device_id;
+        })
+      );
       const elm2 = document.createElement('div');
       elm2.className = 'custom-div-icon-sos';
       elm2.innerHTML = `
-        <div class='icon-red${isAlertSos && isSelected ? '-sos' : ''}'>
+        <div class='icon-red${
+          isAlertSos && isSelectedTrackerSos ? '-sos' : ''
+        }'>
           <span class='inner'></span>
           <div class='marker-pin' style='background-image:url(${
             tracker.status === 'active'
