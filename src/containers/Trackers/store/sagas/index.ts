@@ -3,6 +3,8 @@ import produce from 'immer';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
+import * as appServices from '@Containers/App/store/services';
+
 import * as actions from '../actions';
 import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
@@ -336,12 +338,13 @@ function* refreshLocationSaga(action) {
 }
 
 function* getSmsCounterSaga(action) {
-  const { account_id } = yield select(makeSelectProfile());
   const { device_id } = action.payload;
   try {
+    const { data } = yield call(appServices.fetchUser);
+    // const { account_id } = yield select(makeSelectProfile());
     const { data: smsCounter } = yield call(
       apiServices.getSmsCounter,
-      account_id,
+      data.account_id,
       device_id
     );
     yield put(actions.getDeviceSMSCounterSucceedAction(smsCounter));

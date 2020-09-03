@@ -20,6 +20,7 @@ import {
   updateSubscriptionStore,
   braintreeDropInSubscriptionRequestAction,
   buySmsSubscriptionRequestAction,
+  buyFastTrackingSubscriptionRequestAction,
 } from './store/actions';
 import {
   makeSelectErrors,
@@ -42,13 +43,23 @@ function RenewTrackerContainer(props: any) {
     updateSubscriptionStore,
     formData,
   } = props;
+
   useEffect(() => {
     const path_name = window.location.pathname;
     const device_id = path_name.split('/')[2];
-    updateSubscriptionStore({ ...formData, device_id });
-    getDeviceSMSCounterRequest(device_id);
+    const subscriptionType = path_name.split('/')[4];
+    updateSubscriptionStore({ ...formData, device_id, subscriptionType });
+    if (subscriptionType === 'sms') {
+      getDeviceSMSCounterRequest(device_id);
+    } else {
+      console.log('call fast tracking');
+    }
     getCountryCodeRequest();
-  }, [getDeviceSMSCounterRequest, getCountryCodeRequest]);
+  }, [
+    getDeviceSMSCounterRequest,
+    getCountryCodeRequest,
+    updateSubscriptionStore,
+  ]);
 
   return <SubscriptionPage {...props} />;
 }
@@ -74,6 +85,14 @@ const mapDispatchToProps = (dispatch: any) => ({
   buySmsSubscriptionRequest: (formData, account_id, paymentData) =>
     dispatch(
       buySmsSubscriptionRequestAction(formData, account_id, paymentData)
+    ),
+  buyFastTrackingSubscriptionRequest: (formData, account_id, paymentData) =>
+    dispatch(
+      buyFastTrackingSubscriptionRequestAction(
+        formData,
+        account_id,
+        paymentData
+      )
     ),
 });
 

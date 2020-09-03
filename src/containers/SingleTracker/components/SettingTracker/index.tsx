@@ -80,6 +80,7 @@ import {
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
+import { getDeviceSMSCounterRequestedAction } from '@Containers/Trackers/store/actions';
 
 interface Props {
   handleClose(): void;
@@ -105,6 +106,7 @@ interface Props {
   contactOfTracker: object;
   smsCounter: SMSCounter;
   devcieSubscription: object;
+  getDeviceSMSCounterRequest(device_id: number): void;
 }
 
 interface SMSCounter {
@@ -140,6 +142,7 @@ function SettingTracker(props: Props) {
     profile,
     devcieSubscription,
     smsCounter,
+    getDeviceSMSCounterRequest,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -216,6 +219,8 @@ function SettingTracker(props: Props) {
   };
 
   const onOpenModalSubscription = () => {
+    getDeviceSMSCounterRequest(tracker.device_id);
+
     setOpenSubsription(true);
   };
 
@@ -258,8 +263,13 @@ function SettingTracker(props: Props) {
   };
 
   const onClickIncrease = () => {
-    Router.push(`/trackers/${tracker.device_id}/subscription`);
+    Router.push(`/trackers/${tracker.device_id}/subscription/sms`);
   };
+
+  const onClickFastTracking = () => {
+    Router.push(`/trackers/${tracker.device_id}/subscription/fast-tracking`);
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -614,6 +624,7 @@ function SettingTracker(props: Props) {
       </Container>
       <SubscriptionModal
         onClickIncrease={onClickIncrease}
+        onClickFastTracking={onClickFastTracking}
         onCloseSubscription={onCloseModalSubscription}
         open={openSubscription}
         t={t}
@@ -670,6 +681,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  getDeviceSMSCounterRequest: (device_id: number) =>
+    dispatch(getDeviceSMSCounterRequestedAction(device_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

@@ -44,7 +44,7 @@ function SubscriptionStep2(props) {
   console.log('formData', formData);
   const classes = useStyles();
   const [isLoadingGateway, setLoadingGateway] = useState(true);
-  const [disablePayment, setDisableSubmitCard] = useState(false);
+  const [disablePayment, setDisableSubmitCard] = useState(true);
 
   useEffect(() => {
     BraintreePaymentGateway(
