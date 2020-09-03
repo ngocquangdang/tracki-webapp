@@ -48,8 +48,7 @@ class TrackerMarker extends React.Component<Props> {
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-              : `<img src='/images/image-device.png'
-              } class='image-device'></img>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
           }
           </div>
         <div class=${

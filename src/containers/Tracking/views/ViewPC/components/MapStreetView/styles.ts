@@ -26,4 +26,8 @@ export default {
     lineHeight: '13px',
     padding: '4px 10px',
   },
+  map: {
+    width: '100%',
+    height: '100%',
+  },
 };

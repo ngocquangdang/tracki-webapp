@@ -48,6 +48,11 @@ class MapCard extends React.Component<IProps, IState> {
   marker: any;
   mapTile: any;
   isFirstFitBounce: boolean;
+  route: any;
+  steps = 60;
+  counter = 0;
+  currentLat = 0;
+  currentLng = 0;
 
   constructor(props) {
     super(props);
@@ -67,12 +72,49 @@ class MapCard extends React.Component<IProps, IState> {
     return 'streets-v11';
   };
 
+  moveMarker = tracker => () => {
+    const history = tracker.histories || [];
+    const startPoint = history[history.length - 1];
+    if (startPoint) {
+      const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
+      const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
+      this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
+      this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
+      const latlng = L.latLng(this.currentLat, this.currentLng);
+
+      if (this.marker) {
+        if (this.counter < this.steps) {
+          this.counter += 1;
+          this.marker.setLatLng(latlng);
+          if (this.props.mapId !== 'mapPosition') {
+            if (this.route) {
+              const latlngs = this.route.getLatLngs();
+              latlngs.push(latlng);
+              this.route.setLatLngs(latlngs);
+            } else {
+              this.route = L.polyline([startPoint, latlng], {
+                weight: 3,
+                color: '#168449',
+              });
+              this.route.addTo(this.map);
+            }
+          }
+          this.map.fitBounds([latlng]);
+          requestAnimationFrame(this.moveMarker(tracker));
+        } else {
+          this.counter = 0;
+        }
+      }
+    }
+  };
+
   componentWillReceiveProps(nextProps) {
     const {
       selectedTrackerId,
       isFullWidth,
       viewMode,
       isMultiScreen,
+      trackers: nextTrackers,
     } = nextProps;
     const {
       selectedTrackerId: thisSelectedTracker,
@@ -101,9 +143,22 @@ class MapCard extends React.Component<IProps, IState> {
     }
 
     // remove current marker
-    if (selectedTrackerId !== thisSelectedTracker && this.marker) {
-      this.map.removeLayer(this.marker);
-      this.marker = undefined;
+    if (selectedTrackerId !== thisSelectedTracker) {
+      if (this.marker) {
+        this.map.removeLayer(this.marker);
+        this.marker = undefined;
+      }
+      if (this.route) {
+        this.map.removeLayer(this.route);
+        this.route = null;
+      }
+    }
+
+    const nextTracker = nextTrackers[selectedTrackerId];
+    if (
+      (nextTracker.histories || []).length !== (tracker.histories || []).length
+    ) {
+      this.moveMarker(nextTracker)();
     }
 
     // reset map tile
@@ -117,8 +172,8 @@ class MapCard extends React.Component<IProps, IState> {
     }
   }
 
-  trackerName = (name: string, status: string) => {
-    const nameWidth = name.length * 9;
+  trackerName = (name: string | number, status: string) => {
+    const nameWidth = name.toString().length * 9;
     return `<div class=${
       status === 'active' ? 'title-device' : 'red-title-device'
     } style='width:${nameWidth}px; left:-${nameWidth / 2 - 4}px'>${name}</div>`;
@@ -185,7 +240,7 @@ class MapCard extends React.Component<IProps, IState> {
     const tracker = trackers[selectedTrackerId];
 
     if (!this.marker && tracker && tracker.lat && tracker.lng) {
-      const { device_name, lat, lng, icon_url, status } = tracker;
+      const { device_name, device_id, lat, lng, icon_url, status } = tracker;
       const elm = document.createElement('div');
       elm.className = `custom-div-icon`;
       elm.innerHTML = `
@@ -195,16 +250,14 @@ class MapCard extends React.Component<IProps, IState> {
             status === 'active'
               ? '/images/icon-marker.svg'
               : '/images/red-marker.svg'
-          })'
-          >
+          })'>
             ${
               icon_url
                 ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-                : `<img src='/images/image-device.png'
-                } class='image-device'></img>`
+                : `<img src='/images/image-device.png' class='image-device'></img>`
             }
           </div>
-          ${this.trackerName(device_name, status)}
+          ${this.trackerName(device_name || device_id, status)}
         </div>`;
 
       const icon = new L.DivIcon({ html: elm });
@@ -249,7 +302,7 @@ class MapCard extends React.Component<IProps, IState> {
           id.toString() === selectedTrackerId.toString() ||
           !(trackingIds || []).includes(+id)
       )
-      .map(id => ({ value: id, label: trackers[id].device_name }));
+      .map(id => ({ value: id, label: trackers[id].device_name || id }));
 
     return (
       <React.Fragment>
