@@ -9,6 +9,7 @@ interface Props {
   tracker: ITracker;
   isBeep: boolean;
   isAlertSos?: boolean;
+  isTracking?: boolean;
   showTrackerName: boolean;
   selectedTrackerId?: number | null;
   alertSosTrackerId?: number | null;
@@ -20,6 +21,7 @@ class TrackerMarker extends React.Component<Props> {
   counter = 1;
   currentLat = 0;
   currentLng = 0;
+  trackerRoute: any = null;
 
   constructor(props) {
     super(props);
@@ -29,23 +31,102 @@ class TrackerMarker extends React.Component<Props> {
   moveMarker = tracker => () => {
     const history = tracker.histories || [];
     const startPoint = history[history.length - 1];
-    const DELTA_LAT = (startPoint.lat - tracker.lat) / this.steps;
-    const DELTA_LNG = (startPoint.lng - tracker.lng) / this.steps;
-    this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
-    this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
-    const latlng = L.latLng(this.currentLat, this.currentLng);
+    if (startPoint) {
+      const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
+      const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
+      this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
+      this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
+      const latlng = L.latLng(this.currentLat, this.currentLng);
 
-    if (window.trackerMarkers[tracker.device_id]) {
-      if (this.counter < this.steps) {
-        this.counter += 1;
-        const options = !window.mapFullWidth ? LEAFLET_PADDING_OPTIONS : {};
-        window.mapEvents.setFitBounds([latlng], options);
-        window.trackerMarkers[tracker.device_id].setLatLng(latlng);
-        requestAnimationFrame(this.moveMarker(tracker));
-      } else {
-        this.counter = 0;
+      if (window.trackerMarkers[tracker.device_id]) {
+        if (this.counter < this.steps) {
+          this.counter += 1;
+          window.trackerMarkers[tracker.device_id].setLatLng(latlng);
+          if (this.trackerRoute) {
+            const latlngs = this.trackerRoute.getLatLngs();
+            latlngs.push(latlng);
+            this.trackerRoute.setLatLngs(latlngs);
+          } else {
+            this.trackerRoute = L.polyline([startPoint, latlng], {
+              weight: 3,
+              color: '#168449',
+            });
+            this.trackerRoute.addTo(this.props.map);
+          }
+          const options = !window.mapFullWidth ? LEAFLET_PADDING_OPTIONS : {};
+          window.mapEvents.setFitBounds([latlng], options);
+          requestAnimationFrame(this.moveMarker(tracker));
+        } else {
+          this.counter = 0;
+        }
       }
     }
+  };
+
+  updateBeepMarker = (props: Props) => {
+    const { tracker, selectedTrackerId, isBeep, showTrackerName } = props;
+    const marker = window.trackerMarkers[tracker.device_id];
+    const element = marker ? marker.getElement() : undefined;
+    const isSelected =
+      tracker.device_id.toString() === selectedTrackerId?.toString();
+    const elm2 = document.createElement('div');
+    elm2.className = `custom-div-icon${isBeep && isSelected ? '-custom' : ''}`;
+    elm2.innerHTML = `
+      <div class='icon-red${isBeep && isSelected ? '-active' : ''}'>
+        <span class='inner'></span>
+        <div class='marker-pin' style='background-image:url(${
+          tracker.status === 'active'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
+        })'>
+          ${
+            tracker.icon_url
+              ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
+          }
+        </div>
+      ${
+        showTrackerName
+          ? this.trackerName(tracker.device_name, tracker.status)
+          : ''
+      }
+      </div>`;
+    const icon = new L.DivIcon({ html: elm2 });
+    marker.setIcon(icon);
+    if (element) {
+      element.style.zIndex = isSelected ? 2 : 1;
+    }
+  };
+
+  updateAlertMarker = (props: Props) => {
+    const { tracker, isAlertSos, alertSosTrackerId, showTrackerName } = props;
+    const marker = window.trackerMarkers[tracker.device_id];
+    const isSelected =
+      tracker.device_id.toString() === alertSosTrackerId?.toString();
+    const elm2 = document.createElement('div');
+    elm2.className = 'custom-div-icon-sos';
+    elm2.innerHTML = `
+      <div class='icon-red${isAlertSos && isSelected ? '-sos' : ''}'>
+        <span class='inner'></span>
+        <div class='marker-pin' style='background-image:url(${
+          tracker.status === 'active'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
+        })'>
+          ${
+            tracker.icon_url
+              ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
+          }
+          ${
+            showTrackerName
+              ? this.trackerName(tracker.device_name, tracker.status)
+              : ''
+          }
+        </div>
+      </div>`;
+    const icon = new L.DivIcon({ html: elm2 });
+    marker.setIcon(icon);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -55,13 +136,14 @@ class TrackerMarker extends React.Component<Props> {
       tracker: nextTracker,
       selectedTrackerId: nextSelectedTrackerId,
       isAlertSos,
+      isTracking,
+      map,
     } = nextProps;
     const {
       isBeep: currentIsBeep,
       tracker,
       selectedTrackerId,
       showTrackerName: thisShowTrackerName,
-      alertSosTrackerId,
       isAlertSos: currentIsAlertSos,
     } = this.props;
     const marker = window.trackerMarkers[tracker.device_id];
@@ -72,83 +154,38 @@ class TrackerMarker extends React.Component<Props> {
         tracker.device_id === nextSelectedTrackerId ? 2 : 1;
     }
 
-    if (
-      (nextTracker.histories || []).length !== (tracker.histories || []).length
-    ) {
-      this.moveMarker(nextTracker)();
-    }
-
-    if (
-      (isBeep !== currentIsBeep || showTrackerName !== thisShowTrackerName) &&
-      marker &&
-      tracker
-    ) {
-      const isSelected =
-        tracker.device_id.toString() === selectedTrackerId?.toString();
-      const elm2 = document.createElement('div');
-      elm2.className = `custom-div-icon${
-        isBeep && isSelected ? '-custom' : ''
-      }`;
-      elm2.innerHTML = `
-        <div class='icon-red${isBeep && isSelected ? '-active' : ''}'>
-          <span class='inner'></span>
-          <div class='marker-pin' style='background-image:url(${
-            tracker.status === 'active'
-              ? '/images/icon-marker.svg'
-              : '/images/red-marker.svg'
-          })'
-          >
-            ${
-              tracker.icon_url
-                ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
-                : `<img src='/images/image-device.png'
-                } class='image-device'></img>`
-            }
-          </div>
-         ${
-           showTrackerName
-             ? this.trackerName(tracker.device_name, tracker.status)
-             : ''
-         }
-        </div>`;
-      const icon = new L.DivIcon({ html: elm2 });
-      marker.setIcon(icon);
-      if (element) {
-        element.style.zIndex = isSelected ? 2 : 1;
+    // update marker at the tracking screen
+    if (isTracking) {
+      if (
+        nextTracker.device_id === tracker.device_id &&
+        (nextTracker.histories || []).length !==
+          (tracker.histories || []).length
+      ) {
+        this.moveMarker(nextTracker)();
+      }
+      if (nextTracker.device_id !== tracker.device_id) {
+        if (this.trackerRoute) {
+          map.removeLayer(this.trackerRoute);
+          this.trackerRoute = null;
+        }
+        if (window.trackerMarkers[tracker.device_id]) {
+          map.removeLayer(window.trackerMarkers[tracker.device_id]);
+          delete window.trackerMarkers[tracker.device_id];
+        }
       }
     }
-    // console.log('currentIsAlertSos', currentIsAlertSos);
 
-    if (isAlertSos !== currentIsAlertSos && tracker && marker) {
-      const isSelected =
-        tracker.device_id.toString() === alertSosTrackerId?.toString();
+    // update marker
+    if (tracker && marker) {
+      // update beep
+      if (isBeep !== currentIsBeep || showTrackerName !== thisShowTrackerName) {
+        this.updateBeepMarker(nextProps);
+      }
 
-      const elm2 = document.createElement('div');
-      elm2.className = 'custom-div-icon-sos';
-      elm2.innerHTML = `
-        <div class='icon-red${isAlertSos && isSelected ? '-sos' : ''}'>
-          <span class='inner'></span>
-          <div class='marker-pin' style='background-image:url(${
-            tracker.status === 'active'
-              ? '/images/icon-marker.svg'
-              : '/images/red-marker.svg'
-          })'
-          >
-            ${
-              tracker.icon_url
-                ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
-                : `<img src='/images/image-device.png'
-                } class='image-device'></img>`
-            }
-            ${
-              showTrackerName
-                ? this.trackerName(tracker.device_name, tracker.status)
-                : ''
-            }
-          </div>
-        </div>`;
-      const icon = new L.DivIcon({ html: elm2 });
-      marker.setIcon(icon);
+      // update alert
+      if (isAlertSos !== currentIsAlertSos) {
+        this.updateAlertMarker(nextProps);
+      }
     }
   }
 
@@ -182,8 +219,8 @@ class TrackerMarker extends React.Component<Props> {
     onClickMarker && onClickMarker(device_id);
   };
 
-  trackerName = (name: string, status: string) => {
-    const nameWidth = name.length * 9;
+  trackerName = (name: string | number, status: string) => {
+    const nameWidth = name.toString().length * 9;
     return `<div class=${
       status === 'active' ? 'title-device' : 'red-title-device'
     } style='width:${nameWidth}px; left:-${nameWidth / 2 - 4}px'>${name}</div>`;
@@ -206,15 +243,17 @@ class TrackerMarker extends React.Component<Props> {
             status === 'active'
               ? '/images/icon-marker.svg'
               : '/images/red-marker.svg'
-          })'
-          >
+          })'>
             ${
               icon_url
                 ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-                : `<img src='/images/image-device.png'
-                } class='image-device'></img>`
+                : `<img src='/images/image-device.png' class='image-device'></img>`
             }
-          ${showTrackerName ? this.trackerName(device_name, status) : ''}
+          ${
+            showTrackerName
+              ? this.trackerName(device_name || device_id, status)
+              : ''
+          }
         </div>`;
 
       const icon = new L.DivIcon({ html: elm });
