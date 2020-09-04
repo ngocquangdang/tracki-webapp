@@ -194,6 +194,7 @@ const Warning = styled.div`
 `;
 
 const Renew = styled.div`
+  display: flex;
   align-items: center;
   color: white;
   background: #a41b0d;

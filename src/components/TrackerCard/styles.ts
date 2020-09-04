@@ -53,6 +53,8 @@ const Renew = styled.div`
   font-weight: 900;
   margin-left: 7px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
 const Time = styled.div`
