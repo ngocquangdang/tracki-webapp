@@ -10,6 +10,7 @@ interface Props {
   tracker: ITracker;
   isBeep: boolean;
   isAlertSos?: boolean;
+  isMobile?: boolean;
   isTracking?: boolean;
   showTrackerName: boolean;
   selectedTrackerId?: number | null;
@@ -55,7 +56,10 @@ class TrackerMarker extends React.Component<Props> {
             });
             this.trackerRoute.addTo(this.props.map);
           }
-          const options = !window.mapFullWidth ? LEAFLET_PADDING_OPTIONS : {};
+          const options =
+            !this.props.isMobile && !window.mapFullWidth
+              ? LEAFLET_PADDING_OPTIONS
+              : {};
           window.mapEvents.setFitBounds([latlng], options);
           requestAnimationFrame(this.moveMarker(tracker));
         } else {
