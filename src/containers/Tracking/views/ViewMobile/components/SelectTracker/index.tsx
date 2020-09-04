@@ -99,6 +99,7 @@ function SelectTracker(props: Props) {
                   isChecked={selectedTrackerId.toString() === id}
                   tracker={trackers[id]}
                   isTracking={true}
+                  isMobile={true}
                   onClickTracker={onSelectTracker}
                 />
               </div>
