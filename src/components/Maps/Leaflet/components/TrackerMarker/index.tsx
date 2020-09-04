@@ -14,7 +14,7 @@ interface Props {
   isTracking?: boolean;
   showTrackerName: boolean;
   selectedTrackerId?: number | null;
-  alertSosTrackerId?: number | null;
+  alertSosTrackerId?: number[];
   onClickMarker(id: string | number): void;
 }
 
@@ -108,33 +108,37 @@ class TrackerMarker extends React.Component<Props> {
   };
 
   updateAlertMarker = (props: Props) => {
-    const { tracker, isAlertSos, alertSosTrackerId, showTrackerName } = props;
+    const { tracker, alertSosTrackerId, isAlertSos, showTrackerName } = props;
+    const isSelectedTrackerSos = Boolean(
+      alertSosTrackerId?.find(trackerSos => {
+        return trackerSos === tracker.device_id;
+      })
+    );
+
     const marker = window.trackerMarkers[tracker.device_id];
-    const isSelected =
-      tracker.device_id.toString() === alertSosTrackerId?.toString();
     const elm2 = document.createElement('div');
     elm2.className = 'custom-div-icon-sos';
     elm2.innerHTML = `
-      <div class='icon-red${isAlertSos && isSelected ? '-sos' : ''}'>
+      <div class='icon-red${isAlertSos && isSelectedTrackerSos ? '-sos' : ''}'>
         <span class='inner'></span>
         <div class='marker-pin' style='background-image:url(${
           tracker.status === 'active'
             ? '/images/icon-marker.svg'
             : '/images/red-marker.svg'
         })'>
-          ${
-            tracker.icon_url
-              ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
-              : `<img src='/images/image-device.png' class='image-device'></img>`
-          }
-          ${
-            showTrackerName
-              ? this.trackerName(
-                  tracker.device_name || tracker.device_id,
-                  tracker.status
-                )
-              : ''
-          }
+        ${
+          tracker.icon_url
+            ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
+            : `<img src='/images/image-device.png' class='image-device'></img>`
+        }
+        ${
+          showTrackerName
+            ? this.trackerName(
+                tracker.device_name || tracker.device_id,
+                tracker.status
+              )
+            : ''
+        }
         </div>
       </div>`;
     const icon = new L.DivIcon({ html: elm2 });
@@ -209,7 +213,7 @@ class TrackerMarker extends React.Component<Props> {
       }
 
       // update alert
-      if (isAlertSos !== currentIsAlertSos) {
+      if (isAlertSos !== currentIsAlertSos || isAlertSos) {
         this.updateAlertMarker(nextProps);
       }
     }

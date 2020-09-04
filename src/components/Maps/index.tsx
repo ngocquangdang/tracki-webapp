@@ -44,8 +44,8 @@ interface Props {
   pointTrackingIndex: number;
   isBeep: boolean;
   isAlertSos: boolean;
+  alertSosTrackerId: number[];
   isMobile?: boolean;
-  alertSosTrackerId: number | null;
   fullWidth: boolean;
   changeMapAction(action: string): void;
   changePointTracking(pointIndex: number): void;
