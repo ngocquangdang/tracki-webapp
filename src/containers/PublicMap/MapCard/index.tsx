@@ -83,7 +83,6 @@ class MapCard extends React.Component<IProps, IState> {
       trackers[0]?.geoLocation?.longitude &&
       !this.isFirstFitBounce
     ) {
-      console.log('xxxx');
       this.map.panTo([
         trackers[0]?.geoLocation?.latitude,
         trackers[0]?.geoLocation?.longitude,

@@ -75,8 +75,6 @@ function* fetchTrackersSaga(action) {
       ...trackerData
     } = tracker;
 
-    console.log('trackerData >++++========', trackerData);
-
     yield put(
       updateContactListSucceedAction({
         contacts,

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Fade from '@material-ui/core/Fade';
-import moment from 'moment';
 import Map from '@Components/Maps';
 import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
@@ -19,6 +18,7 @@ import {
   ContentAlert,
   ButtonClear,
   IconSos,
+  Content,
 } from './styles';
 
 interface Props {
@@ -54,6 +54,33 @@ export default function ViewHomeMobile(props: Props) {
     onCloseView();
   };
 
+  const msToTime = function (duration: number) {
+    let parseSeconds = parseInt((duration % 60).toString(), 10);
+    let parseMinutes = parseInt(((duration / 60) % 60).toString(), 10);
+    let parseHours = parseInt(((duration / (60 * 60)) % 24).toString(), 10);
+
+    let hour = parseHours < 10 ? `0${parseHours}` : parseHours;
+    let minute = parseMinutes < 10 ? `0${parseMinutes}` : parseMinutes;
+    let second = parseSeconds < 10 ? `0${parseSeconds}` : parseSeconds;
+    return `${hour}:${minute}:${second}`;
+  };
+
+  const sosTimer = useCallback((seconds: number, device) => {
+    const smsTimer = msToTime(seconds);
+    const elm = document.getElementById('time');
+    console.log('smsTimer', smsTimer);
+    if (elm) {
+      elm.innerHTML = smsTimer;
+    }
+    const timeOut = setTimeout(() => {
+      seconds++;
+      sosTimer(seconds, device);
+    }, 1000);
+    if (!device.read) {
+      return () => clearTimeout(timeOut);
+    }
+  }, []);
+
   useEffect(() => {
     if (profile && profile.id && trackerIds && trackerIds.length > 0) {
       getSOSalertTracker({
@@ -77,6 +104,17 @@ export default function ViewHomeMobile(props: Props) {
       setAlertSos(true);
     }
   }, [alertsIds, alerts]);
+
+  useEffect(() => {
+    if (
+      alertsIds &&
+      alertsIds.length > 0 &&
+      alerts[alertsIds[0]]?.alarm_type === 'SOS' &&
+      alerts[alertsIds[0]]?.read === false
+    ) {
+      sosTimer(alerts[alertsIds[0]].age, alerts[alertsIds[0]]);
+    }
+  }, [alertsIds, alerts, sosTimer]);
 
   const trackerAlerts = trackerIds?.filter(
     item => props.trackers[item].alerts?.length > 0
@@ -104,9 +142,10 @@ export default function ViewHomeMobile(props: Props) {
           <ContainerAlert>
             <IconSos src="/images/ic-alert-SOS.svg" />
             <ContentAlert>
-              {`${moment().format('hh:mm:ss')} ${
-                trackers[item.device_id]?.device_name
-              } SOS button pressed`}{' '}
+              <div id="time"></div>
+              <Content>
+                {` ${trackers[item]?.device_name} SOS button pressed`}{' '}
+              </Content>
             </ContentAlert>
             <ButtonClear onClick={onClearSosAlert(item)}>Clear</ButtonClear>
           </ContainerAlert>
@@ -120,7 +159,13 @@ export default function ViewHomeMobile(props: Props) {
   return (
     <Container>
       <MapView>
-        <Map fullWidth={true} mapType="leaflet" {...props} />
+        <Map
+          fullWidth={true}
+          mapType="leaflet"
+          isAlertSos={isAlertSos}
+          alertSosTrackerId={trackerAlertSos}
+          {...props}
+        />
         {isAlertSos ? renderDetailAlertSos() : null}
         {props.selectedTrackerId && (
           <React.Fragment>

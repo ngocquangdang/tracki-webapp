@@ -30,6 +30,7 @@ const ContainerAlert = styled.div`
 `;
 const ContentAlert = styled.div`
   padding-right: 15px;
+  display: flex;
 `;
 const ButtonClear = styled.div`
   color: #168449;
@@ -43,7 +44,9 @@ const IconSos = styled.img`
   width: 31px;
   height: 30px;
 `;
-
+const Content = styled.div`
+  padding-left: 10px;
+`;
 export {
   Container,
   MapView,
@@ -51,4 +54,5 @@ export {
   ContentAlert,
   ButtonClear,
   IconSos,
+  Content,
 };

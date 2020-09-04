@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { isEmpty } from 'lodash';
-import moment from 'moment';
 import Fade from '@material-ui/core/Fade';
 import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
@@ -16,6 +15,7 @@ import {
   ContentAlert,
   ButtonClear,
   IconSos,
+  Content,
 } from './styles';
 
 export default function TrackersContainer(props: any) {
@@ -51,6 +51,32 @@ export default function TrackersContainer(props: any) {
     setOpenSidebar(!isOpenSidebar);
   };
 
+  const msToTime = function (duration: number) {
+    let parseSeconds = parseInt((duration % 60).toString(), 10);
+    let parseMinutes = parseInt(((duration / 60) % 60).toString(), 10);
+    let parseHours = parseInt(((duration / (60 * 60)) % 24).toString(), 10);
+
+    let hour = parseHours < 10 ? `0${parseHours}` : parseHours;
+    let minute = parseMinutes < 10 ? `0${parseMinutes}` : parseMinutes;
+    let second = parseSeconds < 10 ? `0${parseSeconds}` : parseSeconds;
+    return `${hour}:${minute}:${second}`;
+  };
+
+  const sosTimer = useCallback((seconds: number, device) => {
+    const smsTimer = msToTime(seconds);
+    const elm = document.getElementById('time');
+    if (elm) {
+      elm.innerHTML = smsTimer;
+    }
+    const timeOut = setTimeout(() => {
+      seconds++;
+      sosTimer(seconds, device);
+    }, 1000);
+    if (!device.read) {
+      return () => clearTimeout(timeOut);
+    }
+  }, []);
+
   useEffect(() => {
     window.mapFullWidth = false;
   }, []);
@@ -79,6 +105,17 @@ export default function TrackersContainer(props: any) {
     }
   }, [alertsIds, alerts]);
 
+  useEffect(() => {
+    if (
+      alertsIds &&
+      alertsIds.length > 0 &&
+      alerts[alertsIds[0]]?.alarm_type === 'SOS' &&
+      alerts[alertsIds[0]]?.read === false
+    ) {
+      sosTimer(alerts[alertsIds[0]].age, alerts[alertsIds[0]]);
+    }
+  }, [alertsIds, alerts, sosTimer]);
+
   const openSideBar = () => setOpenSidebar(true);
 
   const handleClickBack = () => {
@@ -105,38 +142,6 @@ export default function TrackersContainer(props: any) {
 
   const renderDetailAlertSos = () => {
     const { trackers, readSOSalert } = props;
-
-    // function showSOSTimer(device) {
-    //   const msToTime = function (duration: number) {
-    //     var seconds =
-    //       parseInt((duration % 60).toString(), 10) < 10
-    //         ? `0${seconds}`
-    //         : `${seconds}`;
-    //     var minutes =
-    //       parseInt(((duration / 60) % 60).toString(), 10) < 10
-    //         ? `0${minutes}`
-    //         : minutes;
-    //     var hours =
-    //       parseInt(((duration / (60 * 60)) % 24).toString(), 10) < 10
-    //         ? `0${hours}`
-    //         : hours;
-    //   };
-
-    //   var sosTimer = function (seconds, device) {
-    //     device.sosTimer = msToTime(seconds);
-    //     var procedure = function () {
-    //       setTimeout(function () {
-    //         seconds++;
-    //         sosTimer(seconds, device);
-    //       }, 1000);
-    //     };
-    //     if (!device.read) {
-    //       procedure();
-    //     }
-    //   };
-    //   sosTimer(device.age, device);
-    // }
-
     const onClearSosAlert = item => () => {
       readSOSalert({
         alertId: props.trackers[item]?.alerts[0],
@@ -145,6 +150,7 @@ export default function TrackersContainer(props: any) {
       });
       setAlertSos(false);
     };
+
     return (
       trackerAlertSos &&
       trackerAlertSos?.map(item => (
@@ -152,9 +158,10 @@ export default function TrackersContainer(props: any) {
           <ContainerAlert>
             <IconSos src="/images/ic-alert-SOS.svg" />
             <ContentAlert>
-              {`${moment().format('hh:mm:ss')} ${
-                trackers[item.device_id]?.device_name
-              } SOS button pressed`}{' '}
+              <div id="time"></div>
+              <Content>
+                {` ${trackers[item]?.device_name} SOS button pressed`}{' '}
+              </Content>
             </ContentAlert>
             <ButtonClear onClick={onClearSosAlert(item)}>Clear</ButtonClear>
           </ContainerAlert>
@@ -162,7 +169,6 @@ export default function TrackersContainer(props: any) {
       ))
     );
   };
-
   return (
     <Container>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>

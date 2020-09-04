@@ -118,12 +118,13 @@ class TrackerMarker extends React.Component<Props> {
       }
     }
 
-    if (isAlertSos !== currentIsAlertSos && tracker && marker) {
+    if ((isAlertSos !== currentIsAlertSos || isAlertSos) && tracker && marker) {
       const isSelectedTrackerSos = Boolean(
         alertSosTrackerId?.find(trackerSos => {
           return trackerSos === tracker.device_id;
         })
       );
+
       const elm2 = document.createElement('div');
       elm2.className = 'custom-div-icon-sos';
       elm2.innerHTML = `
