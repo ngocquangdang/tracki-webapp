@@ -147,6 +147,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     const {
       trackers,
       isBeep,
+      isMobile,
       isAlertSos,
       alertSosTrackerId,
       selectedTrackerId,
@@ -169,6 +170,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           return (
             <TrackerMarker
               map={this.map}
+              isMobile={isMobile}
               tracker={tracker}
               onClickMarker={this.onClickTracker}
               isBeep={isBeep}
