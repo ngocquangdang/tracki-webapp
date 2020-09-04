@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core';
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,13 @@ const IconSos = styled.img`
 const Content = styled.div`
   padding-left: 10px;
 `;
+const useStyles = makeStyles(theme => ({
+  backBtn: {
+    color: '#168449',
+    padding: 0,
+    height: 'auto',
+  },
+}));
 export {
   Container,
   MapView,
@@ -55,4 +63,5 @@ export {
   ButtonClear,
   IconSos,
   Content,
+  useStyles,
 };

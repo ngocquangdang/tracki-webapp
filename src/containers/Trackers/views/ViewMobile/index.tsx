@@ -4,7 +4,8 @@ import Map from '@Components/Maps';
 import TopToolBar from '@Components/Maps/components/MapToolBarMobile/TopToolBar';
 import BottomToolBar from '@Components/Maps/components/MapToolBarMobile/BottomToolBar';
 import DetailTrackerCard from '@Components/DetailTrackerCard';
-
+import { msToTime } from '@Utils/helper';
+import { Button } from '@Components/buttons';
 import SettingTracker from '@Containers/SingleTracker/components/SettingTracker';
 import HistoryTracker from '@Containers/SingleTracker/components/HistoryTracker';
 import ShareLocation from '@Containers/SingleTracker/components/ShareLocation';
@@ -16,7 +17,7 @@ import {
   MapView,
   ContainerAlert,
   ContentAlert,
-  ButtonClear,
+  useStyles,
   IconSos,
   Content,
 } from './styles';
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export default function ViewHomeMobile(props: Props) {
+  const classes = useStyles();
   const [currentView, setCurrentView] = useState('');
   const [isAlertSos, setAlertSos] = useState(false);
   const {
@@ -54,21 +56,9 @@ export default function ViewHomeMobile(props: Props) {
     onCloseView();
   };
 
-  const msToTime = function (duration: number) {
-    let parseSeconds = parseInt((duration % 60).toString(), 10);
-    let parseMinutes = parseInt(((duration / 60) % 60).toString(), 10);
-    let parseHours = parseInt(((duration / (60 * 60)) % 24).toString(), 10);
-
-    let hour = parseHours < 10 ? `0${parseHours}` : parseHours;
-    let minute = parseMinutes < 10 ? `0${parseMinutes}` : parseMinutes;
-    let second = parseSeconds < 10 ? `0${parseSeconds}` : parseSeconds;
-    return `${hour}:${minute}:${second}`;
-  };
-
   const sosTimer = useCallback((seconds: number, device) => {
     const smsTimer = msToTime(seconds);
     const elm = document.getElementById('time');
-    console.log('smsTimer', smsTimer);
     if (elm) {
       elm.innerHTML = smsTimer;
     }
@@ -102,16 +92,6 @@ export default function ViewHomeMobile(props: Props) {
       alerts[alertsIds[0]]?.read === false
     ) {
       setAlertSos(true);
-    }
-  }, [alertsIds, alerts]);
-
-  useEffect(() => {
-    if (
-      alertsIds &&
-      alertsIds.length > 0 &&
-      alerts[alertsIds[0]]?.alarm_type === 'SOS' &&
-      alerts[alertsIds[0]]?.read === false
-    ) {
       sosTimer(alerts[alertsIds[0]].age, alerts[alertsIds[0]]);
     }
   }, [alertsIds, alerts, sosTimer]);
@@ -147,7 +127,12 @@ export default function ViewHomeMobile(props: Props) {
                 {` ${trackers[item]?.device_name} SOS button pressed`}{' '}
               </Content>
             </ContentAlert>
-            <ButtonClear onClick={onClearSosAlert(item)}>Clear</ButtonClear>
+            <Button
+              variant="text"
+              classes={classes.backBtn}
+              text="Clear"
+              onClick={onClearSosAlert(item)}
+            />
           </ContainerAlert>
         </Fade>
       ))

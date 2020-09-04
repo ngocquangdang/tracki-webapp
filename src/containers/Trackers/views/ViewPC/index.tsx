@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { isEmpty } from 'lodash';
 import Fade from '@material-ui/core/Fade';
+import { msToTime } from '@Utils/helper';
+import { Button } from '@Components/buttons';
 import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
 import SingleTracker from '@Containers/SingleTracker';
@@ -13,7 +15,7 @@ import {
   MapView,
   ContainerAlert,
   ContentAlert,
-  ButtonClear,
+  useStyles,
   IconSos,
   Content,
 } from './styles';
@@ -28,6 +30,7 @@ export default function TrackersContainer(props: any) {
     trackerIds,
     ...rest
   } = props;
+  const classes = useStyles();
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const [isAlertSos, setAlertSos] = useState(false);
   const toggleSideBar = () => {
@@ -49,17 +52,6 @@ export default function TrackersContainer(props: any) {
       }
     }
     setOpenSidebar(!isOpenSidebar);
-  };
-
-  const msToTime = function (duration: number) {
-    let parseSeconds = parseInt((duration % 60).toString(), 10);
-    let parseMinutes = parseInt(((duration / 60) % 60).toString(), 10);
-    let parseHours = parseInt(((duration / (60 * 60)) % 24).toString(), 10);
-
-    let hour = parseHours < 10 ? `0${parseHours}` : parseHours;
-    let minute = parseMinutes < 10 ? `0${parseMinutes}` : parseMinutes;
-    let second = parseSeconds < 10 ? `0${parseSeconds}` : parseSeconds;
-    return `${hour}:${minute}:${second}`;
   };
 
   const sosTimer = useCallback((seconds: number, device) => {
@@ -98,20 +90,9 @@ export default function TrackersContainer(props: any) {
     if (
       alertsIds &&
       alertsIds.length > 0 &&
-      alerts[alertsIds[0]]?.alarm_type === 'SOS' &&
       alerts[alertsIds[0]]?.read === false
     ) {
       setAlertSos(true);
-    }
-  }, [alertsIds, alerts]);
-
-  useEffect(() => {
-    if (
-      alertsIds &&
-      alertsIds.length > 0 &&
-      alerts[alertsIds[0]]?.alarm_type === 'SOS' &&
-      alerts[alertsIds[0]]?.read === false
-    ) {
       sosTimer(alerts[alertsIds[0]].age, alerts[alertsIds[0]]);
     }
   }, [alertsIds, alerts, sosTimer]);
@@ -163,7 +144,12 @@ export default function TrackersContainer(props: any) {
                 {` ${trackers[item]?.device_name} SOS button pressed`}{' '}
               </Content>
             </ContentAlert>
-            <ButtonClear onClick={onClearSosAlert(item)}>Clear</ButtonClear>
+            <Button
+              variant="text"
+              classes={classes.backBtn}
+              text="Clear"
+              onClick={onClearSosAlert(item)}
+            />
           </ContainerAlert>
         </Fade>
       ))

@@ -125,19 +125,20 @@ class TrackerMarker extends React.Component<Props> {
           tracker.status === 'active'
             ? '/images/icon-marker.svg'
             : '/images/red-marker.svg'
-        })'
-        >
-          ${
-            tracker.icon_url
-              ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
-              : `<img src='/images/image-device.png'
-              } class='image-device'></img>`
-          }
-          ${
-            showTrackerName
-              ? this.trackerName(tracker.device_name, tracker.status)
-              : ''
-          }
+        })'>
+        ${
+          tracker.icon_url
+            ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
+            : `<img src='/images/image-device.png' class='image-device'></img>`
+        }
+        ${
+          showTrackerName
+            ? this.trackerName(
+                tracker.device_name || tracker.device_id,
+                tracker.status
+              )
+            : ''
+        }
         </div>
       </div>`;
     const icon = new L.DivIcon({ html: elm2 });
