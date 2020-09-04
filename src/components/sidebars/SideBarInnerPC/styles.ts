@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core';
 const SideBarContainer = styled.div`
   position: absolute;
   height: 100%;
+  width: ${(props: { isOpen: boolean }) => (props.isOpen ? 'auto' : '0')};
   z-index: 401;
 `;
 
