@@ -36,7 +36,7 @@ function RenewTrackerContainer(props: any) {
     const device_id = path_name.split('/')[2];
     updateStore({ ...formData, device_id });
     getDevicePlanAction(device_id);
-  }, [getDevicePlanAction, updateStore]);
+  }, [getDevicePlanAction, updateStore, formData]);
 
   return <RenewTrackerForm {...props} />;
 }

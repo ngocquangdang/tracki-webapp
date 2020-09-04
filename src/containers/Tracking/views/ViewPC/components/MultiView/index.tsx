@@ -28,7 +28,7 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             mapId="mapPosition"
-            mapLabel={props.t('tracker:map_toolbarPosition')}
+            mapLabel={props.t('tracker:map_position')}
             selectedTrackerId={
               isMultiScreen
                 ? trackingIds[0] || selectedTrackerId

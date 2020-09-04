@@ -48,7 +48,12 @@ function RenewTrackerContainer(props: any) {
     updateSubscriptionStore({ ...formData, device_id });
     getDeviceSMSCounterRequest(device_id);
     getCountryCodeRequest();
-  }, [getDeviceSMSCounterRequest, getCountryCodeRequest]);
+  }, [
+    getDeviceSMSCounterRequest,
+    getCountryCodeRequest,
+    formData,
+    updateSubscriptionStore,
+  ]);
 
   return <SubscriptionPage {...props} />;
 }

@@ -14,6 +14,7 @@ declare namespace IMap {
     alertSosTrackerId: number[];
     isTracking?: boolean;
     showGeofences: boolean;
+    isMobile?: boolean;
     showTrackerName: boolean;
     initMapCallback(): void;
     openSideBar(): void;

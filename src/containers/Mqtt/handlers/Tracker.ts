@@ -3,17 +3,16 @@ import { MQTT_TRACKER_UPDATE } from '../constants';
 class TrackerHandler {
   topicFormat: any;
   constructor() {
-    this.topicFormat = /^tracker\/.*\/telemetry$/;
+    this.topicFormat = /^\/tracker\/.*\/telemetry$/;
   }
 
   messageHandler = payload => {
     const {
-      parsed_message: { measurements, device_id },
+      parsed_message: { measurements },
     } = JSON.parse(payload.toString());
     const { isMoving, latitude, longitude, ...rest } = measurements[0];
     const tracker = {
       ...rest,
-      device_id,
       lat: +latitude.toFixed(7),
       lng: +longitude.toFixed(7),
       moving: isMoving,

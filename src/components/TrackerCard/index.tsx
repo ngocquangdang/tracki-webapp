@@ -44,6 +44,7 @@ export default function TrackerCard(props: Props) {
     isMobile = false,
     onClickTracker,
     isChecked,
+    isTracking,
     onClickSetting,
     t,
   } = props;
@@ -123,14 +124,13 @@ export default function TrackerCard(props: Props) {
         </ItemInfo>
       </Item>
       <CardDetail>
-        {isChecked ? (
-          <DoneIcon className={classes.iconDone} />
-        ) : isMobile ? (
+        {isChecked && <DoneIcon className={classes.iconDone} />}
+        {!isTracking && isMobile && (
           <SettingsIcon
             className={classes.iconSetting}
             onClick={handleClickSetting}
           />
-        ) : null}
+        )}
       </CardDetail>
     </ListItemStyle>
   );

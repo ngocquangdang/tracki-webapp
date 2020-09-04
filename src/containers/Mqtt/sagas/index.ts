@@ -30,7 +30,12 @@ function subscribe() {
           const action = mqttClientGetHandler.messageHandler(message);
           switch (action.type) {
             case types.MQTT_TRACKER_UPDATE:
-              emit(mqttUpdateTrackerAction(action.payload));
+              emit(
+                mqttUpdateTrackerAction({
+                  ...action.payload,
+                  device_id: +topic.split('/')[2],
+                })
+              );
               break;
             default:
               break;
@@ -83,7 +88,7 @@ function* subscribeTopic() {
       payload: { trackerIds },
     } = action;
     trackerIds.map(id => {
-      TrackiMQTTClient.subscribe(`tracker/${id}/telemetry`);
+      return TrackiMQTTClient.subscribe(`/tracker/${id}/telemetry`);
     });
   }
 }
@@ -95,7 +100,7 @@ function* unSubscribeTopic() {
       payload: { trackerIds },
     } = action;
     trackerIds.map(id => {
-      TrackiMQTTClient.unsubscribe(`tracker/${id}/telemetry`);
+      return TrackiMQTTClient.unsubscribe(`/tracker/${id}/telemetry`);
     });
   }
 }

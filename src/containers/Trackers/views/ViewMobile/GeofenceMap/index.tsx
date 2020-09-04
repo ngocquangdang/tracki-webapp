@@ -139,13 +139,11 @@ class MapCard extends React.Component<IProps, IState> {
             status === 'active'
               ? '/images/icon-marker.svg'
               : '/images/red-marker.svg'
-          })'
-          >
+          })'>
             ${
               icon_url
                 ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-                : `<img src='/images/image-device.png'
-                } class='image-device'></img>`
+                : `<img src='/images/image-device.png' class='image-device'></img>`
             }
           </div>
         <div>${this.trackerName(device_name, status)} </div>`;
