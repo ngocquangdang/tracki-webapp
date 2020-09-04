@@ -65,7 +65,8 @@ export default function TrackerCard(props: Props) {
     onClickSetting(tracker.device_id);
   };
 
-  const onRenewTrackerPage = () => {
+  const onRenewTrackerPage = e => {
+    e.stopPropagation();
     Router.push(`/trackers/${tracker.device_id}/renew`);
   };
   return (
@@ -90,25 +91,24 @@ export default function TrackerCard(props: Props) {
             {tracker.device_name !== ''
               ? tracker.device_name
               : tracker.device_id}
-            <Renew
-              className={
-                tracker.status === 'active' ? classes.hidden : classes.show
-              }
-              onClick={onRenewTrackerPage}
-            >
-              RENEW
-              <TooltipStyle
-                title={
-                  'Device subscription cancelled or charges were declined.'
-                }
-                arrow
-                placement="left"
-              >
-                <div>
-                  <FaRegQuestionCircle className={`${classes.questionIcon}`} />
-                </div>
-              </TooltipStyle>
-            </Renew>
+            {tracker.status !== 'active' && (
+              <Renew onClick={onRenewTrackerPage}>
+                RENEW
+                <TooltipStyle
+                  title={
+                    'Device subscription cancelled or charges were declined.'
+                  }
+                  arrow
+                  placement="left"
+                >
+                  <div>
+                    <FaRegQuestionCircle
+                      className={`${classes.questionIcon}`}
+                    />
+                  </div>
+                </TooltipStyle>
+              </Renew>
+            )}
           </Name>
           <Time>
             <GoPrimitiveDot

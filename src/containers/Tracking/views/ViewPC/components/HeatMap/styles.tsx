@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     padding: '0 15px',
     '& > div:last-child': {
-      backgroundColor: 'unset',
+      // backgroundColor: 'unset',
       paddingRight: 0,
       borderBottom: '1px solid #ddd',
     },
@@ -32,9 +32,6 @@ const useStyles = makeStyles(theme => ({
 
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.04)',
-      '& div:last-child': {
-        backgroundColor: 'unset',
-      },
     },
   },
   selectedTracker: {

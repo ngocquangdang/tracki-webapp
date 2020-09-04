@@ -163,7 +163,7 @@ export default function Step1(props: Props) {
               <Notifi
                 className={errorMessage !== '' ? '' : classes.displayNone}
               >
-                {t('tracker:exception_device_notFound')}
+                Invalid Tracker Id or IMEI
               </Notifi>
               <Button
                 color="primary"
