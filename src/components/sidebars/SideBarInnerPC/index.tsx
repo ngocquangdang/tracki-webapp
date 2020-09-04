@@ -10,7 +10,7 @@ export default function SideBar(props: any) {
   const classes = useStyles();
 
   return (
-    <SideBarContainer>
+    <SideBarContainer isOpen={opened}>
       <Slide
         direction="right"
         in={opened}
