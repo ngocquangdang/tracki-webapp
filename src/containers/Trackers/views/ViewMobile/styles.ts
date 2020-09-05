@@ -5,7 +5,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
   width: 100%;
-  height: calc(100% - 101px);
+  height: calc(100% - 45px);
 `;
 
 const MapView = styled.div`

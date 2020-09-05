@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     position: 'relative',
-    height: '100%',
+    height: 'calc(100% - 56px)',
     width: '100%',
   },
   blurHeader: {
