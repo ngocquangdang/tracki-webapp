@@ -84,3 +84,11 @@ export const SHARE_LOCATION_OPTIONS = [
   { value: '604800', content: '7 Days' },
   { value: '-1', content: 'Unlimited' },
 ];
+
+export const EXTENDED_BATTERY = [
+  { value: '01_per_day_1435', content: 'Tracking once a day' },
+  { value: '02_per_day_715', content: 'Tracking twice a day' },
+  { value: '04_per_day_355', content: 'Tracking four times a day' },
+  { value: '24_per_day_55', content: 'Tracking once an hour' },
+  { value: 'custom', content: 'Custom/Advanced mode' },
+];

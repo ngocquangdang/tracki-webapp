@@ -89,7 +89,6 @@ function* activeLinkShareLocationSaga(action) {
       device_id,
       action.payload.duration
     );
-    console.log('function*activeLinkShareLocationSaga -> data', data);
     yield put(actions.generateLinkShareLocationSucceed(data[0]));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -178,6 +177,12 @@ function* extendsBatterySaga(action) {
     const { account_id } = yield select(makeSelectProfile());
     yield call(apiServices.updateSettings, account_id, settingId, setting);
     yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Update Settings Success.',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -191,7 +196,7 @@ function* extendsBatterySaga(action) {
       yield put(
         showSnackbar({
           snackType: 'error',
-          snackMessage: 'Time should not be less than 5 minutes',
+          snackMessage: 'Can not Update Settings.',
         })
       );
     }

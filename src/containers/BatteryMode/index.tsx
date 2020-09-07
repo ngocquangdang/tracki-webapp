@@ -18,6 +18,8 @@ import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
 import { Formik } from 'formik';
 import { InputAdornment } from '@material-ui/core';
 import { MdAvTimer } from 'react-icons/md';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
+import { EXTENDED_BATTERY } from '@Containers/SingleTracker/store/constants';
 
 interface Props {
   showModal: boolean;
@@ -26,6 +28,8 @@ interface Props {
   trackerSettings: any;
   tracker: any;
   extendsBatteryModeRequest(settingId, setting): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
+  isRequesting?: boolean;
 }
 
 type overridesNameToClassKey = {
@@ -36,13 +40,6 @@ declare module '@material-ui/core/styles/overrides' {
   export interface ComponentNameToClassKey extends overridesNameToClassKey {}
 }
 
-const EXTENDED_BATTERY = [
-  { value: '01_per_day_1435', content: 'Tracking once a day' },
-  { value: '02_per_day_715', content: 'Tracking twice a day' },
-  { value: '04_per_day_355', content: 'Tracking four times a day' },
-  { value: '24_per_day_55', content: 'Tracking once an hour' },
-  { value: 'custom', content: 'Custom/Advanced mode' },
-];
 export default function BatterySleepMode(props: Props) {
   const classes = useStyles();
 
@@ -53,8 +50,9 @@ export default function BatterySleepMode(props: Props) {
     trackerSettings,
     tracker,
     extendsBatteryModeRequest,
+    showSnackbar,
+    isRequesting,
   } = props;
-  // const [batteryMode, setBatteryMode] = useState(false);
   const [scheduledSleep, setScheduleSleep] = useState({
     awake: moment(),
     enable: false,
@@ -122,7 +120,7 @@ export default function BatterySleepMode(props: Props) {
         scheduled_sleep: {
           awake: select_mode ? 5 : newAwake,
           sleep: select_mode ? select_mode : newSleep,
-          start: newStart,
+          start: select_mode ? moment().unix() : newStart,
           enable: v.enable,
           repeat: true,
           send_gps: true,
@@ -130,7 +128,35 @@ export default function BatterySleepMode(props: Props) {
       },
     };
 
-    if (v.select_mode !== '') {
+    if (v.select_mode === 'custom') {
+      if (moment(v.start).unix() < moment().unix()) {
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: 'Starting time should not be less than 5 minutes.',
+        });
+      }
+
+      if (moment(v.sleep).unix() <= moment(v.start).unix()) {
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: 'Sleep time should not be less than 5 minutes.',
+        });
+      }
+
+      if (moment(v.awake).unix() <= moment(v.start).unix()) {
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: 'Awake time should not be less than 5 minutes.',
+        });
+      }
+      if (
+        moment(v.start).unix() > moment().unix() &&
+        moment(v.sleep).unix() > moment(v.start).unix() &&
+        moment(v.awake).unix() > moment(v.start).unix()
+      ) {
+        extendsBatteryModeRequest(trackerSettings.id, setting);
+      }
+    } else {
       extendsBatteryModeRequest(trackerSettings.id, setting);
     }
   };
@@ -253,6 +279,7 @@ export default function BatterySleepMode(props: Props) {
                       variant="outlined"
                       text={t('batterymode:save_changes')}
                       type="submit"
+                      isLoading={isRequesting}
                     />
                   </div>
                 )}

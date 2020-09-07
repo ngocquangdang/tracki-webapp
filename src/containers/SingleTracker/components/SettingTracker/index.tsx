@@ -84,6 +84,8 @@ import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selector
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
 import BatterySleepMode from '@Containers/BatteryMode';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 interface Props {
   handleClose(): void;
   t(key: string): string;
@@ -109,6 +111,7 @@ interface Props {
   smsCounter: SMSCounter;
   devcieSubscription: object;
   extendsBatteryModeRequest(settingId, setting): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 interface SMSCounter {
@@ -146,6 +149,7 @@ function SettingTracker(props: Props) {
     devcieSubscription,
     smsCounter,
     extendsBatteryModeRequest,
+    showSnackbar,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -640,6 +644,8 @@ function SettingTracker(props: Props) {
         trackerSettings={trackerSettings}
         tracker={tracker}
         extendsBatteryModeRequest={extendsBatteryModeRequest}
+        showSnackbar={showSnackbar}
+        isRequesting={isRequesting}
       />
       <SelectContact
         handleClose={handleShowSelectContact}
@@ -693,6 +699,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
   extendsBatteryModeRequest: (settingId, setting) =>
     dispatch(extendsBatteryModeRequestedAction(settingId, setting)),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);
