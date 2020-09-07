@@ -77,36 +77,38 @@ class MapCard extends React.Component<IProps, IState> {
   moveMarker = tracker => () => {
     const history = tracker.histories || [];
     const startPoint = history[history.length - 1];
-    if (startPoint) {
+
+    if (this.counter <= this.steps && startPoint) {
+      this.counter += 1;
       const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
       const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
       this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
       this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
-      const latlng = L.latLng(this.currentLat, this.currentLng);
+      const latlng = {
+        lat: +this.currentLat.toFixed(7),
+        lng: +this.currentLng.toFixed(7),
+      };
 
       if (this.marker) {
-        if (this.counter <= this.steps) {
-          this.counter += 1;
-          this.marker.setLatLng(latlng);
-          if (this.props.mapId !== 'mapPosition') {
-            if (this.route) {
-              const latlngs = this.route.getLatLngs();
-              latlngs.push(latlng);
-              this.route.setLatLngs(latlngs);
-            } else {
-              this.route = L.polyline([startPoint, latlng], {
-                weight: 3,
-                color: '#168449',
-              });
-              this.route.addTo(this.map);
-            }
+        this.marker.setLatLng(latlng);
+        if (this.props.mapId !== 'mapPosition') {
+          if (this.route) {
+            const latlngs = this.route.getLatLngs();
+            latlngs.push(latlng);
+            this.route.setLatLngs(latlngs);
+          } else {
+            this.route = L.polyline([startPoint, latlng], {
+              weight: 3,
+              color: '#168449',
+            });
+            this.route.addTo(this.map);
           }
-          this.map.fitBounds([latlng]);
-          requestAnimationFrame(this.moveMarker(tracker));
-        } else {
-          this.counter = 1;
         }
+        this.map.fitBounds([latlng]);
       }
+      requestAnimationFrame(this.moveMarker(tracker));
+    } else {
+      this.counter = 1;
     }
   };
 
