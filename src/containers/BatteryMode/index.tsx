@@ -65,25 +65,22 @@ export default function BatterySleepMode(props: Props) {
 
   useEffect(() => {
     if (trackerSettings) {
+      const { scheduled_sleep } = trackerSettings.preferences;
       let scheduledSleepMode = '';
 
-      let setAwake =
-        trackerSettings.preferences.scheduled_sleep.start +
-        trackerSettings.preferences.scheduled_sleep.awake * 60;
-      let setSleep =
-        trackerSettings.preferences.scheduled_sleep.start +
-        trackerSettings.preferences.scheduled_sleep.sleep * 60;
+      let setAwake = scheduled_sleep.start + scheduled_sleep.awake * 60;
+      let setSleep = scheduled_sleep.start + scheduled_sleep.sleep * 60;
 
-      if (trackerSettings.preferences.scheduled_sleep.awake === 5) {
+      if (scheduled_sleep.awake === 5) {
         scheduledSleepMode = 'custom';
 
-        if (trackerSettings.preferences.scheduled_sleep.sleep === 1435) {
+        if (scheduled_sleep.sleep === 1435) {
           scheduledSleepMode = '01_per_day_1435';
-        } else if (trackerSettings.preferences.scheduled_sleep.sleep === 715) {
+        } else if (scheduled_sleep.sleep === 715) {
           scheduledSleepMode = '02_per_day_715';
-        } else if (trackerSettings.preferences.scheduled_sleep.sleep === 355) {
+        } else if (scheduled_sleep.sleep === 355) {
           scheduledSleepMode = '04_per_day_355';
-        } else if (trackerSettings.preferences.scheduled_sleep.sleep === 55) {
+        } else if (scheduled_sleep.sleep === 55) {
           scheduledSleepMode = '24_per_day_55';
         }
       }
@@ -93,13 +90,11 @@ export default function BatterySleepMode(props: Props) {
           moment(setAwake * 1000) > moment()
             ? moment(setAwake * 1000)
             : moment(),
-        enable: trackerSettings.preferences.scheduled_sleep.enable || false,
-        repeat: trackerSettings.preferences.scheduled_sleep.repeat || true,
-        send_gps: trackerSettings.preferences.scheduled_sleep.send_gps || true,
+        enable: scheduled_sleep.enable || false,
+        repeat: scheduled_sleep.repeat || true,
+        send_gps: scheduled_sleep.send_gps || true,
         select_mode: scheduledSleepMode || '',
-        start:
-          moment(trackerSettings.preferences.scheduled_sleep.start * 1000) ||
-          moment(),
+        start: moment(scheduled_sleep.start * 1000) || moment(),
         sleep:
           moment(setSleep * 1000) > moment()
             ? moment(setSleep * 1000)
