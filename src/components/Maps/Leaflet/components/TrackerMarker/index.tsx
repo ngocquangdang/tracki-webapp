@@ -42,7 +42,7 @@ class TrackerMarker extends React.Component<Props> {
       const latlng = L.latLng(this.currentLat, this.currentLng);
 
       if (window.trackerMarkers[tracker.device_id]) {
-        if (this.counter < this.steps) {
+        if (this.counter <= this.steps) {
           this.counter += 1;
           window.trackerMarkers[tracker.device_id].setLatLng(latlng);
           if (this.trackerRoute) {
@@ -63,7 +63,7 @@ class TrackerMarker extends React.Component<Props> {
           window.mapEvents.setFitBounds([latlng], options);
           requestAnimationFrame(this.moveMarker(tracker));
         } else {
-          this.counter = 0;
+          this.counter = 1;
         }
       }
     }
