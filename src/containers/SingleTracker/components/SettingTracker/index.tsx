@@ -52,7 +52,10 @@ import {
   Warning,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
-import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
+import {
+  updateTrackerSettingsRequestedAction,
+  extendsBatteryModeRequestedAction,
+} from '@Containers/SingleTracker/store/actions';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
@@ -80,7 +83,7 @@ import {
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
-
+import BatterySleepMode from '@Containers/BatteryMode';
 interface Props {
   handleClose(): void;
   t(key: string): string;
@@ -105,6 +108,7 @@ interface Props {
   contactOfTracker: object;
   smsCounter: SMSCounter;
   devcieSubscription: object;
+  extendsBatteryModeRequest(settingId, setting): void;
 }
 
 interface SMSCounter {
@@ -116,6 +120,7 @@ function SettingTracker(props: Props) {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);
+  const [openBatteryMode, setOpenBatteryMode] = useState(false);
   const [isShowSelectContact, setShowSelectContat] = useState(false);
   const [eventType, setEventype] = useState('');
   const classes = useStyles();
@@ -140,6 +145,7 @@ function SettingTracker(props: Props) {
     profile,
     devcieSubscription,
     smsCounter,
+    extendsBatteryModeRequest,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -223,6 +229,13 @@ function SettingTracker(props: Props) {
     setOpenSubsription(false);
   };
 
+  const onCloseBatteryMode = () => {
+    setOpenBatteryMode(false);
+  };
+
+  const onOpenBatteryMode = () => {
+    setOpenBatteryMode(true);
+  };
   const onChangeImage = (e: any) => {
     const file = e.target.files[0];
     setLoading(true);
@@ -594,7 +607,7 @@ function SettingTracker(props: Props) {
                     <NavigateNextIcon className={classes.iconNext} />{' '}
                   </OptionRight>
                 </ContainerButtonModal>
-                <ContainerButtonModal>
+                <ContainerButtonModal onClick={onOpenBatteryMode}>
                   <Text>Extended Battery Sleep Mode</Text>
                   <NavigateNextIcon className={classes.iconNext} />
                 </ContainerButtonModal>
@@ -619,6 +632,14 @@ function SettingTracker(props: Props) {
         t={t}
         smsCounter={smsCounter}
         devcieSubscription={devcieSubscription}
+      />
+      <BatterySleepMode
+        showModal={openBatteryMode}
+        handleCloseModal={onCloseBatteryMode}
+        t={t}
+        trackerSettings={trackerSettings}
+        tracker={tracker}
+        extendsBatteryModeRequest={extendsBatteryModeRequest}
       />
       <SelectContact
         handleClose={handleShowSelectContact}
@@ -670,6 +691,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  extendsBatteryModeRequest: (settingId, setting) =>
+    dispatch(extendsBatteryModeRequestedAction(settingId, setting)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

@@ -40,6 +40,13 @@ export const GET_DEVICE_SETTING_REQUESTED =
 export const GET_DEVICE_SETTING_SUCCEED = 'Tracki/GET_DEVICE_SETTING_SUCCEED';
 export const GET_DEVICE_SETTING_FAILED = 'Tracki/GET_DEVICE_SETTING_FAILED';
 
+export const EXTENDED_BATTERY_MODE_REQUESTED =
+  'Tracki/EXTENDED_BATTERY_MODE_REQUESTED';
+export const EXTENDED_BATTERY_MODE_SUCCESSED =
+  'Tracki/EXTENDED_BATTERY_MODE_SUCCESSED';
+export const EXTENDED_BATTERY_MODE_FAILED =
+  'Tracki/EXTENDED_BATTERY_MODE_FAILED';
+
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
   { value: '3_1_seconds', content: 'Once every 3 seconds' },

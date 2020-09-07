@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     padding: '30px',
     border: '1px solid #707070',
     outline: 'none',
-    width: '457px',
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       padding: '15px',
       margin: '5px',
