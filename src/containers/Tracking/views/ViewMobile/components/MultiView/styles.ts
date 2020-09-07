@@ -31,6 +31,24 @@ const useStyles = makeStyles(theme => ({
     left: 5,
     right: 5,
     zIndex: 411,
+    transition: 'all 0.5s',
+  },
+  hideCard: {
+    bottom: -94,
+  },
+  toggleContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: 4,
+    top: -10,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  toggle: {
+    width: 40,
+    borderRadius: 3,
+    height: 5,
+    backgroundColor: '#fff',
   },
 }));
 

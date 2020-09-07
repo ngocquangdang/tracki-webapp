@@ -6,21 +6,8 @@ import parse from 'autosuggest-highlight/parse';
 import { throttle } from 'lodash';
 import { geocodeByPlaceId, getLatLng } from 'react-places-autocomplete';
 
-import { GOOGLE_API_KEY } from '@Definitions/app';
 import { TextInput } from '@Components/inputs';
 import useStyles from './styles';
-
-function loadScript(src: string, position: HTMLElement | null, id: string) {
-  if (!position) {
-    return;
-  }
-
-  const script = document.createElement('script');
-  script.setAttribute('async', '');
-  script.setAttribute('id', id);
-  script.src = src;
-  position.appendChild(script);
-}
 
 const autocompleteService = { current: null };
 
@@ -47,24 +34,11 @@ interface Props {
   t(k: string): string;
 }
 
-export default function GoogleMaps(props: Props) {
+function SearchLocation(props: Props) {
   const classes = useStyles();
   const [value, setValue] = React.useState<PlaceType | null>(null);
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<PlaceType[]>([]);
-  const loaded = React.useRef(false);
-
-  if (typeof window !== 'undefined' && !loaded.current) {
-    if (!document.querySelector('#google-maps')) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`,
-        document.querySelector('head'),
-        'google-maps'
-      );
-    }
-
-    loaded.current = true;
-  }
 
   const fetch = React.useMemo(
     () =>
@@ -202,3 +176,5 @@ export default function GoogleMaps(props: Props) {
     />
   );
 }
+
+export default SearchLocation;

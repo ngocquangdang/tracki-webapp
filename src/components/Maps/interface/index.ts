@@ -11,9 +11,10 @@ declare namespace IMap {
     pointTrackingIndex: number;
     isBeep: boolean;
     isAlertSos: boolean;
-    alertSosTrackerId: number | null;
+    alertSosTrackerId: number[];
     isTracking?: boolean;
     showGeofences: boolean;
+    isMobile?: boolean;
     showTrackerName: boolean;
     initMapCallback(): void;
     openSideBar(): void;

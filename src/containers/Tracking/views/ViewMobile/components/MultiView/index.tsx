@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import clsx from 'clsx';
 
@@ -26,15 +26,24 @@ export default function MultiView(props: Props) {
     settings,
     refreshLocation,
   } = props;
+  const [showCard, setShowCard] = useState(true);
   const classes = useStyles();
   const trackerIds = Object.keys(trackers);
   const [selectedTrackerId] = isEmpty(trackingIds) ? trackerIds : trackingIds;
   const tracker = trackers[selectedTrackerId];
+  const toggleCard = () => setShowCard(!showCard);
 
   return (
     <React.Fragment>
       {!isMultiScreen && tracker && (
-        <div className={classes.trackerCard}>
+        <div
+          className={clsx(classes.trackerCard, {
+            [classes.hideCard]: !showCard,
+          })}
+        >
+          <div className={clsx(classes.toggleContainer)}>
+            <div className={classes.toggle} onClick={toggleCard} />
+          </div>
           <DetailTrackerCard
             tracker={tracker}
             isMobile={true}
@@ -45,11 +54,7 @@ export default function MultiView(props: Props) {
         </div>
       )}
       <div className={classes.container}>
-        <div
-          className={clsx(classes.item, {
-            [classes.itemMultiView]: !isMultiScreen,
-          })}
-        >
+        <div className={classes.item}>
           <MapCard
             isMobile={true}
             mapId="mapPosition"
@@ -63,11 +68,7 @@ export default function MultiView(props: Props) {
             {...props}
           />
         </div>
-        <div
-          className={clsx(classes.item, {
-            [classes.itemMultiView]: !isMultiScreen,
-          })}
-        >
+        <div className={classes.item}>
           <MapCard
             isMobile={true}
             isMultiView={true}
@@ -81,11 +82,7 @@ export default function MultiView(props: Props) {
             {...props}
           />
         </div>
-        <div
-          className={clsx(classes.item, {
-            [classes.itemMultiView]: !isMultiScreen,
-          })}
-        >
+        <div className={classes.item}>
           {isMultiScreen ? (
             <MapCard
               isMobile={true}
@@ -107,11 +104,7 @@ export default function MultiView(props: Props) {
             />
           )}
         </div>
-        <div
-          className={clsx(classes.item, {
-            [classes.itemMultiView]: !isMultiScreen,
-          })}
-        >
+        <div className={classes.item}>
           <MapCard
             isMobile={true}
             isMultiView={true}
@@ -125,7 +118,6 @@ export default function MultiView(props: Props) {
             {...props}
           />
         </div>
-        <div className={clsx({ [classes.emptyMultiView]: !isMultiScreen })} />
       </div>
     </React.Fragment>
   );

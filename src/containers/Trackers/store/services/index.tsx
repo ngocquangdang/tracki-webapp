@@ -99,3 +99,17 @@ export const getSOSalert = async (
     `v3/accounts/${accountId}/events?alarm_types=${alarmTypes}&device_ids=${deviceIds}&limit=${limit}&page=${page}&read_status=${readStatus}&sort_direction=${sortDirection}`
   );
 };
+
+export const readSOSalert = async (
+  accountId: number,
+  data: {
+    alertId: number | string;
+    priority: string;
+    read: boolean;
+  }
+) => {
+  return axiosClient.put(
+    `v3/accounts/${accountId}/events/${data.alertId}`,
+    data
+  );
+};

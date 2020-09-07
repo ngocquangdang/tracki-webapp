@@ -51,6 +51,8 @@ export default makeStyles(() => ({
     borderTop: '1px solid #ddd',
     width: '100%',
     height: 45,
+    zIndex: 412,
+    backgroundColor: '#fff',
   },
   mapView: {
     position: 'relative',

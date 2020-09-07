@@ -11,7 +11,7 @@ import './styles.scss';
 interface Props {
   history: object;
   tracker: ITracker;
-  isMobile: boolean;
+  isMobile?: boolean;
   map: any;
   pointTrackingIndex: number;
   changePointTracking(pointIndex: number): void;

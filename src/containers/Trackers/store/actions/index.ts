@@ -262,12 +262,25 @@ export const getSOSalertTrackerRequestAction = (data: object) => ({
   payload: { data },
 });
 
-export const getSOSalertTrackerSucceed = (alert: object) => ({
+export const getSOSalertTrackerSucceed = ({ alert, newTrackers }) => ({
   type: types.GET_SOS_ALERT_TRACKER_SUCCEED,
-  payload: { alert },
+  payload: { alert, newTrackers },
 });
 
 export const getSOSalertTrackerFailed = (error: object) => ({
   type: types.GET_SOS_ALERT_TRACKER_FAILED,
+  payload: { error },
+});
+
+export const readSOSalertRequestAction = (data: object) => ({
+  type: types.READ_SOS_ALERT_TRACKER_REQUESTED,
+  payload: { data },
+});
+export const readSOSalertSucceed = (data: object) => ({
+  type: types.READ_SOS_ALERT_TRACKER_SUCCEED,
+  payload: { data },
+});
+export const readSOSalertFailed = (error: object) => ({
+  type: types.READ_SOS_ALERT_TRACKER_FAILED,
   payload: { error },
 });

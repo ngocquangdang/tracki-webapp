@@ -83,7 +83,6 @@ class MapCard extends React.Component<IProps, IState> {
       trackers[0]?.geoLocation?.longitude &&
       !this.isFirstFitBounce
     ) {
-      console.log('xxxx');
       this.map.panTo([
         trackers[0]?.geoLocation?.latitude,
         trackers[0]?.geoLocation?.longitude,
@@ -198,8 +197,7 @@ class MapCard extends React.Component<IProps, IState> {
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-              : `<img src='/images/image-device.png'
-             class='image-device'></img>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
           }
         </div>
        ${this.trackersName(deviceName)}
