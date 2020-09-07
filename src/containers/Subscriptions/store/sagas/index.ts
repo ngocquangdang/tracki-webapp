@@ -13,7 +13,6 @@ import {
   braintreeDropInSubscriptionFailAction,
   buySmsSubscriptionSuccesAction,
   buySmsSubscriptionFailAction,
-  buyFastTrackingSubscriptionSuccesAction,
   buyFastTrackingSubscriptionFailAction,
 } from '../actions';
 import Router from 'next/router';
@@ -136,13 +135,13 @@ function* buyFastTrackingSubscriptionSaga(action) {
     //   paymentData
     // );
 
-    yield put(
-      showSnackbar({
-        snackType: 'success',
-        snackMessage: 'Buy SMS Subscription Succeed',
-      })
-    );
-    yield put(buyFastTrackingSubscriptionSuccesAction(action.payload));
+    // yield put(
+    //   showSnackbar({
+    //     snackType: 'success',
+    //     snackMessage: 'Buy SMS Subscription Succeed',
+    //   })
+    // );
+    // yield put(buyFastTrackingSubscriptionSuccesAction(action.payload));
     yield Router.push('/');
   } catch (error) {
     const { data = {} } = { ...error };

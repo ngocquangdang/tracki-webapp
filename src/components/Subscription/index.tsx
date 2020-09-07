@@ -52,11 +52,11 @@ function SubscriptionModal(props: Props) {
         <WrapTitle>
           <Title>{t('tracker:current_plan')}: </Title>
           <SubTitle>
-            {data && data.length > 0 && data[0]?.plans
-              ? data[0]?.plans[0]?.name.split(' ')[2]
+            {data && data.length > 0 && data[0].plans
+              ? data[0].plans[0].name.split(' ')[2]
               : ''}{' '}
             {data && data.length > 0 && data[0]?.plans
-              ? data[0]?.plans[0]?.name.split(' ')[3]
+              ? data[0].plans[0].name.split(' ')[3]
               : ''}
           </SubTitle>
         </WrapTitle>
