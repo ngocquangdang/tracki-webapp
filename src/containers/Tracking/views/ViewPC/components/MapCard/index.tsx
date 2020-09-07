@@ -51,7 +51,7 @@ class MapCard extends React.Component<IProps, IState> {
   isFirstFitBounce: boolean;
   route: any;
   steps = 60;
-  counter = 0;
+  counter = 1;
   currentLat = 0;
   currentLng = 0;
   pointsTemp = {};
@@ -85,7 +85,7 @@ class MapCard extends React.Component<IProps, IState> {
       const latlng = L.latLng(this.currentLat, this.currentLng);
 
       if (this.marker) {
-        if (this.counter < this.steps) {
+        if (this.counter <= this.steps) {
           this.counter += 1;
           this.marker.setLatLng(latlng);
           if (this.props.mapId !== 'mapPosition') {
@@ -104,7 +104,7 @@ class MapCard extends React.Component<IProps, IState> {
           this.map.fitBounds([latlng]);
           requestAnimationFrame(this.moveMarker(tracker));
         } else {
-          this.counter = 0;
+          this.counter = 1;
         }
       }
     }
