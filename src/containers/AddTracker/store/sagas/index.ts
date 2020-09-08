@@ -90,7 +90,6 @@ function* braintreeDropinSaga(action: ActionType) {
     yield callback();
     yield put(braintreeDropInSuccesAction(action.payload));
   } catch (error) {
-    console.log('function*braintreeDropinSaga -> error', error);
     yield put(braintreeDropInFailAction(error));
   }
 }
