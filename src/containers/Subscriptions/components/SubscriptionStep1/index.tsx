@@ -109,7 +109,9 @@ function SubscriptionStep1(props) {
       </SelectForm>
       <SelectMessage>
         <TextBold isChoose={false}>
-          {t('subscription:select_monthly_alert')}
+          {formData.subscriptionType === 'sms'
+            ? t('subscription:select_monthly_alert')
+            : 'Fast Tracking limit'}
         </TextBold>
         <ContentMessageItem>
           {isRequesting ? (

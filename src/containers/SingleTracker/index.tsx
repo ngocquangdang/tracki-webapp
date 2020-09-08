@@ -91,7 +91,6 @@ interface Props {
   resetBeep(): void;
   profile: object;
   getDeviceSubscripttionRequest(data: object): void;
-  getDeviceSMSCounterRequest(device_id: number): void;
 }
 
 function SingleTracker(props: Props) {
@@ -116,7 +115,6 @@ function SingleTracker(props: Props) {
     profile,
     refreshLocation,
     getDeviceSubscripttionRequest,
-    getDeviceSMSCounterRequest,
   } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
@@ -150,7 +148,6 @@ function SingleTracker(props: Props) {
           size: 10,
         };
         getDeviceSubscripttionRequest(devcieData);
-        getDeviceSMSCounterRequest(tracker.device_id);
       }
     } else {
       onRenewTrackerPage();
