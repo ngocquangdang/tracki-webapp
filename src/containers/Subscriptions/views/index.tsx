@@ -30,7 +30,12 @@ interface Props {
   t(key: string): string;
   formData: any;
   buySmsSubscriptionRequest(formData, account_id, paymentData): void;
+  buyFastTrackingSubscriptionRequest(formData, account_id, paymentData): void;
   braintreeDropInSubscriptionRequest(formData, callback): void;
+  smsCounter: {
+    smsCounter: number;
+    smsLimit: number;
+  };
 }
 function Subscription(props: Props) {
   const {
@@ -38,18 +43,19 @@ function Subscription(props: Props) {
     formData,
     buySmsSubscriptionRequest,
     braintreeDropInSubscriptionRequest,
+    buyFastTrackingSubscriptionRequest,
     t,
+    smsCounter,
   } = props;
 
   const classes = useStyles();
   const [isLoadingGateway, setLoadingGateway] = useState(true);
-  const [disablePayment, setDisableSubmitCard] = useState(false);
+  const [disablePayment, setDisableSubmitCard] = useState(true);
 
   const onUpdateStep = step => {
     updateStep(step);
   };
   const onSubmit = () => {
-    console.log('xxxx');
     const paymentData = {
       email: '',
       first_name: '',
@@ -57,7 +63,16 @@ function Subscription(props: Props) {
       nonce: formData?.creditCard.nonce,
       plan_id: formData?.selectedPlan.planId,
     };
-    buySmsSubscriptionRequest(formData, formData.account_id, paymentData);
+    if (formData.subscriptionType === 'sms') {
+      buySmsSubscriptionRequest(formData, formData.account_id, paymentData);
+    } else {
+      buyFastTrackingSubscriptionRequest(
+        formData,
+        formData.account_id,
+        paymentData
+      );
+    }
+    return;
   };
 
   const [step, updateStep] = useState(1);
@@ -110,12 +125,19 @@ function Subscription(props: Props) {
       </Header>
       <Content>
         <WrapTitle isStep3={step === 3}>
-          <Title>Increase Monthly Text Alert Limit</Title>
+          <Title>
+            {formData.subscriptionType === 'sms'
+              ? 'Increase Monthly Text Alert Limit'
+              : 'Fast Tracking'}
+          </Title>
           <SubTitle>
             <InfoIcon className={classes.infoIcon} />
             <TextSub>
               <TextNormal>This month you used: </TextNormal>
-              <TextBold>0 out of 30 text alerts</TextBold>
+              <TextBold>
+                {smsCounter.smsCounter || 0} out of {smsCounter.smsLimit || 0}{' '}
+                text alerts
+              </TextBold>
             </TextSub>
           </SubTitle>
         </WrapTitle>

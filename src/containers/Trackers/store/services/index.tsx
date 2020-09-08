@@ -76,7 +76,7 @@ export const refreshLocaion = async (accountId: number, data: object) =>
 
 export const deviceSubscriptionDetail = async data => {
   return axiosClient.get(
-    `/support/v1/device/all?search=${data.device_id}&page=${data.page}&size=4${data.size}`
+    `/support/v1/device/all?search=${data.device_id}&page=${data.page}&size=${data.size}`
   );
 };
 

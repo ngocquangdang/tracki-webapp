@@ -13,6 +13,7 @@ import {
   braintreeDropInSubscriptionFailAction,
   buySmsSubscriptionSuccesAction,
   buySmsSubscriptionFailAction,
+  buyFastTrackingSubscriptionFailAction,
 } from '../actions';
 import Router from 'next/router';
 
@@ -117,6 +118,51 @@ function* buySmsSubscriptionSaga(action) {
   }
 }
 
+function* buyFastTrackingSubscriptionSaga(action) {
+  const { formData, account_id, paymentData } = action.payload;
+  console.log(
+    'function*buyFastTrackingSubscriptionSaga ->  formData, account_id, paymentData',
+    formData,
+    account_id,
+    paymentData
+  );
+
+  try {
+    // yield call(
+    //   apiServices.buySMSOption,
+    //   account_id,
+    //   parseInt(formData.device_id),
+    //   paymentData
+    // );
+
+    // yield put(
+    //   showSnackbar({
+    //     snackType: 'success',
+    //     snackMessage: 'Buy SMS Subscription Succeed',
+    //   })
+    // );
+    // yield put(buyFastTrackingSubscriptionSuccesAction(action.payload));
+    yield Router.push('/');
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    yield put(
+      showSnackbar({
+        snackType: 'error',
+        snackMessage: data.error || data.message,
+      })
+    );
+    yield Router.push('/');
+    yield put(buyFastTrackingSubscriptionFailAction(payload));
+  }
+}
+
 export default function* watcher() {
   yield takeLatest(types.GET_CONTRY_CODE_REQUESTED, getCountryCodeSaga);
   yield takeLatest(
@@ -130,5 +176,9 @@ export default function* watcher() {
   yield takeLatest(
     types.BUY_SMS_SUBSCRIPTION_REQUESTED,
     buySmsSubscriptionSaga
+  );
+  yield takeLatest(
+    types.BUY_FAST_TRACKING_SUBSCRIPTION_REQUESTED,
+    buyFastTrackingSubscriptionSaga
   );
 }

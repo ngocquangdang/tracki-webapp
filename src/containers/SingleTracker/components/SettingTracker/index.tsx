@@ -83,6 +83,11 @@ import {
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
+import {
+  getDeviceSMSCounterRequestedAction,
+  getDeviceSubscripttionRequestedAction,
+} from '@Containers/Trackers/store/actions';
+
 import BatterySleepMode from '@Containers/BatteryMode';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
@@ -109,6 +114,8 @@ interface Props {
   profile: any;
   contactOfTracker: object;
   smsCounter: SMSCounter;
+  getDeviceSMSCounterRequest(device_id: number): void;
+  getDeviceSubscripttionRequest(data): void;
   devcieSubscription: object;
   extendsBatteryModeRequest(settingId, setting): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
@@ -148,6 +155,8 @@ function SettingTracker(props: Props) {
     profile,
     devcieSubscription,
     smsCounter,
+    getDeviceSMSCounterRequest,
+    getDeviceSubscripttionRequest,
     extendsBatteryModeRequest,
     showSnackbar,
   } = props;
@@ -226,6 +235,13 @@ function SettingTracker(props: Props) {
   };
 
   const onOpenModalSubscription = () => {
+    const data = {
+      device_id: tracker.device_id,
+      page: 1,
+      size: 10,
+    };
+    getDeviceSMSCounterRequest(tracker.device_id);
+    getDeviceSubscripttionRequest(data);
     setOpenSubsription(true);
   };
 
@@ -275,8 +291,13 @@ function SettingTracker(props: Props) {
   };
 
   const onClickIncrease = () => {
-    Router.push(`/trackers/${tracker.device_id}/subscription`);
+    Router.push(`/trackers/${tracker.device_id}/subscription/sms`);
   };
+
+  const onClickFastTracking = () => {
+    Router.push(`/trackers/${tracker.device_id}/subscription/fast-tracking`);
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -631,6 +652,7 @@ function SettingTracker(props: Props) {
       </Container>
       <SubscriptionModal
         onClickIncrease={onClickIncrease}
+        onClickFastTracking={onClickFastTracking}
         onCloseSubscription={onCloseModalSubscription}
         open={openSubscription}
         t={t}
@@ -697,6 +719,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  getDeviceSMSCounterRequest: (device_id: number) =>
+    dispatch(getDeviceSMSCounterRequestedAction(device_id)),
+  getDeviceSubscripttionRequest: data =>
+    dispatch(getDeviceSubscripttionRequestedAction(data)),
   extendsBatteryModeRequest: (settingId, setting) =>
     dispatch(extendsBatteryModeRequestedAction(settingId, setting)),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),

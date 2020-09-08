@@ -98,3 +98,32 @@ export function buySmsSubscriptionFailAction(payload: any) {
     payload,
   };
 }
+
+export function buyFastTrackingSubscriptionRequestAction(
+  formData,
+  account_id,
+  paymentData
+) {
+  return {
+    type: types.BUY_FAST_TRACKING_SUBSCRIPTION_REQUESTED,
+    payload: {
+      formData,
+      account_id,
+      paymentData,
+    },
+  };
+}
+
+export function buyFastTrackingSubscriptionSuccesAction(payload) {
+  return {
+    type: types.BUY_FAST_TRACKING_SUBSCRIPTION_SUCCESSED,
+    payload,
+  };
+}
+
+export function buyFastTrackingSubscriptionFailAction(payload: any) {
+  return {
+    type: types.BUY_FAST_TRACKING_SUBSCRIPTION_FAILED,
+    payload,
+  };
+}
