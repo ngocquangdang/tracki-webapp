@@ -8,6 +8,7 @@ import { ITracker } from '@Interfaces';
 interface Props {
   map: any;
   tracker: ITracker;
+  settings: object;
   isBeep: boolean;
   isAlertSos?: boolean;
   isMobile?: boolean;
@@ -25,6 +26,8 @@ class TrackerMarker extends React.Component<Props> {
   currentLng = 0;
   trackerRoute: any = null;
   pointsTemp = {};
+  DELTA_LAT = 0;
+  DELTA_LNG = 0;
 
   constructor(props) {
     super(props);
@@ -37,10 +40,8 @@ class TrackerMarker extends React.Component<Props> {
 
     if (this.counter <= this.steps && startPoint) {
       this.counter += 1;
-      const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
-      const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
-      this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
-      this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
+      this.currentLat = (this.currentLat || startPoint.lat) + this.DELTA_LAT;
+      this.currentLng = (this.currentLng || startPoint.lng) + this.DELTA_LNG;
       const latlng = {
         lat: +this.currentLat.toFixed(7),
         lng: +this.currentLng.toFixed(7),
@@ -63,7 +64,7 @@ class TrackerMarker extends React.Component<Props> {
           !this.props.isMobile && !window.mapFullWidth
             ? LEAFLET_PADDING_OPTIONS
             : {};
-        window.mapEvents.setFitBounds([latlng], options);
+        this.props.map.panInside(latlng, options);
       }
       requestAnimationFrame(this.moveMarker(tracker));
     } else {
@@ -156,6 +157,7 @@ class TrackerMarker extends React.Component<Props> {
       isAlertSos,
       isTracking,
       map,
+      settings,
     } = nextProps;
     const {
       isBeep: currentIsBeep,
@@ -181,12 +183,19 @@ class TrackerMarker extends React.Component<Props> {
       ) {
         const lastPoint =
           nextTracker.histories[nextTracker.histories.length - 1];
-        const icon = new L.DivIcon({
-          className: 'point-dot',
-        });
+        const icon = new L.DivIcon({ className: 'point-dot' });
         this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
           icon,
         }).addTo(map);
+        const setting = settings[nextTracker.settings_id];
+        const {
+          preferences: {
+            tracking_mode: { sample_rate, tracking_measurment },
+          },
+        } = setting;
+        this.steps = tracking_measurment === 'seconds' ? sample_rate * 60 : 60;
+        this.DELTA_LAT = (nextTracker.lat - lastPoint.lat) / this.steps;
+        this.DELTA_LNG = (nextTracker.lng - lastPoint.lng) / this.steps;
         this.moveMarker(nextTracker)();
       }
       if (nextTracker.device_id !== tracker.device_id) {

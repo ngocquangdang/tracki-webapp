@@ -2,11 +2,11 @@ import React from 'react';
 import { isEmpty } from 'lodash';
 
 import MapCard from '../MapCard';
-import MapStreetView from '../MapStreetView';
 import { useStyles } from './styles';
 
 interface Props {
   trackers: object;
+  settings: object;
   isFullWidth: boolean;
   isMultiScreen: boolean;
   trackingIds: number[];
@@ -52,23 +52,17 @@ export default function MultiView(props: Props) {
       </div>
       <div className={classes.row}>
         <div className={classes.item}>
-          {isMultiScreen ? (
-            <MapCard
-              mapId="mapStreetView"
-              mapLabel={props.t('tracker:map_street_panorama')}
-              selectedTrackerId={
-                isMultiScreen
-                  ? trackingIds[2] || selectedTrackerId
-                  : selectedTrackerId
-              }
-              {...props}
-            />
-          ) : (
-            <MapStreetView
-              mapLabel={props.t('tracker:map_street_panorama')}
-              tracker={trackers[selectedTrackerId]}
-            />
-          )}
+          <MapCard
+            mapId="mapHelicopterView"
+            isHelicopterView={true}
+            mapLabel={props.t('tracker:map_helicopter_view')}
+            selectedTrackerId={
+              isMultiScreen
+                ? trackingIds[2] || selectedTrackerId
+                : selectedTrackerId
+            }
+            {...props}
+          />
         </div>
         <div className={classes.item}>
           <MapCard
