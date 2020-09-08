@@ -5,20 +5,14 @@
   width: 100%;
 }
 
-.arrow-icon {
-  display: flex;
-  justify-content: center;
-  // z-index: 500 !important;
+.arrow-div-icon {
+  position: absolute;
+  top: -10px;
 
-  .arrow-div-icon {
-    position: absolute;
-    top: -10px;
-  }
   .arrow-title {
     position: absolute;
     top: 25px;
     left: 10px;
-    display: none;
   }
 }
 
@@ -71,6 +65,22 @@
   position: absolute;
   top: -62px;
   left: -24px;
+
+  @media screen and (max-width: 768px){
+    & {
+      width: 36px;
+      height: 45px;
+      background-size: 36px;
+      top: -34px;
+      left: -12px;
+      .image-device {
+        width: 24px;
+        height: 24px;
+        top: 6px;
+        left: 6px;
+      }
+    }
+  }
 }
 
 .image-marker {

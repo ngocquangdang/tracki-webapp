@@ -4,6 +4,7 @@ import clsx from 'clsx';
 
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import MapCard from '@Containers/Tracking/views/ViewPC/components/MapCard';
+import MapBoxCard from '@Containers/Tracking/views/ViewPC/components/MapBoxCard';
 import { useStyles } from './styles';
 
 interface Props {
@@ -82,19 +83,33 @@ export default function MultiView(props: Props) {
           />
         </div>
         <div className={classes.item}>
-          <MapCard
-            isMobile={true}
-            isMultiView={true}
-            isHelicopterView={true}
-            mapId="mapHelicopterView"
-            mapLabel={props.t('tracker:map_helicopter_view')}
-            selectedTrackerId={
-              isMultiScreen
-                ? trackingIds[2] || selectedTrackerId
-                : selectedTrackerId
-            }
-            {...props}
-          />
+          {isMultiScreen ? (
+            <MapCard
+              isMobile={true}
+              isMultiView={true}
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
+              selectedTrackerId={
+                isMultiScreen
+                  ? trackingIds[2] || selectedTrackerId
+                  : selectedTrackerId
+              }
+              {...props}
+            />
+          ) : (
+            <MapBoxCard
+              isMobile={true}
+              isMultiView={true}
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
+              selectedTrackerId={
+                isMultiScreen
+                  ? trackingIds[2] || selectedTrackerId
+                  : selectedTrackerId
+              }
+              {...props}
+            />
+          )}
         </div>
         <div className={classes.item}>
           <MapCard

@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty } from 'lodash';
 
 import MapCard from '../MapCard';
+import MapBoxCard from '../MapBoxCard';
 import { useStyles } from './styles';
 
 interface Props {
@@ -52,17 +53,29 @@ export default function MultiView(props: Props) {
       </div>
       <div className={classes.row}>
         <div className={classes.item}>
-          <MapCard
-            mapId="mapHelicopterView"
-            isHelicopterView={true}
-            mapLabel={props.t('tracker:map_helicopter_view')}
-            selectedTrackerId={
-              isMultiScreen
-                ? trackingIds[2] || selectedTrackerId
-                : selectedTrackerId
-            }
-            {...props}
-          />
+          {isMultiScreen ? (
+            <MapCard
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
+              selectedTrackerId={
+                isMultiScreen
+                  ? trackingIds[2] || selectedTrackerId
+                  : selectedTrackerId
+              }
+              {...props}
+            />
+          ) : (
+            <MapBoxCard
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
+              selectedTrackerId={
+                isMultiScreen
+                  ? trackingIds[2] || selectedTrackerId
+                  : selectedTrackerId
+              }
+              {...props}
+            />
+          )}
         </div>
         <div className={classes.item}>
           <MapCard
