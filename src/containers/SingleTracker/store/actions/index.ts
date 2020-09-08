@@ -121,3 +121,23 @@ export const getDeviceSettingFailedAction = (error: object) => ({
   type: types.GET_DEVICE_SETTING_FAILED,
   payload: { error },
 });
+
+export const extendsBatteryModeRequestedAction = (
+  settingId: number,
+  setting: object
+) => ({
+  type: types.EXTENDED_BATTERY_MODE_REQUESTED,
+  payload: { settingId, setting },
+});
+
+export const extendsBatteryModeSucceedAction = (settings: object) => {
+  return {
+    type: types.EXTENDED_BATTERY_MODE_SUCCESSED,
+    payload: { settings },
+  };
+};
+
+export const extendsBatteryModeFailedAction = (error: object) => ({
+  type: types.EXTENDED_BATTERY_MODE_FAILED,
+  payload: { error },
+});
