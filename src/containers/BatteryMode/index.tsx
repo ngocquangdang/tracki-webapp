@@ -53,6 +53,7 @@ export default function BatterySleepMode(props: Props) {
     showSnackbar,
     isRequesting,
   } = props;
+
   const [scheduledSleep, setScheduleSleep] = useState({
     awake: moment(),
     enable: false,
@@ -62,6 +63,8 @@ export default function BatterySleepMode(props: Props) {
     sleep: moment(),
     select_mode: '',
   });
+
+  const [onShowIntruction, setShowIntruction] = useState(true);
 
   useEffect(() => {
     if (trackerSettings) {
@@ -156,6 +159,10 @@ export default function BatterySleepMode(props: Props) {
     }
   };
 
+  const handleShowIntructions = (type: boolean) => {
+    setShowIntruction(type);
+  };
+
   return (
     <Modal
       title={t('batterymode:extended_battery')}
@@ -187,7 +194,7 @@ export default function BatterySleepMode(props: Props) {
                     }}
                   />
                   <p className={classes.sleepState}>
-                    Turn {values.enable ? 'On' : 'Off'}
+                    Turned {values.enable ? 'On' : 'Off'}
                   </p>
                 </div>
                 {values.enable && (
@@ -197,7 +204,15 @@ export default function BatterySleepMode(props: Props) {
                       options={EXTENDED_BATTERY}
                       label={t('batterymode:select_mode')}
                       value={values.select_mode}
-                      onChangeOption={handleChange('select_mode')}
+                      onChangeOption={e => {
+                        handleChange('select_mode')(e);
+                        if (e !== 'custom') {
+                          handleShowIntructions(true);
+                        }
+                        if (e === 'custom') {
+                          handleShowIntructions(false);
+                        }
+                      }}
                     />
                   </div>
                 )}
@@ -278,27 +293,43 @@ export default function BatterySleepMode(props: Props) {
                     />
                   </div>
                 )}
+                <div className={classes.intructions}>
+                  <div className={classes.intructionHeader}>
+                    <div className={classes.intructionTitle}>
+                      <RiErrorWarningFill className={classes.iconWarning} />
+                      <p className={classes.title}>
+                        {t('batterymode:instructions')}
+                      </p>
+                    </div>
+                    {values.select_mode === 'custom' && (
+                      <div
+                        onClick={() => handleShowIntructions(!onShowIntruction)}
+                        className={classes.showIntruction}
+                      >
+                        {t('batterymode:tap_to_show')}
+                      </div>
+                    )}
+                  </div>
+                  {onShowIntruction && (
+                    <p className={classes.intructionSub}>
+                      Do not use this mode for a real time tracking With
+                      scheduled hibernation you can extend battery life to 30
+                      days tracking 4-8 times per day (in case you don't need
+                      real time tracking). For example: Tracki would go to
+                      hibernation for 6 hours at a time & wake up for 5 minutes
+                      to report its location and would go to hibernation again.
+                      That means it would be tracking 4 times per day. You can
+                      turn off the hibernation mode by switching it off and by
+                      saving the changes. The changes will be effective when the
+                      devices wakes up again.
+                    </p>
+                  )}
+                </div>
               </form>
             );
           }}
         </Formik>
-        <div className={classes.intructions}>
-          <div className={classes.intructionTitle}>
-            <RiErrorWarningFill className={classes.iconWarning} />
-            <p className={classes.title}>{t('batterymode:instructions')}</p>
-          </div>
-          <p className={classes.intructionSub}>
-            Do not use this mode for a real time tracking With scheduled
-            hibernation you can extend battery life to 30 days tracking 4-8
-            times per day (in case you don't need real time tracking). For
-            example: Tracki would go to hibernation for 6 hours at a time & wake
-            up for 5 minutes to report its location and would go to hibernation
-            again. That means it would be tracking 4 times per day. You can turn
-            off the hibernation mode by switching it off and by saving the
-            changes. The changes will be effective when the devices wakes up
-            again.
-          </p>
-        </div>
+
         <div className={classes.buyBatteryMode}>
           <p className={classes.subBuy}>
             {t('batterymode:battery_description')}{' '}
