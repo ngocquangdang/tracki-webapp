@@ -97,7 +97,7 @@ function* braintreeDropinSaga(action: ActionType) {
 
 function* addDeviceSaga(action: ActionType) {
   const { formData, data, account_id, paymentData, callback } = action.payload;
-
+  const { value, file } = data;
   try {
     if (formData.selectedPlan.paymentPlatform === 'PREPAID') {
       yield call(
@@ -115,13 +115,27 @@ function* addDeviceSaga(action: ActionType) {
       );
     }
 
+    if (file) {
+      const formDataFile = new FormData();
+      formDataFile.append('file', file);
+      const { data: iconData } = yield call(
+        apiServices.uploadImage,
+        account_id,
+        formData.device_id,
+        formDataFile
+      );
+      formData.icon_url = iconData.icon_url;
+    } else {
+      delete formData.icon_url;
+    }
+
     const res = yield call(apiServices.getSubAccount, account_id);
     const getNewDevice = find(res.data.device_ids, {
       device_id: parseInt(formData.device_id),
     });
 
     const device_name = {
-      name: data?.device_name,
+      name: value?.device_name,
     };
     yield call(
       apiServices.updateDeviceName,
@@ -134,7 +148,7 @@ function* addDeviceSaga(action: ActionType) {
       sample_rate,
       samples_per_report,
       tracking_measurment,
-    ] = data.device_traking.split('_');
+    ] = value.device_traking.split('_');
     const settings = {
       preferences: {
         tracking_mode: {

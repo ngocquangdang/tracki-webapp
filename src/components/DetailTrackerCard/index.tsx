@@ -155,7 +155,11 @@ function DetailTrackerCard(props: Prop) {
                 />
                 <TimeActive>
                   Last Updated:{' '}
-                  {tracker.time ? moment(tracker.time * 1000).fromNow() : '---'}
+                  {tracker.time
+                    ? `${moment(tracker.time * 1000).fromNow()} at ${moment(
+                        tracker.time * 1000
+                      ).format('MMM DD, YYYY A')}`
+                    : '---'}
                 </TimeActive>
               </Time>
             </ItemInfo>

@@ -153,7 +153,7 @@ const ItemInfo = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 172px;
+  max-width: 282px;
 `;
 const Name = styled.div`
   display: flex;
@@ -294,9 +294,9 @@ const useStyles = makeStyles(theme => ({
 const ButtonIcon = withStyles(theme => ({
   root: {
     padding: 0,
+    minWidth: 20,
     '& .MuiButton-root': {
       padding: 0,
-      minWidth: 20,
     },
   },
 }))(Button);

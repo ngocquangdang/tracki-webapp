@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
-
+import RoomIcon from '@material-ui/icons/Room';
+import { AiOutlineCamera } from 'react-icons/ai';
+import { CircularProgress } from '@material-ui/core';
 import {
   Header,
   Form,
@@ -10,6 +12,7 @@ import {
   InputSubcription,
   useStyles,
   Error,
+  Image,
 } from './styles';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
@@ -41,7 +44,7 @@ interface Props {
 const initialTracker = {
   device_name: '',
   device_traking: LOCATION_UPDATE_OPTIONS[0].value,
-  // divice_image: '',
+  // device_image: '',
 };
 export default function Step3(props: Props) {
   const classes = useStyles();
@@ -57,10 +60,44 @@ export default function Step3(props: Props) {
     updateStore,
     isRequesting,
   } = props;
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImage] = useState<any>({});
 
   const addDone = (done: boolean) => {
     done && onNextStep() && onAdded();
   };
+  const onClickImage = () => document.getElementById('imageIcon')?.click();
+
+  const onAddImage = (e: any) => {
+    const file = e.target.files[0];
+    setLoading(true);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setLoading(false);
+      setImage({ result: reader.result, file: file });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const dragOver = e => {
+    e.preventDefault();
+  };
+
+  const dragEnter = e => {
+    e.preventDefault();
+  };
+
+  const dragLeave = e => {
+    e.preventDefault();
+  };
+
+  const fileDrop = e => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    console.log(files);
+  };
+
   const onSubmit = value => {
     const paymentInfo = {
       nonce: paymentData.nonce || '',
@@ -69,7 +106,13 @@ export default function Step3(props: Props) {
       first_name: paymentData.details.firstName || 'home',
       last_name: paymentData.details.lastName || 'trackimo',
     };
-    addDeviceAction(value, formData, account_id, paymentInfo, addDone);
+    addDeviceAction(
+      { value, file: imageFile.file },
+      formData,
+      account_id,
+      paymentInfo,
+      addDone
+    );
     updateStore({ ...formData, device_name: value.device_name });
   };
 
@@ -126,12 +169,50 @@ export default function Step3(props: Props) {
                 {t('tracker:tracking_intervals_subcription')}
               </InputSubcription>
             </GroupInput>
-            <UploadImage>
-              <div>upload</div>
-              <InputSubcription>
-                {t('tracker:add_image_subcription')}
-              </InputSubcription>
+            <UploadImage
+              onClick={onClickImage}
+              onDragOver={dragOver}
+              onDragEnter={dragEnter}
+              onDragLeave={dragLeave}
+              onDrop={fileDrop}
+            >
+              <input
+                id="imageIcon"
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={onAddImage}
+              />
+              {loading && (
+                <CircularProgress
+                  className={classes.loading}
+                  color="secondary"
+                />
+              )}
+              {imageFile.result ? (
+                <div className={classes.elipLocation}>
+                  <Image background={imageFile.result} />
+                </div>
+              ) : (
+                <div className={classes.elipLocation}>
+                  <RoomIcon className={classes.iconLocation} />
+                </div>
+              )}
+              <Button
+                type="button"
+                variant="text"
+                text={
+                  <div className={classes.inputUploadImage}>
+                    <AiOutlineCamera className={classes.iconCamera} />
+                    <div className={classes.textAdd}>Add Picture</div>
+                  </div>
+                }
+                className={classes.widthBtn}
+              />
             </UploadImage>
+            <InputSubcription>
+              {t('tracker:description_add_picture')}
+            </InputSubcription>
             <Error>{errors.message}</Error>
             <Button
               color="primary"

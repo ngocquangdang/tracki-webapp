@@ -20,6 +20,17 @@ const GroupInput = styled.div`
 `;
 const UploadImage = styled.div`
   margin-bottom: 25px;
+  max-width: 400px;
+  height: 174px;
+  border-radius: 4px;
+  border: dashed 2px #cbcbcb;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
 `;
 const InputSubcription = styled.span`
   font-size: 12px;
@@ -28,6 +39,16 @@ const InputSubcription = styled.span`
 const Error = styled.p`
   text-align: center;
   color: red;
+`;
+const Image = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
 `;
 const useStyles = makeStyles(theme => ({
   widthBtn: {
@@ -39,6 +60,45 @@ const useStyles = makeStyles(theme => ({
   selectOption: {
     margin: '15px 0',
   },
+  elipLocation: {
+    width: 62,
+    height: 62,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '1px solid #e0e0e0',
+    color: '#aeaeae',
+    borderRadius: '50%',
+    backgroundColor: '#f1f1f1',
+  },
+  iconLocation: {
+    fontSize: 38,
+  },
+  inputUploadImage: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyVontent: 'center',
+    marginTop: 15,
+    color: '#999999',
+    fontWeight: 'normal',
+    border: '1px solid #999999',
+    padding: '2px 10px 2px 10px',
+    borderRadius: 3,
+    backgroundColor: '#f5f5f5',
+  },
+  iconCamera: {
+    fontSize: 18,
+    marginRight: 5,
+  },
+  textAdd: {
+    fontSize: 13,
+  },
+  loading: {
+    position: 'absolute',
+    color: '#fff',
+    top: 22,
+    left: 22,
+  },
 }));
 export {
   Header,
@@ -49,4 +109,5 @@ export {
   InputSubcription,
   Error,
   useStyles,
+  Image,
 };

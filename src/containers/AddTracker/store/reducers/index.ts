@@ -12,6 +12,7 @@ export const initialState = {
     device_id: '',
     imei: '',
     order: '',
+    icon_url: '',
     selectedPlan: [],
   },
   token: '',
@@ -70,6 +71,7 @@ const AddTrackerReducer = (
           device_id: '',
           imei: '',
           order: '',
+          icon_url: '',
           selectedPlan: [],
         };
         draft.assigned = '';
