@@ -40,6 +40,13 @@ export const GET_DEVICE_SETTING_REQUESTED =
 export const GET_DEVICE_SETTING_SUCCEED = 'Tracki/GET_DEVICE_SETTING_SUCCEED';
 export const GET_DEVICE_SETTING_FAILED = 'Tracki/GET_DEVICE_SETTING_FAILED';
 
+export const EXTENDED_BATTERY_MODE_REQUESTED =
+  'Tracki/EXTENDED_BATTERY_MODE_REQUESTED';
+export const EXTENDED_BATTERY_MODE_SUCCESSED =
+  'Tracki/EXTENDED_BATTERY_MODE_SUCCESSED';
+export const EXTENDED_BATTERY_MODE_FAILED =
+  'Tracki/EXTENDED_BATTERY_MODE_FAILED';
+
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
   { value: '3_1_seconds', content: 'Once every 3 seconds' },
@@ -76,4 +83,12 @@ export const SHARE_LOCATION_OPTIONS = [
   { value: '259200', content: '3 Days' },
   { value: '604800', content: '7 Days' },
   { value: '-1', content: 'Unlimited' },
+];
+
+export const EXTENDED_BATTERY = [
+  { value: '01_per_day_1435', content: 'Tracking once a day' },
+  { value: '02_per_day_715', content: 'Tracking twice a day' },
+  { value: '04_per_day_355', content: 'Tracking four times a day' },
+  { value: '24_per_day_55', content: 'Tracking once an hour' },
+  { value: 'custom', content: 'Custom/Advanced mode' },
 ];

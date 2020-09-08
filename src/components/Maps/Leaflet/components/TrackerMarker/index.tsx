@@ -34,38 +34,40 @@ class TrackerMarker extends React.Component<Props> {
   moveMarker = tracker => () => {
     const history = tracker.histories || [];
     const startPoint = history[history.length - 1];
-    if (startPoint) {
+
+    if (this.counter <= this.steps && startPoint) {
+      this.counter += 1;
       const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
       const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
       this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
       this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
-      const latlng = L.latLng(this.currentLat, this.currentLng);
+      const latlng = {
+        lat: +this.currentLat.toFixed(7),
+        lng: +this.currentLng.toFixed(7),
+      };
 
       if (window.trackerMarkers[tracker.device_id]) {
-        if (this.counter <= this.steps) {
-          this.counter += 1;
-          window.trackerMarkers[tracker.device_id].setLatLng(latlng);
-          if (this.trackerRoute) {
-            const latlngs = this.trackerRoute.getLatLngs();
-            latlngs.push(latlng);
-            this.trackerRoute.setLatLngs(latlngs);
-          } else {
-            this.trackerRoute = L.polyline([startPoint, latlng], {
-              weight: 3,
-              color: '#168449',
-            });
-            this.trackerRoute.addTo(this.props.map);
-          }
-          const options =
-            !this.props.isMobile && !window.mapFullWidth
-              ? LEAFLET_PADDING_OPTIONS
-              : {};
-          window.mapEvents.setFitBounds([latlng], options);
-          requestAnimationFrame(this.moveMarker(tracker));
+        window.trackerMarkers[tracker.device_id].setLatLng(latlng);
+        if (this.trackerRoute) {
+          const latlngs = this.trackerRoute.getLatLngs();
+          latlngs.push(latlng);
+          this.trackerRoute.setLatLngs(latlngs);
         } else {
-          this.counter = 1;
+          this.trackerRoute = L.polyline([startPoint, latlng], {
+            weight: 3,
+            color: '#168449',
+          });
+          this.trackerRoute.addTo(this.props.map);
         }
+        const options =
+          !this.props.isMobile && !window.mapFullWidth
+            ? LEAFLET_PADDING_OPTIONS
+            : {};
+        window.mapEvents.setFitBounds([latlng], options);
       }
+      requestAnimationFrame(this.moveMarker(tracker));
+    } else {
+      this.counter = 1;
     }
   };
 
