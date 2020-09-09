@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash';
 import { Tabs, Tab, IconButton, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import Router from 'next/router';
 import dynamic from 'next/dynamic';
 
 import { Button } from '@Components/buttons';
@@ -60,7 +59,7 @@ export default function TrackingMobile(props: Props) {
   };
 
   const onCloseTracking = () => {
-    Router.push('/trackers');
+    window.toggleDrawerMobile();
   };
 
   const onCloseSelectTracker = () => {

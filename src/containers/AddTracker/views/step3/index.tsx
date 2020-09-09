@@ -47,7 +47,6 @@ interface Props {
 const initialTracker = {
   device_name: '',
   device_traking: LOCATION_UPDATE_OPTIONS[0].value,
-  // device_image: '',
 };
 export default function Step3(props: Props) {
   const classes = useStyles();

@@ -13,6 +13,12 @@ import { GET_TRACKERS_SUCCEED } from '@Containers/Trackers/store/constants';
 import { mqttUpdateTrackerAction } from '@Containers/Trackers/store/actions';
 import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
 import * as types from '../constants';
+import {
+  MQTT_USERNAME,
+  MQTT_PASSWORD,
+  MQTT_HOST,
+  MQTT_PORT,
+} from '@Definitions/app';
 
 function subscribe() {
   const unsubscribe = () => {
@@ -116,14 +122,14 @@ function* handleMQTT() {
 function* mqttStartSaga() {
   try {
     TrackiMQTTClient.connect({
-      username: 'tracki',
-      password: 'mypasstracki',
+      username: MQTT_USERNAME,
+      password: MQTT_PASSWORD,
       protocol: 'wss',
       clientId: 'tracki_' + Math.random().toString(16).substr(2, 8),
       servers: [
         {
-          host: 'mqtt.tracki.dev',
-          port: 8081,
+          host: MQTT_HOST,
+          port: MQTT_PORT,
         },
       ],
       debug: true,
