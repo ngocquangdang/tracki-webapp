@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     padding: '0 16px',
   },
   container: {
-    marginTop: 60,
+    marginTop: 70,
   },
   content: {},
   title1: {
