@@ -5,6 +5,23 @@
   width: 100%;
 }
 
+.arrow-icon {
+  display: flex;
+  justify-content: center;
+  // z-index: 500 !important;
+
+  .arrow-div-icon {
+    position: absolute;
+    top: -10px;
+  }
+  .arrow-title {
+    position: absolute;
+    top: 25px;
+    left: 10px;
+    display: none;
+  }
+}
+
 .leaflet-control-container {
   display: none;
 }

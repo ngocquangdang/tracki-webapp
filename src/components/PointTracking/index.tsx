@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Adjust as AdjustIcon,
   LocationOn as LocationIcon,
   Close as CloseIcon,
-  Public as PublicIcon,
   ArrowBackIos as ArrowBackIosIcon,
   ArrowForwardIos as ArrowForwardIosIcon,
 } from '@material-ui/icons';
@@ -15,7 +13,7 @@ import Draggable from 'react-draggable';
 
 import { ITracker } from '@Interfaces';
 import { getAddress } from '@Utils/helper';
-import { useStyles } from './styles';
+import { useStyles, Image, DefaultImage } from './styles';
 import clsx from 'clsx';
 
 interface Prop {
@@ -83,8 +81,14 @@ function PointTrackingInfo(props: Prop) {
           <CloseIcon />
         </IconButton>
         <div className={classes.rowInfo}>
-          <div className={classes.rowIcon}>
-            <AdjustIcon color="primary" />
+          <div className={classes.rowIconDevice}>
+            <div className={classes.imageWrapper}>
+              {tracker.icon_url ? (
+                <Image background={tracker.icon_url} />
+              ) : (
+                <DefaultImage background={'/images/image-device.png'} />
+              )}
+            </div>
           </div>
           <div className={classes.rowText}>
             <p className={classes.title}>{tracker.device_name}</p>
@@ -96,19 +100,25 @@ function PointTrackingInfo(props: Prop) {
         </div>
         <div className={classes.rowInfo}>
           <div className={classes.rowIcon}>
-            <LocationIcon />
+            <LocationIcon className={classes.iconLocation} />
           </div>
           <div className={classes.rowText}>{address}</div>
         </div>
         <div className={classes.rowInfo}>
-          <div className={classes.rowIcon}>
-            <PublicIcon />
-          </div>
+          <div className={classes.rowIcon}></div>
           <div className={classes.rowText}>
             {`Lat: ${location.lat || '-'}, Lng: ${location.lng || '-'}`}
           </div>
         </div>
-        <div className={classes.rowInfo}>
+        <div className={classes.rowStatusTracker}>
+          <div className={classes.rowLeft}>
+            <div className={classes.block}>
+              <CgBattery className={classes.dashIcon} />
+              <span className={classes.text} style={{ marginLeft: 4 }}>
+                {location.battery ? location.battery + '%' : '-'}
+              </span>
+            </div>
+          </div>
           <div className={classes.rowLeft}>
             <div className={classes.block}>
               <AiOutlineDashboard className={classes.dashIcon} />
@@ -116,12 +126,6 @@ function PointTrackingInfo(props: Prop) {
                 {(location.speed || 0) +
                   ' ' +
                   (location.speed_unit || '').toUpperCase()}
-              </span>
-            </div>
-            <div className={classes.block}>
-              <CgBattery className={classes.dashIcon} />
-              <span className={classes.text} style={{ marginLeft: 4 }}>
-                {location.battery ? location.battery + '%' : '-'}
               </span>
             </div>
           </div>
@@ -132,7 +136,10 @@ function PointTrackingInfo(props: Prop) {
             <div>Accuracy within: -</div>
           </div>
         </div>
-        <div className={classes.rowInfo} style={{ justifyContent: 'flex-end' }}>
+        <div
+          className={classes.rowInfoIconControl}
+          style={{ justifyContent: 'flex-end' }}
+        >
           <IconButton
             color="primary"
             className={classes.prevBtn}

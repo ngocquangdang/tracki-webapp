@@ -31,6 +31,9 @@ const UploadImage = styled.div`
   justify-content: center;
   position: relative;
   cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 const InputSubcription = styled.span`
   font-size: 12px;
@@ -41,9 +44,8 @@ const Error = styled.p`
   color: red;
 `;
 const Image = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 100px;
+  width: 40px;
+  height: 40px;
   margin: auto;
   object-fit: contain;
   background-image: ${(props: { background: string }) =>
@@ -61,8 +63,8 @@ const useStyles = makeStyles(theme => ({
     margin: '15px 0',
   },
   elipLocation: {
-    width: 62,
-    height: 62,
+    width: '62px !important',
+    height: '62px !important',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

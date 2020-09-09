@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Formik } from 'formik';
 import RoomIcon from '@material-ui/icons/Room';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { CircularProgress } from '@material-ui/core';
+import { useDropzone } from 'react-dropzone';
+
 import {
   Header,
   Form,
@@ -14,6 +16,7 @@ import {
   Error,
   Image,
 } from './styles';
+
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { TrackerDetail } from '../../schema';
@@ -62,42 +65,23 @@ export default function Step3(props: Props) {
   } = props;
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
-
   const addDone = (done: boolean) => {
     done && onNextStep() && onAdded();
   };
-  const onClickImage = () => document.getElementById('imageIcon')?.click();
-
-  const onAddImage = (e: any) => {
-    const file = e.target.files[0];
+  const onDrop = useCallback(files => {
+    const file = files[0];
     setLoading(true);
-
     const reader = new FileReader();
     reader.onloadend = () => {
       setLoading(false);
       setImage({ result: reader.result, file: file });
     };
-    reader.readAsDataURL(file);
-  };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }, []);
 
-  const dragOver = e => {
-    e.preventDefault();
-  };
-
-  const dragEnter = e => {
-    e.preventDefault();
-  };
-
-  const dragLeave = e => {
-    e.preventDefault();
-  };
-
-  const fileDrop = e => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    console.log(files);
-  };
-
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const onSubmit = value => {
     const paymentInfo = {
       nonce: paymentData.nonce || '',
@@ -114,6 +98,36 @@ export default function Step3(props: Props) {
       addDone
     );
     updateStore({ ...formData, device_name: value.device_name });
+  };
+  const renderInputImage = () => {
+    return (
+      <UploadImage {...getRootProps()}>
+        {loading && (
+          <CircularProgress className={classes.loading} color="secondary" />
+        )}
+        {imageFile.result ? (
+          <div className={classes.elipLocation}>
+            <Image background={imageFile.result} />
+          </div>
+        ) : (
+          <div className={classes.elipLocation}>
+            <RoomIcon className={classes.iconLocation} />
+          </div>
+        )}
+        <input {...getInputProps()} />
+        <Button
+          type="button"
+          variant="text"
+          text={
+            <div className={classes.inputUploadImage}>
+              <AiOutlineCamera className={classes.iconCamera} />
+              <div className={classes.textAdd}>Add Picture</div>
+            </div>
+          }
+          className={classes.widthBtn}
+        />
+      </UploadImage>
+    );
   };
 
   return (
@@ -169,47 +183,7 @@ export default function Step3(props: Props) {
                 {t('tracker:tracking_intervals_subcription')}
               </InputSubcription>
             </GroupInput>
-            <UploadImage
-              onClick={onClickImage}
-              onDragOver={dragOver}
-              onDragEnter={dragEnter}
-              onDragLeave={dragLeave}
-              onDrop={fileDrop}
-            >
-              <input
-                id="imageIcon"
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={onAddImage}
-              />
-              {loading && (
-                <CircularProgress
-                  className={classes.loading}
-                  color="secondary"
-                />
-              )}
-              {imageFile.result ? (
-                <div className={classes.elipLocation}>
-                  <Image background={imageFile.result} />
-                </div>
-              ) : (
-                <div className={classes.elipLocation}>
-                  <RoomIcon className={classes.iconLocation} />
-                </div>
-              )}
-              <Button
-                type="button"
-                variant="text"
-                text={
-                  <div className={classes.inputUploadImage}>
-                    <AiOutlineCamera className={classes.iconCamera} />
-                    <div className={classes.textAdd}>Add Picture</div>
-                  </div>
-                }
-                className={classes.widthBtn}
-              />
-            </UploadImage>
+            {renderInputImage()}
             <InputSubcription>
               {t('tracker:description_add_picture')}
             </InputSubcription>

@@ -3,6 +3,7 @@ import L from 'leaflet';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { uniqueId } from 'lodash';
+import { bearing as turfBearing } from '@turf/turf';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
@@ -16,7 +17,9 @@ interface IProps {
   isMultiScreen: boolean;
   isMultiView: boolean;
   trackers: object;
+  settings: object;
   isMobile?: boolean;
+  isHelicopterView?: boolean;
   selectedTrackerId: number;
   trackingIds: number[];
   classes: any;
@@ -55,6 +58,8 @@ class MapCard extends React.Component<IProps, IState> {
   currentLat = 0;
   currentLng = 0;
   pointsTemp = {};
+  DELTA_LAT = 0;
+  DELTA_LNG = 0;
 
   constructor(props) {
     super(props);
@@ -80,14 +85,24 @@ class MapCard extends React.Component<IProps, IState> {
 
     if (this.counter <= this.steps && startPoint) {
       this.counter += 1;
-      const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
-      const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
-      this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
-      this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
+      this.currentLat = (this.currentLat || startPoint.lat) + this.DELTA_LAT;
+      this.currentLng = (this.currentLng || startPoint.lng) + this.DELTA_LNG;
       const latlng = {
         lat: +this.currentLat.toFixed(7),
         lng: +this.currentLng.toFixed(7),
       };
+
+      if (this.props.isHelicopterView) {
+        const prevPoint = [
+          this.currentLat - this.DELTA_LAT,
+          this.currentLng - this.DELTA_LNG,
+        ];
+        const bearing = turfBearing(prevPoint, [latlng.lat, latlng.lng]);
+        const arrow = document.getElementById('arrowTrackerIcon');
+        if (arrow) {
+          arrow.style.transform = `rotate(${bearing + 90}deg)`;
+        }
+      }
 
       if (this.marker) {
         this.marker.setLatLng(latlng);
@@ -104,7 +119,7 @@ class MapCard extends React.Component<IProps, IState> {
             this.route.addTo(this.map);
           }
         }
-        this.map.fitBounds([latlng]);
+        this.map.setView(latlng);
       }
       requestAnimationFrame(this.moveMarker(tracker));
     } else {
@@ -119,6 +134,7 @@ class MapCard extends React.Component<IProps, IState> {
       viewMode,
       isMultiScreen,
       trackers: nextTrackers,
+      settings,
     } = nextProps;
     const {
       selectedTrackerId: thisSelectedTracker,
@@ -170,16 +186,22 @@ class MapCard extends React.Component<IProps, IState> {
     if (
       (nextTracker.histories || []).length !== (tracker.histories || []).length
     ) {
+      const lastPoint = nextTracker.histories[nextTracker.histories.length - 1];
       if (this.props.mapId !== 'mapPosition') {
-        const lastPoint =
-          nextTracker.histories[nextTracker.histories.length - 1];
-        const icon = new L.DivIcon({
-          className: 'point-dot',
-        });
+        const icon = new L.DivIcon({ className: 'point-dot' });
         this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
           icon,
         }).addTo(this.map);
       }
+      const setting = settings[nextTracker.settings_id];
+      const {
+        preferences: {
+          tracking_mode: { sample_rate, tracking_measurment },
+        },
+      } = setting;
+      this.steps = tracking_measurment === 'seconds' ? sample_rate * 60 : 60;
+      this.DELTA_LAT = (nextTracker.lat - lastPoint.lat) / this.steps;
+      this.DELTA_LNG = (nextTracker.lng - lastPoint.lng) / this.steps;
       this.moveMarker(nextTracker)();
     }
 
@@ -224,6 +246,9 @@ class MapCard extends React.Component<IProps, IState> {
       this.map.panTo(e.latlng, { zoom });
       this.setState({ userLocation: e.latlng });
     });
+    this.map.on('click', e => {
+      console.log('___MAP CLICKED', e);
+    });
 
     this.setState({ isInitiatedMap: true });
   }
@@ -252,37 +277,65 @@ class MapCard extends React.Component<IProps, IState> {
     console.log(id);
   };
 
+  getMarkerElement = (tracker, isHelicopterView) => {
+    const { device_name, device_id, icon_url, status } = tracker;
+    if (isHelicopterView) {
+      const markerSize = 32;
+      const markerData = `<svg id="Layer_1" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <g><path d="M17.3375483,23.9265823 L17.3375483,23.9265823 L32,31.9974684 L16,0 L0,32 L14.6624517,23.9291139 L14.6624517,23.9291139 C15.4913945,23.4708861 16.5086055,23.4708861 17.3375483,23.9265823 Z" fill="#168449" stroke="#fff" fill-stroke="1"/></g>
+      </svg>`;
+      const el = document.createElement('div');
+      el.className = 'arrow-div-icon';
+      el.id = 'arrowTrackerIcon';
+      el.style.backgroundImage =
+        'url(data:image/svg+xml;base64,' + btoa(markerData) + ')';
+      el.style.width = markerSize + 'px';
+      el.style.height = markerSize + 'px';
+      el.innerHTML = `
+        <div class="arrow-title">
+          ${this.trackerName(device_name || device_id, status)}
+        </div>`;
+      return el;
+    }
+
+    const elm = document.createElement('div');
+    elm.className = `custom-div-icon`;
+    elm.innerHTML = `
+      <div class='icon-red'>
+        <span class='inner'></span>
+        <div class='marker-pin' style='background-image: url(${
+          status === 'active'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
+        })'>
+          ${
+            icon_url
+              ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
+          }
+        </div>
+        ${this.trackerName(device_name || device_id, status)}
+      </div>`;
+    return elm;
+  };
+
   renderMarker = () => {
     const {
       trackers,
       // trackingIds,
       // isMultiScreen,
+      isHelicopterView,
       selectedTrackerId,
     } = this.props;
     const tracker = trackers[selectedTrackerId];
 
     if (!this.marker && tracker && tracker.lat && tracker.lng) {
-      const { device_name, device_id, lat, lng, icon_url, status } = tracker;
-      const elm = document.createElement('div');
-      elm.className = `custom-div-icon`;
-      elm.innerHTML = `
-        <div class='icon-red'>
-          <span class='inner'></span>
-          <div class='marker-pin' style='background-image: url(${
-            status === 'active'
-              ? '/images/icon-marker.svg'
-              : '/images/red-marker.svg'
-          })'>
-            ${
-              icon_url
-                ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-                : `<img src='/images/image-device.png' class='image-device'></img>`
-            }
-          </div>
-          ${this.trackerName(device_name || device_id, status)}
-        </div>`;
-
-      const icon = new L.DivIcon({ html: elm });
+      const { lat, lng } = tracker;
+      const elm = this.getMarkerElement(tracker, isHelicopterView);
+      const icon = new L.DivIcon({
+        html: elm,
+        className: isHelicopterView ? 'arrow-icon' : '',
+      });
       this.marker = L.marker([lat, lng], { icon });
       this.marker.addTo(this.map);
       this.map.panTo([lat, lng]);

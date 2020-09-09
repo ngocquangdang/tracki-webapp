@@ -45,7 +45,7 @@ export default function MainForm(props: any) {
     isMobile,
   } = props;
 
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
   const [stepChild, updateStepChild] = useState('');
   const [added, setAdded] = useState(false);
   const steps = [

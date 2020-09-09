@@ -6,6 +6,6 @@ export const MAP_ACTIONS = {
 };
 
 export const LEAFLET_PADDING_OPTIONS = {
-  paddingTopLeft: [440, 0],
-  paddingBottomRight: [100, 0],
+  paddingTopLeft: [440, 150],
+  paddingBottomRight: [100, 100],
 };

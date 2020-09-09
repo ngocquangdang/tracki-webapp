@@ -51,7 +51,10 @@ class TrackerHistoryPath extends React.Component<Props> {
       this.removeLayer();
       this.renderPath(nextProps);
     }
-    if (pointTrackingIndex !== thisPointTrackingIndex) {
+    if (
+      pointTrackingIndex !== thisPointTrackingIndex &&
+      Object.keys(history).length > 0
+    ) {
       const pointIds = Object.keys(history);
       const location = history[pointIds[pointTrackingIndex]];
       this.pointTracking && map.removeLayer(this.pointTracking);

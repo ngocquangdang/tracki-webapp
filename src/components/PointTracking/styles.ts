@@ -1,4 +1,26 @@
 import { makeStyles } from '@material-ui/core';
+import styled from 'styled-components';
+
+const Image = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
+`;
+
+const DefaultImage = styled.div`
+  width: 40px;
+  height: 34px;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
+`;
 
 const useStyles = makeStyles(theme => ({
   trackingContainer: {
@@ -9,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'move',
     backgroundColor: 'white',
     bottom: 5,
-    padding: 8,
+    padding: '8px 8px 3px 8px',
     borderRadius: 4,
     display: 'none',
     boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.2)',
@@ -68,6 +90,8 @@ const useStyles = makeStyles(theme => ({
   rowLeft: {
     display: 'flex',
     borderRight: '1px solid #ddd',
+    padding: '0 5px',
+    margin: '10px 0',
   },
   block: {
     display: 'flex',
@@ -75,11 +99,34 @@ const useStyles = makeStyles(theme => ({
   rowRight: {
     textAlign: 'center',
     padding: '0 8px',
+    margin: '5px 0',
   },
   text: {
-    marginLeft: 8,
+    marginLeft: 5,
     alignSelf: 'center',
+    marginRight: 5,
+  },
+  imageWrapper: {
+    width: 50,
+    borderRadius: 25,
+    height: 50,
+    display: 'flex',
+    background: '#168449',
+  },
+  iconLocation: {
+    color: '#cc2c2c',
+  },
+  rowIconDevice: {
     marginRight: 8,
   },
+  rowInfoIconControl: {
+    display: 'flex',
+    marginTop: 5,
+  },
+  rowStatusTracker: {
+    display: 'flex',
+    borderTop: '1px solid #e0e0e0',
+    borderBottom: '1px solid #e0e0e0',
+  },
 }));
-export { useStyles };
+export { useStyles, Image, DefaultImage };
