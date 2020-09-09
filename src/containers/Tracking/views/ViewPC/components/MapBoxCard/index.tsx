@@ -89,32 +89,7 @@ class MapCard extends React.Component<IProps, IState> {
           };
           this.map.getSource('route-tracker').setData(lineGeoJson);
         } else {
-          const lineGeoJson = {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'LineString',
-              coordinates: [[startPoint.lng, startPoint.lat], lnglat],
-            },
-          };
-          this.map.addSource('route-tracker', {
-            type: 'geojson',
-            data: lineGeoJson,
-          });
-          this.map.addLayer({
-            id: 'route-layer',
-            type: 'line',
-            source: 'route-tracker',
-            layout: {
-              'line-join': 'round',
-              'line-cap': 'round',
-            },
-            paint: {
-              'line-color': '#168449',
-              'line-width': 3,
-              'line-opacity': 1,
-            },
-          });
+          this.initRoute([[startPoint.lng, startPoint.lat], lnglat]);
         }
         this.map.panTo(lnglat, { duration: 0 });
       }
@@ -122,6 +97,35 @@ class MapCard extends React.Component<IProps, IState> {
     } else {
       this.counter = 1;
     }
+  };
+
+  initRoute = coordinates => {
+    const lineGeoJson = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates,
+      },
+    };
+    this.map.addSource('route-tracker', {
+      type: 'geojson',
+      data: lineGeoJson,
+    });
+    this.map.addLayer({
+      id: 'route-layer',
+      type: 'line',
+      source: 'route-tracker',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+      },
+      paint: {
+        'line-color': '#168449',
+        'line-width': 3,
+        'line-opacity': 1,
+      },
+    });
   };
 
   componentWillReceiveProps(nextProps) {
@@ -241,8 +245,15 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   changeMapTile = (tile: string) => {
+    const route = this.map.getSource('route-tracker');
     this.map.setStyle('mapbox://styles/mapbox/' + tile);
-    this.setState({ mapStyle: tile });
+    this.setState({ mapStyle: tile }, () => {
+      setTimeout(() => {
+        if (route) {
+          this.initRoute(route._data.geometry.coordinates);
+        }
+      }, 1000);
+    });
   };
 
   changeZoom = (value: number) => {
