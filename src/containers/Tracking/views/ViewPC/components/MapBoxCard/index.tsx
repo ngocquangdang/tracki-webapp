@@ -6,7 +6,7 @@ import { bearing as turfBearing } from '@turf/turf';
 import mapboxgl from 'mapbox-gl';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
-import MapToolBar from '../MapCard/MapToolBar';
+import MapToolBar from '../MapToolBar';
 import style from './styles';
 
 interface IProps {
@@ -38,7 +38,6 @@ class MapCard extends React.Component<IProps, IState> {
   marker: any;
   mapTile: any;
   isFirstFitBounce: boolean;
-  route: any;
   steps = 60;
   counter = 1;
   currentLat = 0;
@@ -69,25 +68,55 @@ class MapCard extends React.Component<IProps, IState> {
       this.counter += 1;
       this.currentLat = (this.currentLat || startPoint.lat) + this.DELTA_LAT;
       this.currentLng = (this.currentLng || startPoint.lng) + this.DELTA_LNG;
-      const latlng = {
-        lat: +this.currentLat.toFixed(7),
-        lng: +this.currentLng.toFixed(7),
-      };
+      const lnglat = [+this.currentLng.toFixed(7), +this.currentLat.toFixed(7)];
 
       if (this.marker) {
-        this.marker.setLngLat(latlng);
-        if (this.route) {
-          const latlngs = this.route.getLatLngs();
-          latlngs.push(latlng);
-          this.route.setLatLngs(latlngs);
+        this.marker.setLngLat(lnglat);
+        const routeSource = this.map.getSource('route-tracker');
+        if (routeSource) {
+          const {
+            _data: {
+              geometry: { coordinates },
+            },
+          } = routeSource;
+          const lineGeoJson = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'LineString',
+              coordinates: [...coordinates, lnglat],
+            },
+          };
+          this.map.getSource('route-tracker').setData(lineGeoJson);
         } else {
-          // this.route = L.polyline([startPoint, latlng], {
-          //   weight: 3,
-          //   color: '#168449',
-          // });
-          // this.route.addTo(this.map);
+          const lineGeoJson = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'LineString',
+              coordinates: [[startPoint.lng, startPoint.lat], lnglat],
+            },
+          };
+          this.map.addSource('route-tracker', {
+            type: 'geojson',
+            data: lineGeoJson,
+          });
+          this.map.addLayer({
+            id: 'route-layer',
+            type: 'line',
+            source: 'route-tracker',
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round',
+            },
+            paint: {
+              'line-color': '#168449',
+              'line-width': 3,
+              'line-opacity': 1,
+            },
+          });
         }
-        this.map.panTo(latlng, { duration: 0 });
+        this.map.panTo(lnglat, { duration: 0 });
       }
       requestAnimationFrame(this.moveMarker(tracker));
     } else {
@@ -115,17 +144,19 @@ class MapCard extends React.Component<IProps, IState> {
     // remove current marker
     if (selectedTrackerId !== thisSelectedTracker) {
       if (this.marker) {
-        this.map.removeLayer(this.marker);
+        this.marker.remove();
         this.marker = undefined;
       }
-      if (this.route) {
-        this.map.removeLayer(this.route);
-        this.route = null;
+      if (this.map.getLayer('route-layer')) {
+        this.map.removeLayer('route-layer');
+      }
+      if (this.map.getSource('route-tracker')) {
+        this.map.removeSource('route-tracker');
       }
       if (this.props.mapId !== 'mapPosition') {
         const pointIds = Object.keys(this.pointsTemp);
         pointIds.map(id => {
-          this.map.removeLayer(this.pointsTemp[id]);
+          this.pointsTemp[id].remove();
           delete this.pointsTemp[id];
           return null;
         });
@@ -138,7 +169,7 @@ class MapCard extends React.Component<IProps, IState> {
     ) {
       const lastPoint = nextTracker.histories[nextTracker.histories.length - 1];
       const el = document.createElement('div');
-      el.className = 'arrow-div-icon';
+      el.className = 'point-dot';
       this.pointsTemp[uniqueId('point')] = new mapboxgl.Marker(el)
         .setLngLat([lastPoint.lng, lastPoint.lat])
         .addTo(this.map);
@@ -152,14 +183,14 @@ class MapCard extends React.Component<IProps, IState> {
       this.DELTA_LAT = (nextTracker.lat - lastPoint.lat) / this.steps;
       this.DELTA_LNG = (nextTracker.lng - lastPoint.lng) / this.steps;
       this.bearing = turfBearing(
-        [lastPoint.lat, lastPoint.lng],
-        [nextTracker.lat, nextTracker.lng]
+        [lastPoint.lng, lastPoint.lat],
+        [nextTracker.lng, nextTracker.lat],
+        { final: true }
       );
-      console.log('____bearing', this.bearing);
-      console.log('___lastPoint', lastPoint.lat, lastPoint.lng);
-      console.log('___nextTracker', nextTracker.lat, nextTracker.lng);
-      this.map.rotateTo(this.bearing + 90);
-      this.moveMarker(nextTracker)();
+      this.map.rotateTo(this.bearing, { duration: 100 });
+      setTimeout(() => {
+        this.moveMarker(nextTracker)();
+      }, 500);
     }
   }
 
@@ -197,7 +228,7 @@ class MapCard extends React.Component<IProps, IState> {
       },
       trackUserLocation: true,
     });
-
+    this.map.addControl(this.geolocate);
     this.map.on('click', e => {
       console.log('___MAP CLICKED', e);
     });

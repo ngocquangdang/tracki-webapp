@@ -8,7 +8,7 @@ import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
 import SelectTracker from '../MultiView/SelectTracker';
 import style from './styles';
-import MapToolBar from './MapToolBar';
+import MapToolBar from '../MapToolBar';
 
 interface IProps {
   mapId: string;
@@ -229,7 +229,7 @@ class MapCard extends React.Component<IProps, IState> {
     }).addTo(this.map);
 
     this.map.on('locationfound', (e: L.LocationEvent) => {
-      this.map.panTo(e.latlng, { zoom });
+      this.map.flyTo(e.latlng, 14);
       this.setState({ userLocation: e.latlng });
     });
     this.map.on('click', e => {
