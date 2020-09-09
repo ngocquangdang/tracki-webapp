@@ -3,13 +3,12 @@ import L from 'leaflet';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { uniqueId } from 'lodash';
-import { bearing as turfBearing } from '@turf/turf';
 
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
 import SelectTracker from '../MultiView/SelectTracker';
 import style from './styles';
-import MapToolBar from './MapToolBar';
+import MapToolBar from '../MapToolBar';
 
 interface IProps {
   mapId: string;
@@ -19,7 +18,6 @@ interface IProps {
   trackers: object;
   settings: object;
   isMobile?: boolean;
-  isHelicopterView?: boolean;
   selectedTrackerId: number;
   trackingIds: number[];
   classes: any;
@@ -91,18 +89,6 @@ class MapCard extends React.Component<IProps, IState> {
         lat: +this.currentLat.toFixed(7),
         lng: +this.currentLng.toFixed(7),
       };
-
-      if (this.props.isHelicopterView) {
-        const prevPoint = [
-          this.currentLat - this.DELTA_LAT,
-          this.currentLng - this.DELTA_LNG,
-        ];
-        const bearing = turfBearing(prevPoint, [latlng.lat, latlng.lng]);
-        const arrow = document.getElementById('arrowTrackerIcon');
-        if (arrow) {
-          arrow.style.transform = `rotate(${bearing + 90}deg)`;
-        }
-      }
 
       if (this.marker) {
         this.marker.setLatLng(latlng);
@@ -243,7 +229,7 @@ class MapCard extends React.Component<IProps, IState> {
     }).addTo(this.map);
 
     this.map.on('locationfound', (e: L.LocationEvent) => {
-      this.map.panTo(e.latlng, { zoom });
+      this.map.flyTo(e.latlng, 14);
       this.setState({ userLocation: e.latlng });
     });
     this.map.on('click', e => {
@@ -277,27 +263,8 @@ class MapCard extends React.Component<IProps, IState> {
     console.log(id);
   };
 
-  getMarkerElement = (tracker, isHelicopterView) => {
+  getMarkerElement = tracker => {
     const { device_name, device_id, icon_url, status } = tracker;
-    if (isHelicopterView) {
-      const markerSize = 32;
-      const markerData = `<svg id="Layer_1" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <g><path d="M17.3375483,23.9265823 L17.3375483,23.9265823 L32,31.9974684 L16,0 L0,32 L14.6624517,23.9291139 L14.6624517,23.9291139 C15.4913945,23.4708861 16.5086055,23.4708861 17.3375483,23.9265823 Z" fill="#168449" stroke="#fff" fill-stroke="1"/></g>
-      </svg>`;
-      const el = document.createElement('div');
-      el.className = 'arrow-div-icon';
-      el.id = 'arrowTrackerIcon';
-      el.style.backgroundImage =
-        'url(data:image/svg+xml;base64,' + btoa(markerData) + ')';
-      el.style.width = markerSize + 'px';
-      el.style.height = markerSize + 'px';
-      el.innerHTML = `
-        <div class="arrow-title">
-          ${this.trackerName(device_name || device_id, status)}
-        </div>`;
-      return el;
-    }
-
     const elm = document.createElement('div');
     elm.className = `custom-div-icon`;
     elm.innerHTML = `
@@ -320,22 +287,13 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   renderMarker = () => {
-    const {
-      trackers,
-      // trackingIds,
-      // isMultiScreen,
-      isHelicopterView,
-      selectedTrackerId,
-    } = this.props;
+    const { trackers, selectedTrackerId } = this.props;
     const tracker = trackers[selectedTrackerId];
 
     if (!this.marker && tracker && tracker.lat && tracker.lng) {
       const { lat, lng } = tracker;
-      const elm = this.getMarkerElement(tracker, isHelicopterView);
-      const icon = new L.DivIcon({
-        html: elm,
-        className: isHelicopterView ? 'arrow-icon' : '',
-      });
+      const elm = this.getMarkerElement(tracker);
+      const icon = new L.DivIcon({ html: elm });
       this.marker = L.marker([lat, lng], { icon });
       this.marker.addTo(this.map);
       this.map.panTo([lat, lng]);
