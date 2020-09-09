@@ -13,3 +13,8 @@ export const MAPBOX_API_KEY =
 export const OAUTH_CLIENT_ID = process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID;
 export const OAUTH_CLIENT_SECRET = process.env.NEXT_PUBLIC_OAUTH_CLIENT_SECRET;
 export const OAUTH_REDIRECT_URI = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI;
+
+export const MQTT_USERNAME = process.env.NEXT_PUBLIC_MQTT_USERNAME;
+export const MQTT_PASSWORD = process.env.NEXT_PUBLIC_MQTT_PASSWORD;
+export const MQTT_HOST = process.env.NEXT_PUBLIC_MQTT_HOST;
+export const MQTT_PORT = process.env.NEXT_PUBLIC_MQTT_PORT;
