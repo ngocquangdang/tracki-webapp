@@ -8,6 +8,7 @@ import mapboxgl from 'mapbox-gl';
 import { MAPBOX_API_KEY } from '@Definitions/app';
 import MapToolBar from '../MapToolBar';
 import style from './styles';
+import { ITracker } from '@Interfaces';
 
 interface IProps {
   mapId: string;
@@ -53,9 +54,9 @@ class MapCard extends React.Component<IProps, IState> {
     this.state = {
       isInitiatedMap: false,
       mapCenter: [40.866667, 34.566667],
-      mapZoom: 15,
+      mapZoom: 16,
       userLocation: null,
-      mapStyle: 'streets-v11',
+      mapStyle: 'satellite-v9',
     };
     this.isFirstFitBounce = false;
   }
@@ -129,7 +130,7 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { selectedTrackerId, trackers: nextTrackers, settings } = nextProps;
+    const { selectedTrackerId, trackers: nextTrackers } = nextProps;
     const { selectedTrackerId: thisSelectedTracker, trackers } = this.props;
     const tracker = trackers[selectedTrackerId];
 
@@ -171,32 +172,46 @@ class MapCard extends React.Component<IProps, IState> {
     if (
       (nextTracker.histories || []).length !== (tracker.histories || []).length
     ) {
-      const lastPoint = nextTracker.histories[nextTracker.histories.length - 1];
-      const el = document.createElement('div');
-      el.className = 'point-dot';
-      this.pointsTemp[uniqueId('point')] = new mapboxgl.Marker(el)
-        .setLngLat([lastPoint.lng, lastPoint.lat])
-        .addTo(this.map);
-      const setting = settings[nextTracker.settings_id];
-      const {
-        preferences: {
-          tracking_mode: { sample_rate, tracking_measurment },
-        },
-      } = setting;
-      this.steps = tracking_measurment === 'seconds' ? sample_rate * 60 : 60;
-      this.DELTA_LAT = (nextTracker.lat - lastPoint.lat) / this.steps;
-      this.DELTA_LNG = (nextTracker.lng - lastPoint.lng) / this.steps;
-      this.bearing = turfBearing(
-        [lastPoint.lng, lastPoint.lat],
-        [nextTracker.lng, nextTracker.lat],
-        { final: true }
-      );
-      this.map.rotateTo(this.bearing, { duration: 100 });
-      setTimeout(() => {
-        this.moveMarker(nextTracker)();
-      }, 500);
+      this.handleMovingTracker(nextTracker);
     }
   }
+
+  handleMovingTracker = (tracker: ITracker) => {
+    const { settings } = this.props;
+    const lastPoint = tracker.histories[tracker.histories.length - 1];
+    const isFirstPoint = tracker.histories.length === 1;
+    const el = document.createElement('div');
+    if (isFirstPoint) {
+      el.className = 'start-point';
+      el.innerHTML = `
+        <div class="dot"></div>
+        <div class="line"></div>
+      `;
+    } else {
+      el.className = 'point-dot';
+    }
+    this.pointsTemp[uniqueId('point')] = new mapboxgl.Marker(el)
+      .setLngLat([lastPoint.lng, lastPoint.lat])
+      .addTo(this.map);
+    const setting = settings[tracker.settings_id];
+    const {
+      preferences: {
+        tracking_mode: { sample_rate, tracking_measurment },
+      },
+    } = setting;
+    this.steps = tracking_measurment === 'seconds' ? sample_rate * 60 : 60;
+    this.DELTA_LAT = (tracker.lat - lastPoint.lat) / this.steps;
+    this.DELTA_LNG = (tracker.lng - lastPoint.lng) / this.steps;
+    this.bearing = turfBearing(
+      [lastPoint.lng, lastPoint.lat],
+      [tracker.lng, tracker.lat],
+      { final: true }
+    );
+    this.map.rotateTo(this.bearing, { duration: 100 });
+    setTimeout(() => {
+      this.moveMarker(tracker)();
+    }, 500);
+  };
 
   trackerName = (name: string | number, status: string) => {
     const nameWidth = name.toString().length * 9;
@@ -208,7 +223,7 @@ class MapCard extends React.Component<IProps, IState> {
   componentDidMount() {
     const { mapId, tracker, isMobile, isMultiView } = this.props;
     const { mapCenter, mapZoom, mapStyle } = this.state;
-    const zoom = isMobile && isMultiView ? 8 : mapZoom;
+    const zoom = isMobile && isMultiView ? 14 : mapZoom;
     let center = mapCenter;
 
     if (tracker && tracker.lat && tracker.lng) {
@@ -267,7 +282,7 @@ class MapCard extends React.Component<IProps, IState> {
 
   getMarkerElement = tracker => {
     const { device_name, device_id, status } = tracker;
-    const markerSize = 32;
+    const markerSize = 20;
     const markerData = `<svg id="Layer_1" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <g><path d="M17.3375483,23.9265823 L17.3375483,23.9265823 L32,31.9974684 L16,0 L0,32 L14.6624517,23.9291139 L14.6624517,23.9291139 C15.4913945,23.4708861 16.5086055,23.4708861 17.3375483,23.9265823 Z" fill="#168449" stroke="#fff" fill-stroke="1"/></g>
     </svg>`;
