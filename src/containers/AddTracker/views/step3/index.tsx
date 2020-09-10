@@ -59,7 +59,10 @@ export default function Step3(props: Props) {
   } = props;
 
   const addDone = (done: boolean) => {
-    done && onNextStep() && onAdded();
+    if (done) {
+      onNextStep();
+      onAdded();
+    }
   };
   const onSubmit = value => {
     const paymentInfo = {
