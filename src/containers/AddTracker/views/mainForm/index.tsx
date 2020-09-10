@@ -54,7 +54,9 @@ export default function MainForm(props: any) {
     { step: 'Personalize', activeStep: 2 },
   ];
 
-  const onAdded = () => setAdded(true);
+  const onAdded = () => {
+    setAdded(true);
+  };
   const onUpdateStepChild = value => {
     updateStepChild(value);
   };
@@ -69,9 +71,12 @@ export default function MainForm(props: any) {
     fetchTrackersRequestedAction(account_id);
     resetStoreAddTracker();
   };
+
   const onNextStep1 = (assigned: boolean) => {
     assigned ? setActiveStep(1) : setActiveStep(0);
+    // setActiveStep(1)
   };
+
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:

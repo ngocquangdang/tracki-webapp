@@ -272,6 +272,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
               pointTrackingIndex={pointTrackingIndex}
               changePointTracking={changePointTracking}
               history={histories[selectedTrackerId] || {}}
+              t={t}
             />
           )}
       </React.Fragment>

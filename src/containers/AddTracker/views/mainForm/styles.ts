@@ -64,6 +64,7 @@ const Congratulation = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 30px;
 `;
 const CongratulationSubTitle = styled.span`
   font-size: 14px;

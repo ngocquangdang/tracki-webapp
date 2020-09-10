@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
-import axios from 'axios';
 import Router from 'next/router';
 
 import {
@@ -12,8 +11,8 @@ import { GoPrimitiveDot } from 'react-icons/go';
 
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { SkeletonTracker } from '@Components/Skeletons';
-import { UNWIREDLABS_API_KEY } from '@Definitions/app';
 import { ITracker } from '@Interfaces';
+import { getAddress } from '@Utils/helper';
 import {
   Card,
   Item,
@@ -56,14 +55,24 @@ interface Prop {
   tracker: ITracker;
   isMobile: boolean;
   t(key: string, format?: object): string;
-  settings: any;
+  settings?: any;
   profile?: any;
-  refreshLocation(data: object): void;
+  refreshLocation?(data: object): void;
+  isHistory?: boolean;
+  locationPointTracking?: any;
 }
 
 function DetailTrackerCard(props: Prop) {
   const classes = useStyles();
-  const { tracker, isMobile, className = '', profile, refreshLocation } = props;
+  const {
+    tracker,
+    isMobile,
+    className = '',
+    profile,
+    refreshLocation,
+    isHistory,
+    locationPointTracking,
+  } = props;
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
   const [viewMore, setTextViewMore] = useState(false);
@@ -80,27 +89,20 @@ function DetailTrackerCard(props: Prop) {
   };
 
   const onRefreshClick = () => {
-    refreshLocation({
-      devices: [tracker.device_id],
-      forceGpsRead: true,
-      sendGsmBeforeLock: true,
-    });
+    refreshLocation &&
+      refreshLocation({
+        devices: [tracker.device_id],
+        forceGpsRead: true,
+        sendGsmBeforeLock: true,
+      });
   };
 
   const callApiGetAddress = useCallback(async () => {
-    if (tracker && !!tracker.lat && !!tracker.lng) {
-      const { data } = await axios.get(
-        `https://us1.unwiredlabs.com/v2/reverse.php?token=${UNWIREDLABS_API_KEY}&lat=${tracker.lat}&lon=${tracker.lng}`
-      );
-      setDataAddress(
-        data.status === 'ok' ? data.address.display_name : 'Unknow location'
-      );
-      setLoading(false);
-    } else {
-      setDataAddress('Unknow location');
-      setLoading(false);
-    }
-  }, [setDataAddress, setLoading, tracker]);
+    const locationAddress = isHistory ? locationPointTracking : tracker;
+    const address = await getAddress(locationAddress);
+    setDataAddress(address);
+    setLoading(false);
+  }, [setDataAddress, setLoading, tracker, isHistory, locationPointTracking]);
 
   useEffect(() => {
     callApiGetAddress();
@@ -154,33 +156,54 @@ function DetailTrackerCard(props: Prop) {
                   }
                 />
                 <TimeActive>
-                  Last Updated:{' '}
-                  {tracker.time ? moment(tracker.time * 1000).fromNow() : '---'}
+                  {isHistory ? 'Date' : 'Last Updated'}:{' '}
+                  {isHistory && locationPointTracking
+                    ? `${moment(locationPointTracking.time * 1000).format(
+                        'MMM DD YYYY, hh:MM:SS A'
+                      )}`
+                    : tracker.time
+                    ? `${moment(tracker.time * 1000).fromNow()} at ${moment(
+                        tracker.time * 1000
+                      ).format('MMM DD, YYYY A')}`
+                    : '---'}
                 </TimeActive>
               </Time>
             </ItemInfo>
           </LeftItem>
-          <RightItem>
-            <ButtonIcon>
-              <RefreshIcon
-                className={classes.rightIcon}
-                onClick={onRefreshClick}
-              />
-            </ButtonIcon>
-            <ButtonIcon>
-              <ZoomInIcon className={classes.rightIcon} onClick={onZoomClick} />
-            </ButtonIcon>
-          </RightItem>
+          {!isHistory ? (
+            <RightItem>
+              <ButtonIcon>
+                <RefreshIcon
+                  className={classes.rightIcon}
+                  onClick={onRefreshClick}
+                />
+              </ButtonIcon>
+              <ButtonIcon>
+                <ZoomInIcon
+                  className={classes.rightIcon}
+                  onClick={onZoomClick}
+                />
+              </ButtonIcon>
+            </RightItem>
+          ) : null}
         </Item>
         <Address isMobile={isMobile}>
           <LocationOnIcon className={classes.iconLocation} />
           <Text>
             <TextName>{dataAddress}</TextName>
-            {tracker.lat && tracker.lng && (
+            {isHistory && locationPointTracking ? (
               <LatLong>
-                <LatText>Lat: {tracker.lat}</LatText>
-                <LongText>Lon: {tracker.lng}</LongText>
+                <LatText>Lat: {locationPointTracking.lat}</LatText>
+                <LongText>Lon: {locationPointTracking.lng}</LongText>
               </LatLong>
+            ) : (
+              tracker.lat &&
+              tracker.lng && (
+                <LatLong>
+                  <LatText>Lat: {tracker.lat}</LatText>
+                  <LongText>Lon: {tracker.lng}</LongText>
+                </LatLong>
+              )
             )}
           </Text>
         </Address>
@@ -262,29 +285,40 @@ function DetailTrackerCard(props: Prop) {
         <BatteryTracker>
           <IconBattery src="/images/icon-battery.png" />
           <span className={isMobile ? classes.textMobile : classes.textPC}>
-            {tracker?.battery || 0}%
+            {isHistory && locationPointTracking
+              ? locationPointTracking.battery
+              : tracker?.battery || 0}
+            %
           </span>
         </BatteryTracker>
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
           <span className={isMobile ? classes.textMobile : classes.textSpeedPC}>
-            {tracker && tracker.speed === 0
+            {isHistory && locationPointTracking
+              ? locationPointTracking.speed || 0
+              : tracker && tracker.speed === 0
               ? 'Stopped'
               : speed_unit === 'mph'
               ? tracker?.speed || 0
               : ((tracker?.speed || 0) * 1.609).toFixed(2)}{' '}
-            {tracker && tracker.speed !== 0 ? speed_unit?.toUpperCase() : ''}
+            {isHistory && locationPointTracking
+              ? locationPointTracking.speed_unit?.toUpperCase()
+              : tracker && tracker.speed !== 0
+              ? speed_unit?.toUpperCase()
+              : ''}
           </span>
         </StatusTracker>
         <ConnectionTracker>
           <Connection isMobile={isMobile}>
             Connection:{' '}
             <span className={classes.textBold}>
-              {tracker?.location_type || '--'}
+              {isHistory && locationPointTracking
+                ? locationPointTracking.type.toUpperCase()
+                : tracker?.location_type || '--'}
             </span>
           </Connection>
           <LocationApprox isMobile={isMobile}>
-            Location within approx. 5-20m
+            {isHistory ? 'Accuracy within: -' : 'Location within approx. 5-20m'}
           </LocationApprox>
         </ConnectionTracker>
       </TrackerStatus>

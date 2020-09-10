@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
-  Adjust as AdjustIcon,
-  LocationOn as LocationIcon,
   Close as CloseIcon,
-  Public as PublicIcon,
   ArrowBackIos as ArrowBackIosIcon,
   ArrowForwardIos as ArrowForwardIosIcon,
 } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import { AiOutlineDashboard } from 'react-icons/ai';
-import { CgBattery } from 'react-icons/cg';
-import moment from 'moment';
 import Draggable from 'react-draggable';
+import DetailTrackerCard from '@Components/DetailTrackerCard';
 
 import { ITracker } from '@Interfaces';
-import { getAddress } from '@Utils/helper';
 import { useStyles } from './styles';
 import clsx from 'clsx';
 
@@ -31,6 +25,7 @@ interface Prop {
   tracker: ITracker;
   pointIndex: number;
   lastIndex: number;
+  t(key: string, format?: object): string;
   changePointTracking(pointIndex: number): void;
 }
 
@@ -42,23 +37,10 @@ function PointTrackingInfo(props: Prop) {
     pointIndex,
     lastIndex,
     map,
+    t,
     changePointTracking,
   } = props;
   const [showInfo, setShowInfo] = useState(!!location);
-  const [address, setAddress] = useState<string | null>(null);
-
-  const callApiGetAddress = useCallback(async () => {
-    const add = await getAddress(location);
-    setAddress(add);
-  }, [setAddress, location]);
-
-  useEffect(() => {
-    callApiGetAddress();
-  }, [callApiGetAddress]);
-
-  useEffect(() => {
-    setShowInfo(true);
-  }, [pointIndex, location]);
 
   const onClose = () => setShowInfo(false);
   const onChangePoint = (index: number) => () =>
@@ -82,57 +64,17 @@ function PointTrackingInfo(props: Prop) {
         <IconButton className={classes.closeBtn} onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <div className={classes.rowInfo}>
-          <div className={classes.rowIcon}>
-            <AdjustIcon color="primary" />
-          </div>
-          <div className={classes.rowText}>
-            <p className={classes.title}>{tracker.device_name}</p>
-            <p className={classes.subtitle}>
-              {'Date: ' +
-                moment(tracker.time * 1000).format('MMM DD YYYY, hh:MM:SS A')}
-            </p>
-          </div>
-        </div>
-        <div className={classes.rowInfo}>
-          <div className={classes.rowIcon}>
-            <LocationIcon />
-          </div>
-          <div className={classes.rowText}>{address}</div>
-        </div>
-        <div className={classes.rowInfo}>
-          <div className={classes.rowIcon}>
-            <PublicIcon />
-          </div>
-          <div className={classes.rowText}>
-            {`Lat: ${location.lat || '-'}, Lng: ${location.lng || '-'}`}
-          </div>
-        </div>
-        <div className={classes.rowInfo}>
-          <div className={classes.rowLeft}>
-            <div className={classes.block}>
-              <AiOutlineDashboard className={classes.dashIcon} />
-              <span className={classes.text}>
-                {(location.speed || 0) +
-                  ' ' +
-                  (location.speed_unit || '').toUpperCase()}
-              </span>
-            </div>
-            <div className={classes.block}>
-              <CgBattery className={classes.dashIcon} />
-              <span className={classes.text} style={{ marginLeft: 4 }}>
-                {location.battery ? location.battery + '%' : '-'}
-              </span>
-            </div>
-          </div>
-          <div className={classes.rowRight}>
-            <div>
-              Tracker Connection: {(location.type || '-').toUpperCase()}
-            </div>
-            <div>Accuracy within: -</div>
-          </div>
-        </div>
-        <div className={classes.rowInfo} style={{ justifyContent: 'flex-end' }}>
+        <DetailTrackerCard
+          isMobile={false}
+          tracker={tracker}
+          t={t}
+          isHistory={true}
+          locationPointTracking={location}
+        />
+        <div
+          className={classes.rowInfoIconControl}
+          style={{ justifyContent: 'flex-end' }}
+        >
           <IconButton
             color="primary"
             className={classes.prevBtn}
