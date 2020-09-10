@@ -294,6 +294,7 @@ class MapCard extends React.Component<IProps, IState> {
       'url(data:image/svg+xml;base64,' + btoa(markerData) + ')';
     el.style.width = markerSize + 'px';
     el.style.height = markerSize + 'px';
+    el.style.zIndex = '1';
     el.innerHTML = `
       <div class="arrow-title">
         ${this.trackerName(device_name || device_id, status)}

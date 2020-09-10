@@ -201,7 +201,7 @@ class MapCard extends React.Component<IProps, IState> {
         <div class="line"></div>
       `;
       const icon = new L.DivIcon({
-        html: isFirstPoint ? elm : undefined,
+        html: isFirstPoint ? elm : '',
         className: isFirstPoint ? '' : 'point-dot',
       });
       this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
