@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Formik } from 'formik';
+import RoomIcon from '@material-ui/icons/Room';
+import { AiOutlineCamera } from 'react-icons/ai';
+import { CircularProgress } from '@material-ui/core';
+import { useDropzone } from 'react-dropzone';
 
 import {
   Header,
@@ -10,7 +14,9 @@ import {
   InputSubcription,
   useStyles,
   Error,
+  Image,
 } from './styles';
+
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { TrackerDetail } from '../../schema';
@@ -41,7 +47,6 @@ interface Props {
 const initialTracker = {
   device_name: '',
   device_traking: LOCATION_UPDATE_OPTIONS[0].value,
-  // divice_image: '',
 };
 export default function Step3(props: Props) {
   const classes = useStyles();
@@ -57,13 +62,28 @@ export default function Step3(props: Props) {
     updateStore,
     isRequesting,
   } = props;
-
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImage] = useState<any>({});
   const addDone = (done: boolean) => {
     if (done) {
       onNextStep();
       onAdded();
     }
   };
+  const onDrop = useCallback(files => {
+    const file = files[0];
+    setLoading(true);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setLoading(false);
+      setImage({ result: reader.result, file: file });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const onSubmit = value => {
     const paymentInfo = {
       nonce: paymentData.nonce || '',
@@ -72,8 +92,44 @@ export default function Step3(props: Props) {
       first_name: paymentData.details.firstName || 'home',
       last_name: paymentData.details.lastName || 'trackimo',
     };
-    addDeviceAction(value, formData, account_id, paymentInfo, addDone);
+    addDeviceAction(
+      { value, file: imageFile.file },
+      formData,
+      account_id,
+      paymentInfo,
+      addDone
+    );
     updateStore({ ...formData, device_name: value.device_name });
+  };
+  const renderInputImage = () => {
+    return (
+      <UploadImage {...getRootProps()}>
+        {loading && (
+          <CircularProgress className={classes.loading} color="secondary" />
+        )}
+        {imageFile.result ? (
+          <div className={classes.elipLocation}>
+            <Image background={imageFile.result} />
+          </div>
+        ) : (
+          <div className={classes.elipLocation}>
+            <RoomIcon className={classes.iconLocation} />
+          </div>
+        )}
+        <input {...getInputProps()} />
+        <Button
+          type="button"
+          variant="text"
+          text={
+            <div className={classes.inputUploadImage}>
+              <AiOutlineCamera className={classes.iconCamera} />
+              <div className={classes.textAdd}>Add Picture</div>
+            </div>
+          }
+          className={classes.widthBtn}
+        />
+      </UploadImage>
+    );
   };
 
   return (
@@ -129,12 +185,10 @@ export default function Step3(props: Props) {
                 {t('tracker:tracking_intervals_subcription')}
               </InputSubcription>
             </GroupInput>
-            <UploadImage>
-              <div>upload</div>
-              <InputSubcription>
-                {t('tracker:add_image_subcription')}
-              </InputSubcription>
-            </UploadImage>
+            {renderInputImage()}
+            <InputSubcription>
+              {t('tracker:description_add_picture')}
+            </InputSubcription>
             <Error>{errors.message}</Error>
             <Button
               color="primary"

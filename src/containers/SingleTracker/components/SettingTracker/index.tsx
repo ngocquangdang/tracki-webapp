@@ -99,7 +99,7 @@ interface Props {
   isMobile: boolean;
   isRequesting?: boolean;
   show: boolean;
-  updateSettings(id: number, data: object, speed_unit: string): void;
+  updateSettings(id: number, data: object, speed_unit: string, callback): void;
   getContactListRequest(account_id: number): void;
   contacts: object;
   contactIds: Array<number>;
@@ -231,7 +231,12 @@ function SettingTracker(props: Props) {
       },
       file: imageFile.file,
     };
-    props.updateSettings(tracker.settings_id, bodyRequest, speed_unit);
+    props.updateSettings(
+      tracker.settings_id,
+      bodyRequest,
+      speed_unit,
+      handleClose
+    );
   };
 
   const onOpenModalSubscription = () => {
@@ -324,14 +329,6 @@ function SettingTracker(props: Props) {
             ) : (
               <DefaultImage background={'/images/image-device.png'} />
             )}
-            {/* <Image
-              src={
-                imageFile.result ||
-                tracker.icon_url ||
-                '/images/image-device.png'
-              }
-              alt=""
-            /> */}
             <UploadImage>
               <AiOutlineCamera style={{ color: '#fff' }} />
               <TextUpload>Upload</TextUpload>
@@ -706,8 +703,20 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateSettings: (settingId: number, data: object, speed_unit: string) =>
-    dispatch(updateTrackerSettingsRequestedAction(settingId, data, speed_unit)),
+  updateSettings: (
+    settingId: number,
+    data: object,
+    speed_unit: string,
+    callback
+  ) =>
+    dispatch(
+      updateTrackerSettingsRequestedAction(
+        settingId,
+        data,
+        speed_unit,
+        callback
+      )
+    ),
   getContactListRequest: account_id =>
     dispatch(getContactListRequestAction(account_id)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),

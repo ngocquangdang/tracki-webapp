@@ -14,6 +14,7 @@ interface Props {
   isMobile?: boolean;
   map: any;
   pointTrackingIndex: number;
+  t(key: string, format?: object): string;
   changePointTracking(pointIndex: number): void;
 }
 
@@ -51,7 +52,10 @@ class TrackerHistoryPath extends React.Component<Props> {
       this.removeLayer();
       this.renderPath(nextProps);
     }
-    if (pointTrackingIndex !== thisPointTrackingIndex) {
+    if (
+      pointTrackingIndex !== thisPointTrackingIndex &&
+      Object.keys(history).length > 0
+    ) {
       const pointIds = Object.keys(history);
       const location = history[pointIds[pointTrackingIndex]];
       this.pointTracking && map.removeLayer(this.pointTracking);
@@ -148,6 +152,7 @@ class TrackerHistoryPath extends React.Component<Props> {
       history,
       changePointTracking,
       map,
+      t,
     } = this.props;
     const pointIds = Object.keys(history);
     const location = history[pointIds[pointTrackingIndex]];
@@ -164,6 +169,7 @@ class TrackerHistoryPath extends React.Component<Props> {
         pointIndex={pointTrackingIndex}
         lastIndex={pointIds.length}
         changePointTracking={changePointTracking}
+        t={t}
       />
     );
   }

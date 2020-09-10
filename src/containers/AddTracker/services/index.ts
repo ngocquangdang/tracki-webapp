@@ -64,3 +64,14 @@ export const getSubAccount = async account_id => {
     `${USER_ENPOINT}/accounts/${account_id}/descendants`
   );
 };
+
+export const uploadImage = async (
+  accountId: number,
+  trackerId: number,
+  formdata: any
+) => {
+  return await axiosClient.post(
+    `v3/accounts/${accountId}/devices/${trackerId}/icon`,
+    formdata
+  );
+};

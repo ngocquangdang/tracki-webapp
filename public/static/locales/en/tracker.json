@@ -178,5 +178,6 @@
   "show_multiple_trackers": "Show Multiple Trackers",
   "renew_tracker": "Renew Tracker",
   "update_plan": "Update Plan",
-  "device_subscription": "Device subscription cancelled or charges were declined."
+  "device_subscription": "Device subscription cancelled or charges were declined.",
+  "description_add_picture": "Add a picture of what your tracking to easily see it on the map.(this is optional and you can always add a picture later)"
 }
