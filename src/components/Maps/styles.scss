@@ -108,22 +108,22 @@
 
 
 .start-point {
-  height: 40px !important;
-  margin-top: -38px !important;
-  margin-left: 8px !important;
+  margin-top: -18px !important;
+  margin-left: 6px !important;
 
   &.mapboxgl-marker {
-    margin-top: 0 !important;
-    margin-left: 3px !important;
+    margin-top: -4px !important;
+    margin-left: -1px !important;
 
     .dot {
       top: -16px;
-      left: 4px;
+      left: 1px;
     }
 
     .line {
       top: -14px;
       left: 3px;
+      height: 20px;
       transform: rotate(18deg);
     }
   }
@@ -133,18 +133,30 @@
     width: 10px;
     height: 10px;
     border-radius: 5px;
-    left: 7px;
+    left: 4px;
     z-index: 1;
     background-color: red;
+    &::after {
+      content: '';
+      width: 6px;
+      height: 4px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, white 0%, rgba(255, 255, 255, 0) 100%);
+      position: absolute;
+      transform: rotate(-30deg);
+      left: 1px;
+      top: 2px;
+    }
   }
 
   .line {
     position: absolute;
     width: 2px;
-    height: 36px;
-    top: -30px;
-    background: rgb(36, 37, 36);
+    height: 15px;
+    top: -8px;
+    background-color: #c8cff2;
     transform: rotate(10deg);
+    border-radius: 1px;
   }
 }
 
