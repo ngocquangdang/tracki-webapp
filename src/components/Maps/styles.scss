@@ -107,6 +107,48 @@
   }
 }
 
+
+.start-point {
+  height: 40px !important;
+  margin-top: -38px !important;
+  margin-left: 8px !important;
+
+  &.mapboxgl-marker {
+    margin-top: 0 !important;
+    margin-left: 3px !important;
+
+    .dot {
+      top: -16px;
+      left: 4px;
+    }
+
+    .line {
+      top: -14px;
+      left: 3px;
+      transform: rotate(18deg);
+    }
+  }
+
+  .dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    left: 7px;
+    z-index: 1;
+    background-color: red;
+  }
+
+  .line {
+    position: absolute;
+    width: 2px;
+    height: 36px;
+    top: -30px;
+    background: rgb(36, 37, 36);
+    transform: rotate(10deg);
+  }
+}
+
 .image-marker {
   width: 45px;
   position: absolute;

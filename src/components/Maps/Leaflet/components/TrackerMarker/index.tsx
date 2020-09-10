@@ -218,7 +218,17 @@ class TrackerMarker extends React.Component<Props> {
   handleMovingTracker = (tracker: ITracker) => {
     const { map, settings } = this.props;
     const lastPoint = tracker.histories[tracker.histories.length - 1];
-    const icon = new L.DivIcon({ className: 'point-dot' });
+    const isFirstPoint = tracker.histories.length === 1;
+    const elm = document.createElement('div');
+    elm.className = 'start-point';
+    elm.innerHTML = `
+      <div class="dot"></div>
+      <div class="line"></div>
+    `;
+    const icon = new L.DivIcon({
+      html: isFirstPoint ? elm : undefined,
+      className: isFirstPoint ? '' : 'point-dot',
+    });
     this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
       icon,
     }).addTo(map);

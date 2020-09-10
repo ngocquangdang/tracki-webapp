@@ -192,7 +192,17 @@ class MapCard extends React.Component<IProps, IState> {
     const { settings, mapId } = this.props;
     const lastPoint = tracker.histories[tracker.histories.length - 1];
     if (this.props.mapId !== 'mapPosition') {
-      const icon = new L.DivIcon({ className: 'point-dot' });
+      const isFirstPoint = tracker.histories.length === 1;
+      const elm = document.createElement('div');
+      elm.className = 'start-point';
+      elm.innerHTML = `
+        <div class="dot"></div>
+        <div class="line"></div>
+      `;
+      const icon = new L.DivIcon({
+        html: isFirstPoint ? elm : undefined,
+        className: isFirstPoint ? '' : 'point-dot',
+      });
       this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
         icon,
       }).addTo(this.map);
