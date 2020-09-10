@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   trackingContainer: {
     position: 'absolute',
     left: 405,
-    width: 415,
+    width: 350,
     zIndex: 400,
     cursor: 'move',
     backgroundColor: 'white',
@@ -42,7 +42,6 @@ const useStyles = makeStyles(theme => ({
 
   rowInfoIconControl: {
     display: 'flex',
-    marginTop: 5,
   },
 }));
 export { useStyles };

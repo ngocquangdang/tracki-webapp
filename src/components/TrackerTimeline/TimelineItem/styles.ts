@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     minHeight: 40,
     '&:hover div': {
-      color: 'red',
+      color: '#168449',
     },
   },
   oppositeText: {
@@ -30,26 +30,30 @@ const useStyles = makeStyles(theme => ({
   },
   moving: {
     backgroundColor: 'yellow',
+    borderColor: '#168449',
+    borderWidth: 0,
   },
   stop: {
     backgroundColor: 'red',
+    borderColor: 'red',
+    borderWidth: 0,
   },
   skeleton: {
     backgroundColor: '#f2f2f2',
   },
   active: {
     '& div': {
-      color: 'red',
+      color: '#168449',
     },
   },
   outter: {
     position: 'absolute',
-    width: 28,
-    height: 28,
+    width: 18,
+    height: 18,
     border: '2px solid',
     borderRadius: '50%',
-    left: -10,
-    top: -10,
+    left: -5,
+    top: -5,
   },
 }));
 

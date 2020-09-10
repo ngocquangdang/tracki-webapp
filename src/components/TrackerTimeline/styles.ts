@@ -28,8 +28,17 @@ const useStyles = makeStyles(theme => ({
   },
   loadMore: {
     fontSize: 14,
-    lineHeight: '17px',
+    lineHeight: 1.7,
+    fontWeight: 500,
+    color: '#168449',
     cursor: 'pointer',
+  },
+  itemLoadMore: {
+    padding: 6,
+    marginLeft: -3,
+  },
+  itemLoadMoreConnector: {
+    marginLeft: -3,
   },
 }));
 
