@@ -305,7 +305,7 @@ class TrackerMarker extends React.Component<Props> {
           class="arrow-div-icon"
           style="background-image: url(data:image/svg+xml;base64,${btoa(
             markerData
-          )});width: ${markerSize}px;height: ${markerSize}px"
+          )});width: ${markerSize}px;height: ${markerSize}px; z-index:1;"
         ></div>
         <div class="arrow-title">
           ${this.trackerName(device_name || device_id, status)}

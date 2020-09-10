@@ -17,6 +17,7 @@ interface Props {
   trackingIds: number[];
   trackers: object;
   settings: object;
+  isLoading?: boolean;
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
