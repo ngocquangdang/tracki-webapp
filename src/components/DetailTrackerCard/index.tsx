@@ -118,7 +118,7 @@ function DetailTrackerCard(props: Prop) {
       <TrackerInfomation isMobile={isMobile} className={className}>
         <Item isMobile={isMobile}>
           <LeftItem>
-            <ImageWrapper>
+            <ImageWrapper isHistory={isHistory}>
               {tracker.icon_url ? (
                 <Image background={tracker.icon_url} />
               ) : (
@@ -159,7 +159,7 @@ function DetailTrackerCard(props: Prop) {
                   {isHistory ? 'Date' : 'Last Updated'}:{' '}
                   {isHistory && locationPointTracking
                     ? `${moment(locationPointTracking.time * 1000).format(
-                        'MMM DD YYYY, hh:MM:SS A'
+                        'MMM DD YYYY, hh:mm:ss A'
                       )}`
                     : tracker.time
                     ? `${moment(tracker.time * 1000).fromNow()} at ${moment(
@@ -187,12 +187,12 @@ function DetailTrackerCard(props: Prop) {
             </RightItem>
           ) : null}
         </Item>
-        <Address isMobile={isMobile}>
+        <Address isMobile={isMobile} isHistory={isHistory}>
           <LocationOnIcon className={classes.iconLocation} />
           <Text>
-            <TextName>{dataAddress}</TextName>
+            <TextName isHistory={isHistory}>{dataAddress}</TextName>
             {isHistory && locationPointTracking ? (
-              <LatLong>
+              <LatLong isHistory={true}>
                 <LatText>Lat: {locationPointTracking.lat}</LatText>
                 <LongText>Lon: {locationPointTracking.lng}</LongText>
               </LatLong>
@@ -281,10 +281,18 @@ function DetailTrackerCard(props: Prop) {
       ) : (
         renderContentPC()
       )}
-      <TrackerStatus isMobile={isMobile}>
+      <TrackerStatus isMobile={isMobile} isHistory={isHistory}>
         <BatteryTracker>
           <IconBattery src="/images/icon-battery.png" />
-          <span className={isMobile ? classes.textMobile : classes.textPC}>
+          <span
+            className={
+              isMobile
+                ? classes.textMobile
+                : isHistory
+                ? classes.textHistory
+                : classes.textPC
+            }
+          >
             {isHistory && locationPointTracking
               ? locationPointTracking.battery
               : tracker?.battery || 0}
@@ -293,7 +301,15 @@ function DetailTrackerCard(props: Prop) {
         </BatteryTracker>
         <StatusTracker>
           <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />
-          <span className={isMobile ? classes.textMobile : classes.textSpeedPC}>
+          <span
+            className={
+              isMobile
+                ? classes.textMobile
+                : isHistory
+                ? classes.textHistory
+                : classes.textSpeedPC
+            }
+          >
             {isHistory && locationPointTracking
               ? locationPointTracking.speed || 0
               : tracker && tracker.speed === 0
@@ -309,7 +325,7 @@ function DetailTrackerCard(props: Prop) {
           </span>
         </StatusTracker>
         <ConnectionTracker>
-          <Connection isMobile={isMobile}>
+          <Connection isMobile={isMobile} isHistory={isHistory}>
             Connection:{' '}
             <span className={classes.textBold}>
               {isHistory && locationPointTracking
