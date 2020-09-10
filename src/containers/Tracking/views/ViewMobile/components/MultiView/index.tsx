@@ -57,6 +57,7 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             isMobile={true}
+            isTracking={true}
             mapId="mapPosition"
             mapLabel={props.t('tracker:map_follow')}
             isMultiView={true}
@@ -72,6 +73,7 @@ export default function MultiView(props: Props) {
           <MapCard
             isMobile={true}
             isMultiView={true}
+            isTracking={true}
             mapId="mapFollow"
             mapLabel={props.t('tracker:map_realtime_tracking')}
             selectedTrackerId={
@@ -87,6 +89,7 @@ export default function MultiView(props: Props) {
             <MapCard
               isMobile={true}
               isMultiView={true}
+              isTracking={true}
               mapId="mapHelicopterView"
               mapLabel={props.t('tracker:map_helicopter_view')}
               selectedTrackerId={
@@ -115,6 +118,7 @@ export default function MultiView(props: Props) {
           <MapCard
             isMobile={true}
             isMultiView={true}
+            isTracking={true}
             mapId="mapSatelliteView"
             mapLabel={props.t('tracker:map_satellite')}
             selectedTrackerId={

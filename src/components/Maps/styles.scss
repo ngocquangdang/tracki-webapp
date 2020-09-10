@@ -5,16 +5,38 @@
   width: 100%;
 }
 
-.arrow-div-icon {
-  position: absolute;
-  top: -6px;
-  z-index: 1;
+.leaflet-marker-icon.arrow-icon {
+  z-index: 400 !important;
 
-  .arrow-title {
-    position: absolute;
-    top: 25px;
-    left: 10px;
+  .arrow-div-icon {
+    margin-left: -4px;
+    margin-top: -4px;
   }
+}
+
+.arrow-div-icon {
+  &::before {
+    content: '';
+    z-index: 1;
+    background-color: rgba(22, 132, 73, .3);
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 15px;
+    display: block;
+    left: -5px;
+    position: relative;
+    top: -4px;
+  }
+}
+
+.arrow-div-icon.mapboxgl-marker .arrow-title {
+  margin-top: -8px;
+  margin-left: 8px;
+}
+
+.arrow-icon .arrow-title {
+  margin-top: -4px;
+  margin-left: 4px;
 }
 
 .leaflet-control-container {

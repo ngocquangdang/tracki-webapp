@@ -208,7 +208,7 @@ class MapCard extends React.Component<IProps, IState> {
   componentDidMount() {
     const { mapId, tracker, isMobile, isMultiView } = this.props;
     const { mapCenter, mapZoom, mapStyle } = this.state;
-    const zoom = isMobile && isMultiView ? 8 : mapZoom;
+    const zoom = isMobile && isMultiView ? 14 : mapZoom;
     let center = mapCenter;
 
     if (tracker && tracker.lat && tracker.lng) {
@@ -267,7 +267,7 @@ class MapCard extends React.Component<IProps, IState> {
 
   getMarkerElement = tracker => {
     const { device_name, device_id, status } = tracker;
-    const markerSize = 32;
+    const markerSize = 20;
     const markerData = `<svg id="Layer_1" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <g><path d="M17.3375483,23.9265823 L17.3375483,23.9265823 L32,31.9974684 L16,0 L0,32 L14.6624517,23.9291139 L14.6624517,23.9291139 C15.4913945,23.4708861 16.5086055,23.4708861 17.3375483,23.9265823 Z" fill="#168449" stroke="#fff" fill-stroke="1"/></g>
     </svg>`;
