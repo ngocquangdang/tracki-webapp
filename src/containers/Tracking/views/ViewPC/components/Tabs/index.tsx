@@ -11,6 +11,7 @@ import { TAB_KEYS } from '@Containers/Tracking/store/constants';
 
 interface Props {
   isMobile: boolean;
+  isLoading?: boolean;
   trackers: object;
   settings: object;
   trackingIds: number[];
@@ -28,6 +29,7 @@ export default function TabsPC(props: Props) {
     trackers,
     trackingIds,
     settings,
+    isLoading,
     t,
     changeTrackingView,
     changeTrackersTracking,
@@ -39,6 +41,9 @@ export default function TabsPC(props: Props) {
   const [currentTab, setTab] = useState(0);
 
   const onChangeTab = (event: any, newValue: any) => {
+    if (isLoading) {
+      return;
+    }
     setTab(newValue);
     changeTrackingView(TAB_KEYS[newValue]);
   };

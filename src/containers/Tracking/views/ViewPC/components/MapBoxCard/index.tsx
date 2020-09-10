@@ -170,7 +170,8 @@ class MapCard extends React.Component<IProps, IState> {
 
     const nextTracker = nextTrackers[selectedTrackerId];
     if (
-      (nextTracker.histories || []).length !== (tracker.histories || []).length
+      (nextTracker?.histories || []).length !==
+      (tracker?.histories || []).length
     ) {
       this.handleMovingTracker(nextTracker);
     }
@@ -214,7 +215,7 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   trackerName = (name: string | number, status: string) => {
-    const nameWidth = name.toString().length * 9;
+    const nameWidth = (name || '').toString().length * 9;
     return `<div class=${
       status === 'active' ? 'title-device' : 'red-title-device'
     } style='width:${nameWidth}px; left:-${nameWidth / 2 - 4}px'>${name}</div>`;
