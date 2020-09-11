@@ -17,6 +17,7 @@ interface Props {
   trackingIds: number[];
   trackers: object;
   settings: object;
+  isLoading?: boolean;
   changeTrackingView(mode: string): void;
   changeTrackersTracking(ids: number[]): void;
   t(key: string, format?: object): string;
@@ -32,6 +33,9 @@ export default function TrackingContainer(props: Props) {
 
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
   };
 
   useEffect(() => {
@@ -64,6 +68,7 @@ export default function TrackingContainer(props: Props) {
             trackers={rest.trackers}
             trackingIds={rest.trackingIds}
             t={rest.t}
+            settings={rest.settings}
             viewMode={rest.viewMode}
             isMultiScreen={rest.viewMode === 'multi_screen'}
             changeTrackersTracking={rest.changeTrackersTracking}

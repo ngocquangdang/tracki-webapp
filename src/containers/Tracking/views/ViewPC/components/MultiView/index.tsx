@@ -2,11 +2,12 @@ import React from 'react';
 import { isEmpty } from 'lodash';
 
 import MapCard from '../MapCard';
-import MapStreetView from '../MapStreetView';
+import MapBoxCard from '../MapBoxCard';
 import { useStyles } from './styles';
 
 interface Props {
   trackers: object;
+  settings: object;
   isFullWidth: boolean;
   isMultiScreen: boolean;
   trackingIds: number[];
@@ -28,7 +29,8 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             mapId="mapPosition"
-            mapLabel={props.t('tracker:map_position')}
+            mapLabel={props.t('tracker:map_follow')}
+            isTracking={true}
             selectedTrackerId={
               isMultiScreen
                 ? trackingIds[0] || selectedTrackerId
@@ -40,7 +42,8 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             mapId="mapFollow"
-            mapLabel={props.t('tracker:map_follow')}
+            mapLabel={props.t('tracker:map_realtime_tracking')}
+            isTracking={true}
             selectedTrackerId={
               isMultiScreen
                 ? trackingIds[1] || selectedTrackerId
@@ -54,8 +57,9 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           {isMultiScreen ? (
             <MapCard
-              mapId="mapStreetView"
-              mapLabel={props.t('tracker:map_street_panorama')}
+              mapId="mapHelicopterView"
+              isTracking={true}
+              mapLabel={props.t('tracker:map_helicopter_view')}
               selectedTrackerId={
                 isMultiScreen
                   ? trackingIds[2] || selectedTrackerId
@@ -64,15 +68,22 @@ export default function MultiView(props: Props) {
               {...props}
             />
           ) : (
-            <MapStreetView
-              mapLabel={props.t('tracker:map_street_panorama')}
-              tracker={trackers[selectedTrackerId]}
+            <MapBoxCard
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
+              selectedTrackerId={
+                isMultiScreen
+                  ? trackingIds[2] || selectedTrackerId
+                  : selectedTrackerId
+              }
+              {...props}
             />
           )}
         </div>
         <div className={classes.item}>
           <MapCard
             mapId="mapSatelliteView"
+            isTracking={true}
             mapLabel={props.t('tracker:map_satellite')}
             selectedTrackerId={
               isMultiScreen

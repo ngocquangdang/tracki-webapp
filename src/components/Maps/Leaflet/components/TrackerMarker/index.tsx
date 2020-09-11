@@ -1,6 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import { uniqueId } from 'lodash';
+import { bearing as turfBearing } from '@turf/turf';
 
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { ITracker } from '@Interfaces';
@@ -8,6 +9,7 @@ import { ITracker } from '@Interfaces';
 interface Props {
   map: any;
   tracker: ITracker;
+  settings: object;
   isBeep: boolean;
   isAlertSos?: boolean;
   isMobile?: boolean;
@@ -25,6 +27,8 @@ class TrackerMarker extends React.Component<Props> {
   currentLng = 0;
   trackerRoute: any = null;
   pointsTemp = {};
+  DELTA_LAT = 0;
+  DELTA_LNG = 0;
 
   constructor(props) {
     super(props);
@@ -37,10 +41,8 @@ class TrackerMarker extends React.Component<Props> {
 
     if (this.counter <= this.steps && startPoint) {
       this.counter += 1;
-      const DELTA_LAT = (tracker.lat - startPoint.lat) / this.steps;
-      const DELTA_LNG = (tracker.lng - startPoint.lng) / this.steps;
-      this.currentLat = (this.currentLat || startPoint.lat) + DELTA_LAT;
-      this.currentLng = (this.currentLng || startPoint.lng) + DELTA_LNG;
+      this.currentLat = (this.currentLat || startPoint.lat) + this.DELTA_LAT;
+      this.currentLng = (this.currentLng || startPoint.lng) + this.DELTA_LNG;
       const latlng = {
         lat: +this.currentLat.toFixed(7),
         lng: +this.currentLng.toFixed(7),
@@ -63,7 +65,7 @@ class TrackerMarker extends React.Component<Props> {
           !this.props.isMobile && !window.mapFullWidth
             ? LEAFLET_PADDING_OPTIONS
             : {};
-        window.mapEvents.setFitBounds([latlng], options);
+        this.props.map.panInside(latlng, options);
       }
       requestAnimationFrame(this.moveMarker(tracker));
     } else {
@@ -179,15 +181,7 @@ class TrackerMarker extends React.Component<Props> {
         (nextTracker.histories || []).length !==
           (tracker.histories || []).length
       ) {
-        const lastPoint =
-          nextTracker.histories[nextTracker.histories.length - 1];
-        const icon = new L.DivIcon({
-          className: 'point-dot',
-        });
-        this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
-          icon,
-        }).addTo(map);
-        this.moveMarker(nextTracker)();
+        this.handleMovingTracker(nextTracker);
       }
       if (nextTracker.device_id !== tracker.device_id) {
         if (this.trackerRoute) {
@@ -220,6 +214,45 @@ class TrackerMarker extends React.Component<Props> {
       }
     }
   }
+
+  handleMovingTracker = (tracker: ITracker) => {
+    const { map, settings } = this.props;
+    const lastPoint = tracker.histories[tracker.histories.length - 1];
+    const isFirstPoint = tracker.histories.length === 1;
+    const elm = document.createElement('div');
+    elm.className = 'start-point';
+    elm.innerHTML = `
+      <div class="dot"></div>
+      <div class="line"></div>
+    `;
+    const icon = new L.DivIcon({
+      html: isFirstPoint ? elm : '',
+      className: isFirstPoint ? '' : 'point-dot',
+    });
+    this.pointsTemp[uniqueId('point')] = L.marker(lastPoint, {
+      icon,
+    }).addTo(map);
+    const setting = settings[tracker.settings_id];
+    const {
+      preferences: {
+        tracking_mode: { sample_rate, tracking_measurment },
+      },
+    } = setting;
+    this.steps = tracking_measurment === 'seconds' ? sample_rate * 60 : 60;
+    this.DELTA_LAT = (tracker.lat - lastPoint.lat) / this.steps;
+    this.DELTA_LNG = (tracker.lng - lastPoint.lng) / this.steps;
+    const bearing = turfBearing(
+      [lastPoint.lng, lastPoint.lat],
+      [tracker.lng, tracker.lat]
+    );
+    const arrow = document.getElementById(
+      tracker.device_id + '_arrowTrackerIcon'
+    );
+    if (arrow) {
+      arrow.style.transform = `rotate(${bearing}deg)`;
+    }
+    this.moveMarker(tracker)();
+  };
 
   onZoomEnd = () => {
     const { tracker, selectedTrackerId } = this.props;
@@ -258,38 +291,63 @@ class TrackerMarker extends React.Component<Props> {
     } style='width:${nameWidth}px; left:-${nameWidth / 2 - 4}px'>${name}</div>`;
   };
 
+  getMarkerElement = (tracker, isTracking) => {
+    const { device_name, device_id, icon_url, status } = tracker;
+
+    if (isTracking) {
+      const markerSize = 20;
+      const markerData = `<svg id="Layer_1" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <g><path d="M17.3375483,23.9265823 L17.3375483,23.9265823 L32,31.9974684 L16,0 L0,32 L14.6624517,23.9291139 L14.6624517,23.9291139 C15.4913945,23.4708861 16.5086055,23.4708861 17.3375483,23.9265823 Z" fill="#168449" stroke="#fff" fill-stroke="1"/></g>
+      </svg>`;
+      const el = document.createElement('div');
+      el.innerHTML = `
+        <div id="${device_id + '_arrowTrackerIcon'}"
+          class="arrow-div-icon"
+          style="background-image: url(data:image/svg+xml;base64,${btoa(
+            markerData
+          )});width: ${markerSize}px;height: ${markerSize}px; z-index:1;"
+        ></div>
+        <div class="arrow-title">
+          ${this.trackerName(device_name || device_id, status)}
+        </div>
+      `;
+      return el;
+    }
+
+    const elm = document.createElement('div');
+    elm.className = `custom-div-icon`;
+    elm.innerHTML = `
+      <div class='icon-red'>
+        <span class='inner'></span>
+        <div class='marker-pin' style='background-image: url(${
+          status === 'active'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
+        })'>
+          ${
+            icon_url
+              ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
+          }
+        </div>
+        ${this.trackerName(device_name || device_id, status)}
+      </div>`;
+    return elm;
+  };
+
   renderTracker = () => {
-    const {
-      map,
-      showTrackerName,
-      tracker: { device_id, lat, lng, icon_url, device_name, status },
-    } = this.props;
+    const { map, isTracking, tracker } = this.props;
+    const { device_id, lat, lng } = tracker;
 
     if (map && !window.trackerMarkers[device_id] && lat && lng) {
-      const elm = document.createElement('div');
-      elm.className = `custom-div-icon`;
-      elm.innerHTML = `
-        <div class='icon-red'>
-          <span class='inner'></span>
-          <div class='marker-pin' style='background-image: url(${
-            status === 'active'
-              ? '/images/icon-marker.svg'
-              : '/images/red-marker.svg'
-          })'>
-            ${
-              icon_url
-                ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-                : `<img src='/images/image-device.png' class='image-device'></img>`
-            }
-          ${
-            showTrackerName
-              ? this.trackerName(device_name || device_id, status)
-              : ''
-          }
-        </div>`;
-
-      const icon = new L.DivIcon({ html: elm });
-      elm.addEventListener('click', this.onClickMarker);
+      const elm = this.getMarkerElement(tracker, isTracking);
+      const icon = new L.DivIcon({
+        html: elm,
+        className: isTracking ? 'arrow-icon' : '',
+      });
+      if (!isTracking) {
+        elm.addEventListener('click', this.onClickMarker);
+      }
       window.trackerMarkers[device_id] = L.marker([lat, lng], { icon });
       window.trackerMarkers[device_id].addTo(map);
     }

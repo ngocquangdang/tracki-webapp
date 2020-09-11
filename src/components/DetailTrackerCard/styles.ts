@@ -2,17 +2,20 @@ import styled from 'styled-components';
 import { makeStyles, withStyles, Tooltip } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
+interface Props {
+  isMobile?: boolean;
+  isHistory?: boolean;
+  background?: string;
+}
 const TrackerInfomation = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '#fff' : '#fafafa'};
-  border-bottom: ${(props: { isMobile: boolean }) =>
+  background-color: ${(props: Props) => (props.isMobile ? '#fff' : '#fafafa')};
+  border-bottom: ${(props: Props) =>
     props.isMobile ? 'none' : '1px solid #e0e0e0'};
-  font-family: ${(props: { isMobile: boolean }) =>
+  font-family: ${(props: Props) =>
     props.isMobile ? 'Open Sans, san-serif' : 'Roboto'};
-  border-radius: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '4px' : ''};
+  border-radius: ${(props: Props) => (props.isMobile ? '4px' : '')};
 `;
 
 const Card = styled.div`
@@ -29,8 +32,12 @@ const Address = styled.div`
   color: #1a1a1a;
   display: flex;
   flex-direction: row;
-  padding: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '' : '0 32px 20px 12px'};
+  padding: ${(props: Props) =>
+    props.isMobile
+      ? ''
+      : props.isHistory
+      ? '0 10px 7px 7px'
+      : '0 32px 20px 12px'};
 `;
 const Text = styled.div`
   display: flex;
@@ -38,25 +45,24 @@ const Text = styled.div`
 `;
 const TrackerStatus = styled.div`
   display: flex;
-  height: 52px;
+  height: ${(props: Props) => (props.isHistory ? '36px' : '52px')};
   background-color: #ffffff;
   flex-direction: row;
   font-size: 12px;
   align-items: center;
   justify-content: space-around;
   border-bottom: 1px solid #e0e0e0;
-  font-family: ${(props: { isMobile: boolean }) =>
+  font-family: ${(props: Props) =>
     props.isMobile ? 'Open Sans, san-serif' : 'Roboto'};
-  border-radius: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '4px' : ''};
+  border-radius: ${(props: Props) => (props.isMobile ? '4px' : '')};
 `;
 const LocationApprox = styled.span`
-  font-size: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '9px' : '12px'};
+  font-size: ${(props: Props) =>
+    props.isMobile ? '9px' : props.isHistory ? '10px' : '12px'};
 `;
 const Connection = styled.div`
-  font-size: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '10px' : '14px'};
+  font-size: ${(props: Props) =>
+    props.isMobile ? '10px' : props.isHistory ? '12px' : '14px'};
 `;
 const BatteryTracker = styled.div`
   border-right: 1px solid #e0e0e0;
@@ -86,6 +92,7 @@ const ConnectionTracker = styled.div`
 const TextName = styled.span`
   height: auto;
   overflow-y: visible;
+  font-size: ${(props: Props) => (props.isHistory ? '12px' : '14px')};
 `;
 const TextNameViewMore = styled.span`
   overflow-y: hidden;
@@ -95,9 +102,8 @@ const Item = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: ${(props: { isMobile: boolean }) =>
-    props.isMobile ? '13px 10.5px' : '6px 12px'};
-  border-bottom: ${(props: { isMobile: boolean }) =>
+  padding: ${(props: Props) => (props.isMobile ? '13px 10.5px' : '6px 12px')};
+  border-bottom: ${(props: Props) =>
     props.isMobile ? '1px solid #e0e0e0' : 'none'};
 `;
 
@@ -123,9 +129,9 @@ const LeftItem = styled.div`
   margin-right: 4px;
 `;
 const ImageWrapper = styled.div`
-  width: 50px;
+  width: ${(props: Props) => (props.isHistory ? '40px' : '50px')};
   border-radius: 25px;
-  height: 50px;
+  height: ${(props: Props) => (props.isHistory ? '40px' : '50px')};
   display: flex;
   background: #168449;
   margin-right: 16px;
@@ -136,16 +142,16 @@ const Image = styled.div`
   border-radius: 100px;
   margin: auto;
   object-fit: contain;
-  background-image: ${(props: { background: string }) =>
+  background-image: ${(props: Props) =>
     props.background && ` url(${props.background})`};
   background-size: cover;
 `;
 const DefaultImage = styled.div`
-  width: 40px;
-  height: 34px;
+  width: ${(props: Props) => (props.isHistory ? '30px' : '40px')};
+  height: ${(props: Props) => (props.isHistory ? '26px' : '34px')};
   margin: auto;
   object-fit: contain;
-  background-image: ${(props: { background: string }) =>
+  background-image: ${(props: Props) =>
     props.background && ` url(${props.background})`};
   background-size: cover;
 `;
@@ -153,7 +159,7 @@ const ItemInfo = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 172px;
+  max-width: 282px;
 `;
 const Name = styled.div`
   display: flex;
@@ -166,7 +172,7 @@ const Name = styled.div`
 const LatLong = styled.div`
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);
   font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+  font-size: ${(props: Props) => (props.isHistory ? '12px' : '14px')};
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -222,6 +228,10 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 8,
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  textHistory: {
+    fontSize: 12,
+    marginLeft: 8,
   },
   textMobile: {
     marginLeft: 8,
@@ -294,9 +304,9 @@ const useStyles = makeStyles(theme => ({
 const ButtonIcon = withStyles(theme => ({
   root: {
     padding: 0,
+    minWidth: 20,
     '& .MuiButton-root': {
       padding: 0,
-      minWidth: 20,
     },
   },
 }))(Button);

@@ -64,6 +64,7 @@ declare global {
     geosMobile: object;
     geoMapMobile: any;
     trackerMarkers: object;
+    toggleDrawerMobile(): void;
   }
 }
 

@@ -6,6 +6,8 @@ import parse from 'autosuggest-highlight/parse';
 import { throttle } from 'lodash';
 import { geocodeByPlaceId, getLatLng } from 'react-places-autocomplete';
 
+import { GOOGLE_API_KEY } from '@Definitions/app';
+import { loadScript } from '@Utils/helper';
 import { TextInput } from '@Components/inputs';
 import useStyles from './styles';
 
@@ -39,6 +41,18 @@ function SearchLocation(props: Props) {
   const [value, setValue] = React.useState<PlaceType | null>(null);
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<PlaceType[]>([]);
+  const loaded = React.useRef(false);
+
+  if (typeof window !== 'undefined' && !loaded.current) {
+    if (!document.querySelector('#google-maps')) {
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`,
+        document.querySelector('head'),
+        'google-maps'
+      );
+    }
+    loaded.current = true;
+  }
 
   const fetch = React.useMemo(
     () =>

@@ -67,7 +67,7 @@ export default function BatterySleepMode(props: Props) {
   const [onShowIntruction, setShowIntruction] = useState(true);
 
   useEffect(() => {
-    if (trackerSettings) {
+    if (trackerSettings.preferences?.scheduled_sleep) {
       const { scheduled_sleep } = trackerSettings.preferences;
       let scheduledSleepMode = '';
 

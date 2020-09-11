@@ -9,6 +9,7 @@ import {
   makeSelectMapTile,
 } from '@Containers/App/store/selectors';
 import {
+  makeSelectTrackerIds,
   makeSelectTrackers,
   makeSelectGeofences,
   makeSelectTrackerSettings,
@@ -41,13 +42,13 @@ import {
 import View from './view';
 
 interface Props {
-  trackerId?: any;
   viewMode: string;
   isMobile: boolean;
   trackers: object;
   histories: object;
   settings: object;
   trackingIds: number[];
+  trackerIds: number[];
   mqttStart(): void;
   mqttDisconnect(): void;
   fetchUserRequestedAction(): void;
@@ -71,6 +72,7 @@ function TrackingContainer(props: Props) {
     fetchUserRequestedAction,
     mqttStart,
     mqttDisconnect,
+    trackerIds,
     ...rest
   } = props;
   useEffect(() => {
@@ -81,7 +83,7 @@ function TrackingContainer(props: Props) {
     };
   }, [fetchUserRequestedAction, mqttStart, mqttDisconnect]);
 
-  return <View {...rest} />;
+  return <View {...rest} isLoading={!trackerIds} />;
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -92,6 +94,7 @@ const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
   trackingIds: makeSelectTrackerIdsTracking(),
   viewMode: makeSelectViewMode(),
+  trackerIds: makeSelectTrackerIds(),
   trackerHistories: makeSelectTrackerHistories(),
 });
 

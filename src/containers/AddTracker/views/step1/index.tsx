@@ -110,7 +110,7 @@ export default function Step1(props: Props) {
                 errorInput={
                   errorsForm.device_id && touched.device_id
                     ? t(errorsForm.device_id)
-                    : ''
+                    : undefined
                 }
               />
               <TextInput
@@ -124,7 +124,9 @@ export default function Step1(props: Props) {
                 onChange={handleChange('imei')}
                 onBlur={handleBlur('imei')}
                 errorInput={
-                  errorsForm.imei && touched.imei ? t(errorsForm.imei) : ''
+                  errorsForm.imei && touched.imei
+                    ? t(errorsForm.imei)
+                    : undefined
                 }
               />
               <div className={`${classes.relative}`}>

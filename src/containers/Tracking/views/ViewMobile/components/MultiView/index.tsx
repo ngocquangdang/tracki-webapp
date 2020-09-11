@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import DetailTrackerCard from '@Components/DetailTrackerCard';
 import MapCard from '@Containers/Tracking/views/ViewPC/components/MapCard';
-import MapStreetView from '@Containers/Tracking/views/ViewPC/components/MapStreetView';
+import MapBoxCard from '@Containers/Tracking/views/ViewPC/components/MapBoxCard';
 import { useStyles } from './styles';
 
 interface Props {
@@ -57,8 +57,9 @@ export default function MultiView(props: Props) {
         <div className={classes.item}>
           <MapCard
             isMobile={true}
+            isTracking={true}
             mapId="mapPosition"
-            mapLabel={props.t('tracker:map_position')}
+            mapLabel={props.t('tracker:map_follow')}
             isMultiView={true}
             selectedTrackerId={
               isMultiScreen
@@ -72,8 +73,9 @@ export default function MultiView(props: Props) {
           <MapCard
             isMobile={true}
             isMultiView={true}
+            isTracking={true}
             mapId="mapFollow"
-            mapLabel={props.t('tracker:map_follow')}
+            mapLabel={props.t('tracker:map_realtime_tracking')}
             selectedTrackerId={
               isMultiScreen
                 ? trackingIds[1] || selectedTrackerId
@@ -87,8 +89,9 @@ export default function MultiView(props: Props) {
             <MapCard
               isMobile={true}
               isMultiView={true}
-              mapId="mapStreetView"
-              mapLabel={props.t('tracker:map_street_panorama')}
+              isTracking={true}
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
               selectedTrackerId={
                 isMultiScreen
                   ? trackingIds[2] || selectedTrackerId
@@ -97,10 +100,17 @@ export default function MultiView(props: Props) {
               {...props}
             />
           ) : (
-            <MapStreetView
+            <MapBoxCard
               isMobile={true}
-              mapLabel={props.t('tracker:map_street_panorama')}
-              tracker={tracker}
+              isMultiView={true}
+              mapId="mapHelicopterView"
+              mapLabel={props.t('tracker:map_helicopter_view')}
+              selectedTrackerId={
+                isMultiScreen
+                  ? trackingIds[2] || selectedTrackerId
+                  : selectedTrackerId
+              }
+              {...props}
             />
           )}
         </div>
@@ -108,6 +118,7 @@ export default function MultiView(props: Props) {
           <MapCard
             isMobile={true}
             isMultiView={true}
+            isTracking={true}
             mapId="mapSatelliteView"
             mapLabel={props.t('tracker:map_satellite')}
             selectedTrackerId={

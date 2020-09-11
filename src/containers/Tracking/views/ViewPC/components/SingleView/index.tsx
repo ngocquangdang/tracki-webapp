@@ -72,12 +72,12 @@ export default function SingleView(props: Props) {
       <div className={classes.list}>
         {trackerIds.map(id => (
           <div key={id} className={classes.trackeItem}>
-            {selectedTrackerId.toString() === id && (
+            {selectedTrackerId?.toString() === id && (
               <div className={classes.selectedTracker} />
             )}
             <TrackerCard
               t={t}
-              isChecked={selectedTrackerId.toString() === id}
+              isChecked={selectedTrackerId?.toString() === id}
               tracker={trackers[id]}
               isTracking={true}
               onClickTracker={onSelectTracker}

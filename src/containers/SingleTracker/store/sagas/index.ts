@@ -30,7 +30,7 @@ function* fetchTrackerSettingsSaga(action) {
 }
 
 function* updateTrackerSettingSaga(action) {
-  const { speed_unit, settingId, settings } = action.payload;
+  const { speed_unit, settingId, settings, callback } = action.payload;
   const { account_id } = yield select(makeSelectProfile());
   try {
     // const { account_id } = yield select(makeSelectProfile());
@@ -56,7 +56,7 @@ function* updateTrackerSettingSaga(action) {
     } else {
       delete tracker.icon_url;
     }
-
+    callback(true);
     yield call(apiServices.updateSettings, account_id, settingId, setting);
     yield put(actions.updatePreferancesRequestedAction(speed_unit));
     yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
@@ -75,6 +75,7 @@ function* updateTrackerSettingSaga(action) {
         })
       );
     }
+    callback(false);
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
