@@ -206,12 +206,7 @@ export default function BatterySleepMode(props: Props) {
                       value={values.select_mode}
                       onChangeOption={e => {
                         handleChange('select_mode')(e);
-                        if (e !== 'custom') {
-                          handleShowIntructions(true);
-                        }
-                        if (e === 'custom') {
-                          handleShowIntructions(false);
-                        }
+                        handleShowIntructions(e !== 'custom');
                       }}
                     />
                   </div>
@@ -306,7 +301,9 @@ export default function BatterySleepMode(props: Props) {
                         onClick={() => handleShowIntructions(!onShowIntruction)}
                         className={classes.showIntruction}
                       >
-                        {t('batterymode:tap_to_show')}
+                        {onShowIntruction
+                          ? 'Tap to hide'
+                          : t('batterymode:tap_to_show')}
                       </div>
                     )}
                   </div>
