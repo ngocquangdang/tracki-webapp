@@ -17,15 +17,15 @@ definitions:
           - yarn lint
         artifacts:
           - node_modules/**
-    - step: &build-and-push-to-docker-registry
-        name: Push to Docker Registry
+    - step: &build-production-and-push-to-docker-registry
+        name: Build and push to production server
         script:
-          - cat set_env.sh
-          - source set_env.sh
+          - export TAG="prod_${BITBUCKET_COMMIT::7}"
+          - yarn
+          - yarn build:production
           - echo "$REGISTRY_PASSWORD" | docker login -u "$REGISTRY_USER" --password-stdin
           - docker build -t mtrk2021/tracki-frontend:$TAG .
           - docker push mtrk2021/tracki-frontend:$TAG
-          - cat ./deploy.sh
           - apk add --update --no-cache openssh sshpass
           - mkdir -p /root/.ssh
           - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> /root/.ssh/config
@@ -102,6 +102,6 @@ pipelines:
     master:
       - step: *run-and-test
       - step:
-          <<: *build-and-push-to-docker-registry
+          <<: *build-production-and-push-to-docker-registry
           deployment: production
           trigger: manual
