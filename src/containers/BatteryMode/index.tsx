@@ -159,7 +159,7 @@ export default function BatterySleepMode(props: Props) {
     }
   };
 
-  const handleShowIntructions = (type: boolean) => {
+  const handleShowIntructions = (type: boolean) => () => {
     setShowIntruction(type);
   };
 
@@ -206,7 +206,7 @@ export default function BatterySleepMode(props: Props) {
                       value={values.select_mode}
                       onChangeOption={e => {
                         handleChange('select_mode')(e);
-                        handleShowIntructions(e !== 'custom');
+                        handleShowIntructions(e !== 'custom')();
                       }}
                     />
                   </div>
@@ -298,7 +298,7 @@ export default function BatterySleepMode(props: Props) {
                     </div>
                     {values.select_mode === 'custom' && (
                       <div
-                        onClick={() => handleShowIntructions(!onShowIntruction)}
+                        onClick={handleShowIntructions(!onShowIntruction)}
                         className={classes.showIntruction}
                       >
                         {onShowIntruction
