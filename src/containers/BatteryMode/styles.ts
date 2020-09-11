@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     margin: 0,
     fontSize: 16,
+    fontWeight: 500,
   },
   btn: {
     backgroundColor: theme.palette.primary.main,
@@ -49,6 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   intructionSub: {
     marginBottom: 0,
+    fontSize: 14,
   },
   width: {
     width: '273px',
@@ -98,6 +100,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
       flexDirection: 'column',
+      fontSize: 14,
     },
   },
   buyHere: {
@@ -108,6 +111,20 @@ const useStyles = makeStyles(theme => ({
   },
   subBuy: {
     fontWeight: 500,
+    margin: '22px 0 37px',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
+  },
+  intructionHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  showIntruction: {
+    fontSize: 14,
+    color: '#999999',
+    cursor: 'pointer',
   },
 }));
 
