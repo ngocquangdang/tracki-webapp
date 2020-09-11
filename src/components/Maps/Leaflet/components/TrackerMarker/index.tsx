@@ -157,7 +157,6 @@ class TrackerMarker extends React.Component<Props> {
       selectedTrackerId: nextSelectedTrackerId,
       isAlertSos,
       isTracking,
-      map,
     } = nextProps;
     const {
       isBeep: currentIsBeep,
@@ -184,20 +183,7 @@ class TrackerMarker extends React.Component<Props> {
         this.handleMovingTracker(nextTracker);
       }
       if (nextTracker.device_id !== tracker.device_id) {
-        if (this.trackerRoute) {
-          map.removeLayer(this.trackerRoute);
-          this.trackerRoute = null;
-        }
-        if (window.trackerMarkers[tracker.device_id]) {
-          map.removeLayer(window.trackerMarkers[tracker.device_id]);
-          delete window.trackerMarkers[tracker.device_id];
-        }
-        const pointIds = Object.keys(this.pointsTemp);
-        pointIds.map(id => {
-          map.removeLayer(this.pointsTemp[id]);
-          delete this.pointsTemp[id];
-          return null;
-        });
+        this.removeElementsOfTracking(tracker);
       }
     }
 
@@ -215,16 +201,54 @@ class TrackerMarker extends React.Component<Props> {
     }
   }
 
+  removeElementsOfTracking = tracker => {
+    const { map } = this.props;
+    if (this.trackerRoute) {
+      map.removeLayer(this.trackerRoute);
+      this.trackerRoute = null;
+    }
+    if (window.trackerMarkers[tracker.device_id]) {
+      map.removeLayer(window.trackerMarkers[tracker.device_id]);
+      delete window.trackerMarkers[tracker.device_id];
+    }
+    const pointIds = Object.keys(this.pointsTemp);
+    pointIds.map(id => {
+      map.removeLayer(this.pointsTemp[id]);
+      delete this.pointsTemp[id];
+      return null;
+    });
+  };
+
+  drawRouteAndPoints = tracker => {
+    const history = tracker?.histories || [];
+    if (history.length) {
+      const points = [...history, tracker];
+      this.trackerRoute = L.polyline(points, { weight: 3, color: '#168449' });
+      this.trackerRoute.addTo(this.props.map);
+      points.map((p, i) => {
+        const isFirstPoint = i === 0;
+        const elm = document.createElement('div');
+        elm.className = 'start-point';
+        elm.innerHTML = `<div class="dot"></div><div class="line"></div>`;
+        const icon = new L.DivIcon({
+          html: isFirstPoint ? elm : '',
+          className: isFirstPoint ? '' : 'point-dot',
+        });
+        this.pointsTemp[uniqueId('point')] = L.marker(p, {
+          icon,
+        }).addTo(this.props.map);
+        return null;
+      });
+    }
+  };
+
   handleMovingTracker = (tracker: ITracker) => {
     const { map, settings } = this.props;
     const lastPoint = tracker.histories[tracker.histories.length - 1];
     const isFirstPoint = tracker.histories.length === 1;
     const elm = document.createElement('div');
     elm.className = 'start-point';
-    elm.innerHTML = `
-      <div class="dot"></div>
-      <div class="line"></div>
-    `;
+    elm.innerHTML = `<div class="dot"></div><div class="line"></div>`;
     const icon = new L.DivIcon({
       html: isFirstPoint ? elm : '',
       className: isFirstPoint ? '' : 'point-dot',
@@ -347,6 +371,8 @@ class TrackerMarker extends React.Component<Props> {
       });
       if (!isTracking) {
         elm.addEventListener('click', this.onClickMarker);
+      } else {
+        this.drawRouteAndPoints(tracker);
       }
       window.trackerMarkers[device_id] = L.marker([lat, lng], { icon });
       window.trackerMarkers[device_id].addTo(map);

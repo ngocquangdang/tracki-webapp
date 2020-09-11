@@ -130,6 +130,7 @@ class MapCard extends React.Component<IProps, IState> {
       trackers,
       viewMode: currentViewMode,
       mapId,
+      isMultiScreen: thisIsMultiScreen,
     } = this.props;
     const tracker = trackers[selectedTrackerId];
 
@@ -150,27 +151,21 @@ class MapCard extends React.Component<IProps, IState> {
       this.map.fire('resize');
     }
 
-    // remove current marker
+    const nextTracker = nextTrackers[selectedTrackerId];
+
+    // remove current marker and redraw route if have
     if (selectedTrackerId !== thisSelectedTracker) {
-      if (this.marker) {
-        this.map.removeLayer(this.marker);
-        this.marker = undefined;
-      }
-      if (this.route) {
-        this.map.removeLayer(this.route);
-        this.route = null;
-      }
-      if (this.props.mapId !== 'mapPosition') {
-        const pointIds = Object.keys(this.pointsTemp);
-        pointIds.map(id => {
-          this.map.removeLayer(this.pointsTemp[id]);
-          delete this.pointsTemp[id];
-          return null;
-        });
+      this.removeElements();
+    }
+
+    if (isMultiScreen !== thisIsMultiScreen && mapId === 'mapPosition') {
+      if (isMultiScreen) {
+        this.drawRouteAndPoints(tracker);
+      } else {
+        this.removeElements();
       }
     }
 
-    const nextTracker = nextTrackers[selectedTrackerId];
     if (
       (nextTracker?.histories || []).length !==
       (tracker?.histories || []).length
@@ -188,6 +183,46 @@ class MapCard extends React.Component<IProps, IState> {
       }).addTo(this.map);
     }
   }
+
+  removeElements = () => {
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
+      this.marker = undefined;
+    }
+    if (this.route) {
+      this.map.removeLayer(this.route);
+      this.route = null;
+    }
+    const pointIds = Object.keys(this.pointsTemp);
+    pointIds.map(id => {
+      this.map.removeLayer(this.pointsTemp[id]);
+      delete this.pointsTemp[id];
+      return null;
+    });
+  };
+
+  drawRouteAndPoints = tracker => {
+    const history = tracker?.histories || [];
+    if (history.length) {
+      const points = [...history, tracker];
+      this.route = L.polyline(points, { weight: 3, color: '#168449' });
+      this.route.addTo(this.map);
+      points.map((p, i) => {
+        const isFirstPoint = i === 0;
+        const elm = document.createElement('div');
+        elm.className = 'start-point';
+        elm.innerHTML = `<div class="dot"></div><div class="line"></div>`;
+        const icon = new L.DivIcon({
+          html: isFirstPoint ? elm : '',
+          className: isFirstPoint ? '' : 'point-dot',
+        });
+        this.pointsTemp[uniqueId('point')] = L.marker(p, {
+          icon,
+        }).addTo(this.map);
+        return null;
+      });
+    }
+  };
 
   handleMovingTracker = (tracker: ITracker) => {
     const { settings, mapId } = this.props;
@@ -335,7 +370,7 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   renderMarker = () => {
-    const { trackers, isTracking, selectedTrackerId } = this.props;
+    const { trackers, isTracking, selectedTrackerId, mapId } = this.props;
     const tracker = trackers[selectedTrackerId];
 
     if (!this.marker && tracker && tracker.lat && tracker.lng) {
@@ -348,6 +383,9 @@ class MapCard extends React.Component<IProps, IState> {
       this.marker = L.marker([lat, lng], { icon });
       this.marker.addTo(this.map);
       this.map.panTo([lat, lng]);
+      if (isTracking && mapId !== 'mapPosition') {
+        this.drawRouteAndPoints(tracker);
+      }
     }
     return null;
   };

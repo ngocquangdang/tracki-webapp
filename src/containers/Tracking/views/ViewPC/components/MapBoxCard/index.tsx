@@ -34,7 +34,7 @@ interface IState {
   mapStyle: string;
 }
 
-class MapCard extends React.Component<IProps, IState> {
+class MapBoxCard extends React.Component<IProps, IState> {
   map: any;
   marker: any;
   mapTile: any;
@@ -148,24 +148,10 @@ class MapCard extends React.Component<IProps, IState> {
 
     // remove current marker
     if (selectedTrackerId !== thisSelectedTracker) {
-      if (this.marker) {
-        this.marker.remove();
-        this.marker = undefined;
-      }
-      if (this.map.getLayer('route-layer')) {
-        this.map.removeLayer('route-layer');
-      }
-      if (this.map.getSource('route-tracker')) {
-        this.map.removeSource('route-tracker');
-      }
-      if (this.props.mapId !== 'mapPosition') {
-        const pointIds = Object.keys(this.pointsTemp);
-        pointIds.map(id => {
-          this.pointsTemp[id].remove();
-          delete this.pointsTemp[id];
-          return null;
-        });
-      }
+      this.removeElements();
+      setTimeout(() => {
+        this.drawRouteAndPoints(tracker);
+      }, 1000);
     }
 
     const nextTracker = nextTrackers[selectedTrackerId];
@@ -177,6 +163,49 @@ class MapCard extends React.Component<IProps, IState> {
     }
   }
 
+  removeElements = () => {
+    if (this.marker) {
+      this.marker.remove();
+      this.marker = undefined;
+    }
+    if (this.map.getLayer('route-layer')) {
+      this.map.removeLayer('route-layer');
+    }
+    if (this.map.getSource('route-tracker')) {
+      this.map.removeSource('route-tracker');
+    }
+    if (this.props.mapId !== 'mapPosition') {
+      const pointIds = Object.keys(this.pointsTemp);
+      pointIds.map(id => {
+        this.pointsTemp[id].remove();
+        delete this.pointsTemp[id];
+        return null;
+      });
+    }
+  };
+
+  drawRouteAndPoints = tracker => {
+    const history = tracker?.histories || [];
+    if (history.length) {
+      const points = [...history, tracker];
+      this.initRoute(points.map(p => [p.lng, p.lat]));
+      points.map((p, i) => {
+        const isFirstPoint = i === 0;
+        const el = document.createElement('div');
+        if (isFirstPoint) {
+          el.className = 'start-point';
+          el.innerHTML = `<div class="dot"></div><div class="line"></div>`;
+        } else {
+          el.className = 'point-dot';
+        }
+        this.pointsTemp[uniqueId('point')] = new mapboxgl.Marker(el)
+          .setLngLat([p.lng, p.lat])
+          .addTo(this.map);
+        return null;
+      });
+    }
+  };
+
   handleMovingTracker = (tracker: ITracker) => {
     const { settings } = this.props;
     const lastPoint = tracker.histories[tracker.histories.length - 1];
@@ -184,10 +213,7 @@ class MapCard extends React.Component<IProps, IState> {
     const el = document.createElement('div');
     if (isFirstPoint) {
       el.className = 'start-point';
-      el.innerHTML = `
-        <div class="dot"></div>
-        <div class="line"></div>
-      `;
+      el.innerHTML = `<div class="dot"></div><div class="line"></div>`;
     } else {
       el.className = 'point-dot';
     }
@@ -313,6 +339,11 @@ class MapCard extends React.Component<IProps, IState> {
         .setLngLat([lng, lat])
         .addTo(this.map);
       this.map.flyTo({ center: [lng, lat], duration: 0 });
+      setTimeout(() => {
+        if (!this.map.getSource('route-tracker')) {
+          this.drawRouteAndPoints(tracker);
+        }
+      }, 1300);
     }
     return null;
   };
@@ -353,4 +384,4 @@ class MapCard extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(style)(MapCard);
+export default withStyles(style)(MapBoxCard);
