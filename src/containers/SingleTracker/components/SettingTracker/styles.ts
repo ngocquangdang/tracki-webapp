@@ -156,6 +156,10 @@ const Warning = styled.div`
   justify-content: center;
   font-size: 13px;
 `;
+const ContainerPaddingButton = styled.div`
+  padding: 5px 10px 0 15px;
+  display: flex;
+`;
 const useStyles = makeStyles(theme => ({
   loading: {
     position: 'absolute',
@@ -181,6 +185,16 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.secondary,
       color: theme.palette.primary.main,
       borderColor: theme.palette.primary.main,
+    },
+  },
+  btnCancle: {
+    backgroundColor: '#f5f5f5',
+    color: '#666666',
+    width: '100%',
+    margin: '10px 0px 10px 10px',
+    '&:hover': {
+      backgroundColor: '#e0e0e0',
+      color: theme.palette.secondary.dark,
     },
   },
   blackBtn: {
@@ -316,4 +330,5 @@ export {
   TooltipStyle,
   DefaultImage,
   Warning,
+  ContainerPaddingButton,
 };
