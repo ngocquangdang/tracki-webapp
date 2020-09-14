@@ -50,6 +50,7 @@ import {
   TooltipStyle,
   DefaultImage,
   Warning,
+  ContainerPaddingButton,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
 import {
@@ -633,7 +634,7 @@ function SettingTracker(props: Props) {
                   <Text>Extended Battery Sleep Mode</Text>
                   <NavigateNextIcon className={classes.iconNext} />
                 </ContainerButtonModal>
-                <ContainerPadding>
+                <ContainerPaddingButton>
                   <Button
                     className={`${classes.btn} ${classes.margin}`}
                     variant="outlined"
@@ -641,7 +642,15 @@ function SettingTracker(props: Props) {
                     text={t('auth:save')}
                     type="submit"
                   />
-                </ContainerPadding>
+                  <Button
+                    className={`${classes.btnCancle} ${classes.margin}`}
+                    variant="outlined"
+                    isLoading={isRequesting}
+                    text="Cancle"
+                    type="button"
+                    onClick={handleClose}
+                  />
+                </ContainerPaddingButton>
               </Content>
             );
           }}
