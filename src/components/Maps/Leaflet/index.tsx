@@ -155,6 +155,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       isDashboard,
       trackingIds,
       showTrackerName,
+      settings,
     } = this.props;
 
     if (this.state.isInitiatedMap && trackers) {
@@ -175,6 +176,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
               onClickMarker={this.onClickTracker}
               isBeep={isBeep}
               isTracking={true}
+              settings={settings}
               showTrackerName={showTrackerName}
               selectedTrackerId={selectedTrackingId}
               alertSosTrackerId={alertSosTrackerId}
@@ -194,6 +196,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
           tracker={tracker}
           onClickMarker={this.onClickTracker}
           isBeep={isBeep}
+          settings={settings}
           showTrackerName={showTrackerName}
           selectedTrackerId={selectedTrackerId}
           alertSosTrackerId={alertSosTrackerId}
@@ -269,6 +272,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
               pointTrackingIndex={pointTrackingIndex}
               changePointTracking={changePointTracking}
               history={histories[selectedTrackerId] || {}}
+              t={t}
             />
           )}
       </React.Fragment>

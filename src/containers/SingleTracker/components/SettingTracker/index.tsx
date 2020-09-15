@@ -50,9 +50,13 @@ import {
   TooltipStyle,
   DefaultImage,
   Warning,
+  ContainerPaddingButton,
 } from './styles';
 import SubscriptionModal from '@Components/Subscription';
-import { updateTrackerSettingsRequestedAction } from '@Containers/SingleTracker/store/actions';
+import {
+  updateTrackerSettingsRequestedAction,
+  extendsBatteryModeRequestedAction,
+} from '@Containers/SingleTracker/store/actions';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
@@ -80,7 +84,14 @@ import {
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
+import {
+  getDeviceSMSCounterRequestedAction,
+  getDeviceSubscripttionRequestedAction,
+} from '@Containers/Trackers/store/actions';
 
+import BatterySleepMode from '@Containers/BatteryMode';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 interface Props {
   handleClose(): void;
   t(key: string): string;
@@ -89,7 +100,7 @@ interface Props {
   isMobile: boolean;
   isRequesting?: boolean;
   show: boolean;
-  updateSettings(id: number, data: object, speed_unit: string): void;
+  updateSettings(id: number, data: object, speed_unit: string, callback): void;
   getContactListRequest(account_id: number): void;
   contacts: object;
   contactIds: Array<number>;
@@ -104,7 +115,11 @@ interface Props {
   profile: any;
   contactOfTracker: object;
   smsCounter: SMSCounter;
+  getDeviceSMSCounterRequest(device_id: number): void;
+  getDeviceSubscripttionRequest(data): void;
   devcieSubscription: object;
+  extendsBatteryModeRequest(settingId, setting): void;
+  showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 interface SMSCounter {
@@ -116,6 +131,7 @@ function SettingTracker(props: Props) {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
   const [openSubscription, setOpenSubsription] = useState(false);
+  const [openBatteryMode, setOpenBatteryMode] = useState(false);
   const [isShowSelectContact, setShowSelectContat] = useState(false);
   const [eventType, setEventype] = useState('');
   const classes = useStyles();
@@ -140,6 +156,10 @@ function SettingTracker(props: Props) {
     profile,
     devcieSubscription,
     smsCounter,
+    getDeviceSMSCounterRequest,
+    getDeviceSubscripttionRequest,
+    extendsBatteryModeRequest,
+    showSnackbar,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -212,10 +232,22 @@ function SettingTracker(props: Props) {
       },
       file: imageFile.file,
     };
-    props.updateSettings(tracker.settings_id, bodyRequest, speed_unit);
+    props.updateSettings(
+      tracker.settings_id,
+      bodyRequest,
+      speed_unit,
+      handleClose
+    );
   };
 
   const onOpenModalSubscription = () => {
+    const data = {
+      device_id: tracker.device_id,
+      page: 1,
+      size: 10,
+    };
+    getDeviceSMSCounterRequest(tracker.device_id);
+    getDeviceSubscripttionRequest(data);
     setOpenSubsription(true);
   };
 
@@ -223,6 +255,13 @@ function SettingTracker(props: Props) {
     setOpenSubsription(false);
   };
 
+  const onCloseBatteryMode = () => {
+    setOpenBatteryMode(false);
+  };
+
+  const onOpenBatteryMode = () => {
+    setOpenBatteryMode(true);
+  };
   const onChangeImage = (e: any) => {
     const file = e.target.files[0];
     setLoading(true);
@@ -258,8 +297,13 @@ function SettingTracker(props: Props) {
   };
 
   const onClickIncrease = () => {
-    Router.push(`/trackers/${tracker.device_id}/subscription`);
+    Router.push(`/trackers/${tracker.device_id}/subscription/sms`);
   };
+
+  const onClickFastTracking = () => {
+    Router.push(`/trackers/${tracker.device_id}/subscription/fast-tracking`);
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -286,14 +330,6 @@ function SettingTracker(props: Props) {
             ) : (
               <DefaultImage background={'/images/image-device.png'} />
             )}
-            {/* <Image
-              src={
-                imageFile.result ||
-                tracker.icon_url ||
-                '/images/image-device.png'
-              }
-              alt=""
-            /> */}
             <UploadImage>
               <AiOutlineCamera style={{ color: '#fff' }} />
               <TextUpload>Upload</TextUpload>
@@ -594,11 +630,11 @@ function SettingTracker(props: Props) {
                     <NavigateNextIcon className={classes.iconNext} />{' '}
                   </OptionRight>
                 </ContainerButtonModal>
-                <ContainerButtonModal>
+                <ContainerButtonModal onClick={onOpenBatteryMode}>
                   <Text>Extended Battery Sleep Mode</Text>
                   <NavigateNextIcon className={classes.iconNext} />
                 </ContainerButtonModal>
-                <ContainerPadding>
+                <ContainerPaddingButton>
                   <Button
                     className={`${classes.btn} ${classes.margin}`}
                     variant="outlined"
@@ -606,7 +642,15 @@ function SettingTracker(props: Props) {
                     text={t('auth:save')}
                     type="submit"
                   />
-                </ContainerPadding>
+                  <Button
+                    className={`${classes.btnCancle} ${classes.margin}`}
+                    variant="outlined"
+                    isLoading={isRequesting}
+                    text="Cancle"
+                    type="button"
+                    onClick={handleClose}
+                  />
+                </ContainerPaddingButton>
               </Content>
             );
           }}
@@ -614,11 +658,22 @@ function SettingTracker(props: Props) {
       </Container>
       <SubscriptionModal
         onClickIncrease={onClickIncrease}
+        onClickFastTracking={onClickFastTracking}
         onCloseSubscription={onCloseModalSubscription}
         open={openSubscription}
         t={t}
         smsCounter={smsCounter}
         devcieSubscription={devcieSubscription}
+      />
+      <BatterySleepMode
+        showModal={openBatteryMode}
+        handleCloseModal={onCloseBatteryMode}
+        t={t}
+        trackerSettings={trackerSettings}
+        tracker={tracker}
+        extendsBatteryModeRequest={extendsBatteryModeRequest}
+        showSnackbar={showSnackbar}
+        isRequesting={isRequesting}
       />
       <SelectContact
         handleClose={handleShowSelectContact}
@@ -657,8 +712,20 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateSettings: (settingId: number, data: object, speed_unit: string) =>
-    dispatch(updateTrackerSettingsRequestedAction(settingId, data, speed_unit)),
+  updateSettings: (
+    settingId: number,
+    data: object,
+    speed_unit: string,
+    callback
+  ) =>
+    dispatch(
+      updateTrackerSettingsRequestedAction(
+        settingId,
+        data,
+        speed_unit,
+        callback
+      )
+    ),
   getContactListRequest: account_id =>
     dispatch(getContactListRequestAction(account_id)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
@@ -670,6 +737,13 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  getDeviceSMSCounterRequest: (device_id: number) =>
+    dispatch(getDeviceSMSCounterRequestedAction(device_id)),
+  getDeviceSubscripttionRequest: data =>
+    dispatch(getDeviceSubscripttionRequestedAction(data)),
+  extendsBatteryModeRequest: (settingId, setting) =>
+    dispatch(extendsBatteryModeRequestedAction(settingId, setting)),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);

@@ -34,6 +34,13 @@ function MainLayoutMobile(props: Props) {
     showSetting(false);
     setOpenSidebar(true);
   };
+
+  React.useEffect(() => {
+    window.toggleDrawerMobile = () => {
+      setOpenSidebar(v => !v);
+    };
+  }, []);
+
   return (
     <MainWrapper className={classes.root}>
       <div

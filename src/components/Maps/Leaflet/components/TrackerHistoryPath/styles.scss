@@ -1,7 +1,14 @@
 .point-dot {
   border-radius: 6px;
-  border: 2px solid #168449;
+  border: 1px solid #168449;
   background-color: white;
+  width: 8px !important;
+  height: 8px !important;
+
+  &.leaflet-marker-icon {
+    margin-left: -4px !important;
+    margin-top: -4px !important;
+  }
 
   &.point-moving {
     background-color: yellow;
@@ -35,8 +42,8 @@
 
   .inner {
     margin: auto;
-    width: 40%;
-    height: 40%;
+    width: 30%;
+    height: 30%;
     border-radius: 50%;
     background-color: red;
   }

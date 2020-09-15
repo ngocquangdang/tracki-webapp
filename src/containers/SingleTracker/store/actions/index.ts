@@ -25,10 +25,11 @@ export const updateTrackerAction = (trackerId: number, data: object) => ({
 export const updateTrackerSettingsRequestedAction = (
   settingId: number,
   settings: object,
-  speed_unit: string
+  speed_unit: string,
+  callback
 ) => ({
   type: types.UPDATE_TRACKER_SETTINGS_REQUESTED,
-  payload: { settingId, settings, speed_unit },
+  payload: { settingId, settings, speed_unit, callback },
 });
 
 export const updateTrackerSettingsSucceedAction = (settings: object) => ({
@@ -119,5 +120,25 @@ export const getDeviceSettingSucceedAction = (settings: object) => {
 
 export const getDeviceSettingFailedAction = (error: object) => ({
   type: types.GET_DEVICE_SETTING_FAILED,
+  payload: { error },
+});
+
+export const extendsBatteryModeRequestedAction = (
+  settingId: number,
+  setting: object
+) => ({
+  type: types.EXTENDED_BATTERY_MODE_REQUESTED,
+  payload: { settingId, setting },
+});
+
+export const extendsBatteryModeSucceedAction = (settings: object) => {
+  return {
+    type: types.EXTENDED_BATTERY_MODE_SUCCESSED,
+    payload: { settings },
+  };
+};
+
+export const extendsBatteryModeFailedAction = (error: object) => ({
+  type: types.EXTENDED_BATTERY_MODE_FAILED,
   payload: { error },
 });

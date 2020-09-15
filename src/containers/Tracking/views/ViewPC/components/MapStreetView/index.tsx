@@ -26,7 +26,7 @@ class MapStreetView extends React.Component<Props, State> {
   googleMap: any;
   panorama: any;
   steps = 60;
-  counter = 0;
+  counter = 1;
   currentLat = 0;
   currentLng = 0;
 
@@ -44,11 +44,11 @@ class MapStreetView extends React.Component<Props, State> {
         lng: this.currentLng,
       });
 
-      if (this.counter < this.steps) {
+      if (this.counter <= this.steps) {
         this.counter += 1;
         requestAnimationFrame(this.moveView(tracker));
       } else {
-        this.counter = 0;
+        this.counter = 1;
       }
     }
   };

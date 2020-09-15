@@ -30,7 +30,7 @@ function* fetchTrackerSettingsSaga(action) {
 }
 
 function* updateTrackerSettingSaga(action) {
-  const { speed_unit, settingId, settings } = action.payload;
+  const { speed_unit, settingId, settings, callback } = action.payload;
   const { account_id } = yield select(makeSelectProfile());
   try {
     // const { account_id } = yield select(makeSelectProfile());
@@ -56,7 +56,7 @@ function* updateTrackerSettingSaga(action) {
     } else {
       delete tracker.icon_url;
     }
-
+    callback(true);
     yield call(apiServices.updateSettings, account_id, settingId, setting);
     yield put(actions.updatePreferancesRequestedAction(speed_unit));
     yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
@@ -75,6 +75,7 @@ function* updateTrackerSettingSaga(action) {
         })
       );
     }
+    callback(false);
     yield put(actions.updateTrackerSettingsFailedAction(payload));
   }
 }
@@ -89,7 +90,6 @@ function* activeLinkShareLocationSaga(action) {
       device_id,
       action.payload.duration
     );
-    console.log('function*activeLinkShareLocationSaga -> data', data);
     yield put(actions.generateLinkShareLocationSucceed(data[0]));
   } catch (error) {
     const { data = {} } = { ...error };
@@ -171,6 +171,40 @@ function* updatePreferancesSaga(action) {
   }
 }
 
+function* extendsBatterySaga(action) {
+  const { settingId, setting } = action.payload;
+
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    yield call(apiServices.updateSettings, account_id, settingId, setting);
+    yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Update Settings Success.',
+      })
+    );
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: 'Can not Update Settings.',
+        })
+      );
+    }
+    yield put(actions.extendsBatteryModeFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -193,4 +227,5 @@ export default function* appWatcher() {
     types.UPDATE_PREFERANCES_TRACKER_REQUESTED,
     updatePreferancesSaga
   );
+  yield takeLatest(types.EXTENDED_BATTERY_MODE_REQUESTED, extendsBatterySaga);
 }

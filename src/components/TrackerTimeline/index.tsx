@@ -64,8 +64,8 @@ export default function TrackerTimeline(props: Props) {
           <TimelineItem className={classes.height40}>
             <TimelineOppositeContent className={classes.empty2} />
             <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
+              <TimelineDot className={classes.itemLoadMore} />
+              <TimelineConnector className={classes.itemLoadMoreConnector} />
             </TimelineSeparator>
             <TimelineContent>
               <span onClick={onLoadMore} className={classes.loadMore}>

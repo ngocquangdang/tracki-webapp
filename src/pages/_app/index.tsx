@@ -6,7 +6,7 @@ import cookie from 'cookie';
 import Header from 'next/head';
 
 import { theme } from '@Definitions/styled';
-import { GOOGLE_API_KEY } from '@Definitions/app';
+// import { GOOGLE_API_KEY } from '@Definitions/app';
 import { appWithTranslation } from '@Server/i18n';
 import {
   AppWithStore,
@@ -90,11 +90,11 @@ class WebApp extends App<AppWithStore & Props> {
                 href="//cdn.shopify.com/s/files/1/0075/3677/1145/files/FAV-32X32_32x32.png?v=1555668978"
                 type="image/png"
               />
-              <script
+              {/* <script
                 async
                 id="google-maps"
                 src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`}
-              ></script>
+              ></script> */}
             </Header>
             <Snackbar isMobile={isMobile} />
             <Component {...pageProps} isMobile={isMobile} />
