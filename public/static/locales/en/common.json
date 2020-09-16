@@ -28,5 +28,14 @@
   "hide_geofences": "Hide geofences",
   "show_geofences": "Show geofences",
   "google_street_view": "Google Street View",
-  "view_on_gg_map": "View on Google Maps"
+  "view_on_gg_map": "View on Google Maps",
+  "saved": "Saved",
+  "coupons": "Coupons",
+  "orders": "Orders",
+  "add_to_cart": "Add to cart",
+  "checkout": "Checkout",
+  "combo_deals": "Compo Deals",
+  "select_coupon": "Select Coupon",
+  "total": "Total",
+  "quantity": "Quantity"
 }

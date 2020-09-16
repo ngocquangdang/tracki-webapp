@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: 100,
     maxHeight: 100,
-    padding: '20px 15px 22px 15px',
+    padding: '20px 5px 22px 15px',
     borderBottom: '1px solid #e0e0e0',
   },
   productImage: {
@@ -18,9 +18,13 @@ const useStyles = makeStyles(theme => ({
     objectFit: 'contain',
     border: 'solid 1px #e0e0e0',
     borderRadius: '50%',
-    marginRight: 20,
+    marginRight: 10,
   },
-  contentCard: {},
+  contentCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 0.9,
+  },
   deviceName: {
     fontSize: 14,
     fontWeight: 500,
@@ -62,6 +66,7 @@ const useStyles = makeStyles(theme => ({
   numberQuantity: {
     paddingLeft: 5,
     paddingRight: 5,
+    fontWeight: 300,
   },
   price: {
     color: '#328557',

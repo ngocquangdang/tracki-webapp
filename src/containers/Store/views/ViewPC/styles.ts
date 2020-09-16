@@ -1,18 +1,45 @@
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core';
 
-const Container = styled.div`
-  display: flex;
-  position: relative;
-  height: calc(100vh - 70px);
-  width: 100%;
-`;
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    width: '100%',
+  },
+  sideBar: {
+    width: '400px',
+    maxWidth: '400px',
+    boxShadow: '1px 0 0 0 rgba(0, 0, 0, 0.12)',
+    backgroundColor: '#ffffff',
+  },
+  iconTitle: {
+    color: '#168449',
+    fontSize: 24,
+  },
+  iconList: {
+    color: '#168449',
+    fontSize: 40,
+  },
+  content: {
+    padding: '25px 15px 25px 0',
+    width: 'calc(100% - 400px)',
+  },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: 20,
+  },
+  textTitle: {
+    fontSize: 24,
+    fontWeight: 500,
+    lineHeight: 0.67,
+    marginLeft: 7,
+  },
+  listCard: {
+    marginTop: 30,
+    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+}));
 
-const SideBar = styled.div`
-  height: 100%;
-  width: 400px;
-  max-width: 400px;
-  box-shadow: 1px 0 0 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
-`;
-
-export { Container, SideBar };
+export { useStyles };

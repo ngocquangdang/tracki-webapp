@@ -3,7 +3,7 @@ import React from 'react';
 import { useStyles } from './styles';
 import { Button } from '@Components/buttons';
 
-function CartDetails() {
+function DetailCarts() {
   const classes = useStyles();
   const onRemoveItem = () => {
     console.log('remove');
@@ -20,7 +20,7 @@ function CartDetails() {
         src="/images/tracki-device-store.png"
         alt="images"
         className={classes.productImage}
-      ></img>
+      />
       <div className={classes.contentCard}>
         <div className={classes.deviceName}>
           Tracki 2020 Model Mini Real time GPS Tracker
@@ -54,4 +54,4 @@ function CartDetails() {
   );
 }
 
-export default CartDetails;
+export default DetailCarts;

@@ -15,7 +15,4 @@ StoreView.getInitialProps = async (): Promise<IPage.InitialProps> => {
   return { namespacesRequired: ['common'] };
 };
 
-export default compose(
-  withAuth,
-  withTranslation(['common', 'tracker', 'store'])
-)(StoreView);
+export default compose(withAuth, withTranslation(['common']))(StoreView);

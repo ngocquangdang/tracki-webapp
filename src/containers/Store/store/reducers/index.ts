@@ -1,10 +1,16 @@
 import produce from 'immer';
 
-import { ActionType, StoreDataTypes } from '@Interfaces/index';
+import { StoreDataTypes } from '../../interfaces';
+import { ActionType } from '@Interfaces/index';
 import * as types from '../constants';
 
 export const initialState: StoreDataTypes = {
+  isLoading: false,
   viewMode: 'store',
+  product: {
+    products: {},
+    productIds: null,
+  },
   errors: null,
 };
 
@@ -13,6 +19,17 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
     switch (type) {
       case types.CHANGE_STORE_VIEW:
         draft.viewMode = payload.viewMode;
+        break;
+      case types.FETCH_DATA_PRODUCTS_REQUESTED:
+        draft.isLoading = true;
+        break;
+      case types.FETCH_DATA_PRODUCTS_SUCCEED:
+        draft.product = payload?.product;
+        draft.isLoading = false;
+        draft.errors = null;
+        break;
+      case types.FETCH_DATA_PRODUCTS_FAILED:
+        draft.errors = payload.error;
         break;
       default:
         break;

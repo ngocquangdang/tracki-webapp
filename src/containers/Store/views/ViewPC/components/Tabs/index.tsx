@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Paper, Tabs, Tab } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { IoIosPricetag } from 'react-icons/io';
+import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
 
 import { Button } from '@Components/buttons';
-import { useStyles } from './styles';
+import DetailCarts from '../DetailCarts';
 import { TAB_KEYS } from '@Containers/Store/store/constants';
-import CartDetails from '../CartDetails';
-import { NavigateNext as NavigateNextIcon } from '@material-ui/icons';
+import { useStyles } from './styles';
+
 interface Props {
   isMobile: boolean;
   viewMode: string;
@@ -41,7 +42,7 @@ export default function TabsPC(props: Props) {
           {TAB_KEYS.map((key: string, index: number) => (
             <Tab
               key={key}
-              label={t('store:' + key)}
+              label={t('common:' + key)}
               value={index}
               className={classes.tabItem}
             />
@@ -50,17 +51,17 @@ export default function TabsPC(props: Props) {
       </Paper>
       <div className={classes.containerCart}>
         <div className={classes.cartHeader}>
-          <span className={classes.textAdd}>{t('store:add_to_cart')}</span>
+          <span className={classes.textAdd}>{t('common:add_to_cart')}</span>
           <div className={classes.contentNumberCart}>
             <ShoppingCartIcon className={classes.iconShopping} />
             <div className={classes.numberCart}>0</div>
           </div>
         </div>
         <div className={classes.listCardBuy}>
-          <CartDetails />
-          <CartDetails />
-          <CartDetails />
-          <CartDetails />
+          <DetailCarts />
+          <DetailCarts />
+          <DetailCarts />
+          <DetailCarts />
         </div>
         <Button
           variant="text"
@@ -69,20 +70,20 @@ export default function TabsPC(props: Props) {
             <div className={classes.selectCoupon}>
               <IoIosPricetag className={classes.iconTag} />
               <div className={classes.textCoupon}>
-                {t('store:select_coupon')}
+                {t('common:select_coupon')}
               </div>
               <NavigateNextIcon className={classes.iconNext} />
             </div>
           }
         />
         <div className={classes.totalMoney}>
-          <span className={classes.textTotal}>{t('store:total')}</span>
+          <span className={classes.textTotal}>{t('common:total')}</span>
           <span className={classes.numberTotal}>$316.40</span>
         </div>
         <div className={classes.containerButton}>
           <Button
             variant="contained"
-            text={t('store:checkout')}
+            text={t('common:checkout')}
             color={'primary'}
             fullWidth={true}
             className={classes.btn}
