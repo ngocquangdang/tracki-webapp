@@ -636,19 +636,19 @@ function SettingTracker(props: Props) {
                 </ContainerButtonModal>
                 <ContainerPaddingButton>
                   <Button
+                    className={`${classes.btnCancle} ${classes.margin}`}
+                    variant="outlined"
+                    isLoading={isRequesting}
+                    text={t('common:cancel')}
+                    type="button"
+                    onClick={handleClose}
+                  />
+                  <Button
                     className={`${classes.btn} ${classes.margin}`}
                     variant="outlined"
                     isLoading={isRequesting}
                     text={t('auth:save')}
                     type="submit"
-                  />
-                  <Button
-                    className={`${classes.btnCancle} ${classes.margin}`}
-                    variant="outlined"
-                    isLoading={isRequesting}
-                    text="Cancle"
-                    type="button"
-                    onClick={handleClose}
                   />
                 </ContainerPaddingButton>
               </Content>
