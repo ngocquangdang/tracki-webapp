@@ -18,3 +18,4 @@ export const MQTT_USERNAME = process.env.NEXT_PUBLIC_MQTT_USERNAME;
 export const MQTT_PASSWORD = process.env.NEXT_PUBLIC_MQTT_PASSWORD;
 export const MQTT_HOST = process.env.NEXT_PUBLIC_MQTT_HOST;
 export const MQTT_PORT = process.env.NEXT_PUBLIC_MQTT_PORT;
+export const GEOBOT_URL = process.env.NEXT_PUBLIC_GEOBOT_URL;
