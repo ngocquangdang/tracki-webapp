@@ -9,6 +9,7 @@ import {
   Contacts as ContactsIcon,
   BarChart as BarChartIcon,
   Settings as SettingsIcon,
+  ShoppingBasket as ShoppingBasketIcon,
 } from '@material-ui/icons';
 
 import Tabs from '@material-ui/core/Tabs';
@@ -66,6 +67,12 @@ const routes = [
     label: 'Settings',
     icon: <SettingsIcon />,
     link: '/settings',
+  },
+  {
+    index: 7,
+    label: 'Store',
+    icon: <ShoppingBasketIcon />,
+    link: '/store',
   },
 ];
 
