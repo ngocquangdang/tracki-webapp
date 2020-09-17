@@ -12,4 +12,25 @@ const makeSelectProducts = () =>
 
 const makeSelectProductIds = () =>
   createSelector(storeState, state => state.product?.productIds);
-export { makeSelectViewMode, makeSelectProducts, makeSelectProductIds };
+
+const makeIsLoading = () =>
+  createSelector(storeState, state => state.isLoading);
+
+const makeSelectTotalProducts = () =>
+  createSelector(storeState, state => state.product?.totalProducts);
+
+const makeSelectCoupons = () =>
+  createSelector(storeState, state => state.coupon?.coupons);
+
+const makeSelectCouponIds = () =>
+  createSelector(storeState, state => state.coupon?.couponIds);
+
+export {
+  makeSelectViewMode,
+  makeSelectProducts,
+  makeSelectProductIds,
+  makeIsLoading,
+  makeSelectTotalProducts,
+  makeSelectCoupons,
+  makeSelectCouponIds,
+};

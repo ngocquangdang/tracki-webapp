@@ -5,8 +5,9 @@ export const changeStoreView = (viewMode: string) => ({
   payload: { viewMode },
 });
 
-export const fetchDataProductsRequestAction = () => ({
+export const fetchDataProductsRequestAction = (data: object) => ({
   type: types.FETCH_DATA_PRODUCTS_REQUESTED,
+  payload: { data },
 });
 
 export const fetchDataProductsSuccess = (product: object) => ({
@@ -16,5 +17,20 @@ export const fetchDataProductsSuccess = (product: object) => ({
 
 export const fetchDataProductsFailed = (error: object) => ({
   type: types.FETCH_DATA_PRODUCTS_FAILED,
+  payload: { error },
+});
+
+export const fetchDataCouponsRequestAction = (data: object) => ({
+  type: types.FETCH_DATA_COUPONS_REQUESTED,
+  payload: { data },
+});
+
+export const fetchDataCouponsSuccess = (product: object) => ({
+  type: types.FETCH_DATA_COUPONS_SUCCEED,
+  payload: { product },
+});
+
+export const fetchDataCouponsFailed = (error: object) => ({
+  type: types.FETCH_DATA_COUPONS_FAILED,
   payload: { error },
 });

@@ -1,13 +1,19 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
+import { ActionType } from '@Interfaces';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
 import * as actions from '../actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
-function* fetchDataProductsSaga() {
+function* fetchDataProductsSaga(action: ActionType) {
   try {
-    const { data } = yield call(apiServices.fetchProducts);
+    const { data, headers } = yield call(
+      apiServices.fetchProducts,
+      action.payload.data.page,
+      action.payload.data.perPage
+    );
+    const totalProducts = parseInt(headers['x-wp-total'], 10);
     const product = data.reduce(
       (obj, item) => {
         obj.products = { ...obj.products, [item.id]: item };
@@ -17,6 +23,7 @@ function* fetchDataProductsSaga() {
       {
         products: {},
         productIds: [],
+        totalProducts,
       }
     );
 
@@ -37,6 +44,47 @@ function* fetchDataProductsSaga() {
     yield put(actions.fetchDataProductsFailed(payload));
   }
 }
+function* fetchDataCouponsSaga(action: ActionType) {
+  try {
+    const { data, headers } = yield call(
+      apiServices.fetchCoupons,
+      action.payload.data.page,
+      action.payload.data.perPage
+    );
+    const totalCoupons = parseInt(headers['x-wp-total'], 10);
+    const coupon = data.reduce(
+      (obj, item) => {
+        obj.coupons = { ...obj.coupons, [item.id]: item };
+        obj.couponIds.push(item.id);
+        return obj;
+      },
+      {
+        coupons: {},
+        couponIds: [],
+        totalCoupons,
+      }
+    );
+
+    console.log('coupon', coupon);
+
+    yield put(actions.fetchDataCouponsSuccess(coupon));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
+    yield put(actions.fetchDataCouponsFailed(payload));
+  }
+}
 export default function* trackingWatcher() {
   yield takeLatest(types.FETCH_DATA_PRODUCTS_REQUESTED, fetchDataProductsSaga);
+  yield takeLatest(types.FETCH_DATA_COUPONS_REQUESTED, fetchDataCouponsSaga);
 }

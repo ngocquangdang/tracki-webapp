@@ -95,6 +95,10 @@ class WebApp extends App<AppWithStore & Props> {
                 id="google-maps"
                 src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`}
               ></script> */}
+              <script
+                data-main="geo-bot"
+                src="https://geo.tracki.com/dist/sdk/geobot.js"
+              ></script>
             </Header>
             <Snackbar isMobile={isMobile} />
             <Component {...pageProps} isMobile={isMobile} />

@@ -10,6 +10,12 @@ export const initialState: StoreDataTypes = {
   product: {
     products: {},
     productIds: null,
+    totalProducts: 0,
+  },
+  coupon: {
+    coupons: {},
+    couponIds: null,
+    totalCoupons: 0,
   },
   errors: null,
 };
@@ -29,6 +35,14 @@ const trackingReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.errors = null;
         break;
       case types.FETCH_DATA_PRODUCTS_FAILED:
+        draft.errors = payload.error;
+        break;
+      case types.FETCH_DATA_COUPONS_SUCCEED:
+        draft.coupon = payload?.coupon;
+        draft.isLoading = false;
+        draft.errors = null;
+        break;
+      case types.FETCH_DATA_COUPONS_FAILED:
         draft.errors = payload.error;
         break;
       default:

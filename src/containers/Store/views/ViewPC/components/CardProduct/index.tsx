@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useStyles, Image, DefaultImage } from './styles';
+import { useStyles, Image } from './styles';
 
 type Product = {
   id: number;
@@ -21,20 +21,18 @@ export default function CardProduct(props: Props) {
     handleClickProduct(id);
   };
   return (
-    <div className={classes.container} onClick={onClickProduct(product.id)}>
-      <div className={classes.content}>
-        {product.images ? (
-          <Image background={product.images[0]?.src} />
-        ) : (
-          <DefaultImage background={'/images/image-device.png'} />
-        )}
+    <tr className={classes.container} onClick={onClickProduct(product.id)}>
+      <th className={classes.content}>
+        <Image
+          background={product.images[0]?.src || '/images/img-tracker-store.png'}
+        />
         <div className={classes.deviceName}>
-          {product.name.length > 80
-            ? `${product.name.slice(0, 80)}...`
+          {product.name.length > 57
+            ? `${product.name.slice(0, 55)}...`
             : product.name}
         </div>
         <div className={classes.price}>{product.price}</div>
-      </div>
-    </div>
+      </th>
+    </tr>
   );
 }

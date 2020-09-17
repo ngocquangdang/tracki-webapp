@@ -188,13 +188,15 @@ const useStyles = makeStyles(theme => ({
     },
   },
   btnCancle: {
-    backgroundColor: '#f5f5f5',
-    color: '#666666',
+    color: '#1a1a1a',
+    border: 'solid 1px #ccd0d5',
+    backgroundColor: '#f5f6f7',
     width: '100%',
-    margin: '10px 0px 10px 10px',
+    margin: '10px 10px 10px 0px',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.14)',
     '&:hover': {
-      backgroundColor: '#e0e0e0',
-      color: theme.palette.secondary.dark,
+      backgroundColor: '#333',
+      color: theme.palette.primary.contrastText,
     },
   },
   blackBtn: {
