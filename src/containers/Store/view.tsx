@@ -7,13 +7,6 @@ interface Props {
   viewMode: string;
   isMobile: boolean;
   changeStoreView(mode: string): void;
-  fetchDataProducts(data: object): void;
-  fetchDataCoupons(data: object): void;
-  coupons: object;
-  couponIds: Array<number | string>;
-  products: object;
-  productIds: Array<number | string>;
-  totalProducts: number;
   isLoading: boolean;
   t(key: string, format?: object): string;
   [data: string]: any;
