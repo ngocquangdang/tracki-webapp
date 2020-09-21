@@ -99,7 +99,10 @@ export default function Step3(props: Props) {
       paymentInfo,
       addDone
     );
-    updateStore({ ...formData, device_name: value.device_name });
+    updateStore({
+      ...formData,
+      device_name: value.device_name,
+    });
   };
   const renderInputImage = () => {
     return (

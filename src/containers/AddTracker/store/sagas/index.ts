@@ -114,20 +114,6 @@ function* addDeviceSaga(action: ActionType) {
       );
     }
 
-    if (file) {
-      const formDataFile = new FormData();
-      formDataFile.append('file', file);
-      const { data: iconData } = yield call(
-        apiServices.uploadImage,
-        account_id,
-        formData.device_id,
-        formDataFile
-      );
-      formData.icon_url = iconData.icon_url;
-    } else {
-      delete formData.icon_url;
-    }
-
     const res = yield call(apiServices.getSubAccount, account_id);
     const getNewDevice = find(res.data.device_ids, {
       device_id: parseInt(formData.device_id),
@@ -159,6 +145,18 @@ function* addDeviceSaga(action: ActionType) {
     };
 
     yield call(updateSettings, account_id, getNewDevice.settings_id, settings);
+
+    if (file) {
+      const formDataFile = new FormData();
+      formDataFile.append('file', file);
+      const { data: iconData } = yield call(
+        apiServices.uploadImage,
+        account_id,
+        formData.device_id,
+        formDataFile
+      );
+      yield put(updateStore({ ...formData, icon_url: iconData.icon_url }));
+    }
 
     yield put(addDeviceSuccesAction(action.payload));
     yield callback(true);
