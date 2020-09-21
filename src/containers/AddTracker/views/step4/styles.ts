@@ -42,6 +42,15 @@ const CongratulationContent = styled.div`
   background: #ffffff;
   padding: 33px 0 55px;
 `;
+const ImageDevice = styled.div`
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  object-fit: contain;
+  background-image: ${(props: { background: string }) =>
+    props.background && ` url(${props.background})`};
+  background-size: cover;
+`;
 const useStyles = makeStyles(theme => ({
   widthBtn: {
     width: '400px',
@@ -70,5 +79,6 @@ export {
   CongratulationIcon,
   CongratulationTitle,
   CongratulationContent,
+  ImageDevice,
   useStyles,
 };

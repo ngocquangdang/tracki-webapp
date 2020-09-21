@@ -10,6 +10,7 @@ import {
   CongratulationTracker,
   CongratulationIcon,
   CongratulationContent,
+  ImageDevice,
   useStyles,
 } from './styles';
 
@@ -39,7 +40,11 @@ export default function CongratulationContainer(props) {
         </CongratulationSubTitle>
         <CongratulationContent>
           <CongratulationIcon>
-            <IoMdPin className={classes.icon} />
+            {formData.icon_url ? (
+              <ImageDevice background={formData.icon_url} />
+            ) : (
+              <IoMdPin className={classes.icon} />
+            )}
           </CongratulationIcon>
           <CongratulationTracker>{formData.device_name}</CongratulationTracker>
           <Link href="/">
