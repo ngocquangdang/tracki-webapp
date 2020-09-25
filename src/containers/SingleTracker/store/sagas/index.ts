@@ -205,6 +205,40 @@ function* extendsBatterySaga(action) {
   }
 }
 
+function* trackingmodeSaga(action) {
+  const { settingId, setting } = action.payload;
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    yield call(apiServices.updateSettings, account_id, settingId, setting);
+    yield put(actions.trackingModeSucceedAction(settingId));
+    yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Update Settings Success.',
+      })
+    );
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    if (data.message_key !== '') {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: 'Can not Update Settings.',
+        })
+      );
+    }
+    yield put(actions.trackingModeFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(
     types.GET_TRACKER_SETTINGS_REQUESTED,
@@ -228,4 +262,5 @@ export default function* appWatcher() {
     updatePreferancesSaga
   );
   yield takeLatest(types.EXTENDED_BATTERY_MODE_REQUESTED, extendsBatterySaga);
+  yield takeLatest(types.TRACKING_MODE_SETTING_REQUESTED, trackingmodeSaga);
 }

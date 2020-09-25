@@ -142,3 +142,23 @@ export const extendsBatteryModeFailedAction = (error: object) => ({
   type: types.EXTENDED_BATTERY_MODE_FAILED,
   payload: { error },
 });
+
+export const trackingModeRequestedAction = (
+  settingId: number,
+  setting: object
+) => ({
+  type: types.TRACKING_MODE_SETTING_REQUESTED,
+  payload: { settingId, setting },
+});
+
+export const trackingModeSucceedAction = (settings: object) => {
+  return {
+    type: types.TRACKING_MODE_SETTING_SUCCEED,
+    payload: { settings },
+  };
+};
+
+export const trackingModeFailedAction = (error: object) => ({
+  type: types.TRACKING_MODE_SETTING_FAILED,
+  payload: { error },
+});
