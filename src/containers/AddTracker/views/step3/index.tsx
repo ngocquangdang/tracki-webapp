@@ -88,9 +88,9 @@ export default function Step3(props: Props) {
     const paymentInfo = {
       nonce: paymentData.nonce || '',
       plan_id: formData.selectedPlan.id || '',
-      email: paymentData.details.email || 'trackimo.home@gmail.com',
-      first_name: paymentData.details.firstName || 'home',
-      last_name: paymentData.details.lastName || 'trackimo',
+      // email: paymentData.details.email || '',
+      // first_name: paymentData.details.firstName || '',
+      // last_name: paymentData.details.lastName || '',
     };
     addDeviceAction(
       { value, file: imageFile.file },
