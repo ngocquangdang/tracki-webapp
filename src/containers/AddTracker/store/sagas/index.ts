@@ -98,6 +98,13 @@ function* addDeviceSaga(action: ActionType) {
   const { formData, data, account_id, paymentData, callback } = action.payload;
   const { value, file } = data;
   try {
+    const { data: userData } = yield call(apiServices.getUserInfo);
+    const newPaymentData = {
+      ...paymentData,
+      email: userData.email,
+      first_name: userData.firstName,
+      last_name: userData.lastName,
+    };
     if (formData.selectedPlan.paymentPlatform === 'PREPAID') {
       yield call(
         apiServices.setPrepaidPlanToDevice,
@@ -110,7 +117,7 @@ function* addDeviceSaga(action: ActionType) {
         apiServices.setBraintreeNoncePlanToDevice,
         account_id,
         parseInt(formData.device_id),
-        paymentData
+        newPaymentData
       );
     }
 
