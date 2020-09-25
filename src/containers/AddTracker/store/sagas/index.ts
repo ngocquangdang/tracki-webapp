@@ -98,12 +98,12 @@ function* addDeviceSaga(action: ActionType) {
   const { formData, data, account_id, paymentData, callback } = action.payload;
   const { value, file } = data;
   try {
-    const { data: useData } = yield call(apiServices.getUserInfo);
+    const { data: userData } = yield call(apiServices.getUserInfo);
     const newPaymentData = {
       ...paymentData,
-      email: useData.email,
-      first_name: useData.firstName,
-      last_name: useData.lastName,
+      email: userData.email,
+      first_name: userData.firstName,
+      last_name: userData.lastName,
     };
     if (formData.selectedPlan.paymentPlatform === 'PREPAID') {
       yield call(
