@@ -117,7 +117,7 @@ export default function Step2(props: Props) {
       onNextStep();
     } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
       updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-      setDisableSubmitCard(true);
+      // setDisableSubmitCard(true);
       BraintreePaymentGateway(trackerPlan[index], account_id);
     }
   };

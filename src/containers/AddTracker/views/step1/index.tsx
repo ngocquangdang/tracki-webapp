@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 
 import {
@@ -8,9 +8,9 @@ import {
   Image,
   Notifi,
   useStyles,
-  AdornmentStyle,
-  TooltipStyle,
-  ToolTip,
+  // AdornmentStyle,
+  // TooltipStyle,
+  // ToolTip,
   ScanQR,
   QRImage,
   QR1,
@@ -18,7 +18,7 @@ import {
 } from './styles';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
-import { BsQuestionCircle } from 'react-icons/bs';
+// import { BsQuestionCircle } from 'react-icons/bs';
 import { AddTrackerSchema } from '../../schema';
 import { AiOutlineQrcode } from 'react-icons/ai';
 interface Props {
@@ -52,7 +52,7 @@ export default function Step1(props: Props) {
     isMobile,
   } = props;
   const classes = useStyles();
-  const [isOpenTooltip, setIsOpenTooltip] = useState(false);
+  // const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
   const onSubmit = (value: any) => {
     checkDeviceAssignedAction(value, onNextStep);
@@ -129,7 +129,7 @@ export default function Step1(props: Props) {
                     : undefined
                 }
               />
-              <div className={`${classes.relative}`}>
+              {/* <div className={`${classes.relative}`}>
                 <TextInput
                   id="order"
                   label={t('tracker:order_id')}
@@ -155,7 +155,7 @@ export default function Step1(props: Props) {
                     <BsQuestionCircle />
                   </AdornmentStyle>
                 </TooltipStyle>
-              </div>
+              </div> */}
 
               <Notifi
                 className={assigned !== 'true' ? classes.displayNone : ''}
@@ -186,14 +186,14 @@ export default function Step1(props: Props) {
   );
 }
 
-function ToolTips(props: Props) {
-  const { t } = props;
+// function ToolTips(props: Props) {
+//   const { t } = props;
 
-  return (
-    <ToolTip>
-      <p>{t('tracker:add_tracker_hind_1')}</p>
-      <p>{t('tracker:add_tracker_hind_2')}</p>
-      <p>{t('tracker:add_tracker_hind_3')}</p>
-    </ToolTip>
-  );
-}
+//   return (
+//     <ToolTip>
+//       <p>{t('tracker:add_tracker_hind_1')}</p>
+//       <p>{t('tracker:add_tracker_hind_2')}</p>
+//       <p>{t('tracker:add_tracker_hind_3')}</p>
+//     </ToolTip>
+//   );
+// }
