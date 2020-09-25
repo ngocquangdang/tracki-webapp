@@ -47,6 +47,13 @@ export const EXTENDED_BATTERY_MODE_SUCCESSED =
 export const EXTENDED_BATTERY_MODE_FAILED =
   'Tracki/EXTENDED_BATTERY_MODE_FAILED';
 
+export const TRACKING_MODE_SETTING_REQUESTED =
+  'Tracki/TRACKING_MODE_SETTING_REQUESTED';
+export const TRACKING_MODE_SETTING_SUCCEED =
+  'Tracki/TRACKING_MODE_SETTING_SUCCEED';
+export const TRACKING_MODE_SETTING_FAILED =
+  'Tracki/TRACKING_MODE_SETTING_FAILED';
+
 export const LOCATION_UPDATE_OPTIONS = [
   { value: '0_1_minutes', content: 'Off' },
   { value: '3_1_seconds', content: 'Once every 3 seconds' },

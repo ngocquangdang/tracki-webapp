@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '@Components/modals';
 
 import { useStyles, themePickerDate } from './styles';
 import { Switch } from '@material-ui/core';
@@ -22,8 +21,6 @@ import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 import { EXTENDED_BATTERY } from '@Containers/SingleTracker/store/constants';
 
 interface Props {
-  showModal: boolean;
-  handleCloseModal(): void;
   t(key: string): string;
   trackerSettings: any;
   tracker: any;
@@ -44,8 +41,6 @@ export default function BatterySleepMode(props: Props) {
   const classes = useStyles();
 
   const {
-    showModal,
-    handleCloseModal,
     t,
     trackerSettings,
     tracker,
@@ -164,184 +159,175 @@ export default function BatterySleepMode(props: Props) {
   };
 
   return (
-    <Modal
-      title={t('batterymode:extended_battery')}
-      open={showModal}
-      handleClose={handleCloseModal}
-      className={classes.modal}
-    >
-      <div>
-        <Formik
-          initialValues={scheduledSleep}
-          onSubmit={onSubmit}
-          enableReinitialize
-        >
-          {({ values, handleChange, handleSubmit, setFieldValue }) => {
-            return (
-              <form onSubmit={handleSubmit}>
-                <div className={classes.sleepMode}>
-                  <p className={classes.title}>{t('batterymode:sleep_mode')}</p>
-                  <Switch
-                    name="enable"
-                    checked={values.enable}
-                    color="primary"
-                    className={classes.switch}
-                    onChange={e => {
-                      handleChange('enable')(e);
-                      if (!e.target.value) {
-                        handleSubmit();
-                      }
+    <div>
+      <Formik
+        initialValues={scheduledSleep}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ values, handleChange, handleSubmit, setFieldValue }) => {
+          return (
+            <form onSubmit={handleSubmit}>
+              <div className={classes.sleepMode}>
+                <p className={classes.title}>{t('batterymode:sleep_mode')}</p>
+                <Switch
+                  name="enable"
+                  checked={values.enable}
+                  color="primary"
+                  className={classes.switch}
+                  onChange={e => {
+                    handleChange('enable')(e);
+                    if (!e.target.value) {
+                      handleSubmit();
+                    }
+                  }}
+                />
+                <p className={classes.sleepState}>
+                  Turned {values.enable ? 'On' : 'Off'}
+                </p>
+              </div>
+              {values.enable && (
+                <div className={`${classes.modeOption} ${classes.width}`}>
+                  <SelectOption
+                    name={'select_mode'}
+                    options={EXTENDED_BATTERY}
+                    label={t('batterymode:select_mode')}
+                    value={values.select_mode}
+                    onChangeOption={e => {
+                      handleChange('select_mode')(e);
+                      handleShowIntructions(e !== 'custom')();
                     }}
                   />
-                  <p className={classes.sleepState}>
-                    Turned {values.enable ? 'On' : 'Off'}
-                  </p>
                 </div>
-                {values.enable && (
-                  <div className={`${classes.modeOption} ${classes.width}`}>
-                    <SelectOption
-                      name={'select_mode'}
-                      options={EXTENDED_BATTERY}
-                      label={t('batterymode:select_mode')}
-                      value={values.select_mode}
-                      onChangeOption={e => {
-                        handleChange('select_mode')(e);
-                        handleShowIntructions(e !== 'custom')();
-                      }}
-                    />
-                  </div>
-                )}
-                {values.enable && values.select_mode === 'custom' && (
-                  <div className={classes.modeCustom}>
-                    <PickerProvider libInstance={moment} utils={DateUtils}>
-                      <div className={classes.containerSpecificTime}>
-                        <ThemeProvider theme={themePickerDate}>
-                          <KeyboardDateTimePicker
-                            name={'start'}
-                            autoOk
-                            disablePast
-                            variant="inline"
-                            inputVariant="outlined"
-                            label="Mode Start Date & Time"
-                            format="yyyy/MM/dd hh:mm a"
-                            value={values.start}
-                            onChange={val => {
-                              setFieldValue('start', val);
-                            }}
-                            KeyboardButtonProps={{
-                              'aria-label': 'change date',
-                            }}
-                            className={classes.timePicker}
-                          />
+              )}
+              {values.enable && values.select_mode === 'custom' && (
+                <div className={classes.modeCustom}>
+                  <PickerProvider libInstance={moment} utils={DateUtils}>
+                    <div className={classes.containerSpecificTime}>
+                      <ThemeProvider theme={themePickerDate}>
+                        <KeyboardDateTimePicker
+                          name={'start'}
+                          autoOk
+                          disablePast
+                          variant="inline"
+                          inputVariant="outlined"
+                          label="Mode Start Date & Time"
+                          format="yyyy/MM/dd hh:mm a"
+                          value={values.start}
+                          onChange={val => {
+                            setFieldValue('start', val);
+                          }}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                          className={classes.timePicker}
+                        />
 
-                          <TimePicker
-                            autoOk
-                            name="sleep"
-                            label="Sleep Period"
-                            placeholder="08:00 AM"
-                            variant="inline"
-                            mask="__:__ _M"
-                            inputVariant="outlined"
-                            value={values.sleep}
-                            onChange={val => {
-                              setFieldValue('sleep', val);
-                            }}
-                            keyboardIcon={
-                              <InputAdornment position="end">
-                                <MdAvTimer />
-                              </InputAdornment>
-                            }
-                            className={classes.timePicker}
-                          />
-                          <TimePicker
-                            autoOk
-                            name="awake"
-                            label="Awake Period"
-                            placeholder="08:00 AM"
-                            variant="inline"
-                            mask="__:__ _M"
-                            inputVariant="outlined"
-                            value={values.awake}
-                            onChange={val => {
-                              setFieldValue('awake', val);
-                            }}
-                            keyboardIcon={
-                              <InputAdornment position="end">
-                                <MdAvTimer />
-                              </InputAdornment>
-                            }
-                            className={classes.timePicker}
-                          />
-                        </ThemeProvider>
-                      </div>
-                    </PickerProvider>
-                  </div>
-                )}
-                {values.enable && (
-                  <div className={`${classes.saveMode} ${classes.width}`}>
-                    <Button
-                      className={`${classes.btn} ${classes.margin}`}
-                      variant="outlined"
-                      text={t('batterymode:save_changes')}
-                      type="submit"
-                      isLoading={isRequesting}
-                    />
-                  </div>
-                )}
-                <div className={classes.intructions}>
-                  <div className={classes.intructionHeader}>
-                    <div className={classes.intructionTitle}>
-                      <RiErrorWarningFill className={classes.iconWarning} />
-                      <p className={classes.title}>
-                        {t('batterymode:instructions')}
-                      </p>
+                        <TimePicker
+                          autoOk
+                          name="sleep"
+                          label="Sleep Period"
+                          placeholder="08:00 AM"
+                          variant="inline"
+                          mask="__:__ _M"
+                          inputVariant="outlined"
+                          value={values.sleep}
+                          onChange={val => {
+                            setFieldValue('sleep', val);
+                          }}
+                          keyboardIcon={
+                            <InputAdornment position="end">
+                              <MdAvTimer />
+                            </InputAdornment>
+                          }
+                          className={classes.timePicker}
+                        />
+                        <TimePicker
+                          autoOk
+                          name="awake"
+                          label="Awake Period"
+                          placeholder="08:00 AM"
+                          variant="inline"
+                          mask="__:__ _M"
+                          inputVariant="outlined"
+                          value={values.awake}
+                          onChange={val => {
+                            setFieldValue('awake', val);
+                          }}
+                          keyboardIcon={
+                            <InputAdornment position="end">
+                              <MdAvTimer />
+                            </InputAdornment>
+                          }
+                          className={classes.timePicker}
+                        />
+                      </ThemeProvider>
                     </div>
-                    {values.select_mode === 'custom' && (
-                      <div
-                        onClick={handleShowIntructions(!onShowIntruction)}
-                        className={classes.showIntruction}
-                      >
-                        {onShowIntruction
-                          ? 'Tap to hide'
-                          : t('batterymode:tap_to_show')}
-                      </div>
-                    )}
-                  </div>
-                  {onShowIntruction && (
-                    <p className={classes.intructionSub}>
-                      Do not use this mode for a real time tracking With
-                      scheduled hibernation you can extend battery life to 30
-                      days tracking 4-8 times per day (in case you don't need
-                      real time tracking). For example: Tracki would go to
-                      hibernation for 6 hours at a time & wake up for 5 minutes
-                      to report its location and would go to hibernation again.
-                      That means it would be tracking 4 times per day. You can
-                      turn off the hibernation mode by switching it off and by
-                      saving the changes. The changes will be effective when the
-                      devices wakes up again.
+                  </PickerProvider>
+                </div>
+              )}
+              {values.enable && (
+                <div className={`${classes.saveMode} ${classes.width}`}>
+                  <Button
+                    className={`${classes.btn} ${classes.margin}`}
+                    variant="outlined"
+                    text={t('batterymode:save_changes')}
+                    type="submit"
+                    isLoading={isRequesting}
+                  />
+                </div>
+              )}
+              <div className={classes.intructions}>
+                <div className={classes.intructionHeader}>
+                  <div className={classes.intructionTitle}>
+                    <RiErrorWarningFill className={classes.iconWarning} />
+                    <p className={classes.title}>
+                      {t('batterymode:instructions')}
                     </p>
+                  </div>
+                  {values.select_mode === 'custom' && (
+                    <div
+                      onClick={handleShowIntructions(!onShowIntruction)}
+                      className={classes.showIntruction}
+                    >
+                      {onShowIntruction
+                        ? 'Tap to hide'
+                        : t('batterymode:tap_to_show')}
+                    </div>
                   )}
                 </div>
-              </form>
-            );
-          }}
-        </Formik>
+                {onShowIntruction && (
+                  <p className={classes.intructionSub}>
+                    Do not use this mode for a real time tracking With scheduled
+                    hibernation you can extend battery life to 30 days tracking
+                    4-8 times per day (in case you don't need real time
+                    tracking). For example: Tracki would go to hibernation for 6
+                    hours at a time & wake up for 5 minutes to report its
+                    location and would go to hibernation again. That means it
+                    would be tracking 4 times per day. You can turn off the
+                    hibernation mode by switching it off and by saving the
+                    changes. The changes will be effective when the devices
+                    wakes up again.
+                  </p>
+                )}
+              </div>
+            </form>
+          );
+        }}
+      </Formik>
 
-        <div className={classes.buyBatteryMode}>
-          <p className={classes.subBuy}>
-            {t('batterymode:battery_description')}{' '}
-            <a
-              href={
-                'https://tracki.com/collections/gps-trackers/products/waterproof-magnetic-box-for-gps-tracker-3500mah-battery'
-              }
-            >
-              <span className={classes.buyHere}>
-                {t('batterymode:buy_here')}
-              </span>
-            </a>
-          </p>
-        </div>
+      <div className={classes.buyBatteryMode}>
+        <p className={classes.subBuy}>
+          {t('batterymode:battery_description')}{' '}
+          <a
+            href={
+              'https://tracki.com/collections/gps-trackers/products/waterproof-magnetic-box-for-gps-tracker-3500mah-battery'
+            }
+          >
+            <span className={classes.buyHere}>{t('batterymode:buy_here')}</span>
+          </a>
+        </p>
       </div>
-    </Modal>
+    </div>
   );
 }

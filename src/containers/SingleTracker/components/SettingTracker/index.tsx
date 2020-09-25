@@ -56,6 +56,7 @@ import SubscriptionModal from '@Components/Subscription';
 import {
   updateTrackerSettingsRequestedAction,
   extendsBatteryModeRequestedAction,
+  trackingModeRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
 
 import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
@@ -89,7 +90,7 @@ import {
   getDeviceSubscripttionRequestedAction,
 } from '@Containers/Trackers/store/actions';
 
-import BatterySleepMode from '@Containers/BatteryMode';
+import FastTrackingMode from '@Containers/TrackingModes';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 interface Props {
@@ -120,6 +121,7 @@ interface Props {
   devcieSubscription: object;
   extendsBatteryModeRequest(settingId, setting): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
+  trackingModeRequest(settingId, setting): void;
 }
 
 interface SMSCounter {
@@ -160,6 +162,7 @@ function SettingTracker(props: Props) {
     getDeviceSubscripttionRequest,
     extendsBatteryModeRequest,
     showSnackbar,
+    trackingModeRequest,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -631,7 +634,7 @@ function SettingTracker(props: Props) {
                   </OptionRight>
                 </ContainerButtonModal>
                 <ContainerButtonModal onClick={onOpenBatteryMode}>
-                  <Text>Extended Battery Sleep Mode</Text>
+                  <Text>Tracking Modes</Text>
                   <NavigateNextIcon className={classes.iconNext} />
                 </ContainerButtonModal>
                 <ContainerPaddingButton>
@@ -665,7 +668,7 @@ function SettingTracker(props: Props) {
         smsCounter={smsCounter}
         devcieSubscription={devcieSubscription}
       />
-      <BatterySleepMode
+      <FastTrackingMode
         showModal={openBatteryMode}
         handleCloseModal={onCloseBatteryMode}
         t={t}
@@ -674,6 +677,7 @@ function SettingTracker(props: Props) {
         extendsBatteryModeRequest={extendsBatteryModeRequest}
         showSnackbar={showSnackbar}
         isRequesting={isRequesting}
+        trackingModeRequest={trackingModeRequest}
       />
       <SelectContact
         handleClose={handleShowSelectContact}
@@ -744,6 +748,8 @@ const mapDispatchToProps = dispatch => ({
   extendsBatteryModeRequest: (settingId, setting) =>
     dispatch(extendsBatteryModeRequestedAction(settingId, setting)),
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
+  trackingModeRequest: (settingId, setting) =>
+    dispatch(trackingModeRequestedAction(settingId, setting)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingTracker);
