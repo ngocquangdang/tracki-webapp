@@ -5,9 +5,3 @@ export const fetchProducts = async (page, perPage) => {
     `/products?page=${page}&per_page=${perPage}`
   );
 };
-
-export const fetchCoupons = async (page, perPage) => {
-  return await axiosWoocommerce.get(
-    `/coupons?page=${page}&per_page=${perPage}`
-  );
-};

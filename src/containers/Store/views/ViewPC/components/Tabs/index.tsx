@@ -21,10 +21,11 @@ export default function TabsPC(props: Props) {
   const { t, changeStoreView } = props;
 
   const classes = useStyles();
-  const [currentTab, setTab] = useState(0);
+  const [currentTab, setTab] = useState<number>(0);
 
   const onChangeTab = (event: any, newValue: any) => {
     setTab(newValue);
+    window.history.pushState({}, '', '/store/' + TAB_KEYS[newValue]);
     changeStoreView(TAB_KEYS[newValue]);
   };
 

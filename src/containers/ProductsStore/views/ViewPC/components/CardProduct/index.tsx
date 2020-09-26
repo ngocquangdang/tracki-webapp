@@ -17,11 +17,11 @@ interface Props {
 export default function CardProduct(props: Props) {
   const { product, handleClickProduct } = props;
   const classes = useStyles();
-  const onClickProduct = (id: number) => () => {
-    handleClickProduct(id);
+  const onClickProduct = () => {
+    handleClickProduct(product.id);
   };
   return (
-    <tr className={classes.container} onClick={onClickProduct(product.id)}>
+    <tr className={classes.container} onClick={onClickProduct}>
       <th className={classes.content}>
         <Image
           background={product.images[0]?.src || '/images/img-tracker-store.png'}
