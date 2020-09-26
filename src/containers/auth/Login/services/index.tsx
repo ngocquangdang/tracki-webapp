@@ -42,8 +42,15 @@ export const login = async (body: ILoginPage.IStateLogin) => {
   );
 };
 
-export const loginGeobotTracki = async (token: string) => {
-  await axiosClientGeobot.get(`/setToken?token=${token}`, '', {
-    withCredentials: true,
-  });
+export const loginGeobotTracki = async (
+  token: string,
+  refreshToken: string,
+  expiresIn: string
+) => {
+  await axiosClientGeobot.get(
+    `/setToken?token=${token}?refreshToken=${refreshToken}?expiresIn=${expiresIn}`,
+    {
+      withCredentials: true,
+    }
+  );
 };

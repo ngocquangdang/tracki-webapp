@@ -8,19 +8,19 @@ import { loginSuccessAction, loginFailAction } from '../actions';
 import * as apiServices from '../../services';
 import * as types from '../definitions';
 
-function sendMessage(token) {
+function sendMessage(nameMessage) {
   let isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
     input !== null && input.tagName === 'IFRAME';
   let chatIframe = document.getElementById('chatIframe');
   if (isIFrame(chatIframe) && chatIframe.contentWindow) {
-    chatIframe.contentWindow.postMessage(token, '*');
+    chatIframe.contentWindow.postMessage(nameMessage, '*');
   }
 }
 
 function* loginSaga(action: ActionType) {
   try {
     const response = yield call(apiServices.login, action.payload.data);
-    console.log('response', response);
+
     if (response.status) {
       yield put(loginSuccessAction(response.data));
       CookieInstance.setCookie(
@@ -29,11 +29,11 @@ function* loginSaga(action: ActionType) {
       );
       yield call(
         apiServices.loginGeobotTracki,
-        CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token')
+        CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
+        response.data.refresh_token,
+        response.data.expires_in
       );
-      sendMessage(
-        CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token')
-      );
+      sendMessage('AUTHENTICATE_TOKEN_CRM');
       AxiosClient.setHeader(response.data.access_token);
       window.location.replace('/trackers');
     }
