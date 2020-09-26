@@ -19,6 +19,7 @@ const SelectForm = withStyles(theme => ({
     '& .MuiInputBase-root': {
       height: '50px',
       color: '#1a1a1a',
+      minWidth: 150,
     },
     '& .MuiOutlinedInput-root': {
       '&:hover fieldset': {

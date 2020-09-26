@@ -1,8 +1,7 @@
-import { makeStyles, withStyles, Tab } from '@material-ui/core';
-
+import { makeStyles, Tab, withStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   modal: {
-    maxWidth: '600px',
+    maxWidth: '844px',
   },
   tabs: {
     height: 55,

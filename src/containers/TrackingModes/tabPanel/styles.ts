@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Container = styled.div``;
 const Content = styled.div`
-  padding: 28px 0 25px;
+  padding-bottom: 25px;
   @media (max-width: 375px) {
     padding: 0;
     font-size: 15px;

@@ -8,9 +8,9 @@ interface Props {
     value: string | number;
     content: string;
   }[];
-  label: string;
+  label?: string;
   value: string | number;
-  name: string;
+  name?: string;
   onChangeOption(event: string): void;
   isBlackView?: boolean;
 }
