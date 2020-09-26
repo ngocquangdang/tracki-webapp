@@ -25,9 +25,9 @@ function LoginForm(props: ILoginPage.IProps) {
     errorMessage,
   } = props;
   const classes = useStyles();
-
-  const submitForm = (values: ILoginPage.IStateLogin) =>
+  const submitForm = (values: ILoginPage.IStateLogin) => {
     loginRequestAction(values);
+  };
   // const resetError = () => resetErrorMessage();
   return (
     <Formik

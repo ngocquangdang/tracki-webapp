@@ -1,4 +1,5 @@
 import axiosClient from '@Utils/axios';
+import axiosClientGeobot from '@Utils/axiosGeobot';
 import ILoginPage from '../interfaces';
 import {
   OAUTH_CLIENT_ID,
@@ -39,4 +40,10 @@ export const login = async (body: ILoginPage.IStateLogin) => {
       withCredentials: true,
     }
   );
+};
+
+export const loginGeobotTracki = async (token: string) => {
+  await axiosClientGeobot.get(`/setToken?token=${token}`, '', {
+    withCredentials: true,
+  });
 };
