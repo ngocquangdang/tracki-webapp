@@ -41,14 +41,27 @@ class CookieHandler {
   getCookie(name: string) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
+
     if (parts.length === 2) {
       const partsPop = parts.pop();
-
       if (partsPop) {
         const encryptedValue = partsPop.split(';').shift() as string;
         return CryptoJS.AES.decrypt(encryptedValue, this.secretKey).toString(
           CryptoJS.enc.Utf8
         ); // Decrypt for get original value
+      }
+    }
+    return '';
+  }
+
+  getEncryptedCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+
+    if (parts.length === 2) {
+      const partsPop = parts.pop();
+      if (partsPop) {
+        return partsPop.split(';').shift() as string;
       }
     }
     return '';

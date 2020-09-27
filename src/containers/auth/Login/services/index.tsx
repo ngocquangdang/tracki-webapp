@@ -1,4 +1,5 @@
 import axiosClient from '@Utils/axios';
+import axiosClientGeobot from '@Utils/axiosGeobot';
 import ILoginPage from '../interfaces';
 import {
   OAUTH_CLIENT_ID,
@@ -35,6 +36,19 @@ export const login = async (body: ILoginPage.IStateLogin) => {
       code: response.data?.code,
       redirect_uri: OAUTH_REDIRECT_URI,
     },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const loginGeobotTracki = async (
+  token: string,
+  refreshToken: string,
+  expiresIn: string
+) => {
+  await axiosClientGeobot.get(
+    `/setToken?token=${token}?refreshToken=${refreshToken}?expiresIn=${expiresIn}`,
     {
       withCredentials: true,
     }
