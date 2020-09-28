@@ -8,7 +8,8 @@ import { TabStyle, useStyles } from './styles';
 import TabPanel from './tabPanel';
 
 import TrackingMode from '@Containers/FastTracking';
-import BatteryMode from '@Containers/BatteryMode';
+// import BatteryMode from '@Containers/BatteryMode';
+import NewBatteryMode from '@Containers/NewBatteryMode';
 
 interface Props {
   showModal: boolean;
@@ -27,12 +28,12 @@ export default function TrackingModes(props: Props) {
   const {
     showModal,
     handleCloseModal,
-    t,
+    // t,
     trackerSettings,
-    tracker,
-    extendsBatteryModeRequest,
+    // tracker,
+    // extendsBatteryModeRequest,
     showSnackbar,
-    isRequesting,
+    // isRequesting,
     trackingModeRequest,
   } = props;
 
@@ -54,11 +55,11 @@ export default function TrackingModes(props: Props) {
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          centered
+          variant="fullWidth"
           className={classes.tabs}
         >
           <TabStyle label="Full Tracking Mode" className={classes.tabItem} />
-          <TabStyle label="Battery Mode" className={classes.tabItem} />
+          <TabStyle label="Battery Saver Mode" className={classes.tabItem} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <TrackingMode
@@ -68,14 +69,15 @@ export default function TrackingModes(props: Props) {
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <BatteryMode
+          {/* <BatteryMode
             t={t}
             trackerSettings={trackerSettings}
             tracker={tracker}
             extendsBatteryModeRequest={extendsBatteryModeRequest}
             showSnackbar={showSnackbar}
             isRequesting={isRequesting}
-          />
+          /> */}
+          <NewBatteryMode />
         </TabPanel>
       </>
     </Modal>
