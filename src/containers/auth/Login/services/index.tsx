@@ -48,6 +48,6 @@ export const loginGeobotTracki = async (
   expiresIn: string
 ) => {
   await axiosClientGeobot.get(
-    `/setToken?token=${token}?refreshToken=${refreshToken}?expiresIn=${expiresIn}`
+    `/setToken?token=${token}&refreshToken=${refreshToken}&expiresIn=${expiresIn}`
   );
 };
