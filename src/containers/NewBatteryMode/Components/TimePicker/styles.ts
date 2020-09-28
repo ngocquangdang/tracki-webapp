@@ -3,21 +3,35 @@ import { KeyboardTimePicker as TimePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles(theme => ({
   timePicker: {
-    margin: '23px 0 0',
-    width: '100px',
-
+    width: '120px',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
     },
   },
-  containerSpecificTime: {
+  containerSignleTime: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: '23px 0 0',
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
       flexDirection: 'column',
     },
+  },
+  containerRangeTime: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '23px 0 0',
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
+  icon: {
+    width: '14px',
+    height: '14px',
+    margin: '0 10px',
   },
 }));
 

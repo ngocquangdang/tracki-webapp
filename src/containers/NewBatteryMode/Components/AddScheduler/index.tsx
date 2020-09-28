@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import moment from 'moment';
 import Modal from '@Components/modals';
 import TimePickerContainer from '../TimePicker';
 import SelectOption from '@Components/selections';
@@ -7,16 +7,9 @@ import { Checkbox, FormControl } from '@material-ui/core';
 import { TextInput } from '@Components/inputs';
 
 import { useStyles } from './styles';
+import { Button } from '@Components/buttons';
 
-const DAY = [
-  { key: 'mo', value: 'Monday' },
-  { key: 'tu', value: 'Tuesday' },
-  { key: 'we', value: 'Wednesday' },
-  { key: 'th', value: 'Thursday' },
-  { key: 'fr', value: 'Friday' },
-  { key: 'sa', value: 'Saturday' },
-  { key: 'sn', value: 'Sunday' },
-];
+import { DAY } from '../../store/constants';
 
 const WIFI_STATUS = [
   { value: 'ON', content: 'ON' },
@@ -26,9 +19,16 @@ const WIFI_STATUS = [
 
 export default function AddScheduler(props) {
   const classes = useStyles();
-  const { isAddScheduler, handleCloseAddScheduler } = props;
+  const { isAddScheduler, handleCloseAddScheduler, onInitialData } = props;
   const [wifiStatus, setWifiStatus] = useState('ON');
   const [daySelected, setDaySelected] = useState<Array<string>>([]);
+  const [schedulerName, setSchedulerName] = useState('');
+  // const [schedulerTime, setSchedulerTime] = useState(null);
+  const [schedulerRangeTime, setSchedulerRangeTime] = useState({
+    on: null,
+    off: null,
+  });
+
   const handleChangeOption = e => setWifiStatus(e);
   const onChecked = value => () => {
     if (daySelected.includes(value)) {
@@ -37,6 +37,31 @@ export default function AddScheduler(props) {
       setDaySelected([...daySelected, value]);
     }
   };
+
+  const onAddScheduler = () => {
+    const { on, off } = schedulerRangeTime;
+    const scheduler = {
+      id: 3,
+      time: {
+        on: moment(on).unix(),
+        off: moment(off).unix(),
+      },
+      name: schedulerName.trim() !== '' ? schedulerName : 'new schedule',
+      day: daySelected,
+      status: wifiStatus,
+      type: wifiStatus === 'ON' || wifiStatus === 'ON/OFF' ? 'OFF' : wifiStatus,
+    };
+    console.log('onAddScheduler -> scheduler', scheduler);
+    if (on) {
+      onInitialData(scheduler);
+      handleCloseAddScheduler();
+      setSchedulerRangeTime({ on: null, off: null });
+    }
+    return;
+  };
+  const onChangeNameScheduler = e => setSchedulerName(e.target.value);
+  // const onChangeSchedulerTime = v => setSchedulerTime(v);
+  const onChangeSchedulerRangeTime = v => setSchedulerRangeTime(v);
   return (
     <Modal
       title="Settings"
@@ -44,7 +69,13 @@ export default function AddScheduler(props) {
       handleClose={handleCloseAddScheduler}
     >
       <>
-        <TimePickerContainer />
+        <TimePickerContainer
+          wifiStatus={wifiStatus}
+          // schedulerTime={schedulerTime}
+          // onChangeSchedulerTime={onChangeSchedulerTime}
+          schedulerRangeTime={schedulerRangeTime}
+          onChangeSchedulerRangeTime={onChangeSchedulerRangeTime}
+        />
         <div>
           <div className={classes.statusWifi}>
             <p>Turn Wifi</p>
@@ -72,10 +103,18 @@ export default function AddScheduler(props) {
           <div>
             <TextInput
               label="name(Option)"
-              value=""
-              // onChange={handleChange('card_number')}
+              value={schedulerName}
+              onChange={onChangeNameScheduler}
               // variant="outlined"
             />
+          </div>
+          <div>
+            <Button
+              text="Cancel"
+              onClick={handleCloseAddScheduler}
+              color="primary"
+            ></Button>
+            <Button text="OK" color="primary" onClick={onAddScheduler}></Button>
           </div>
         </div>
       </>

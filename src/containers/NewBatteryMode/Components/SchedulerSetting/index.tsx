@@ -35,7 +35,7 @@ export default function SchedulerSetting(props) {
               <div className={classes.statusMode}>
                 <div>24h Mode</div>
                 <Switch
-                  name="email_notifications"
+                  name="mode_status"
                   checked={modeStatus}
                   onChange={handleModeStatus}
                   color="primary"

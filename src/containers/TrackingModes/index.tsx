@@ -59,7 +59,7 @@ export default function TrackingModes(props: Props) {
           className={classes.tabs}
         >
           <TabStyle label="Full Tracking Mode" className={classes.tabItem} />
-          <TabStyle label="Battery Mode" className={classes.tabItem} />
+          <TabStyle label="Battery Saver Mode" className={classes.tabItem} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <TrackingMode

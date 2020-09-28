@@ -7,12 +7,23 @@ const useStyles = makeStyles(theme => ({
   subTitle: {
     fontSize: 14,
   },
-  notifyHeader: {},
-  notifyTitle: {},
-  notifySubTitle: {},
+  notifyHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    color: ' #168449',
+  },
+  notifyTitle: {
+    fontSize: 18,
+    fontWeight: 500,
+  },
+  notifySubTitle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   notifySubTitleContent: {
     fontSize: 15,
-    fontWeight: 300,
+    fontWeight: 500,
+    margin: '5px 0',
   },
   notifications: {
     padding: 15,
@@ -22,6 +33,35 @@ const useStyles = makeStyles(theme => ({
   },
   hibernateOption: {
     marginTop: 15,
+  },
+  radiobutton: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  subOption: {
+    marginLeft: 30,
+    fontSize: 14,
+    fontWeight: 400,
+  },
+  iconNotifi: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+    color: '#168449',
+  },
+  listSubNotifi: {
+    paddingLeft: 15,
+  },
+  iconNotifiHeader: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  selection: {
+    fontSize: 15,
+    background: '#eeeeee',
+    margin: '15px 0 5px',
+    color: '#168449',
   },
 }));
 
