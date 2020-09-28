@@ -22,55 +22,53 @@ export default function SchedulerSetting(props) {
     setNotificationVibration(false);
 
   return (
-    <>
-      <Modal
-        title="Settings"
-        open={isSchedulerSettings}
-        handleClose={handleCloseSetting}
-      >
-        <div>
-          <div className={classes.settingCard}>
-            <p className={classes.title}>Generate</p>
-            <div className={classes.option}>
-              <div className={classes.statusMode}>
-                <div>24h Mode</div>
-                <Switch
-                  name="mode_status"
-                  checked={modeStatus}
-                  onChange={handleModeStatus}
-                  color="primary"
-                />
-              </div>
-            </div>
-          </div>
-          <div className={classes.settingCard}>
-            <p className={classes.title}>Notifications</p>
-            <div className={classes.option}>
-              <div
-                className={classes.typeOption}
-                onClick={handleShowNotificationPush}
-              >
-                Push
-              </div>
-              <hr className={classes.line} />
-              <div
-                className={classes.typeOption}
-                onClick={handleShowNotificationVibration}
-              >
-                Vibration
-              </div>
+    <Modal
+      title="Settings"
+      open={isSchedulerSettings}
+      handleClose={handleCloseSetting}
+    >
+      <div>
+        <div className={classes.settingCard}>
+          <p className={classes.title}>Generate</p>
+          <div className={classes.option}>
+            <div className={classes.statusMode}>
+              <div>24h Mode</div>
+              <Switch
+                name="mode_status"
+                checked={modeStatus}
+                onChange={handleModeStatus}
+                color="primary"
+              />
             </div>
           </div>
         </div>
-        <PushSetting
-          notificationPush={notificationPush}
-          handleCloseNotificationPush={handleCloseNotificationPush}
-        />
-        <VibrationSetting
-          notificationVibration={notificationVibration}
-          handleCloseNotificationVibration={handleCloseNotificationVibration}
-        />
-      </Modal>
-    </>
+        <div className={classes.settingCard}>
+          <p className={classes.title}>Notifications</p>
+          <div className={classes.option}>
+            <div
+              className={classes.typeOption}
+              onClick={handleShowNotificationPush}
+            >
+              Push
+            </div>
+            <hr className={classes.line} />
+            <div
+              className={classes.typeOption}
+              onClick={handleShowNotificationVibration}
+            >
+              Vibration
+            </div>
+          </div>
+        </div>
+      </div>
+      <PushSetting
+        notificationPush={notificationPush}
+        handleCloseNotificationPush={handleCloseNotificationPush}
+      />
+      <VibrationSetting
+        notificationVibration={notificationVibration}
+        handleCloseNotificationVibration={handleCloseNotificationVibration}
+      />
+    </Modal>
   );
 }

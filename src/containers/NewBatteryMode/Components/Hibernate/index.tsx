@@ -52,6 +52,18 @@ export default function Hibernate(props) {
             Read more about battery save mode options
           </p>
         </div>
+        {showSubNotification === 'option' && (
+          <>
+            <div className={classes.listSubNotifi}>
+              <RemoveIcon className={classes.iconNotifi} />
+              <p className={classes.notifySubTitleContent}>xxxxx</p>
+            </div>
+            <div className={classes.listSubNotifi}>
+              <RemoveIcon className={classes.iconNotifi} />
+              <p className={classes.notifySubTitleContent}>xxxxx</p>
+            </div>
+          </>
+        )}
         <div className={classes.listSubNotifi}></div>
         <div className={classes.notifySubTitle}>
           {showSubNotification === 'update' ? (
@@ -69,6 +81,12 @@ export default function Hibernate(props) {
             Read more about automation updates
           </p>
         </div>
+        {showSubNotification === 'update' && (
+          <div className={classes.listSubNotifi}>
+            <RemoveIcon className={classes.iconNotifi} />
+            <p className={classes.notifySubTitleContent}>xxxxx</p>
+          </div>
+        )}
         <div className={classes.notifySubTitle}>
           {showSubNotification === 'hibernation' ? (
             <RemoveIcon
@@ -85,6 +103,12 @@ export default function Hibernate(props) {
             Read more about hibernation
           </p>
         </div>
+        {showSubNotification === 'hibernation' && (
+          <div className={classes.listSubNotifi}>
+            <RemoveIcon className={classes.iconNotifi} />
+            <p className={classes.notifySubTitleContent}>xxxxx</p>
+          </div>
+        )}
       </div>
       <div className={classes.hibernateOption}>
         <RadioGroup value={wakeUpMode} onChange={handleChangeWakeUpMode}>

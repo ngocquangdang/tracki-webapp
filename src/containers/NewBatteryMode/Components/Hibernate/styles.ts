@@ -50,7 +50,9 @@ const useStyles = makeStyles(theme => ({
     color: '#168449',
   },
   listSubNotifi: {
-    paddingLeft: 15,
+    paddingLeft: 25,
+    display: 'flex',
+    alignItems: 'center',
   },
   iconNotifiHeader: {
     width: 20,
