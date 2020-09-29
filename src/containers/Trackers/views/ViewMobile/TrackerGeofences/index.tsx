@@ -29,7 +29,7 @@ import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
 
 import { changeMapAction } from '@Containers/App/store/actions';
 import AddGeoFenceToDevice from '@Components/GeofenceListPC/components/AddGeoFenceToDevice';
-import CreateGeofence from '../CreateGeofence';
+import CreateGeofence from '../CreateGeofence';
 import { useStyles } from './styles';
 
 import {
