@@ -88,7 +88,7 @@ const SwitchGroup = styled.div`
 const SwitchGroupLast = styled(SwitchGroup)`
   border-bottom: none;
 `;
-const TextDescription1 = styled.span`
+const TextDescription1 = styled.p`
   font-size: 10px;
   font-weight: normal;
   font-stretch: normal;
@@ -261,6 +261,13 @@ const useStyles = makeStyles(theme => ({
   flexStyle: {
     display: 'flex',
     alignItems: 'center',
+  },
+  trackingMode: {
+    border: 0,
+    padding: 0,
+  },
+  trackingModeIcon: {
+    margin: 0,
   },
 }));
 

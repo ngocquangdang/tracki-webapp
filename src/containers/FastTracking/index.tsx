@@ -75,6 +75,9 @@ export default function TrackingMode(props: Props) {
           you do not need to view the tracker's path history.
         </p>
       </div>
+      <p className={classes.fastTracContact}>
+        Need Faster Tracking? Contact us to enable up to 3 seconds
+      </p>
       <RadioGroup
         value={modetype}
         onChange={handleChangeMode}
