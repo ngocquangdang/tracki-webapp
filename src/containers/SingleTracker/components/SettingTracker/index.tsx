@@ -19,7 +19,7 @@ import { isNumber } from 'lodash';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
-import SelectOption from '@Components/selections';
+// import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
 import { ITracker } from '@Interfaces/index';
@@ -36,7 +36,6 @@ import {
   SubTitle,
   SwitchGroup,
   TextDescription1,
-  TextDescription2,
   ContainerButtonModal,
   TitleAlert,
   ContainerPadding,
@@ -59,7 +58,7 @@ import {
   trackingModeRequestedAction,
 } from '@Containers/SingleTracker/store/actions';
 
-import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
+// import { LOCATION_UPDATE_OPTIONS } from '@Containers/SingleTracker/store/constants';
 
 import {
   makeSelectTrackerSettings,
@@ -180,18 +179,18 @@ function SettingTracker(props: Props) {
     device_beep_sound: false,
     zone_entry: false,
     zone_exit: false,
-    tracking_mode: LOCATION_UPDATE_OPTIONS[0].value,
+    // tracking_mode: LOCATION_UPDATE_OPTIONS[0].value,
   });
 
   const speed_unit = profile?.preferences?.speed_unit;
 
   useEffect(() => {
     if (trackerSettings && tracker) {
-      const {
-        sample_rate,
-        samples_per_report,
-        tracking_measurment,
-      } = trackerSettings.preferences.tracking_mode;
+      // const {
+      //   sample_rate,
+      //   samples_per_report,
+      //   tracking_measurment,
+      // } = trackerSettings.preferences.tracking_mode;
       setInfoTracker({
         device_name: tracker.device_name || '',
         device_id: tracker.device_id || 0,
@@ -202,7 +201,7 @@ function SettingTracker(props: Props) {
           trackerSettings.preferences.device_beep_sound || false,
         zone_entry: trackerSettings.preferences.zone_entry || false,
         zone_exit: trackerSettings.preferences.zone_exit || false,
-        tracking_mode: `${sample_rate}_${samples_per_report}_${tracking_measurment}`,
+        // tracking_mode: `${sample_rate}_${samples_per_report}_${tracking_measurment}`,
       });
     }
   }, [tracker, trackerSettings]);
@@ -215,11 +214,11 @@ function SettingTracker(props: Props) {
       device_id,
       ...preferences
     } = infoTracker;
-    const [
-      sample_rate,
-      samples_per_report,
-      tracking_measurment,
-    ] = tracking_mode.split('_');
+    // const [
+    //   sample_rate,
+    //   samples_per_report,
+    //   tracking_measurment,
+    // ] = tracking_mode.split('_');
     const bodyRequest = {
       id: tracker.settings_id,
       device_name,
@@ -227,11 +226,11 @@ function SettingTracker(props: Props) {
       preferences: {
         ...trackerSettings.preferences,
         ...preferences,
-        tracking_mode: {
-          sample_rate: +sample_rate,
-          samples_per_report: +samples_per_report,
-          tracking_measurment,
-        },
+        // tracking_mode: {
+        //   sample_rate: +sample_rate,
+        //   samples_per_report: +samples_per_report,
+        //   tracking_measurment,
+        // },
       },
       file: imageFile.file,
     };
@@ -372,7 +371,7 @@ function SettingTracker(props: Props) {
                     variant="outlined"
                     disabled
                   />
-                  <div className={classes.selectOption}>
+                  {/* <div className={classes.selectOption}>
                     <SelectOption
                       name="infoTracker.tracking_mode"
                       options={LOCATION_UPDATE_OPTIONS}
@@ -380,14 +379,20 @@ function SettingTracker(props: Props) {
                       value={values.infoTracker?.tracking_mode}
                       onChangeOption={handleChange('infoTracker.tracking_mode')}
                     />
-                  </div>
+                  </div> */}
+                  <ContainerButtonModal
+                    onClick={onOpenBatteryMode}
+                    className={classes.trackingMode}
+                  >
+                    <Text>Tracking Modes</Text>
+                    <NavigateNextIcon
+                      className={`${classes.iconNext} ${classes.trackingModeIcon}`}
+                    />
+                  </ContainerButtonModal>
                   <TextDescription1>
                     Tracker's path tracking Intervals (to save battery set to
                     less frequent)
                   </TextDescription1>
-                  <TextDescription2>
-                    Need Faster Tracking? Contact us to enable up to 5 seconds
-                  </TextDescription2>
                 </ContainerPadding>
                 <ContainerButtonModal onClick={onOpenModalSubscription}>
                   <Text>Subscriptions</Text>
@@ -633,10 +638,7 @@ function SettingTracker(props: Props) {
                     <NavigateNextIcon className={classes.iconNext} />{' '}
                   </OptionRight>
                 </ContainerButtonModal>
-                <ContainerButtonModal onClick={onOpenBatteryMode}>
-                  <Text>Tracking Modes</Text>
-                  <NavigateNextIcon className={classes.iconNext} />
-                </ContainerButtonModal>
+
                 <ContainerPaddingButton>
                   <Button
                     className={`${classes.btnCancle} ${classes.margin}`}
