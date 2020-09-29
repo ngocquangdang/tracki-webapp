@@ -1,4 +1,4 @@
-import TrackerTopicHandler from './Tracker';
+import TrackerTopicHandler from './Tracker';
 
 class mqttClientSetHandler {
   handlers: Array<any>;
