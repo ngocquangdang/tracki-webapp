@@ -25,8 +25,8 @@ export default function AddScheduler(props) {
   const [schedulerName, setSchedulerName] = useState('');
   // const [schedulerTime, setSchedulerTime] = useState(null);
   const [schedulerRangeTime, setSchedulerRangeTime] = useState({
-    on: null,
-    off: null,
+    startTime: null,
+    endTime: null,
   });
 
   const handleChangeOption = e => setWifiStatus(e);
@@ -39,28 +39,26 @@ export default function AddScheduler(props) {
   };
 
   const onAddScheduler = () => {
-    const { on, off } = schedulerRangeTime;
+    const { startTime, endTime } = schedulerRangeTime;
     const scheduler = {
       id: 3,
       time: {
-        on: moment(on).unix(),
-        off: moment(off).unix(),
+        startTime: moment(startTime).unix(),
+        endTime: moment(endTime).unix(),
       },
       name: schedulerName.trim() !== '' ? schedulerName : 'new schedule',
       day: daySelected,
       status: wifiStatus,
       type: wifiStatus === 'ON' || wifiStatus === 'ON/OFF' ? 'OFF' : wifiStatus,
     };
-    console.log('onAddScheduler -> scheduler', scheduler);
-    if (on) {
+    if (startTime) {
       onInitialData(scheduler);
       handleCloseAddScheduler();
-      setSchedulerRangeTime({ on: null, off: null });
+      setSchedulerRangeTime({ startTime: null, endTime: null });
     }
     return;
   };
   const onChangeNameScheduler = e => setSchedulerName(e.target.value);
-  // const onChangeSchedulerTime = v => setSchedulerTime(v);
   const onChangeSchedulerRangeTime = v => setSchedulerRangeTime(v);
   return (
     <Modal
@@ -71,8 +69,6 @@ export default function AddScheduler(props) {
       <>
         <TimePickerContainer
           wifiStatus={wifiStatus}
-          // schedulerTime={schedulerTime}
-          // onChangeSchedulerTime={onChangeSchedulerTime}
           schedulerRangeTime={schedulerRangeTime}
           onChangeSchedulerRangeTime={onChangeSchedulerRangeTime}
         />

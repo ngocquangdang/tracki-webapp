@@ -11,7 +11,7 @@ export const DAY = [
 export const initialScheduler = [
   {
     id: 1,
-    time: { on: 1601280019, off: null },
+    time: { startTime: 1601280019, endTime: null },
     day: ['mo', 'tu', 'su'],
     name: 'xxxx',
     status: 'ON',
@@ -19,7 +19,7 @@ export const initialScheduler = [
   },
   {
     id: 2,
-    time: { on: 1601280019, off: 1601269384 },
+    time: { startTime: 1601280019, endTime: 1601269384 },
     day: ['tu', 'th', 'su'],
     name: 'yyyy',
     status: 'ON/OFF',

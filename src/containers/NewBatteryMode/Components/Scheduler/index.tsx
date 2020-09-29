@@ -122,17 +122,21 @@ export default function Scheduler(props) {
                   <div className={classes.leftCard}>
                     <div className={classes.scheduleDetail}>
                       <div className={classes.timer}>
-                        {scheduler.time.off ? (
+                        {scheduler.time.endTime ? (
                           <span>
-                            {`${moment(scheduler.time.on * 1000).format(
+                            {`${moment(scheduler.time.startTime * 1000).format(
                               'LT'
                             )} -  
-                              ${moment(scheduler.time.off * 1000).format(
+                              ${moment(scheduler.time.endTime * 1000).format(
                                 'LT'
                               )}`}
                           </span>
                         ) : (
-                          <>{moment(scheduler.time.on * 1000).format('LT')}</>
+                          <>
+                            {moment(scheduler.time.startTime * 1000).format(
+                              'LT'
+                            )}
+                          </>
                         )}
                       </div>
                       <div className={classes.activeCalender}>

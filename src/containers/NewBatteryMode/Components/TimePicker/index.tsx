@@ -11,28 +11,21 @@ import { InputAdornment } from '@material-ui/core';
 import { MdAvTimer } from 'react-icons/md';
 
 export default function TimePickerContainer(props) {
-  const {
-    wifiStatus,
-    // schedulerTime,
-    // onChangeSchedulerTime,
-    schedulerRangeTime,
-    onChangeSchedulerRangeTime,
-  } = props;
+  const { wifiStatus, schedulerRangeTime, onChangeSchedulerRangeTime } = props;
 
   const classes = useStyles();
-  const { on, off } = schedulerRangeTime;
-  // const handleWakeUp = value => onChangeSchedulerTime(value);
+  const { startTime, endTime } = schedulerRangeTime;
   const handleChangeFrom = value => {
     onChangeSchedulerRangeTime({
       ...schedulerRangeTime,
-      on: value,
+      startTime: value,
     });
   };
 
   const handleChangeTo = value =>
     onChangeSchedulerRangeTime({
       ...schedulerRangeTime,
-      off: value,
+      endTime: value,
     });
   return (
     <>
@@ -44,7 +37,7 @@ export default function TimePickerContainer(props) {
                 autoOk
                 placeholder="__:__"
                 mask="__:__ _M"
-                value={schedulerRangeTime.on}
+                value={schedulerRangeTime.startTime}
                 onChange={handleChangeFrom}
                 className={classes.timePicker}
                 keyboardIcon={
@@ -65,7 +58,7 @@ export default function TimePickerContainer(props) {
                 autoOk
                 placeholder="__:__"
                 mask="__:__ _M"
-                value={on}
+                value={startTime}
                 onChange={handleChangeFrom}
                 className={classes.timePicker}
                 keyboardIcon={
@@ -79,7 +72,7 @@ export default function TimePickerContainer(props) {
                 autoOk
                 placeholder="__:__"
                 mask="__:__ _M"
-                value={off}
+                value={endTime}
                 onChange={handleChangeTo}
                 className={classes.timePicker}
                 keyboardIcon={
