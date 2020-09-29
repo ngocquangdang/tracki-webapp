@@ -85,13 +85,6 @@ function SubscriptionModal(props: Props) {
           <Title>{t('tracker:current_plan')}: </Title>
           <SubTitle>-</SubTitle>
         </WrapTitle>
-        <WrapTitle>
-          <Title>{t('tracker:limit_month_use')}: </Title>
-          <SubTitle>
-            {smsCounter?.smsCounter || 0} out of {smsCounter?.smsLimit || 0}{' '}
-            text alerts
-          </SubTitle>
-        </WrapTitle>
         <Button
           variant="contained"
           text={'fast tracking'}

@@ -21,13 +21,14 @@ import {
   braintreeDropInSubscriptionRequestAction,
   buySmsSubscriptionRequestAction,
   buyFastTrackingSubscriptionRequestAction,
+  getFastTrackingFollowRequestedAction,
 } from './store/actions';
 import {
   makeSelectErrors,
   makeSelectIsRequesting,
   makeSelectFormData,
   makeSelectCountryCode,
-  makeSelectCountryCodeFollow,
+  makeSelectPlanFollowContryCode,
 } from './store/selectors';
 import { getDeviceSMSCounterRequestedAction } from '@Containers/Trackers/store/actions';
 
@@ -70,7 +71,7 @@ const mapStateToProps = createStructuredSelector({
   isRequesting: makeSelectIsRequesting(),
   formData: makeSelectFormData(),
   countryCode: makeSelectCountryCode(),
-  countryCodeFollow: makeSelectCountryCodeFollow(),
+  planList: makeSelectPlanFollowContryCode(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -94,6 +95,8 @@ const mapDispatchToProps = (dispatch: any) => ({
         paymentData
       )
     ),
+  getFastTrackingFollowRequest: (code: number) =>
+    dispatch(getFastTrackingFollowRequestedAction(code)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -29,6 +29,7 @@ interface Props {
   subscription_expiration: string;
   type_payment: string;
   nextStep(): void;
+  isRequesting?: boolean;
 }
 
 export default function PaymentConfrim(props: Props) {
@@ -41,6 +42,7 @@ export default function PaymentConfrim(props: Props) {
     subscription_expiration,
     type_payment,
     nextStep,
+    isRequesting,
   } = props;
   const classes = useStyles();
   return (
@@ -92,6 +94,7 @@ export default function PaymentConfrim(props: Props) {
           type="submit"
           variant="contained"
           text={t('tracker:continue')}
+          isLoading={isRequesting}
           className={classes.widthBtn}
           onClick={nextStep}
         />

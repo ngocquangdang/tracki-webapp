@@ -18,3 +18,14 @@ export const buySMSOption = async (account_id, device_id, data) => {
     data
   );
 };
+
+export const getFastrackingFollowCode = async (code: number) => {
+  return axiosClient.get(`/v3/country/${code}/fasttrackplans`);
+};
+
+export const buyFastrackingOption = async (account_id, device_id, data) => {
+  return await axiosClient.post(
+    `/internal/v1/activation/accounts/${account_id}/devices/${device_id}/paypal/fasttrack`,
+    data
+  );
+};

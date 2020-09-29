@@ -20,7 +20,7 @@ interface Props {
   onClickItemMessage(dataMessaga, selectCountry): void;
   t(key: string): string;
   countryCode?: CountryCode;
-  countryCodeFollow?: DataCountry;
+  planList?: IPlan;
 }
 
 interface CountryCode {
@@ -31,12 +31,13 @@ interface CountryCode {
   shortName: string | null;
 }
 
-interface DataCountry {
+interface IPlan {
   currency: string;
   groupId: string;
   planId: number;
   price: string;
   smsLimit: string;
+  fastTrackSeconds: number;
 }
 
 function SubscriptionStep1(props) {
@@ -44,28 +45,34 @@ function SubscriptionStep1(props) {
     onUpdateStep,
     t,
     countryCode,
-    countryCodeFollow,
+    planList,
     getCountryCodeFollowRequest,
     isRequesting,
     updateSubscriptionStore,
     formData,
+    getFastTrackingFollowRequest,
   } = props;
 
   const classes = useStyles();
   const [dataCountry, setDataCountry] = useState<CountryCode[]>([]);
-  const [dataMessage, setDataMessage] = useState<DataCountry[]>([]);
+  const [dataMessage, setDataMessage] = useState<IPlan[]>([]);
 
   useEffect(() => {
     setDataCountry(countryCode);
   }, [countryCode]);
 
   useEffect(() => {
-    setDataMessage(countryCodeFollow);
-  }, [countryCodeFollow]);
+    setDataMessage(planList);
+  }, [planList]);
 
   const handleChange = event => {
     // setCode(event.target.value);
-    getCountryCodeFollowRequest(event.target.value);
+    if (formData.subscriptionType === 'sms') {
+      getCountryCodeFollowRequest(event.target.value);
+    }
+    if (formData.subscriptionType === 'fast-tracking') {
+      getFastTrackingFollowRequest(event.target.value);
+    }
     updateSubscriptionStore({
       ...formData,
       country: dataCountry.find(i => i.countryCode === event.target.value),
@@ -124,7 +131,11 @@ function SubscriptionStep1(props) {
                 key={item.planId}
                 onClick={onClickItemMessageHandle(item)}
               >
-                <TypeMessage>{item.smsLimit} SMS</TypeMessage>
+                {formData.subscriptionType === 'sms' ? (
+                  <TypeMessage>{item.smsLimit} SMS</TypeMessage>
+                ) : (
+                  <TypeMessage>{item.fastTrackSeconds} Seconds</TypeMessage>
+                )}
                 <Date>{t('subscription:monthly')}</Date>
                 <Price>
                   {item.price}
