@@ -11,7 +11,7 @@ export const initialState = {
     selectedPlan: [],
   },
   countryCode: {},
-  countryCodeFollow: {},
+  planList: {},
 };
 const SubscriptionReducer = (
   state = initialState,
@@ -21,6 +21,9 @@ const SubscriptionReducer = (
     switch (type) {
       case types.GET_CONTRY_CODE_REQUESTED:
       case types.GET_CONTRY_CODE_FOLLOW_REQUESTED:
+      case types.GET_FATS_TRACKING_FOLLOW_CODE_REQUESTED:
+      case types.BUY_FAST_TRACKING_SUBSCRIPTION_REQUESTED:
+      case types.BUY_SMS_SUBSCRIPTION_REQUESTED:
         draft.isRequesting = true;
         break;
       case types.GET_CONTRY_CODE_SUCCESSED:
@@ -29,8 +32,15 @@ const SubscriptionReducer = (
         draft.errors = {};
         break;
       case types.GET_CONTRY_CODE_FOLLOW_SUCCESSED:
-        draft.countryCodeFollow = payload.data;
+      case types.GET_FATS_TRACKING_FOLLOW_CODE_SUCCEED:
+        draft.planList = payload.data;
         draft.isRequesting = false;
+        draft.errors = {};
+        break;
+      case types.BUY_FAST_TRACKING_SUBSCRIPTION_SUCCESSED:
+      case types.BUY_SMS_SUBSCRIPTION_SUCCESSED:
+        draft.isRequesting = false;
+        draft.errors = {};
         break;
       case types.UPDATE_SUBSCRIPTION_STORE:
         draft.formData = {
@@ -39,7 +49,10 @@ const SubscriptionReducer = (
         };
         break;
       case types.GET_CONTRY_CODE_FOLLOW_FAILED:
+      case types.GET_FATS_TRACKING_FOLLOW_CODE_FAILED:
       case types.GET_CONTRY_CODE_FAILED:
+      case types.BUY_FAST_TRACKING_SUBSCRIPTION_FAILED:
+      case types.BUY_SMS_SUBSCRIPTION_FAILED:
         draft.isRequesting = false;
         draft.errors = payload;
         break;

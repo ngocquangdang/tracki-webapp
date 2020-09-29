@@ -23,8 +23,8 @@ const makeSelectCountryCode = () => {
   });
 };
 
-const makeSelectCountryCodeFollow = () => {
-  return createSelector(renewTrackerState, state => state.countryCodeFollow);
+const makeSelectPlanFollowContryCode = () => {
+  return createSelector(renewTrackerState, state => state.planList);
 };
 
 export {
@@ -32,5 +32,5 @@ export {
   makeSelectIsRequesting,
   makeSelectFormData,
   makeSelectCountryCode,
-  makeSelectCountryCodeFollow,
+  makeSelectPlanFollowContryCode,
 };

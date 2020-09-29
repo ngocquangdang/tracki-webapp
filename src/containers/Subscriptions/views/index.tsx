@@ -57,9 +57,6 @@ function Subscription(props: Props) {
   };
   const onSubmit = () => {
     const paymentData = {
-      email: '',
-      first_name: '',
-      last_name: '',
       nonce: formData?.creditCard.nonce,
       plan_id: formData?.selectedPlan.planId,
     };
@@ -91,6 +88,7 @@ function Subscription(props: Props) {
       BraintreePaymentGateway(
         formData,
         formData.selectedPlan,
+        formData.selectedPlan.planId,
         formData.account_id,
         setLoadingPaymentgateway,
         setDisableSubmitCard,
@@ -130,16 +128,19 @@ function Subscription(props: Props) {
               ? 'Increase Monthly Text Alert Limit'
               : 'Fast Tracking'}
           </Title>
-          <SubTitle>
-            <InfoIcon className={classes.infoIcon} />
-            <TextSub>
-              <TextNormal>This month you used: </TextNormal>
-              <TextBold>
-                {smsCounter.smsCounter || 0} out of {smsCounter.smsLimit || 0}{' '}
-                text alerts
-              </TextBold>
-            </TextSub>
-          </SubTitle>
+          {formData.subscriptionType === 'sms' && (
+            <SubTitle>
+              <InfoIcon className={classes.infoIcon} />
+              <TextSub>
+                <TextNormal>This month you used: </TextNormal>
+
+                <TextBold>
+                  {smsCounter.smsCounter || 0} out of {smsCounter.smsLimit || 0}{' '}
+                  text alerts
+                </TextBold>
+              </TextSub>
+            </SubTitle>
+          )}
         </WrapTitle>
         <MainContent isStep2={step === 2} isStep3={step === 3}>
           {renderStep()}

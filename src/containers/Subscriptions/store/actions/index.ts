@@ -127,3 +127,24 @@ export function buyFastTrackingSubscriptionFailAction(payload: any) {
     payload,
   };
 }
+
+export function getFastTrackingFollowRequestedAction(code: number) {
+  return {
+    type: types.GET_FATS_TRACKING_FOLLOW_CODE_REQUESTED,
+    payload: { code },
+  };
+}
+
+export function getFastTrackingFollowSucceedAction(data: object) {
+  return {
+    type: types.GET_FATS_TRACKING_FOLLOW_CODE_SUCCEED,
+    payload: { data },
+  };
+}
+
+export function getFastTrackingFollowFailedAction(error) {
+  return {
+    type: types.GET_FATS_TRACKING_FOLLOW_CODE_FAILED,
+    payload: { error },
+  };
+}

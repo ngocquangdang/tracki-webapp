@@ -3,6 +3,12 @@ import axiosClient from '@Utils/axios';
 const ASSIGNED_ENDPOINT = '/internal/v1';
 
 export const getTokenForPayment = async (data, selectedPlanId, account_id) => {
+  console.log(
+    'getTokenForPayment -> data, selectedPlanId, account_id',
+    data,
+    selectedPlanId,
+    account_id
+  );
   return await axiosClient.get(
     `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/paypal/token?device_id=${data.device_id}&plan_id=${selectedPlanId}`
   );

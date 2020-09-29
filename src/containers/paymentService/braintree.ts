@@ -3,6 +3,7 @@ import { paymentService } from './payment';
 export function BraintreePaymentGateway(
   formData,
   selectedPlan,
+  planId,
   account_id,
   setLoadingPaymentgateway,
   setDisableSubmitCard,
@@ -11,9 +12,9 @@ export function BraintreePaymentGateway(
   paymentService()
     .initBraintreeDropIn(
       dropInContainer,
-      '#submit-payment-button',
       formData,
       selectedPlan,
+      planId,
       account_id
     )
     .subscribe((event: any) => {

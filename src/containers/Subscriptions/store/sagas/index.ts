@@ -14,6 +14,9 @@ import {
   buySmsSubscriptionSuccesAction,
   buySmsSubscriptionFailAction,
   buyFastTrackingSubscriptionFailAction,
+  buyFastTrackingSubscriptionSuccesAction,
+  getFastTrackingFollowSucceedAction,
+  getFastTrackingFollowFailedAction,
 } from '../actions';
 import Router from 'next/router';
 
@@ -82,14 +85,19 @@ function* buySmsSubscriptionSaga(action) {
   const { formData, account_id, paymentData } = action.payload;
 
   try {
-    console.log(1);
+    const { data: userData } = yield call(apiServices.getUserInfo);
+    const newPaymentData = {
+      ...paymentData,
+      email: userData.email,
+      first_name: userData.preferances?.first_name,
+      last_name: userData.preferances?.last_name,
+    };
     yield call(
       apiServices.buySMSOption,
       account_id,
       parseInt(formData.device_id),
-      paymentData
+      newPaymentData
     );
-
     yield put(
       showSnackbar({
         snackType: 'success',
@@ -118,30 +126,56 @@ function* buySmsSubscriptionSaga(action) {
   }
 }
 
-function* buyFastTrackingSubscriptionSaga(action) {
-  const { formData, account_id, paymentData } = action.payload;
-  console.log(
-    'function*buyFastTrackingSubscriptionSaga ->  formData, account_id, paymentData',
-    formData,
-    account_id,
-    paymentData
-  );
+function* getFastTrackingFollowCode(action) {
+  const { code } = action.payload;
 
   try {
-    // yield call(
-    //   apiServices.buySMSOption,
-    //   account_id,
-    //   parseInt(formData.device_id),
-    //   paymentData
-    // );
+    const { data } = yield call(apiServices.getFastrackingFollowCode, code);
+    yield put(getFastTrackingFollowSucceedAction(data));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    yield put(
+      showSnackbar({
+        snackType: 'error',
+        snackMessage: data.error || data.message,
+      })
+    );
+    yield put(getFastTrackingFollowFailedAction(payload));
+  }
+}
 
-    // yield put(
-    //   showSnackbar({
-    //     snackType: 'success',
-    //     snackMessage: 'Buy SMS Subscription Succeed',
-    //   })
-    // );
-    // yield put(buyFastTrackingSubscriptionSuccesAction(action.payload));
+function* buyFastTrackingSubscriptionSaga(action) {
+  const { formData, account_id, paymentData } = action.payload;
+  try {
+    const { data: userData } = yield call(apiServices.getUserInfo);
+
+    const newPaymentData = {
+      ...paymentData,
+      email: userData.email,
+      first_name: userData.preferances?.first_name,
+      last_name: userData.preferances?.last_name,
+    };
+    yield call(
+      apiServices.buyFastrackingOption,
+      account_id,
+      parseInt(formData.device_id),
+      newPaymentData
+    );
+
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Buy Fast Tracking Succeed',
+      })
+    );
+    yield put(buyFastTrackingSubscriptionSuccesAction(action.payload));
     yield Router.push('/');
   } catch (error) {
     const { data = {} } = { ...error };
@@ -180,5 +214,9 @@ export default function* watcher() {
   yield takeLatest(
     types.BUY_FAST_TRACKING_SUBSCRIPTION_REQUESTED,
     buyFastTrackingSubscriptionSaga
+  );
+  yield takeLatest(
+    types.GET_FATS_TRACKING_FOLLOW_CODE_REQUESTED,
+    getFastTrackingFollowCode
   );
 }

@@ -49,6 +49,7 @@ function SubscriptionStep2(props) {
     BraintreePaymentGateway(
       formData,
       formData.selectedPlan,
+      formData.selectedPlan.planId,
       formData.account_id,
       setLoadingPaymentgateway,
       setDisableSubmitCard,
@@ -78,7 +79,9 @@ function SubscriptionStep2(props) {
         <DetailIncrease>
           <TypeMessage>
             {`${t('subscription:text_plan')} ${
-              formData?.selectedPlan.smsLimit
+              formData.subscriptionType === 'sms'
+                ? formData?.selectedPlan.smsLimit
+                : formData?.selectedPlan.fastTrackSeconds + ` Seconds`
             } ${t('subscription:monthly')}`}
           </TypeMessage>
           <Price>

@@ -10,22 +10,22 @@ declare global {
 
 const paymentService = () => {
   const initBraintreeDropIn = (
-    containerSelector,
-    buttonSelector,
+    dropInContainer,
     data,
     selectedPlan,
+    planId,
     account_id
   ) => {
     let payload$ = new Subject();
     let dropIn;
     apiServices
-      .getTokenForPayment(data, selectedPlan.planId, account_id)
+      .getTokenForPayment(data, planId, account_id)
       .then(token => {
         payload$.next({ type: 'token' });
         dropin
           .create({
             authorization: token.data,
-            container: containerSelector,
+            container: dropInContainer,
             translations: {
               chooseAWayToPay: 'Payment Option',
               Card: 'Credit Card',
@@ -44,8 +44,8 @@ const paymentService = () => {
             },
             paypal: {
               flow: 'vault',
-              amount: data.selectedPlan.amount,
-              currency: data.selectedPlan.currency,
+              amount: selectedPlan.amount,
+              currency: selectedPlan.currency,
             },
           })
           .then(instance => {

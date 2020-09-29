@@ -7,9 +7,12 @@ interface Props {
   t(key: string): string;
   nextStep(): void;
   formData: any;
+  isRequesting?: boolean;
 }
+
 export default function PaymentConfirmContainer(props: Props) {
-  const { t, nextStep, formData } = props;
+  console.log('PaymentConfirmContainer -> props', props);
+  const { t, nextStep, formData, isRequesting } = props;
   return (
     <PaymentConfirm
       t={t}
@@ -25,6 +28,7 @@ export default function PaymentConfirmContainer(props: Props) {
       subscription_expiration={'March 27, 2020'}
       type_payment={formData.creditCard.type}
       nextStep={nextStep}
+      isRequesting={isRequesting}
     />
   );
 }
