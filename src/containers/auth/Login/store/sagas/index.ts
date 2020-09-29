@@ -27,6 +27,7 @@ function* loginSaga(action: ActionType) {
         process.env.COOKIE_NAME || 'token',
         response.data.access_token
       );
+      CookieInstance.setCookie('refreshToken', response.data.refresh_token);
       yield call(
         apiServices.loginGeobotTracki,
         CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
