@@ -4,9 +4,8 @@ import Card from '@material-ui/core/Card';
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
 import { Button } from '@Components/buttons';
-import { paymentService } from '../../services/payment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-
+import { BraintreePaymentGateway } from '@Containers/paymentService/braintree';
 import {
   Header,
   Typography,
@@ -23,6 +22,7 @@ import {
   Paner,
   Text,
 } from './styles';
+import { CircularProgress } from '@material-ui/core';
 
 interface Props {
   t(key: string, format?: object): string;
@@ -106,7 +106,8 @@ export default function Step2(props: Props) {
   const [step] = useState('payment_confirm');
   const [isShowOtherPlan, setShowOtherPlan] = useState(false);
   const [paymentPlan, setPaymentPlan]: any = useState(null);
-  const [disablePayment, setDisableSubmitCard] = useState(false);
+  const [disablePayment, setDisableSubmitCard] = useState(true);
+  const [isLoadingGateway, setLoadingGateway] = useState(true);
 
   const onChangePaymentPlan = (id: number, index) => () => {
     setShowOtherPlan(true);
@@ -117,8 +118,15 @@ export default function Step2(props: Props) {
       onNextStep();
     } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
       updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-      // setDisableSubmitCard(true);
-      BraintreePaymentGateway(trackerPlan[index], account_id);
+      BraintreePaymentGateway(
+        formData,
+        trackerPlan[index],
+        trackerPlan[index].id,
+        account_id,
+        setLoadingPaymentgateway,
+        setDisableSubmitCard,
+        '#dropin-container-add-tracker'
+      );
     }
   };
 
@@ -126,34 +134,9 @@ export default function Step2(props: Props) {
     braintreeDropinAction(formData, renderStep);
   };
 
-  function BraintreePaymentGateway(selectedPlan, account_id) {
-    let subscriberBraintreeNonce;
-    paymentService()
-      .initBraintreeDropIn(
-        '#dropin-container',
-        '#submit-payment-button',
-        formData,
-        selectedPlan,
-        account_id
-      )
-      .subscribe((event: any) => {
-        switch (event.type) {
-          case 'token':
-            break;
-          case 'available':
-            setDisableSubmitCard(false);
-            break;
-          case 'notAvailable':
-            setDisableSubmitCard(true);
-            break;
-          case 'payload':
-            if (subscriberBraintreeNonce) {
-              subscriberBraintreeNonce.unsubscribe();
-            }
-            break;
-        }
-      });
-  }
+  const setLoadingPaymentgateway = () => {
+    setLoadingGateway(false);
+  };
 
   const getCardClass = (id: number) => {
     if (paymentPlan) {
@@ -169,10 +152,10 @@ export default function Step2(props: Props) {
     switch (step) {
       case 'payment_confirm':
         return updateStepChild('payment_confirm');
-      case 'referral_code':
-        return updateStepChild('referral_code');
-      case 'congratulation':
-        return updateStepChild('congratulation');
+      // case 'referral_code':
+      //   return updateStepChild('referral_code');
+      // case 'congratulation':
+      //   return updateStepChild('congratulation');
       default:
         return 'no case';
     }
@@ -253,7 +236,12 @@ export default function Step2(props: Props) {
         <img src="./images/guarantee-safe.png" alt="" />
       </Image2>
       <div className={`${!isShowOtherPlan ? classes.hidden : ''}`}>
-        <div id="dropin-container"></div>
+        {isLoadingGateway && (
+          <div>
+            <CircularProgress />
+          </div>
+        )}
+        <div id="dropin-container-add-tracker"></div>
         <Text>All transactions are secure and encrypted.</Text>
         <Button
           onClick={onPaymentSubmit}

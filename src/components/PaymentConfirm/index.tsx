@@ -25,11 +25,14 @@ interface Props {
   today: string;
   device_id: number | string;
   price: number | string | JSX.Element;
-  activation_date: string;
+  activation_date?: string;
   subscription_expiration: string;
   type_payment: string;
   nextStep(): void;
   isRequesting?: boolean;
+  endStepChild?(): void;
+  visa_last_4?: string;
+  total_amount?: string | number;
 }
 
 export default function PaymentConfrim(props: Props) {
@@ -38,13 +41,19 @@ export default function PaymentConfrim(props: Props) {
     today,
     device_id,
     price,
-    activation_date,
     subscription_expiration,
-    type_payment,
     nextStep,
     isRequesting,
+    endStepChild,
+    visa_last_4,
+    total_amount,
   } = props;
   const classes = useStyles();
+
+  const onNextStep = () => {
+    nextStep();
+    endStepChild && endStepChild();
+  };
   return (
     <>
       <Header>
@@ -67,11 +76,9 @@ export default function PaymentConfrim(props: Props) {
             <SubItem>
               {t('tracker:device_plan')} {price}
             </SubItem>
+            <SubItem>{t('tracker:activation_date', { date: today })}</SubItem>
             <SubItem>
-              {t('tracker:activation_date', { date: activation_date })}
-            </SubItem>
-            <SubItem>
-              {t('tracker:subscription_expiration', {
+              {t('tracker:plan_paid_until', {
                 date: subscription_expiration,
               })}
             </SubItem>
@@ -82,8 +89,10 @@ export default function PaymentConfrim(props: Props) {
               <TitleContent>{t('tracker:payment_details')}</TitleContent>
             </BigTitle>
             <SubItem>
-              {t('tracker:payment_via', { payment: type_payment })}
+              {/* {t('tracker:payment_via', { payment: type_payment })} */}
+              Visa Last 4: {visa_last_4}
             </SubItem>
+            <SubItem>Total amount paid today: {total_amount}</SubItem>
           </Payment>
         </FormInfo>
       </Container>
@@ -96,7 +105,7 @@ export default function PaymentConfrim(props: Props) {
           text={t('tracker:continue')}
           isLoading={isRequesting}
           className={classes.widthBtn}
-          onClick={nextStep}
+          onClick={onNextStep}
         />
       </Footer>
     </>

@@ -3,15 +3,16 @@ import { makeStyles } from '@material-ui/core';
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
 `;
 const Form = styled.form`
-  max-width: 400px;
+  /* max-width: 400px; */
 `;
 const Typography = styled.span`
   font-size: 18px;
   font-weight: 300;
-  @media (max-width: 995.95px) {
+  @media (max-width: 959.95px) {
     font-size: 14px;
   }
 `;
@@ -20,7 +21,7 @@ const GroupInput = styled.div`
 `;
 const UploadImage = styled.div`
   margin-bottom: 25px;
-  max-width: 400px;
+  max-width: 150px;
   height: 174px;
   border-radius: 4px;
   border: dashed 2px #cbcbcb;
@@ -35,7 +36,7 @@ const UploadImage = styled.div`
     opacity: 0.5;
   }
 `;
-const InputSubcription = styled.span`
+const InputSubcription = styled.p`
   font-size: 12px;
   color: #999999;
 `;
@@ -54,10 +55,17 @@ const Image = styled.div`
 `;
 const useStyles = makeStyles(theme => ({
   widthBtn: {
-    width: '100%',
+    width: '400px',
+    [theme.breakpoints.down('sm')]: {
+      width: 325,
+    },
   },
   marginInput: {
     marginBottom: 10,
+    width: 400,
+    [theme.breakpoints.down('sm')]: {
+      width: 325,
+    },
   },
   selectOption: {
     margin: '15px 0',
@@ -100,6 +108,29 @@ const useStyles = makeStyles(theme => ({
     color: '#fff',
     top: 22,
     left: 22,
+  },
+  personalize: {
+    padding: '40px 60px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '40px 15px',
+    },
+  },
+  number: {
+    margin: '0',
+    background: '#168449',
+    color: '#ffffff',
+    fontSize: '12px',
+    fontWeight: 500,
+    borderRadius: '100px',
+    width: '18px',
+    height: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 5,
+    [theme.breakpoints.down('sm')]: {
+      width: '24px',
+    },
   },
 }));
 export {

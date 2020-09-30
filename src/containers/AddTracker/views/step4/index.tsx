@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@Components/buttons';
-import { IoMdPin } from 'react-icons/io';
 
 import {
   Congratulation,
@@ -43,7 +42,7 @@ export default function CongratulationContainer(props) {
             {formData.icon_url ? (
               <ImageDevice background={formData.icon_url} />
             ) : (
-              <IoMdPin className={classes.icon} />
+              <img src="/images/tracki-device.png" alt="" />
             )}
           </CongratulationIcon>
           <CongratulationTracker>{formData.device_name}</CongratulationTracker>

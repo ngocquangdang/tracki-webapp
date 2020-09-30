@@ -103,20 +103,18 @@ export function setBrainTreeDeviceFailAction(payload: any) {
   };
 }
 
-export function addDeviceRequestAction(
+export function updatePersonalizeDeviceRequestAction(
   data,
   formData,
   account_id,
-  paymentData,
   callback
 ) {
   return {
-    type: types.ADD_DEVICE_REQUESTED,
+    type: types.UPDATE_PERSONALIZE_DEVICE_REQUESTED,
     payload: {
       data,
       formData,
       account_id,
-      paymentData,
       callback,
     },
   };
@@ -124,14 +122,14 @@ export function addDeviceRequestAction(
 
 export function addDeviceSuccesAction(payload) {
   return {
-    type: types.ADD_DEVICE_SUCCESSED,
+    type: types.UPDATE_PERSONALIZE_DEVICE_SUCCESSED,
     payload,
   };
 }
 
 export function addDeviceFailAction(payload: any) {
   return {
-    type: types.ADD_DEVICE_FAILED,
+    type: types.UPDATE_PERSONALIZE_DEVICE_FAILED,
     payload,
   };
 }
