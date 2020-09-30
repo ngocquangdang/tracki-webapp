@@ -48,7 +48,6 @@ export default function ReferralCodeContainer(props: Props) {
   const classes = useStyles();
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
   const onSubmit = value => {
-    console.log(value);
     NextStepChild();
   };
 

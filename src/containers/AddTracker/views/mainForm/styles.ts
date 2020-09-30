@@ -14,7 +14,7 @@ const Header = styled.div`
   align-items: center;
   text-align: center;
   margin: 60px auto 15px;
-  @media (max-width: 995.95px) {
+  @media (max-width: 959.95px) {
     margin: 0;
   }
 `;
@@ -22,7 +22,7 @@ const Title = styled.h2`
   font-size: 42px;
   font-weight: 300;
   margin: 0;
-  @media (max-width: 995.95px) {
+  @media (max-width: 959.95px) {
     display: none;
   }
 `;
@@ -30,7 +30,7 @@ const SubTitle = styled.h3`
   font-size: 18px;
   font-weight: 300;
   margin: 0;
-  @media (max-width: 995.95px) {
+  @media (max-width: 959.95px) {
     margin: 15px 0;
     font-weight: 500;
   }
@@ -41,7 +41,7 @@ const Content = styled.div`
   box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   background-color: #ffffff;
-  @media (max-width: 995.95px) {
+  @media (max-width: 959.95px) {
     max-width: 375px;
     margin: auto;
     border: 0;

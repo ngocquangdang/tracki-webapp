@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function PaymentConfirmContainer(props: Props) {
-  console.log('PaymentConfirmContainer -> props', props);
   const { t, nextStep, formData, isRequesting } = props;
   return (
     <PaymentConfirm

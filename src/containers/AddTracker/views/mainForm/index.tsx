@@ -30,8 +30,8 @@ import {
 } from './styles';
 import { FaPen } from 'react-icons/fa';
 import PaymentConfirmContainer from '../step2/step2.1';
-import ReferralCodeContainer from '../step2/step2.2';
-import CongratulationContainer from '../step2/step2.3';
+// import ReferralCodeContainer from '../step2/step2.2';
+// import CongratulationContainer from '../step2/step2.3';
 import Link from 'next/link';
 
 export default function MainForm(props: any) {
@@ -51,21 +51,25 @@ export default function MainForm(props: any) {
   const steps = [
     { step: 'Enter tracker details', activeStep: 0 },
     { step: 'Select plan', activeStep: 1 },
-    { step: 'Personalize', activeStep: 2 },
+    // { step: 'Personalize', activeStep: 2 },
   ];
 
   const onAdded = () => {
     setAdded(true);
   };
+
   const onUpdateStepChild = value => {
     updateStepChild(value);
   };
+
   const onNextStepChild = (stepChild: string) => () => {
     updateStepChild(stepChild);
   };
+
   const onNextStep = (step: number) => () => {
     setActiveStep(step);
   };
+
   const onViewTracker = () => {
     window.dropinIntance = {};
     fetchTrackersRequestedAction(account_id);
@@ -98,8 +102,6 @@ export default function MainForm(props: any) {
             onAdded={onAdded}
           />
         );
-      default:
-        return 'Unknown step';
     }
   };
 
@@ -111,27 +113,28 @@ export default function MainForm(props: any) {
         return (
           <PaymentConfirmContainer
             {...props}
-            nextStep={onNextStepChild('referral_code')}
-          />
-        );
-
-      case 'referral_code':
-        return (
-          <ReferralCodeContainer
-            {...props}
-            EndStepChild={onNextStepChild('')}
+            // nextStep={onNextStepChild('referral_code')}
             nextStep={onNextStep(2)}
-            NextStepChild={onNextStepChild('congratulation')}
+            endStepChild={onNextStepChild('')}
           />
         );
-      case 'congratulation':
-        return (
-          <CongratulationContainer
-            {...props}
-            nextStep={onNextStep(2)}
-            NextStepChild={onNextStepChild('')}
-          />
-        );
+      // case 'referral_code':
+      //   return (
+      //     <ReferralCodeContainer
+      //       {...props}
+      //       EndStepChild={onNextStepChild('')}
+      //       nextStep={onNextStep(2)}
+      //       NextStepChild={onNextStepChild('congratulation')}
+      //     />
+      //   );
+      // case 'congratulation':
+      //   return (
+      //     <CongratulationContainer
+      //       {...props}
+      //       nextStep={onNextStep(2)}
+      //       NextStepChild={onNextStepChild('')}
+      //     />
+      //   );
     }
   };
 
@@ -144,42 +147,26 @@ export default function MainForm(props: any) {
       ) : (
         <Container>
           <Header>
-            <Title>{t('tracker:add_tracker')}</Title>
+            {activeStep === steps.length ? (
+              <Title>{t('tracker:personalize_your_tracker')}</Title>
+            ) : (
+              <Title>{t('tracker:add_tracker')}</Title>
+            )}
             <SubTitle>
-              {activeStep === steps.length
+              {activeStep > steps.length
                 ? t('tracker:add_tracker_successed')
                 : t('tracker:add_tracker_subcription')}
             </SubTitle>
           </Header>
           <Content>
-            <StepperStyle activeStep={activeStep} orientation="vertical">
-              {steps?.map((steps, index) => (
-                <Step key={index}>
-                  <LableStyle>
-                    {steps.step}
-                    {
-                      <Review
-                        className={`${
-                          activeStep > index && activeStep !== 0
-                            ? classes.show
-                            : classes.hidden
-                        } ${activeStep === 3 && classes.hidden}`}
-                        onClick={handleBack(index)}
-                      >
-                        <FaPen className={classes.marginIcon} />
-                        {t('tracker:review')}
-                      </Review>
-                    }
-                  </LableStyle>
-                  <StepContentStyle>
-                    <div className="MuiTypography-root MuiTypography-body1">
-                      {getStepContent(index)}
-                    </div>
-                  </StepContentStyle>
-                </Step>
-              ))}
-            </StepperStyle>
-            {activeStep === steps.length && (
+            {activeStep === steps.length ? (
+              <Step3
+                {...props}
+                onNextStep={onNextStep(3)}
+                paymentData={props.formData.creditCard}
+                onAdded={onAdded}
+              />
+            ) : activeStep > steps.length ? (
               <Congratulation className={isMobile ? '' : classes.hidden}>
                 <CongratulationTitle>
                   {t('tracker:congratulations')}
@@ -205,6 +192,34 @@ export default function MainForm(props: any) {
                   />
                 </Link>
               </Congratulation>
+            ) : (
+              <StepperStyle activeStep={activeStep} orientation="vertical">
+                {steps?.map((steps, index) => (
+                  <Step key={index}>
+                    <LableStyle>
+                      {steps.step}
+                      {
+                        <Review
+                          className={`${
+                            activeStep > index && activeStep !== 0
+                              ? classes.show
+                              : classes.hidden
+                          } ${activeStep === 3 && classes.hidden}`}
+                          onClick={handleBack(index)}
+                        >
+                          <FaPen className={classes.marginIcon} />
+                          {t('tracker:review')}
+                        </Review>
+                      }
+                    </LableStyle>
+                    <StepContentStyle>
+                      <div className="MuiTypography-root MuiTypography-body1">
+                        {getStepContent(index)}
+                      </div>
+                    </StepContentStyle>
+                  </Step>
+                ))}
+              </StepperStyle>
             )}
           </Content>
         </Container>

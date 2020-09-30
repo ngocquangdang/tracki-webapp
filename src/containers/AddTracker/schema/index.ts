@@ -12,7 +12,7 @@ const AddTrackerSchema = Yup.object().shape({
   order: Yup.string(),
 });
 const TrackerDetail = Yup.object().shape({
-  device_name: Yup.string().required('required'),
+  device_name: Yup.string(),
   device_traking: Yup.string().required('required'),
   // divice_image: Yup.string().required('required'),
 });

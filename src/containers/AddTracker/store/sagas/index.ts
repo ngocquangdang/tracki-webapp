@@ -1,8 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { find } from 'lodash';
 import { ActionType } from '@Interfaces';
 import * as apiServices from '../../services';
-import { updateSettings } from '@Containers/SingleTracker/store/services';
 import * as types from '../constances';
 
 import {
@@ -16,6 +14,8 @@ import {
   updateStore,
   braintreeDropInSuccesAction,
 } from '../actions';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { fetchTrackersRequestedAction } from '@Containers/Trackers/store/actions';
 
 function* checkDeviceAssignedSaga(action: ActionType) {
   try {
@@ -86,21 +86,10 @@ function* braintreeDropinSaga(action: ActionType) {
 
   try {
     const creditCard = yield call(requestPaymentMethod, window.dropinIntance);
-    yield put(updateStore({ ...formData, creditCard }));
-    yield callback();
-    yield put(braintreeDropInSuccesAction(action.payload));
-  } catch (error) {
-    yield put(braintreeDropInFailAction(error));
-  }
-}
-
-function* addDeviceSaga(action: ActionType) {
-  const { formData, data, account_id, paymentData, callback } = action.payload;
-  const { value, file } = data;
-  try {
     const { data: userData } = yield call(apiServices.getUserInfo);
     const newPaymentData = {
-      ...paymentData,
+      nonce: creditCard.nonce,
+      plan_id: formData.selectedPlan.id,
       email: userData.email,
       first_name: userData.firstName,
       last_name: userData.lastName,
@@ -108,23 +97,49 @@ function* addDeviceSaga(action: ActionType) {
     if (formData.selectedPlan.paymentPlatform === 'PREPAID') {
       yield call(
         apiServices.setPrepaidPlanToDevice,
-        account_id,
+        userData.account_id,
         parseInt(formData.device_id),
         formData.selectedPlan.id
       );
+      yield put(fetchTrackersRequestedAction(userData.account_id));
     } else if (formData.selectedPlan.paymentPlatform === 'NONCE') {
       yield call(
         apiServices.setBraintreeNoncePlanToDevice,
-        account_id,
+        userData.account_id,
         parseInt(formData.device_id),
         newPaymentData
       );
+      yield put(fetchTrackersRequestedAction(userData.account_id));
     }
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Add New Device Succeed',
+      })
+    );
+    yield put(updateStore({ ...formData, creditCard }));
+    yield put(braintreeDropInSuccesAction(action.payload));
+    yield callback();
+  } catch (error) {
+    const { data } = error;
+    yield put(
+      showSnackbar({
+        snackType: 'error',
+        snackMessage: data.error || data.message,
+      })
+    );
+    yield put(braintreeDropInFailAction(error));
+  }
+}
 
-    const res = yield call(apiServices.getSubAccount, account_id);
-    const getNewDevice = find(res.data.device_ids, {
-      device_id: parseInt(formData.device_id),
-    });
+function* personalizeDeviceSaga(action: ActionType) {
+  const { formData, data, account_id, callback } = action.payload;
+  const { value, file } = data;
+  try {
+    // const res = yield call(apiServices.getSubAccount, account_id);
+    // const getNewDevice = find(res.data.device_ids, {
+    //   device_id: parseInt(formData.device_id),
+    // });
 
     const device_name = {
       name: value?.device_name,
@@ -136,22 +151,22 @@ function* addDeviceSaga(action: ActionType) {
       device_name
     );
 
-    const [
-      sample_rate,
-      samples_per_report,
-      tracking_measurment,
-    ] = value.device_traking.split('_');
-    const settings = {
-      preferences: {
-        tracking_mode: {
-          sample_rate,
-          samples_per_report,
-          tracking_measurment,
-        },
-      },
-    };
+    // const [
+    //   sample_rate,
+    //   samples_per_report,
+    //   tracking_measurment,
+    // ] = value.device_traking.split('_');
+    // const settings = {
+    //   preferences: {
+    //     tracking_mode: {
+    //       sample_rate,
+    //       samples_per_report,
+    //       tracking_measurment,
+    //     },
+    //   },
+    // };
 
-    yield call(updateSettings, account_id, getNewDevice.settings_id, settings);
+    // yield call(updateSettings, account_id, getNewDevice.settings_id, settings);
 
     if (file) {
       const formDataFile = new FormData();
@@ -188,5 +203,8 @@ export default function* watcher() {
   );
   yield takeLatest(types.GET_DEVICE_PLAN_REQUESTED, getDevicePlanSaga);
   yield takeLatest(types.BRAINTREE_DROPIN_REQUESTED, braintreeDropinSaga);
-  yield takeLatest(types.ADD_DEVICE_REQUESTED, addDeviceSaga);
+  yield takeLatest(
+    types.UPDATE_PERSONALIZE_DEVICE_REQUESTED,
+    personalizeDeviceSaga
+  );
 }

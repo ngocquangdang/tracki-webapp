@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Formik } from 'formik';
-import RoomIcon from '@material-ui/icons/Room';
+
 import { AiOutlineCamera } from 'react-icons/ai';
 import { CircularProgress } from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
@@ -20,13 +20,13 @@ import {
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { TrackerDetail } from '../../schema';
-import SelectOption from '@Components/selections';
+// import SelectOption from '@Components/selections';
 import { LOCATION_UPDATE_OPTIONS } from '../../store/constances';
 
 interface Props {
   t(key: string, format?: object): string;
   onNextStep: Function;
-  addDeviceAction(data, acount_id, account_id, paymentData, callback): void;
+  updatePersonalizeDeviceRequest(data, acount_id, account_id, callback): void;
   updateSettingsAction(): void;
   updateDeviceNameAction(): void;
   account_id: number;
@@ -53,9 +53,8 @@ export default function Step3(props: Props) {
   const {
     t,
     onNextStep,
-    addDeviceAction,
+    updatePersonalizeDeviceRequest,
     account_id,
-    paymentData,
     formData,
     errors,
     onAdded,
@@ -85,15 +84,10 @@ export default function Step3(props: Props) {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const onSubmit = value => {
-    const paymentInfo = {
-      nonce: paymentData.nonce || '',
-      plan_id: formData.selectedPlan.id || '',
-    };
-    addDeviceAction(
+    updatePersonalizeDeviceRequest(
       { value, file: imageFile.file },
       formData,
       account_id,
-      paymentInfo,
       addDone
     );
     updateStore({
@@ -113,7 +107,7 @@ export default function Step3(props: Props) {
           </div>
         ) : (
           <div className={classes.elipLocation}>
-            <RoomIcon className={classes.iconLocation} />
+            <img src="/images/tracki-device.png" alt="" />
           </div>
         )}
         <input {...getInputProps()} />
@@ -123,7 +117,9 @@ export default function Step3(props: Props) {
           text={
             <div className={classes.inputUploadImage}>
               <AiOutlineCamera className={classes.iconCamera} />
-              <div className={classes.textAdd}>Add Picture</div>
+              <div className={classes.textAdd}>
+                {imageFile.result ? 'Change' : 'Add Picture'}
+              </div>
             </div>
           }
           className={classes.widthBtn}
@@ -133,8 +129,9 @@ export default function Step3(props: Props) {
   };
 
   return (
-    <>
+    <div className={classes.personalize}>
       <Header>
+        <p className={classes.number}>1</p>{' '}
         <Typography>{t('tracker:personalize_title')}</Typography>
       </Header>
       <Formik
@@ -171,7 +168,7 @@ export default function Step3(props: Props) {
                 {t('tracker:device_name_subcription')}
               </InputSubcription>
             </GroupInput>
-            <GroupInput>
+            {/* <GroupInput>
               <div className={classes.selectOption}>
                 <SelectOption
                   name="device_traking"
@@ -184,10 +181,19 @@ export default function Step3(props: Props) {
               <InputSubcription>
                 {t('tracker:tracking_intervals_subcription')}
               </InputSubcription>
-            </GroupInput>
+            </GroupInput> */}
+            <Header>
+              <p className={classes.number}>2</p>
+              <Typography>{t('tracker:add_picture_title')}</Typography>
+            </Header>
             {renderInputImage()}
+            <div>
+              <InputSubcription>
+                {t('tracker:add_picture_subtitle')}
+              </InputSubcription>
+            </div>
             <InputSubcription>
-              {t('tracker:description_add_picture')}
+              {t('tracker:add_image_subcription')}
             </InputSubcription>
             <Error>{errors.message}</Error>
             <Button
@@ -201,6 +207,6 @@ export default function Step3(props: Props) {
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 }

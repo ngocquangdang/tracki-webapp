@@ -27,7 +27,7 @@ const AddTrackerReducer = (
       case types.CHECK_DEVICEID_ASSIGNED_REQUESTED:
       case types.GET_DEVICE_PLAN_REQUESTED:
       case types.GET_TOKEN_FOR_PAYMENT_REQUESTED:
-      case types.ADD_DEVICE_REQUESTED:
+      case types.UPDATE_PERSONALIZE_DEVICE_REQUESTED:
         draft.isRequesting = true;
         break;
       case types.CHECK_DEVICEID_ASSIGNED_SUCCESSED:
@@ -46,7 +46,7 @@ const AddTrackerReducer = (
         draft.token = payload;
         draft.errors = {};
         break;
-      case types.ADD_DEVICE_SUCCESSED:
+      case types.UPDATE_PERSONALIZE_DEVICE_SUCCESSED:
         draft.isRequesting = false;
         break;
       case types.CHECK_DEVICEID_ASSIGNED_FAILED:
@@ -56,7 +56,7 @@ const AddTrackerReducer = (
         draft.errors = payload;
         break;
       case types.GET_DEVICE_PLAN_FAILED:
-      case types.ADD_DEVICE_FAILED:
+      case types.UPDATE_PERSONALIZE_DEVICE_FAILED:
         draft.isRequesting = false;
         draft.errors = payload;
         break;

@@ -9,7 +9,7 @@ import {
   getDevicePlanRequestAction,
   updateStore,
   getTokenForPaymentRequestAction,
-  addDeviceRequestAction,
+  updatePersonalizeDeviceRequestAction,
   braintreeDropInRequestAction,
   resetStoreAddTracker,
 } from './store/actions';
@@ -28,6 +28,10 @@ import {
   makeSelectFormData,
   makeSelectNewDeviceInfo,
 } from './store/selectors';
+import {
+  makeSelectTrackerPlans,
+  makeSelectTrackers,
+} from '@Containers/Trackers/store/selectors';
 
 function AddTrackerContainer(props: any) {
   useInjectSaga({ key: 'addtracker', saga });
@@ -45,6 +49,8 @@ const mapStateToProps = createStructuredSelector({
   formData: selectFormData(),
   account_id: makeSelectFormData(),
   newDeviceInfo: makeSelectNewDeviceInfo(),
+  trackers: makeSelectTrackers(),
+  trackerPlans: makeSelectTrackerPlans(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -55,9 +61,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   getTokenForPaymentAction: data =>
     dispatch(getTokenForPaymentRequestAction(data)),
   updateStore: (data: any) => dispatch(updateStore(data)),
-  addDeviceAction: (data, formData, account_id, paymentData, callback) =>
+  updatePersonalizeDeviceRequest: (data, formData, account_id, callback) =>
     dispatch(
-      addDeviceRequestAction(data, formData, account_id, paymentData, callback)
+      updatePersonalizeDeviceRequestAction(data, formData, account_id, callback)
     ),
   braintreeDropinAction: (formData, callback) =>
     dispatch(braintreeDropInRequestAction(formData, callback)),
