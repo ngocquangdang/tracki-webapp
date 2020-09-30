@@ -7,16 +7,35 @@ import {
   getDeviceByTokenSucceedAction,
   getDeviceByTokenFailedAction,
 } from '../actions';
+import {
+  fetchTrackersSucceedAction,
+  selectTrackerIdAction,
+} from '@Containers/Trackers/store/actions';
 
 function* getDeviceByTokenSaga(action) {
   const { token } = action.payload;
   try {
     const { data } = yield call(apiServices.getDevicesByToken, token);
 
-    // const trackers = data.reduce((obj, item) => {
-    //   obj.trackers = { ...obj.trackers, [item.deviceId]: item };
-    //   return obj;
-    // }, {});
+    const trackers = data.reduce(
+      (obj, item) => {
+        const formatItem = {
+          device_id: item.deviceId,
+          device_name: item.deviceName,
+          lat: item.geoLocation.latitude,
+          lng: item.geoLocation.longitude,
+        };
+        obj.trackers = { ...obj.trackers, [item.deviceId]: formatItem };
+        obj.trackerIds.push(item.deviceId);
+        return obj;
+      },
+      {
+        trackers: {},
+        trackerIds: [],
+      }
+    );
+    yield put(fetchTrackersSucceedAction(trackers));
+    yield put(selectTrackerIdAction(data[0].deviceId));
     yield put(getDeviceByTokenSucceedAction(data));
   } catch (error) {
     const { data = {} } = { ...error };
