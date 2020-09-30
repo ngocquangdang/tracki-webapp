@@ -1,17 +1,18 @@
 import React from 'react';
-
-import { Header, Container, Image } from './styles';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import Map from '@Components/Maps';
-import dynamic from 'next/dynamic';
-import MapToolBarPC from '../MapCard/MapToolBarPC';
-const MapCard = dynamic(() => import('@Containers/PublicMap/MapCard'), {
-  ssr: false,
-});
+import { Header, Container, Image } from './styles';
+
+const MapCard = dynamic(
+  () => import('@Containers/Tracking/views/ViewPC/components/MapCard'),
+  {
+    ssr: false,
+  }
+);
 
 export default function PublicMapContainer(props) {
-  const { trackers } = props;
+  const { trackers, trackerSelected } = props;
 
   return (
     <>
@@ -21,18 +22,15 @@ export default function PublicMapContainer(props) {
         </Link>
       </Header>
       <Container>
-        {trackers && Object.keys(trackers).length > 0 ? (
-          <MapCard mapId="publicMap" mapType="leaflet" {...props} />
-        ) : (
-          <>
-            <Map
-              fullWidth={true}
-              showTrackerName={true}
-              mapType="leaflet"
-              {...props}
-            />
-            <MapToolBarPC {...props} />
-          </>
+        {trackers && Object.keys(trackers).length > 0 && (
+          <MapCard
+            mapId="publicMap"
+            mapType="leaflet"
+            isTracking={true}
+            trackers={trackers}
+            selectedTrackerId={trackerSelected}
+            {...props}
+          />
         )}
       </Container>
     </>

@@ -243,7 +243,13 @@ class MapCard extends React.Component<IProps, IState> {
         icon,
       }).addTo(this.map);
     }
-    const setting = settings[tracker.settings_id];
+    const setting = settings
+      ? settings[tracker.settings_id]
+      : {
+          preferences: {
+            tracking_mode: { sample_rate: '', tracking_measurment: '' },
+          },
+        };
     const {
       preferences: {
         tracking_mode: { sample_rate, tracking_measurment },
@@ -434,7 +440,7 @@ class MapCard extends React.Component<IProps, IState> {
             [classes.mapCardMobile]: isMobile,
           })}
         />
-        {isMultiScreen ? (
+        {isMultiScreen && (
           <div
             className={clsx(classes.selects, {
               [classes.selectMobile]: isMobile,
@@ -448,7 +454,8 @@ class MapCard extends React.Component<IProps, IState> {
               onChange={this.onChangeOption}
             />
           </div>
-        ) : (
+        )}
+        {!isMultiScreen && mapLabel && (
           <div
             className={clsx(classes.mapLabel, {
               [classes.labelMobile]: isMobile,
