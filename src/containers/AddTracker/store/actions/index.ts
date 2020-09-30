@@ -57,7 +57,6 @@ export function getTokenForPaymentRequestAction(payload: any) {
 }
 
 export function getTokenForPaymentSuccesAction(trackerPlan: any) {
-  console.log('getTokenForPaymentSuccesAction -> trackerPlan', trackerPlan);
   return {
     type: types.GET_TOKEN_FOR_PAYMENT_SUCCESSED,
     payload: trackerPlan,

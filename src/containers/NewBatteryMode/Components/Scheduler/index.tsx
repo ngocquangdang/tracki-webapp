@@ -20,7 +20,6 @@ export default function Scheduler(props) {
   const [initialSchedulerData, setInitialData] = useState(
     initialScheduler || []
   );
-  console.log('Scheduler -> initialSchedulerData', initialSchedulerData);
   const [showSubNotification, setShowSubNotification] = useState('');
 
   const handleShowSetting = () => setIsSchedulerSetting(true);

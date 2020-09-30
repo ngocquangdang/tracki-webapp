@@ -15,11 +15,6 @@ export default function PaymentConfirmContainer(props: Props) {
   const { t, nextStep, formData, endStepChild, trackerPlans, trackers } = props;
   const current_plan = trackers[formData.device_id]?.current_device_plan;
   const expiration = trackerPlans[current_plan]?.expiration_date;
-  console.log(
-    'PaymentConfirmContainer -> trackerPlans[current_plan]?.expiration_date',
-    trackerPlans[current_plan]?.expiration_date
-  );
-  console.log('PaymentConfirmContainer -> expiration', expiration);
 
   const getPrice = () => {
     switch (formData.selectedPlan.id) {
