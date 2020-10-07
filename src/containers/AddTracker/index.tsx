@@ -65,8 +65,10 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(
       updatePersonalizeDeviceRequestAction(data, formData, account_id, callback)
     ),
-  braintreeDropinAction: (formData, callback) =>
-    dispatch(braintreeDropInRequestAction(formData, callback)),
+  braintreeDropinAction: (formData, callback, setDisableButton) =>
+    dispatch(
+      braintreeDropInRequestAction(formData, callback, setDisableButton)
+    ),
   fetchTrackersRequestedAction: account_id =>
     dispatch(fetchTrackersRequestedAction(account_id)),
   resetStoreAddTracker: () => dispatch(resetStoreAddTracker()),

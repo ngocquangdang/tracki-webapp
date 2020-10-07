@@ -26,7 +26,7 @@ interface Props {
   device_id: number | string;
   price: number | string | JSX.Element;
   activation_date?: string;
-  subscription_expiration: string;
+  subscription_expiration: string | any;
   type_payment: string;
   nextStep(): void;
   isRequesting?: boolean;
