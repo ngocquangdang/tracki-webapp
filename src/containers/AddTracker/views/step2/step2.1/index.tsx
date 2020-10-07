@@ -32,12 +32,12 @@ export default function PaymentConfirmContainer(props: Props) {
   const planUntil = (month: number, type) => {
     const created_at = moment();
 
-    var fm = moment(created_at).add(month, type);
-    var fmEnd = moment(fm).endOf('month');
-    return created_at.date() !== fm.date() &&
-      fm.isSame(fmEnd.format('YYYY-MM-DD'))
-      ? fm.add(1, 'd')
-      : fm;
+    var futureMonth = moment(created_at).add(month, type);
+    var futureMonthEnd = moment(futureMonth).endOf('month');
+    return created_at.date() !== futureMonth.date() &&
+      futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))
+      ? futureMonth.add(1, 'd')
+      : futureMonth;
   };
 
   const getMonthUntil = () => {
