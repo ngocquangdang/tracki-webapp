@@ -82,9 +82,10 @@ function requestPaymentMethod(dropIn) {
 }
 
 function* braintreeDropinSaga(action: ActionType) {
-  const { formData, callback } = action.payload;
+  const { formData, callback, setDisableButton } = action.payload;
 
   try {
+    yield setDisableButton(true);
     const creditCard = yield call(requestPaymentMethod, window.dropinIntance);
     const { data: userData } = yield call(apiServices.getUserInfo);
     const newPaymentData = {
@@ -120,8 +121,10 @@ function* braintreeDropinSaga(action: ActionType) {
     yield put(updateStore({ ...formData, creditCard }));
     yield put(braintreeDropInSuccesAction(action.payload));
     yield callback();
+    yield setDisableButton(false);
   } catch (error) {
     const { data } = error;
+    yield setDisableButton(false);
     yield put(
       showSnackbar({
         snackType: 'error',

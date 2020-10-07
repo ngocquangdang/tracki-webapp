@@ -22,7 +22,7 @@ import {
   Paner,
   Text,
 } from './styles';
-import { CircularProgress } from '@material-ui/core';
+import { SkeletonPaymentForm } from '@Components/Skeletons';
 
 interface Props {
   t(key: string, format?: object): string;
@@ -35,7 +35,7 @@ interface Props {
   getSubAccountAction(account_id, device_id): void;
   onSetPaymentData(event, id): void;
   isMobile: boolean;
-  braintreeDropinAction(formData, callback): void;
+  braintreeDropinAction(formData, callback, setDisableButton): void;
 }
 
 export default function Step2(props: Props) {
@@ -131,7 +131,7 @@ export default function Step2(props: Props) {
   };
 
   const onPaymentSubmit = () => {
-    braintreeDropinAction(formData, renderStep);
+    braintreeDropinAction(formData, renderStep, setDisableSubmitCard);
   };
 
   const setLoadingPaymentgateway = () => {
@@ -236,11 +236,7 @@ export default function Step2(props: Props) {
         <img src="./images/guarantee-safe.png" alt="" />
       </Image2>
       <div className={`${!isShowOtherPlan ? classes.hidden : ''}`}>
-        {isLoadingGateway && (
-          <div>
-            <CircularProgress />
-          </div>
-        )}
+        {isLoadingGateway && <SkeletonPaymentForm />}
         <div id="dropin-container-add-tracker"></div>
         <Text>All transactions are secure and encrypted.</Text>
         <Button

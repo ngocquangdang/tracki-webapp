@@ -133,12 +133,17 @@ export function addDeviceFailAction(payload: any) {
   };
 }
 
-export function braintreeDropInRequestAction(formData, callback) {
+export function braintreeDropInRequestAction(
+  formData,
+  callback,
+  setDisableButton
+) {
   return {
     type: types.BRAINTREE_DROPIN_REQUESTED,
     payload: {
       formData,
       callback,
+      setDisableButton,
     },
   };
 }
