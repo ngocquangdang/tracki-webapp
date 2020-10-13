@@ -53,7 +53,7 @@ export default function MapViewComponent(props) {
             <>
               <MapCard
                 mapId="isDashboard"
-                selectedTrackerId={trackerSelected.device_id}
+                selectedTrackerId={trackerSelected?.device_id}
                 mapType="leaflet"
                 {...props}
               />
