@@ -31,7 +31,14 @@ function* fetchProfileSaga() {
 export function* logoutSaga() {
   // const res = yield call(apiServices.logout);
   const res = true;
+  yield call(
+    apiServices.logoutGeobotTracki,
+    CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
+    CookieInstance.getCookie('refreshToken'),
+    -8640000
+  );
   CookieInstance.removeCookie(process.env.COOKIE_NAME || 'token');
+  CookieInstance.removeCookie('refreshToken');
   if (res) {
     yield put(actions.logoutSucceedAction());
     window.location.replace('/');
