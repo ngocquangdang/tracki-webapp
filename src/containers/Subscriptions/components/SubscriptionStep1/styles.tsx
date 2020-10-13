@@ -104,6 +104,15 @@ const useStyles = makeStyles(theme => ({
   circular: {
     color: '#f2f2f2',
   },
+  skeleton: {
+    width: 400,
+    height: 75,
+    background: '#e1e1e1',
+    border: '1px solid #e1e1e1',
+    [theme.breakpoints.down('sm')]: {
+      width: 315,
+    },
+  },
 }));
 
 const SelectForm = withStyles(theme => ({

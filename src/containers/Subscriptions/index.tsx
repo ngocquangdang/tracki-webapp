@@ -19,8 +19,6 @@ import {
   getCountryCodeFollowRequestedAction,
   updateSubscriptionStore,
   braintreeDropInSubscriptionRequestAction,
-  buySmsSubscriptionRequestAction,
-  buyFastTrackingSubscriptionRequestAction,
   getFastTrackingFollowRequestedAction,
 } from './store/actions';
 import {
@@ -83,18 +81,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   updateSubscriptionStore: data => dispatch(updateSubscriptionStore(data)),
   braintreeDropInSubscriptionRequest: (formData, callback) =>
     dispatch(braintreeDropInSubscriptionRequestAction(formData, callback)),
-  buySmsSubscriptionRequest: (formData, account_id, paymentData) =>
-    dispatch(
-      buySmsSubscriptionRequestAction(formData, account_id, paymentData)
-    ),
-  buyFastTrackingSubscriptionRequest: (formData, account_id, paymentData) =>
-    dispatch(
-      buyFastTrackingSubscriptionRequestAction(
-        formData,
-        account_id,
-        paymentData
-      )
-    ),
   getFastTrackingFollowRequest: (code: number) =>
     dispatch(getFastTrackingFollowRequestedAction(code)),
 });

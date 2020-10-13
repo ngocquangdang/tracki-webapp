@@ -3,6 +3,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import {
   TextBold,
@@ -56,9 +57,13 @@ function SubscriptionStep1(props) {
   const classes = useStyles();
   const [dataCountry, setDataCountry] = useState<CountryCode[]>([]);
   const [dataMessage, setDataMessage] = useState<IPlan[]>([]);
+  const [isFetching, setIfetchching] = useState(true);
 
   useEffect(() => {
-    setDataCountry(countryCode);
+    if (countryCode.length > 0) {
+      setDataCountry(countryCode);
+      setIfetchching(false);
+    }
   }, [countryCode]);
 
   useEffect(() => {
@@ -89,31 +94,41 @@ function SubscriptionStep1(props) {
       <TextBold isChoose={true}>
         {t('subscription:choose_country_code')}
       </TextBold>
-      <SelectForm variant="outlined" className={classes.formControl}>
-        <InputLabel className={classes.inputLabel}>
-          {t('subscription:select_country_code')}
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={formData?.country?.countryCode || ''}
-          onChange={handleChange}
-          label="Select Country Code"
-          className={classes.select}
-        >
-          {dataCountry &&
-            dataCountry.length > 0 &&
-            dataCountry.map(item => (
-              <MenuItem
-                value={item.countryCode}
-                className={classes.menuItem}
-                key={item.countryCode}
-              >
-                {item.description}
-              </MenuItem>
-            ))}
-        </Select>
-      </SelectForm>
+
+      {isFetching ? (
+        <Skeleton
+          variant="text"
+          animation="wave"
+          className={classes.skeleton}
+        />
+      ) : (
+        <SelectForm variant="outlined" className={classes.formControl}>
+          <InputLabel className={classes.inputLabel}>
+            {t('subscription:select_country_code')}
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={formData?.country?.countryCode || ''}
+            onChange={handleChange}
+            label="Select Country Code"
+            className={classes.select}
+          >
+            {dataCountry &&
+              dataCountry.length > 0 &&
+              dataCountry.map(item => (
+                <MenuItem
+                  value={item.countryCode}
+                  className={classes.menuItem}
+                  key={item.countryCode}
+                >
+                  {item.description}
+                </MenuItem>
+              ))}
+          </Select>
+        </SelectForm>
+      )}
+
       <SelectMessage>
         <TextBold isChoose={false}>
           {formData.subscriptionType === 'sms'

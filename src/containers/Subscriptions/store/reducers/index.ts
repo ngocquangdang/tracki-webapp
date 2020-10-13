@@ -24,6 +24,7 @@ const SubscriptionReducer = (
       case types.GET_FATS_TRACKING_FOLLOW_CODE_REQUESTED:
       case types.BUY_FAST_TRACKING_SUBSCRIPTION_REQUESTED:
       case types.BUY_SMS_SUBSCRIPTION_REQUESTED:
+      case types.BRAINTREE_DROPIN_SUBSCRIPTION_REQUESTED:
         draft.isRequesting = true;
         break;
       case types.GET_CONTRY_CODE_SUCCESSED:
@@ -53,6 +54,7 @@ const SubscriptionReducer = (
       case types.GET_CONTRY_CODE_FAILED:
       case types.BUY_FAST_TRACKING_SUBSCRIPTION_FAILED:
       case types.BUY_SMS_SUBSCRIPTION_FAILED:
+      case types.BRAINTREE_DROPIN_SUBSCRIPTION_FAILED:
         draft.isRequesting = false;
         draft.errors = payload;
         break;

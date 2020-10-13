@@ -4,6 +4,7 @@ import Link from 'next/link';
 import InfoIcon from '@material-ui/icons/Info';
 import { Button } from '@Components/buttons';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import Router from 'next/router';
 
 import {
   Container,
@@ -23,29 +24,27 @@ import SubscriptionStep1 from '../components/SubscriptionStep1';
 import SubscriptionStep2 from '../components/SubscriptionStep2';
 import PaymentConfirm from '../components/PaymentConfirm';
 import { BraintreePaymentGateway } from '@Containers/paymentService/braintree';
-import { CircularProgress } from '@material-ui/core';
+import { SkeletonPaymentForm } from '@Components/Skeletons';
 
 interface Props {
   isMobile: boolean;
   t(key: string): string;
   formData: any;
-  buySmsSubscriptionRequest(formData, account_id, paymentData): void;
-  buyFastTrackingSubscriptionRequest(formData, account_id, paymentData): void;
   braintreeDropInSubscriptionRequest(formData, callback): void;
   smsCounter: {
     smsCounter: number;
     smsLimit: number;
   };
+  isRequesting: boolean;
 }
 function Subscription(props: Props) {
   const {
     isMobile,
     formData,
-    buySmsSubscriptionRequest,
     braintreeDropInSubscriptionRequest,
-    buyFastTrackingSubscriptionRequest,
     t,
     smsCounter,
+    isRequesting,
   } = props;
 
   const classes = useStyles();
@@ -56,20 +55,7 @@ function Subscription(props: Props) {
     updateStep(step);
   };
   const onSubmit = () => {
-    const paymentData = {
-      nonce: formData?.creditCard.nonce,
-      plan_id: formData?.selectedPlan.planId,
-    };
-    if (formData.subscriptionType === 'sms') {
-      buySmsSubscriptionRequest(formData, formData.account_id, paymentData);
-    } else {
-      buyFastTrackingSubscriptionRequest(
-        formData,
-        formData.account_id,
-        paymentData
-      );
-    }
-    return;
+    Router.push('/');
   };
 
   const [step, updateStep] = useState(1);
@@ -149,7 +135,7 @@ function Subscription(props: Props) {
           <div className={classes.fullWidth}>
             <div id="dropin-container-sp"></div>
             <div className={!isLoadingGateway ? classes.hidden : ''}>
-              <CircularProgress />
+              <SkeletonPaymentForm />
             </div>
             <p className={classes.textcolor}>
               All transactions are secure and encrypted.
@@ -157,7 +143,7 @@ function Subscription(props: Props) {
             <Button
               onClick={onPaymentSubmit}
               id="submit-payment-button-sp"
-              disabled={disablePayment}
+              disabled={disablePayment || isRequesting}
               color="primary"
               variant="contained"
               type="submit"
