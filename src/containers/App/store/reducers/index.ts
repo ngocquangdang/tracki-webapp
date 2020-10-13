@@ -1,27 +1,58 @@
 import produce from 'immer';
-import * as types from '../definitions';
 
-export const initialState: any = {
+import { ActionType, GlobalTypes } from '@Interfaces/index';
+import * as types from '../constants';
+
+export const initialState: GlobalTypes = {
   isLoading: false,
   profile: null,
-  errors: {},
+  errors: null,
+  mapTile: 'streets-v11',
+  showGeofences: false,
+  showTrackerName: false,
+  mapAction: 'DEFAULT',
+  mapView: 'DEFAULT',
 };
 
-const appReducer = (state = initialState, action: any) =>
-  produce(state, (draft: any) => {
-    switch (action.type) {
+const appReducer = (state = initialState, { type, payload }: ActionType) =>
+  produce(state, (draft: GlobalTypes) => {
+    switch (type) {
+      case types.SHOW_LOADING:
+        draft.isLoading = true;
+        break;
+      case types.HIDE_LOADING:
+        draft.isLoading = false;
+        break;
       case types.GET_PROFILE_SUCCEED: {
-        draft.errors = {};
-        draft.profile = action.profile;
+        draft.profile = payload?.profile;
         break;
       }
+      case types.GET_PROFILE_REQUESTED:
+        draft.errors = null;
+        break;
       case types.GET_PROFILE_FAILED:
-        draft.errors = action.errors;
+        draft.errors = payload.error;
         break;
-      case types.PAGE_LOADING_PROGRESS_CHANGE: {
-        draft.isLoading = action.payload.status;
+      case types.CHANGE_MAP_TILE:
+        draft.mapTile = payload.mapTile;
         break;
-      }
+      case types.CHANGE_MAP_VIEW:
+        draft.mapView = payload.mapView;
+        break;
+      case types.TOGGLE_GEOFENCES:
+        draft.showGeofences = !draft.showGeofences;
+        break;
+      case types.TOGGLE_TRACKER_NAME:
+        draft.showTrackerName = !draft.showTrackerName;
+        break;
+      case types.RESET_MAP:
+        draft.mapTile = 'streets-v11';
+        draft.showGeofences = false;
+        draft.showTrackerName = false;
+        break;
+      case types.CHANGE_MAP_ACTION:
+        draft.mapAction = payload.mapAction;
+        break;
       default:
         break;
     }

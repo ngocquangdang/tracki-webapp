@@ -1,0 +1,44 @@
+import React, { memo } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { withTranslation } from '@Server/i18n';
+
+import { changeStoreView } from '@Containers/Store/store/actions';
+import { useInjectReducer } from '@Utils/injectReducer';
+import storeReducer from './store/reducers';
+import { makeSelectViewMode, makeIsLoading } from './store/selectors';
+import View from './view';
+
+interface Props {
+  viewMode: string;
+  isMobile: boolean;
+  changeStoreView(mode: string): void;
+  isLoading: boolean;
+  t(key: string, format?: object): string;
+  [data: string]: any;
+}
+
+function StoreContainer(props: Props) {
+  useInjectReducer({ key: 'store', reducer: storeReducer });
+
+  return <View {...props} />;
+}
+
+const mapStateToProps = createStructuredSelector({
+  viewMode: makeSelectViewMode(),
+  isLoading: makeIsLoading(),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  changeStoreView: (mode: string) => dispatch(changeStoreView(mode)),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+  memo,
+  withTranslation(['common', 'auth', 'tracker'])
+)(StoreContainer) as React.ComponentType;

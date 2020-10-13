@@ -4,13 +4,15 @@ import createSagaMiddleware from 'redux-saga';
 import { createWrapper } from 'next-redux-wrapper';
 
 import createReducer from '@Reducers';
+import appSaga from '@Containers/App/store/sagas';
+import apiMiddleWare from './middlewares/api';
 
 const configureStore = (initialState = {}) => {
   const reduxSagaMonitorOptions = {};
 
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
 
-  const middlewares = [sagaMiddleware];
+  const middlewares = [sagaMiddleware, apiMiddleWare];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -26,7 +28,7 @@ const configureStore = (initialState = {}) => {
   storeExtend.runSaga = sagaMiddleware.run;
   storeExtend.injectedReducers = {};
   storeExtend.injectedSagas = {};
-
+  sagaMiddleware.run(appSaga);
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hasOwnProperty('hot')) {

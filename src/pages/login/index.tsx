@@ -3,16 +3,15 @@ import { NextPage } from 'next';
 import { withTranslation } from '@Server/i18n';
 
 import LoginContainer from '@Containers/auth/Login';
-import ILoginPage from './interfaces';
+import { IPage } from '@Interfaces';
+import withoutAuth from '@Components/hocs/withoutAuth';
 
-const Login: NextPage = () => {
-  return <LoginContainer />;
+const Login: NextPage = props => {
+  return <LoginContainer {...props} />;
 };
 
-Login.getInitialProps = async (): Promise<ILoginPage.InitialProps> => {
-  return { namespacesRequired: ['common'] };
+Login.getInitialProps = async (): Promise<IPage.InitialProps> => {
+  return { namespacesRequired: ['auth'] };
 };
 
-const Extended = withTranslation('common')(Login);
-
-export default Extended;
+export default withoutAuth(withTranslation('auth')(Login));

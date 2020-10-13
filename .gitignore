@@ -28,3 +28,12 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env
+
+#IDE
+.idea/
+
+#BUILD
+dist/
+
+package-lock.json

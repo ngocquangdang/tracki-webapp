@@ -1,0 +1,211 @@
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 2,
+    backgroundColor: '#fff',
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '55px',
+    marginLeft: '20px',
+    color: '#1a1a1a',
+    alignItems: 'center',
+    cursor: 'pointer',
+  },
+  title: {
+    fontSize: 17,
+  },
+  iconBack: {
+    width: '20px',
+    height: '20px',
+  },
+  selectOption: {},
+  leftItem: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  conectionTracker: {
+    flex: 2,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0 8px',
+    textAlign: 'center',
+  },
+  timeline: {
+    position: 'relative',
+    height: 'calc(100% - 365px)',
+    '& > div': {
+      position: 'absolute',
+      height: 'calc(100% - 17px)',
+      overflowY: 'auto',
+      width: '100%',
+    },
+  },
+  timelineTitle: {
+    fontSize: 14,
+    lineHeight: '17px',
+    marginTop: 10,
+  },
+  itemInfo: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: 172,
+  },
+  name: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    margin: '4px 0',
+    fontSize: 14,
+  },
+  iconRed: {
+    width: 15,
+    height: 15,
+    borderRadius: '50%',
+    border: 'solid 1px #ae0000',
+    display: 'flex',
+    background: '#e60000',
+    margin: 5,
+  },
+  battery: {
+    borderRight: '1px solid #e0e0e0',
+    padding: '0 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 0.75,
+  },
+  time: {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: 12,
+    color: '#b7b7b7',
+    marginLeft: -3,
+  },
+  timeActive: {
+    fontSize: 12,
+    color: '#b7b7b7',
+  },
+  text: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  latlng: {
+    textShadow: '0 1px 1px rgba(255, 255, 255, 0.25)',
+    fontFamily: 'Open Sans, sans-serif',
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 1.36,
+    letterSpacing: 'normal',
+    color: '#1a1a1a',
+    '& span:first-child': {
+      marginRight: 15,
+    },
+  },
+  textBold: {
+    fontWeight: 500,
+  },
+  textSpace: {
+    marginLeft: '8px',
+    fontSize: '12px',
+  },
+  iconLocation: {
+    width: '20px',
+    height: '22px',
+    color: '#cc2c2c',
+  },
+  icon: {
+    color: theme.palette.primary.main,
+  },
+  iconStop: {
+    width: '9px',
+    height: '10px',
+    border: 'solid 1px #ae0000',
+    backgroundColor: '#e60000',
+    borderRadius: '50%',
+    display: 'flex',
+    marginRight: '7px',
+  },
+  trackerInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#fafafa',
+    borderBottom: '1px solid #e0e0e0',
+  },
+  trackerItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: '17px 0 24px 13px',
+    borderBottom: 'none',
+    alignItems: 'center',
+  },
+  trackerAddress: {
+    fontSize: '14px',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '17px',
+    letterSpacing: 'normal',
+    textAlign: 'left',
+    color: '#1a1a1a',
+    display: 'flex',
+    flexDirection: 'row',
+    padding: '0 32px 20px 12px',
+  },
+  filterWrapper: {
+    padding: 15,
+    height: 'calc(100% - 55px)',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  checkGroup: {
+    '& p': {
+      marginBottom: 8,
+      fontSize: 14,
+    },
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'space-between',
+    '& label': {
+      backgroundColor: 'rgba(0,0,0,.05)',
+      marginLeft: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      width: '100%',
+      marginRight: 8,
+      borderRadius: 4,
+      '& span:first-child': {
+        // padding: '4px 4px 4px 0',
+      },
+      '&:last-child': {
+        marginRight: 0,
+      },
+      '& span:last-child': {
+        fontSize: 13,
+        position: 'relative',
+        left: -5,
+      },
+      '&>span': {
+        position: 'relative',
+        left: -5,
+      },
+    },
+  },
+  btnView: {
+    marginTop: 16,
+  },
+}));
+export { useStyles };

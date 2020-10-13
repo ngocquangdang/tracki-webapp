@@ -1,0 +1,50 @@
+.point-dot {
+  border-radius: 6px;
+  border: 1px solid #168449;
+  background-color: white;
+  width: 8px !important;
+  height: 8px !important;
+
+  &.leaflet-marker-icon {
+    margin-left: -4px !important;
+    margin-top: -4px !important;
+  }
+
+  &.point-moving {
+    background-color: yellow;
+  }
+
+  &.point-stop {
+    background-color: red;
+  }
+}
+
+.point-tracking {
+  .wrapper {
+    position: absolute;
+    left: -30px;
+    top: -30px;
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50%;
+    display: flex;
+    background-color: rgba(22, 132, 73, .2);
+  }
+
+  .outer {
+    display: flex;
+    margin: auto;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background-color: rgba(22, 132, 73, .4);
+  }
+
+  .inner {
+    margin: auto;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background-color: red;
+  }
+}

@@ -7,6 +7,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -24,7 +25,8 @@
       "@Definitions": ["src/definitions"],
       "@Interfaces": ["src/interfaces"],
       "@Interfaces/*": ["src/interfaces/*"],
-      "@Pages/*": ["pages/*"],
+      "@Layouts": ["src/layouts"],
+      "@Pages/*": ["src/pages/*"],
       "@Reducers": ["src/reducers"],
       "@Reducers/*": ["src/reducers/*"],
       "@Store": ["src/store"],
@@ -35,10 +37,11 @@
       "@Static/*": ["public/static/*"],
       "@Styled/*": ["src/styled/*"],
       "@Test/*": ["test/*"],
-      "@Utils": ["utils"],
-      "@Utils/*": ["utils/*"]
+      "@Utils": ["src/utils"],
+      "@Utils/*": ["src/utils/*"]
     }
   },
+  "typeRoots": ["node_modules/@types"],
   "exclude": [
     "node_modules",
     "dist",
@@ -50,5 +53,12 @@
     "coverage",
     "test/*"
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/components/Maps/Leaflet/components/Geofences/index.jsx",
+    "src/containers/Tracking/views/ViewPC/components/MapStreetView/GoogleStreetView.jsx",
+    "src/components/Maps/Leaflet/components/HeatMap/index.jsx"
+  ]
 }
