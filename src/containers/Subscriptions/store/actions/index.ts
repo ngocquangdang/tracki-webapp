@@ -70,21 +70,6 @@ export function braintreeDropInSubscriptionFailAction(payload: any) {
   };
 }
 
-export function buySmsSubscriptionRequestAction(
-  formData,
-  account_id,
-  paymentData
-) {
-  return {
-    type: types.BUY_SMS_SUBSCRIPTION_REQUESTED,
-    payload: {
-      formData,
-      account_id,
-      paymentData,
-    },
-  };
-}
-
 export function buySmsSubscriptionSuccesAction(payload) {
   return {
     type: types.BUY_SMS_SUBSCRIPTION_SUCCESSED,
@@ -96,21 +81,6 @@ export function buySmsSubscriptionFailAction(payload: any) {
   return {
     type: types.BUY_SMS_SUBSCRIPTION_FAILED,
     payload,
-  };
-}
-
-export function buyFastTrackingSubscriptionRequestAction(
-  formData,
-  account_id,
-  paymentData
-) {
-  return {
-    type: types.BUY_FAST_TRACKING_SUBSCRIPTION_REQUESTED,
-    payload: {
-      formData,
-      account_id,
-      paymentData,
-    },
   };
 }
 

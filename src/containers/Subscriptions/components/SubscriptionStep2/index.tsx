@@ -17,7 +17,7 @@ import {
   useStyles,
 } from './styles';
 import { BraintreePaymentGateway } from '@Containers/paymentService/braintree';
-import { CircularProgress } from '@material-ui/core';
+import { SkeletonPaymentForm } from '@Components/Skeletons';
 
 interface DetailMessage {
   currency: string;
@@ -40,6 +40,7 @@ function SubscriptionStep2(props) {
     t,
     formData,
     braintreeDropInSubscriptionRequest,
+    isRequesting,
   } = props;
   const classes = useStyles();
   const [isLoadingGateway, setLoadingGateway] = useState(true);
@@ -94,13 +95,13 @@ function SubscriptionStep2(props) {
           <div>
             <div id="dropin-container-web"></div>
             <div className={!isLoadingGateway ? classes.hidden : ''}>
-              <CircularProgress />
+              <SkeletonPaymentForm />
             </div>
             <p>All transactions are secure and encrypted.</p>
             <Button
               onClick={onPaymentSubmit}
               id="submit-payment-button-web"
-              disabled={disablePayment}
+              disabled={disablePayment || isRequesting}
               color="primary"
               variant="contained"
               type="submit"
