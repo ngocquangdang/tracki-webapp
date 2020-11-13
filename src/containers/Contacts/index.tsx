@@ -14,7 +14,7 @@ import {
   addContactRequestAction,
   getContactListRequestAction,
   searchContactRequestedAction,
-} from './store/actions/index.';
+} from './store/actions';
 
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import {

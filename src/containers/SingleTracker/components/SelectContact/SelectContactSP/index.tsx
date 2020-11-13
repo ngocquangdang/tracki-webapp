@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SideBarOutsideContact } from '@Components/sidebars';
 import { debounce } from 'lodash';
 import ContactCard from '@Components/ContactCardSP';
@@ -24,8 +24,8 @@ interface Props {
   handleClose(): void;
   onSearch(v): void;
   contactIds: Array<number>;
-  contactAssigneds?: object;
-  contactAssignedIds?: Array<number>;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
   addContactRequest(data, eventTypes): void;
   removeContactRequest(data, eventTypes): void;
   eventTypes?: string;
@@ -44,17 +44,28 @@ export default function SelectContactSP(props: Props) {
     handleClose,
     onSearch,
     contactIds,
+    contactAssignedIds,
+    contactAssigneds,
     addContactRequest,
     removeContactRequest,
     addContactPageRequest,
     t,
     eventTypes,
-    tracker,
     errors,
   } = props;
 
-  const { contacts: contactOfTracker = [] } = tracker;
-  const [contactSelected, setContactSelected] = useState([...contactOfTracker]);
+  const [contactSelected, setContactSelected] = useState<any>([]);
+  const [initContactSelected, setInitContactSelected] = useState<any>([]);
+
+  useEffect(() => {
+    if (contactAssignedIds.length > 0) {
+      const contactSlectedByEventType = contactAssignedIds.filter(item =>
+        contactAssigneds[item].eventTypes.includes(eventTypes)
+      );
+      setContactSelected(contactSlectedByEventType);
+      setInitContactSelected(contactSlectedByEventType);
+    }
+  }, [contactAssignedIds]);
 
   const [showAddContact, setShowAddContact] = useState(false);
 
@@ -87,9 +98,9 @@ export default function SelectContactSP(props: Props) {
   };
 
   const onSubmit = () => {
-    const addContactAssign = getAddData(contactOfTracker, contactSelected);
+    const addContactAssign = getAddData(initContactSelected, contactSelected);
     const removeContactAssign = getRemoveData(
-      contactOfTracker,
+      initContactSelected,
       contactSelected
     );
     if (addContactAssign.length > 0) {

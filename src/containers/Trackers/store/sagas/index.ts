@@ -15,7 +15,7 @@ import * as appServices from '@Containers/App/store/services';
 import * as actions from '../actions';
 import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
-import { updateContactListSucceedAction } from '@Containers/Contacts/store/actions/index.';
+import { updateContactListSucceedAction } from '@Containers/Contacts/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 
 function* fetchTrackersSaga(action) {

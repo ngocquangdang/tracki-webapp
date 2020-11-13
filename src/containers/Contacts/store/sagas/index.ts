@@ -21,7 +21,7 @@ import {
   getContactAssignedFailedAction,
   addContactAssignedFailedAction,
   removeContactAssignedFailedAction,
-} from '../actions/index.';
+} from '../actions';
 
 import { makeSelectContacts } from '../selector';
 import { makeSelectProfile } from '@Containers/App/store/selectors';

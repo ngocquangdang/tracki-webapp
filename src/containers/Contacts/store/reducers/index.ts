@@ -9,6 +9,8 @@ export const initialState = {
   contacts: {},
   contactIds: [],
   contactOfTracker: {},
+  contactAssigneds: {},
+  contactAssignedIds: [],
 };
 const AddTrackerReducer = (
   state = initialState,
@@ -34,6 +36,11 @@ const AddTrackerReducer = (
         break;
       case types.SEARCH_CONTACT_SUCCEED:
         draft.contactIds = payload.contactIds;
+        draft.isRequesting = false;
+        break;
+      case types.GET_CONTACT_ASSIGNED_SUCCESSED:
+        draft.contactAssignedIds = payload.contactAssignedIds;
+        draft.contactAssigneds = payload.contactAssigneds;
         draft.isRequesting = false;
         break;
       case types.GET_LIST_CONTACT_FAILED:

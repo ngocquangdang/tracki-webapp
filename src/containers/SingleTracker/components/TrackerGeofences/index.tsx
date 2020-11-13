@@ -55,7 +55,7 @@ import {
   addContactAssignedRequestedAction,
   removeContactAssignedRequestedAction,
   searchContactRequestedAction,
-} from '@Containers/Contacts/store/actions/index.';
+} from '@Containers/Contacts/store/actions';
 
 interface Props {
   tracker: ITracker;
@@ -85,8 +85,8 @@ interface Props {
   [data: string]: any;
   removeContactRequest(data, eventType): void;
   addContactPageRequest(data, callback): void;
-  contactAssigneds?: object;
-  contactAssignedIds?: Array<number>;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
   searchContactRequest(v): void;
   errors: any;
 }

@@ -80,7 +80,7 @@ import {
   getContactAssignedRequestedAction,
   addContactAssignedRequestedAction,
   removeContactAssignedRequestedAction,
-} from '@Containers/Contacts/store/actions/index.';
+} from '@Containers/Contacts/store/actions';
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import Router from 'next/router';
@@ -106,8 +106,8 @@ interface Props {
   contactIds: Array<number>;
   searchContactRequest(v): void;
   getContactAssignedRequest(device_id): void;
-  contactAssigneds?: object;
-  contactAssignedIds?: Array<number>;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
   addContactRequest(data, eventType): void;
   removeContactRequest(data, eventType): void;
   addContactPageRequest(data, callback): void;
@@ -283,8 +283,8 @@ function SettingTracker(props: Props) {
   };
 
   const onShowSelectContact = value => {
+    getContactListRequest(profile.id);
     getContactAssignedRequest(infoTracker.device_id);
-    getContactListRequest(profile.account_id);
     setShowSelectContat(!isShowSelectContact);
     setEventype(value);
   };
@@ -473,10 +473,8 @@ function SettingTracker(props: Props) {
                       </TooltipStyle>
 
                       <PersonAddIcon
-                        onClick={() =>
-                          onShowSelectContact('infoTracker.speed_limit')
-                        }
-                        className={`${classes.personAddIcon} ${classes.speedLimit}`}
+                        onClick={() => onShowSelectContact('speed_limit')}
+                        className={classes.personAddIcon}
                       />
                       <Switch
                         checked={
@@ -511,6 +509,10 @@ function SettingTracker(props: Props) {
                           />
                         </AdornmentStyle>
                       </TooltipStyle>
+                      <PersonAddIcon
+                        onClick={() => onShowSelectContact('moving_start')}
+                        className={classes.personAddIcon}
+                      />
                       <Switch
                         checked={values.infoTracker?.moving_start || false}
                         value={values.infoTracker?.moving_start}
@@ -545,6 +547,10 @@ function SettingTracker(props: Props) {
                           />
                         </AdornmentStyle>
                       </TooltipStyle>
+                      <PersonAddIcon
+                        onClick={() => onShowSelectContact('low_battery')}
+                        className={classes.personAddIcon}
+                      />
                       <Switch
                         checked={values.infoTracker?.low_battery}
                         value={values.infoTracker?.low_battery}
@@ -594,7 +600,11 @@ function SettingTracker(props: Props) {
                     <span>{t('tracker:geo_fence_entry')}</span>
                     <OptionRight>
                       <AiOutlineQuestionCircle
-                        className={`${classes.questionIcon} ${classes.questionIconMargin}`}
+                        className={`${classes.questionIcon} ${classes.speedLimit}`}
+                      />
+                      <PersonAddIcon
+                        onClick={() => onShowSelectContact('zone_entry')}
+                        className={classes.personAddIcon}
                       />
                       <Switch
                         checked={values.infoTracker?.zone_entry || false}
@@ -613,7 +623,11 @@ function SettingTracker(props: Props) {
                     <span>{t('tracker:geo_fence_exit')}</span>
                     <OptionRight>
                       <AiOutlineQuestionCircle
-                        className={`${classes.questionIcon} ${classes.questionIconMargin}`}
+                        className={`${classes.questionIcon} ${classes.speedLimit}`}
+                      />
+                      <PersonAddIcon
+                        onClick={() => onShowSelectContact('zone_exit')}
+                        className={classes.personAddIcon}
                       />
                       <Switch
                         checked={values.infoTracker?.zone_exit || false}

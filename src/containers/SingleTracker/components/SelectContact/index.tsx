@@ -12,8 +12,8 @@ interface Props {
   handleClose(): void;
   onSearch(v): void;
   contactIds: Array<number>;
-  contactAssigneds?: object;
-  contactAssignedIds?: Array<number>;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
   addContactRequest(data, eventTypes): void;
   removeContactRequest(data, eventTypes): void;
   eventTypes?: string;
