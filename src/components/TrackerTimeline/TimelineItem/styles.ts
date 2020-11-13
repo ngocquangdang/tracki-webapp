@@ -55,6 +55,16 @@ const useStyles = makeStyles(theme => ({
     left: -5,
     top: -5,
   },
+  showDate: {
+    fontSize: 14,
+    fontWeight: 500,
+    padding: '0 30px',
+  },
+  containerShowDate: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '7px 0',
+  },
 }));
 
 export default useStyles;
