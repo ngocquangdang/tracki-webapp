@@ -43,6 +43,7 @@ const InputSubcription = styled.p`
 const Error = styled.p`
   text-align: center;
   color: red;
+  width: 400px;
 `;
 const Image = styled.div`
   width: 40px;
@@ -59,6 +60,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       width: 325,
     },
+  },
+  widthBtnImage: {
+    width: '120px',
+    whiteSpace: 'nowrap',
   },
   marginInput: {
     marginBottom: 10,
