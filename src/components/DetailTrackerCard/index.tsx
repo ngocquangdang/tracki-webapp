@@ -283,20 +283,29 @@ function DetailTrackerCard(props: Prop) {
       )}
       <TrackerStatus isMobile={isMobile} isHistory={isHistory}>
         <BatteryTracker>
-          <IconBattery src="/images/icon-battery.png" />
+          <div>
+            <IconBattery src="/images/icon-battery.png" />
+            <span
+              className={
+                isMobile
+                  ? classes.textMobile
+                  : isHistory
+                  ? classes.textHistory
+                  : classes.textPC
+              }
+            >
+              {isHistory && locationPointTracking
+                ? locationPointTracking.battery
+                : tracker?.battery || 0}
+              %
+            </span>
+          </div>
           <span
             className={
-              isMobile
-                ? classes.textMobile
-                : isHistory
-                ? classes.textHistory
-                : classes.textPC
+              isMobile ? classes.batteryTimeMobile : classes.batteryTime
             }
           >
-            {isHistory && locationPointTracking
-              ? locationPointTracking.battery
-              : tracker?.battery || 0}
-            %
+            {moment(tracker.time * 1000).fromNow()}
           </span>
         </BatteryTracker>
         <StatusTracker>
