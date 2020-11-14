@@ -18,11 +18,18 @@ interface Props {
   history: any;
   pointIndex: number;
   isTracking: boolean;
+  isShowDate: boolean;
   changePointTracking(pointIndex: number): void;
 }
 
 export default function TrackerTimeline(props: Props) {
-  const { history, pointIndex, isTracking, changePointTracking } = props;
+  const {
+    history,
+    pointIndex,
+    isTracking,
+    changePointTracking,
+    isShowDate,
+  } = props;
   const [address, setAddress] = useState('');
   const classes = useStyles();
 
@@ -41,6 +48,13 @@ export default function TrackerTimeline(props: Props) {
 
   return (
     <div onClick={onSelect}>
+      {isShowDate && (
+        <div className={classes.containerShowDate}>
+          <div className={classes.showDate}>
+            {moment(history.time * 1000).format('LL')}
+          </div>
+        </div>
+      )}
       <TimelineItem
         className={clsx(classes.item, { [classes.active]: isTracking })}
       >

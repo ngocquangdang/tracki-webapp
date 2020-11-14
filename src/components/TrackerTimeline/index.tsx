@@ -9,6 +9,7 @@ import {
   TimelineContent,
 } from '@material-ui/lab';
 import { DirectionsCar, Adjust } from '@material-ui/icons';
+import moment from 'moment';
 import TimelineItemComp from './TimelineItem';
 import useStyles from './styles';
 
@@ -58,6 +59,13 @@ export default function TrackerTimeline(props: Props) {
             history={histories[id]}
             isTracking={pointTrackingIndex === index}
             changePointTracking={changePointTracking}
+            isShowDate={
+              showIds.length > 2 &&
+              !moment(histories[showIds[index]]?.time * 1000).isSame(
+                histories[showIds[index - 1]]?.time * 1000,
+                'day'
+              )
+            }
           />
         ))}
         {showIds.length < historyIds.length && (
