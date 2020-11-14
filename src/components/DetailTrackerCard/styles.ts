@@ -68,6 +68,7 @@ const BatteryTracker = styled.div`
   border-right: 1px solid #e0e0e0;
   padding: 0 8px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex: 0.75;
@@ -298,6 +299,16 @@ const useStyles = makeStyles(theme => ({
     width: 13,
     height: 13,
     marginLeft: 5,
+  },
+  batteryTime: {
+    fontSize: 12,
+    color: '#b7b7b7',
+    marginTop: 3,
+  },
+  batteryTimeMobile: {
+    fontSize: 9,
+    color: '#b7b7b7',
+    marginTop: 2,
   },
 }));
 
