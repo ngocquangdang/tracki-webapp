@@ -84,16 +84,24 @@ export default function Step3(props: Props) {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const onSubmit = value => {
-    updatePersonalizeDeviceRequest(
-      { value, file: imageFile.file },
-      formData,
-      account_id,
-      addDone
-    );
-    updateStore({
-      ...formData,
-      device_name: value.device_name,
-    });
+    if (value.device_name.trim() !== '') {
+      updatePersonalizeDeviceRequest(
+        { value, file: imageFile.file },
+        formData,
+        account_id,
+        addDone
+      );
+      updateStore({
+        ...formData,
+        device_name: value.device_name,
+      });
+    } else {
+      updateStore({
+        ...formData,
+        device_name: formData.device_id,
+      });
+      addDone(true);
+    }
   };
   const renderInputImage = () => {
     return (
@@ -122,7 +130,7 @@ export default function Step3(props: Props) {
               </div>
             </div>
           }
-          className={classes.widthBtn}
+          className={classes.widthBtnImage}
         />
       </UploadImage>
     );
