@@ -44,7 +44,7 @@ import {
   removeContactAssignedRequestedAction,
   searchContactRequestedAction,
   getContactListRequestAction,
-} from '@Containers/Contacts/store/actions/index.';
+} from '@Containers/Contacts/store/actions';
 import SelectContact from '@Containers/SingleTracker/components/SelectContact';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 
@@ -65,8 +65,8 @@ interface Props {
   [data: string]: any;
   removeContactRequest(data, eventType): void;
   addContactPageRequest(data, callback): void;
-  contactAssigneds?: object;
-  contactAssignedIds?: Array<number>;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
   searchContactRequest(v): void;
   errors: any;
   profile: any;

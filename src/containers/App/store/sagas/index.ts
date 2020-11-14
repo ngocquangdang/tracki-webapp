@@ -9,7 +9,7 @@ import {
   fetchGeofencesRequestedAction,
 } from '@Containers/Trackers/store/actions';
 import { getUserRequestAction } from '@Containers/AccountSetting/store/actions';
-import { getContactListRequestAction } from '@Containers/Contacts/store/actions/index.';
+import { getContactListRequestAction } from '@Containers/Contacts/store/actions';
 function* fetchProfileSaga() {
   try {
     const { data } = yield call(apiServices.fetchUser);

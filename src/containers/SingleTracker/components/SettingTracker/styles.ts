@@ -233,9 +233,10 @@ const useStyles = makeStyles(theme => ({
     height: '25.4px;',
     color: '#1a1a1a',
     cursor: 'pointer',
+    marginRight: '10px',
   },
   speedLimit: {
-    marginRight: '20px',
+    marginRight: '15px',
   },
   questionIconMargin: {
     marginRight: '8px',

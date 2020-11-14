@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SideBarOutside } from '@Components/sidebars';
 import { debounce } from 'lodash';
 import ContactCard from '@Components/ContactCard';
@@ -15,7 +15,6 @@ import {
 import { AiOutlineSearch } from 'react-icons/ai';
 import { InputAdornment } from '@material-ui/core';
 import AddNewContact from '@Containers/AddNewContact';
-import { ITracker } from '@Interfaces';
 
 interface Props {
   isMobile: boolean;
@@ -23,15 +22,14 @@ interface Props {
   contacts: object;
   handleClose(): void;
   onSearch(v): void;
-  contactIds: Array<number>;
-  contactAssigneds?: object;
-  contactAssignedIds?: Array<number>;
+  contactIds: any;
+  contactAssigneds: object;
+  contactAssignedIds: Array<number>;
   addContactRequest(data, eventTypes): void;
   removeContactRequest(data, eventTypes): void;
   eventTypes?: string;
   addContactPageRequest(data, callback): void;
   t(key: string): string;
-  tracker: ITracker;
   errors: any;
 }
 
@@ -49,12 +47,23 @@ export default function SelectContactPC(props: Props) {
     addContactPageRequest,
     eventTypes,
     t,
-    tracker,
+    contactAssignedIds,
+    contactAssigneds,
     errors,
   } = props;
 
-  const { contacts: contactOfTracker = [] } = tracker;
-  const [contactSelected, setContactSelected] = useState([...contactOfTracker]);
+  const [contactSelected, setContactSelected] = useState<any>([]);
+  const [initContactSelected, setInitContactSelected] = useState<any>([]);
+
+  useEffect(() => {
+    if (contactAssignedIds.length > 0) {
+      const contactSlectedByEventType = contactAssignedIds.filter(item =>
+        contactAssigneds[item].eventTypes.includes(eventTypes)
+      );
+      setContactSelected(contactSlectedByEventType);
+      setInitContactSelected(contactSlectedByEventType);
+    }
+  }, [contactAssignedIds]);
 
   const [showAddContact, setShowAddContact] = useState(false);
 
@@ -87,9 +96,9 @@ export default function SelectContactPC(props: Props) {
   };
 
   const onSubmit = () => {
-    const addContactAssign = getAddData(contactOfTracker, contactSelected);
+    const addContactAssign = getAddData(initContactSelected, contactSelected);
     const removeContactAssign = getRemoveData(
-      contactOfTracker,
+      initContactSelected,
       contactSelected
     );
     if (addContactAssign.length > 0) {
