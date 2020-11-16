@@ -58,6 +58,7 @@ export interface TrackerDataTypes {
   dataLink: object | null;
   dataSendBeep: object | null;
   isBeep: boolean | null;
+  isFetchingTracker: boolean | null;
   errors: object | null;
 }
 
