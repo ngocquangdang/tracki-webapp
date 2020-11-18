@@ -6,6 +6,11 @@ import dynamic from 'next/dynamic';
 import { getAddress } from '@Utils/helper';
 import { msToTime } from '@Utils/helper';
 
+import {
+  objKeyTranslate,
+  objKeyGetImage,
+} from '@Containers/Reports/store/constants';
+
 import { useStyles, Image } from './styles';
 
 const MapCard = dynamic(() => import('../MapCard'), {
@@ -32,45 +37,10 @@ const Row = props => {
     callApiGetAddress();
   }, [callApiGetAddress]);
 
-  function getSrcImg(value) {
-    switch (value) {
-      case 'SPEED':
-        return 'ic-alert-speed-violation.svg';
-      case 'GEOZONE':
-        return 'ic-alert-geofence.svg';
-      case 'MOVEMENT':
-        return 'ic-alert-start-moving.svg';
-      case 'BATTERY':
-        return 'ic-alert-battery.svg';
-      case 'SOS':
-        return 'ic-alert-SOS.svg';
-      case 'LEFT':
-        return 'ic-alert-left-click.svg';
-      default:
-        return 'ic-alert-right-click.svg';
-    }
-  }
-  function getTextlabelNoti(value) {
-    switch (value) {
-      case 'SPEED':
-        return t('notifications:speed_violation');
-      case 'GEOZONE':
-        return t('notifications:geo_fence_crossed');
-      case 'MOVEMENT':
-        return t('notifications:start_moving');
-      case 'BATTERY':
-        return t('notifications:low_battery');
-      case 'SOS':
-        return t('notifications:sos_alert');
-      case 'LEFT':
-        return t('notifications:left_click');
-      default:
-        return t('notifications:right_click');
-    }
-  }
   const onViewMap = () => {
     setExpand(!isExpand);
   };
+
   return (
     <div>
       <div className={classes.row}>
@@ -80,7 +50,7 @@ const Row = props => {
               <div className={classes.containerIcon}>
                 <img
                   alt=""
-                  src={`/images/${getSrcImg(data?.alarm_type)}`}
+                  src={`/images/${objKeyGetImage[data?.alarm_type]}`}
                   className={classes.iconAlarm}
                 />
               </div>
@@ -91,7 +61,7 @@ const Row = props => {
                   classes.textNoWrap
                 )}
               >
-                {getTextlabelNoti(data?.alarm_type)}
+                {t(objKeyTranslate[data?.alarm_type])}
               </span>
             </div>
           ) : (
@@ -138,7 +108,7 @@ const Row = props => {
                 className={clsx(classes.textFont16, classes.textColorMain)}
                 onClick={onViewMap}
               >
-                View On Map
+                {isExpand ? 'Hide map' : 'View on map'}
               </span>
             )}
           </div>

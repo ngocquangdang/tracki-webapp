@@ -34,6 +34,7 @@ interface Props {
   direction?: 'left' | 'right' | 'down' | 'up';
   isLogo?: boolean;
   isAddContact?: boolean;
+  isNotSave?: boolean;
   onShowAddContact?(): void;
 }
 
@@ -53,6 +54,7 @@ export default function SideBarOut(props: Props) {
     isAddContact,
     onShowAddContact,
     hasHeader = true,
+    isNotSave,
   } = props;
 
   function capitalizeFirstLetter(string: string) {
@@ -108,10 +110,12 @@ export default function SideBarOut(props: Props) {
                     </Link>
                   )
                 ) : (
-                  <ButtonSave>
-                    <DoneIcon className={classes.iconSave} />
-                    {/* <TextSave>Save</TextSave> */}
-                  </ButtonSave>
+                  !isNotSave && (
+                    <ButtonSave>
+                      <DoneIcon className={classes.iconSave} />
+                      {/* <TextSave>Save</TextSave> */}
+                    </ButtonSave>
+                  )
                 )
               ) : (
                 <ButtonClose onClick={handleClose}>

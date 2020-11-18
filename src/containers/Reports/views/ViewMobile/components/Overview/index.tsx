@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { RiForbid2Line } from 'react-icons/ri';
 import { Skeleton } from '@material-ui/lab';
-import moment from 'moment';
 
 //components
+import Card from '../LayoutCardOverview';
 import SelectOption from '@Components/selections';
-import Card from '../LayoutCard';
 
+//styles
 import { useStyles } from './styles';
 
 interface Props {
@@ -27,7 +28,7 @@ interface Props {
   [data: string]: any;
 }
 
-function OverviewReport(props: Props) {
+function OverviewReportMobile(props: Props) {
   const classes = useStyles();
   const {
     profile,
@@ -80,6 +81,7 @@ function OverviewReport(props: Props) {
       query: `from=${fromDate}&to=${toDate}&limit=2000&page=1&type=2`,
     });
   };
+
   return (
     <div className={classes.container}>
       <div className={classes.card}>
@@ -95,16 +97,17 @@ function OverviewReport(props: Props) {
       </div>
       <div className={classes.card}>
         <Card
-          typeCard="recent"
+          typeCard="stop"
           iconHeader={<RiForbid2Line className={classes.icon} />}
-          label="Recent Stops(48 hours)"
+          label="Recent Stops"
           dataIds={historyStopIds[trackerName] || []}
           datas={historyStops[trackerName] || {}}
+          isFetching={isFetchingDataStop}
           rightItemHead={
             isFetchingTracker ? (
               <Skeleton
-                width={150}
-                height={50}
+                width={'100%'}
+                height={60}
                 style={{ backgroundColor: '#f2f2f2' }}
               />
             ) : (
@@ -119,7 +122,6 @@ function OverviewReport(props: Props) {
               </div>
             )
           }
-          isFetching={isFetchingDataStop}
           {...props}
         />
       </div>
@@ -133,7 +135,7 @@ function OverviewReport(props: Props) {
               src="/images/icon-battery.png"
             />
           }
-          label="Bettery Level"
+          label="Battery Level"
           dataIds={trackerIds}
           datas={trackers}
           isFetching={isFetchingTracker}
@@ -144,4 +146,4 @@ function OverviewReport(props: Props) {
   );
 }
 
-export default OverviewReport;
+export default OverviewReportMobile;

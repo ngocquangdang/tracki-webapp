@@ -22,12 +22,13 @@ const MenuHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: ${(props: PROPS) => (props.isMobile ? '1000' : '10')};
   width: ${(props: PROPS) => (props.isMobile ? '100%' : '450px')};
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.5);
   color: #1a1a1a;
   border-bottom: ${(props: PROPS) =>
     props.isMobile ? ' 1px solid #e0e0e0' : 'none'};
+  backdrop-filter: blur(30px);
 `;
 
 const ButtonClose = styled.div``;

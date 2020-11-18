@@ -67,16 +67,15 @@ function* fetchHistoryStopTrackerSaga(action) {
           history.push(item);
     });
 
-    history.forEach((item, index) => {
-      if (item.speed === 0 && history[index + 1]) {
-        const currentHistory = item;
+    history.forEach((currentHistory, index) => {
+      if (currentHistory.speed === 0 && history[index + 1]) {
         const nextHistory = history[index + 1];
-        Object.assign(item, {
-          stopOn: item.time * 1000,
+        Object.assign(currentHistory, {
+          stopOn: currentHistory.time * 1000,
           startOn: nextHistory.time * 1000,
           duration: moment.duration(nextHistory.time - currentHistory.time),
         });
-        objAssign.push(item);
+        objAssign.push(currentHistory);
       }
     });
 
