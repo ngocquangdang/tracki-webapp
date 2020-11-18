@@ -3,10 +3,13 @@ import moment from 'moment';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { SkeletonTracker } from '@Components/Skeletons';
+import dynamic from 'next/dynamic';
 
 import { useStyles } from './styles';
-import MapCard from '../MapCardMobile';
 
+const MapCard = dynamic(() => import('../MapCardMobile'), {
+  ssr: false,
+});
 interface Notifications {
   device_name: string;
   lat: number;

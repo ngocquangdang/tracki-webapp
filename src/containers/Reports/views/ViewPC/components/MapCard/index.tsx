@@ -54,7 +54,10 @@ class MapCard extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <div id={this.props.mapId} style={{ height: 250, width: '100%' }}></div>
+      <div
+        id={this.props.mapId}
+        style={{ height: 250, width: '100%', marginTop: 5 }}
+      ></div>
     );
   }
 }

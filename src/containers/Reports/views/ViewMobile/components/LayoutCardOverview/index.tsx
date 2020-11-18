@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Row from '../Row';
-import ReportRowCard from '@Components/Skeletons/Report/ReportCardPC';
+import UnReadNotiCard from '@Components/Skeletons/Report/ReportCardMobile';
 
 import { useStyles } from './styles';
 
@@ -23,7 +23,7 @@ function Card(props) {
       <div className={classes.header}>
         <div className={classes.leftItemHead}>
           {iconHeader}
-          <div>{label}</div>
+          <span className={classes.label}>{label}</span>
         </div>
         {rightItemHead && <div>{rightItemHead}</div>}
       </div>
@@ -31,7 +31,7 @@ function Card(props) {
         {isFetching ? (
           <div>
             {[1, 2, 3, 4, 5].map(index => (
-              <ReportRowCard key={index} />
+              <UnReadNotiCard key={index} />
             ))}
           </div>
         ) : dataIds && dataIds.length > 0 ? (

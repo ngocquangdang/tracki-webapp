@@ -50,23 +50,28 @@ const Row = props => {
         return 'ic-alert-right-click.svg';
     }
   }
+  let keyTranslate = 'notifications:right_click';
   function getTextlabelNoti(value) {
     switch (value) {
       case 'SPEED':
-        return t('notifications:speed_violation');
+        keyTranslate = 'notifications:speed_violation';
+        break;
       case 'GEOZONE':
-        return t('notifications:geo_fence_crossed');
+        keyTranslate = 'notifications:geo_fence_crossed';
+        break;
       case 'MOVEMENT':
-        return t('notifications:start_moving');
+        keyTranslate = 'notifications:start_moving';
+        break;
       case 'BATTERY':
-        return t('notifications:low_battery');
+        keyTranslate = 'notifications:low_battery';
+        break;
       case 'SOS':
-        return t('notifications:sos_alert');
+        keyTranslate = 'notifications:sos_alert';
+        break;
       case 'LEFT':
-        return t('notifications:left_click');
-      default:
-        return t('notifications:right_click');
+        keyTranslate = 'notifications:left_click';
     }
+    return t(keyTranslate);
   }
   const onViewMap = () => {
     setExpand(!isExpand);
@@ -138,7 +143,7 @@ const Row = props => {
                 className={clsx(classes.textFont16, classes.textColorMain)}
                 onClick={onViewMap}
               >
-                View On Map
+                {isExpand ? 'Hide map' : 'View on map'}
               </span>
             )}
           </div>
