@@ -6,6 +6,11 @@ import dynamic from 'next/dynamic';
 import { getAddress } from '@Utils/helper';
 import { msToTime } from '@Utils/helper';
 
+import {
+  objKeyTranslate,
+  objKeyGetImage,
+} from '@Containers/Reports/store/constants';
+
 import { useStyles, Image } from './styles';
 
 const MapCard = dynamic(
@@ -35,47 +40,6 @@ const Row = props => {
     callApiGetAddress();
   }, [callApiGetAddress]);
 
-  function getSrcImg(value) {
-    switch (value) {
-      case 'SPEED':
-        return 'ic-alert-speed-violation.svg';
-      case 'GEOZONE':
-        return 'ic-alert-geofence.svg';
-      case 'MOVEMENT':
-        return 'ic-alert-start-moving.svg';
-      case 'BATTERY':
-        return 'ic-alert-battery.svg';
-      case 'SOS':
-        return 'ic-alert-SOS.svg';
-      case 'LEFT':
-        return 'ic-alert-left-click.svg';
-      default:
-        return 'ic-alert-right-click.svg';
-    }
-  }
-  function getTextlabelNoti(value) {
-    let keyTranslate = 'notifications:right_click';
-    switch (value) {
-      case 'SPEED':
-        keyTranslate = 'notifications:speed_violation';
-        break;
-      case 'GEOZONE':
-        keyTranslate = 'notifications:geo_fence_crossed';
-        break;
-      case 'MOVEMENT':
-        keyTranslate = 'notifications:start_moving';
-        break;
-      case 'BATTERY':
-        keyTranslate = 'notifications:low_battery';
-        break;
-      case 'SOS':
-        keyTranslate = 'notifications:sos_alert';
-        break;
-      case 'LEFT':
-        keyTranslate = 'notifications:left_click';
-    }
-    return t(keyTranslate);
-  }
   const onViewMap = () => {
     setExpand(!isExpand);
   };
@@ -93,7 +57,7 @@ const Row = props => {
                     <div className={classes.containerIcon}>
                       <img
                         alt=""
-                        src={`/images/${getSrcImg(data?.alarm_type)}`}
+                        src={`/images/${objKeyGetImage[data?.alarm_type]}`}
                         className={classes.iconAlarm}
                       />
                     </div>
@@ -115,7 +79,7 @@ const Row = props => {
                     )}
                   >
                     {typeCard === 'notifications'
-                      ? getTextlabelNoti(data?.alarm_type)
+                      ? t(objKeyTranslate[data?.alarm_type])
                       : deviceName}
                   </span>
                 </div>
