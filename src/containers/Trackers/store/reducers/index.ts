@@ -28,6 +28,7 @@ export const initialState: TrackerDataTypes = {
   dataLink: {},
   dataSendBeep: {},
   isBeep: false,
+  isFetchingTracker: false,
   errors: null,
 };
 
@@ -48,6 +49,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         };
         break;
       case types.GET_TRACKERS_SUCCEED:
+        draft.isFetchingTracker = false;
         draft.tracker = payload?.tracker;
         break;
       case types.SELECTED_TRACKER:
@@ -67,6 +69,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.GET_GEOFENCES_REQUESTED:
       case types.GET_TRACKERS_REQUESTED:
+        draft.isFetchingTracker = true;
         draft.errors = null;
         break;
       case types.GET_GEOFENCES_FAILED:
@@ -75,6 +78,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.GET_TRACKERS_FAILED:
         draft.tracker.trackerIds = [];
+        draft.isFetchingTracker = false;
         draft.errors = payload.error;
         break;
       case singleTrackerTypes.GET_TRACKER_SETTINGS_SUCCEED:

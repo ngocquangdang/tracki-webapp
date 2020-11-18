@@ -305,7 +305,7 @@ function DetailTrackerCard(props: Prop) {
               isMobile ? classes.batteryTimeMobile : classes.batteryTime
             }
           >
-            {moment(tracker.time * 1000).fromNow()}
+            {moment(tracker?.time * 1000).fromNow()}
           </span>
         </BatteryTracker>
         <StatusTracker>

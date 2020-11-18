@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import moment from 'moment';
+import dynamic from 'next/dynamic';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { LocationOn as LocationIcon } from '@material-ui/icons';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { SkeletonTracker } from '@Components/Skeletons';
-import MapCard from '../MapCard';
 import { getAddress } from '@Utils/helper';
 import {
   useStyles,
@@ -20,6 +20,10 @@ import {
   StatusType,
   IconAlarmType,
 } from './styles';
+
+const MapCard = dynamic(() => import('../MapCard'), {
+  ssr: false,
+});
 
 interface Notifications {
   device_name: string;

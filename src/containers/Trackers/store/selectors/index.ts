@@ -58,6 +58,9 @@ const makeSelectAlertsIds = () =>
 const makeSelectTrackerPlans = () =>
   createSelector(globalState, state => state.tracker?.trackerPlans);
 
+const makeSelectIsFetchingTracker = () =>
+  createSelector(globalState, state => state.isFetchingTracker);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -77,4 +80,5 @@ export {
   makeSelectAlerts,
   makeSelectAlertsIds,
   makeSelectTrackerPlans,
+  makeSelectIsFetchingTracker,
 };
