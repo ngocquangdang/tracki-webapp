@@ -6,6 +6,7 @@ import * as apiServices from '../services';
 import * as actions from '../actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
+import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
 
 function* fetchNotificationUnreadSaga(action) {
   try {
@@ -47,7 +48,9 @@ function* fetchNotificationUnreadSaga(action) {
 function* fetchHistoryStopTrackerSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
+    const trackers = yield select(makeSelectTrackers());
     const { trackerId, query } = action.payload.data;
+    const { device_name } = trackers[trackerId];
 
     const { data: historyData } = yield call(
       apiServices.getHistoryStopTracker,
@@ -74,10 +77,13 @@ function* fetchHistoryStopTrackerSaga(action) {
           stopOn: currentHistory.time * 1000,
           startOn: nextHistory.time * 1000,
           duration: moment.duration(nextHistory.time - currentHistory.time),
+          device_name,
         });
         objAssign.push(currentHistory);
       }
     });
+
+    console.log('objAssign________', objAssign);
 
     const historyStop = objAssign.reduce(
       (obj, item) => {

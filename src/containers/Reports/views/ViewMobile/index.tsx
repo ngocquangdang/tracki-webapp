@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
+import Router from 'next/router';
 
 //components
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
@@ -36,15 +37,12 @@ function ReportViewMobile(props: Props) {
     changeReportView(TAB_KEYS[newValue]);
   };
 
-  const onClose = () => {
-    console.log('on Close');
-  };
   return (
     <SideBarOutside
       title="Reports - Overview"
       show={true}
       direction="right"
-      handleClose={onClose}
+      handleClose={Router.back}
       isMobile={true}
       isNotSave={true}
     >

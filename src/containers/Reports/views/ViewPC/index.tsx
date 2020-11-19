@@ -30,7 +30,7 @@ interface Props {
 
 function ReportViewPC(props: Props) {
   const classes = useStyles();
-  const { viewMode } = props;
+  const { viewMode, changeReportView } = props;
 
   return (
     <div className={classes.container}>
@@ -39,7 +39,7 @@ function ReportViewPC(props: Props) {
           <BarChartIcon className={classes.iconReport} />
           <div className={classes.title}>Reports</div>
         </div>
-        <Tabs {...props} viewMode={props.viewMode} />
+        <Tabs changeReportView={changeReportView} viewMode={props.viewMode} />
       </div>
       <div className={classes.content}>
         {viewMode === 'overview' && <OverviewReport {...props} />}

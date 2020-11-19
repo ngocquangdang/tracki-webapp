@@ -6,10 +6,8 @@ import { TAB_KEYS } from '@Containers/Reports/store/constants';
 import { useStyles } from './styles';
 
 interface Props {
-  isMobile: boolean;
   viewMode: string;
   changeReportView(mode: string): void;
-  t(key: string, format?: object): string;
   [data: string]: any;
 }
 

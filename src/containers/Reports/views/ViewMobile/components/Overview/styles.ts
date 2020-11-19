@@ -18,6 +18,18 @@ const useStyles = makeStyles(theme => ({
     height: 17,
     marginRight: 10,
   },
+  selection: {
+    position: 'relative',
+  },
+  badge: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#ed1f24',
+    position: 'absolute',
+    right: -5,
+    top: -3,
+    borderRadius: '50%',
+  },
 }));
 
 export { useStyles };

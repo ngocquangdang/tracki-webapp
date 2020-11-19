@@ -13,9 +13,10 @@ import {
 
 import { useStyles, Image } from './styles';
 
-const MapCard = dynamic(() => import('../MapCard'), {
-  ssr: false,
-});
+const MapCard = dynamic(
+  () => import('@Containers/Reports/views/components/MapCard'),
+  { ssr: false }
+);
 
 const Row = props => {
   const classes = useStyles();
@@ -72,9 +73,9 @@ const Row = props => {
 
           <div className={clsx(classes.flexCol, classes.ml)}>
             <div className={clsx(classes.textBold, classes.textFont17)}>
-              {data?.device_name || data.device_id}
+              {data?.device_name || data?.device_id}
             </div>
-            <span className={classes.textFont16}>
+            <span className={clsx(classes.textFont16, classes.textWeight300)}>
               {typeCard !== 'battery' ? (
                 loading ? (
                   <div>
@@ -116,7 +117,7 @@ const Row = props => {
         {typeCard === 'notifications' && (
           <div className={classes.rowRight}>
             <div className={classes.flexCol}>
-              <span className={classes.textFont13}>
+              <span className={clsx(classes.textFont13, classes.textWeight300)}>
                 {moment(data?.created).format('DD/MM/YYYY, hh:mm A')}
               </span>
             </div>
@@ -124,21 +125,31 @@ const Row = props => {
         )}
         {typeCard === 'recent' && (
           <div className={classes.rowRight}>
-            <div className={classes.flexCol}>
-              <span className={classes.textFont13}>
-                {moment(data?.stopOn).format('DD/MM/YYYY, hh:mm A')}
-              </span>
-              <span className={classes.textFont13}>
-                {moment(data?.startOn).format('DD/MM/YYYY, hh:mm A')}
-              </span>
-              <span className={classes.textFont13}>
-                {msToTime(data?.duration)}
-              </span>
+            <div
+              className={clsx(
+                classes.flexCol,
+                classes.textFont13,
+                classes.textWeight300
+              )}
+            >
+              <span>{moment(data?.stopOn).format('DD/MM/YYYY, hh:mm A')}</span>
+              <span>{moment(data?.startOn).format('DD/MM/YYYY, hh:mm A')}</span>
+              <span>{msToTime(data?.duration)}</span>
             </div>
           </div>
         )}
       </div>
-      {isExpand && <MapCard lat={data?.lat} lng={data?.lng} mapId={mapId} />}
+      {isExpand && (
+        <div className={classes.mapView}>
+          <MapCard
+            mapId={mapId}
+            tracker={data}
+            mapType="leaflet"
+            isMobile={true}
+            {...props}
+          />
+        </div>
+      )}
     </div>
   );
 };
