@@ -53,9 +53,12 @@ function OverviewReportMobile(props: Props) {
     return result;
   }, []);
 
+  const [isFetchHistory, setIsFetchHistory] = useState(false);
   const [trackerName, setTrackerName] = useState('');
+
   const fromDate = moment(new Date()).subtract(48, 'hours').unix();
   const toDate = moment(new Date()).unix();
+
   useEffect(() => {
     if (profile && profile.account_id) {
       fetchNotificationUnread(
@@ -64,17 +67,8 @@ function OverviewReportMobile(props: Props) {
     }
   }, [fetchNotificationUnread, profile]);
 
-  useEffect(() => {
-    if (trackerIds && trackerIds.length > 0 && TRACKER_NAME.length > 0) {
-      setTrackerName(TRACKER_NAME[0].value);
-      fetchHistoryStop({
-        trackerId: TRACKER_NAME[0].value,
-        query: `from=${fromDate}&to=${toDate}&limit=2000&page=1&type=2`,
-      });
-    }
-  }, [trackerIds]);
-
   const onChangeTracker = value => {
+    setIsFetchHistory(true);
     setTrackerName(value);
     fetchHistoryStop({
       trackerId: value,
@@ -111,7 +105,7 @@ function OverviewReportMobile(props: Props) {
                 style={{ backgroundColor: '#f2f2f2' }}
               />
             ) : (
-              <div>
+              <div className={classes.selection}>
                 <SelectOption
                   name="select_tracker"
                   options={TRACKER_NAME}
@@ -119,6 +113,7 @@ function OverviewReportMobile(props: Props) {
                   value={trackerName}
                   onChangeOption={onChangeTracker}
                 />
+                {!isFetchHistory && <span className={classes.badge} />}
               </div>
             )
           }

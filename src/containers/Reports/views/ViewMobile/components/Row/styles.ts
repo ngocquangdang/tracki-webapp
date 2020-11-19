@@ -17,11 +17,14 @@ const Image = styled.div`
 
 const useStyles = makeStyles(theme => ({
   container: {
-    padding: '15px 0',
+    paddingTop: 15,
     borderBottom: '1px solid #e0e0e0',
     '&:last-child': {
       borderBottom: 'none',
     },
+  },
+  pb: {
+    paddingBottom: 15,
   },
   rowTop: {
     display: 'flex',
@@ -81,7 +84,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
   },
   mr: {
-    marginRight: 5,
+    marginRight: 10,
   },
   ml: {
     marginLeft: 10,
@@ -131,10 +134,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     position: 'relative',
-    bottom: 15,
+    bottom: 7,
   },
-  textNormal: {
+  textWeight300: {
     fontWeight: 300,
+  },
+  mapView: {
+    position: 'relative',
+    height: 300,
   },
 }));
 

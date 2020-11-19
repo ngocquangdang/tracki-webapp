@@ -14,10 +14,8 @@ import {
 import { useStyles, Image } from './styles';
 
 const MapCard = dynamic(
-  () => import('@Containers/Reports/views/ViewPC/components/MapCard'),
-  {
-    ssr: false,
-  }
+  () => import('@Containers/Reports/views/components/MapCard'),
+  { ssr: false }
 );
 
 const Row = props => {
@@ -45,7 +43,11 @@ const Row = props => {
   };
   const deviceName = data?.device_name || data?.device_id;
   return (
-    <div className={classes.container}>
+    <div
+      className={clsx(classes.container, {
+        [classes.pb]: typeCard === 'battery',
+      })}
+    >
       {typeCard !== 'battery' ? (
         <>
           {' '}
@@ -84,7 +86,9 @@ const Row = props => {
                   </span>
                 </div>
                 {typeCard === 'notifications' && (
-                  <div className={clsx(classes.textFont12)}>
+                  <div
+                    className={clsx(classes.textFont12, classes.textWeight300)}
+                  >
                     {moment(data?.created).format('LLL')}
                   </div>
                 )}
@@ -95,7 +99,13 @@ const Row = props => {
                 {deviceName}
               </div>
             )}
-            <div className={clsx(classes.textFont14, classes.mr)}>
+            <div
+              className={clsx(
+                classes.textFont14,
+                classes.mr,
+                classes.textWeight300
+              )}
+            >
               {loading ? (
                 <div>
                   <Skeleton
@@ -130,7 +140,7 @@ const Row = props => {
                   className={clsx(
                     classes.flexCol,
                     classes.textFont12,
-                    classes.textNormal,
+                    classes.textWeight300,
                     classes.ml
                   )}
                 >
@@ -152,7 +162,15 @@ const Row = props => {
             {isExpand ? 'Hide map' : 'View on map'}
           </div>
           {isExpand && (
-            <MapCard lat={data?.lat} lng={data?.lng} mapId={mapId} />
+            <div className={classes.mapView}>
+              <MapCard
+                mapId={mapId}
+                tracker={data}
+                mapType="leaflet"
+                isMobile={true}
+                {...props}
+              />
+            </div>
           )}
         </>
       ) : (

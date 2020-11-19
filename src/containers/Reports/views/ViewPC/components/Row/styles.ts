@@ -109,6 +109,13 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
     transform: 'rotate(90deg)',
   },
+  textWeight300: {
+    fontWeight: 300,
+  },
+  mapView: {
+    position: 'relative',
+    height: 300,
+  },
 }));
 
 export { useStyles, Image };
