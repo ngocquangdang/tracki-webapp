@@ -10,9 +10,14 @@ export const initialState = {
   },
   isFetchingDataNoti: false,
   isFetchingDataStop: false,
+  isFetchingHistoryLogs: false,
   historyStop: {
     historyStops: {},
     historyStopIds: {},
+  },
+  historyLogs: {
+    historyLogs: {},
+    historyLogIds: {},
   },
   viewMode: 'overview',
   errors: null,
@@ -21,6 +26,9 @@ export const initialState = {
 const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
   produce(state, draft => {
     switch (type) {
+      case types.FETCH_HISTORY_LOGS_REQUESTED:
+        draft.isFetchingHistoryLogs = true;
+        break;
       case types.FETCH_NOTIFICATION_UNREAD_REQUESTED:
         draft.isFetchingDataNoti = true;
         break;
@@ -42,6 +50,12 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.historyStop.historyStopIds[payload.trackerId] =
           payload.historyStopIds;
         draft.isFetchingDataStop = false;
+        break;
+      case types.FETCH_HISTORY_LOGS_SUCCEED:
+        draft.historyLogs.historyLogs[payload.trackerId] = payload.historyLogs;
+        draft.historyLogs.historyLogIds[payload.trackerId] =
+          payload.historyLogIds;
+        draft.isFetchingHistoryLogs = false;
         break;
       case types.FETCH_HISTORY_RECENT_STOP_FAILED:
         draft.errors = payload.errors;

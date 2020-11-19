@@ -30,6 +30,21 @@ export const fetchHistoryRecentStopFailed = (errors: object) => ({
   payload: { errors },
 });
 
+export const fetchHistoryLogsRequest = data => ({
+  type: types.FETCH_HISTORY_LOGS_REQUESTED,
+  payload: { data },
+});
+
+export const fetchHistoryLogsSucceed = (trackerId, data) => ({
+  type: types.FETCH_HISTORY_LOGS_SUCCEED,
+  payload: { trackerId, ...data },
+});
+
+export const fetchHistoryLogsFailed = (errors: object) => ({
+  type: types.FETCH_HISTORY_LOGS_FAILED,
+  payload: { errors },
+});
+
 export const changeReportViewMode = (viewMode: string) => ({
   type: types.CHANGE_REPORT_VIEW_MODE,
   payload: { viewMode },

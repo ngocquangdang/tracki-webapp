@@ -14,8 +14,12 @@ interface Props {
   profile: any;
   fetchNotificationUnread(query: string): void;
   fetchHistoryStop(data: object): void;
+  fetchHistoryLogs(data: object): void;
   historyStops: object;
   historyStopIds: object;
+  historyLogs: object;
+  historyLogIds: object;
+  isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;

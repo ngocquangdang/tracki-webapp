@@ -25,6 +25,15 @@ const makeSelectHistoryStops = () =>
 const makeSelectHistoryStopIds = () =>
   createSelector(reportState, state => state?.historyStop.historyStopIds);
 
+const makeSelectHistoryLogs = () =>
+  createSelector(reportState, state => state?.historyLogs.historyLogs);
+
+const makeSelectHistoryLogIds = () =>
+  createSelector(reportState, state => state?.historyLogs.historyLogIds);
+
+const makeSelectFetchingHistoryLogs = () =>
+  createSelector(reportState, state => state?.isFetchingHistoryLogs);
+
 export {
   makeSelectNotifications,
   makeSelectNotificationsIds,
@@ -33,4 +42,7 @@ export {
   makeSelecteFetchingDataStop,
   makeSelectHistoryStops,
   makeSelectHistoryStopIds,
+  makeSelectHistoryLogs,
+  makeSelectHistoryLogIds,
+  makeSelectFetchingHistoryLogs,
 };

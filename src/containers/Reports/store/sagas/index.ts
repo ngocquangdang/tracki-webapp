@@ -83,8 +83,6 @@ function* fetchHistoryStopTrackerSaga(action) {
       }
     });
 
-    console.log('objAssign________', objAssign);
-
     const historyStop = objAssign.reduce(
       (obj, item) => {
         obj.historyStops = { ...obj.historyStops, [item.time]: item };
@@ -115,6 +113,47 @@ function* fetchHistoryStopTrackerSaga(action) {
   }
 }
 
+function* fetchHistoryLogsTrackerSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { trackerId, query } = action.payload.data;
+
+    const { data: historyData } = yield call(
+      apiServices.getHistoryStopTracker,
+      account_id,
+      trackerId,
+      query
+    );
+    const historyStop = historyData.reduce(
+      (obj, item) => {
+        obj.historyLogs = { ...obj.historyLogs, [item.time]: item };
+        obj.historyLogIds.push(item.time);
+        return obj;
+      },
+      {
+        historyLogs: {},
+        historyLogIds: [],
+      }
+    );
+
+    yield put(actions.fetchHistoryLogsSucceed(trackerId, historyStop));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
+    yield put(actions.fetchHistoryLogsFailed(payload));
+  }
+}
+
 export default function* reportsWatcher() {
   yield takeLatest(
     types.FETCH_NOTIFICATION_UNREAD_REQUESTED,
@@ -123,5 +162,9 @@ export default function* reportsWatcher() {
   yield takeLatest(
     types.FETCH_HISTORY_RECENT_STOP_REQUESTED,
     fetchHistoryStopTrackerSaga
+  );
+  yield takeLatest(
+    types.FETCH_HISTORY_LOGS_REQUESTED,
+    fetchHistoryLogsTrackerSaga
   );
 }
