@@ -7,6 +7,7 @@ import OverviewReport from './components/Overview';
 
 //styles
 import { useStyles } from './styles';
+import HistoryReport from './components/History';
 
 interface Props {
   isMobile: boolean;
@@ -18,9 +19,13 @@ interface Props {
   changeReportView(mode: string): void;
   fetchNotificationUnread(query: string): void;
   fetchHistoryStop(data: object): void;
+  fetchHistoryLogs(data: object): void;
   historyStops: object;
   historyStopIds: object;
   profile: any;
+  historyLogs: object;
+  historyLogIds: object;
+  isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
@@ -30,7 +35,17 @@ interface Props {
 
 function ReportViewPC(props: Props) {
   const classes = useStyles();
-  const { viewMode, changeReportView } = props;
+  const {
+    viewMode,
+    changeReportView,
+    trackers,
+    trackerIds,
+    fetchHistoryLogs,
+    historyLogs,
+    historyLogIds,
+    isFetchingHistoryLogs,
+    t,
+  } = props;
 
   return (
     <div className={classes.container}>
@@ -43,6 +58,17 @@ function ReportViewPC(props: Props) {
       </div>
       <div className={classes.content}>
         {viewMode === 'overview' && <OverviewReport {...props} />}
+        {viewMode === 'history' && (
+          <HistoryReport
+            trackers={trackers}
+            trackerIds={trackerIds}
+            fetchHistoryLogs={fetchHistoryLogs}
+            historyLogs={historyLogs}
+            historyLogIds={historyLogIds}
+            isFetchingHistoryLogs={isFetchingHistoryLogs}
+            t={t}
+          />
+        )}
       </div>
     </div>
   );

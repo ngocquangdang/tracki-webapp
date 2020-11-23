@@ -11,6 +11,7 @@ import { useInjectReducer } from '@Utils/injectReducer';
 //actions
 import {
   changeReportViewMode,
+  fetchHistoryLogsRequest,
   fetchHistoryRecentStopRequest,
   fetchNotificationUnreadRequest,
 } from './store/actions';
@@ -30,6 +31,9 @@ import {
   makeSelectHistoryStops,
   makeSelecteFetchingDataNoti,
   makeSelecteFetchingDataStop,
+  makeSelectHistoryLogIds,
+  makeSelectHistoryLogs,
+  makeSelectFetchingHistoryLogs,
 } from './store/selectors';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
@@ -67,6 +71,9 @@ const mapStateToProps = createStructuredSelector({
   viewMode: makeSelectViewMode(),
   historyStops: makeSelectHistoryStops(),
   historyStopIds: makeSelectHistoryStopIds(),
+  historyLogs: makeSelectHistoryLogs(),
+  historyLogIds: makeSelectHistoryLogIds(),
+  isFetchingHistoryLogs: makeSelectFetchingHistoryLogs(),
   isFetchingDataNoti: makeSelecteFetchingDataNoti(),
   isFetchingDataStop: makeSelecteFetchingDataStop(),
   isFetchingTracker: makeSelectIsFetchingTracker(),
@@ -79,6 +86,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
   fetchHistoryStop: (data: object) =>
     dispatch(fetchHistoryRecentStopRequest(data)),
+  fetchHistoryLogs: (data: object) => dispatch(fetchHistoryLogsRequest(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
