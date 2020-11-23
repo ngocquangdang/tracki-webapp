@@ -67,6 +67,7 @@ function ReportViewPC(props: Props) {
             historyLogIds={historyLogIds}
             isFetchingHistoryLogs={isFetchingHistoryLogs}
             t={t}
+            viewMode={viewMode}
           />
         )}
       </div>

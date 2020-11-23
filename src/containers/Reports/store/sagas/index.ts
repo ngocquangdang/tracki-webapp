@@ -116,7 +116,9 @@ function* fetchHistoryStopTrackerSaga(action) {
 function* fetchHistoryLogsTrackerSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
+    const trackers = yield select(makeSelectTrackers());
     const { trackerId, query } = action.payload.data;
+    const { device_name } = trackers[trackerId];
 
     const { data: historyData } = yield call(
       apiServices.getHistoryStopTracker,
@@ -128,6 +130,9 @@ function* fetchHistoryLogsTrackerSaga(action) {
       (obj, item) => {
         obj.historyLogs = { ...obj.historyLogs, [item.time]: item };
         obj.historyLogIds.push(item.time);
+        Object.assign(item, {
+          device_name,
+        });
         return obj;
       },
       {

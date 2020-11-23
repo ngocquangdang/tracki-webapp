@@ -31,7 +31,7 @@ export async function getAddress(location) {
   return data.status === 'ok' ? data.address.display_name : 'Unknow location';
 }
 
-export function msToTime(duration: number) {
+export function msToTime(duration: number, stringTime?: boolean) {
   let parseSeconds = parseInt((duration % 60).toString(), 10);
   let parseMinutes = parseInt(((duration / 60) % 60).toString(), 10);
   let parseHours = parseInt(((duration / (60 * 60)) % 24).toString(), 10);
@@ -39,6 +39,9 @@ export function msToTime(duration: number) {
   let hour = parseHours < 10 ? `0${parseHours}` : parseHours;
   let minute = parseMinutes < 10 ? `0${parseMinutes}` : parseMinutes;
   let second = parseSeconds < 10 ? `0${parseSeconds}` : parseSeconds;
+  if (stringTime) {
+    return `${hour}h, ${minute}m  and ${second}s`;
+  }
   return `${hour}:${minute}:${second}`;
 }
 

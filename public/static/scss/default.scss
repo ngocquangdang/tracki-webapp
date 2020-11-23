@@ -86,6 +86,14 @@ input:-webkit-autofill:active {
   display: none;
 }
 
+.leaflet-control-container {
+  display: none;
+}
+
+.leaflet-control {
+  display: none;
+}
+
 .braintree-sheet__content {
   display: flex;
   justify-content: space-between;
