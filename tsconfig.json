@@ -59,6 +59,6 @@
     "**/*.tsx",
     "src/components/Maps/Leaflet/components/Geofences/index.jsx",
     "src/containers/Tracking/views/ViewPC/components/MapStreetView/GoogleStreetView.jsx",
-    "src/components/Maps/Leaflet/components/HeatMap/index.jsx"
+    "src/components/Maps/Leaflet/components/HeatMap/index.jsx", "src/components/RangeSlider/index.jsx"
   ]
 }

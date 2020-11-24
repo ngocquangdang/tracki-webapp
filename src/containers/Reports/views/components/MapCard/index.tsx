@@ -8,7 +8,7 @@ import UserLocation from '@Components/Maps/Leaflet/components/UserLocation';
 import style from './styles';
 import MapToolBarPC from './MapToolBarPC';
 import MapToolBarSP from './MapToolBarSP';
-
+import HistoryPath from '../HistoryPath';
 interface Tracker {
   device_id: number;
   time: number;
@@ -28,6 +28,10 @@ interface IProps {
   isMultiView: boolean;
   isMobile?: boolean;
   tracker: Tracker;
+  historyLogs: object;
+  historyLogIds: number[];
+  isPlaying: boolean;
+  togglePlaying: any;
   classes: any;
   t(key: string, format?: object): string;
   [data: string]: any;
@@ -181,7 +185,7 @@ class MapCard extends React.Component<IProps, IState> {
       elm.innerHTML = `
       <div class='icon-red'>
         <span class='inner'></span>
-        <div class='marker-pin' style='background-image:url(${'/images/red-marker.svg'})'>
+        <div class='marker-pin' style='background-image:url(${'/images/icon-marker.svg'})'>
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
@@ -200,8 +204,18 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { mapId, classes, isMobile, t } = this.props;
-
+    const {
+      mapId,
+      classes,
+      isMobile,
+      t,
+      historyLogs,
+      historyLogIds,
+      viewMode,
+      isPlaying,
+      togglePlaying,
+      currentPointId,
+    } = this.props;
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
 
     return (
@@ -234,6 +248,18 @@ class MapCard extends React.Component<IProps, IState> {
             changeMapTile={this.changeMapTile}
             changeZoom={this.changeZoom}
             isInitiatedMap={isInitiatedMap}
+          />
+        )}
+        {isInitiatedMap && viewMode === 'history' && (
+          <HistoryPath
+            map={this.map}
+            isMobile={isMobile}
+            historyLogs={historyLogs}
+            historyLogIds={historyLogIds}
+            isPlaying={isPlaying}
+            togglePlaying={togglePlaying}
+            t={t}
+            currentPointId={currentPointId}
           />
         )}
       </React.Fragment>

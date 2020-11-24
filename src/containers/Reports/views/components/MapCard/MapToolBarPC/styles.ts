@@ -5,8 +5,8 @@ const ToolBar = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  left: 9px;
-  top: 10px;
+  right: 10px;
+  bottom: 10px;
   z-index: 400;
 `;
 
@@ -80,7 +80,6 @@ const useStyles = makeStyles(theme => ({
     display: 'block !important',
     top: 'unset',
     bottom: 6,
-    left: 45,
   },
   iconScale: {
     fontSize: '17px',

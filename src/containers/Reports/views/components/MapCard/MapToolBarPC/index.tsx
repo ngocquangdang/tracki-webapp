@@ -84,13 +84,11 @@ function MapToolBars(props: Props) {
           </IconButtonStyle>
         </Tooltip>
       </ZoomButton>
-
       <IconButtonStyle onClick={onFullScreen}>
         <AiOutlineExpandAlt
           className={`${classes.iconScale} ${classes.tranform}`}
         />
       </IconButtonStyle>
-
       <Tooltip
         title={<span>{t('common:my_location')}</span>}
         placement="left"

@@ -4,9 +4,10 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 const OptionViewDatePicker = styled.div`
   width: ${(props: { isDateRange: boolean }) =>
-    props.isDateRange ? '80%' : '258px'};
-  padding-right: ${(props: { isDateRange: boolean }) =>
+    props.isDateRange ? '50%' : '258px'};
+  margin-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
+  position: relative;
 `;
 const PaginationStyle = withStyles(theme => ({
   root: {
@@ -34,22 +35,25 @@ const PaginationStyle = withStyles(theme => ({
 }))(TablePagination);
 
 const useStyles = makeStyles(theme => ({
-  container: {},
+  container: {
+    paddingBottom: 50,
+  },
   header: {
-    marginBottom: 30,
+    marginBottom: 15,
   },
   containerTable: {
     boxShadow: '0 8px 14px 0 rgba(0, 0, 0, 0.12)',
     border: 'solid 1px #e0e0e0',
     backgroundColor: '#ffffff',
   },
-  flexCenter: {
+  flexRow: {
     display: 'flex',
   },
   containOption: {
     width: 258,
-    paddingRight: 15,
+    marginRight: 15,
     maxWidth: 258,
+    position: 'relative',
   },
   color: {
     fontSize: 17,
@@ -96,35 +100,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
-  iconLocation: {
-    padding: 0,
-    width: 16,
-    height: 18,
-    color: '#168449',
-  },
-  iconWarning: {
-    position: 'absolute',
-    width: 13,
-    height: 13,
-    color: '#ed1f24',
-    left: 6,
-    bottom: 8,
-  },
-  iconNearMe: {
-    color: '#231f20',
-    fontSize: 25,
-  },
-  contentBody: {
-    display: 'flex',
-    color: '#1a1a1a',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '20px 0',
-    margin: '0 25px',
-    '&:last-child': {
-      border: 'none',
-    },
-  },
   footer: {
     display: 'flex',
     alignItems: 'center',
@@ -136,6 +111,28 @@ const useStyles = makeStyles(theme => ({
     fontSize: '22px',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mb: {
+    marginBottom: 30,
+    paddingBottom: 60,
+  },
+  badge: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#ed1f24',
+    position: 'absolute',
+    right: -5,
+    top: -3,
+    borderRadius: '50%',
+  },
+  badgeDate: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#ed1f24',
+    position: 'absolute',
+    right: 12,
+    top: -3,
+    borderRadius: '50%',
   },
 }));
 

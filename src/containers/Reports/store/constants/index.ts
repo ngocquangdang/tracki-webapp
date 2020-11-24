@@ -26,6 +26,15 @@ export const SORT_BY_OPTION = [
   { value: 'old', content: 'Oldest' },
 ];
 
+export const headers = [
+  { label: 'DATE', key: 'date' },
+  { label: 'TIME', key: 'time' },
+  { label: 'LATITUDE', key: 'lat' },
+  { label: 'LONGITUDE', key: 'lng' },
+  { label: 'SPEED(MPH)', key: 'speed' },
+  { label: 'BATTERY LEVEL(%)', key: 'battery' },
+];
+
 export const FETCH_NOTIFICATION_UNREAD_REQUESTED =
   'Tracki/FETCH_NOTIFICATION_UNREAD_REQUESTED';
 export const FETCH_NOTIFICATION_UNREAD_SUCCEED =

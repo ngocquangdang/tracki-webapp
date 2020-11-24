@@ -61,7 +61,13 @@ export default function DateTimePicker(props: Props) {
     setDateOption(value);
     showDateRange(value === 'date_range');
     showSpecificDate(value === 'specific_date');
-    if (isGetOnSelectOption && (isDateRange || isSpecificDate)) {
+    if (
+      isGetOnSelectOption &&
+      (value === 'date_range' ||
+        value === 'specific_date' ||
+        isDateRange ||
+        isSpecificDate)
+    ) {
       onSelectOption(value);
     }
 
