@@ -28,7 +28,10 @@ interface IProps {
   isMultiView: boolean;
   isMobile?: boolean;
   tracker: Tracker;
-  history: object;
+  historyLogs: object;
+  historyLogIds: number[];
+  isPlaying: boolean;
+  togglePlaying: any;
   classes: any;
   t(key: string, format?: object): string;
   [data: string]: any;
@@ -201,7 +204,18 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { mapId, classes, isMobile, t, history, viewMode } = this.props;
+    const {
+      mapId,
+      classes,
+      isMobile,
+      t,
+      historyLogs,
+      historyLogIds,
+      viewMode,
+      isPlaying,
+      togglePlaying,
+      currentPointId,
+    } = this.props;
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
 
     return (
@@ -240,8 +254,12 @@ class MapCard extends React.Component<IProps, IState> {
           <HistoryPath
             map={this.map}
             isMobile={isMobile}
-            history={history}
+            historyLogs={historyLogs}
+            historyLogIds={historyLogIds}
+            isPlaying={isPlaying}
+            togglePlaying={togglePlaying}
             t={t}
+            currentPointId={currentPointId}
           />
         )}
       </React.Fragment>

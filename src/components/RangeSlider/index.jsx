@@ -32,7 +32,6 @@ const RangeSlider = ({
   useEffect(() => {
     moveSpin(firstSpinRef.current, 0);
     moveSpin(secondSpinRef.current, width);
-    console.log('range slider first _____');
   }, []);
 
   useEffect(() => {
@@ -42,7 +41,6 @@ const RangeSlider = ({
     moveSpin(firstSpinRef.current, 0);
     moveSpin(secondSpinRef.current, 0);
     window.onkeydown = onKeyDown;
-    console.log('range slider _____');
     return () => {
       window.onkeydown = null;
     };
@@ -127,7 +125,7 @@ const RangeSlider = ({
         <ActiveBar ref={activeBarRef} width={width} />
       </Bar>
       <LabelWrapper>
-        <Label left={0}>
+        <Label left={2}>
           |<br />
           {moment(min).format('DD MMM')}
         </Label>
@@ -148,7 +146,7 @@ const RangeSlider = ({
                 .format('DD MMM')}
             </Label>
           ))}
-        <Label left={width}>
+        <Label left={width + 13}>
           |<br />
           {moment(max).format('DD MMM')}
         </Label>

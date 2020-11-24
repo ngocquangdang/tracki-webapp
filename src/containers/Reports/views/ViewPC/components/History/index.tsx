@@ -1,5 +1,7 @@
-import React, { useState, useCallback, Fragment, useEffect } from 'react';
+//dependencies
+import React, { useState, useCallback, Fragment } from 'react';
 import moment from 'moment';
+import dynamic from 'next/dynamic';
 import {
   Table,
   TableBody,
@@ -24,7 +26,7 @@ import RowTable from '../RowTable';
 import HistoryInfo from './HistoryInfo';
 //styles
 import { useStyles, PaginationStyle, OptionViewDatePicker } from './styles';
-import HistoryPath from './HistoryPath';
+const HistoryPath = dynamic(() => import('./HistoryPath'), { ssr: false });
 
 interface Props {
   trackers: object;
@@ -36,7 +38,7 @@ interface Props {
   viewMode: string;
   t(key: string, format?: object): string;
 }
-
+//func caculate average
 function getAvg(grades) {
   const total = grades.reduce((acc, c) => acc + c, 0);
   return total / grades.length;
@@ -69,15 +71,12 @@ export default function HistoryLogs(props: Props) {
   );
   const [dateTo, setDateTo] = useState(moment(new Date()).valueOf());
 
-  useEffect(() => {
-    setDateFrom(dateTime.fromDate * 1000);
-    setDateTo(dateTime.toDate * 1000);
-  }, [dateTime]);
-
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setTogglePlaying] = useState(false);
+  const [currentPointId, setCurrentPointId] = useState(null);
   // show badge if not select tracker or datetime
   const [isBadge, setBadge] = useState(true);
-
+  const [isFetching, setIsFetching] = useState(false);
+  // create array select option tracker
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
     result.push({
       value: item,
@@ -89,29 +88,57 @@ export default function HistoryLogs(props: Props) {
   const handleChangePage = (event, newPage: number) => {
     setPage(newPage);
   };
-
+  // press viewport call API get data history
   const onClickViewPort = () => {
+    setIsFetching(true);
     fetchHistoryLogs({
       trackerId: trackerId,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
   };
-
+  // change row per page
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+  //handle change date time
   const onChangeDateTime = obj => {
     setDateTime(obj);
+    setDateFrom(obj.fromDate * 1000);
+    setDateTo(obj.toDate * 1000);
+    if (trackerId !== '') {
+      setIsFetching(true);
+      fetchHistoryLogs({
+        trackerId: trackerId,
+        query: `from=${obj.fromDate}&to=${obj.toDate}&limit=2000&page=1&type=2`,
+      });
+    }
     setBadge(false);
   };
 
   const onChangeDateFrom = date => {
+    const fromDate = moment(date).unix();
+    setDateTime({
+      ...dateTime,
+      fromDate,
+    });
     setDateFrom(moment(date).valueOf());
+    fetchHistoryLogs({
+      trackerId: trackerId,
+      query: `from=${fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
+    });
   };
   const onChangeDateTo = date => {
+    const toDate = moment(date).unix();
+    setDateTime({
+      ...dateTime,
+      toDate,
+    });
     setDateTo(moment(date).valueOf());
+    fetchHistoryLogs({
+      trackerId: trackerId,
+      query: `from=${dateTime.fromDate}&to=${toDate}&limit=2000&page=1&type=2`,
+    });
   };
 
   const onSelectOption = value => {
@@ -119,7 +146,7 @@ export default function HistoryLogs(props: Props) {
       ? setDateRange(true)
       : setDateRange(false);
   };
-
+  // handle sort
   const onChangeSortBy = (value: string) => {
     setSortBy(value);
   };
@@ -130,11 +157,15 @@ export default function HistoryLogs(props: Props) {
   };
 
   //handle Playback
-  const onPlayingClick = () => {
-    setIsPlaying(!isPlaying);
-  };
+  const togglePlaying = () => setTogglePlaying(!isPlaying);
   const onClickNext = () => {
-    console.log('on Click Next');
+    const ids = historyLogIds[trackerId].filter(
+      id => !!historyLogs[trackerId][id].lat
+    );
+    const indexOfId = ids.findIndex(i => i === currentPointId);
+    const nextIndex =
+      indexOfId === -1 || indexOfId >= ids.length - 1 ? 0 : indexOfId + 1;
+    setCurrentPointId(ids[nextIndex]);
   };
 
   // export CSV
@@ -184,6 +215,7 @@ export default function HistoryLogs(props: Props) {
       };
     }
   }, [historyLogIds, historyLogs]);
+
   const { duration = '0h', distance = 0, maxSpeed = 0, avgSpeed = 0 } =
     callTrip() || {};
 
@@ -221,36 +253,40 @@ export default function HistoryLogs(props: Props) {
           />
         </div>
       </div>
-      {!isEmpty(historyLogIds) && !isEmpty(historyLogIds[trackerId]) && (
-        <>
-          <HistoryInfo
-            deviceName={
-              trackers[trackerId]?.device_name || 'Unknow name device'
-            }
-            fromDate={dateTime.fromDate}
-            toDate={dateTime.toDate}
-            totalDuration={duration}
-            distance={distance}
-            maxSpeed={maxSpeed}
-            avgSpeed={avgSpeed}
-          />
-          <div className={clsx(classes.containerTable, classes.mb)}>
-            <HistoryPath
-              historyLogs={historyLogs[trackerId] || []}
-              dateFrom={dateFrom}
-              dateTo={dateTo}
-              onChangeDateFrom={onChangeDateFrom}
-              onChangeDateTo={onChangeDateTo}
-              t={t}
-              viewMode={viewMode}
-              isPlaying={isPlaying}
-              onPlayingClick={onPlayingClick}
-              onClickNext={onClickNext}
-              isFetching={isFetchingHistoryLogs}
+      {!isEmpty(historyLogIds) &&
+        !isEmpty(historyLogIds[trackerId]) &&
+        isFetching && (
+          <>
+            <HistoryInfo
+              deviceName={
+                trackers[trackerId]?.device_name || 'Unknow name device'
+              }
+              fromDate={dateTime.fromDate}
+              toDate={dateTime.toDate}
+              totalDuration={duration}
+              distance={distance}
+              maxSpeed={maxSpeed}
+              avgSpeed={avgSpeed}
             />
-          </div>
-        </>
-      )}
+            <div className={clsx(classes.containerTable, classes.mb)}>
+              <HistoryPath
+                historyLogs={historyLogs[trackerId] || {}}
+                historyLogIds={historyLogIds[trackerId] || []}
+                dateFrom={dateFrom}
+                dateTo={dateTo}
+                onChangeDateFrom={onChangeDateFrom}
+                onChangeDateTo={onChangeDateTo}
+                t={t}
+                viewMode={viewMode}
+                isPlaying={isPlaying}
+                togglePlaying={togglePlaying}
+                onClickNext={onClickNext}
+                isFetching={isFetchingHistoryLogs}
+                currentPointId={currentPointId}
+              />
+            </div>
+          </>
+        )}
       <div className={classes.containerTable}>
         <TableContainer>
           <Table>

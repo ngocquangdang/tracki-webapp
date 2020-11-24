@@ -126,6 +126,14 @@ function* fetchHistoryLogsTrackerSaga(action) {
       trackerId,
       query
     );
+    if (historyData.length < 1) {
+      yield put(
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'This tracker not have history in this time',
+        })
+      );
+    }
     const historyStop = historyData.reduce(
       (obj, item) => {
         obj.historyLogs = { ...obj.historyLogs, [item.time]: item };

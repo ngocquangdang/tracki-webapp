@@ -30,6 +30,7 @@ const MapCard = dynamic(
 function HistoryPath(props) {
   const {
     historyLogs,
+    historyLogIds,
     t,
     dateFrom,
     dateTo,
@@ -37,17 +38,25 @@ function HistoryPath(props) {
     onChangeDateTo,
     viewMode,
     isPlaying,
-    onPlayingClick,
+    togglePlaying,
     onClickNext,
+    currentPointId,
   } = props;
   const classes = useStyles();
   const [firstValue, setFirstValue] = useState(dateFrom);
   const [secondValue, setSecondValue] = useState(dateTo);
-  // const [initHistoryLogs, setInitHistoryLogs] = useState()
+  const [initHistoryLogIds, setInitHistoryLogIds] = useState(historyLogIds);
   //handle change value slider
   const onChangeValuesSlide = debounce((fromValue, toValue) => {
     setFirstValue(fromValue);
     setSecondValue(toValue);
+    const fromDate = moment(fromValue).format('YYYY-MM-DD');
+    const toDate = moment(toValue).format('YYYY-MM-DD');
+    const filterHistoryLogIds = initHistoryLogIds.filter(id => {
+      const time = moment(historyLogs[id].time * 1000).format('YYYY-MM-DD');
+      return moment(time).isBetween(fromDate, toDate, undefined, '[]');
+    });
+    setInitHistoryLogIds(filterHistoryLogIds);
   }, 300);
 
   return (
@@ -55,11 +64,15 @@ function HistoryPath(props) {
       <div className={classes.containMap}>
         <MapCard
           mapId="mapHistory"
-          history={historyLogs}
+          historyLogs={historyLogs}
+          historyLogIds={initHistoryLogIds}
+          isPlaying={isPlaying}
+          togglePlaying={togglePlaying}
           mapType="leaflet"
           t={t}
           isMobile={false}
           viewMode={viewMode}
+          currentPointId={currentPointId}
         />
       </div>
       <div className={classes.container}>
@@ -90,7 +103,7 @@ function HistoryPath(props) {
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
-                    maxDate={moment()}
+                    maxDate={dateTo}
                   />
                 </ThemeProvider>
                 <ThemeProvider theme={themePickerDate}>
@@ -107,12 +120,13 @@ function HistoryPath(props) {
                       'aria-label': 'change date',
                     }}
                     color="primary"
+                    minDate={dateFrom}
                     maxDate={moment(new Date())}
                   />
                 </ThemeProvider>
               </PickerProvider>
               <div className={classes.flexRowCenter}>
-                <div onClick={onPlayingClick} className={classes.button}>
+                <div onClick={togglePlaying} className={classes.button}>
                   {isPlaying ? (
                     <PauseIcon className={classes.icon} />
                   ) : (
@@ -137,7 +151,7 @@ function HistoryPath(props) {
         min={dateFrom}
         max={dateTo}
         onChangeValues={onChangeValuesSlide}
-        width={1600}
+        width={window.innerWidth - 140}
       />
     </div>
   );
