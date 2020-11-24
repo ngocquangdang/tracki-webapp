@@ -207,15 +207,6 @@ class HistoryPath extends React.Component<Props> {
         obj[p.id] = L.marker(p, { icon }).addTo(map);
         return obj;
       }, {});
-      const firstPoint = path[0];
-      const lastPoint = path[path.length - 1];
-
-      const markerIcon = this.getMarkerIcon(firstPoint.time);
-      this.startPoint = L.marker(firstPoint, { icon: markerIcon }).addTo(map);
-      if (lastPoint && lastPoint.id !== firstPoint.id) {
-        const markerIcon2 = this.getMarkerIcon(lastPoint.time);
-        this.lastPoint = L.marker(lastPoint, { icon: markerIcon2 }).addTo(map);
-      }
       this.logsPath = L.polyline(path, { color: '#168449', weight: 2 });
       this.logsPath.addTo(map);
       this.decorator = L.polylineDecorator(this.logsPath, {
