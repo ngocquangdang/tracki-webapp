@@ -3,13 +3,18 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   container: {},
   header: {
-    width: 590,
-    maxWidth: 590,
+    width: '100%',
+    maxWidth: '100%',
     height: 55,
     backgroundColor: '#ffffff',
-    boxShadow: '0 3px 4px 0 rgba(0, 0, 0, 0.12)',
+    boxShadow: 'inset 0px 4px 7px 0px rgba(0, 0, 0, 0.12)',
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  boxShadow: {
+    boxShadow: '0 3px 4px 0 rgba(0, 0, 0, 0.12)',
+    width: 590,
+    maxWidth: 590,
   },
   titleHead: {
     display: 'flex',

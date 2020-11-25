@@ -59,3 +59,8 @@ export function loadScript(
   script.src = src;
   position.appendChild(script);
 }
+
+export function getAvg(grades) {
+  const total = grades.reduce((acc, c) => acc + c, 0);
+  return total / grades.length;
+}

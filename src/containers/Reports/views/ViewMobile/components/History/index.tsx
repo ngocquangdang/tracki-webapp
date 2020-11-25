@@ -1,31 +1,22 @@
-//dependencies
 import React, { useState, useCallback, Fragment, useEffect } from 'react';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableFooter,
-  TableRow,
-} from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import { CSVLink } from 'react-csv';
 import clsx from 'clsx';
 import { lineString } from '@turf/turf';
 import length from '@turf/length';
-import { msToTime, getAvg } from '@Utils/helper';
+import HistoryIcon from '@material-ui/icons/History';
 //components
 import { Button } from '@Components/buttons';
 import DateTimePicker from '@Components/DateTimePicker';
 import SelectOption from '@Components/selections';
+import { msToTime, getAvg } from '@Utils/helper';
 import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
-import RowTable from '../RowTable';
 import HistoryInfo from './HistoryInfo';
+import HistoryLogsTable from '../History/HistoryLogsTable';
 //styles
-import { useStyles, PaginationStyle, OptionViewDatePicker } from './styles';
+import { useStyles, Header } from './styles';
 const HistoryPath = dynamic(() => import('./HistoryPath'), { ssr: false });
 
 interface Props {
@@ -39,7 +30,7 @@ interface Props {
   t(key: string, format?: object): string;
 }
 
-export default function HistoryLogs(props: Props) {
+function HistoryReportMobile(props: Props) {
   const {
     fetchHistoryLogs,
     historyLogs,
@@ -51,12 +42,10 @@ export default function HistoryLogs(props: Props) {
     isFetchingHistoryLogs,
   } = props;
   const classes = useStyles();
-
   const [sortBy, setSortBy] = useState(SORT_BY_OPTION[0].value);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isDateRange, setDateRange] = useState(false);
   const [trackerId, setTrackerId] = useState('');
+  const [initialHistoryLogIds, setInitHistoryLogIds] = useState([]);
   const [dateTime, setDateTime] = useState({
     fromDate: moment().unix(),
     toDate: moment().unix(),
@@ -64,7 +53,6 @@ export default function HistoryLogs(props: Props) {
   const [dateFrom, setDateFrom] = useState(
     moment().subtract(30, 'days').valueOf()
   );
-  const [initialHistoryLogIds, setInitHistoryLogIds] = useState([]);
   const [dateTo, setDateTo] = useState(moment(new Date()).valueOf());
 
   const [isPlaying, setTogglePlaying] = useState(false);
@@ -86,22 +74,6 @@ export default function HistoryLogs(props: Props) {
     return result;
   }, []);
 
-  const handleChangePage = (event, newPage: number) => {
-    setPage(newPage);
-  };
-  // press viewport call API get data history
-  const onClickViewPort = () => {
-    setIsFetching(true);
-    fetchHistoryLogs({
-      trackerId: trackerId,
-      query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
-    });
-  };
-  // change row per page
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
   //handle change date time
   const onChangeDateTime = obj => {
     setDateTime(obj);
@@ -147,7 +119,7 @@ export default function HistoryLogs(props: Props) {
       ? setDateRange(true)
       : setDateRange(false);
   };
-  // handle sort
+  //handle sort
   const onChangeSortBy = (value: string) => {
     if (!isEmpty(historyLogIds) && !isEmpty(historyLogIds[trackerId])) {
       const history = historyLogs[trackerId];
@@ -239,8 +211,8 @@ export default function HistoryLogs(props: Props) {
 
   return (
     <div className={classes.container}>
-      <div className={classes.header}>
-        <div className={classes.flexRow}>
+      <div className={classes.flexCol}>
+        <Header isDateRange={isDateRange}>
           <div className={classes.containOption}>
             <SelectOption
               name="select_tracker"
@@ -251,42 +223,37 @@ export default function HistoryLogs(props: Props) {
             />
             {isBadge && <div className={classes.badge} />}
           </div>
-          <OptionViewDatePicker isDateRange={isDateRange}>
+          <div
+            className={
+              isDateRange ? classes.containDateRange : classes.containDatePicker
+            }
+          >
             <DateTimePicker
-              isMobile={false}
+              isMobile={true}
               dateTime={dateTime}
               onChange={onChangeDateTime}
-              isHistory={false}
+              isHistory={true}
               onSelectOption={onSelectOption}
               isGetOnSelectOption={true}
             />
-            {isBadge && <div className={classes.badgeDate} />}
-          </OptionViewDatePicker>
-          <Button
-            variant="contained"
-            color="primary"
-            text="View Report"
-            className={`${classes.btn}`}
-            onClick={onClickViewPort}
-          />
-        </div>
-      </div>
-      {!isEmpty(historyLogIds) &&
-        !isEmpty(historyLogIds[trackerId]) &&
-        isFetching && (
-          <>
-            <HistoryInfo
-              deviceName={
-                trackers[trackerId]?.device_name || 'Unknow name device'
-              }
-              fromDate={dateTime.fromDate}
-              toDate={dateTime.toDate}
-              totalDuration={duration}
-              distance={distance}
-              maxSpeed={maxSpeed}
-              avgSpeed={avgSpeed}
-            />
-            <div className={clsx(classes.containerTable, classes.mb)}>
+            {isBadge && <div className={classes.badge} />}
+          </div>
+        </Header>
+        {!isEmpty(historyLogIds) &&
+          !isEmpty(historyLogIds[trackerId]) &&
+          isFetching && (
+            <Fragment>
+              <HistoryInfo
+                deviceName={
+                  trackers[trackerId]?.device_name || 'Unknow name device'
+                }
+                fromDate={dateTime.fromDate}
+                toDate={dateTime.toDate}
+                totalDuration={duration}
+                distance={distance}
+                maxSpeed={maxSpeed}
+                avgSpeed={avgSpeed}
+              />
               <HistoryPath
                 historyLogs={historyLogs[trackerId] || {}}
                 historyLogIds={historyLogIds[trackerId] || []}
@@ -302,87 +269,50 @@ export default function HistoryLogs(props: Props) {
                 isFetching={isFetchingHistoryLogs}
                 currentPointId={currentPointId}
               />
+            </Fragment>
+          )}
+        <div className={clsx(classes.flexCol, classes.pd, classes.mt)}>
+          <div className={clsx(classes.flexRow, classes.mb)}>
+            <HistoryIcon />
+            <span className={classes.title}>History Logs</span>
+          </div>
+          <div className={classes.flexRow}>
+            <div className={classes.sort}>
+              <SelectOption
+                name="sort_by"
+                options={SORT_BY_OPTION}
+                label="Sort By"
+                value={sortBy}
+                onChangeOption={onChangeSortBy}
+              />
             </div>
-          </>
-        )}
-      <div className={classes.containerTable}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.cellHead}>
-                  <div className={classes.textHeader}>History Logs</div>
-                  <div className={classes.rightItemHead}>
-                    <div className={classes.sortOtion}>
-                      <SelectOption
-                        name="sort_by"
-                        options={SORT_BY_OPTION}
-                        label="Sort By"
-                        value={sortBy}
-                        onChangeOption={onChangeSortBy}
-                      />
-                    </div>
-                    <CSVLink
-                      data={dataCSV}
-                      headers={headers}
-                      className={classes.csvLink}
-                    >
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        text="Epxport CSV"
-                        className={`${classes.btnCsv}`}
-                      />
-                    </CSVLink>
-                  </div>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(!isEmpty(historyLogIds) &&
-              !isEmpty(historyLogIds[trackerId]) &&
-              rowsPerPage > 0
-                ? initialHistoryLogIds.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
-                : []
-              ).map(item => {
-                return (
-                  <Fragment key={item}>
-                    <RowTable
-                      historyLogs={historyLogs[trackerId][item]}
-                      mapId={`map${item}`}
-                      t={t}
-                    />
-                  </Fragment>
-                );
-              })}
-              {isEmpty(historyLogIds[trackerId]) && (
-                <TableRow>
-                  <TableCell className={classes.dataFilter}>
-                    {t('notifications:no_data')}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter className={classes.footer}>
-              <tr>
-                <PaginationStyle
-                  rowsPerPageOptions={[10, 20, 30]}
-                  count={historyLogIds[trackerId]?.length || 10}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onChangePage={handleChangePage}
-                  onChangeRowsPerPage={handleChangeRowsPerPage}
-                  className={`${classes.color} ${classes.flexWrap}`}
-                  labelRowsPerPage="Items per page"
-                />
-              </tr>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+            <CSVLink
+              data={dataCSV}
+              headers={headers}
+              className={classes.csvLink}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                text="Epxport CSV"
+                className={`${classes.btnCsv}`}
+                disabled={
+                  isEmpty(historyLogIds) && isEmpty(historyLogIds[trackerId])
+                }
+              />
+            </CSVLink>
+          </div>
+        </div>
+        <HistoryLogsTable
+          datas={historyLogs[trackerId] || {}}
+          dataIds={initialHistoryLogIds || []}
+          typeCard="history"
+          isFetching={isFetchingHistoryLogs}
+          t={t}
+        />
       </div>
     </div>
   );
 }
+
+export default HistoryReportMobile;
