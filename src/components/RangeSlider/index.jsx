@@ -15,6 +15,7 @@ const RangeSlider = ({
   onChangeValues,
   labelCount = 10,
   width = 100,
+  isMobile = false,
 }) => {
   const [activeSpin, setActiveSpin] = useState(null);
   const firstSpinRef = useRef();
@@ -114,7 +115,7 @@ const RangeSlider = ({
   };
 
   return (
-    <Container ref={containerRef}>
+    <Container ref={containerRef} isMobile={isMobile}>
       <Bar ref={barRef}>
         <Spin ref={firstSpinRef}>
           <Circle />
@@ -124,7 +125,7 @@ const RangeSlider = ({
         </Spin>
         <ActiveBar ref={activeBarRef} width={width} />
       </Bar>
-      <LabelWrapper>
+      <LabelWrapper isMobile={isMobile}>
         <Label left={2}>
           |<br />
           {moment(min).format('DD MMM')}
@@ -146,7 +147,7 @@ const RangeSlider = ({
                 .format('DD MMM')}
             </Label>
           ))}
-        <Label left={width + 13}>
+        <Label left={width + (isMobile ? 20 : 13)}>
           |<br />
           {moment(max).format('DD MMM')}
         </Label>
@@ -159,7 +160,7 @@ const RangeSlider = ({
 const Container = styled.div`
   flex: 1;
   padding: 20px 0;
-  margin: 0 35px;
+  margin: ${props => (props.isMobile ? '0 20px' : '0 35px')};
 `;
 
 const Bar = styled.div`
@@ -181,7 +182,7 @@ const ActiveBar = styled.div`
 const LabelWrapper = styled.div`
   position: relative;
   margin-top: 10px;
-  font-size: 12px;
+  font-size: ${props => (props.isMobile ? '9px' : '12px')};
   color: #666666;
   font-weight: 500;
 `;

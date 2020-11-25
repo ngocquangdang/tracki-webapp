@@ -4,10 +4,10 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 //components
 import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
+import HistoryReport from './components/History';
 
 //styles
 import { useStyles } from './styles';
-import HistoryReport from './components/History';
 
 interface Props {
   isMobile: boolean;
@@ -49,12 +49,14 @@ function ReportViewPC(props: Props) {
 
   return (
     <div className={classes.container}>
-      <div className={classes.header}>
-        <div className={classes.titleHead}>
-          <BarChartIcon className={classes.iconReport} />
-          <div className={classes.title}>Reports</div>
+      <div className={classes.boxShadow}>
+        <div className={classes.header}>
+          <div className={classes.titleHead}>
+            <BarChartIcon className={classes.iconReport} />
+            <div className={classes.title}>Reports</div>
+          </div>
+          <Tabs changeReportView={changeReportView} viewMode={props.viewMode} />
         </div>
-        <Tabs changeReportView={changeReportView} viewMode={props.viewMode} />
       </div>
       <div className={classes.content}>
         {viewMode === 'overview' && <OverviewReport {...props} />}

@@ -24,8 +24,6 @@ class HistoryPath extends React.Component<Props> {
   decorator: any;
   pointTracking: any;
   points: object;
-  startPoint: any;
-  lastPoint: any;
   tempCoordinates: any;
   counter: any;
   steps: any;
@@ -36,8 +34,6 @@ class HistoryPath extends React.Component<Props> {
     this.points = {};
     this.logsPath = null;
     this.decorator = null;
-    this.startPoint = null;
-    this.lastPoint = null;
     this.animatedPoint = null;
     this.counter = 0;
     this.steps = 500;
@@ -67,8 +63,6 @@ class HistoryPath extends React.Component<Props> {
       if (this.logsPath) {
         map.removeLayer(this.logsPath);
         map.removeLayer(this.decorator);
-        map.removeLayer(this.startPoint);
-        this.lastPoint && map.removeLayer(this.lastPoint);
         this.animatedPoint && map.removeLayer(this.animatedPoint);
         Object.values(this.points).map(p => map.removeLayer(p));
         this.logsPath = null;

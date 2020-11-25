@@ -5,20 +5,25 @@ import Router from 'next/router';
 //components
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { TAB_KEYS } from '@Containers/Reports/store/constants';
-
+import OverviewReportMobile from './components/Overview';
+import HistoryReportMobile from './components/History';
 //styles
 import { useStyles } from './styles';
-import OverviewReportMobile from './components/Overview';
 interface Props {
   trackers: object;
   trackerIds: any;
   notificationIds: number[];
   notifications: object;
+  viewMode: string;
   fetchNotificationUnread(query: string): void;
   fetchHistoryStop(data: object): void;
+  fetchHistoryLogs(data: object): void;
   historyStops: object;
   historyStopIds: object;
+  historyLogs: object;
+  historyLogIds: object;
   profile: any;
+  isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
@@ -49,6 +54,7 @@ function ReportViewMobile(props: Props) {
       <div className={classes.container}>
         <div>
           {viewMode === 'overview' && <OverviewReportMobile {...props} />}
+          {viewMode === 'history' && <HistoryReportMobile {...props} />}
         </div>
         <div className={classes.footer}>
           <Tabs

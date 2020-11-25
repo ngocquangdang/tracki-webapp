@@ -55,7 +55,7 @@ const Row = props => {
             <div className={classes.rowTop}>
               <div className={classes.flexRowBetween}>
                 <div className={classes.flexRow}>
-                  {typeCard === 'notifications' ? (
+                  {typeCard === 'notifications' && (
                     <div className={classes.containerIcon}>
                       <img
                         alt=""
@@ -63,7 +63,8 @@ const Row = props => {
                         className={classes.iconAlarm}
                       />
                     </div>
-                  ) : (
+                  )}
+                  {typeCard === 'stop' && (
                     <div className={classes.imageWrapperSmall}>
                       <Image
                         background={
@@ -73,23 +74,36 @@ const Row = props => {
                       />
                     </div>
                   )}
-                  <span
-                    className={clsx(
-                      classes.textBold,
-                      classes.textFont14,
-                      classes.textNoWrap
-                    )}
-                  >
-                    {typeCard === 'notifications'
-                      ? t(objKeyTranslate[data?.alarm_type])
-                      : deviceName}
-                  </span>
+                  {typeCard !== 'history' && (
+                    <span
+                      className={clsx(
+                        classes.textBold,
+                        classes.textFont14,
+                        classes.textNoWrap
+                      )}
+                    >
+                      {typeCard === 'notifications'
+                        ? t(objKeyTranslate[data?.alarm_type])
+                        : deviceName}
+                    </span>
+                  )}
+                  {typeCard === 'history' && (
+                    <div className={clsx(classes.textBold, classes.textFont14)}>
+                      {`${data?.speed === 0 ? 'Not moving' : 'Moving'} - ${
+                        data?.speed
+                      } ${data?.speed_unit}`}
+                    </div>
+                  )}
                 </div>
-                {typeCard === 'notifications' && (
+                {(typeCard === 'notifications' || typeCard === 'history') && (
                   <div
                     className={clsx(classes.textFont12, classes.textWeight300)}
                   >
-                    {moment(data?.created).format('LLL')}
+                    {moment(
+                      typeCard === 'notifications'
+                        ? data?.created
+                        : data?.time * 1000
+                    ).format('LLL')}
                   </div>
                 )}
               </div>
