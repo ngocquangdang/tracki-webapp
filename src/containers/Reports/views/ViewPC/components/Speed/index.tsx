@@ -17,26 +17,26 @@ import { Button } from '@Components/buttons';
 import DateTimePicker from '@Components/DateTimePicker';
 import SelectOption from '@Components/selections';
 import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
-import RowTable from './RowTable';
+import RowTable from './SpeedTable';
 //styles
 import { useStyles, PaginationStyle, OptionViewDatePicker } from './styles';
 
 interface Props {
   trackers: object;
   trackerIds: any;
-  fetchHistoryStop(data: object): void;
-  historyStops: object;
-  historyStopIds: object;
-  isFetchingDataStop: boolean;
+  fetchHistorySpeeds(data: object): void;
+  historySpeeds: object;
+  historySpeedIds: object;
+  isFetchingHistorySpeed: boolean;
   viewMode: string;
   t(key: string, format?: object): string;
 }
 
-export default function ReportStops(props: Props) {
+export default function ReportSpeeds(props: Props) {
   const {
-    fetchHistoryStop,
-    historyStops,
-    historyStopIds,
+    fetchHistorySpeeds,
+    historySpeeds,
+    historySpeedIds,
     trackerIds,
     trackers,
     t,
@@ -58,10 +58,10 @@ export default function ReportStops(props: Props) {
   // show badge if not select tracker or datetime
   const [isBadge, setBadge] = useState(true);
   useEffect(() => {
-    !isEmpty(historyStopIds) &&
-      !isEmpty(historyStopIds[trackerId]) &&
-      setInitHistoryLogIds(historyStopIds[trackerId]);
-  }, [historyStopIds, trackerId]);
+    !isEmpty(historySpeedIds) &&
+      !isEmpty(historySpeedIds[trackerId]) &&
+      setInitHistoryLogIds(historySpeedIds[trackerId]);
+  }, [historySpeedIds, trackerId]);
   // create array select option tracker
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
     result.push({
@@ -76,7 +76,7 @@ export default function ReportStops(props: Props) {
   };
   // press viewport call API get data history
   const onClickViewPort = () => {
-    fetchHistoryStop({
+    fetchHistorySpeeds({
       trackerId: trackerId,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
@@ -90,7 +90,7 @@ export default function ReportStops(props: Props) {
   const onChangeDateTime = obj => {
     setDateTime(obj);
     if (trackerId !== '') {
-      fetchHistoryStop({
+      fetchHistorySpeeds({
         trackerId: trackerId,
         query: `from=${obj.fromDate}&to=${obj.toDate}&limit=2000&page=1&type=2`,
       });
@@ -105,8 +105,8 @@ export default function ReportStops(props: Props) {
   };
   // handle sort
   const onChangeSortBy = (value: string) => {
-    if (!isEmpty(historyStopIds) && !isEmpty(historyStopIds[trackerId])) {
-      const history = historyStops[trackerId];
+    if (!isEmpty(historySpeedIds) && !isEmpty(historySpeedIds[trackerId])) {
+      const history = historySpeeds[trackerId];
       if (['old', 'new'].includes(value)) {
         const sortHistoryByDate = initialHistoryLogIds
           .slice()
@@ -123,7 +123,7 @@ export default function ReportStops(props: Props) {
 
   const onChangeTracker = value => {
     setBadge(false);
-    fetchHistoryStop({
+    fetchHistorySpeeds({
       trackerId: value,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
@@ -131,8 +131,8 @@ export default function ReportStops(props: Props) {
   };
 
   // export CSV
-  const dataCSV = historyStopIds[trackerId]?.reduce((obj, item) => {
-    const histories = historyStops[trackerId][item];
+  const dataCSV = historySpeedIds[trackerId]?.reduce((obj, item) => {
+    const histories = historySpeeds[trackerId][item];
     const date = moment(histories.time * 1000);
     return [
       ...obj,
@@ -183,7 +183,7 @@ export default function ReportStops(props: Props) {
       </div>
       <div className={classes.containerTable}>
         <div className={classes.cellHead}>
-          <div className={classes.textHeader}>Stops</div>
+          <div className={classes.textHeader}>Speed Logs</div>
           <div className={classes.rightItemHead}>
             <div className={classes.sortOtion}>
               <SelectOption
@@ -212,21 +212,18 @@ export default function ReportStops(props: Props) {
           <Table className={classes.muiTable}>
             <TableHead>
               <TableRow>
-                <TableCell className={classes.cell} width={'15%'}>
-                  Stopped On
+                <TableCell className={classes.cell} width={'20%'}>
+                  Date and Time
                 </TableCell>
-                <TableCell className={classes.cell} width={'15%'}>
-                  Start On
-                </TableCell>
-                <TableCell className={classes.cell} width={'15%'}>
-                  Stop Duration
+                <TableCell className={classes.cell} width={'20%'}>
+                  Monitored Speed
                 </TableCell>
                 <TableCell className={classes.cell}>Address</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {(!isEmpty(historyStopIds) &&
-              !isEmpty(historyStopIds[trackerId]) &&
+              {(!isEmpty(historySpeedIds) &&
+              !isEmpty(historySpeedIds[trackerId]) &&
               rowsPerPage > 0
                 ? initialHistoryLogIds.slice(
                     page * rowsPerPage,
@@ -235,13 +232,13 @@ export default function ReportStops(props: Props) {
                 : []
               ).map(item => (
                 <RowTable
-                  historyStops={historyStops[trackerId][item]}
+                  historySpeeds={historySpeeds[trackerId][item]}
                   mapId={`map${item}`}
                   t={t}
                   key={item}
                 />
               ))}
-              {isEmpty(historyStopIds[trackerId]) && (
+              {isEmpty(historySpeedIds[trackerId]) && (
                 <TableRow>
                   <TableCell className={classes.noContent} colSpan={6}>
                     {t('notifications:no_data')}
@@ -253,7 +250,7 @@ export default function ReportStops(props: Props) {
               <tr>
                 <PaginationStyle
                   rowsPerPageOptions={[10, 20, 30]}
-                  count={historyStopIds[trackerId]?.length || 10}
+                  count={historySpeedIds[trackerId]?.length || 10}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onChangePage={handleChangePage}

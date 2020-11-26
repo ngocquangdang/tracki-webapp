@@ -15,10 +15,14 @@ interface Props {
   fetchNotificationUnread(query: string): void;
   fetchHistoryStop(data: object): void;
   fetchHistoryLogs(data: object): void;
+  fetchHistorySpeeds(data: object): void;
   historyStops: object;
   historyStopIds: object;
   historyLogs: object;
   historyLogIds: object;
+  historySpeeds: object;
+  historySpeedIds: object;
+  isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;

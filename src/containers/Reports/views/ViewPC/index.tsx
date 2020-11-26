@@ -6,7 +6,7 @@ import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
 import HistoryReport from './components/History';
 import ReportStops from './components/Stops';
-
+import ReportSpeeds from './components/Speed';
 //styles
 import { useStyles } from './styles';
 
@@ -21,11 +21,15 @@ interface Props {
   fetchNotificationUnread(query: string): void;
   fetchHistoryStop(data: object): void;
   fetchHistoryLogs(data: object): void;
+  fetchHistorySpeeds(data: object): void;
   historyStops: object;
   historyStopIds: object;
   profile: any;
   historyLogs: object;
   historyLogIds: object;
+  historySpeeds: object;
+  historySpeedIds: object;
+  isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
@@ -46,6 +50,10 @@ function ReportViewPC(props: Props) {
     historyLogIds,
     isFetchingHistoryLogs,
     fetchHistoryStop,
+    fetchHistorySpeeds,
+    historySpeeds,
+    isFetchingHistorySpeed,
+    historySpeedIds,
     historyStops,
     historyStopIds,
     isFetchingDataStop,
@@ -85,6 +93,18 @@ function ReportViewPC(props: Props) {
             historyStops={historyStops}
             historyStopIds={historyStopIds}
             isFetchingDataStop={isFetchingDataStop}
+            t={t}
+            viewMode={viewMode}
+          />
+        )}
+        {viewMode === 'speed' && (
+          <ReportSpeeds
+            trackers={trackers}
+            trackerIds={trackerIds}
+            fetchHistorySpeeds={fetchHistorySpeeds}
+            historySpeeds={historySpeeds}
+            historySpeedIds={historySpeedIds}
+            isFetchingHistorySpeed={isFetchingHistorySpeed}
             t={t}
             viewMode={viewMode}
           />

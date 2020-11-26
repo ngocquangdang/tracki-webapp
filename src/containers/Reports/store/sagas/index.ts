@@ -78,6 +78,15 @@ function* fetchHistoryStopTrackerSaga(action) {
           history.push(item);
     });
 
+    historyData.forEach(item => {
+      const lastItemHistory = history[history.length - 1];
+      history.length === 0
+        ? history.push(item)
+        : lastItemHistory.speed !== item.speed &&
+          (lastItemHistory.speed === 0 || item.speed === 0) &&
+          history.push(item);
+    });
+
     history.forEach((currentHistory, index) => {
       if (currentHistory.speed === 0 && history[index + 1]) {
         const nextHistory = history[index + 1];
@@ -175,6 +184,78 @@ function* fetchHistoryLogsTrackerSaga(action) {
   }
 }
 
+function* fetchHistorySpeedSagas(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const trackers = yield select(makeSelectTrackers());
+    const { trackerId, query } = action.payload.data;
+    const { device_name } = trackers[trackerId];
+
+    const { data: historyData } = yield call(
+      apiServices.getHistoryStopTracker,
+      account_id,
+      trackerId,
+      query
+    );
+    if (historyData.length < 1) {
+      yield put(
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'This tracker not have history in this time',
+        })
+      );
+    }
+    let histories = [] as any;
+    let historiesSpeed = [] as any;
+
+    historyData.forEach(item => {
+      const lastItemHistory = histories[histories.length - 1];
+      histories.length === 0
+        ? histories.push(item)
+        : lastItemHistory.speed !== item.speed && histories.push(item);
+    });
+    histories.forEach((currentHistory, index) => {
+      if (histories[index + 1]) {
+        const nextHistory = histories[index + 1];
+        const speedChange = nextHistory.speed - currentHistory.speed;
+        Object.assign(currentHistory, {
+          speedChange,
+          device_name,
+        });
+        historiesSpeed.push(currentHistory);
+      }
+    });
+
+    const historySpeeds = historiesSpeed.reduce(
+      (obj, item) => {
+        obj.historySpeeds = { ...obj.historySpeeds, [item.time]: item };
+        obj.historySpeedIds.push(item.time);
+        return obj;
+      },
+      {
+        historySpeeds: {},
+        historySpeedIds: [],
+      }
+    );
+
+    yield put(actions.fetchHistorySpeedsSucceed(trackerId, historySpeeds));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
+    yield put(actions.fetchHistoryLSpeedsFailed(payload));
+  }
+}
+
 export default function* reportsWatcher() {
   yield takeLatest(
     types.FETCH_NOTIFICATION_UNREAD_REQUESTED,
@@ -188,4 +269,5 @@ export default function* reportsWatcher() {
     types.FETCH_HISTORY_LOGS_REQUESTED,
     fetchHistoryLogsTrackerSaga
   );
+  yield takeLatest(types.FETCH_HISTORY_SPEED_REQUESTED, fetchHistorySpeedSagas);
 }

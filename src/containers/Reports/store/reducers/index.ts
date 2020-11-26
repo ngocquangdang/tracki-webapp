@@ -11,6 +11,7 @@ export const initialState = {
   isFetchingDataNoti: false,
   isFetchingDataStop: false,
   isFetchingHistoryLogs: false,
+  isFetchHistorySpeed: false,
   historyStop: {
     historyStops: {},
     historyStopIds: {},
@@ -18,6 +19,10 @@ export const initialState = {
   historyLogs: {
     historyLogs: {},
     historyLogIds: {},
+  },
+  historySpeeds: {
+    historySpeeds: {},
+    historySpeedIds: {},
   },
   viewMode: 'overview',
   errors: null,
@@ -35,6 +40,9 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.FETCH_HISTORY_RECENT_STOP_REQUESTED:
         draft.isFetchingDataStop = true;
         break;
+      case types.FETCH_HISTORY_SPEED_REQUESTED:
+        draft.isFetchHistorySpeed = true;
+        break;
       case types.FETCH_NOTIFICATION_UNREAD_SUCCEED:
         draft.notifications = payload.notifications;
         draft.isFetchingDataNoti = false;
@@ -50,6 +58,13 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.historyStop.historyStopIds[payload.trackerId] =
           payload.historyStopIds;
         draft.isFetchingDataStop = false;
+        break;
+      case types.FETCH_HISTORY_SPEED_SUCCEED:
+        draft.historySpeeds.historySpeeds[payload.trackerId] =
+          payload.historySpeeds;
+        draft.historySpeeds.historySpeedIds[payload.trackerId] =
+          payload.historySpeedIds;
+        draft.isFetchHistorySpeed = false;
         break;
       case types.FETCH_HISTORY_LOGS_SUCCEED:
         draft.historyLogs.historyLogs[payload.trackerId] = payload.historyLogs;

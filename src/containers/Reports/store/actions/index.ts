@@ -45,6 +45,21 @@ export const fetchHistoryLogsFailed = (errors: object) => ({
   payload: { errors },
 });
 
+export const fetchHistoryLSpeedsRequest = data => ({
+  type: types.FETCH_HISTORY_SPEED_REQUESTED,
+  payload: { data },
+});
+
+export const fetchHistorySpeedsSucceed = (trackerId, data) => ({
+  type: types.FETCH_HISTORY_SPEED_SUCCEED,
+  payload: { trackerId, ...data },
+});
+
+export const fetchHistoryLSpeedsFailed = (errors: object) => ({
+  type: types.FETCH_HISTORY_SPEED_FAILED,
+  payload: { errors },
+});
+
 export const changeReportViewMode = (viewMode: string) => ({
   type: types.CHANGE_REPORT_VIEW_MODE,
   payload: { viewMode },

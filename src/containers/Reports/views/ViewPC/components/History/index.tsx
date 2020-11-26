@@ -325,7 +325,7 @@ export default function HistoryLogs(props: Props) {
                       />
                     </div>
                     <CSVLink
-                      data={dataCSV}
+                      data={dataCSV || []}
                       headers={headers}
                       className={classes.csvLink}
                     >

@@ -14,6 +14,7 @@ import {
   fetchHistoryLogsRequest,
   fetchHistoryRecentStopRequest,
   fetchNotificationUnreadRequest,
+  fetchHistoryLSpeedsRequest,
 } from './store/actions';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 
@@ -34,6 +35,9 @@ import {
   makeSelectHistoryLogIds,
   makeSelectHistoryLogs,
   makeSelectFetchingHistoryLogs,
+  makeSelectHistorySpeeds,
+  makeSelectHistorySpeedIds,
+  makeSelectFetchingHistorySpeeds,
 } from './store/selectors';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
@@ -73,6 +77,9 @@ const mapStateToProps = createStructuredSelector({
   historyStopIds: makeSelectHistoryStopIds(),
   historyLogs: makeSelectHistoryLogs(),
   historyLogIds: makeSelectHistoryLogIds(),
+  historySpeeds: makeSelectHistorySpeeds(),
+  historySpeedIds: makeSelectHistorySpeedIds(),
+  isFetchingHistorySpeed: makeSelectFetchingHistorySpeeds(),
   isFetchingHistoryLogs: makeSelectFetchingHistoryLogs(),
   isFetchingDataNoti: makeSelecteFetchingDataNoti(),
   isFetchingDataStop: makeSelecteFetchingDataStop(),
@@ -87,6 +94,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchHistoryStop: (data: object) =>
     dispatch(fetchHistoryRecentStopRequest(data)),
   fetchHistoryLogs: (data: object) => dispatch(fetchHistoryLogsRequest(data)),
+  fetchHistorySpeeds: (data: object) =>
+    dispatch(fetchHistoryLSpeedsRequest(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
