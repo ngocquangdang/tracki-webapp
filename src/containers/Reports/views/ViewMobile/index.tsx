@@ -7,6 +7,8 @@ import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { TAB_KEYS } from '@Containers/Reports/store/constants';
 import OverviewReportMobile from './components/Overview';
 import HistoryReportMobile from './components/History';
+import ReportStopsMobile from './components/Stops';
+
 //styles
 import { useStyles } from './styles';
 interface Props {
@@ -44,7 +46,7 @@ function ReportViewMobile(props: Props) {
 
   return (
     <SideBarOutside
-      title="Reports - Overview"
+      title={`Reports - ${viewMode}`}
       show={true}
       direction="right"
       handleClose={Router.back}
@@ -55,6 +57,7 @@ function ReportViewMobile(props: Props) {
         <div>
           {viewMode === 'overview' && <OverviewReportMobile {...props} />}
           {viewMode === 'history' && <HistoryReportMobile {...props} />}
+          {viewMode === 'stop' && <ReportStopsMobile {...props} />}
         </div>
         <div className={classes.footer}>
           <Tabs

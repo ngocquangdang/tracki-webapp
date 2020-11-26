@@ -159,18 +159,20 @@ function HistoryReportMobile(props: Props) {
   };
 
   // export CSV
-  const dataCSV = [] as any;
-  historyLogIds[trackerId]?.map(item => {
+  const dataCSV = historyLogIds[trackerId]?.reduce((obj, item) => {
     const histories = historyLogs[trackerId][item];
-    const date = moment(histories?.time * 1000);
-    return dataCSV.push({
-      date: date.format('DD-MM-YYYY'),
-      time: date.format('hh:mm:ss A'),
-      lat: histories?.lat,
-      lng: histories?.lng,
-      speed: histories?.speed,
-      battery: histories?.battery,
-    });
+    const date = moment(histories.time * 1000);
+    return [
+      ...obj,
+      {
+        date: date.format('DD-MM-YYYY'),
+        time: date.format('hh:mm:ss A'),
+        lat: histories.lat,
+        lng: histories.lng,
+        speed: histories.speed,
+        battery: histories.battery,
+      },
+    ];
   }, []);
 
   //data info history
