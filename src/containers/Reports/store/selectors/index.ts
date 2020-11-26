@@ -34,6 +34,15 @@ const makeSelectHistoryLogIds = () =>
 const makeSelectFetchingHistoryLogs = () =>
   createSelector(reportState, state => state?.isFetchingHistoryLogs);
 
+const makeSelectHistorySpeeds = () =>
+  createSelector(reportState, state => state?.historySpeeds.historySpeeds);
+
+const makeSelectHistorySpeedIds = () =>
+  createSelector(reportState, state => state?.historySpeeds.historySpeedIds);
+
+const makeSelectFetchingHistorySpeeds = () =>
+  createSelector(reportState, state => state?.isFetchHistorySpeed);
+
 export {
   makeSelectNotifications,
   makeSelectNotificationsIds,
@@ -45,4 +54,7 @@ export {
   makeSelectHistoryLogs,
   makeSelectHistoryLogIds,
   makeSelectFetchingHistoryLogs,
+  makeSelectHistorySpeeds,
+  makeSelectHistorySpeedIds,
+  makeSelectFetchingHistorySpeeds,
 };
