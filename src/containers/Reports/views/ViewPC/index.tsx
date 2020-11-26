@@ -5,6 +5,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
 import HistoryReport from './components/History';
+import ReportStops from './components/Stops';
 
 //styles
 import { useStyles } from './styles';
@@ -44,6 +45,10 @@ function ReportViewPC(props: Props) {
     historyLogs,
     historyLogIds,
     isFetchingHistoryLogs,
+    fetchHistoryStop,
+    historyStops,
+    historyStopIds,
+    isFetchingDataStop,
     t,
   } = props;
 
@@ -68,6 +73,18 @@ function ReportViewPC(props: Props) {
             historyLogs={historyLogs}
             historyLogIds={historyLogIds}
             isFetchingHistoryLogs={isFetchingHistoryLogs}
+            t={t}
+            viewMode={viewMode}
+          />
+        )}
+        {viewMode === 'stop' && (
+          <ReportStops
+            trackers={trackers}
+            trackerIds={trackerIds}
+            fetchHistoryStop={fetchHistoryStop}
+            historyStops={historyStops}
+            historyStopIds={historyStopIds}
+            isFetchingDataStop={isFetchingDataStop}
             t={t}
             viewMode={viewMode}
           />
