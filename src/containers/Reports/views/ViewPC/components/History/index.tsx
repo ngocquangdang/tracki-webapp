@@ -22,7 +22,7 @@ import { Button } from '@Components/buttons';
 import DateTimePicker from '@Components/DateTimePicker';
 import SelectOption from '@Components/selections';
 import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
-import RowTable from '../RowTable';
+import RowTable from './RowTable';
 import HistoryInfo from './HistoryInfo';
 //styles
 import { useStyles, PaginationStyle, OptionViewDatePicker } from './styles';

@@ -6,7 +6,7 @@ import moment from 'moment';
 
 //components
 import SelectOption from '@Components/selections';
-import Card from '../LayoutCard';
+import Card from './LayoutCard';
 
 import { useStyles } from './styles';
 
