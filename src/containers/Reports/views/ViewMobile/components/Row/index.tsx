@@ -20,7 +20,7 @@ const MapCard = dynamic(
 
 const Row = props => {
   const classes = useStyles();
-  const { typeCard, data, t, mapId } = props;
+  const { typeCard, data, t, mapId, isStopTab } = props;
 
   const [loading, setLoading] = useState(true);
   const [dataAddress, setDataAddress] = useState<string | null>(null);
@@ -64,7 +64,7 @@ const Row = props => {
                       />
                     </div>
                   )}
-                  {typeCard === 'stop' && (
+                  {typeCard === 'stop' && !isStopTab && (
                     <div className={classes.imageWrapperSmall}>
                       <Image
                         background={
@@ -74,7 +74,7 @@ const Row = props => {
                       />
                     </div>
                   )}
-                  {typeCard !== 'history' && (
+                  {typeCard !== 'history' && !isStopTab && (
                     <span
                       className={clsx(
                         classes.textBold,

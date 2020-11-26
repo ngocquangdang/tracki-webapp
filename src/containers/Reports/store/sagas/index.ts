@@ -58,6 +58,14 @@ function* fetchHistoryStopTrackerSaga(action) {
       trackerId,
       query
     );
+    if (historyData.length < 1) {
+      yield put(
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'This tracker not have history in this time',
+        })
+      );
+    }
     let history = [] as any;
     let objAssign = [] as any;
 
