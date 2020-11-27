@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
 
 import { TAB_KEYS } from '@Containers/Reports/store/constants';
-
 import { useStyles } from './styles';
+import ReportTrip from '../Trip';
 
-interface Props {
-  viewMode: string;
-  changeReportView(mode: string): void;
-  [data: string]: any;
-}
-
-export default function TabsPC(props: Props) {
-  const { changeReportView } = props;
+export default function TabsPC(props) {
+  const { changeReportView, viewMode } = props;
 
   const classes = useStyles();
   const [currentTab, setTab] = useState<number>(0);
+  useEffect(() => {
+    viewMode === 'overview' && setTab(0);
+    viewMode === 'history' && setTab(1);
+    viewMode === 'stop' && setTab(2);
+    viewMode === 'trip' && setTab(3);
+    viewMode === 'speed' && setTab(4);
+  }, [currentTab, viewMode]);
 
   const onChangeTab = (event: any, newValue: any) => {
     setTab(newValue);
@@ -23,24 +24,31 @@ export default function TabsPC(props: Props) {
   };
 
   return (
-    <div className={classes.paper}>
-      <Tabs
-        value={currentTab}
-        onChange={onChangeTab}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-        className={classes.tabs}
+    <React.Fragment>
+      <div
+        className={
+          viewMode === 'trip' ? classes.containerTabTrip : classes.paper
+        }
       >
-        {TAB_KEYS.map((key: string, index: number) => (
-          <Tab
-            key={key}
-            label={key}
-            value={index}
-            className={classes.tabItem}
-          />
-        ))}
-      </Tabs>
-    </div>
+        <Tabs
+          value={currentTab}
+          onChange={onChangeTab}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+          className={classes.tabs}
+        >
+          {TAB_KEYS.map((key: string, index: number) => (
+            <Tab
+              key={key}
+              label={key}
+              value={index}
+              className={classes.tabItem}
+            />
+          ))}
+        </Tabs>
+      </div>
+      {viewMode === 'trip' && <ReportTrip {...props} />}
+    </React.Fragment>
   );
 }

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   paper: {
     borderRadius: 0,
-    height: '100%',
     width: '100%',
   },
   tabs: {
@@ -21,6 +20,16 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     fontSize: 14,
     lineHeight: '17px',
+  },
+  tabPanel: {
+    height: 'calc(100% - 55px)',
+    overflowY: 'auto',
+  },
+  containerTabTrip: {
+    borderRadius: 0,
+    height: 55,
+    boxShadow: '0 3px 4px 0 rgba(0, 0, 0, 0.12)',
+    background: 'linear-gradient(rgba(0,0,0,0.5) -50%, rgba(0,0,0,0) 8%)',
   },
 }));
 

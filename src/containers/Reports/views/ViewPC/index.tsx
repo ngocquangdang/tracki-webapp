@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BarChartIcon from '@material-ui/icons/BarChart';
 
 //components
+import { SideBarInnerPC } from '@Components/sidebars';
+import Map from '@Components/Maps';
+import MapToolBars from '@Components/Maps/components/MapToolBar';
+
 import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
 import HistoryReport from './components/History';
@@ -59,8 +63,33 @@ function ReportViewPC(props: Props) {
     isFetchingDataStop,
     t,
   } = props;
+  const [isOpenSidebar, setOpenSidebar] = useState(true);
+  const toggleSideBar = () => {
+    setOpenSidebar(!isOpenSidebar);
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+  };
+  const openSideBar = () => setOpenSidebar(true);
 
-  return (
+  return viewMode === 'trip' ? (
+    <div className={classes.containerTrip}>
+      <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
+        <Tabs {...props} />
+      </SideBarInnerPC>
+      <div className={classes.mapView}>
+        <React.Fragment>
+          <Map
+            mapType="leaflet"
+            openSideBar={openSideBar}
+            isTracking={true}
+            {...props}
+          />
+          <MapToolBars t={t} />
+        </React.Fragment>
+      </div>
+    </div>
+  ) : (
     <div className={classes.container}>
       <div className={classes.boxShadow}>
         <div className={classes.header}>

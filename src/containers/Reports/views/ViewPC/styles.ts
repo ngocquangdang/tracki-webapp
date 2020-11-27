@@ -1,6 +1,12 @@
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
+  containerTrip: {
+    display: 'flex',
+    position: 'relative',
+    height: 'calc(100vh - 70px)',
+    width: '100%',
+  },
   container: {},
   header: {
     width: '100%',
@@ -34,6 +40,12 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     padding: 25,
+  },
+  mapView: {
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    paddingLeft: 0,
   },
 }));
 
