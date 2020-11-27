@@ -289,7 +289,7 @@ function HistoryReportMobile(props: Props) {
               />
             </div>
             <CSVLink
-              data={dataCSV}
+              data={dataCSV || []}
               headers={headers}
               className={classes.csvLink}
             >

@@ -8,23 +8,30 @@ import { TAB_KEYS } from '@Containers/Reports/store/constants';
 import OverviewReportMobile from './components/Overview';
 import HistoryReportMobile from './components/History';
 import ReportStopsMobile from './components/Stops';
+import ReportSpeedMobile from './components/Speed';
 
 //styles
 import { useStyles } from './styles';
 interface Props {
+  isMobile: boolean;
   trackers: object;
-  trackerIds: any;
+  trackerIds: number[];
   notificationIds: number[];
   notifications: object;
   viewMode: string;
+  changeReportView(mode: string): void;
   fetchNotificationUnread(query: string): void;
   fetchHistoryStop(data: object): void;
   fetchHistoryLogs(data: object): void;
+  fetchHistorySpeeds(data: object): void;
   historyStops: object;
   historyStopIds: object;
+  profile: any;
   historyLogs: object;
   historyLogIds: object;
-  profile: any;
+  historySpeeds: object;
+  historySpeedIds: object;
+  isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
@@ -58,6 +65,7 @@ function ReportViewMobile(props: Props) {
           {viewMode === 'overview' && <OverviewReportMobile {...props} />}
           {viewMode === 'history' && <HistoryReportMobile {...props} />}
           {viewMode === 'stop' && <ReportStopsMobile {...props} />}
+          {viewMode === 'speed' && <ReportSpeedMobile {...props} />}
         </div>
         <div className={classes.footer}>
           <Tabs
