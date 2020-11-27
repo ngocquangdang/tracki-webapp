@@ -143,6 +143,13 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     height: 300,
   },
+  textTransform: {
+    textTransform: 'uppercase',
+    padding: '0 3px',
+  },
+  speedChange: {
+    color: '#cc2c2c',
+  },
 }));
 
 export { useStyles, Image };

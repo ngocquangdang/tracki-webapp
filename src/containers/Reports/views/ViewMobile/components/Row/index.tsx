@@ -115,7 +115,7 @@ const Row = props => {
             )}
             <div
               className={clsx(
-                classes.textFont14,
+                classes.textFont12,
                 classes.mr,
                 classes.textWeight300
               )}
@@ -137,6 +137,25 @@ const Row = props => {
                 dataAddress
               )}
             </div>
+            {typeCard === 'speed' && (
+              <div className={classes.textFont12}>
+                <div>
+                  <span className={classes.textBold}>Monitored Speed:</span>
+                  <span>{data.speed}</span>
+                  <span className={classes.textTransform}>
+                    {data.speed_unit}
+                  </span>
+                  <span className={classes.speedChange}>
+                    {data?.speedChange > 0
+                      ? `+ ${data.speedChange}`
+                      : data?.speedChange}
+                  </span>
+                </div>
+                <div className={classes.textWeight300}>
+                  {moment(data?.time * 1000).format('DD/MM/YYYY, hh:mm A')}
+                </div>
+              </div>
+            )}
             {typeCard === 'stop' && (
               <div className={classes.flexRow}>
                 <div
