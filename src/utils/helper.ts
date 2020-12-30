@@ -64,3 +64,12 @@ export function getAvg(grades) {
   const total = grades.reduce((acc, c) => acc + c, 0);
   return total / grades.length;
 }
+
+export function sendMessageToGeobot(nameMessage) {
+  let isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
+    input !== null && input.tagName === 'IFRAME';
+  let chatIframe = document.getElementById('chatIframe');
+  if (isIFrame(chatIframe) && chatIframe.contentWindow) {
+    chatIframe.contentWindow.postMessage(nameMessage, '*');
+  }
+}

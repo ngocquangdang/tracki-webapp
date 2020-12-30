@@ -7,15 +7,7 @@ import CookieInstance from '@Utils/cookie';
 import { loginSuccessAction, loginFailAction } from '../actions';
 import * as apiServices from '../../services';
 import * as types from '../definitions';
-
-function sendMessage(nameMessage) {
-  let isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
-    input !== null && input.tagName === 'IFRAME';
-  let chatIframe = document.getElementById('chatIframe');
-  if (isIFrame(chatIframe) && chatIframe.contentWindow) {
-    chatIframe.contentWindow.postMessage(nameMessage, '*');
-  }
-}
+import { sendMessageToGeobot } from '@Utils/helper';
 
 function* loginSaga(action: ActionType) {
   try {
@@ -34,7 +26,7 @@ function* loginSaga(action: ActionType) {
         response.data.refresh_token,
         response.data.expires_in
       );
-      sendMessage('AUTHENTICATE_TOKEN_CRM');
+      sendMessageToGeobot('AUTHENTICATE_TOKEN_CRM');
       AxiosClient.setHeader(response.data.access_token);
       window.location.replace('/trackers');
     }
