@@ -11,6 +11,7 @@ import {
   Settings as SettingsIcon,
   ShoppingBasket as ShoppingBasketIcon,
 } from '@material-ui/icons';
+import { BiWalletAlt } from 'react-icons/bi';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -73,6 +74,12 @@ const routes = [
     label: 'Store',
     icon: <ShoppingBasketIcon />,
     link: '/store',
+  },
+  {
+    index: 8,
+    label: 'Wallet',
+    icon: <BiWalletAlt />,
+    link: '/wallet',
   },
 ];
 
