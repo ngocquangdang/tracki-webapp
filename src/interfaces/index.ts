@@ -72,6 +72,20 @@ export interface TrackingDataTypes {
   alarms: object;
 }
 
+export interface WalletDataType {
+  myWallet: {
+    isRequestMyWallet: boolean;
+    point: number | string;
+    my_wallet: number | string;
+    referral_code: string;
+  };
+  adv: {
+    isRequestAdv: boolean;
+    advs: object;
+    advIds: number[];
+  };
+}
+
 export type {
   ITracker,
   IGeofence,

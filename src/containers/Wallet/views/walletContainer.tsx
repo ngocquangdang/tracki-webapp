@@ -17,7 +17,9 @@ import DailyBonus from '../components/DailyBonus';
 import SpinWin from '../components/Spin';
 import HourlyGifts from '../components/HourlyGift';
 
-interface Props {}
+interface Props {
+  t(key: string, format?: object): string;
+}
 
 type ROUTE = {
   index: number;
@@ -67,6 +69,8 @@ const ITEM = [
 
 function WalletDashboard(props: Props) {
   const classes = useStyles();
+  const { t } = props;
+
   const [currentTab, setCurrentTab] = useState(0);
 
   const onClickTab = (r: ROUTE) => () => {
@@ -110,7 +114,7 @@ function WalletDashboard(props: Props) {
         </Menu>
       </div>
       <div className={classes.container}>
-        {currentTab === 0 && <Dashboard />}
+        {currentTab === 0 && <Dashboard t={t} />}
         {currentTab === 1 && <MyWallet />}
         {currentTab === 2 && <FriendInvite />}
         {currentTab === 3 && <Notification />}
