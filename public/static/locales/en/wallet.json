@@ -7,5 +7,21 @@
   "notification": "Notification",
   "daily_bonus": "Daily Bonus",
   "spin_win": "Spin & Win",
-  "hourly_gift": "Hourly Gift"
+  "hourly_gift": "Hourly Gift",
+  "claim_point": "Claim {{point}} Points Today!",
+  "login_everyday": "Login Everyday to Earn Points!",
+  "invite_friend_earn_cash": "Invite Friends to Earn Cash Directly!",
+  "your_referral_code": "Your referral code",
+  "invite_description":"Refer a friend to purchase tracki device and earn ${{money}} for every friend who activates the device",
+  "see_more": "See More",
+  "my_points": "My Points",
+  "my_wallets": "My Wallets",
+  "redeem_my_poin": "Redeem my points to cash",
+  "cash_out": "Cash out",
+  "earn_points": "Earn Points",
+  "share": "Share",
+  "go": "Go",
+  "points": "Points",
+  "point_history": "Point History",
+  "claim_gift": "Claim your Free Gift Today!"
 }
