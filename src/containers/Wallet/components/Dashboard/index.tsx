@@ -22,6 +22,9 @@ import PointHistory from './components/PointHistory';
 import GiftToday from './components/GiftToday';
 import PurchaseUsePoint from './components/PurchaseUsePoint';
 
+interface IT {
+  t(key: string, format?: object): string;
+}
 interface Props {
   t(key: string, format?: object): string;
   myWallet: {
@@ -99,4 +102,4 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const withConnect = connect(mapStateToProps);
-export default compose(withConnect, memo)(Dashboard) as React.ComponentType;
+export default compose(withConnect, memo)(Dashboard) as React.ComponentType<IT>;
