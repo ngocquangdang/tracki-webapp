@@ -11,6 +11,8 @@ const useStyles = makeStyles(() => ({
     padding: '20px 19px',
     justifyContent: 'space-between',
     position: 'fixed',
+    backgroundColor: '#ffffff',
+    width: '100%',
   },
   back: {
     display: 'flex',

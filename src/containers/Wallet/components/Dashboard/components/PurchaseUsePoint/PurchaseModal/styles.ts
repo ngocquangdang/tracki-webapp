@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   container: {},
   card: {
     height: 234,
@@ -29,6 +29,41 @@ const useStyles = makeStyles(() => ({
   cointLine: {
     marginBottom: 20,
     color: '#e99313',
+  },
+  img: {
+    width: '100%',
+    height: '100%',
+  },
+  planName: {
+    padding: '3px 18px',
+    backgroundColor: theme.palette.primary.main,
+    margin: 0,
+    textTransform: 'capitalize',
+  },
+  caption: {
+    fontWeight: 500,
+    margin: '5px 0',
+  },
+  mr0: {
+    margin: 0,
+  },
+  subTitle: {
+    fontWeight: 300,
+    textTransform: 'lowercase',
+  },
+  smsTitle: {
+    fontSize: 37,
+    fontWeight: 'bold',
+  },
+  smsPlan: {
+    fontSize: 15,
+  },
+  smsPrice: {
+    fontSize: 19,
+    margin: 10,
+  },
+  title: {
+    textAlign: 'center',
   },
 }));
 

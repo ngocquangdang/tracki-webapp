@@ -89,12 +89,12 @@ function TrackerList(props) {
 
   const { trackerProduct, t } = props;
   const { trackers = {}, trackerIds = [] } = trackerProduct;
-  const [isOpen, setIsOpen] = useState(null);
+  const [isOpen, setIsOpen] = useState('');
 
   const limittrackerId = trackerIds.slice(0, 6);
 
   const onSelectedId = id => () => setIsOpen(id);
-  const onCloseModal = () => setIsOpen(null);
+  const onCloseModal = () => setIsOpen('');
 
   return (
     <div className={classes.cardList}>
@@ -123,7 +123,17 @@ function TrackerList(props) {
           </div>
         </Card>
       ))}
-      <PurchaseModal open={!!isOpen} onClose={onCloseModal} t={t} />
+      {!!isOpen && (
+        <PurchaseModal
+          open={!!isOpen}
+          onClose={onCloseModal}
+          t={t}
+          name={trackers[isOpen].name}
+          isImg={true}
+          img={trackers[isOpen].icon}
+          point={trackers[isOpen].point}
+        />
+      )}
     </div>
   );
 }
@@ -133,10 +143,10 @@ function AccesoryList(props) {
 
   const { accesoryProduct, t } = props;
   const { accesories = {}, accesoryIds = [] } = accesoryProduct;
-  const [isOpen, setIsOpen] = useState(null);
+  const [isOpen, setIsOpen] = useState('');
 
   const onSelectedId = id => () => setIsOpen(id);
-  const onCloseModal = () => setIsOpen(null);
+  const onCloseModal = () => setIsOpen('');
 
   const limitAccesoryId = accesoryIds.slice(0, 6);
   return (
@@ -166,7 +176,17 @@ function AccesoryList(props) {
           </div>
         </Card>
       ))}
-      <PurchaseModal open={!!isOpen} onClose={onCloseModal} t={t} />
+      {!!isOpen && (
+        <PurchaseModal
+          open={!!isOpen}
+          onClose={onCloseModal}
+          t={t}
+          name={accesories[isOpen].name}
+          isImg={true}
+          img={accesories[isOpen].icon}
+          point={accesories[isOpen].point}
+        />
+      )}
     </div>
   );
 }
@@ -175,11 +195,16 @@ function SubsciptionPlan(props) {
   const classes = useStyles();
 
   const { subscriptionPlan, t } = props;
-  const [isOpen, setIsOpen] = useState(null);
+  const [isOpen, setIsOpen] = useState('');
 
-  const onSelectedId = id => () => setIsOpen(id);
-  const onCloseModal = () => setIsOpen(null);
+  const onSelectedId = id => () => {
+    setIsOpen(id);
+  };
+  const onCloseModal = () => setIsOpen('');
 
+  const subscriptionPlanSelected = subscriptionPlan.find(
+    i => i.planId === isOpen
+  );
   return (
     <div className={classes.cardSubscription}>
       {subscriptionPlan.map((item, index) => (
@@ -213,12 +238,22 @@ function SubsciptionPlan(props) {
             <Button
               classes={classes.btnBackground}
               text={t('wallet:purchase')}
-              onClick={onSelectedId(item.id)}
+              onClick={onSelectedId(item.planId)}
             />
           </div>
         </Card>
       ))}
-      <PurchaseModal open={!!isOpen} onClose={onCloseModal} t={t} />
+      {!!isOpen && (
+        <PurchaseModal
+          open={!!isOpen}
+          onClose={onCloseModal}
+          t={t}
+          name={subscriptionPlanSelected.name}
+          point={subscriptionPlanSelected.point}
+          className={classes.bgCard}
+          type="subscription"
+        />
+      )}
     </div>
   );
 }
@@ -230,6 +265,8 @@ function SMSPlan(props) {
 
   const onSelectedId = id => () => setIsOpen(id);
   const onCloseModal = () => setIsOpen(null);
+
+  const smsPlanSelected = smsPlan.find(i => i.planId === isOpen);
 
   return (
     <div className={classes.cardSubscription}>
@@ -263,12 +300,23 @@ function SMSPlan(props) {
             <Button
               classes={classes.btnBackground}
               text={t('wallet:purchase')}
-              onClick={onSelectedId(item.id)}
+              onClick={onSelectedId(item.planId)}
             />
           </div>
         </Card>
       ))}
-      <PurchaseModal open={!!isOpen} onClose={onCloseModal} t={t} />
+      {!!isOpen && (
+        <PurchaseModal
+          open={!!isOpen}
+          onClose={onCloseModal}
+          t={t}
+          name={smsPlanSelected.name}
+          point={smsPlanSelected.point}
+          className={classes.bgCard}
+          type="sms"
+          sms_limit={smsPlanSelected.sms_limit}
+        />
+      )}
     </div>
   );
 }
