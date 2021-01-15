@@ -11,7 +11,7 @@ interface Props {
   open: boolean;
   handleClose?(): void;
   children: any;
-  title: string;
+  title?: string;
   className?: string;
 }
 export default function TransitionsModal(props: Props) {

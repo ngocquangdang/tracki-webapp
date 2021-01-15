@@ -5,7 +5,7 @@ const useStyles = makeStyles(() => ({
     boxShadow: '0 8px 14px 0 rgba(0, 0, 0, 0.12)',
     border: '1px solid #e0e0e0',
     borderRadius: 4,
-    width: 'calc((100% - 20px)/3)',
+    width: 'calc((100% - 35px)/3)',
   },
   cardHeader: {
     display: 'flex',

@@ -64,3 +64,66 @@ export const getPointHistoryFailed = error => {
     payload: { error },
   };
 };
+
+// get product
+export const getProductRequest = () => {
+  return {
+    type: types.GET_PRODUCT_REQUESTED,
+  };
+};
+
+export const getProductSucceed = (tracker, accesory) => {
+  return {
+    type: types.GET_PRODUCT_SUCCEED,
+    payload: { tracker, accesory },
+  };
+};
+
+export const getProductFailed = error => {
+  return {
+    type: types.GET_PRODUCT_FAILED,
+    payload: { error },
+  };
+};
+
+// get subscription
+export const getSubscriptionPlanRequest = () => {
+  return {
+    type: types.GET_SUBSCRIPTION_REQUESTED,
+  };
+};
+
+export const getSubscriptionPlanSucceed = data => {
+  return {
+    type: types.GET_SUBSCRIPTION_SUCCEED,
+    payload: { data },
+  };
+};
+
+export const getSubscriptionPlanFailed = error => {
+  return {
+    type: types.GET_SUBSCRIPTION_FAILED,
+    payload: { error },
+  };
+};
+
+// get subscription
+export const getSMSPlanRequest = () => {
+  return {
+    type: types.GET_SMS_PLAN_REQUESTED,
+  };
+};
+
+export const getSMSPlanSucceed = data => {
+  return {
+    type: types.GET_SMS_PLAN_SUCCEED,
+    payload: { data },
+  };
+};
+
+export const getSMSPlanFailed = error => {
+  return {
+    type: types.GET_SMS_PLAN_FAILED,
+    payload: { error },
+  };
+};

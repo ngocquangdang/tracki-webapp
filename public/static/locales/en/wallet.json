@@ -23,5 +23,19 @@
   "go": "Go",
   "points": "Points",
   "point_history": "Point History",
-  "claim_gift": "Claim your Free Gift Today!"
+  "claim_gift": "Claim your Free Gift Today!",
+  "earn_more_points": "Earn More Points",
+  "invite_friend": "Invite friend",
+  "sub_percent_you_can_get": "You can get 20% share of your friends' earnings. You can invite unlimited friends and get unlimited earnings.",
+  "purchase_using_points": "Purchase using points",
+  "trackers": "Trackers",
+  "accesories": "Accesories",
+  "subscription": "Subscription",
+  "sms_plan": "SMS Plan",
+  "purchase": "Purchase",
+  "subscription_plan": "Worth ${{price}}/month",
+  "sms_plan_price": "Worth ${{price}}/month",
+  "subscription_for": "subscription for",
+  "redeem_my_point": "Redeem My Points to",
+  "purchase_with": "Purchase with {{point}} points"
 }

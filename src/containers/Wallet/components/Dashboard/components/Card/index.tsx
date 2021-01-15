@@ -11,6 +11,8 @@ interface Props {
   isFooter?: boolean;
   onViewMore?: () => void;
   className?: any;
+  isPadding?: boolean;
+  onClick?: () => void;
 }
 
 export default function Card(props: Props) {
@@ -24,6 +26,8 @@ export default function Card(props: Props) {
     isFooter = false,
     footer,
     className,
+    isPadding = false,
+    onClick,
   } = props;
 
   return (
@@ -31,12 +35,12 @@ export default function Card(props: Props) {
       {isHeader && (
         <div className={classes.cardHeader}>
           <p className={`${classes.mr0} ${classes.cardTitle}`}>{title}</p>
-          <p className={`${classes.mr0} ${classes.cardView}`}>
+          <p className={`${classes.mr0} ${classes.cardView}`} onClick={onClick}>
             {t('wallet:see_more')}
           </p>
         </div>
       )}
-      <div className={classes.cardContent}>{children}</div>
+      <div className={isPadding ? classes.cardContent : ''}>{children}</div>
       {isFooter && <div className={classes.cardFooter}>{footer}</div>}
     </div>
   );

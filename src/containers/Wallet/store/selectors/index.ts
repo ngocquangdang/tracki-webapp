@@ -12,4 +12,31 @@ const makeSelectAdv = () => {
   return createSelector(globalState, state => state.adv);
 };
 
-export { makeSelectWallet, makeSelectAdv };
+const makeSelectPointHistory = () => {
+  return createSelector(globalState, state => state.pointHistory);
+};
+
+const makeSelectTrackerProduct = () => {
+  return createSelector(globalState, state => state.tracker);
+};
+
+const makeSelectAccesoryProduct = () => {
+  return createSelector(globalState, state => state.accesory);
+};
+
+const makeSelectSubscriptionPlan = () => {
+  return createSelector(globalState, state => state.subscriptionPlan);
+};
+
+const makeSelectSMSPlan = () => {
+  return createSelector(globalState, state => state.smsPlan);
+};
+export {
+  makeSelectWallet,
+  makeSelectAdv,
+  makeSelectPointHistory,
+  makeSelectTrackerProduct,
+  makeSelectAccesoryProduct,
+  makeSelectSubscriptionPlan,
+  makeSelectSMSPlan,
+};

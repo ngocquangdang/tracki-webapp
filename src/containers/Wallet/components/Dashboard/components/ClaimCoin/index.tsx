@@ -1,5 +1,4 @@
 import { Button } from '@Components/buttons';
-import { WalletDataType } from '@Interfaces';
 import React from 'react';
 import Card from '../Card';
 
@@ -7,7 +6,10 @@ import { useStyles, Coin, Day } from './styles';
 
 interface Props {
   t(key: string, format?: object): string;
-  myWallet: WalletDataType;
+  myWallet: {
+    point?: number | string;
+    my_wallet?: number | string;
+  };
 }
 
 const ClaimDate = [
@@ -24,7 +26,7 @@ export default function GiveCoin(props: Props) {
   const { t } = props;
 
   return (
-    <Card className={classes.background} t={t}>
+    <Card className={classes.background} t={t} isPadding={true}>
       <div className={classes.content}>
         <div className={classes.title}>{t('wallet:login_everyday')}</div>
         <div className={classes.step}>
