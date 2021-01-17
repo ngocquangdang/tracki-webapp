@@ -7,11 +7,12 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import Card from '../Card';
 
 import { useStyles } from './styles';
-import { WalletDataType } from '@Interfaces';
 
 interface Props {
   t(key: string, format?: object): string;
-  myWallet: WalletDataType;
+  myWallet: {
+    referral_code?: string;
+  };
 }
 
 export default function InviteFriend(props: Props) {
@@ -21,7 +22,12 @@ export default function InviteFriend(props: Props) {
   const { referral_code = 'XXXXXXXXXX' } = myWallet;
 
   return (
-    <Card t={t} isHeader={true} title={t('wallet:invite_friend_earn_cash')}>
+    <Card
+      t={t}
+      isHeader={true}
+      title={t('wallet:invite_friend_earn_cash')}
+      isPadding={true}
+    >
       <div className={classes.content}>
         <p className={`${classes.mr0} ${classes.title}`}>
           {t('wallet:your_referral_code')}

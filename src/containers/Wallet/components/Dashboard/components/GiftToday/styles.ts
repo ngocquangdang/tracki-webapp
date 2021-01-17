@@ -10,6 +10,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     flexDirection: 'column',
     color: '#ffffff',
+    marginTop: '20%',
   },
   icon: {
     width: 139,
@@ -18,6 +19,12 @@ const useStyles = makeStyles(() => ({
   playIcon: {
     width: 20.8,
     height: 20.8,
+  },
+  subText: {
+    display: 'flex',
+    /* align-items: center, */
+    width: '150px',
+    textAlign: 'center',
   },
 }));
 

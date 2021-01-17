@@ -15,13 +15,24 @@ import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
 
 import View from './views';
-import { getAdvertimentRequest, getMyWallletRequest } from './store/actions';
+import {
+  getAdvertimentRequest,
+  getMyWallletRequest,
+  getPointHistoryRequest,
+  getProductRequest,
+  getSMSPlanRequest,
+  getSubscriptionPlanRequest,
+} from './store/actions';
 import { makeSelectWallet } from './store/selectors';
 
 interface Props {
   getMyWallletRequest: (id: number) => void;
+  getPointHistoryRequest: (id: number) => void;
   getAdvertimentRequest: () => void;
+  getProductRequest: () => void;
   t(key: string): string;
+  getSMSPlanRequest: () => void;
+  getSubscriptionPlanRequest: () => void;
 }
 
 function WalletContainer(props: Props) {
@@ -30,12 +41,30 @@ function WalletContainer(props: Props) {
   useInjectReducer({ key: 'tracker', reducer: trackersReducer });
   useInjectSaga({ key: 'tracker', saga: trackersSaga });
 
-  const { getMyWallletRequest, getAdvertimentRequest } = props;
+  const {
+    getMyWallletRequest,
+    getAdvertimentRequest,
+    getPointHistoryRequest,
+    getProductRequest,
+    getSMSPlanRequest,
+    getSubscriptionPlanRequest,
+  } = props;
 
   useEffect(() => {
     getMyWallletRequest(1);
     getAdvertimentRequest();
-  }, [getMyWallletRequest, getAdvertimentRequest]);
+    getPointHistoryRequest(1);
+    getProductRequest();
+    getSMSPlanRequest();
+    getSubscriptionPlanRequest();
+  }, [
+    getMyWallletRequest,
+    getAdvertimentRequest,
+    getPointHistoryRequest,
+    getProductRequest,
+    getSMSPlanRequest,
+    getSubscriptionPlanRequest,
+  ]);
 
   return <View {...props} />;
 }
@@ -48,6 +77,11 @@ const mapDispatchToProps = dispatch => {
   return {
     getMyWallletRequest: (id: number) => dispatch(getMyWallletRequest(id)),
     getAdvertimentRequest: () => dispatch(getAdvertimentRequest()),
+    getPointHistoryRequest: (id: number) =>
+      dispatch(getPointHistoryRequest(id)),
+    getProductRequest: () => dispatch(getProductRequest()),
+    getSubscriptionPlanRequest: () => dispatch(getSubscriptionPlanRequest()),
+    getSMSPlanRequest: () => dispatch(getSMSPlanRequest()),
   };
 };
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

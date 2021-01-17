@@ -73,6 +73,7 @@ export interface TrackingDataTypes {
 }
 
 export interface WalletDataType {
+  isRequestProduct: boolean;
   myWallet: {
     isRequestMyWallet: boolean;
     point: number | string;
@@ -84,6 +85,21 @@ export interface WalletDataType {
     advs: object;
     advIds: number[];
   };
+  pointHistory: {
+    isRequestPointHistory: boolean;
+    pointHistories: object;
+    pointHistoryIds: number[];
+  };
+  tracker: {
+    trackers: object;
+    trackerIds: number[];
+  };
+  accesory: {
+    accesories: object;
+    accesoryIds: number[];
+  };
+  subscriptionPlan: object[];
+  smsPlan: object[];
 }
 
 export type {

@@ -1,11 +1,13 @@
 import React from 'react';
-import { WalletDataType } from '@Interfaces';
 
 import Card from '../Card';
 import { useStyles } from './styles';
 
 interface Props {
-  myWallet: WalletDataType;
+  myWallet: {
+    point?: number | string;
+    my_wallet?: number | string;
+  };
   t(key: string, format?: object): string;
 }
 
@@ -16,7 +18,7 @@ export default function MyWallet(props: Props) {
   const { point = 0, my_wallet = 0 } = myWallet;
 
   return (
-    <Card isFooter={true} footer={<FooterCard t={t} />} t={t}>
+    <Card isFooter={true} footer={<FooterCard t={t} />} t={t} isPadding={true}>
       <div className={classes.content}>
         <div className={classes.item}>
           <p className={classes.title}>{t('wallet:my_points')}</p>
