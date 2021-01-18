@@ -51,12 +51,16 @@ const useStyles = makeStyles(theme => ({
   tabItemRoot: {
     minWidth: 90,
     padding: '6px 0',
+    '& > svg': {
+      fill: theme.palette.primary.main,
+    },
   },
   tabIcon: {
     fontSize: 12,
     fontWeight: 300,
     '& svg': {
       fontSize: 24,
+      fill: '#666666',
     },
   },
   tabRoot: {
@@ -64,6 +68,11 @@ const useStyles = makeStyles(theme => ({
   },
   indicatorStyle: {
     display: 'none',
+  },
+  isActive: {
+    '& > .MuiTab-wrapper > svg': {
+      fill: theme.palette.primary.main,
+    },
   },
 }));
 

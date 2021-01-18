@@ -43,10 +43,35 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontSize: 13,
     },
   },
+  coin: {
+    color: '#e9a213',
+  },
+  wallet: {
+    padding: '0 15px',
+    color: theme.palette.primary.main,
+  },
+  cointNumber: {
+    borderRight: '1px solid #e0e0e0',
+    paddingRight: '10px',
+  },
+  flexBox: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  myWallet: {
+    color: '#1a1a1a',
+    fontSize: 14,
+  },
+  icon: {
+    marginRight: 5,
+  },
 }));
 
 const Icon = styled.div`
   margin-right: 9px;
+  & > svg {
+    fill: #666666;
+  }
 `;
 
 const Label = styled.div``;

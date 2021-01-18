@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import { Tab, Tabs } from '@material-ui/core';
 
 import { useStyles, Menu } from './styles';
+import { Spin } from '@Components/Icon';
 const Dashboard = dynamic(() => import('../components/Dashboard'));
 const MyWallet = dynamic(() => import('../components/MyWallet'));
 const FriendInvite = dynamic(() => import('../components/FriendInvite'));
@@ -57,9 +58,7 @@ const ITEM = [
   },
   {
     index: 5,
-    icon: (
-      <img src="./images/spin.svg" alt="" style={{ width: 32, height: 32 }} />
-    ),
+    icon: <Spin />,
     title: 'Spin & Win',
   },
   {
@@ -111,6 +110,7 @@ function WalletDashboard(props: Props) {
                 classes={{
                   root: classes.tabItemRoot,
                   labelIcon: classes.tabIcon,
+                  selected: classes.isActive,
                 }}
               />
             ))}

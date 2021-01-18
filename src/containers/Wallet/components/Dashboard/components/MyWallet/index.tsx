@@ -10,12 +10,13 @@ interface Props {
   };
   t(key: string, format?: object): string;
   onChangeTab: (id: number) => void;
+  isMobile?: boolean;
 }
 
 export default function MyWallet(props: Props) {
   const classes = useStyles();
 
-  const { t, myWallet, onChangeTab } = props;
+  const { t, myWallet, onChangeTab, isMobile } = props;
   const { point = 0, my_wallet = 0 } = myWallet;
 
   const onMyWallet = () => onChangeTab(1);
@@ -23,14 +24,16 @@ export default function MyWallet(props: Props) {
   return (
     <Card isFooter={true} footer={<FooterCard t={t} />} t={t} isPadding={true}>
       <>
-        <div className={classes.userInfo}>
-          <img
-            src="./images/tracki-device.png"
-            alt=""
-            className={classes.img}
-          />
-          <p className={classes.username}>Steve Rodgers</p>
-        </div>
+        {isMobile && (
+          <div className={classes.userInfo}>
+            <img
+              src="./images/tracki-device.png"
+              alt=""
+              className={classes.img}
+            />
+            <p className={classes.username}>Steve Rodgers</p>
+          </div>
+        )}
         <div className={classes.content}>
           <div className={classes.item}>
             <p className={classes.title}>{t('wallet:my_points')}</p>

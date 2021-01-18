@@ -75,7 +75,12 @@ function Dashboard(props: Props) {
   return (
     <>
       <div className={classes.row1}>
-        <MyWallet myWallet={myWallet} t={t} onChangeTab={onChangeTab} />
+        <MyWallet
+          myWallet={myWallet}
+          t={t}
+          onChangeTab={onChangeTab}
+          isMobile={isMobile}
+        />
         <ClaimCoin myWallet={myWallet} t={t} />
         <InviteFriend myWallet={myWallet} t={t} onChangeTab={onChangeTab} />
       </div>

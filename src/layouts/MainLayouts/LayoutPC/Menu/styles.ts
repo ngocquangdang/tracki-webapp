@@ -38,6 +38,29 @@ const useStyles = makeStyles(theme => ({
       color: '#666',
     },
   },
+  coin: {
+    color: '#e9a213',
+  },
+  wallet: {
+    padding: '0 15px',
+    color: theme.palette.primary.main,
+  },
+  cointNumber: {
+    borderRight: '1px solid #e0e0e0',
+    paddingRight: '10px',
+  },
+  flexBox: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  myWallet: {
+    color: '#1a1a1a',
+    fontSize: 14,
+    cursor: 'pointer',
+  },
+  icon: {
+    marginRight: 5,
+  },
 }));
 
 export { StyledMenuItem, useStyles };

@@ -297,4 +297,21 @@ export function Spin({ ...props }) {
     </svg>
   );
 }
-export { TrackerIcon, SubscriptionIcon, PhoneIcon, Accessoricon };
+
+function WalletColorIcon({ ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 17 17"
+    />
+  );
+}
+export {
+  TrackerIcon,
+  SubscriptionIcon,
+  PhoneIcon,
+  Accessoricon,
+  WalletColorIcon,
+};

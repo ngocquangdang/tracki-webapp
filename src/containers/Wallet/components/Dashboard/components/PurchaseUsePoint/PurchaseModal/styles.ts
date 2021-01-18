@@ -3,10 +3,13 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   container: {},
   card: {
-    height: 170,
+    height: 234,
     borderRadius: 4,
     boxShadow: '0 0 2px 0 rgba(0, 0, 0, 0.25)',
     border: '1px solid #fefefe',
+    [theme.breakpoints.down('sm')]: {
+      height: 170,
+    },
   },
   btnBackground: {
     height: 40,
