@@ -24,6 +24,8 @@ import PurchaseUsePoint from './components/PurchaseUsePoint';
 
 interface IT {
   t(key: string, format?: object): string;
+  onChangeTab: (id: number) => void;
+  isMobile?: boolean;
 }
 interface Props {
   t(key: string, format?: object): string;
@@ -51,6 +53,8 @@ interface Props {
   };
   subscriptionPlan: object[];
   smsPlan: object[];
+  onChangeTab: (id: number) => void;
+  isMobile?: boolean;
 }
 
 function Dashboard(props: Props) {
@@ -65,18 +69,20 @@ function Dashboard(props: Props) {
     trackerProduct,
     subscriptionPlan,
     smsPlan,
+    onChangeTab,
+    isMobile,
   } = props;
   return (
     <>
       <div className={classes.row1}>
-        <MyWallet myWallet={myWallet} t={t} />
+        <MyWallet myWallet={myWallet} t={t} onChangeTab={onChangeTab} />
         <ClaimCoin myWallet={myWallet} t={t} />
-        <InviteFriend myWallet={myWallet} t={t} />
+        <InviteFriend myWallet={myWallet} t={t} onChangeTab={onChangeTab} />
       </div>
       <div className={classes.row1}>
         <EarnPoint t={t} adv={adv} />
         <PointHistory t={t} pointHistory={pointHistory} />
-        <GiftToday t={t} />
+        {!isMobile && <GiftToday t={t} />}
       </div>
       <div>
         <PurchaseUsePoint

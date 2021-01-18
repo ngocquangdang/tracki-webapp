@@ -13,13 +13,16 @@ interface Props {
   myWallet: {
     referral_code?: string;
   };
+  onChangeTab: (id: number) => void;
 }
 
 export default function InviteFriend(props: Props) {
   const classes = useStyles();
-  const { t, myWallet } = props;
+  const { t, myWallet, onChangeTab } = props;
 
   const { referral_code = 'XXXXXXXXXX' } = myWallet;
+
+  const onInviteFriend = () => onChangeTab(2);
 
   return (
     <Card
@@ -27,6 +30,7 @@ export default function InviteFriend(props: Props) {
       isHeader={true}
       title={t('wallet:invite_friend_earn_cash')}
       isPadding={true}
+      onClick={onInviteFriend}
     >
       <div className={classes.content}>
         <p className={`${classes.mr0} ${classes.title}`}>

@@ -55,7 +55,7 @@ function PurchaseUsePoint(props: Props) {
         <p className={classes.title}>{t('wallet:purchase_using_points')}</p>
         <p className={classes.viewMore}>{t('wallet:see_more')}</p>
       </div>
-      <div>
+      <div className={classes.content}>
         <div className={classes.itemList}>
           {OPTIONS.map(item => (
             <div
@@ -63,6 +63,7 @@ function PurchaseUsePoint(props: Props) {
                 typeActive === item.title && classes.isActive
               }`}
               onClick={onActive(item.title)}
+              key={item.title}
             >
               {item.icon}
               <p className={classes.itemTitle}>{t(`wallet:${item.title}`)}</p>
@@ -113,7 +114,7 @@ function TrackerList(props) {
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {trackers[id].point}
               </p>{' '}
-              {t('wallet:points')}
+              <span className={classes.point}>{t('wallet:points')}</span>
             </div>
             <Button
               classes={classes.btnBackground}
@@ -166,7 +167,7 @@ function AccesoryList(props) {
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {accesories[id].point}
               </p>{' '}
-              {t('wallet:points')}
+              <span className={classes.point}>{t('wallet:points')}</span>
             </div>
             <Button
               classes={classes.btnBackground}
@@ -233,7 +234,7 @@ function SubsciptionPlan(props) {
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {item.point}
               </p>{' '}
-              {t('wallet:points')}
+              <span className={classes.point}>{t('wallet:points')}</span>
             </div>
             <Button
               classes={classes.btnBackground}
@@ -295,7 +296,7 @@ function SMSPlan(props) {
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {item.point}
               </p>{' '}
-              {t('wallet:points')}
+              <span className={classes.point}>{t('wallet:points')}</span>
             </div>
             <Button
               classes={classes.btnBackground}

@@ -13,12 +13,17 @@ import {
   PlayArrow as PlayIcon,
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
-
+import { WalletIcon } from '@Components/Icon';
 import { logoutRequestAction } from '@Containers/App/store/actions';
 
 import { useStyles, Item, LinkStyle, Icon, Label, MenuButton } from './style';
 
 const routes = [
+  {
+    label: 'Wallet',
+    icon: <WalletIcon />,
+    link: '/wallet',
+  },
   {
     label: 'Dashboard',
     icon: <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />,

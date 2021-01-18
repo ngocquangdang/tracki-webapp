@@ -6,19 +6,21 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import FlagIcon from '@material-ui/icons/Flag';
 import { FaGift } from 'react-icons/fa';
 import { BiWalletAlt } from 'react-icons/bi';
+import dynamic from 'next/dynamic';
+import { Tab, Tabs } from '@material-ui/core';
 
 import { useStyles, Menu } from './styles';
-import { Tab, Tabs } from '@material-ui/core';
-import Dashboard from '../components/Dashboard';
-import MyWallet from '../components/MyWallet';
-import FriendInvite from '../components/FriendInvite';
-import Notification from '../components/Notification';
-import DailyBonus from '../components/DailyBonus';
-import SpinWin from '../components/Spin';
-import HourlyGifts from '../components/HourlyGift';
+const Dashboard = dynamic(() => import('../components/Dashboard'));
+const MyWallet = dynamic(() => import('../components/MyWallet'));
+const FriendInvite = dynamic(() => import('../components/FriendInvite'));
+const Notification = dynamic(() => import('../components/Notification'));
+const DailyBonus = dynamic(() => import('../components/DailyBonus'));
+const SpinWin = dynamic(() => import('../components/Spin'));
+const HourlyGifts = dynamic(() => import('../components/HourlyGift'));
 
 interface Props {
   t(key: string, format?: object): string;
+  isMobile?: boolean;
 }
 
 type ROUTE = {
@@ -69,13 +71,15 @@ const ITEM = [
 
 function WalletDashboard(props: Props) {
   const classes = useStyles();
-  const { t } = props;
+  const { t, isMobile } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
 
   const onClickTab = (r: ROUTE) => () => {
     setCurrentTab(r.index);
   };
+
+  const onChangeTab = (tab: number) => setCurrentTab(tab);
 
   return (
     <div className={classes.layout}>
@@ -114,7 +118,9 @@ function WalletDashboard(props: Props) {
         </Menu>
       </div>
       <div className={classes.container}>
-        {currentTab === 0 && <Dashboard t={t} />}
+        {currentTab === 0 && (
+          <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />
+        )}
         {currentTab === 1 && <MyWallet />}
         {currentTab === 2 && <FriendInvite />}
         {currentTab === 3 && <Notification />}

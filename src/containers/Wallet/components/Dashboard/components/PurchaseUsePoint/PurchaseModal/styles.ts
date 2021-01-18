@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   container: {},
   card: {
-    height: 234,
+    height: 170,
     borderRadius: 4,
     boxShadow: '0 0 2px 0 rgba(0, 0, 0, 0.25)',
     border: '1px solid #fefefe',
@@ -15,7 +15,11 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.16)',
     backgroundImage: 'linear-gradient(98deg, #ffda8f, #ffba31 100%)',
   },
-  itemName: {},
+  itemName: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
+  },
   flexBox: {
     display: 'flex',
     alignItems: 'center',
@@ -54,16 +58,31 @@ const useStyles = makeStyles(theme => ({
   smsTitle: {
     fontSize: 37,
     fontWeight: 'bold',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 23,
+      fontWeight: 'bold',
+    },
   },
   smsPlan: {
     fontSize: 15,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+    },
   },
   smsPrice: {
     fontSize: 19,
     margin: 10,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+      fontWeight: 'bold',
+    },
   },
   title: {
     textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
   },
 }));
 

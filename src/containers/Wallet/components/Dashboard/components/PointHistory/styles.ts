@@ -40,14 +40,23 @@ const useStyles = makeStyles(theme => ({
   time: {
     fontSize: 15,
     color: '#999999',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 13,
+    },
   },
   name: {
     fontSize: 16,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   point: {
     minWidth: 100,
     textAlign: 'end',
     color: theme.palette.primary.main,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15,
+    },
   },
   drawerWidth: {
     '& > .MuiDrawer-paper': {

@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: 16,
     fontWeight: 500,
     color: '#e99313',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   cointLine: {
     margin: 0,

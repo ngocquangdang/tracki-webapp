@@ -1,5 +1,6 @@
 import { Button } from '@Components/buttons';
-import React from 'react';
+import ClaimPointModal from '@Containers/Wallet/components/ClaimPointModal';
+import React, { useState } from 'react';
 import Card from '../Card';
 
 import { useStyles, Coin, Day } from './styles';
@@ -25,6 +26,12 @@ export default function GiveCoin(props: Props) {
   const classes = useStyles();
   const { t } = props;
 
+  const [cointSelected, setCointSelected] = useState<number | string>('');
+
+  const onGetCoint = () => setCointSelected(ClaimDate[0].coin);
+
+  const getCointSuccess = () => setCointSelected('');
+
   return (
     <Card className={classes.background} t={t} isPadding={true}>
       <div className={classes.content}>
@@ -33,7 +40,7 @@ export default function GiveCoin(props: Props) {
           {ClaimDate.map(item => (
             <Day key={item.day}>
               <Coin isClaimed={item.status === 'claimed'}>
-                <img src="./images/coin.svg" alt="" />
+                <img src="./images/coin.svg" alt="" className={classes.img} />
                 <p className={classes.coinPoint}>{item.coin}</p>
               </Coin>
               <div
@@ -50,8 +57,17 @@ export default function GiveCoin(props: Props) {
           <Button
             classes={classes.btnBackground}
             text={t('wallet:claim_point', { point: 15 })}
+            onClick={onGetCoint}
           />
         </div>
+        {cointSelected && (
+          <ClaimPointModal
+            t={t}
+            open={!!cointSelected}
+            onClose={getCointSuccess}
+            point={cointSelected}
+          />
+        )}
       </div>
     </Card>
   );
