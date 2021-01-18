@@ -30,7 +30,7 @@ export default function ClaimPointModal(props) {
         <Button
           classes={classes.btnBackground}
           text={t('wallet:claim_points')}
-          onClick={() => {}}
+          onClick={onClose}
         />
       </>
     </Modal>

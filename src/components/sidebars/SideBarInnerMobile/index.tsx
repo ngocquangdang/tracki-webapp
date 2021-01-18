@@ -102,6 +102,22 @@ function SideBarMobile(props: Props) {
           <Icon>{icon}</Icon>
           <Label>{label}</Label>
         </LinkStyle>
+        {link === '/wallet' && (
+          <div className={`${classes.myWallet} ${classes.flexBox}`}>
+            <div className={`${classes.coin} ${classes.flexBox}`}>
+              <img
+                src="./images/coin-points.svg"
+                alt=""
+                className={classes.icon}
+              />
+              <p className={classes.cointNumber}>{5000}</p>
+            </div>
+            <div className={`${classes.wallet} ${classes.flexBox}`}>
+              <img src="./images/wallet.png" alt="" className={classes.icon} />
+              <p>$24.55</p>
+            </div>
+          </div>
+        )}
       </Item>
     );
   };

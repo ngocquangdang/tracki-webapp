@@ -61,7 +61,21 @@ function CustomizedMenus(props: any) {
   const gotoLink = (link: string) => () => Router.push(link);
 
   return (
-    <>
+    <div className={classes.flexBox}>
+      <div
+        className={`${classes.myWallet} ${classes.flexBox}`}
+        onClick={gotoLink('/wallet')}
+      >
+        <div className={`${classes.coin} ${classes.flexBox}`}>
+          <img src="./images/coin-points.svg" alt="" className={classes.icon} />
+          <p className={classes.cointNumber}>{5000}</p>
+        </div>
+        <div className={`${classes.wallet} ${classes.flexBox}`}>
+          <img src="./images/wallet.png" alt="" className={classes.icon} />
+          <p>$24.55</p>
+        </div>
+      </div>
+
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
@@ -116,7 +130,7 @@ function CustomizedMenus(props: any) {
           <ListItemText primary="Logout" className={classes.menuText} />
         </StyledMenuItem>
       </StyledMenu>
-    </>
+    </div>
   );
 }
 const mapDispatchToProps = (dispatch: any) => ({
