@@ -191,4 +191,110 @@ function Accessoricon({ ...props }) {
     </svg>
   );
 }
+
+export function WalletIcon({ ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="18.947"
+      viewBox="0 0 20 18.947"
+      {...props}
+    >
+      <defs>
+        <style></style>
+      </defs>
+      <g id="accountbalancewallet_outline" transform="translate(-4.5 -4.5)">
+        <path
+          id="Path_205"
+          d="M23.447 9.005v-2.4A2.111 2.111 0 0 0 21.342 4.5H6.605A2.105 2.105 0 0 0 4.5 6.605v14.737a2.105 2.105 0 0 0 2.105 2.105h14.737a2.111 2.111 0 0 0 2.105-2.105v-2.4a2.105 2.105 0 0 0 1.053-1.81v-6.316a2.105 2.105 0 0 0-1.053-1.811zm-1.053 1.811v6.316h-7.368v-6.316zM6.605 21.342V6.605h14.737v2.106h-6.316a2.111 2.111 0 0 0-2.105 2.105v6.316a2.111 2.111 0 0 0 2.105 2.105h6.316v2.105z"
+          className="cls-1"
+        />
+        <path
+          id="Path_206"
+          d="M24.543 17.146a1.4 1.4 0 1 1-1.4-1.4 1.4 1.4 0 0 1 1.4 1.4z"
+          className="cls-1"
+          transform="translate(-4.882 -3.173)"
+        />
+      </g>
+    </svg>
+  );
+}
+
+export function Spin({ ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      {...props}
+    >
+      <defs>
+        <clipPath id="spin">
+          <path
+            id="bg"
+            d="M0 0H32V32H0z"
+            className="cls-1"
+            transform="translate(293 8)"
+          />
+        </clipPath>
+        <style></style>
+      </defs>
+      <g
+        id="Mask_Group_17"
+        clipPath="url(#spin)"
+        transform="translate(-293 -8)"
+      >
+        <g id="fortune-wheel" transform="translate(296.535 8)">
+          <path
+            id="Path_212"
+            d="M18.069 27.55a14.373 14.373 0 0 1-11.208 0l-.486 2.575H4.59V32h15.75v-1.875h-1.786zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_213"
+            d="M15.9 2.576V0H9.027v2.576l3.437 3.437zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_214"
+            d="M12.465 13.375a.937.937 0 1 0 .938.938.939.939 0 0 0-.938-.938zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_215"
+            d="M12.465 11.5a2.8 2.8 0 0 1 .514.048l4.637-8.033-5.151 5.15-1.326-1.326L7.7 3.9l-.391-.391 4.641 8.037a2.8 2.8 0 0 1 .513-.048zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_216"
+            d="M15.116 13.375h9.814a12.505 12.505 0 0 0-5.424-9.385l-4.9 8.5a2.811 2.811 0 0 1 .515.888zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_217"
+            d="M12.465 17.125a2.8 2.8 0 0 1-.513-.048l-4.907 8.5a12.489 12.489 0 0 0 10.839 0l-4.9-8.5a2.8 2.8 0 0 1-.514.048zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_218"
+            d="M14.6 16.138l4.9 8.5a12.506 12.506 0 0 0 5.43-9.388h-9.814a2.811 2.811 0 0 1-.515.888zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_219"
+            d="M10.328 16.138a2.811 2.811 0 0 1-.515-.888H0a12.5 12.5 0 0 0 5.422 9.384zm0 0"
+            className="cls-1"
+          />
+          <path
+            id="Path_220"
+            d="M10.328 12.487L5.423 3.99A12.5 12.5 0 0 0 0 13.375h9.814a2.811 2.811 0 0 1 .515-.888zm0 0"
+            className="cls-1"
+          />
+        </g>
+      </g>
+    </svg>
+  );
+}
 export { TrackerIcon, SubscriptionIcon, PhoneIcon, Accessoricon };

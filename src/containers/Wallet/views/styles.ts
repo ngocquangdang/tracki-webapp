@@ -4,12 +4,19 @@ import styled from 'styled-components';
 const useStyles = makeStyles(theme => ({
   layout: {
     margin: 25,
+    [theme.breakpoints.down('sm')]: {
+      margin: 0,
+      background: '#ffffff',
+    },
   },
   header: {
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
     height: 70,
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   title: {
     display: 'flex',
@@ -17,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     marginTop: 10,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 0,
+    },
   },
   menuItem: {
     textAlign: 'center',

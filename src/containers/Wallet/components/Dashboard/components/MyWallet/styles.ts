@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   content: {
     height: '100%',
     display: 'flex',
@@ -29,6 +29,11 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     color: '#e99313',
     cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+      background: '#f4f5f6',
+      padding: 5,
+    },
   },
   title: {
     fontSize: '16px',
@@ -68,6 +73,21 @@ const useStyles = makeStyles(() => ({
     color: '#1976d2',
     margin: 0,
     cursor: 'pointer',
+  },
+  userInfo: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  img: {
+    width: 36,
+    height: 36,
+    borderRadius: '50%',
+    marginRight: 12,
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 500,
+    marginRight: 0,
   },
 }));
 

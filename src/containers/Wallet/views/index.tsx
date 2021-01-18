@@ -2,6 +2,7 @@ import React from 'react';
 import { MainLayout } from '@Layouts';
 
 import Container from './walletContainer';
+import WalletHeader from '../components/HeaderSP';
 
 interface Props {
   isMobile?: boolean;
@@ -13,8 +14,8 @@ export default function Wallet(props: Props) {
   const { isMobile, ...rest } = props;
 
   return (
-    <MainLayout isMobile={isMobile} hasFooter={false}>
-      <Container {...rest} />
+    <MainLayout isMobile={isMobile} header={<WalletHeader />} hasFooter={false}>
+      <Container {...rest} isMobile={isMobile} />
     </MainLayout>
   );
 }

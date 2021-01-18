@@ -7,6 +7,16 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     width: '100%',
     padding: 20,
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+      boxShadow: 'none',
+      border: 0,
+    },
+  },
+  content: {
+    [theme.breakpoints.down('sm')]: {
+      padding: 5,
+    },
   },
   header: {
     display: 'flex',
@@ -14,18 +24,31 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     color: '#1a1a1a',
     marginBottom: 15,
+    [theme.breakpoints.down('sm')]: {
+      background: '#f4f5f6',
+      padding: 15,
+      marginBottom: 0,
+    },
   },
   title: {
     fontSize: 24,
     fontWeight: 500,
     margin: 0,
     textTransform: 'capitalize',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+      fontWeight: 500,
+      color: theme.palette.secondary.main,
+    },
   },
   viewMore: {
     fontSize: 16,
     color: '#1976d2',
     cursor: 'pointer',
     margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   item: {
     borderRadius: 4,
@@ -42,11 +65,17 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       cursor: 'pointer',
     },
+    '&:last-child': {
+      marginRight: 0,
+    },
   },
   itemList: {
     display: 'flex',
     alignItems: 'center',
     marginBottom: 20,
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 8,
+    },
   },
   isActive: {
     border: `1px solid ${theme.palette.primary.main}`,
@@ -58,14 +87,22 @@ const useStyles = makeStyles(theme => ({
   itemTitle: {
     fontSize: 14,
     margin: 5,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 11,
+    },
   },
   cardItem: {
     width: 'calc((100% - 100px)/6)',
+    [theme.breakpoints.down('sm')]: {
+      width: 'calc((100% - 10px)/2)',
+      marginBottom: 10,
+    },
   },
   cardList: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   flexBox: {
     display: 'flex',
@@ -81,6 +118,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20,
     color: '#e99313',
     justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 14,
+    },
   },
   btnBackground: {
     height: 40,
@@ -97,6 +137,10 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: 'inline-block',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+      height: 36,
+    },
   },
   img: {
     width: '100%',
@@ -105,9 +149,16 @@ const useStyles = makeStyles(theme => ({
   cardSubscription: {
     display: 'flex',
     alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
   },
   mr20: {
     marginRight: 20,
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 0,
+    },
   },
   bgCard: {
     backgroundImage: 'linear-gradient(129deg, #28a763 1%, #0d7d41 100%)',
@@ -142,13 +193,28 @@ const useStyles = makeStyles(theme => ({
   smsTitle: {
     fontSize: 37,
     fontWeight: 'bold',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 23,
+    },
   },
   smsPlan: {
     fontSize: 15,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+    },
   },
   smsPrice: {
     fontSize: 19,
     margin: 10,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+      fontWeight: 'bold',
+    },
+  },
+  point: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
 }));
 

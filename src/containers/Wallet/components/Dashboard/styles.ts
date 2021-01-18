@@ -1,16 +1,20 @@
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   row1: {
     display: 'flex',
     justifyContent: 'space-between',
-    // height: 260,
     marginBottom: 20,
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
   },
   row2: {
     display: 'flex',
     justifyContent: 'space-between',
-    // height: 425,
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
   },
 }));
 
