@@ -11,10 +11,10 @@ import {
   Settings as SettingsIcon,
   ShoppingBasket as ShoppingBasketIcon,
 } from '@material-ui/icons';
-import { BiWalletAlt } from 'react-icons/bi';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { WalletIcon } from '@Components/Icon';
 
 import Menu from '../Menu';
 import { useStyles } from './styles';
@@ -78,7 +78,7 @@ const routes = [
   {
     index: 8,
     label: 'Wallet',
-    icon: <BiWalletAlt />,
+    icon: <WalletIcon />,
     link: '/wallet',
   },
 ];
@@ -134,6 +134,7 @@ export default function Header() {
                   classes={{
                     root: classes.tabItemRoot,
                     labelIcon: classes.tabIcon,
+                    selected: classes.isActive,
                   }}
                 />
               ))}

@@ -98,6 +98,10 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 10,
     },
   },
+  cardItemMobile: {
+    width: 'calc((100% - 10px)/2)',
+    marginBottom: 10,
+  },
   cardList: {
     display: 'flex',
     alignItems: 'center',
@@ -215,6 +219,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
+  },
+  isMobile: {
+    padding: 0,
+    boxShadow: 'none',
+    border: 0,
   },
 }));
 

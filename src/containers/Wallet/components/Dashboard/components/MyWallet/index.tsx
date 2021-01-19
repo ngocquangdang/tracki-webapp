@@ -22,7 +22,13 @@ export default function MyWallet(props: Props) {
   const onMyWallet = () => onChangeTab(1);
 
   return (
-    <Card isFooter={true} footer={<FooterCard t={t} />} t={t} isPadding={true}>
+    <Card
+      isFooter={true}
+      footer={<FooterCard t={t} />}
+      t={t}
+      isPadding={true}
+      isMobile={isMobile}
+    >
       <>
         {isMobile && (
           <div className={classes.userInfo}>

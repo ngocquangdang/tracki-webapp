@@ -74,19 +74,24 @@ function Dashboard(props: Props) {
   } = props;
   return (
     <>
-      <div className={classes.row1}>
+      <div className={`${classes.row1} ${isMobile && classes.isMobile}`}>
         <MyWallet
           myWallet={myWallet}
           t={t}
           onChangeTab={onChangeTab}
           isMobile={isMobile}
         />
-        <ClaimCoin myWallet={myWallet} t={t} />
-        <InviteFriend myWallet={myWallet} t={t} onChangeTab={onChangeTab} />
+        <ClaimCoin myWallet={myWallet} t={t} isMobile={isMobile} />
+        <InviteFriend
+          myWallet={myWallet}
+          t={t}
+          onChangeTab={onChangeTab}
+          isMobile={isMobile}
+        />
       </div>
-      <div className={classes.row1}>
-        <EarnPoint t={t} adv={adv} />
-        <PointHistory t={t} pointHistory={pointHistory} />
+      <div className={`${classes.row1} ${isMobile && classes.isMobile}`}>
+        <EarnPoint t={t} adv={adv} isMobile={isMobile} />
+        <PointHistory t={t} pointHistory={pointHistory} isMobile={isMobile} />
         {!isMobile && <GiftToday t={t} />}
       </div>
       <div>
@@ -96,6 +101,7 @@ function Dashboard(props: Props) {
           accesoryProduct={accesoryProduct}
           subscriptionPlan={subscriptionPlan}
           smsPlan={smsPlan}
+          isMobile={isMobile}
         />
       </div>
     </>

@@ -11,12 +11,13 @@ interface Props {
     advs?: object;
     advIds?: number[];
   };
+  isMobile?: boolean;
 }
 
 export default function EarnPoint(props: Props) {
   const classes = useStyles();
 
-  const { t, adv } = props;
+  const { t, adv, isMobile } = props;
   const { advs = {}, advIds = [] } = adv;
   const [isViewMore, setIsViewMore] = useState(false);
 
@@ -30,6 +31,7 @@ export default function EarnPoint(props: Props) {
         isHeader={true}
         title={t('wallet:earn_points')}
         onClick={tonggleOpenDrawer}
+        isMobile={isMobile}
       >
         <>
           {advIds.map(id => (

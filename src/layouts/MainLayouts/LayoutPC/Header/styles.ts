@@ -16,12 +16,17 @@ const useStyles = makeStyles(theme => ({
   tabItemRoot: {
     minWidth: 90,
     padding: '6px 0',
+    '& > svg': {
+      fill: theme.palette.primary.main,
+    },
   },
   tabIcon: {
     fontSize: 12,
     fontWeight: 300,
     '& svg': {
       fontSize: 24,
+      color: '#999999',
+      fill: '#999999',
     },
   },
   row: {
@@ -39,6 +44,11 @@ const useStyles = makeStyles(theme => ({
   logo: {
     objectFit: 'contain',
     height: 35.4,
+  },
+  isActive: {
+    '& > .MuiTab-wrapper > svg': {
+      fill: theme.palette.primary.main,
+    },
   },
 }));
 

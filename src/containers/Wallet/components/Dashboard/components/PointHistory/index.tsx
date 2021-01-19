@@ -14,11 +14,12 @@ interface Props {
     pointHistories: object;
     pointHistoryIds: number[];
   };
+  isMobile?: boolean;
 }
 
 export default function PointHistory(props: Props) {
   const classes = useStyles();
-  const { t, pointHistory } = props;
+  const { t, pointHistory, isMobile } = props;
   const { pointHistories = {}, pointHistoryIds = [] } = pointHistory;
 
   const [isViewMore, setIsViewMore] = useState(false);
@@ -60,6 +61,7 @@ export default function PointHistory(props: Props) {
         isHeader={true}
         title={t('wallet:point_history')}
         onClick={tonggleOpenDrawer}
+        isMobile={isMobile}
       >
         <>
           {limitHistoryIds.map(id => (

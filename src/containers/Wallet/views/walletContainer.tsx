@@ -82,41 +82,43 @@ function WalletDashboard(props: Props) {
 
   return (
     <div className={classes.layout}>
-      <div className={classes.header}>
-        {currentTab === 0 && (
-          <div className={classes.title}>
-            <BiWalletAlt className={classes.icon} />{' '}
-            <p className={classes.caption}>Wallet Dashboard</p>
-          </div>
-        )}
-        <Menu>
-          <Tabs
-            value={currentTab}
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="tabs menu"
-            classes={{
-              root: classes.tabRoot,
-              indicator: classes.indicatorStyle,
-            }}
-          >
-            {ITEM.map(r => (
-              <Tab
-                key={r.index}
-                value={r.index}
-                onClick={onClickTab(r)}
-                icon={r.icon}
-                label={r.title}
-                classes={{
-                  root: classes.tabItemRoot,
-                  labelIcon: classes.tabIcon,
-                  selected: classes.isActive,
-                }}
-              />
-            ))}
-          </Tabs>
-        </Menu>
-      </div>
+      {!isMobile && (
+        <div className={classes.header}>
+          {currentTab === 0 && (
+            <div className={classes.title}>
+              <BiWalletAlt className={classes.icon} />{' '}
+              <p className={classes.caption}>Wallet Dashboard</p>
+            </div>
+          )}
+          <Menu>
+            <Tabs
+              value={currentTab}
+              indicatorColor="primary"
+              textColor="primary"
+              aria-label="tabs menu"
+              classes={{
+                root: classes.tabRoot,
+                indicator: classes.indicatorStyle,
+              }}
+            >
+              {ITEM.map(r => (
+                <Tab
+                  key={r.index}
+                  value={r.index}
+                  onClick={onClickTab(r)}
+                  icon={r.icon}
+                  label={r.title}
+                  classes={{
+                    root: classes.tabItemRoot,
+                    labelIcon: classes.tabIcon,
+                    selected: classes.isActive,
+                  }}
+                />
+              ))}
+            </Tabs>
+          </Menu>
+        </div>
+      )}
       <div className={classes.container}>
         {currentTab === 0 && (
           <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />
