@@ -40,5 +40,9 @@
   "purchase_with": "Purchase with {{point}} points",
   "congratulations": "Congratulations!",
   "you_have_received": "You have received",
-  "claim_points":"Claim Point" 
+  "claim_points":"Claim Point",
+  "invite_url_copied": "Invite URL Copied!",
+  "send_it_to_friend": "Send it to your friends to invite them.",
+  "share_code_using": "Share Code Using",
+  "qr_code_description": "Show it to your friends to add invite them!"
 }

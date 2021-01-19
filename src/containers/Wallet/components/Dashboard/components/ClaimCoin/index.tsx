@@ -11,6 +11,7 @@ interface Props {
     point?: number | string;
     my_wallet?: number | string;
   };
+  isMobile?: boolean;
 }
 
 const ClaimDate = [
@@ -24,7 +25,7 @@ const ClaimDate = [
 ];
 export default function GiveCoin(props: Props) {
   const classes = useStyles();
-  const { t } = props;
+  const { t, isMobile } = props;
 
   const [cointSelected, setCointSelected] = useState<number | string>('');
 
@@ -33,12 +34,17 @@ export default function GiveCoin(props: Props) {
   const getCointSuccess = () => setCointSelected('');
 
   return (
-    <Card className={classes.background} t={t} isPadding={true}>
+    <Card
+      className={classes.background}
+      t={t}
+      isPadding={true}
+      isMobile={isMobile}
+    >
       <div className={classes.content}>
         <div className={classes.title}>{t('wallet:login_everyday')}</div>
         <div className={classes.step}>
           {ClaimDate.map(item => (
-            <Day key={item.day}>
+            <Day key={item.day} isMobile={isMobile}>
               <Coin isClaimed={item.status === 'claimed'}>
                 <img src="./images/coin.svg" alt="" className={classes.img} />
                 <p className={classes.coinPoint}>{item.coin}</p>

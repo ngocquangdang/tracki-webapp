@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
       flexDirection: 'column',
     },
   },
+  isMobile: {
+    flexDirection: 'column',
+  },
 }));
 
 export { useStyles };

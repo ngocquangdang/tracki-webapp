@@ -2,7 +2,8 @@ import { makeStyles } from '@material-ui/core';
 import styled from 'styled-components';
 
 interface Props {
-  isClaimed: boolean;
+  isClaimed?: boolean;
+  isMobile?: boolean;
 }
 const useStyles = makeStyles(theme => ({
   content: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   btnBackground: {
     marginBottom: 7,
-    width: 343,
+    width: '100%',
     color: '#6a3c02',
     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.16)',
     backgroundImage: 'linear-gradient(98deg, #ffda8f, #ffba31 100%)',
@@ -85,14 +86,16 @@ const Day = styled.div`
     position: absolute;
     top: 17px;
     height: 2px;
-    width: 50px;
+    width: ${(props: Props) => (props.isMobile ? '200px' : '50px')};
     background-color: #d15500;
-    right: -25px;
+    right: ${(props: Props) => (props.isMobile ? '-100px' : '-25px')};
     @media (max-width: 959.96px) {
       top: 15px;
     }
     @media (max-width: 374.95px) {
       top: 15px;
+      width: 50px;
+      right: -25px;
     }
     @media (min-width: 375px) and (max-width: 468px) {
       top: 15px;

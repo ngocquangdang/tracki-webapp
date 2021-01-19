@@ -13,6 +13,7 @@ interface Props {
   className?: any;
   isPadding?: boolean;
   onClick?: () => void;
+  isMobile?: boolean;
 }
 
 export default function Card(props: Props) {
@@ -28,10 +29,15 @@ export default function Card(props: Props) {
     className,
     isPadding = false,
     onClick,
+    isMobile,
   } = props;
 
   return (
-    <div className={`${classes.cardContainer} ${className}`}>
+    <div
+      className={`${classes.cardContainer} ${className} ${
+        isMobile && classes.isMobile
+      }`}
+    >
       {isHeader && (
         <div className={classes.cardHeader}>
           <p className={`${classes.mr0} ${classes.cardTitle}`}>{title}</p>

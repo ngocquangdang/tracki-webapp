@@ -21,7 +21,7 @@ import { useStyles, Item, LinkStyle, Icon, Label, MenuButton } from './style';
 const routes = [
   {
     label: 'Wallet',
-    icon: <WalletIcon />,
+    icon: <WalletIcon style={{ margin: '0 3px' }} />,
     link: '/wallet',
   },
   {

@@ -23,6 +23,7 @@ interface Props {
   };
   subscriptionPlan: object[];
   smsPlan: object[];
+  isMobile?: boolean;
 }
 
 const OPTIONS = [
@@ -43,6 +44,7 @@ function PurchaseUsePoint(props: Props) {
     accesoryProduct,
     subscriptionPlan,
     smsPlan,
+    isMobile,
   } = props;
 
   const [typeActive, setTypeActive] = useState(OPTIONS[0].title);
@@ -50,7 +52,7 @@ function PurchaseUsePoint(props: Props) {
   const onActive = title => () => setTypeActive(title);
 
   return (
-    <div className={classes.cardContainer}>
+    <div className={`${classes.cardContainer} ${isMobile && classes.isMobile}`}>
       <div className={classes.header}>
         <p className={classes.title}>{t('wallet:purchase_using_points')}</p>
         <p className={classes.viewMore}>{t('wallet:see_more')}</p>
@@ -71,15 +73,29 @@ function PurchaseUsePoint(props: Props) {
           ))}
         </div>
         {typeActive === 'trackers' && (
-          <TrackerList trackerProduct={trackerProduct} t={t} />
+          <TrackerList
+            trackerProduct={trackerProduct}
+            t={t}
+            isMobile={isMobile}
+          />
         )}
         {typeActive === 'accesories' && (
-          <AccesoryList accesoryProduct={accesoryProduct} t={t} />
+          <AccesoryList
+            accesoryProduct={accesoryProduct}
+            t={t}
+            isMobile={isMobile}
+          />
         )}
         {typeActive === 'subscription' && (
-          <SubsciptionPlan subscriptionPlan={subscriptionPlan} t={t} />
+          <SubsciptionPlan
+            subscriptionPlan={subscriptionPlan}
+            t={t}
+            isMobile={isMobile}
+          />
         )}
-        {typeActive === 'sms_plan' && <SMSPlan smsPlan={smsPlan} t={t} />}
+        {typeActive === 'sms_plan' && (
+          <SMSPlan smsPlan={smsPlan} t={t} isMobile={isMobile} />
+        )}
       </div>
     </div>
   );
@@ -88,7 +104,7 @@ function PurchaseUsePoint(props: Props) {
 function TrackerList(props) {
   const classes = useStyles();
 
-  const { trackerProduct, t } = props;
+  const { trackerProduct, t, isMobile } = props;
   const { trackers = {}, trackerIds = [] } = trackerProduct;
   const [isOpen, setIsOpen] = useState('');
 
@@ -101,7 +117,7 @@ function TrackerList(props) {
     <div className={classes.cardList}>
       {limittrackerId.map(id => (
         <Card
-          className={classes.cardItem}
+          className={` ${isMobile ? classes.cardItemMobile : classes.cardItem}`}
           header={
             <img src={trackers[id].icon} alt="" className={classes.img} />
           }
@@ -142,7 +158,7 @@ function TrackerList(props) {
 function AccesoryList(props) {
   const classes = useStyles();
 
-  const { accesoryProduct, t } = props;
+  const { accesoryProduct, t, isMobile } = props;
   const { accesories = {}, accesoryIds = [] } = accesoryProduct;
   const [isOpen, setIsOpen] = useState('');
 
@@ -154,7 +170,9 @@ function AccesoryList(props) {
     <div className={classes.cardList}>
       {limitAccesoryId.map(id => (
         <Card
-          className={classes.cardItem}
+          className={`${classes.cardItem} ${
+            isMobile && classes.cardItemMobile
+          }`}
           header={
             <img src={accesories[id].icon} alt="" className={classes.img} />
           }
@@ -195,7 +213,7 @@ function AccesoryList(props) {
 function SubsciptionPlan(props) {
   const classes = useStyles();
 
-  const { subscriptionPlan, t } = props;
+  const { subscriptionPlan, t, isMobile } = props;
   const [isOpen, setIsOpen] = useState('');
 
   const onSelectedId = id => () => {
@@ -210,7 +228,9 @@ function SubsciptionPlan(props) {
     <div className={classes.cardSubscription}>
       {subscriptionPlan.map((item, index) => (
         <Card
-          className={`${classes.cardItem} ${classes.mr20}`}
+          className={`${`${classes.cardItem} ${
+            isMobile && classes.cardItemMobile
+          }`} ${classes.mr20}`}
           header={
             <div className={classes.bgCard}>
               <p className={classes.planName}>{item.name}</p>
@@ -261,7 +281,7 @@ function SubsciptionPlan(props) {
 function SMSPlan(props) {
   const classes = useStyles();
 
-  const { smsPlan, t } = props;
+  const { smsPlan, t, isMobile } = props;
   const [isOpen, setIsOpen] = useState(null);
 
   const onSelectedId = id => () => setIsOpen(id);
@@ -273,7 +293,9 @@ function SMSPlan(props) {
     <div className={classes.cardSubscription}>
       {smsPlan.map((item, index) => (
         <Card
-          className={`${classes.cardItem} ${classes.mr20}`}
+          className={`${`${classes.cardItem} ${
+            isMobile && classes.cardItemMobile
+          }`} ${classes.mr20}`}
           header={
             <div className={classes.bgCard}>
               <p className={`${classes.smsTitle} ${classes.mr0}`}>

@@ -56,6 +56,14 @@ const useStyles = makeStyles(theme => ({
   mr0: {
     margin: 0,
   },
+  isMobile: {
+    width: '100%',
+    boxShadow: 'none',
+    border: '0',
+    borderRadius: 0,
+    borderBottom: '1px solid #e0e0e0',
+    marginBottom: 20,
+  },
 }));
 
 export { useStyles };
