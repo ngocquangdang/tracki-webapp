@@ -22,6 +22,7 @@ const HourlyGifts = dynamic(() => import('../components/HourlyGift'));
 interface Props {
   t(key: string, format?: object): string;
   isMobile?: boolean;
+  isHiddenHeader?: boolean;
 }
 
 type ROUTE = {
@@ -70,7 +71,7 @@ const ITEM = [
 
 function WalletDashboard(props: Props) {
   const classes = useStyles();
-  const { t, isMobile } = props;
+  const { t, isMobile, isHiddenHeader } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -82,43 +83,44 @@ function WalletDashboard(props: Props) {
 
   return (
     <div className={classes.layout}>
-      {!isMobile && (
-        <div className={classes.header}>
-          {currentTab === 0 && (
-            <div className={classes.title}>
-              <BiWalletAlt className={classes.icon} />{' '}
-              <p className={classes.caption}>Wallet Dashboard</p>
-            </div>
-          )}
-          <Menu>
-            <Tabs
-              value={currentTab}
-              indicatorColor="primary"
-              textColor="primary"
-              aria-label="tabs menu"
-              classes={{
-                root: classes.tabRoot,
-                indicator: classes.indicatorStyle,
-              }}
-            >
-              {ITEM.map(r => (
-                <Tab
-                  key={r.index}
-                  value={r.index}
-                  onClick={onClickTab(r)}
-                  icon={r.icon}
-                  label={r.title}
-                  classes={{
-                    root: classes.tabItemRoot,
-                    labelIcon: classes.tabIcon,
-                    selected: classes.isActive,
-                  }}
-                />
-              ))}
-            </Tabs>
-          </Menu>
-        </div>
-      )}
+      {!isMobile ||
+        (!isHiddenHeader && (
+          <div className={classes.header}>
+            {currentTab === 0 && (
+              <div className={classes.title}>
+                <BiWalletAlt className={classes.icon} />{' '}
+                <p className={classes.caption}>Wallet Dashboard</p>
+              </div>
+            )}
+            <Menu>
+              <Tabs
+                value={currentTab}
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="tabs menu"
+                classes={{
+                  root: classes.tabRoot,
+                  indicator: classes.indicatorStyle,
+                }}
+              >
+                {ITEM.map(r => (
+                  <Tab
+                    key={r.index}
+                    value={r.index}
+                    onClick={onClickTab(r)}
+                    icon={r.icon}
+                    label={r.title}
+                    classes={{
+                      root: classes.tabItemRoot,
+                      labelIcon: classes.tabIcon,
+                      selected: classes.isActive,
+                    }}
+                  />
+                ))}
+              </Tabs>
+            </Menu>
+          </div>
+        ))}
       <div className={classes.container}>
         {currentTab === 0 && (
           <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />

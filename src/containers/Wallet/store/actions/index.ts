@@ -127,3 +127,19 @@ export const getSMSPlanFailed = error => {
     payload: { error },
   };
 };
+
+// set hidden header wallet
+export const setHiddenHeader = type => {
+  return {
+    type: types.SET_HIDDEN_HEADDER,
+    payload: { type },
+  };
+};
+
+// set view page wallet
+export const setViewPage = page => {
+  return {
+    type: types.SET_VIEW_PAGE,
+    payload: { page },
+  };
+};
