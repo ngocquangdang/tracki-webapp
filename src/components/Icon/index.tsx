@@ -513,6 +513,96 @@ function Skype({ ...props }) {
     </svg>
   );
 }
+
+function EmailIcon({ ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
+    >
+      <defs>
+        <radialGradient
+          id="radial-gradient"
+          cx="-3.105"
+          cy="9.185"
+          r="0.036"
+          gradientTransform="translate(-0.936 0) scale(0.701 1)"
+          gradientUnits="objectBoundingBox"
+        >
+          <stop offset="0.32" stopColor="#263238" stopOpacity="0.2" />
+          <stop offset="1" stopColor="#263238" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <g id="Gmail_Icon" data-name="Gmail Icon" transform="translate(-1)">
+        <rect
+          id="Bounds"
+          width="48"
+          height="48"
+          transform="translate(1)"
+          fill="none"
+        />
+        <rect
+          id="Shape"
+          width="42"
+          height="36"
+          transform="translate(4 6)"
+          fill="#e1e1e1"
+        />
+        <path
+          id="Shape-2"
+          data-name="Shape"
+          d="M49,8.9,7,41.6v.3H46Z"
+          fill="#eee"
+        />
+        <path
+          id="Shape-3"
+          data-name="Shape"
+          d="M49,8.9,7,41.6v.3H46Z"
+          fill="#e1e1e1"
+          opacity="0.4"
+        />
+        <path
+          id="Shape-4"
+          data-name="Shape"
+          d="M7,41.6v.3L43,13.8v-.2Z"
+          fill="rgba(255,255,255,0.4)"
+        />
+        <path
+          id="Shape-5"
+          data-name="Shape"
+          d="M43,8.9l3-3a2.946,2.946,0,0,1,3,3v30a2.946,2.946,0,0,1-3,3H43V8.9Z"
+          fill="#b93426"
+        />
+        <path
+          id="Shape-6"
+          data-name="Shape"
+          d="M7,8.9l-3-3a2.946,2.946,0,0,0-3,3v30a2.946,2.946,0,0,0,3,3H7V8.9Z"
+          fill="#d23f30"
+        />
+        <path
+          id="Shape-7"
+          data-name="Shape"
+          d="M32.8,41.9,1.9,11,25,20.4,49,8.9v30a2.946,2.946,0,0,1-3,3Z"
+          fill="url(#radial-gradient)"
+        />
+        <path
+          id="Shape-8"
+          data-name="Shape"
+          d="M25,27.6,46,5.9H4Z"
+          fill="#eee"
+        />
+        <path
+          id="Shape-9"
+          data-name="Shape"
+          d="M47.7,11.3A2.813,2.813,0,0,0,49,8.9a2.946,2.946,0,0,0-3-3H45L25,20.4,5,5.9H4a2.946,2.946,0,0,0-3,3,2.813,2.813,0,0,0,1.3,2.4L25,27.6,47.7,11.3Z"
+          fill="#db4436"
+        />
+      </g>
+    </svg>
+  );
+}
 export {
   TrackerIcon,
   SubscriptionIcon,
@@ -523,4 +613,5 @@ export {
   FacebookMessenger,
   Facebook,
   Skype,
+  EmailIcon,
 };

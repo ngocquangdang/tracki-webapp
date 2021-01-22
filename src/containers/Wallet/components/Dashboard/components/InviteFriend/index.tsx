@@ -10,6 +10,7 @@ import Modal from '@Components/modals';
 import { useStyles } from './styles';
 import {
   CopyCheck,
+  EmailIcon,
   Facebook,
   FacebookMessenger,
   Skype,
@@ -115,13 +116,16 @@ export default function InviteFriend(props: Props) {
         <div className={classes.copyContainer}>
           <p>{t('wallet:share_code_using')}</p>
           <div className={classes.iconList}>
-            <div className={classes.iconGroup}></div>
             <div className={classes.iconGroup}>
-              <ImHangouts />
+              <EmailIcon />
+              <p className={classes.itemTitle}>Email</p>
+            </div>
+            <div className={classes.iconGroup}>
+              <ImHangouts className={classes.hangoutIcon} />
               <p className={classes.itemTitle}>Hangout</p>
             </div>
             <div className={classes.iconGroup}>
-              <ImGooglePlus3 />
+              <ImGooglePlus3 className={classes.googlePlus} />
               <p className={classes.itemTitle}>Google+</p>
             </div>
             <div className={classes.iconGroup}>

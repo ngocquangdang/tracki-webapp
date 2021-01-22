@@ -11,15 +11,27 @@ interface Props {
   t(key: string, format?: object): string;
   onChangeTab: (id: number) => void;
   isMobile?: boolean;
+  setHiddenHeader: (type: boolean) => void;
 }
 
 export default function MyWallet(props: Props) {
   const classes = useStyles();
 
-  const { t, myWallet, onChangeTab, isMobile } = props;
+  const { t, myWallet, onChangeTab, isMobile, setHiddenHeader } = props;
   const { point = 0, my_wallet = 0 } = myWallet;
 
+  // const [isMyPointDetail, setIsMypointDetail] = useState(false);
+
   const onMyWallet = () => onChangeTab(1);
+
+  const onShowMyPoint = () => {
+    setHiddenHeader(true);
+  };
+
+  // const onBackDetail = () => {
+  //   setIsMypointDetail(false);
+  //   setHiddenHeader(false);
+  // };
 
   return (
     <Card
@@ -41,7 +53,7 @@ export default function MyWallet(props: Props) {
           </div>
         )}
         <div className={classes.content}>
-          <div className={classes.item}>
+          <div className={classes.item} onClick={onShowMyPoint}>
             <p className={classes.title}>{t('wallet:my_points')}</p>
             <div className={classes.flexBox}>
               <img

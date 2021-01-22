@@ -31,6 +31,15 @@ const makeSelectSubscriptionPlan = () => {
 const makeSelectSMSPlan = () => {
   return createSelector(globalState, state => state.smsPlan);
 };
+
+const makeSelectIsHiddenHeader = () => {
+  return createSelector(globalState, state => state.isHiddenHeader);
+};
+
+const makeSelectPage = () => {
+  return createSelector(globalState, state => state.page);
+};
+
 export {
   makeSelectWallet,
   makeSelectAdv,
@@ -39,4 +48,6 @@ export {
   makeSelectAccesoryProduct,
   makeSelectSubscriptionPlan,
   makeSelectSMSPlan,
+  makeSelectIsHiddenHeader,
+  makeSelectPage,
 };

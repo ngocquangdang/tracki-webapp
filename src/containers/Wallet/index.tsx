@@ -23,7 +23,7 @@ import {
   getSMSPlanRequest,
   getSubscriptionPlanRequest,
 } from './store/actions';
-import { makeSelectWallet } from './store/selectors';
+import { makeSelectIsHiddenHeader, makeSelectWallet } from './store/selectors';
 
 interface Props {
   getMyWallletRequest: (id: number) => void;
@@ -71,6 +71,7 @@ function WalletContainer(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   myWallet: makeSelectWallet(),
+  isHiddenHeader: makeSelectIsHiddenHeader(),
 });
 
 const mapDispatchToProps = dispatch => {

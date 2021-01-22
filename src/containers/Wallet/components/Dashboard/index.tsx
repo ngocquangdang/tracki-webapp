@@ -21,6 +21,7 @@ import EarnPoint from './components/EarnPoint';
 import PointHistory from './components/PointHistory';
 import GiftToday from './components/GiftToday';
 import PurchaseUsePoint from './components/PurchaseUsePoint';
+import { setHiddenHeader } from '@Containers/Wallet/store/actions';
 
 interface IT {
   t(key: string, format?: object): string;
@@ -55,6 +56,7 @@ interface Props {
   smsPlan: object[];
   onChangeTab: (id: number) => void;
   isMobile?: boolean;
+  setHiddenHeader: (type: boolean) => void;
 }
 
 function Dashboard(props: Props) {
@@ -71,6 +73,7 @@ function Dashboard(props: Props) {
     smsPlan,
     onChangeTab,
     isMobile,
+    setHiddenHeader,
   } = props;
   return (
     <>
@@ -80,6 +83,7 @@ function Dashboard(props: Props) {
           t={t}
           onChangeTab={onChangeTab}
           isMobile={isMobile}
+          setHiddenHeader={setHiddenHeader}
         />
         <ClaimCoin myWallet={myWallet} t={t} isMobile={isMobile} />
         <InviteFriend
@@ -118,5 +122,10 @@ const mapStateToProps = createStructuredSelector({
   smsPlan: makeSelectSMSPlan(),
 });
 
-const withConnect = connect(mapStateToProps);
+const mapDispatchToProps = dispatch => {
+  return {
+    setHiddenHeader: (type: boolean) => dispatch(setHiddenHeader(type)),
+  };
+};
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(withConnect, memo)(Dashboard) as React.ComponentType<IT>;
