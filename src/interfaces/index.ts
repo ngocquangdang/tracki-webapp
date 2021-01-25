@@ -102,6 +102,11 @@ export interface WalletDataType {
   smsPlan: object[];
   hiddenHeader: string;
   page: string;
+  transaction: {
+    transactions: object;
+    transactionIds: number[];
+    isRequestTransaction: boolean;
+  };
 }
 
 export type {

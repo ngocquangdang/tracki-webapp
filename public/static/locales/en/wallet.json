@@ -48,5 +48,12 @@
   "balance_points": "Balance Points",
   "point_worth": "Your Points is worth ${{points}}",
   "see_more_point_history": "See More Points History",
-  "you_received_point": "You received Points!"
+  "you_received_point": "You received Points!",
+  "transaction_history": "Transaction History",
+  "cash_in": "Cash In",
+  "in_progress": "In Progress",
+  "successful": "Successfull",
+  "from": "From",
+  "to": "To",
+  "my_balance_wallet": "My Balance Wallet"
 }

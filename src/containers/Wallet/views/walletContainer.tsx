@@ -142,7 +142,7 @@ function WalletDashboard(props: Props) {
           {currentTab === 0 && (
             <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />
           )}
-          {currentTab === 1 && <MyWallet />}
+          {currentTab === 1 && <MyWallet t={t} />}
           {currentTab === 2 && <FriendInvite />}
           {currentTab === 3 && <Notification />}
           {currentTab === 4 && <DailyBonus />}

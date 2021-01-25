@@ -143,3 +143,25 @@ export const setViewPage = page => {
     payload: { page },
   };
 };
+
+// get Transction detail
+
+export const getTransactionDetailRequest = () => {
+  return {
+    type: types.GET_TRANSACTION_DETAIL_REQUESTED,
+  };
+};
+
+export const getTransactionDetailSucceed = data => {
+  return {
+    type: types.GET_TRANSACTION_DETAIL_SUCCEED,
+    payload: { data },
+  };
+};
+
+export const getTransactionDetailFailed = error => {
+  return {
+    type: types.GET_TRANSACTION_DETAIL_FAILED,
+    payload: { error },
+  };
+};

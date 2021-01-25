@@ -13,6 +13,8 @@ import {
   getSubscriptionPlanFailed,
   getSMSPlanSucceed,
   getSMSPlanFailed,
+  getTransactionDetailSucceed,
+  getTransactionDetailFailed,
 } from '../actions';
 import * as types from '../constants';
 import * as apiServices from '../services';
@@ -189,6 +191,38 @@ function* getSMSPlanSaga(action) {
     yield put(getSMSPlanFailed(payload));
   }
 }
+
+function* getTransactionSaga(action) {
+  try {
+    const data = yield call(apiServices.getTransactionDetail);
+    const formatData = data.reduce(
+      (obj, item) => {
+        obj.transactions = { ...obj.transactions, [item.id]: item };
+        obj.transactionIds.push(item.id);
+        return obj;
+      },
+      {
+        transactions: {},
+        transactionIds: [],
+      }
+    );
+    yield put(getTransactionDetailSucceed(formatData));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
+    yield put(getTransactionDetailFailed(payload));
+  }
+}
 export default function* walletWatcher() {
   yield takeLatest(types.GET_MY_WALLET_REQUESTED, getMyWalletSaga);
   yield takeLatest(types.GET_ADVERTIMENT_REQUESTED, getAdvertimentSaga);
@@ -196,4 +230,5 @@ export default function* walletWatcher() {
   yield takeLatest(types.GET_PRODUCT_REQUESTED, getProductSaga);
   yield takeLatest(types.GET_SUBSCRIPTION_REQUESTED, getSubscriptionPlanSaga);
   yield takeLatest(types.GET_SMS_PLAN_REQUESTED, getSMSPlanSaga);
+  yield takeLatest(types.GET_TRANSACTION_DETAIL_REQUESTED, getTransactionSaga);
 }

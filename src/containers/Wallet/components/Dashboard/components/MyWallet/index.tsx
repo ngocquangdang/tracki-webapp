@@ -68,7 +68,7 @@ export default function MyWallet(props: Props) {
             <p className={classes.point}>$ 10.00</p>
           </div>
           <div className={classes.item} onClick={onMyWallet}>
-            <p>{t('wallet:my_wallets')}</p>
+            <p className={classes.title}>{t('wallet:my_wallets')}</p>
             <p className={classes.money}> ${my_wallet}</p>
             <p className={classes.cast}>
               {t('wallet:cash_out')} {'>'}{' '}

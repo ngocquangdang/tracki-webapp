@@ -33,6 +33,11 @@ export const initialState: WalletDataType = {
   smsPlan: [],
   hiddenHeader: '',
   page: '',
+  transaction: {
+    transactions: {},
+    transactionIds: [],
+    isRequestTransaction: false,
+  },
 };
 
 const walletReducer = (state = initialState, { type, payload }: ActionType) => {
@@ -144,6 +149,27 @@ const walletReducer = (state = initialState, { type, payload }: ActionType) => {
         break;
       case types.SET_VIEW_PAGE:
         draft.page = payload.page;
+        break;
+      case types.GET_TRANSACTION_DETAIL_REQUESTED:
+        draft.transaction = {
+          transactions: {},
+          transactionIds: [],
+          isRequestTransaction: true,
+        };
+        break;
+      case types.GET_TRANSACTION_DETAIL_SUCCEED:
+        draft.transaction = {
+          transactions: payload.data.transactions,
+          transactionIds: payload.data.transactionIds,
+          isRequestTransaction: false,
+        };
+        break;
+      case types.GET_TRANSACTION_DETAIL_FAILED:
+        draft.transaction = {
+          transactions: {},
+          transactionIds: [],
+          isRequestTransaction: false,
+        };
         break;
       default:
         break;

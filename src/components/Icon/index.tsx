@@ -658,6 +658,68 @@ function TicketIcon({ ...props }) {
     </svg>
   );
 }
+
+function CashInIcon(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      {...props}
+    >
+      <defs>
+        <clipPath id="clip-path">
+          <path id="ic" d="M0 0H28V28H0z" className="cls-1" />
+        </clipPath>
+        <style>{/* .cls-1{fill:#168449} */}</style>
+      </defs>
+      <g id="Mask_Group_8" clipPath="url(#clip-path)">
+        <path
+          id="__TEMP__SVG__"
+          d="M21.693 21.895v2.865h4.3v4.3h2.865v-4.3h4.3v-2.865h-4.3V17.6h-2.867v4.3m-4.341-4.862a4.3 4.3 0 1 0-4.255 4.857 4.374 4.374 0 0 0 1.633-.33 8.468 8.468 0 0 1 2.622-4.527m-2.823 6.29h-8.6a2.865 2.865 0 0 0-2.865-2.865v-5.732a2.856 2.856 0 0 0 2.865-2.865h14.331a2.865 2.865 0 0 0 2.865 2.865v.086a9.051 9.051 0 0 1 2.865.487V9H4.5v17.193h14.786a9.14 9.14 0 0 1-.459-2.866z"
+          className="cls-1"
+          transform="translate(-4.925 -5.424)"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function CashOutIcon(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      {...props}
+    >
+      <defs>
+        <clipPath id="clip-path">
+          <path id="ic" d="M0 0H28V28H0z" className="cls-1" />
+        </clipPath>
+        <style>{/* .cls-1{fill:#168449} */}</style>
+      </defs>
+      <g id="Mask_Group_9" clipPath="url(#clip-path)">
+        <g id="withdrawal" transform="translate(2.195 -.722)">
+          <path
+            id="Path_235"
+            d="M22.209 0H3.749a3.718 3.718 0 0 0-2.067 6.811V3.857a2.482 2.482 0 0 1 2.48-2.48H21.8a2.482 2.482 0 0 1 2.48 2.48v2.956a3.765 3.765 0 0 0 .564-.464A3.719 3.719 0 0 0 22.209 0zm0 0"
+            className="cls-1"
+            transform="translate(-.029)"
+          />
+          <path
+            id="Path_236"
+            d="M21.951 3.173h-2.48v5.786a.827.827 0 1 1-1.653 0V3.173H8.45v5.786a.827.827 0 0 1-1.653 0V3.173H4.318A.827.827 0 0 0 3.491 4v23.971a.827.827 0 0 0 .827.827h17.633a.827.827 0 0 0 .827-.827V4a.827.827 0 0 0-.827-.827zM8.175 13.643h1.377v-1.377a.827.827 0 0 1 1.653 0V15.3a.551.551 0 0 0 1.1 0v-1.657a2.2 2.2 0 0 1 4.408 0h1.378a.827.827 0 1 1 0 1.653h-1.375v1.378a.826.826 0 1 1-1.653 0v-3.031a.551.551 0 0 0-1.1 0V15.3a2.2 2.2 0 0 1-4.408 0h-1.38a.827.827 0 0 1 0-1.653zm11.3 9.092a.827.827 0 0 1-.827.827 1.1 1.1 0 0 0-1.1 1.1.827.827 0 0 1-.827.827H9.552a.826.826 0 0 1-.826-.827 1.1 1.1 0 0 0-1.1-1.1.827.827 0 0 1-.827-.827V19.98a.827.827 0 1 1 1.653 0v2.055a2.767 2.767 0 0 1 1.8 1.8h5.764a2.767 2.767 0 0 1 1.8-1.8V19.98a.827.827 0 1 1 1.653 0zm0 0"
+            className="cls-1"
+            transform="translate(-.185 -.142)"
+          />
+        </g>
+      </g>
+    </svg>
+  );
+}
 export {
   TrackerIcon,
   SubscriptionIcon,
@@ -670,4 +732,6 @@ export {
   Skype,
   EmailIcon,
   TicketIcon,
+  CashInIcon,
+  CashOutIcon,
 };
