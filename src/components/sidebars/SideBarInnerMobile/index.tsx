@@ -13,12 +13,17 @@ import {
   PlayArrow as PlayIcon,
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
-
+import { WalletIcon } from '@Components/Icon';
 import { logoutRequestAction } from '@Containers/App/store/actions';
 
 import { useStyles, Item, LinkStyle, Icon, Label, MenuButton } from './style';
 
 const routes = [
+  {
+    label: 'Wallet',
+    icon: <WalletIcon style={{ margin: '0 3px' }} />,
+    link: '/wallet',
+  },
   {
     label: 'Dashboard',
     icon: <AiOutlineDashboard style={{ width: '24px', height: '24px' }} />,
@@ -97,6 +102,22 @@ function SideBarMobile(props: Props) {
           <Icon>{icon}</Icon>
           <Label>{label}</Label>
         </LinkStyle>
+        {link === '/wallet' && (
+          <div className={`${classes.myWallet} ${classes.flexBox}`}>
+            <div className={`${classes.coin} ${classes.flexBox}`}>
+              <img
+                src="./images/coin-points.svg"
+                alt=""
+                className={classes.icon}
+              />
+              <p className={classes.cointNumber}>{5000}</p>
+            </div>
+            <div className={`${classes.wallet} ${classes.flexBox}`}>
+              <img src="./images/wallet.png" alt="" className={classes.icon} />
+              <p>$24.55</p>
+            </div>
+          </div>
+        )}
       </Item>
     );
   };

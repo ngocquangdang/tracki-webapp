@@ -14,6 +14,7 @@ import {
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { WalletIcon } from '@Components/Icon';
 
 import Menu from '../Menu';
 import { useStyles } from './styles';
@@ -74,6 +75,12 @@ const routes = [
     icon: <ShoppingBasketIcon />,
     link: '/store',
   },
+  {
+    index: 8,
+    label: 'Wallet',
+    icon: <WalletIcon />,
+    link: '/wallet',
+  },
 ];
 
 export default function Header() {
@@ -127,6 +134,7 @@ export default function Header() {
                   classes={{
                     root: classes.tabItemRoot,
                     labelIcon: classes.tabIcon,
+                    selected: classes.isActive,
                   }}
                 />
               ))}

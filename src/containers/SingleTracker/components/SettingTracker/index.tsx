@@ -306,6 +306,12 @@ function SettingTracker(props: Props) {
     Router.push(`/trackers/${tracker.device_id}/subscription/fast-tracking`);
   };
 
+  const handleCancelSubscription = () => {
+    const bubbleChat: any = document.getElementById('chatIframe');
+    setOpenSubsription(false);
+    bubbleChat.style.height = '530px';
+  };
+
   return (
     <SideBarOutside
       title="Settings"
@@ -679,6 +685,7 @@ function SettingTracker(props: Props) {
         onClickIncrease={onClickIncrease}
         onClickFastTracking={onClickFastTracking}
         onCloseSubscription={onCloseModalSubscription}
+        onClickCancel={handleCancelSubscription}
         open={openSubscription}
         t={t}
         smsCounter={smsCounter}
