@@ -1,10 +1,14 @@
+import React, { useState } from 'react';
+
+// component
+import Card from '../Card';
 import { Button } from '@Components/buttons';
 import ClaimPointModal from '@Containers/Wallet/components/ClaimPointModal';
-import React, { useState } from 'react';
-import Card from '../Card';
 
+// styles
 import { useStyles, Coin, Day } from './styles';
 
+// interface
 interface Props {
   t(key: string, format?: object): string;
   myWallet: {

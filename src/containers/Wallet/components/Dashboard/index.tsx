@@ -3,6 +3,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+//component
 import {
   makeSelectAccesoryProduct,
   makeSelectAdv,
@@ -13,8 +14,6 @@ import {
   makeSelectWallet,
 } from '@Containers/Wallet/store/selectors';
 import MyWallet from './components/MyWallet';
-
-import { useStyles } from './styles';
 import ClaimCoin from './components/ClaimCoin';
 import InviteFriend from './components/InviteFriend';
 import EarnPoint from './components/EarnPoint';
@@ -23,6 +22,10 @@ import GiftToday from './components/GiftToday';
 import PurchaseUsePoint from './components/PurchaseUsePoint';
 import { setHiddenHeader, setViewPage } from '@Containers/Wallet/store/actions';
 
+// style
+import { useStyles } from './styles';
+
+// interface
 interface IT {
   t(key: string, format?: object): string;
   onChangeTab: (id: number) => void;
@@ -60,6 +63,7 @@ interface Props {
   setViewPage: (page: string) => void;
 }
 
+// Component Dashboard
 function Dashboard(props: Props) {
   const classes = useStyles();
 

@@ -1,9 +1,13 @@
 import React from 'react';
-import Modal from '@Components/modals';
 
-import { useStyles } from './styles';
+// component
+import Modal from '@Components/modals';
 import { Button } from '@Components/buttons';
 
+// style
+import { useStyles } from './styles';
+
+// interface
 interface Props {
   open: boolean;
   onClose: () => void;

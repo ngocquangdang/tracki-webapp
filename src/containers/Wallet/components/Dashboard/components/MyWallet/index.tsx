@@ -1,8 +1,13 @@
 import React from 'react';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
+// component
 import Card from '../Card';
+
+// style
 import { useStyles } from './styles';
 
+// interface
 interface Props {
   myWallet: {
     point?: number | string;
