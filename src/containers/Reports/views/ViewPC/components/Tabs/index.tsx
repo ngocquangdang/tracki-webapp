@@ -6,7 +6,7 @@ import { useStyles } from './styles';
 import ReportTrip from '../Trip';
 
 export default function TabsPC(props) {
-  const { changeReportView, viewMode } = props;
+  const { changeReportView, viewMode, ...rest } = props;
 
   const classes = useStyles();
   const [currentTab, setTab] = useState<number>(0);
@@ -48,7 +48,7 @@ export default function TabsPC(props) {
           ))}
         </Tabs>
       </div>
-      {viewMode === 'trip' && <ReportTrip {...props} />}
+      {viewMode === 'trip' && <ReportTrip {...rest} viewMode={viewMode} />}
     </React.Fragment>
   );
 }

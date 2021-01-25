@@ -88,6 +88,7 @@ const useStyles = makeStyles(theme => ({
   datePicker: {
     width: '100%',
     marginTop: 20,
+    marginBottom: 20,
   },
 }));
 

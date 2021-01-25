@@ -57,7 +57,7 @@ function SelectTrackers(props: Props) {
 
   const trackerFiltered = Object.values(trackers).filter(
     (i: any) =>
-      i.device_name.toLowerCase().includes(search.toLowerCase()) ||
+      i.device_name.toLowerCase().includes(search) ||
       i.device_id.toString().includes(search.toLowerCase())
   );
 

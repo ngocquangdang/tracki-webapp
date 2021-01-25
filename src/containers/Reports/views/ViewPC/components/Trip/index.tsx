@@ -10,19 +10,23 @@ import TripCard from './TripCard';
 //styles
 import { useStyles, Image } from './styles';
 
+type Trip = {
+  points: Object;
+  pointIds: number[];
+};
 interface Props {
   trackers: object;
   trackerIds: any;
-  fetchHistorySpeeds(data: object): void;
-  historySpeeds: object;
-  historySpeedIds: object;
+  fetchHistoryTrips(data: object): void;
+  trips: Trip;
+  tripIds: number[];
   isFetchingHistorySpeed: boolean;
   viewMode: string;
   t(key: string, format?: object): string;
 }
 
 export default function ReportTrip(props: Props) {
-  const { fetchHistorySpeeds, trackerIds, trackers } = props;
+  const { fetchHistoryTrips, trackerIds, trackers, tripIds, trips } = props;
   const classes = useStyles();
 
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
@@ -43,7 +47,7 @@ export default function ReportTrip(props: Props) {
   const onChangeDateTime = obj => {
     setDateTime(obj);
     if (trackerId !== '') {
-      fetchHistorySpeeds({
+      fetchHistoryTrips({
         trackerId: trackerId,
         query: `from=${obj.fromDate}&to=${obj.toDate}&limit=2000&page=1&type=2`,
       });
@@ -51,7 +55,7 @@ export default function ReportTrip(props: Props) {
   };
 
   const onChangeTracker = value => {
-    fetchHistorySpeeds({
+    fetchHistoryTrips({
       trackerId: value,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
@@ -100,12 +104,15 @@ export default function ReportTrip(props: Props) {
           />
         </div>
       </div>
-      {trackerIds.length > 0 &&
+      {trackerIds &&
+        trackerIds.length > 0 &&
         trackerId !== '' &&
         renderTrackerCard(trackers[trackerId])}
-      <TripCard />
-      <TripCard />
-      <TripCard />
+      {tripIds &&
+        tripIds.length > 0 &&
+        tripIds.map(id => (
+          <TripCard points={trips[id].points} pointIds={trips[id].pointIds} />
+        ))}
     </div>
   );
 }

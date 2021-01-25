@@ -26,6 +26,7 @@ interface Props {
   fetchHistoryStop(data: object): void;
   fetchHistoryLogs(data: object): void;
   fetchHistorySpeeds(data: object): void;
+  fetchHistoryTrips(data: object): void;
   historyStops: object;
   historyStopIds: object;
   profile: any;
@@ -33,11 +34,14 @@ interface Props {
   historyLogIds: object;
   historySpeeds: object;
   historySpeedIds: object;
+  trips: object;
+  tripIds: number[];
   isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
+  isFetchingTrips: boolean;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
@@ -62,6 +66,7 @@ function ReportViewPC(props: Props) {
     historyStopIds,
     isFetchingDataStop,
     t,
+    ...rest
   } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const toggleSideBar = () => {
@@ -75,7 +80,13 @@ function ReportViewPC(props: Props) {
   return viewMode === 'trip' ? (
     <div className={classes.containerTrip}>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
-        <Tabs {...props} />
+        <Tabs
+          {...rest}
+          t={t}
+          trackers={trackers}
+          trackerIds={trackerIds}
+          viewMode={viewMode}
+        />
       </SideBarInnerPC>
       <div className={classes.mapView}>
         <React.Fragment>

@@ -12,6 +12,7 @@ export const initialState = {
   isFetchingDataStop: false,
   isFetchingHistoryLogs: false,
   isFetchHistorySpeed: false,
+  isFetchingTrips: true,
   historyStop: {
     historyStops: {},
     historyStopIds: {},
@@ -24,7 +25,11 @@ export const initialState = {
     historySpeeds: {},
     historySpeedIds: {},
   },
-  viewMode: 'overview',
+  trips: {
+    trips: {},
+    tripIds: [],
+  },
+  viewMode: 'trip',
   errors: null,
 };
 
@@ -75,6 +80,15 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
       case types.FETCH_HISTORY_RECENT_STOP_FAILED:
         draft.errors = payload.errors;
         draft.isFetchingDataStop = false;
+        break;
+      case types.FETCH_HISTORY_TRIP_SUCCEED:
+        draft.isFetchingTrips = false;
+        draft.trips.tripIds = payload.data.tripIds;
+        draft.trips.trips = payload.data.trips;
+        break;
+      case types.FETCH_HISTORY_TRIP_FAILED:
+        draft.isFetchingTrips = false;
+        draft.errors = payload.errors;
         break;
       case types.CHANGE_REPORT_VIEW_MODE:
         draft.viewMode = payload.viewMode;
