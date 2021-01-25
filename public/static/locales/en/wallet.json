@@ -22,7 +22,7 @@
   "share": "Share",
   "go": "Go",
   "points": "Points",
-  "point_history": "Point History",
+  "point_history": "Points History",
   "claim_gift": "Claim your Free Gift Today!",
   "earn_more_points": "Earn More Points",
   "invite_friend": "Invite friend",
@@ -44,5 +44,16 @@
   "invite_url_copied": "Invite URL Copied!",
   "send_it_to_friend": "Send it to your friends to invite them.",
   "share_code_using": "Share Code Using",
-  "qr_code_description": "Show it to your friends to add invite them!"
+  "qr_code_description": "Show it to your friends to add invite them!",
+  "balance_points": "Balance Points",
+  "point_worth": "Your Points is worth ${{points}}",
+  "see_more_point_history": "See More Points History",
+  "you_received_point": "You received Points!",
+  "transaction_history": "Transaction History",
+  "cash_in": "Cash In",
+  "in_progress": "In Progress",
+  "successful": "Successfull",
+  "from": "From",
+  "to": "To",
+  "my_balance_wallet": "My Balance Wallet"
 }

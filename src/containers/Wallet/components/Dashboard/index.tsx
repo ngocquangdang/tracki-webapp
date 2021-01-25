@@ -21,7 +21,7 @@ import EarnPoint from './components/EarnPoint';
 import PointHistory from './components/PointHistory';
 import GiftToday from './components/GiftToday';
 import PurchaseUsePoint from './components/PurchaseUsePoint';
-import { setHiddenHeader } from '@Containers/Wallet/store/actions';
+import { setHiddenHeader, setViewPage } from '@Containers/Wallet/store/actions';
 
 interface IT {
   t(key: string, format?: object): string;
@@ -56,7 +56,8 @@ interface Props {
   smsPlan: object[];
   onChangeTab: (id: number) => void;
   isMobile?: boolean;
-  setHiddenHeader: (type: boolean) => void;
+  setHiddenHeader: (type: string) => void;
+  setViewPage: (page: string) => void;
 }
 
 function Dashboard(props: Props) {
@@ -74,6 +75,7 @@ function Dashboard(props: Props) {
     onChangeTab,
     isMobile,
     setHiddenHeader,
+    setViewPage,
   } = props;
   return (
     <>
@@ -84,6 +86,7 @@ function Dashboard(props: Props) {
           onChangeTab={onChangeTab}
           isMobile={isMobile}
           setHiddenHeader={setHiddenHeader}
+          setViewPage={setViewPage}
         />
         <ClaimCoin myWallet={myWallet} t={t} isMobile={isMobile} />
         <InviteFriend
@@ -124,7 +127,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => {
   return {
-    setHiddenHeader: (type: boolean) => dispatch(setHiddenHeader(type)),
+    setHiddenHeader: (type: string) => dispatch(setHiddenHeader(type)),
+    setViewPage: (page: string) => dispatch(setViewPage(page)),
   };
 };
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
