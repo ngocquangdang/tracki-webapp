@@ -3,11 +3,11 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import ShareIcon from '@material-ui/icons/Share';
 import { ImGooglePlus3, ImHangouts, ImQrcode } from 'react-icons/im';
 import { IconButton, Tooltip } from '@material-ui/core';
+import { MdContentCopy, MdMail, MdSms } from 'react-icons/md';
 
+// component
 import Card from '../Card';
 import Modal from '@Components/modals';
-
-import { useStyles } from './styles';
 import {
   CopyCheck,
   EmailIcon,
@@ -16,8 +16,11 @@ import {
   Skype,
 } from '@Components/Icon';
 import { Button } from '@Components/buttons';
-import { MdContentCopy, MdMail, MdSms } from 'react-icons/md';
 
+// style
+import { useStyles } from './styles';
+
+// interface
 interface Props {
   t(key: string, format?: object): string;
   myWallet: {

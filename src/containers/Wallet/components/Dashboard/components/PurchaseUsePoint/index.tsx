@@ -6,11 +6,15 @@ import {
   Accessoricon,
 } from '@Components/Icon';
 
-import { useStyles } from './styles';
+// component
 import Card from './Card';
 import { Button } from '@Components/buttons';
 import PurchaseModal from './PurchaseModal';
 
+// style
+import { useStyles } from './styles';
+
+// interface
 interface Props {
   t(key: string, format?: object): string;
   trackerProduct: {

@@ -1,13 +1,13 @@
 import React, { memo, useEffect, useState } from 'react';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import { createStructuredSelector } from 'reselect';
-import SettingsIcon from '@material-ui/icons/Settings';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import moment from 'moment';
 
+// component
+import SettingsIcon from '@material-ui/icons/Settings';
 import { CashInIcon, CashOutIcon } from '@Components/Icon';
-import { useStyles } from './styles';
 import { getTransactionDetailRequest } from '@Containers/Wallet/store/actions';
 import { makeSelectTransaction } from '@Containers/Wallet/store/selectors';
 import { Button } from '@Components/buttons';
@@ -16,6 +16,10 @@ import TransacrtionCardSkeleton from './TransactionCardSkeleton';
 import SelectOption from '@Components/selections';
 import DateTimePicker from '@Components/DateTimePicker';
 
+// styles
+import { useStyles } from './styles';
+
+// interface
 interface IT {
   t(key: string, format?: object): string;
 }
@@ -29,6 +33,7 @@ interface Props {
   };
 }
 
+// component Wallet
 function MyWallet(props: Props) {
   const classes = useStyles();
 

@@ -9,7 +9,10 @@ import { BiWalletAlt } from 'react-icons/bi';
 import dynamic from 'next/dynamic';
 import { Tab, Tabs } from '@material-ui/core';
 
+// style
 import { useStyles, Menu } from './styles';
+
+// component
 import { Spin } from '@Components/Icon';
 import MyPoint from '../components/Dashboard/components/MypointScreen';
 const Dashboard = dynamic(() => import('../components/Dashboard'));

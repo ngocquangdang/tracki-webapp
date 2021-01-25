@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
-import DetailPageContainer from '@Containers/Wallet/components/DetailPageContainer';
-import { useStyles } from './styles';
 import { AiOutlineGift } from 'react-icons/ai';
-import { TicketIcon } from '@Components/Icon';
 import moment from 'moment';
+
+// component
+import DetailPageContainer from '@Containers/Wallet/components/DetailPageContainer';
+import { TicketIcon } from '@Components/Icon';
 import { Button } from '@Components/buttons';
 import MyPointHistorySkeleton from '@Components/Skeletons/PointHistoryCard';
+
+// style
+import { useStyles } from './styles';
+
 interface Props {
   t(key: string, format?: object): string;
   point?: number;
