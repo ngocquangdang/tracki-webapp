@@ -252,7 +252,84 @@ function* fetchHistorySpeedSagas(action) {
         })
       );
     }
-    yield put(actions.fetchHistoryLSpeedsFailed(payload));
+    yield put(actions.fetchHistorySpeedsFailed(payload));
+  }
+}
+
+function* fetchHistoryTripSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const { trackerId, query } = action.payload.data;
+
+    const { data: historyData } = yield call(
+      apiServices.getHistoryStopTracker,
+      account_id,
+      trackerId,
+      query
+    );
+    if (historyData.length < 1) {
+      yield put(
+        showSnackbar({
+          snackType: 'success',
+          snackMessage: 'This tracker not have history in this time',
+        })
+      );
+    }
+
+    const trips = historyData.reduce(
+      (obj, curTrip) => {
+        if (obj.tripIds.length < 1) {
+          obj.trips = {
+            ...obj.trips,
+            [curTrip.time]: {
+              points: { [curTrip.time]: curTrip },
+              pointIds: [curTrip.time],
+            },
+          };
+          obj.tripIds.push(curTrip.time);
+        } else {
+          const prevTrip = obj.trips[obj.tripIds[obj.tripIds.length - 1]];
+          const prevPointId = prevTrip.pointIds.length - 1;
+          const prevPoint = prevTrip.points[prevTrip.pointIds[prevPointId]];
+          const timeDiff = curTrip.time - prevPoint.time;
+
+          if (timeDiff < 300) {
+            prevTrip.points = { ...prevTrip.points, [curTrip.time]: curTrip };
+            prevTrip.pointIds.push(curTrip.time);
+          } else {
+            obj.trips = {
+              ...obj.trips,
+              [curTrip.time]: {
+                points: { [curTrip.time]: curTrip },
+                pointIds: [curTrip.time],
+              },
+            };
+            obj.tripIds.push(curTrip.time);
+          }
+        }
+        return obj;
+      },
+      {
+        trips: {},
+        tripIds: [],
+      }
+    );
+
+    yield put(actions.fetchHistoryTripSucceed(trips));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
+    yield put(actions.fetchHistoryTripFailed(payload));
   }
 }
 
@@ -270,4 +347,5 @@ export default function* reportsWatcher() {
     fetchHistoryLogsTrackerSaga
   );
   yield takeLatest(types.FETCH_HISTORY_SPEED_REQUESTED, fetchHistorySpeedSagas);
+  yield takeLatest(types.FETCH_HISTORY_TRIP_REQUESTED, fetchHistoryTripSaga);
 }

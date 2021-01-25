@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BarChartIcon from '@material-ui/icons/BarChart';
 
 //components
+import { SideBarInnerPC } from '@Components/sidebars';
+import Map from '@Components/Maps';
+import MapToolBars from '@Components/Maps/components/MapToolBar';
+
 import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
 import HistoryReport from './components/History';
@@ -22,6 +26,7 @@ interface Props {
   fetchHistoryStop(data: object): void;
   fetchHistoryLogs(data: object): void;
   fetchHistorySpeeds(data: object): void;
+  fetchHistoryTrips(data: object): void;
   historyStops: object;
   historyStopIds: object;
   profile: any;
@@ -29,11 +34,14 @@ interface Props {
   historyLogIds: object;
   historySpeeds: object;
   historySpeedIds: object;
+  trips: object;
+  tripIds: number[];
   isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
+  isFetchingTrips: boolean;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
@@ -58,9 +66,41 @@ function ReportViewPC(props: Props) {
     historyStopIds,
     isFetchingDataStop,
     t,
+    ...rest
   } = props;
+  const [isOpenSidebar, setOpenSidebar] = useState(true);
+  const toggleSideBar = () => {
+    setOpenSidebar(!isOpenSidebar);
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+  };
+  const openSideBar = () => setOpenSidebar(true);
 
-  return (
+  return viewMode === 'trip' ? (
+    <div className={classes.containerTrip}>
+      <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
+        <Tabs
+          {...rest}
+          t={t}
+          trackers={trackers}
+          trackerIds={trackerIds}
+          viewMode={viewMode}
+        />
+      </SideBarInnerPC>
+      <div className={classes.mapView}>
+        <React.Fragment>
+          <Map
+            mapType="leaflet"
+            openSideBar={openSideBar}
+            isTracking={true}
+            {...props}
+          />
+          <MapToolBars t={t} />
+        </React.Fragment>
+      </div>
+    </div>
+  ) : (
     <div className={classes.container}>
       <div className={classes.boxShadow}>
         <div className={classes.header}>

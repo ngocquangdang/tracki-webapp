@@ -16,17 +16,21 @@ interface Props {
   fetchHistoryStop(data: object): void;
   fetchHistoryLogs(data: object): void;
   fetchHistorySpeeds(data: object): void;
+  fetchHistoryTrips(data: object): void;
   historyStops: object;
   historyStopIds: object;
   historyLogs: object;
   historyLogIds: object;
   historySpeeds: object;
   historySpeedIds: object;
+  trips: object;
+  tripIds: number[];
   isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
+  isFetchingTrips: boolean;
   t(key: string, format?: object): string;
   [data: string]: any;
 }

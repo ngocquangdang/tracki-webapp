@@ -14,7 +14,8 @@ import {
   fetchHistoryLogsRequest,
   fetchHistoryRecentStopRequest,
   fetchNotificationUnreadRequest,
-  fetchHistoryLSpeedsRequest,
+  fetchHistorySpeedsRequest,
+  fetchHistoryTripRequest,
 } from './store/actions';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 
@@ -38,6 +39,9 @@ import {
   makeSelectHistorySpeeds,
   makeSelectHistorySpeedIds,
   makeSelectFetchingHistorySpeeds,
+  makeSelectHistoryTripIds,
+  makeSelectHistoryTrips,
+  makeSelectFetchingHistoryTrips,
 } from './store/selectors';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
@@ -84,6 +88,9 @@ const mapStateToProps = createStructuredSelector({
   isFetchingDataNoti: makeSelecteFetchingDataNoti(),
   isFetchingDataStop: makeSelecteFetchingDataStop(),
   isFetchingTracker: makeSelectIsFetchingTracker(),
+  isFetchingTrips: makeSelectFetchingHistoryTrips(),
+  trips: makeSelectHistoryTrips(),
+  tripIds: makeSelectHistoryTripIds(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -95,7 +102,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(fetchHistoryRecentStopRequest(data)),
   fetchHistoryLogs: (data: object) => dispatch(fetchHistoryLogsRequest(data)),
   fetchHistorySpeeds: (data: object) =>
-    dispatch(fetchHistoryLSpeedsRequest(data)),
+    dispatch(fetchHistorySpeedsRequest(data)),
+  fetchHistoryTrips: (data: object) => dispatch(fetchHistoryTripRequest(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

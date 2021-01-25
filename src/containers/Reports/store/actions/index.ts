@@ -45,18 +45,33 @@ export const fetchHistoryLogsFailed = (errors: object) => ({
   payload: { errors },
 });
 
-export const fetchHistoryLSpeedsRequest = data => ({
+export const fetchHistorySpeedsRequest = data => ({
   type: types.FETCH_HISTORY_SPEED_REQUESTED,
   payload: { data },
 });
 
-export const fetchHistorySpeedsSucceed = (trackerId, data) => ({
+export const fetchHistorySpeedsSucceed = (trackerId: number, data) => ({
   type: types.FETCH_HISTORY_SPEED_SUCCEED,
   payload: { trackerId, ...data },
 });
 
-export const fetchHistoryLSpeedsFailed = (errors: object) => ({
+export const fetchHistorySpeedsFailed = (errors: object) => ({
   type: types.FETCH_HISTORY_SPEED_FAILED,
+  payload: { errors },
+});
+
+export const fetchHistoryTripRequest = data => ({
+  type: types.FETCH_HISTORY_TRIP_REQUESTED,
+  payload: { data },
+});
+
+export const fetchHistoryTripSucceed = data => ({
+  type: types.FETCH_HISTORY_TRIP_SUCCEED,
+  payload: { data },
+});
+
+export const fetchHistoryTripFailed = (errors: object) => ({
+  type: types.FETCH_HISTORY_TRIP_FAILED,
   payload: { errors },
 });
 

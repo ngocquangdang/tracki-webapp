@@ -43,6 +43,15 @@ const makeSelectHistorySpeedIds = () =>
 const makeSelectFetchingHistorySpeeds = () =>
   createSelector(reportState, state => state?.isFetchHistorySpeed);
 
+const makeSelectHistoryTripIds = () =>
+  createSelector(reportState, state => state?.trips?.tripIds);
+
+const makeSelectHistoryTrips = () =>
+  createSelector(reportState, state => state?.trips?.trips);
+
+const makeSelectFetchingHistoryTrips = () =>
+  createSelector(reportState, state => state?.isFetchingTrips);
+
 export {
   makeSelectNotifications,
   makeSelectNotificationsIds,
@@ -57,4 +66,7 @@ export {
   makeSelectHistorySpeeds,
   makeSelectHistorySpeedIds,
   makeSelectFetchingHistorySpeeds,
+  makeSelectHistoryTripIds,
+  makeSelectHistoryTrips,
+  makeSelectFetchingHistoryTrips,
 };
