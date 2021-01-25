@@ -7,6 +7,13 @@ import WalletHeader from '../components/HeaderSP';
 interface Props {
   isMobile?: boolean;
   t(key: string, format?: object): string;
+  pointHistory: {
+    isRequestPointHistory: boolean;
+    pointHistories: object;
+    pointHistoryIds: number[];
+  };
+  setHiddenHeader: (type: string) => void;
+  setViewPage: (page: string) => void;
   [data: string]: any;
 }
 

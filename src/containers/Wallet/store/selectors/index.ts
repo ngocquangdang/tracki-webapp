@@ -33,7 +33,7 @@ const makeSelectSMSPlan = () => {
 };
 
 const makeSelectIsHiddenHeader = () => {
-  return createSelector(globalState, state => state.isHiddenHeader);
+  return createSelector(globalState, state => state.hiddenHeader);
 };
 
 const makeSelectPage = () => {

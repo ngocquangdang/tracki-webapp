@@ -22,8 +22,15 @@ import {
   getProductRequest,
   getSMSPlanRequest,
   getSubscriptionPlanRequest,
+  setHiddenHeader,
+  setViewPage,
 } from './store/actions';
-import { makeSelectIsHiddenHeader, makeSelectWallet } from './store/selectors';
+import {
+  makeSelectIsHiddenHeader,
+  makeSelectPage,
+  makeSelectPointHistory,
+  makeSelectWallet,
+} from './store/selectors';
 
 interface Props {
   getMyWallletRequest: (id: number) => void;
@@ -33,6 +40,13 @@ interface Props {
   t(key: string): string;
   getSMSPlanRequest: () => void;
   getSubscriptionPlanRequest: () => void;
+  pointHistory: {
+    isRequestPointHistory: boolean;
+    pointHistories: object;
+    pointHistoryIds: number[];
+  };
+  setHiddenHeader: (type: string) => void;
+  setViewPage: (page: string) => void;
 }
 
 function WalletContainer(props: Props) {
@@ -71,7 +85,9 @@ function WalletContainer(props: Props) {
 
 const mapStateToProps = createStructuredSelector({
   myWallet: makeSelectWallet(),
-  isHiddenHeader: makeSelectIsHiddenHeader(),
+  hiddenHeader: makeSelectIsHiddenHeader(),
+  page: makeSelectPage(),
+  pointHistory: makeSelectPointHistory(),
 });
 
 const mapDispatchToProps = dispatch => {
@@ -83,6 +99,8 @@ const mapDispatchToProps = dispatch => {
     getProductRequest: () => dispatch(getProductRequest()),
     getSubscriptionPlanRequest: () => dispatch(getSubscriptionPlanRequest()),
     getSMSPlanRequest: () => dispatch(getSMSPlanRequest()),
+    setHiddenHeader: (type: string) => dispatch(setHiddenHeader(type)),
+    setViewPage: (page: string) => dispatch(setViewPage(page)),
   };
 };
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

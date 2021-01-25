@@ -47,6 +47,8 @@ export default function PointHistory(props: Props) {
             className={classes.img}
           />
         );
+      case 'ticket':
+        return <AiOutlineGift className={classes.ticketIcon} />;
       default:
         break;
     }

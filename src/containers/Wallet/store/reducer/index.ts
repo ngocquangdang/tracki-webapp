@@ -31,7 +31,7 @@ export const initialState: WalletDataType = {
   },
   subscriptionPlan: [],
   smsPlan: [],
-  isHiddenHeader: false,
+  hiddenHeader: '',
   page: '',
 };
 
@@ -140,7 +140,7 @@ const walletReducer = (state = initialState, { type, payload }: ActionType) => {
         draft.smsPlan = [];
         break;
       case types.SET_HIDDEN_HEADDER:
-        draft.isHiddenHeader = payload.type;
+        draft.hiddenHeader = payload.type;
         break;
       case types.SET_VIEW_PAGE:
         draft.page = payload.page;

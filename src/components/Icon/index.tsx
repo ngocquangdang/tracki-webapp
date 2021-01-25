@@ -603,6 +603,61 @@ function EmailIcon({ ...props }) {
     </svg>
   );
 }
+
+function TicketIcon({ ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="48.53"
+      height="48.53"
+      viewBox="0 0 48.53 48.53"
+      {...props}
+    >
+      <defs>
+        <style>{/* .cls-2{fill:#ff6465} */}</style>
+      </defs>
+      <g id="ticket" transform="rotate(45 14.762 35.639)">
+        <path
+          id="Path_408"
+          fill="#ffd782"
+          d="M15.619 1.114L10.871 0a2.416 2.416 0 0 1-2.807 1.487L0 35.851a2.416 2.416 0 0 1 1.853 2.58L6.6 39.546a2.416 2.416 0 0 1 2.807-1.487 2.416 2.416 0 0 1 1.853 2.58l4.748 1.114a2.416 2.416 0 0 1 2.807-1.487L26.879 5.9a2.416 2.416 0 0 1-1.853-2.58l-4.748-1.112a2.416 2.416 0 0 1-2.807 1.487 2.416 2.416 0 0 1-1.852-2.581z"
+        />
+        <g id="Group_151" transform="translate(3.313 5.708)">
+          <path
+            id="Path_409"
+            d="M2.311 1.926a.79.79 0 0 1-.18-.021L.605 1.547A.784.784 0 1 1 .963.021L2.49.379a.784.784 0 0 1-.178 1.547z"
+            className="cls-2"
+            transform="translate(2.793)"
+          />
+          <path
+            id="Path_410"
+            d="M10.242 3.787a.791.791 0 0 1-.18-.021L6.91 3.027A.784.784 0 0 1 7.268 1.5l3.152.74a.784.784 0 0 1-.178 1.547zm-6.3-1.479a.79.79 0 0 1-.18-.021l-3.157-.74A.784.784 0 1 1 .963.021l3.152.74a.784.784 0 0 1-.178 1.547z"
+            className="cls-2"
+            transform="translate(7.472 1.098)"
+          />
+          <path
+            id="Path_411"
+            d="M2.311 1.926a.792.792 0 0 1-.18-.021L.605 1.547A.784.784 0 0 1 .963.021L2.49.379a.784.784 0 0 1-.178 1.547z"
+            className="cls-2"
+            transform="translate(20.081 4.057)"
+          />
+          <path
+            id="Rectangle_21"
+            d="M0 0H24.099V13.806H0z"
+            className="cls-2"
+            transform="scale(-1) rotate(-76.83 -14.397 8.037)"
+          />
+        </g>
+        <path
+          id="Path_412"
+          fill="#fff"
+          d="M0 3.714l3.5-.294L4.3 0l1.364 3.239 3.5-.294-2.66 2.3 1.362 3.234-3-1.82L2.2 8.954l.8-3.42z"
+          transform="translate(8.525 18.964)"
+        />
+      </g>
+    </svg>
+  );
+}
 export {
   TrackerIcon,
   SubscriptionIcon,
@@ -614,4 +669,5 @@ export {
   Facebook,
   Skype,
   EmailIcon,
+  TicketIcon,
 };

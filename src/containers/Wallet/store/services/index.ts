@@ -190,7 +190,7 @@ export const getPointHistory = () => {
       name: 'Tracki 2020 Model Mini Realtime GPS Tracker!',
       point: '50',
       updated: moment().unix(),
-      type: 'invite',
+      type: 'ticket',
     },
     {
       id: 10,
@@ -204,14 +204,14 @@ export const getPointHistory = () => {
       name: 'Tracki 2020 Model Mini Realtime GPS Tracker!',
       point: '50',
       updated: moment().unix(),
-      type: 'invite',
+      type: 'ticket',
     },
     {
       id: 12,
       name: 'Tracki 2020 Model Mini Realtime GPS Tracker!',
       point: '50',
       updated: moment().unix(),
-      type: 'invite',
+      type: 'ticket',
     },
     {
       id: 13,
@@ -225,7 +225,7 @@ export const getPointHistory = () => {
       name: 'Tracki® + MagneticWaterproofBox with Extended battery!',
       point: '50',
       updated: moment().unix(),
-      type: 'invite',
+      type: 'ticket',
     },
   ];
 };

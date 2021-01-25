@@ -100,7 +100,7 @@ export interface WalletDataType {
   };
   subscriptionPlan: object[];
   smsPlan: object[];
-  isHiddenHeader: boolean;
+  hiddenHeader: string;
   page: string;
 }
 
