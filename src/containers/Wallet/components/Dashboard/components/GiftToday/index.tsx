@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { AiOutlineGift, AiOutlinePlayCircle } from 'react-icons/ai';
-import AdvModal from '../ADVModal';
 
+// component
+import AdvModal from '../ADVModal';
 import Card from '../Card';
 
+// style
 import { useStyles } from './styles';
+
+// interface
 interface Props {
   t(key: string): string;
 }

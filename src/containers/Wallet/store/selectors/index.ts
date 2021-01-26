@@ -33,11 +33,15 @@ const makeSelectSMSPlan = () => {
 };
 
 const makeSelectIsHiddenHeader = () => {
-  return createSelector(globalState, state => state.isHiddenHeader);
+  return createSelector(globalState, state => state.hiddenHeader);
 };
 
 const makeSelectPage = () => {
   return createSelector(globalState, state => state.page);
+};
+
+const makeSelectTransaction = () => {
+  return createSelector(globalState, state => state.transaction);
 };
 
 export {
@@ -50,4 +54,5 @@ export {
   makeSelectSMSPlan,
   makeSelectIsHiddenHeader,
   makeSelectPage,
+  makeSelectTransaction,
 };

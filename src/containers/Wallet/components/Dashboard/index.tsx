@@ -3,6 +3,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+//component
 import {
   makeSelectAccesoryProduct,
   makeSelectAdv,
@@ -13,16 +14,18 @@ import {
   makeSelectWallet,
 } from '@Containers/Wallet/store/selectors';
 import MyWallet from './components/MyWallet';
-
-import { useStyles } from './styles';
 import ClaimCoin from './components/ClaimCoin';
 import InviteFriend from './components/InviteFriend';
 import EarnPoint from './components/EarnPoint';
 import PointHistory from './components/PointHistory';
 import GiftToday from './components/GiftToday';
 import PurchaseUsePoint from './components/PurchaseUsePoint';
-import { setHiddenHeader } from '@Containers/Wallet/store/actions';
+import { setHiddenHeader, setViewPage } from '@Containers/Wallet/store/actions';
 
+// style
+import { useStyles } from './styles';
+
+// interface
 interface IT {
   t(key: string, format?: object): string;
   onChangeTab: (id: number) => void;
@@ -56,9 +59,11 @@ interface Props {
   smsPlan: object[];
   onChangeTab: (id: number) => void;
   isMobile?: boolean;
-  setHiddenHeader: (type: boolean) => void;
+  setHiddenHeader: (type: string) => void;
+  setViewPage: (page: string) => void;
 }
 
+// Component Dashboard
 function Dashboard(props: Props) {
   const classes = useStyles();
 
@@ -74,6 +79,7 @@ function Dashboard(props: Props) {
     onChangeTab,
     isMobile,
     setHiddenHeader,
+    setViewPage,
   } = props;
   return (
     <>
@@ -84,6 +90,7 @@ function Dashboard(props: Props) {
           onChangeTab={onChangeTab}
           isMobile={isMobile}
           setHiddenHeader={setHiddenHeader}
+          setViewPage={setViewPage}
         />
         <ClaimCoin myWallet={myWallet} t={t} isMobile={isMobile} />
         <InviteFriend
@@ -124,7 +131,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => {
   return {
-    setHiddenHeader: (type: boolean) => dispatch(setHiddenHeader(type)),
+    setHiddenHeader: (type: string) => dispatch(setHiddenHeader(type)),
+    setViewPage: (page: string) => dispatch(setViewPage(page)),
   };
 };
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -1,12 +1,15 @@
-import DrawerPanel from '@Components/Drawer';
 import React, { useState } from 'react';
 import { AiOutlineGift } from 'react-icons/ai';
 import moment from 'moment';
 
+// compoment
+import DrawerPanel from '@Components/Drawer';
 import Card from '../Card';
 
+// style
 import { useStyles } from './styles';
 
+// interface
 interface Props {
   t(key: string): string;
   pointHistory: {
@@ -47,6 +50,8 @@ export default function PointHistory(props: Props) {
             className={classes.img}
           />
         );
+      case 'ticket':
+        return <AiOutlineGift className={classes.ticketIcon} />;
       default:
         break;
     }

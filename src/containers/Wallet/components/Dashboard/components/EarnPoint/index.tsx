@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Button } from '@Components/buttons';
 
+// component
 import Card from '../Card';
-import { useStyles } from './styles';
+import { Button } from '@Components/buttons';
 import DrawerPanel from '@Components/Drawer';
+
+// styles
+import { useStyles } from './styles';
 
 interface Props {
   t(key: string, format?: object): string;

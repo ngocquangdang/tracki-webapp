@@ -9,8 +9,12 @@ import { BiWalletAlt } from 'react-icons/bi';
 import dynamic from 'next/dynamic';
 import { Tab, Tabs } from '@material-ui/core';
 
+// style
 import { useStyles, Menu } from './styles';
+
+// component
 import { Spin } from '@Components/Icon';
+import MyPoint from '../components/Dashboard/components/MypointScreen';
 const Dashboard = dynamic(() => import('../components/Dashboard'));
 const MyWallet = dynamic(() => import('../components/MyWallet'));
 const FriendInvite = dynamic(() => import('../components/FriendInvite'));
@@ -22,7 +26,15 @@ const HourlyGifts = dynamic(() => import('../components/HourlyGift'));
 interface Props {
   t(key: string, format?: object): string;
   isMobile?: boolean;
-  isHiddenHeader?: boolean;
+  hiddenHeader?: string;
+  page?: string;
+  pointHistory: {
+    isRequestPointHistory: boolean;
+    pointHistories: object;
+    pointHistoryIds: number[];
+  };
+  setHiddenHeader: (type: string) => void;
+  setViewPage: (page: string) => void;
 }
 
 type ROUTE = {
@@ -71,7 +83,15 @@ const ITEM = [
 
 function WalletDashboard(props: Props) {
   const classes = useStyles();
-  const { t, isMobile, isHiddenHeader } = props;
+  const {
+    t,
+    isMobile,
+    hiddenHeader,
+    page,
+    pointHistory,
+    setHiddenHeader,
+    setViewPage,
+  } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -83,55 +103,65 @@ function WalletDashboard(props: Props) {
 
   return (
     <div className={classes.layout}>
-      {!isMobile ||
-        (!isHiddenHeader && (
-          <div className={classes.header}>
-            {currentTab === 0 && (
-              <div className={classes.title}>
-                <BiWalletAlt className={classes.icon} />{' '}
-                <p className={classes.caption}>Wallet Dashboard</p>
-              </div>
-            )}
-            <Menu>
-              <Tabs
-                value={currentTab}
-                indicatorColor="primary"
-                textColor="primary"
-                aria-label="tabs menu"
-                classes={{
-                  root: classes.tabRoot,
-                  indicator: classes.indicatorStyle,
-                }}
-              >
-                {ITEM.map(r => (
-                  <Tab
-                    key={r.index}
-                    value={r.index}
-                    onClick={onClickTab(r)}
-                    icon={r.icon}
-                    label={r.title}
-                    classes={{
-                      root: classes.tabItemRoot,
-                      labelIcon: classes.tabIcon,
-                      selected: classes.isActive,
-                    }}
-                  />
-                ))}
-              </Tabs>
-            </Menu>
-          </div>
-        ))}
-      <div className={classes.container}>
-        {currentTab === 0 && (
-          <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />
-        )}
-        {currentTab === 1 && <MyWallet />}
-        {currentTab === 2 && <FriendInvite />}
-        {currentTab === 3 && <Notification />}
-        {currentTab === 4 && <DailyBonus />}
-        {currentTab === 5 && <SpinWin />}
-        {currentTab === 6 && <HourlyGifts />}
-      </div>
+      {(!!isMobile || hiddenHeader !== 'hidden') && (
+        <div className={classes.header}>
+          {currentTab === 0 && (
+            <div className={classes.title}>
+              <BiWalletAlt className={classes.icon} />{' '}
+              <p className={classes.caption}>Wallet Dashboard</p>
+            </div>
+          )}
+          <Menu>
+            <Tabs
+              value={currentTab}
+              indicatorColor="primary"
+              textColor="primary"
+              aria-label="tabs menu"
+              classes={{
+                root: classes.tabRoot,
+                indicator: classes.indicatorStyle,
+              }}
+            >
+              {ITEM.map(r => (
+                <Tab
+                  key={r.index}
+                  value={r.index}
+                  onClick={onClickTab(r)}
+                  icon={r.icon}
+                  label={r.title}
+                  classes={{
+                    root: classes.tabItemRoot,
+                    labelIcon: classes.tabIcon,
+                    selected: classes.isActive,
+                  }}
+                />
+              ))}
+            </Tabs>
+          </Menu>
+        </div>
+      )}
+      {!page && (
+        <div className={classes.container}>
+          {currentTab === 0 && (
+            <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />
+          )}
+          {currentTab === 1 && <MyWallet t={t} />}
+          {currentTab === 2 && <FriendInvite />}
+          {currentTab === 3 && <Notification />}
+          {currentTab === 4 && <DailyBonus />}
+          {currentTab === 5 && <SpinWin />}
+          {currentTab === 6 && <HourlyGifts />}
+        </div>
+      )}
+
+      {page === 'my_point' && (
+        <MyPoint
+          t={t}
+          pointHistory={pointHistory}
+          setHiddenHeader={setHiddenHeader}
+          setViewPage={setViewPage}
+        />
+      )}
     </div>
   );
 }

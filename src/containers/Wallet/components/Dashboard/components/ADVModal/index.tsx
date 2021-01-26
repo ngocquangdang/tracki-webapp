@@ -1,8 +1,11 @@
 import React from 'react';
 import { Fade, Modal } from '@material-ui/core';
-import { useStyles, BackDrop } from './styles';
 import clsx from 'clsx';
 
+// styles
+import { useStyles, BackDrop } from './styles';
+
+// interface
 interface Props {
   open: boolean;
   onClose: () => void;

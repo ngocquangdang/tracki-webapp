@@ -1,8 +1,13 @@
 import React from 'react';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
+// component
 import Card from '../Card';
+
+// style
 import { useStyles } from './styles';
 
+// interface
 interface Props {
   myWallet: {
     point?: number | string;
@@ -11,27 +16,29 @@ interface Props {
   t(key: string, format?: object): string;
   onChangeTab: (id: number) => void;
   isMobile?: boolean;
-  setHiddenHeader: (type: boolean) => void;
+  setHiddenHeader: (type: string) => void;
+  setViewPage: (page: string) => void;
 }
 
 export default function MyWallet(props: Props) {
   const classes = useStyles();
 
-  const { t, myWallet, onChangeTab, isMobile, setHiddenHeader } = props;
+  const {
+    t,
+    myWallet,
+    onChangeTab,
+    isMobile,
+    setHiddenHeader,
+    setViewPage,
+  } = props;
   const { point = 0, my_wallet = 0 } = myWallet;
-
-  // const [isMyPointDetail, setIsMypointDetail] = useState(false);
 
   const onMyWallet = () => onChangeTab(1);
 
   const onShowMyPoint = () => {
-    setHiddenHeader(true);
+    setHiddenHeader('hidden');
+    setViewPage('my_point');
   };
-
-  // const onBackDetail = () => {
-  //   setIsMypointDetail(false);
-  //   setHiddenHeader(false);
-  // };
 
   return (
     <Card
@@ -65,10 +72,10 @@ export default function MyWallet(props: Props) {
             </div>
             <p className={classes.point}>$ 10.00</p>
           </div>
-          <div className={classes.item}>
-            <p>{t('wallet:my_wallets')}</p>
+          <div className={classes.item} onClick={onMyWallet}>
+            <p className={classes.title}>{t('wallet:my_wallets')}</p>
             <p className={classes.money}> ${my_wallet}</p>
-            <p className={classes.cast} onClick={onMyWallet}>
+            <p className={classes.cast}>
               {t('wallet:cash_out')} {'>'}{' '}
             </p>
           </div>

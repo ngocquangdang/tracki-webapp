@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
   item: {
     width: '50%',
     textAlign: 'center',
+    cursor: 'pointer',
   },
   flexBox: {
     display: 'flex',

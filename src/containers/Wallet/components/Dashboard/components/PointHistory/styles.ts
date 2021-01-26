@@ -67,6 +67,11 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     overflowY: 'scroll',
   },
+  ticketIcon: {
+    width: '48px',
+    height: '48px',
+    fill: '#ff6465',
+  },
 }));
 
 export { useStyles };
