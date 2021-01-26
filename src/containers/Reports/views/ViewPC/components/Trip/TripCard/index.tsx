@@ -11,20 +11,30 @@ import { useStyles } from './styles';
 type Point = {
   lat: number;
   lng: number;
+  speed: number;
 };
 
 interface Props {
   points: Point;
   pointIds: any;
+  setPointSelected(point: object): void;
 }
 function TripCard(props: Props) {
-  const { points, pointIds } = props;
+  const { points, pointIds, setPointSelected } = props;
   const classes = useStyles();
   const [isExpand, setExpand] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
+  const [pointAlertIds, setPointAlertIds] = useState<number[]>([]);
 
-  const onClickExpand = () => setExpand(!isExpand);
-  const onShowSpeedAlerts = () => setCurrentTab(1);
+  const onClickExpand = () => {
+    setPointSelected({ points, pointIds });
+    setExpand(!isExpand);
+  };
+  const onShowSpeedAlerts = () => {
+    const filterPointer = pointIds.filter(id => points[id].speed > 0);
+    setPointAlertIds(filterPointer);
+    setCurrentTab(1);
+  };
   const onShowAllPoints = () => setCurrentTab(0);
 
   const [addressFrom, setAddressFrom] = useState('');
@@ -34,14 +44,12 @@ function TripCard(props: Props) {
   const callApiGetAddress = useCallback(async () => {
     const locationFrom = {
       lat: points[pointIds[0]].lat,
-      lng: points[pointIds[0]].lat,
+      lng: points[pointIds[0]].lng,
     };
     const locationTo = {
       lat: points[pointIds[pointIds.length - 1]].lat,
-      lng: points[pointIds[pointIds.length - 1]].lat,
+      lng: points[pointIds[pointIds.length - 1]].lng,
     };
-    console.log('locationFrom', locationFrom);
-    console.log('locationTo', locationTo);
 
     const [addressFrom, addressTo] = await Promise.all([
       getAddress(locationFrom),
@@ -200,19 +208,36 @@ function TripCard(props: Props) {
               Speed Alerts
             </Button>
           </ButtonGroup>
-          {currentTab === 0 ? (
-            pointIds &&
-            pointIds.map(id => (
-              <PointItem
-                lat={points[id].lat}
-                lng={points[id].lng}
-                speed={points[id].speed}
-                time={points[id].time}
-              />
-            ))
-          ) : (
-            <div> Hello Speed Violation</div>
-          )}
+          {currentTab === 0
+            ? pointIds &&
+              pointIds.map(id => (
+                <PointItem
+                  lat={points[id].lat}
+                  lng={points[id].lng}
+                  speed={points[id].speed}
+                  time={points[id].time}
+                  key={id}
+                />
+              ))
+            : pointAlertIds.length > 0 &&
+              pointAlertIds.map((id, key) => (
+                <div
+                  className={clsx(classes.containerPointAlert, {
+                    [classes.textBold]: key === 0,
+                  })}
+                  key={id}
+                >
+                  <div className="pr20">{moment().format('hh:mm A')}</div>
+                  <div className={classes.flexRowCenter}>
+                    <div
+                      className={clsx(classes.cicrlGrey, {
+                        [classes.circleGreen]: key === 0,
+                      })}
+                    />
+                    <div>Speed Violation ({points[id].speed} kph)</div>
+                  </div>
+                </div>
+              ))}
           <div className={clsx(classes.rowBetween, classes.pt10)}>
             <div className={classes.flexColCenter}>
               <span className={classes.font18}>{maxSpeed} kph</span>

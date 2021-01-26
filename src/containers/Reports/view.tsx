@@ -17,6 +17,9 @@ interface Props {
   fetchHistoryLogs(data: object): void;
   fetchHistorySpeeds(data: object): void;
   fetchHistoryTrips(data: object): void;
+  setPointSelected(point: object): void;
+  selectedPoints: object;
+  selectedPointIds: number[];
   historyStops: object;
   historyStopIds: object;
   historyLogs: object;

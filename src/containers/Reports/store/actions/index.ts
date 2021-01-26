@@ -79,3 +79,8 @@ export const changeReportViewMode = (viewMode: string) => ({
   type: types.CHANGE_REPORT_VIEW_MODE,
   payload: { viewMode },
 });
+
+export const setPointSelected = (point: object) => ({
+  type: types.SET_POINT_SELECTED,
+  payload: { point },
+});

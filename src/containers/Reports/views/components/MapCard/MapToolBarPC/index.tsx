@@ -24,6 +24,7 @@ interface Props {
   isInitiatedMap: boolean;
   changeMapTilePC(title: string): void;
   mapTilePC: string;
+  isTop?: boolean;
 }
 
 function MapToolBars(props: Props) {
@@ -36,6 +37,7 @@ function MapToolBars(props: Props) {
     isInitiatedMap,
     changeMapTilePC,
     mapTilePC,
+    isTop,
   } = props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
@@ -57,7 +59,7 @@ function MapToolBars(props: Props) {
   };
 
   return (
-    <ToolBar>
+    <ToolBar isTop={isTop}>
       <ZoomButton>
         <Tooltip
           title={<span>{t('common:zoom_in')}</span>}

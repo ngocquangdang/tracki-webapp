@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import DateTimePicker from '@Components/DateTimePicker';
 import SelectOption from '@Components/selections';
 import TripCard from './TripCard';
+import TripCardSkeleton from '@Components/Skeletons/TripCard';
 
 //styles
 import { useStyles, Image } from './styles';
@@ -18,16 +19,32 @@ interface Props {
   trackers: object;
   trackerIds: any;
   fetchHistoryTrips(data: object): void;
+  setPointSelected(point: object): void;
   trips: Trip;
   tripIds: number[];
-  isFetchingHistorySpeed: boolean;
+  isFetchingTrips: boolean;
   viewMode: string;
   t(key: string, format?: object): string;
 }
 
 export default function ReportTrip(props: Props) {
-  const { fetchHistoryTrips, trackerIds, trackers, tripIds, trips } = props;
+  const {
+    fetchHistoryTrips,
+    trackerIds,
+    trackers,
+    tripIds,
+    trips,
+    setPointSelected,
+    isFetchingTrips,
+  } = props;
   const classes = useStyles();
+
+  const [isBadge, setBadge] = useState(true);
+  const [trackerId, setTrackerId] = useState('');
+  const [dateTime, setDateTime] = useState({
+    fromDate: moment().unix(),
+    toDate: moment().unix(),
+  });
 
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
     result.push({
@@ -36,12 +53,6 @@ export default function ReportTrip(props: Props) {
     });
     return result;
   }, []);
-
-  const [trackerId, setTrackerId] = useState('');
-  const [dateTime, setDateTime] = useState({
-    fromDate: moment().unix(),
-    toDate: moment().unix(),
-  });
 
   //handle change date time
   const onChangeDateTime = obj => {
@@ -52,6 +63,7 @@ export default function ReportTrip(props: Props) {
         query: `from=${obj.fromDate}&to=${obj.toDate}&limit=2000&page=1&type=2`,
       });
     }
+    setBadge(false);
   };
 
   const onChangeTracker = value => {
@@ -60,6 +72,7 @@ export default function ReportTrip(props: Props) {
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
     setTrackerId(value);
+    setBadge(false);
   };
 
   const renderTrackerCard = data => {
@@ -88,13 +101,16 @@ export default function ReportTrip(props: Props) {
   return (
     <div className={classes.container}>
       <div className={classes.flexCol}>
-        <SelectOption
-          name="select_tracker"
-          options={TRACKER_NAME}
-          label="Select Tracker"
-          value={trackerId}
-          onChangeOption={onChangeTracker}
-        />
+        <div className={classes.rowLeft}>
+          <SelectOption
+            name="select_tracker"
+            options={TRACKER_NAME}
+            label="Select Tracker"
+            value={trackerId}
+            onChangeOption={onChangeTracker}
+          />
+          {isBadge && <div className={classes.badge} />}
+        </div>
         <div className={classes.datePicker}>
           <DateTimePicker
             isMobile={false}
@@ -102,17 +118,30 @@ export default function ReportTrip(props: Props) {
             onChange={onChangeDateTime}
             isHistory={true}
           />
+          {isBadge && <div className={classes.badge} />}
         </div>
+        {isBadge && (
+          <div className={classes.colorGrey}>
+            Select Tracker and Select Date to show history trip
+          </div>
+        )}
       </div>
       {trackerIds &&
         trackerIds.length > 0 &&
         trackerId !== '' &&
         renderTrackerCard(trackers[trackerId])}
-      {tripIds &&
-        tripIds.length > 0 &&
-        tripIds.map(id => (
-          <TripCard points={trips[id].points} pointIds={trips[id].pointIds} />
-        ))}
+      {isFetchingTrips
+        ? [1, 2, 3, 4].map(index => <TripCardSkeleton key={index} />)
+        : tripIds &&
+          tripIds.length > 0 &&
+          tripIds.map(id => (
+            <TripCard
+              points={trips[id].points}
+              pointIds={trips[id].pointIds}
+              setPointSelected={setPointSelected}
+              key={id}
+            />
+          ))}
     </div>
   );
 }

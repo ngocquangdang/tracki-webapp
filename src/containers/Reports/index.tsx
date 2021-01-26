@@ -16,6 +16,7 @@ import {
   fetchNotificationUnreadRequest,
   fetchHistorySpeedsRequest,
   fetchHistoryTripRequest,
+  setPointSelected,
 } from './store/actions';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 
@@ -42,6 +43,8 @@ import {
   makeSelectHistoryTripIds,
   makeSelectHistoryTrips,
   makeSelectFetchingHistoryTrips,
+  makeSelectTripPointsSelected,
+  makeSelectTripPointIdsSelected,
 } from './store/selectors';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
@@ -91,6 +94,8 @@ const mapStateToProps = createStructuredSelector({
   isFetchingTrips: makeSelectFetchingHistoryTrips(),
   trips: makeSelectHistoryTrips(),
   tripIds: makeSelectHistoryTripIds(),
+  selectedPoints: makeSelectTripPointsSelected(),
+  selectedPointIds: makeSelectTripPointIdsSelected(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -104,6 +109,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchHistorySpeeds: (data: object) =>
     dispatch(fetchHistorySpeedsRequest(data)),
   fetchHistoryTrips: (data: object) => dispatch(fetchHistoryTripRequest(data)),
+  setPointSelected: (point: object) => dispatch(setPointSelected(point)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

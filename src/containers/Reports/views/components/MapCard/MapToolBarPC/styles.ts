@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { makeStyles, IconButton, withStyles } from '@material-ui/core';
 
 const ToolBar = styled.div`
@@ -8,6 +8,11 @@ const ToolBar = styled.div`
   right: 10px;
   bottom: 10px;
   z-index: 400;
+  ${(props: { isTop?: boolean }) =>
+    props.isTop &&
+    css`
+      top: 0;
+    `}
 `;
 
 const ZoomButton = styled.div`

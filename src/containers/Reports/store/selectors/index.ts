@@ -52,6 +52,12 @@ const makeSelectHistoryTrips = () =>
 const makeSelectFetchingHistoryTrips = () =>
   createSelector(reportState, state => state?.isFetchingTrips);
 
+const makeSelectTripPointsSelected = () =>
+  createSelector(reportState, state => state?.trips?.selectPoints);
+
+const makeSelectTripPointIdsSelected = () =>
+  createSelector(reportState, state => state?.trips?.selectPointIds);
+
 export {
   makeSelectNotifications,
   makeSelectNotificationsIds,
@@ -69,4 +75,6 @@ export {
   makeSelectHistoryTripIds,
   makeSelectHistoryTrips,
   makeSelectFetchingHistoryTrips,
+  makeSelectTripPointsSelected,
+  makeSelectTripPointIdsSelected,
 };

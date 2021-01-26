@@ -67,7 +67,7 @@ class MapCard extends React.Component<IProps, IState> {
     this.state = {
       isInitiatedMap: false,
       mapCenter: [40.866667, 34.566667],
-      mapZoom: 15,
+      mapZoom: 5,
       userLocation: null,
       mapStyle: 'streets-v11',
     };
@@ -239,6 +239,7 @@ class MapCard extends React.Component<IProps, IState> {
             myLocationClick={this.getUserLocation}
             changeZoom={this.changeZoom}
             isInitiatedMap={isInitiatedMap}
+            isTop={viewMode === 'trip'}
           />
         ) : (
           <MapToolBarSP
@@ -250,7 +251,7 @@ class MapCard extends React.Component<IProps, IState> {
             isInitiatedMap={isInitiatedMap}
           />
         )}
-        {isInitiatedMap && viewMode === 'history' && (
+        {isInitiatedMap && (viewMode === 'history' || viewMode === 'trip') && (
           <HistoryPath
             map={this.map}
             isMobile={isMobile}
