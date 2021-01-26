@@ -12,7 +12,7 @@ export const initialState = {
   isFetchingDataStop: false,
   isFetchingHistoryLogs: false,
   isFetchHistorySpeed: false,
-  isFetchingTrips: true,
+  isFetchingTrips: false,
   historyStop: {
     historyStops: {},
     historyStopIds: {},
@@ -28,6 +28,8 @@ export const initialState = {
   trips: {
     trips: {},
     tripIds: [],
+    selectPoints: {},
+    selectPointIds: [],
   },
   viewMode: 'trip',
   errors: null,
@@ -47,6 +49,9 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.FETCH_HISTORY_SPEED_REQUESTED:
         draft.isFetchHistorySpeed = true;
+        break;
+      case types.FETCH_HISTORY_TRIP_REQUESTED:
+        draft.isFetchingTrips = true;
         break;
       case types.FETCH_NOTIFICATION_UNREAD_SUCCEED:
         draft.notifications = payload.notifications;
@@ -92,6 +97,10 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.CHANGE_REPORT_VIEW_MODE:
         draft.viewMode = payload.viewMode;
+        break;
+      case types.SET_POINT_SELECTED:
+        draft.trips.selectPoints = payload.point.points;
+        draft.trips.selectPointIds = payload.point.pointIds;
         break;
       default:
         break;

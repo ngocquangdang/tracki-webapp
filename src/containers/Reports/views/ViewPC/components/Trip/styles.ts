@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-start',
     flex: 1,
+    position: 'relative',
   },
   rowRight: {
     display: 'flex',
@@ -89,6 +90,16 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginTop: 20,
     marginBottom: 20,
+    position: 'relative',
+  },
+  badge: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#ed1f24',
+    position: 'absolute',
+    right: -5,
+    top: -3,
+    borderRadius: '50%',
   },
 }));
 

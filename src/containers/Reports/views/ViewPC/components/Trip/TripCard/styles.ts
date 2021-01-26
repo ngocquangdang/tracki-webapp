@@ -79,7 +79,14 @@ const useStyles = makeStyles(theme => ({
     height: 8,
     borderRadius: 4,
     marginRight: 3,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: `${theme.palette.primary.main} !important`,
+  },
+  cicrlGrey: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 3,
+    backgroundColor: '#666666',
   },
   circleRed: {
     width: 8,
@@ -119,6 +126,17 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
     '& :first-child': {
       paddingRight: 10,
+    },
+  },
+  containerPointAlert: {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: 12,
+    lineHeight: 2.3,
+    flex: 1,
+    whiteSpace: 'nowrap',
+    '& .pr20': {
+      paddingRight: 20,
     },
   },
   red: {

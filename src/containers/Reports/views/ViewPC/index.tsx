@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import BarChartIcon from '@material-ui/icons/BarChart';
-
+import dynamic from 'next/dynamic';
 //components
 import { SideBarInnerPC } from '@Components/sidebars';
-import Map from '@Components/Maps';
-import MapToolBars from '@Components/Maps/components/MapToolBar';
 
 import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
 import HistoryReport from './components/History';
 import ReportStops from './components/Stops';
 import ReportSpeeds from './components/Speed';
+import ToolbarControlPlayback from '../components/ToolbarControlPlayback';
 //styles
 import { useStyles } from './styles';
 
+const MapCard = dynamic(
+  () => import('@Containers/Reports/views/components/MapCard'),
+  {
+    ssr: false,
+  }
+);
 interface Props {
   isMobile: boolean;
   trackers: object;
@@ -27,6 +32,9 @@ interface Props {
   fetchHistoryLogs(data: object): void;
   fetchHistorySpeeds(data: object): void;
   fetchHistoryTrips(data: object): void;
+  setPointSelected(point: object): void;
+  selectedPoints: object;
+  selectedPointIds: number[];
   historyStops: object;
   historyStopIds: object;
   profile: any;
@@ -66,16 +74,21 @@ function ReportViewPC(props: Props) {
     historyStopIds,
     isFetchingDataStop,
     t,
+    selectedPoints,
+    selectedPointIds,
     ...rest
   } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
+  const [isPlaying, setTogglePlaying] = useState(false);
+
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 100);
   };
-  const openSideBar = () => setOpenSidebar(true);
+
+  const togglePlaying = () => setTogglePlaying(!isPlaying);
 
   return viewMode === 'trip' ? (
     <div className={classes.containerTrip}>
@@ -86,17 +99,30 @@ function ReportViewPC(props: Props) {
           trackers={trackers}
           trackerIds={trackerIds}
           viewMode={viewMode}
+          changeReportView={changeReportView}
         />
       </SideBarInnerPC>
       <div className={classes.mapView}>
         <React.Fragment>
-          <Map
+          <MapCard
+            mapId="mapHistory"
+            historyLogs={selectedPoints}
+            historyLogIds={selectedPointIds}
+            isPlaying={isPlaying}
+            togglePlaying={togglePlaying}
             mapType="leaflet"
-            openSideBar={openSideBar}
-            isTracking={true}
-            {...props}
+            t={t}
+            isMobile={false}
+            viewMode={viewMode}
+            // currentPointId={currentPointId}
           />
-          <MapToolBars t={t} />
+          {selectedPointIds.length > 0 && (
+            <ToolbarControlPlayback
+              isOpenSidebar={isOpenSidebar}
+              togglePlaying={togglePlaying}
+              isPlaying={isPlaying}
+            />
+          )}
         </React.Fragment>
       </div>
     </div>
