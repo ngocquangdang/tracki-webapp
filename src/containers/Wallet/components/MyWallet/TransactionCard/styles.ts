@@ -12,25 +12,42 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     color: '#1a1a1a',
     textTransform: 'capitalize',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15,
+    },
   },
   sender: {
     fontSize: 14,
     color: theme.palette.secondary.main,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 13,
+    },
   },
-  status: {},
+  status: {
+    color: theme.palette.secondary.main,
+  },
   pending: {
     fontSize: 14,
     color: '#e99313',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 13,
+    },
   },
   cashIn: {
     color: theme.palette.primary.main,
     fontSize: 16,
     fontWeight: 500,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15,
+    },
   },
   cashOut: {
     color: '#cc2c2c',
     fontSize: 16,
     fontWeight: 500,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15,
+    },
   },
   mr0: {
     margin: 0,

@@ -302,6 +302,27 @@ export const getTransactionDetail = () => {
       from: '',
       to: 'Tracki',
       total: 100.0,
+      orders: [
+        {
+          name:
+            'Wireless WiFi DoorBell Smart Video Phone Door Visual Ring Intercom Secure Camera',
+          price: '49.95',
+          qty: 1,
+          id: 111,
+        },
+        {
+          name: 'Wireless WiFi DoorBell',
+          price: '10.95',
+          qty: 2,
+          id: 112,
+        },
+        {
+          name: 'Best selling GPS tracker on Amazon',
+          price: '40.95',
+          qty: 1,
+          id: 113,
+        },
+      ],
     },
     {
       id: 2,

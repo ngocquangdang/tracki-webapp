@@ -1,16 +1,37 @@
 import React from 'react';
 import moment from 'moment';
 
+// style
 import { ListItemStyle, useStyles } from './styles';
 
-function TransactionCard(props) {
+//interface
+interface Props {
+  onSelectedId?: (id: number) => void;
+  t(key: string, format?: object): string;
+  transaction: {
+    paymentType?: string;
+    to?: string;
+    id?: number;
+    from?: string;
+    status?: string;
+    total?: string;
+    updatedAt: number;
+  };
+}
+
+function TransactionCard(props: Props) {
   const classes = useStyles();
 
-  const { transaction, t } = props;
+  const { transaction, t, onSelectedId } = props;
+
+  const handleSelectedId = id => () => {
+    onSelectedId && onSelectedId(id);
+    return;
+  };
 
   return (
     <ListItemStyle button>
-      <div className={classes.item}>
+      <div className={classes.item} onClick={handleSelectedId(transaction.id)}>
         <div>
           <p className={`${classes.title} ${classes.mr0} ${classes.mb5}`}>
             {transaction.paymentType}
