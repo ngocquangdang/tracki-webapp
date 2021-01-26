@@ -22,6 +22,7 @@ const Notification = dynamic(() => import('../components/Notification'));
 const DailyBonus = dynamic(() => import('../components/DailyBonus'));
 const SpinWin = dynamic(() => import('../components/Spin'));
 const HourlyGifts = dynamic(() => import('../components/HourlyGift'));
+const MyWalletSP = dynamic(() => import('../components/MyWallet/SP'));
 
 interface Props {
   t(key: string, format?: object): string;
@@ -145,7 +146,8 @@ function WalletDashboard(props: Props) {
           {currentTab === 0 && (
             <Dashboard t={t} onChangeTab={onChangeTab} isMobile={isMobile} />
           )}
-          {currentTab === 1 && <MyWallet t={t} />}
+          {currentTab === 1 &&
+            (isMobile ? <MyWalletSP t={t} /> : <MyWallet t={t} />)}
           {currentTab === 2 && <FriendInvite />}
           {currentTab === 3 && <Notification />}
           {currentTab === 4 && <DailyBonus />}

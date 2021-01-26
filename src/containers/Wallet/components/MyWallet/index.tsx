@@ -53,8 +53,10 @@ function MyWallet(props: Props) {
 
   const onGetMore = () => {
     setIsLoadMore(true);
-    setPage(page + 1);
-    setTimeout(() => setIsLoadMore(false), 3000);
+    setTimeout(() => {
+      setPage(page + 1);
+      setIsLoadMore(false);
+    }, 3000);
   };
 
   const onChangeDateTime = obj => {
@@ -136,7 +138,7 @@ function MyWallet(props: Props) {
               .map((i, index) => <TransacrtionCardSkeleton key={index} />)}
           <Button
             classes={classes.btnBackground}
-            text={t('wallet:see_more_point_history')}
+            text={t('wallet:more_transaction_history')}
             onClick={onGetMore}
             isLoading={isLoadMore}
             disabled={isLoadMore || rowPerPage.length === transactionIds.length}
