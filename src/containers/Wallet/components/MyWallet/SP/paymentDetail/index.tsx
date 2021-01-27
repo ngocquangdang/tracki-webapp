@@ -72,7 +72,7 @@ function PaymentDetail(props: Props) {
                 {t('wallet:paid_to')}
               </p>
               <p className={clsx(classes.mr0, classes.w500)}>
-                ${transaction?.to || '[N/A]'}
+                {transaction?.to || '[N/A]'}
               </p>
             </div>
             <div
