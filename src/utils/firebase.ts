@@ -1,0 +1,50 @@
+import firebaseApp from 'firebase/app';
+import firebase from 'firebase';
+import 'firebase/analytics';
+
+import {
+  API_KEY,
+  APP_ID,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  MESSENGIN_SENDER_ID,
+  MESUAREMENT_ID,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+} from '@Definitions/app';
+
+export const firebaseConfig = {
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSENGIN_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MESUAREMENT_ID,
+};
+
+if (!firebaseApp.apps.length) {
+  firebaseApp.initializeApp(firebaseConfig);
+  // Check that `window` is in scope for the analytics module!
+  if (typeof window !== 'undefined') {
+    // Enable analytics. https://firebase.google.com/docs/analytics/get-started
+    if ('measurementId' in firebaseConfig) {
+      firebase.analytics();
+      console.log('config analytics success');
+    }
+  }
+}
+
+function analyticsEvent(name: string, param?: Object | undefined): void {
+  try {
+    firebase.analytics().logEvent(name, param);
+  } catch (e) {
+    console.log('Unable to tag analytics event:', e);
+  }
+}
+
+const app = firebase.apps[0];
+console.log(app.name ? 'Firebase Mode Activated!' : 'Firebase not working :(');
+
+export { firebase, analyticsEvent };
