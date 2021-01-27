@@ -27,7 +27,7 @@ function CashOutDetail(props: Props) {
 
   return (
     <SideBarOutside
-      title={t('wallet:cash_out_details')}
+      title={t(`wallet:${type}_details`)}
       show={show}
       handleClose={handleClose}
       isMobile={true}
