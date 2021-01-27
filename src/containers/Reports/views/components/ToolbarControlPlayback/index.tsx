@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IconButton, Slider } from '@material-ui/core';
 import {
   PlayArrow as PlayArrowIcon,
@@ -11,31 +11,38 @@ import clsx from 'clsx';
 import { useStyles } from './styles';
 
 function ToolbarControlPlayback(props) {
-  const { isOpenSidebar, togglePlaying, isPlaying } = props;
+  const {
+    isOpenSidebar,
+    togglePlaying,
+    isPlaying,
+    onChangeSpeeds,
+    onChangeCounter,
+    valControl,
+    counter,
+    steps,
+    onChangeControl,
+  } = props;
   const classes = useStyles();
-  const [value, setValue] = useState<number | number[]>(1);
-  const [speedPlay, setSpeedPlay] = useState<number>(1);
-  const [valControl, setValControl] = useState<string>('actual');
   const handleChange = (event: any, newValue: number | number[]) => {
-    setValue(newValue);
+    onChangeCounter(newValue);
   };
 
   const groupButtonSpeed = [
     {
       label: '1X',
-      value: 1,
+      value: 1000,
     },
     {
       label: '2X',
-      value: 2,
+      value: 500,
     },
     {
-      label: '3X',
-      value: 3,
+      label: '5X',
+      value: 200,
     },
     {
-      label: '4X',
-      value: 4,
+      label: '10X',
+      value: 100,
     },
   ];
 
@@ -50,8 +57,12 @@ function ToolbarControlPlayback(props) {
     },
   ];
 
-  const handleChangeSpeed = (speed: number) => () => setSpeedPlay(speed);
-  const handleChangeControl = (val: string) => () => setValControl(val);
+  const handleChangeSpeed = (speed: number) => () => {
+    onChangeSpeeds(speed);
+  };
+  const handleChangeControl = (val: string) => () => {
+    onChangeControl(val);
+  };
   return (
     <div
       className={clsx(classes.container, {
@@ -64,7 +75,8 @@ function ToolbarControlPlayback(props) {
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
           <Slider
-            value={value}
+            value={counter}
+            max={steps}
             onChange={handleChange}
             aria-labelledby="continuous-slider"
           />
@@ -74,14 +86,14 @@ function ToolbarControlPlayback(props) {
         </div>
         <div className={classes.flexBetween}>
           <ButtonGroup className={clsx(classes.flexRow)}>
-            {groupButtonSpeed.map((item, index) => (
+            {groupButtonSpeed.map(item => (
               <Button
                 variant="contained"
                 className={clsx(classes.btn, {
-                  [classes.btnActive]: speedPlay === index + 1,
+                  [classes.btnActive]: steps === item.value,
                 })}
-                onClick={handleChangeSpeed(index + 1)}
-                key={index}
+                onClick={handleChangeSpeed(item.value)}
+                key={item.value}
               >
                 {item.label}
               </Button>

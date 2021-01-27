@@ -84,3 +84,18 @@ export const setPointSelected = (point: object) => ({
   type: types.SET_POINT_SELECTED,
   payload: { point },
 });
+
+export const getOptimizedTripRequest = (coordinate: number[]) => ({
+  type: types.GET_OPTIMIZED_TRIP_REQUEST,
+  payload: { coordinate },
+});
+
+export const getOptimizedTripSucceed = data => ({
+  type: types.GET_OPTIMIZED_TRIP_SUCCEED,
+  payload: { data },
+});
+
+export const getOptimizedTripFailed = error => ({
+  type: types.GET_OPTIMIZED_TRIP_FAILED,
+  payload: { error },
+});

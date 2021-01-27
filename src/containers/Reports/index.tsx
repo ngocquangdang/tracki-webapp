@@ -17,6 +17,7 @@ import {
   fetchHistorySpeedsRequest,
   fetchHistoryTripRequest,
   setPointSelected,
+  getOptimizedTripRequest,
 } from './store/actions';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 
@@ -45,6 +46,8 @@ import {
   makeSelectFetchingHistoryTrips,
   makeSelectTripPointsSelected,
   makeSelectTripPointIdsSelected,
+  makeSelectTripSteps,
+  makeSelectTripOptimized,
 } from './store/selectors';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
@@ -96,6 +99,8 @@ const mapStateToProps = createStructuredSelector({
   tripIds: makeSelectHistoryTripIds(),
   selectedPoints: makeSelectTripPointsSelected(),
   selectedPointIds: makeSelectTripPointIdsSelected(),
+  steps: makeSelectTripSteps(),
+  coordinateOptimized: makeSelectTripOptimized(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -110,6 +115,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(fetchHistorySpeedsRequest(data)),
   fetchHistoryTrips: (data: object) => dispatch(fetchHistoryTripRequest(data)),
   setPointSelected: (point: object) => dispatch(setPointSelected(point)),
+  getOptimizedTrip: (coordinate: any) =>
+    dispatch(getOptimizedTripRequest(coordinate)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

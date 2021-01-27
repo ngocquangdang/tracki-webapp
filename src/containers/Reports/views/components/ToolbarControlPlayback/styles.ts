@@ -58,6 +58,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     textTransform: 'none',
     boxShadow: 'none',
+    padding: 10,
     '&:hover': {
       backgroundColor: '#999999',
     },

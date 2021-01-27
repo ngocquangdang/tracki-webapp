@@ -18,6 +18,8 @@ interface Props {
   fetchHistorySpeeds(data: object): void;
   fetchHistoryTrips(data: object): void;
   setPointSelected(point: object): void;
+  getOptimizedTrip(coordinate: any): void;
+  coordinateOptimized: number[];
   selectedPoints: object;
   selectedPointIds: number[];
   historyStops: object;
@@ -28,6 +30,7 @@ interface Props {
   historySpeedIds: object;
   trips: object;
   tripIds: number[];
+  steps: number;
   isFetchingHistorySpeed: boolean;
   isFetchingHistoryLogs: boolean;
   isFetchingDataNoti: boolean;

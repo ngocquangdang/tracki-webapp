@@ -33,6 +33,8 @@ interface Props {
   fetchHistorySpeeds(data: object): void;
   fetchHistoryTrips(data: object): void;
   setPointSelected(point: object): void;
+  getOptimizedTrip(coordinate: any): void;
+  coordinateOptimized: number[];
   selectedPoints: object;
   selectedPointIds: number[];
   historyStops: object;
@@ -76,10 +78,15 @@ function ReportViewPC(props: Props) {
     t,
     selectedPoints,
     selectedPointIds,
+    getOptimizedTrip,
+    coordinateOptimized,
     ...rest
   } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const [isPlaying, setTogglePlaying] = useState(false);
+  const [steps, setSteps] = useState(1000);
+  const [counter, setCounter] = useState(0);
+  const [valControl, setValControl] = useState('actual');
 
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
@@ -89,7 +96,26 @@ function ReportViewPC(props: Props) {
   };
 
   const togglePlaying = () => setTogglePlaying(!isPlaying);
-
+  const onChangeSpeeds = steps => {
+    setSteps(steps);
+  };
+  const onChangeCounter = value => {
+    setCounter(value);
+  };
+  const onChangeControl = value => {
+    setValControl(value);
+    if (value === 'optimized') {
+      const coordinateOptimized = selectedPointIds.reduce(
+        (result: any, id: number) => {
+          const coordinate = [selectedPoints[id].lng, selectedPoints[id].lat];
+          const res = [...result, coordinate.join(',')];
+          return res;
+        },
+        []
+      );
+      getOptimizedTrip(coordinateOptimized);
+    }
+  };
   return viewMode === 'trip' ? (
     <div className={classes.containerTrip}>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
@@ -114,6 +140,10 @@ function ReportViewPC(props: Props) {
             t={t}
             isMobile={false}
             viewMode={viewMode}
+            counter={counter}
+            steps={steps}
+            onChangeCounter={onChangeCounter}
+            coordinateOptimized={coordinateOptimized}
             // currentPointId={currentPointId}
           />
           {selectedPointIds.length > 0 && (
@@ -121,6 +151,12 @@ function ReportViewPC(props: Props) {
               isOpenSidebar={isOpenSidebar}
               togglePlaying={togglePlaying}
               isPlaying={isPlaying}
+              onChangeSpeeds={onChangeSpeeds}
+              valControl={valControl}
+              counter={counter}
+              onChangeCounter={onChangeCounter}
+              steps={steps}
+              onChangeControl={onChangeControl}
             />
           )}
         </React.Fragment>

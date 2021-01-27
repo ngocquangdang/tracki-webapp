@@ -333,6 +333,20 @@ function* fetchHistoryTripSaga(action) {
   }
 }
 
+function* getOptimizedTripSaga(action) {
+  try {
+    const { coordinate } = action.payload;
+    const { data } = yield call(apiServices.getOptimizedTrip, coordinate);
+    const payload = data.waypoints.reduce((result, item) => {
+      result = [...result, { lat: item.location[1], lng: item.location[0] }];
+      return result;
+    }, []);
+    yield put(actions.getOptimizedTripSucceed(payload));
+  } catch (error) {
+    yield put(actions.getOptimizedTripFailed(error));
+  }
+}
+
 export default function* reportsWatcher() {
   yield takeLatest(
     types.FETCH_NOTIFICATION_UNREAD_REQUESTED,
@@ -348,4 +362,5 @@ export default function* reportsWatcher() {
   );
   yield takeLatest(types.FETCH_HISTORY_SPEED_REQUESTED, fetchHistorySpeedSagas);
   yield takeLatest(types.FETCH_HISTORY_TRIP_REQUESTED, fetchHistoryTripSaga);
+  yield takeLatest(types.GET_OPTIMIZED_TRIP_REQUEST, getOptimizedTripSaga);
 }

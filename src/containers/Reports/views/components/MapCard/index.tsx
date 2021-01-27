@@ -32,6 +32,9 @@ interface IProps {
   historyLogIds: number[];
   isPlaying: boolean;
   togglePlaying: any;
+  steps: number;
+  counter: number;
+  coordinateOptimized: number[];
   classes: any;
   t(key: string, format?: object): string;
   [data: string]: any;
@@ -215,6 +218,8 @@ class MapCard extends React.Component<IProps, IState> {
       isPlaying,
       togglePlaying,
       currentPointId,
+      onChangeCounter,
+      coordinateOptimized,
     } = this.props;
     const { userLocation, isInitiatedMap, mapStyle } = this.state;
 
@@ -261,6 +266,10 @@ class MapCard extends React.Component<IProps, IState> {
             togglePlaying={togglePlaying}
             t={t}
             currentPointId={currentPointId}
+            steps={this.props.steps}
+            counter={this.props.counter}
+            onChangeCounter={onChangeCounter}
+            coordinateOptimized={coordinateOptimized}
           />
         )}
       </React.Fragment>
