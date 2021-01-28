@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosClient from '@Utils/axios';
-import { MAPBOX_API_KEY } from '@Definitions/app';
+import { GOOGLE_API_KEY } from '@Definitions/app';
 
 export const fetchNotificationUnread = async (
   accountId: number,
@@ -20,23 +20,10 @@ export const getHistoryStopTracker = async (
 };
 
 export const getOptimizedTrip = async (coordinate: number[]) => {
-  let param;
-  if (coordinate.length < 12) {
-    param = coordinate.join(';');
-  } else {
-    const arrayRequest = [
-      coordinate[0],
-      coordinate[2],
-      coordinate[4],
-      coordinate[6],
-      coordinate[8],
-      coordinate[10],
-    ];
-
-    param = arrayRequest.join(';');
-  }
-
+  console.log('zzzzzzzz', coordinate);
   return await axios.get(
-    `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${param}?access_token=${MAPBOX_API_KEY}`
+    `https://maps.googleapis.com/maps/api/directions/json?origin=${
+      coordinate[0]
+    }&destination=${coordinate[coordinate.length - 1]}&key=${GOOGLE_API_KEY}`
   );
 };

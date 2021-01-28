@@ -22,7 +22,7 @@ import Link from 'next/link';
 import { IoMdPersonAdd } from 'react-icons/io';
 
 interface Props {
-  title: string;
+  title: any;
   trackerUrl?: string;
   button?: JSX.Element;
   isBackable?: boolean;
@@ -57,12 +57,6 @@ export default function SideBarOut(props: Props) {
     isNotSave,
   } = props;
 
-  function capitalizeFirstLetter(string: string) {
-    return string.replace(/\w\S*/g, function (txt: any) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-  }
-
   return (
     <Slide in={show} direction={direction || 'left'} mountOnEnter unmountOnExit>
       <MenuWrap isMobile={isMobile}>
@@ -85,12 +79,14 @@ export default function SideBarOut(props: Props) {
                     </div>
                   )}
                   <TitleMobile>
-                    {capitalizeFirstLetter(title)} {button}
+                    {title}
+                    {button}
                   </TitleMobile>
                 </WrapTitle>
               ) : (
                 <Title>
-                  {capitalizeFirstLetter(title)} {button}
+                  {title}
+                  {button}
                 </Title>
               )}
               {isMobile ? (

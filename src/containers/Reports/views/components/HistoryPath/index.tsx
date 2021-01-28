@@ -19,7 +19,9 @@ interface Props {
   steps?: number;
   counter?: number;
   onChangeCounter(value?: any): void;
+  changeModeViewMap(modeMap?: string): void;
   coordinateOptimized?: number[];
+  modeMap?: string;
   t(key: string, format?: object): string;
 }
 
@@ -61,6 +63,7 @@ class HistoryPath extends React.Component<Props> {
       steps,
       counter,
       coordinateOptimized,
+      modeMap,
     } = nextProps;
     const {
       historyLogIds: currentHistoryLogIds,
@@ -72,6 +75,8 @@ class HistoryPath extends React.Component<Props> {
       steps: currentSteps,
       counter: currentCounter,
       coordinateOptimized: currentCoordinateOptimized,
+      changeModeViewMap,
+      modeMap: currentModeMap,
     } = this.props;
     if (historyLogIds.length !== currentHistoryLogIds.length) {
       this.removeLayer();
@@ -90,6 +95,12 @@ class HistoryPath extends React.Component<Props> {
       this.animatedPoint.setLatLng([lat, lng]);
     }
 
+    if (currentModeMap !== modeMap && modeMap === 'actual') {
+      map.removeLayer(this.pathOptimized);
+      map.removeLayer(this.decoratorOptimized);
+      this.pathOptimized = null;
+    }
+
     if (steps !== currentSteps) {
       this.steps = steps;
       map.removeLayer(this.logsPath);
@@ -101,23 +112,27 @@ class HistoryPath extends React.Component<Props> {
       this.tempCoordinates = [];
       this.counter = 1;
       this.renderPath(nextProps);
-      thisPlaying && togglePlaying(false);
+      thisPlaying && togglePlaying(true);
     }
     // reset path & markers
-    if (
-      historyLogIds.length !== currentHistoryLogIds.length ||
-      steps !== currentSteps
-    ) {
+    if (historyLogIds.length !== currentHistoryLogIds.length) {
       if (this.logsPath) {
         map.removeLayer(this.logsPath);
         map.removeLayer(this.decorator);
+
         this.animatedPoint && map.removeLayer(this.animatedPoint);
         Object.values(this.points).map(p => map.removeLayer(p));
-        this.logsPath = null;
+
         this.animatedPoint = null;
         this.tempCoordinates = [];
         this.counter = 1;
         this.renderPath(nextProps);
+        changeModeViewMap('actual');
+      }
+      if (this.pathOptimized) {
+        map.removeLayer(this.pathOptimized);
+        map.removeLayer(this.decoratorOptimized);
+        this.pathOptimized = null;
       }
       thisPlaying && togglePlaying(false);
     }

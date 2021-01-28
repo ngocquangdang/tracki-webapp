@@ -64,6 +64,9 @@ const makeSelectTripSteps = () =>
 const makeSelectTripOptimized = () =>
   createSelector(reportState, state => state?.trips?.coordinateOptimized);
 
+const makeSelectTripModeMapView = () =>
+  createSelector(reportState, state => state?.trips?.modeMap);
+
 export {
   makeSelectNotifications,
   makeSelectNotificationsIds,
@@ -85,4 +88,5 @@ export {
   makeSelectTripPointIdsSelected,
   makeSelectTripSteps,
   makeSelectTripOptimized,
+  makeSelectTripModeMapView,
 };

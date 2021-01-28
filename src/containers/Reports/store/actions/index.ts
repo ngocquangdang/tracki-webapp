@@ -85,17 +85,12 @@ export const setPointSelected = (point: object) => ({
   payload: { point },
 });
 
-export const getOptimizedTripRequest = (coordinate: number[]) => ({
-  type: types.GET_OPTIMIZED_TRIP_REQUEST,
-  payload: { coordinate },
-});
-
-export const getOptimizedTripSucceed = data => ({
-  type: types.GET_OPTIMIZED_TRIP_SUCCEED,
+export const setOptimizedTrip = (data: number[]) => ({
+  type: types.SET_OPTIMIZED_TRIP,
   payload: { data },
 });
 
-export const getOptimizedTripFailed = error => ({
-  type: types.GET_OPTIMIZED_TRIP_FAILED,
-  payload: { error },
+export const changeModeViewMap = (modeMap: string) => ({
+  type: types.CHANGE_MODE_VIEW_MAP,
+  payload: { modeMap },
 });

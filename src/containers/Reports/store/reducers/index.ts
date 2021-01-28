@@ -32,6 +32,7 @@ export const initialState = {
     selectPointIds: [],
     steps: 1000,
     coordinateOptimized: [],
+    modeMap: 'actual',
   },
   viewMode: 'trip',
   errors: null,
@@ -104,8 +105,11 @@ const reportsReducer = (state = initialState, { type, payload }: ActionType) =>
         draft.trips.selectPoints = payload.point.points;
         draft.trips.selectPointIds = payload.point.pointIds;
         break;
-      case types.GET_OPTIMIZED_TRIP_SUCCEED:
+      case types.SET_OPTIMIZED_TRIP:
         draft.trips.coordinateOptimized = payload.data;
+        break;
+      case types.CHANGE_MODE_VIEW_MAP:
+        draft.trips.modeMap = payload.modeMap;
         break;
       default:
         break;

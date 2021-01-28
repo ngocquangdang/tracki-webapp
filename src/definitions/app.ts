@@ -6,7 +6,7 @@ export const APP_ENV = process.env.NODE_ENV;
 export const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 export const UNWIREDLABS_API_KEY = 'pk.a0f053ebb725270fc511806062e6e489';
-export const GOOGLE_API_KEY = 'AIzaSyCLPMp9ZWD527YApQ0I9LgqWitPok798rA';
+export const GOOGLE_API_KEY = 'AIzaSyC6Nk_PFcJ2ucfRJ4C8-4sqVNyN9d-q61I';
 export const MAPBOX_API_KEY =
   'pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ';
 

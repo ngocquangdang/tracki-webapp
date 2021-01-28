@@ -21,6 +21,7 @@ function ToolbarControlPlayback(props) {
     counter,
     steps,
     onChangeControl,
+    isMobile,
   } = props;
   const classes = useStyles();
   const handleChange = (event: any, newValue: number | number[]) => {
@@ -65,13 +66,26 @@ function ToolbarControlPlayback(props) {
   };
   return (
     <div
-      className={clsx(classes.container, {
-        [classes.openSidebar]: !isOpenSidebar,
-      })}
+      className={clsx(
+        classes.container,
+        {
+          [classes.openSidebar]: !isOpenSidebar && !isMobile,
+        },
+        {
+          [classes.containerMobile]: isMobile,
+        }
+      )}
     >
-      <div className={classes.content}>
+      <div
+        className={clsx(classes.content, {
+          [classes.contentMobile]: isMobile,
+        })}
+      >
         <div className={classes.flexRow}>
-          <IconButton className={classes.iconBtn} onClick={togglePlaying}>
+          <IconButton
+            className={isMobile ? classes.iconBtnMobile : classes.iconBtn}
+            onClick={togglePlaying}
+          >
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
           <Slider
@@ -80,7 +94,11 @@ function ToolbarControlPlayback(props) {
             onChange={handleChange}
             aria-labelledby="continuous-slider"
           />
-          <IconButton className={classes.iconBtn}>
+          <IconButton
+            className={
+              isMobile ? classes.iconRefreshBtnMobile : classes.iconBtn
+            }
+          >
             <ReplayIcon />
           </IconButton>
         </div>

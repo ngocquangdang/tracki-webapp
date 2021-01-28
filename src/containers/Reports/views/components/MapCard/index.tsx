@@ -270,6 +270,8 @@ class MapCard extends React.Component<IProps, IState> {
             counter={this.props.counter}
             onChangeCounter={onChangeCounter}
             coordinateOptimized={coordinateOptimized}
+            changeModeViewMap={this.props.changeModeViewMap}
+            modeMap={this.props.modeMap}
           />
         )}
       </React.Fragment>

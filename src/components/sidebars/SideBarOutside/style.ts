@@ -45,6 +45,7 @@ const WrapTitle = styled.div`
   align-items: center;
   display: flex;
   padding-left: 18px;
+  width: 100%;
   cursor: pointer;
 `;
 const Title = styled.div`
@@ -59,8 +60,10 @@ const Title = styled.div`
   padding-left: 18px;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
   @media (max-width: 959.95px) {
     padding-left: 4px;
+    flex: 1;
   }
 `;
 const ButtonSave = styled.div`
@@ -72,6 +75,7 @@ const ButtonSave = styled.div`
 
 const TitleMobile = styled(Title)`
   font-weight: normal;
+  text-transform: capitalize;
 `;
 const TextSave = styled.span`
   font-size: 16px;
