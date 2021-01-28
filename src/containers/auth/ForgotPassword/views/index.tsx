@@ -22,16 +22,21 @@ import IForgotPage from '../interfaces';
 import EmailFrom from './form/EmailForm';
 import CodeFrom from './form/CodeForm';
 import ForgotPasswordForm from './form/ChangePasswordForm';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function ForgotPassword(props: IForgotPage.IProps) {
   const { t, email, code, resetStore } = props;
   const classes = useStyles();
 
   useEffect(() => {
+    firebaseLogEventRequest('forgot_password_page', '');
     return () => {
       resetStore();
     };
   }, [resetStore]);
+
+  const onBackToLogin = () =>
+    firebaseLogEventRequest('forgot_password_page', 'back_login_page');
 
   return (
     <AuthLayout>
@@ -43,6 +48,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
               classes={classes.backBtn}
               startIcon={<FiChevronLeft size={28} />}
               text={t('back')}
+              onClick={onBackToLogin}
             />
           </Link>
           <Link href="/login">

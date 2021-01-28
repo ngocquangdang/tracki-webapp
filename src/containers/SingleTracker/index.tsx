@@ -68,6 +68,7 @@ import HistoryTrackerDetail from '@Components/HistoryTrackerDetailNew';
 import ShareLocation from './components/ShareLocation';
 import TrackerGeofences from './components/TrackerGeofences';
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   settings: object;
@@ -137,6 +138,7 @@ function SingleTracker(props: Props) {
 
   const onOpenChildView = (view: string) => () => {
     if (tracker.status === 'active' || view === 'settings') {
+      firebaseLogEventRequest('device_detail', `${view}_device`);
       updateChildView(view);
       if (view === 'history') {
         changeMapView('tracker_history');
@@ -155,6 +157,7 @@ function SingleTracker(props: Props) {
   };
 
   const onClickBeepDevice = () => () => {
+    firebaseLogEventRequest('device_detail', 'send_beep_device');
     if (tracker.status === 'active') {
       onOpenChildView('beepDevice');
       props?.onClickSendBeep({

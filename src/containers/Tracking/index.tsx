@@ -40,6 +40,7 @@ import {
   makeSelectTrackerHistories,
 } from './store/selectors';
 import View from './view';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   viewMode: string;
@@ -76,6 +77,7 @@ function TrackingContainer(props: Props) {
     ...rest
   } = props;
   useEffect(() => {
+    firebaseLogEventRequest('tracking_page', '');
     fetchUserRequestedAction();
     mqttStart();
     return () => {

@@ -43,6 +43,7 @@ import {
   makeSelectHistoryTrips,
   makeSelectFetchingHistoryTrips,
 } from './store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 
@@ -65,6 +66,7 @@ function ReportsContainer(props) {
 
   useEffect(() => {
     fetchUserRequestedAction();
+    firebaseLogEventRequest('reports_page', '');
   }, [fetchUserRequestedAction]);
 
   return <View {...rest} />;

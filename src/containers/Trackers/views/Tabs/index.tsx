@@ -4,6 +4,7 @@ import { Paper, Tabs, Tab } from '@material-ui/core';
 
 import TabPanel from '@Components/sidebars/SideBarInnerPC/tabPanel';
 import { useStyles } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const TrackerList = dynamic(() => import('@Components/TrackerListPC'));
 const GeofenceList = dynamic(() => import('@Components/GeofenceListPC'));
@@ -28,6 +29,7 @@ export default function TabsPC(props: Props) {
     setTab(newValue);
     const nextLink = newValue ? '/geofences' : '/trackers';
     window.history.pushState({}, '', nextLink);
+    firebaseLogEventRequest(newValue ? 'geofence_page' : 'trackers_page', '');
   };
 
   useEffect(() => {

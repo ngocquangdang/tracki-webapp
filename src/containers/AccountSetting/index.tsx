@@ -23,6 +23,7 @@ import {
 import UserDetail from './interfaces';
 
 import View from './view';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function SettingContainer(props: UserDetail.IProps) {
   useInjectSaga({ key: 'profile', saga });
@@ -30,6 +31,7 @@ function SettingContainer(props: UserDetail.IProps) {
 
   const { fetchUserRequested, ...rest } = props;
   useEffect(() => {
+    firebaseLogEventRequest('settings_page', '');
     fetchUserRequested();
   }, [fetchUserRequested]);
 

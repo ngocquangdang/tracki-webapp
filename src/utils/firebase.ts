@@ -12,7 +12,17 @@ import {
   PROJECT_ID,
   STORAGE_BUCKET,
 } from '@Definitions/app';
+import { firebaseEnvent } from './firebaseEvent';
 
+//interface
+interface Param {
+  event_name: string;
+  screen_name: string;
+  type: string;
+  description: string;
+  provider_group?: string;
+  custom_event?: string;
+}
 export const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,
@@ -36,13 +46,26 @@ if (!firebaseApp.apps.length) {
   }
 }
 
-function analyticsEvent(name: string, param?: Object | undefined): void {
+function analyticsEvent(name: string, param?: Object): void {
   try {
     firebase.analytics().logEvent(name, param);
   } catch (e) {
     console.log('Unable to tag analytics event:', e);
   }
 }
+
+export const firebaseLogEventRequest = (
+  page_name: string,
+  click_name: string
+) => {
+  const page_event = firebaseEnvent[page_name];
+  if (click_name) {
+    const click_event = page_event[click_name];
+    return analyticsEvent(click_name, click_event);
+  } else {
+    return analyticsEvent(page_name, page_event);
+  }
+};
 
 const app = firebase.apps[0];
 console.log(app.name ? 'Firebase Mode Activated!' : 'Firebase not working :(');

@@ -8,6 +8,7 @@ import { ForgotPasswordFromSchema } from '../../schema';
 
 import { Form, Info, InfoText, useStyles } from '../styles';
 import { Button } from '@Components/buttons';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const initialPassword = {
   password: '',
@@ -26,6 +27,7 @@ export default function ChangePasswordForm(props: IForgotPage.IProps) {
   const classes = useStyles();
   const submitForm = (value: any) => {
     if (email && code) {
+      firebaseLogEventRequest('forgot_password_page', 'forgot_password_submit');
       return confirmPasswordRequestAction({
         email,
         code,

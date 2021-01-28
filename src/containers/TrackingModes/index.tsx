@@ -10,6 +10,7 @@ import TabPanel from './tabPanel';
 import TrackingMode from '@Containers/FastTracking';
 // import BatteryMode from '@Containers/BatteryMode';
 import NewBatteryMode from '@Containers/NewBatteryMode';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   showModal: boolean;
@@ -38,6 +39,8 @@ export default function TrackingModes(props: Props) {
   } = props;
 
   const [value, setValue] = useState(0);
+
+  firebaseLogEventRequest('tracking_mode', '');
 
   const handleChange = (event, newValue: any) => {
     setValue(newValue);

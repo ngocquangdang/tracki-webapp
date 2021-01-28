@@ -15,7 +15,6 @@ import {
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { WalletIcon } from '@Components/Icon';
-import { analyticsEvent } from '@Utils/firebase';
 
 import Menu from '../Menu';
 import { useStyles } from './styles';
@@ -100,7 +99,6 @@ export default function Header() {
       }
     }
     setCurrentTab(tabIndex);
-    analyticsEvent(`${route}`);
   }, [route]);
 
   const onClickTab = (r: ROUTE) => () => {

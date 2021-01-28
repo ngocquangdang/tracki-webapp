@@ -6,6 +6,7 @@ import { Button } from '@Components/buttons';
 
 import { Form, useStyles } from '../styles';
 import { EmailFormSchema } from '../../schema';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const initialEmail = {
   email: '',
@@ -14,8 +15,12 @@ const initialEmail = {
 export default function EmailFrom(props: IForgotPage.IProps) {
   const { t, errors, isRequesting, forgotRequestAction } = props;
   const classes = useStyles();
-  const submitForm = (value: any) =>
+  const submitForm = (value: any) => {
     forgotRequestAction({ email: value.email });
+    firebaseLogEventRequest('forgot_password_page', 'enter_email');
+    firebaseLogEventRequest('forgot_password_page', 'reset_password');
+  };
+
   return (
     <Formik
       initialValues={initialEmail}

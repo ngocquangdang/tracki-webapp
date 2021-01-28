@@ -19,6 +19,7 @@ import {
   IconSos,
   Content,
 } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 export default function TrackersContainer(props: any) {
   const {
@@ -100,6 +101,7 @@ export default function TrackersContainer(props: any) {
   const openSideBar = () => setOpenSidebar(true);
 
   const handleClickBack = () => {
+    firebaseLogEventRequest('device_detail', 'back_device_list');
     onResetSelectedTrackerID();
     window.history.pushState({}, '', '/trackers');
     const obj = rest.trackers || {};

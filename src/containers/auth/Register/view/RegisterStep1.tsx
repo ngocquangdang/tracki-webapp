@@ -18,10 +18,15 @@ import {
 import { Slide } from '@material-ui/core';
 import IRegisterPage from '../interfaces';
 import { RegisterFormStep1 } from './form';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function RegisterStep1(props: IRegisterPage.IProps) {
   const { t } = props;
   const classes = useStyles();
+
+  const onChangePage = page => () => {
+    firebaseLogEventRequest('about_tracki_page', page);
+  };
 
   return (
     <Slide direction="up" in mountOnEnter unmountOnExit>
@@ -44,11 +49,21 @@ function RegisterStep1(props: IRegisterPage.IProps) {
             {t('register_account_description')}{' '}
             <InfoTextTerm>
               <Link href="/terms">
-                <Text className={classes.link}>{t('terms')}</Text>
+                <Text
+                  className={classes.link}
+                  onClick={onChangePage('terms_of_service')}
+                >
+                  {t('terms')}
+                </Text>
               </Link>
               {' ' + t('and') + ' '}
               <Link href="/privacy">
-                <Text className={classes.link}>{t('privacy_policy')}</Text>
+                <Text
+                  className={classes.link}
+                  onClick={onChangePage('privacy_policy')}
+                >
+                  {t('privacy_policy')}
+                </Text>
               </Link>
             </InfoTextTerm>
           </InforTextFooter>
