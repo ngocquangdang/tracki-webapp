@@ -12,6 +12,7 @@ import RegisterStep3 from './RegisterStep3';
 import RegisterStep4 from './RegisterStep4';
 import RegisterStep5 from './RegisterStep5';
 import RegisterStep6 from './RegisterStep6';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function RegisterView(props: IRegisterPage.IProps) {
   const { t, errors, resetFormData } = props;
@@ -19,6 +20,7 @@ function RegisterView(props: IRegisterPage.IProps) {
   const [step, updateStep] = useState(1);
 
   useEffect(() => {
+    firebaseLogEventRequest('create_account_page', '');
     if (errors.password || errors.username) {
       updateStep(1);
     }
@@ -32,6 +34,7 @@ function RegisterView(props: IRegisterPage.IProps) {
       updateStep(4);
     }
   }, [errors]);
+
   const onChangeStep = (step: number) => () => updateStep(step);
   const onChangeStep4 = (isSuccess: boolean) => {
     !isSuccess ? updateStep(6) : updateStep(5);

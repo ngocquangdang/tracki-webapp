@@ -49,6 +49,7 @@
     "dotenv": "^8.2.0",
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
+    "firebase": "^8.2.4",
     "flag-css": "^1.0.4-2",
     "formik": "^2.1.4",
     "highcharts": "^8.2.0",

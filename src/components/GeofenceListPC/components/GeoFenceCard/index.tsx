@@ -16,6 +16,7 @@ import ConfirmPanel from '../DeleteConfirm';
 import AddGeoFenceToDevice from '../AddGeoFenceToDevice';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { useStyles, Image, Status, ListItemStyle } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   geofence: any;
@@ -78,6 +79,7 @@ export default function GeofenceCard(props: Props) {
     updateGeofence(geofence.id, { enabled: !geofence.enabled });
 
   const onClickEdit = () => {
+    firebaseLogEventRequest('geofence_page', 'edit_geofence');
     gotoGeofence();
     editGeofence(geofence.id);
     closeMenu();

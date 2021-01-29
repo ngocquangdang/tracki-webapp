@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SideBarOutside } from '@Components/sidebars';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import EmailForm from '../form/Email';
 import SMSForm from '../form/SMS';
 
@@ -11,8 +12,15 @@ export default function AddNewContactSP(props) {
   const { showAddContact, onClose, t, isMobile } = props;
 
   const [type, setChangeType] = useState('EMAIL');
+  useEffect(() => firebaseLogEventRequest('add_new_contact_modal', ''), []);
 
-  const onChangeType = e => setChangeType(e.target.value);
+  const onChangeType = e => {
+    setChangeType(e.target.value);
+    firebaseLogEventRequest(
+      'add_new_contact_modal',
+      `contact_type_${e.target.value.toLowerCase()}`
+    );
+  };
 
   const onShowForm = () => {
     if (type === 'PHONE') {

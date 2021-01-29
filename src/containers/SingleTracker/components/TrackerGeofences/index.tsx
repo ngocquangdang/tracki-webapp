@@ -56,6 +56,7 @@ import {
   removeContactAssignedRequestedAction,
   searchContactRequestedAction,
 } from '@Containers/Contacts/store/actions';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   tracker: ITracker;
@@ -130,13 +131,33 @@ function SingleTrackerGeofences(props: Props) {
   const [showAddGefeoncePanel, setShowAddGeofencePanel] = useState(false);
   const [showSelectContactPanel, setShowSelectContactPanel] = useState(false);
 
+  const onGetLinkUnlinkEvent = key => {
+    switch (key) {
+      case 0:
+        return 'linked_geofence_device_tab';
+      default:
+        return 'unlinked_geofence_device_tab';
+    }
+  };
+
+  const onGetEditGeofenceEvent = key => {
+    switch (key) {
+      case 0:
+        return 'linked_geofence_edit_geofence';
+
+      default:
+        return 'unlinked_geofence_edit_geofence';
+    }
+  };
   const onAddFence = () => {
+    firebaseLogEventRequest('geofences_device', 'add_geofence');
     setShowAddGeofencePanel(true);
     createNewGeofence({ ...GEOFENCE_DEFAULT, id: uniqueId('new_geo_') });
     changeMapAction(MAP_ACTIONS.CREATE_RECTANGLE);
   };
 
   const onChangeTab = (event: any, newValue: any) => {
+    firebaseLogEventRequest('geofences_device', onGetLinkUnlinkEvent(newValue));
     setCurrentTab(newValue);
   };
 
@@ -145,6 +166,7 @@ function SingleTrackerGeofences(props: Props) {
   };
 
   const linkTrackers = (geoId: number) => {
+    firebaseLogEventRequest('geofences_device', 'linked_geofence_add_contact');
     linkTrackerAction(geoId, [tracker.device_id]);
   };
 
@@ -155,11 +177,16 @@ function SingleTrackerGeofences(props: Props) {
   };
 
   const editGeofence = (geoId: number) => {
+    firebaseLogEventRequest(
+      onGetLinkUnlinkEvent(currentTab),
+      onGetEditGeofenceEvent(currentTab)
+    );
     setShowAddGeofencePanel(true);
     editGeofenceAction(geoId);
   };
 
   const onAddContact = () => {
+    firebaseLogEventRequest('geofences_device', 'add_geofence');
     // getContactListRequestAction();
     setShowSelectContactPanel(true);
   };

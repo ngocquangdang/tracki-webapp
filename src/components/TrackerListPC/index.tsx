@@ -6,6 +6,7 @@ import { Container, Content, Footer, ListItem, useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import TrackerCard from '@Components/TrackerCard';
 import { SkeletonTracker } from '@Components/Skeletons';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   trackers: object;
@@ -19,10 +20,12 @@ export default function ListDevice(props: Props) {
   const classes = useStyles();
 
   const onAddtracker = () => {
+    firebaseLogEventRequest('trackers_page', 'add_tracker');
     Router.push('/add-tracker');
   };
 
   const handleClickTracker = (id: number) => {
+    firebaseLogEventRequest('trackers_page', 'device_detail');
     onClickTracker(id);
     window.history.pushState({}, '', '/trackers/' + id);
   };

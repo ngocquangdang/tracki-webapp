@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { useStyles } from './styles';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const TRACKING_MODE_OPTION = [
   { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
@@ -26,6 +27,7 @@ export default function TrackingMode(props: Props) {
 
   const [modetype, setModeType] = useState('');
   useEffect(() => {
+    firebaseLogEventRequest('tracking_mode', 'full_tracking_mode');
     if (trackerSettings) {
       const {
         sample_rate,
@@ -38,7 +40,34 @@ export default function TrackingMode(props: Props) {
     }
   }, [trackerSettings]);
 
+  const getFirebaseEvent = type => {
+    switch (type) {
+      case '1_1_minutes':
+        return 'enable_1_minute_tracking';
+      case '2_1_minutes':
+        return 'enable_2_minute_tracking';
+      case '5_1_minutes':
+        return 'enable_5_minute_tracking';
+      case '10_1_minutes':
+        return 'enable_10_minute_tracking';
+      case '30_1_minutes':
+        return 'enable_30_minute_tracking';
+      case '60_1_minutes':
+        return 'enable_1_hours_tracking';
+      case '120_1_minutes':
+        return 'enable_2_hours_tracking';
+      case '240_1_minutes':
+        return 'enable_4_hours_tracking';
+      default:
+        return 'enable_auto_update_tracking';
+    }
+  };
   const handleChangeMode = e => {
+    firebaseLogEventRequest(
+      'full_tracking_mode',
+      getFirebaseEvent(e.target.value)
+    );
+
     setModeType(e.target.value);
     const [
       sample_rate,

@@ -19,3 +19,13 @@ export const MQTT_PASSWORD = process.env.NEXT_PUBLIC_MQTT_PASSWORD;
 export const MQTT_HOST = process.env.NEXT_PUBLIC_MQTT_HOST;
 export const MQTT_PORT = process.env.NEXT_PUBLIC_MQTT_PORT;
 export const GEOBOT_URL = process.env.NEXT_PUBLIC_GEOBOT_URL;
+
+//firebase
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN;
+export const DATABASE_URL = process.env.NEXT_PUBLIC_DATABASE_URL;
+export const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
+export const STORAGE_BUCKET = process.env.NEXT_PUBLIC_STORAGE_BUCKET;
+export const MESSENGIN_SENDER_ID = process.env.NEXT_PUBLIC_MESSENGIN_SENDER_ID;
+export const APP_ID = process.env.NEXT_PUBLIC_APP_ID;
+export const MESUAREMENT_ID = process.env.NEXT_PUBLIC_MESUAREMENT_ID;

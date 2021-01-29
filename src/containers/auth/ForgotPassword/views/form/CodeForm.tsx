@@ -6,6 +6,7 @@ import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { CodeFormSchema } from '../../schema';
 import { Form, useStyles } from '../styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const initialEmail = {
   code: '',
@@ -16,6 +17,10 @@ export default function CodeFrom(props: IForgotPage.IProps) {
   const classes = useStyles();
   const submitForm = (value: any) => {
     if (email) {
+      firebaseLogEventRequest(
+        'forgot_password_page',
+        'enter_code_forgot_password'
+      );
       return confirmCodeRequestAction({ email, code: value.code });
     }
   };

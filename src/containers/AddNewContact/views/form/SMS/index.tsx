@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { TextInput, PhoneNumberInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { smsSchema } from '../../../schema';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 import { useStyles, Notifi } from './styles';
 
@@ -25,7 +26,7 @@ export default function SMSForm(props) {
 
   const onSubmit = value => {
     const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
-
+    firebaseLogEventRequest('add_new_contact_modal', 'add_contact_type_phone');
     addContactPageRequest(
       { name: value.name, type, address: phoneNumber?.number },
       onClose
