@@ -15,12 +15,13 @@ interface Props {
   onClose: () => void;
   show: boolean;
   transaction: any;
+  type: string;
 }
 
 function CashOutDetail(props: Props) {
   const classes = useStyles();
 
-  const { show, onClose, t, transaction } = props;
+  const { show, onClose, t, transaction, type } = props;
 
   const handleClose = () => onClose();
 
@@ -43,24 +44,34 @@ function CashOutDetail(props: Props) {
             classes.mb10
           )}
         >
-          <p className={`${classes.total} ${classes.mr0}`}>
-            - ${transaction?.total || '0.00'}
+          <p
+            className={`${classes.total} ${classes.mr0} ${
+              type === 'cash_in' && classes.primaryColor
+            }`}
+          >
+            {type === 'cash_in' ? '+' : '-'}${transaction?.total || '0.00'}
           </p>
           <p
             className={`${classes.mr0} ${classes.primaryColor} ${classes.fz15}`}
           >
-            {t('wallet:cash_out')}{' '}
-            {transaction?.status === 'pending'
-              ? t('wallet:in_progress')
-              : t('wallet:successful')}
+            {type === 'cash_out'
+              ? `${t('wallet:cash_out')} 
+                ${
+                  transaction?.status === 'pending'
+                    ? t('wallet:in_progress')
+                    : t('wallet:successful')
+                }`
+              : t('wallet:add_to_your_wallet')}
           </p>
         </div>
         <div className={clsx(classes.mb10, classes.bgFFF)}>
           <div className={clsx(classes.cardItem, classes.borderBottom)}>
             <p className={clsx(classes.mr0, classes.w500, classes.mb5)}>
-              {t('wallet:cash_out_from_to', {
-                from: transaction?.from || '[N/A]',
-              })}
+              {type === 'cash_out'
+                ? t('wallet:cash_out_from_to', {
+                    from: transaction?.from || '[N/A]',
+                  })
+                : t('wallet:cash_in_from')}
             </p>
             <p className={clsx(classes.mr0, classes.fz14, classes.flexBox)}>
               <img
@@ -71,6 +82,24 @@ function CashOutDetail(props: Props) {
               Union Bank of the Philippines (UnionBank)
             </p>
           </div>
+          {type === 'cash_out' && (
+            <div
+              className={clsx(
+                classes.cardItem,
+                classes.borderBottom,
+                classes.flexBox,
+                classes.spaceBetween
+              )}
+            >
+              <p className={clsx(classes.mr0, classes.w500)}>
+                {t('wallet:cash_out_fee')}
+              </p>
+              <p className={clsx(classes.mr0, classes.fz15)}>
+                ${transaction?.fee || '0.00'}
+              </p>
+            </div>
+          )}
+
           <div
             className={clsx(
               classes.cardItem,
@@ -80,22 +109,9 @@ function CashOutDetail(props: Props) {
             )}
           >
             <p className={clsx(classes.mr0, classes.w500)}>
-              {t('wallet:cash_out_fee')}
-            </p>
-            <p className={clsx(classes.mr0, classes.fz15)}>
-              ${transaction?.fee || '0.00'}
-            </p>
-          </div>
-          <div
-            className={clsx(
-              classes.cardItem,
-              classes.borderBottom,
-              classes.flexBox,
-              classes.spaceBetween
-            )}
-          >
-            <p className={clsx(classes.mr0, classes.w500)}>
-              {t('wallet:total_amount_cashed_out')}
+              {type === 'cash_out'
+                ? t('wallet:total_amount_cashed_out')
+                : t('wallet:total_amount_cashed_in')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
               ${transaction?.total || '0.00'}
@@ -157,7 +173,7 @@ function CashOutDetail(props: Props) {
               {t('wallet:wallet_transaction')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
-              -${transaction?.total || '0.00'}
+              {type === 'cash_in' ? '+' : '-'}${transaction?.total || '0.00'}
             </p>
           </div>
         </div>

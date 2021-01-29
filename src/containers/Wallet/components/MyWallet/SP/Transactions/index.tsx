@@ -122,12 +122,20 @@ function Transaction(props: Props) {
         t={t}
         onClose={onCloseDetail}
         transaction={transactions[selectedId]}
+        type="cash_out"
       />
       <PaymentDetail
         show={transactions[selectedId]?.paymentType === 'payment'}
         t={t}
         onClose={onCloseDetail}
         transaction={transactions[selectedId]}
+      />
+      <CashOutDetail
+        show={transactions[selectedId]?.paymentType === 'cash_in'}
+        t={t}
+        onClose={onCloseDetail}
+        transaction={transactions[selectedId]}
+        type="cash_in"
       />
     </>
   );
