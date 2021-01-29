@@ -33,6 +33,9 @@ interface Props {
   fetchHistorySpeeds(data: object): void;
   fetchHistoryTrips(data: object): void;
   setPointSelected(point: object): void;
+  setOptimizedTrip(coordinate: any): void;
+  changeModeViewMap(modeMap: string): void;
+  coordinateOptimized: number[];
   selectedPoints: object;
   selectedPointIds: number[];
   historyStops: object;
@@ -50,6 +53,7 @@ interface Props {
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
   isFetchingTrips: boolean;
+  modeMap: string;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
@@ -76,10 +80,13 @@ function ReportViewPC(props: Props) {
     t,
     selectedPoints,
     selectedPointIds,
+    coordinateOptimized,
     ...rest
   } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const [isPlaying, setTogglePlaying] = useState(false);
+  const [steps, setSteps] = useState(1000);
+  const [counter, setCounter] = useState(0);
 
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
@@ -89,7 +96,15 @@ function ReportViewPC(props: Props) {
   };
 
   const togglePlaying = () => setTogglePlaying(!isPlaying);
-
+  const onChangeSpeeds = steps => {
+    setSteps(steps);
+  };
+  const onChangeCounter = value => {
+    setCounter(value);
+  };
+  const onChangeModeViewMap = value => {
+    rest.changeModeViewMap(value);
+  };
   return viewMode === 'trip' ? (
     <div className={classes.containerTrip}>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
@@ -100,6 +115,8 @@ function ReportViewPC(props: Props) {
           trackerIds={trackerIds}
           viewMode={viewMode}
           changeReportView={changeReportView}
+          selectedPoints={selectedPoints}
+          selectedPointIds={selectedPointIds}
         />
       </SideBarInnerPC>
       <div className={classes.mapView}>
@@ -114,6 +131,12 @@ function ReportViewPC(props: Props) {
             t={t}
             isMobile={false}
             viewMode={viewMode}
+            counter={counter}
+            steps={steps}
+            onChangeCounter={onChangeCounter}
+            coordinateOptimized={coordinateOptimized}
+            changeModeViewMap={rest.changeModeViewMap}
+            modeMap={rest.modeMap}
             // currentPointId={currentPointId}
           />
           {selectedPointIds.length > 0 && (
@@ -121,6 +144,12 @@ function ReportViewPC(props: Props) {
               isOpenSidebar={isOpenSidebar}
               togglePlaying={togglePlaying}
               isPlaying={isPlaying}
+              onChangeSpeeds={onChangeSpeeds}
+              valControl={rest.modeMap}
+              counter={counter}
+              onChangeCounter={onChangeCounter}
+              steps={steps}
+              onChangeControl={onChangeModeViewMap}
             />
           )}
         </React.Fragment>

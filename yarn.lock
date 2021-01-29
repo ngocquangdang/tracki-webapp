@@ -10843,6 +10843,11 @@ point-in-polygon@^1.0.1:
   resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
   integrity sha1-1Ztk6P7kHElFiqyCtWcYxZV7Kvc=
 
+polyline-encoded@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/polyline-encoded/-/polyline-encoded-0.0.9.tgz#bb5212825f3331587b200f0c5368c203eb2f1905"
+  integrity sha512-xv6ONShzZdcISK6IT8x3IqsqxPq7HRqcPJ80V4et4hMolIRct5s/5dtUkfO7hGZEeKtWZ1fK7/fKur8gbd4fvg==
+
 popper.js@1.16.1-lts:
   version "1.16.1-lts"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1-lts.tgz#cf6847b807da3799d80ee3d6d2f90df8a3f50b05"

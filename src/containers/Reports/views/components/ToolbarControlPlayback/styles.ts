@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     zIndex: 400,
     transition: 'width .2s',
   },
+  containerMobile: {
+    width: '97% !important',
+    margin: 5,
+  },
   openSidebar: {
     width: '100% !important',
   },
@@ -25,6 +29,10 @@ const useStyles = makeStyles(theme => ({
     margin: '0 auto',
     width: 700,
     maxWidth: 700,
+  },
+  contentMobile: {
+    width: '100% !important',
+    padding: 5,
   },
   flexRow: {
     display: 'flex',
@@ -48,6 +56,36 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.main,
     },
   },
+  iconBtnMobile: {
+    cursor: 'pointer',
+    border: '2px solid #168449',
+    borderRadius: '50%',
+    width: 25,
+    height: 25,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 15,
+    '& > span > svg': {
+      color: theme.palette.primary.main,
+      fontSize: 18,
+    },
+  },
+  iconRefreshBtnMobile: {
+    cursor: 'pointer',
+    border: '2px solid #168449',
+    borderRadius: '50%',
+    width: 25,
+    height: 25,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 15,
+    '& > span > svg': {
+      color: theme.palette.primary.main,
+      fontSize: 18,
+    },
+  },
   slider: {},
   btn: {
     backgroundColor: '#999999',
@@ -58,6 +96,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     textTransform: 'none',
     boxShadow: 'none',
+    padding: 10,
     '&:hover': {
       backgroundColor: '#999999',
     },

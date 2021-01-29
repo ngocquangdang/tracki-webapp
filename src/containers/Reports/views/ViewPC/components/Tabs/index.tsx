@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Tab } from '@material-ui/core';
+// import dynamic from 'next/dynamic';
 
 import { TAB_KEYS } from '@Containers/Reports/store/constants';
 import { useStyles } from './styles';

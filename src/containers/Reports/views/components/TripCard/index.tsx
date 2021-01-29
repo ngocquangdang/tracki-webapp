@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
-import { msToTime, getAddress, getAvg, distanceCal } from '@Utils/helper';
+import { msToTime, getAddress, getAvg } from '@Utils/helper';
+import { lineDistance } from '@turf/turf';
 import { Skeleton } from '@material-ui/lab';
 import { Button, ButtonGroup } from '@material-ui/core';
 
@@ -71,32 +72,21 @@ function TripCard(props: Props) {
   };
 
   const handleData = () => {
-    let distance = 0 as number;
     const speedItem = pointIds.reduce((speed, item) => {
       speed.push(points[item].speed);
       return speed;
     }, []);
-    pointIds.forEach((id, key) => {
-      if (points[pointIds[key + 1]]) {
-        if (points[id].unit === 'kph') {
-          distance += distanceCal(
-            points[id].lat,
-            points[id].lng,
-            points[pointIds[key + 1]].lat,
-            points[pointIds[key + 1]].lng,
-            'K'
-          );
-        } else {
-          distance += distanceCal(
-            points[id].lat,
-            points[id].lng,
-            points[pointIds[key + 1]].lat,
-            points[pointIds[key + 1]].lng,
-            ''
-          );
-        }
-      }
-    });
+    const lnglats = pointIds.map(id => [points[id].lng, points[id].lat]);
+    const opts = { units: 'kilometers' as any };
+    const feature = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: lnglats,
+      },
+    } as any;
+
+    const distance = lineDistance(feature, opts);
     const firstDuration = points[pointIds[pointIds.length - 1]].time;
     const endDuration = points[pointIds[0]].time;
     const duration = msToTime(firstDuration - endDuration, true);

@@ -3,7 +3,12 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
-    marginTop: 60,
+    height: '100%',
+    marginTop: 56,
+  },
+  content: {
+    width: '100%',
+    height: '100%',
   },
   tabs: {
     minHeight: '100%',
@@ -33,6 +38,22 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 300,
     fontSize: 14,
     lineHeight: 17,
+  },
+  flexRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+  },
+  headerBtnIcon: {
+    fontSize: '16px !important',
+  },
+  headerBtn: {
+    color: '#666',
+    fontSize: 15,
+    lineHeight: '18px',
+    fontWeight: 300,
+    alignSelf: 'center',
   },
 }));
 

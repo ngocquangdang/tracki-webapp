@@ -1,15 +1,18 @@
 //dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
-import clsx from 'clsx';
+import polyUtil from 'polyline-encoded';
+
 //components
 import DateTimePicker from '@Components/DateTimePicker';
 import SelectOption from '@Components/selections';
-import TripCard from './TripCard';
+import TripCard from '@Containers/Reports/views/components/TripCard';
 import TripCardSkeleton from '@Components/Skeletons/TripCard';
-
+import { loadScript } from '@Utils/helper';
+import { GOOGLE_API_KEY } from '@Definitions/app';
+import TrackerCard from '@Containers/Reports/views/components/TrackerCard';
 //styles
-import { useStyles, Image } from './styles';
+import { useStyles } from './styles';
 
 type Trip = {
   points: Object;
@@ -24,6 +27,10 @@ interface Props {
   tripIds: number[];
   isFetchingTrips: boolean;
   viewMode: string;
+  setOptimizedTrip(coordinate: any): void;
+  selectedPoints: object;
+  selectedPointIds: number[];
+  modeMap: string;
   t(key: string, format?: object): string;
 }
 
@@ -35,6 +42,10 @@ export default function ReportTrip(props: Props) {
     tripIds,
     trips,
     setPointSelected,
+    selectedPoints,
+    selectedPointIds,
+    modeMap,
+    setOptimizedTrip,
     isFetchingTrips,
   } = props;
   const classes = useStyles();
@@ -45,6 +56,63 @@ export default function ReportTrip(props: Props) {
     fromDate: moment().unix(),
     toDate: moment().unix(),
   });
+  const loaded = React.useRef(false);
+
+  if (typeof window !== 'undefined' && !loaded.current) {
+    console.log('asd_asdasd-----adasd');
+    if (!document.querySelector('#google-maps')) {
+      console.log('asdadasd');
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`,
+        document.querySelector('head'),
+        'google-maps'
+      );
+    }
+    loaded.current = true;
+  }
+
+  const calculateAndDisplayRoute = useCallback(
+    directionsService => {
+      if (selectedPointIds.length > 0) {
+        const firstPointId = selectedPointIds[0];
+        const lastPointId = selectedPointIds.length - 1;
+        const origin = `${selectedPoints[firstPointId].lat},${selectedPoints[firstPointId].lng}`;
+        const destination = `${
+          selectedPoints[selectedPointIds[lastPointId]].lat
+        },${selectedPoints[selectedPointIds[lastPointId]].lng}`;
+
+        directionsService.route(
+          {
+            origin,
+            destination,
+            optimizeWaypoints: true,
+            travelMode: 'DRIVING',
+          },
+          (response, status) => {
+            const encoded = response.routes[0].overview_polyline;
+            console.log('encoded', encoded);
+            const decoded = polyUtil.decode(encoded);
+            const coordinateOptimized =
+              decoded &&
+              decoded.map(item => ({
+                lng: item[1],
+                lat: item[0],
+              }));
+            setOptimizedTrip(coordinateOptimized);
+          }
+        );
+      }
+    },
+    [setOptimizedTrip, selectedPointIds, selectedPoints]
+  );
+
+  useEffect(() => {
+    if (modeMap === 'optimized' && (window as any).google) {
+      const directionsService = new (window as any).google.maps.DirectionsService();
+      calculateAndDisplayRoute(directionsService);
+      console.log('google', (window as any).google);
+    }
+  }, [calculateAndDisplayRoute, modeMap]);
 
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
     result.push({
@@ -75,29 +143,6 @@ export default function ReportTrip(props: Props) {
     setBadge(false);
   };
 
-  const renderTrackerCard = data => {
-    return (
-      <div className={clsx(classes.flexRow, classes.mb)}>
-        <div className={classes.imageWrapper}>
-          {data.icon_url ? (
-            <Image background={data.icon_url} />
-          ) : (
-            <Image background={'/images/image-device.png'} />
-          )}
-        </div>
-        <div className={classes.flexCol}>
-          <span className={classes.textFont14}>{data.device_name}</span>
-          <span className={clsx(classes.colorGrey, classes.textFont11)}>
-            From: {moment(dateTime.fromDate * 1000).format('LLL')}
-          </span>
-          <span className={clsx(classes.colorGrey, classes.textFont11)}>
-            To: {moment(dateTime.toDate * 1000).format('LLL')}
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className={classes.container}>
       <div className={classes.flexCol}>
@@ -126,10 +171,9 @@ export default function ReportTrip(props: Props) {
           </div>
         )}
       </div>
-      {trackerIds &&
-        trackerIds.length > 0 &&
-        trackerId !== '' &&
-        renderTrackerCard(trackers[trackerId])}
+      {trackerIds && trackerIds.length > 0 && trackerId !== '' && (
+        <TrackerCard data={trackers[trackerId]} dateTime={dateTime} />
+      )}
       {isFetchingTrips
         ? [1, 2, 3, 4].map(index => <TripCardSkeleton key={index} />)
         : tripIds &&
