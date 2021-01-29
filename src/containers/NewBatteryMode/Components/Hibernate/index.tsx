@@ -1,10 +1,11 @@
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import { useStyles } from './styles';
 
 export default function Hibernate(props) {
@@ -12,7 +13,23 @@ export default function Hibernate(props) {
   const [wakeUpMode, setWakeUpMode] = useState('auto');
   const [showSubNotification, setShowSubNotification] = useState('');
 
+  useEffect(() => firebaseLogEventRequest('hibernation_battery_mode', ''), []);
+
+  const getFirebaseEventHibernate = key => {
+    switch (key) {
+      case '120':
+        return 'update_location_2hours_hibernate';
+      case '180':
+        return 'update_location_3hours_hibernate';
+      default:
+        return 'full_change_mode_hibernate';
+    }
+  };
   const handleChangeWakeUpMode = e => {
+    firebaseLogEventRequest(
+      'hibernation_battery_mode',
+      getFirebaseEventHibernate(e.target.value)
+    );
     setWakeUpMode(e.target.value);
   };
 

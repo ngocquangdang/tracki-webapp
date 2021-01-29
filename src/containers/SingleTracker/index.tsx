@@ -133,6 +133,7 @@ function SingleTracker(props: Props) {
   }, [isBeep, resetBeep, showSnackbar]);
   // const [loadingBeeo];
   const onCloseChildView = () => {
+    firebaseLogEventRequest(`${currentChildView}_device`, 'back_devcie_detail');
     updateChildView(null);
   };
 
@@ -171,6 +172,7 @@ function SingleTracker(props: Props) {
   };
 
   const onCloseTrackerHistory = () => {
+    firebaseLogEventRequest('history_device', 'back_devcie_detail');
     onCloseChildView();
     changeMapView('DEFAULT');
     changePointTracking(-1);

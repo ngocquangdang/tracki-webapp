@@ -7,6 +7,7 @@ import DateTimePicker from '@Components/DateTimePicker';
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
 import { Button } from '@Components/buttons';
 import { Container, Title, SelectGroup, Content, useStyles } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Tracker {
   device_id: number;
@@ -47,12 +48,15 @@ function HistoryTracker(props: Props) {
     alert_history_report: false,
   });
 
+  firebaseLogEventRequest('history_device', '');
+
   const [dateTime, setDateTime] = useState({
     fromDate: moment().unix(),
     toDate: moment().unix(),
   });
 
   const onChangeDateTime = obj => {
+    firebaseLogEventRequest('history_device', 'history_device_select_date');
     setDateTime(obj);
     getHistory(obj);
   };

@@ -265,11 +265,12 @@ function SettingTracker(props: Props) {
   };
 
   const onCloseBatteryMode = () => {
+    firebaseLogEventRequest('tracking_mode', 'close_tracking_mode_modal');
     setOpenBatteryMode(false);
   };
 
   const onOpenBatteryMode = () => {
-    firebaseLogEventRequest('settings_device', 'settings_device_tracking_mode');
+    firebaseLogEventRequest('tracking_mode', 'settings_device_tracking_mode');
     setOpenBatteryMode(true);
   };
   const onChangeImage = (e: any) => {
@@ -291,6 +292,7 @@ function SettingTracker(props: Props) {
   };
 
   const onShowSelectContact = value => {
+    firebaseLogEventRequest('settings_device', `add_contact_${value}`);
     getContactListRequest(profile.id);
     getContactAssignedRequest(infoTracker.device_id);
     setShowSelectContat(!isShowSelectContact);
@@ -307,14 +309,20 @@ function SettingTracker(props: Props) {
   };
 
   const onClickIncrease = () => {
+    firebaseLogEventRequest('subscriptions_modal', 'alert_limit_subscription');
     Router.push(`/trackers/${tracker.device_id}/subscription/sms`);
   };
 
   const onClickFastTracking = () => {
+    firebaseLogEventRequest(
+      'subscriptions_modal',
+      'fast_tracking_subscription'
+    );
     Router.push(`/trackers/${tracker.device_id}/subscription/fast-tracking`);
   };
 
   const handleCancelSubscription = () => {
+    firebaseLogEventRequest('subscriptions_modal', 'cancel_subscription');
     const bubbleChat: any = document.getElementById('chatIframe');
     setOpenSubsription(false);
     bubbleChat.style.height = '530px';

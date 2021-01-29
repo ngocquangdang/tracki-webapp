@@ -83,6 +83,8 @@ function ListGeoFence(props: Props) {
   const classes = useStyles();
   const [showAddPanel, setShowPanel] = useState(false);
 
+  firebaseLogEventRequest('geofence_page', '');
+
   const onClosePanel = () => {
     setShowPanel(false);
     editGeofenceAction(null);

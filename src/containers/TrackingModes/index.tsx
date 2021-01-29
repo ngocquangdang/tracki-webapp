@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs } from '@material-ui/core';
 import Modal from '@Components/modals';
 
@@ -40,7 +40,7 @@ export default function TrackingModes(props: Props) {
 
   const [value, setValue] = useState(0);
 
-  firebaseLogEventRequest('tracking_mode', '');
+  useEffect(() => firebaseLogEventRequest('tracking_mode', ''), []);
 
   const handleChange = (event, newValue: any) => {
     setValue(newValue);

@@ -1,15 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs } from '@material-ui/core';
 import TabPanel from './tabPanel';
 
 import { Hibernate, Timer, Scheduler } from './Components';
 
 import { useStyles, TabStyle } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 export default function NewBatteryMode(props) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
+  useEffect(
+    () => firebaseLogEventRequest('tracking_mode', 'battery_saver_mode'),
+    []
+  );
+
+  const getFirebaseEventBateryMode = key => {
+    switch (key) {
+      case 1:
+        return 'timer_battery_mode';
+      case 2:
+        return 'scheduler_battery_mode';
+      default:
+        return 'hibernation_battery_mode';
+    }
+  };
+
   const handleChange = (event, newValue: any) => {
+    firebaseLogEventRequest(
+      'battery_saver_mode',
+      getFirebaseEventBateryMode(newValue)
+    );
     setValue(newValue);
   };
 
