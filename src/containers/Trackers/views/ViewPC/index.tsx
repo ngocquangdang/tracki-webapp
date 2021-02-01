@@ -35,7 +35,10 @@ export default function TrackersContainer(props: any) {
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const [isAlertSos, setAlertSos] = useState(false);
   const toggleSideBar = () => {
+    isOpenSidebar &&
+      firebaseLogEventRequest('main_page', 'tongle_close_sidebar');
     if (!isOpenSidebar) {
+      firebaseLogEventRequest('main_page', 'tongle_open_sidebar');
       if (rest.selectedTrackerId) {
         const { lat, lng } = rest.trackers[rest.selectedTrackerId];
         if (!!lat && !!lng) {

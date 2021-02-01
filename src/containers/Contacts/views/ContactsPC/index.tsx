@@ -33,6 +33,7 @@ import EmailForm from './form/Email';
 import SMSForm from './form/SMS';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { debounce } from 'lodash';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   addContactPageRequest(data, callback): void;
@@ -93,15 +94,18 @@ export default function Contact(props: Props) {
   };
   const onDeleteContact = (contact_id: number) => () => {
     deleteContactRequest(contact_id, setDefaultEdirContactId);
+    firebaseLogEventRequest('contact_page', 'delete_contact');
   };
 
   const onEditContact = (contact_id: number) => () => {
     setEditContactId(contact_id);
     setChangeType(initialContacts[contact_id].type);
+    firebaseLogEventRequest('contact_page', 'edit_contact');
   };
 
   const onCancel = () => {
     setDefaultEdirContactId();
+    firebaseLogEventRequest('contact_page', 'cancel_edit_contact');
   };
 
   const onShowForm = () => {
@@ -131,13 +135,17 @@ export default function Contact(props: Props) {
 
   const onShowAddContact = () => {
     setShowAddContact(true);
+    firebaseLogEventRequest('contact_page', 'add_new_contact');
   };
 
   const onHiddenAddContact = () => {
     setShowAddContact(false);
   };
 
-  const debounceSearch = debounce((v: string) => searchContactRequest(v), 300);
+  const debounceSearch = debounce((v: string) => {
+    searchContactRequest(v);
+    firebaseLogEventRequest('contact_page', 'search_contact');
+  }, 300);
 
   return (
     <MainLayout hasFooter={false}>
