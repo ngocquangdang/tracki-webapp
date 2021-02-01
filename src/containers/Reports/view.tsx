@@ -3,6 +3,10 @@ import React from 'react';
 import { ViewPC, ViewMobile } from './views';
 import { MainLayout } from '@Layouts';
 
+type Trip = {
+  points: Object;
+  pointIds: number[];
+};
 interface Props {
   isMobile: boolean;
   trackers: object;
@@ -29,7 +33,7 @@ interface Props {
   historyLogIds: object;
   historySpeeds: object;
   historySpeedIds: object;
-  trips: object;
+  trips: Trip;
   tripIds: number[];
   steps: number;
   isFetchingHistorySpeed: boolean;
