@@ -6,6 +6,7 @@ import Map from '@Components/Maps';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from './components/Tabs';
 import { Container, MapView } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const MultiView = dynamic(() => import('./components/MultiView'), {
   ssr: false,
@@ -33,6 +34,10 @@ export default function TrackingContainer(props: Props) {
 
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
+    firebaseLogEventRequest(
+      'main_page',
+      !isOpenSidebar ? 'tongle_open_sidebar' : 'tongle_close_sidebar'
+    );
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 100);

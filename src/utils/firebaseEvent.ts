@@ -355,6 +355,34 @@ export const firebaseEnvent = {
   },
   delete_geofence: {},
   // end trackers page
+
+  //main page
+  main_page: {
+    tongle_open_sidebar: {},
+    tongle_close_sidebar: {},
+    zoom_in_map_tool: {},
+    zoom_out_map_tool: {},
+    get_current_location_map_tool: {},
+    show_layer_map_tool: {},
+    close_layer_map_tool: {},
+    change_layer_map_tool: {},
+    show_tracker_name_map_tool: {},
+    hidden_tracker_name_map_tool: {},
+    show_geofences_map_tool: {},
+    hidden_geofence_map_tool: {},
+    street_view_map_tool: {},
+    reset_map_map_tool: {},
+  },
+  layer_map_tool: {
+    street_map_layer: {},
+    our_door_map_layer: {},
+    light_map_layer: {},
+    dark_map_map_layer: {},
+    traffic_map_layer: {},
+    hybrid_map_layer: {},
+  },
+  //end main page
+  // geofence_page
   geofence_page: {
     search_geofence: {
       description: 'Search Geofence in Device List',
@@ -364,13 +392,100 @@ export const firebaseEnvent = {
     },
     edit_geofence: {},
   },
-  notification_page: {},
+  //-------------- end geofence_page -------------//
+  //-------------- notification_page -------------//
+  notification_page: {
+    select_tracker_notification: {},
+    select_alarm_type_notification: {},
+    select_date_range_notification: {},
+    filter_report_notification: {},
+    export_csv_notifcation: {},
+    toggle_show_detail_notification: {},
+    toggle_hidden_detail_notification: {},
+    sort_notification: {},
+  },
+
+  select_alarm_type_notification: {
+    alarm_notification_all_type: {},
+    alarm_notification_start_moing_type: {},
+    alarm_notification_speed_violation_type: {},
+    alarm_notification_geofence_crossed_type: {},
+    alarm_notification_sos_type: {},
+    alarm_notification_low_battery_alert_type: {},
+    alarm_notification_left_key_type: {},
+    alarm_notification_right_key_type: {},
+  },
+
+  sort_notification: {
+    sort_notification_by_normal: {},
+    sort_notification_by_new: {},
+    sort_notification_by_old: {},
+    sort_notification_by_read: {},
+    sort_notification_by_unread: {},
+  },
+  //-------------- end notification_page -------------//
+
+  //-------------- dashboard page -------------//
   dashboard_page: {},
-  tracking_page: {},
+  //-------------- end dashboard page -------------//
+
+  //-------------- tracking page -------------//
+  tracking_page: {
+    tracking_sigle_view: {},
+    tracking_heat_map: {},
+    tracking_multi_view: {},
+    tracking_multi_screen: {},
+  },
+  // end tracking page -------------//
+
+  //-------------- report page -------------//
   reports_page: {},
-  contact_page: {},
-  settings_page: {},
+  //-------------- end report page -------------//
+
+  //-------------- contact page ---------------//
+  contact_page: {
+    edit_contact: {},
+    delete_contact: {},
+    add_new_contact: {},
+    cancel_edit_contact: {},
+    search_contact: {},
+  },
+  //-------------- end contact page ---------------//
+
+  //-------------- setting page --------------//
+  settings_page: {
+    setting_page_select_kph: {},
+    setting_page_select_mph: {},
+    setting_page_select_date_format: {},
+    setting_page_select_language: {},
+    activate_email_notification: {},
+    deactivate_email_notification: {},
+    activate_app_notification: {},
+    deactivate_app_notification: {},
+    setting_page_update_first_name: {},
+    setting_page_update_last_name: {},
+    setting_page_update_phone: {},
+    setting_page_update_phone_code: {},
+    change_password_page: {},
+    update_settings: {},
+    update_password: {},
+  },
+  //-------------- end setting page --------------//
+
+  //-------------- strore page ----------------//
   stores_page: {},
-  wallet_page: {},
+  //-------------- end strore page ----------------//
+
+  //-------------- wallet page -------------//
+  wallet_page: {
+    dashboard_screen: {},
+    my_wallet_screen: {},
+    friend_invite_screen: {},
+    notification_screen: {},
+    daily_bonus_screen: {},
+    spin_win_screen: {},
+    hourly_gift_screen: {},
+  },
+  //-------------- end wallet page -------------//
   add_tracker_page: {},
 };

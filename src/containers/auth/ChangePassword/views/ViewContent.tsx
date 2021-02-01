@@ -13,6 +13,7 @@ import {
   useStyles,
 } from './styles';
 import { Button } from '@Components/buttons';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import { PasswordInput } from '@Components/inputs';
 import { ForgotPasswordFromSchema } from '../schema';
 
@@ -25,11 +26,13 @@ export default function ChangePassword(props: any) {
   const classes = useStyles();
   const { t, errors, updatePasswordRequestAction } = props;
 
-  const onHandleSubmit = (values: any) =>
+  const onHandleSubmit = (values: any) => {
     updatePasswordRequestAction({
       current_password: values.current_password,
       new_password: values.new_password,
     });
+    firebaseLogEventRequest('settings_page', 'update_password');
+  };
 
   return (
     <Container>

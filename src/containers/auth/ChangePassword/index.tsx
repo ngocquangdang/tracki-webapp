@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
@@ -22,6 +23,7 @@ import View from './views';
 function ChangePasswordContainer(props: IForgotPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
   useInjectReducer({ key: 'auth', reducer });
+  firebaseLogEventRequest('settings_page', 'change_password_page');
 
   return <View {...props} />;
 }

@@ -57,9 +57,9 @@ function NotificationView(props) {
     }
   }, [fetchNotificationRequest, profile]);
   return rest.isMobile ? (
-    <NotificationViewMobile {...rest} />
+    <NotificationViewMobile {...props} />
   ) : (
-    <NotificationViewPC {...rest} />
+    <NotificationViewPC {...props} />
   );
 }
 

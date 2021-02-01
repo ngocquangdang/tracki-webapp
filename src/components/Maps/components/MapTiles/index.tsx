@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdClose } from 'react-icons/md';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 import {
   LayerPanel,
@@ -35,9 +36,32 @@ interface Props {
 function MapTiles(props: Props) {
   const { className, onClose, t, mapTile, changeMapTile } = props;
 
+  const callLogEventMapType = (tile: string) => {
+    switch (tile) {
+      case 'satellite-streets-v11':
+        firebaseLogEventRequest('layer_map_tool', 'hybrid_map_layer');
+        break;
+      case 'outdoors-v11':
+        firebaseLogEventRequest('layer_map_tool', 'our_door_map_layer');
+        break;
+      case 'light-v10':
+        firebaseLogEventRequest('layer_map_tool', 'light_map_layer');
+        break;
+      case 'dark-v10':
+        firebaseLogEventRequest('layer_map_tool', 'dark_map_map_layer');
+        break;
+      case 'satellite-v9':
+        firebaseLogEventRequest('layer_map_tool', 'traffic_map_layer');
+        break;
+      default:
+        firebaseLogEventRequest('layer_map_tool', 'street_map_layer');
+        break;
+    }
+  };
   const onChangeLayler = (tile: string) => () => {
     changeMapTile(tile);
     window.mapEvents?.changeLayer(tile);
+    callLogEventMapType(tile);
   };
 
   return (
