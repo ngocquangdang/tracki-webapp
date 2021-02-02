@@ -34,7 +34,7 @@ export const initialState = {
     coordinateOptimized: [],
     modeMap: 'actual',
   },
-  viewMode: 'trip',
+  viewMode: 'overview',
   errors: null,
 };
 

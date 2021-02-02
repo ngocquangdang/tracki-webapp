@@ -21,6 +21,7 @@ function ToolbarControlPlayback(props) {
     counter,
     steps,
     onChangeControl,
+    onReplay,
     isMobile,
   } = props;
   const classes = useStyles();
@@ -96,8 +97,10 @@ function ToolbarControlPlayback(props) {
           />
           <IconButton
             className={
-              isMobile ? classes.iconRefreshBtnMobile : classes.iconBtn
+              isMobile ? classes.iconRefreshBtnMobile : classes.iconBtnRefresh
             }
+            onClick={onReplay}
+            disabled={isPlaying}
           >
             <ReplayIcon />
           </IconButton>

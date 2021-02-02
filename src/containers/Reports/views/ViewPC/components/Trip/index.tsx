@@ -59,9 +59,7 @@ export default function ReportTrip(props: Props) {
   const loaded = React.useRef(false);
 
   if (typeof window !== 'undefined' && !loaded.current) {
-    console.log('asd_asdasd-----adasd');
     if (!document.querySelector('#google-maps')) {
-      console.log('asdadasd');
       loadScript(
         `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`,
         document.querySelector('head'),
@@ -90,7 +88,6 @@ export default function ReportTrip(props: Props) {
           },
           (response, status) => {
             const encoded = response.routes[0].overview_polyline;
-            console.log('encoded', encoded);
             const decoded = polyUtil.decode(encoded);
             const coordinateOptimized =
               decoded &&
@@ -110,7 +107,6 @@ export default function ReportTrip(props: Props) {
     if (modeMap === 'optimized' && (window as any).google) {
       const directionsService = new (window as any).google.maps.DirectionsService();
       calculateAndDisplayRoute(directionsService);
-      console.log('google', (window as any).google);
     }
   }, [calculateAndDisplayRoute, modeMap]);
 

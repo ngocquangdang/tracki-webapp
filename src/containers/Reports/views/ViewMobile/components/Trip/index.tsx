@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
+import polyUtil from 'polyline-encoded';
 
+import { loadScript } from '@Utils/helper';
+import { GOOGLE_API_KEY } from '@Definitions/app';
 import ToolbarControlPlayback from '@Containers/Reports/views/components/ToolbarControlPlayback';
 import { useStyles } from './styles';
 
@@ -45,6 +48,7 @@ function ReportTripMobile(props: Props) {
     changeModeViewMap,
     t,
     isMobile,
+    setOptimizedTrip,
     ...rest
   } = props;
   const classes = useStyles();
@@ -63,6 +67,60 @@ function ReportTripMobile(props: Props) {
   const onChangeModeViewMap = value => {
     changeModeViewMap(value);
   };
+
+  const loaded = React.useRef(false);
+  if (typeof window !== 'undefined' && !loaded.current) {
+    if (!document.querySelector('#google-maps')) {
+      loadScript(
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places`,
+        document.querySelector('head'),
+        'google-maps'
+      );
+    }
+    loaded.current = true;
+  }
+
+  const calculateAndDisplayRoute = useCallback(
+    directionsService => {
+      if (selectedPointIds.length > 0) {
+        const firstPointId = selectedPointIds[0];
+        const lastPointId = selectedPointIds.length - 1;
+        const origin = `${selectedPoints[firstPointId].lat},${selectedPoints[firstPointId].lng}`;
+        const destination = `${
+          selectedPoints[selectedPointIds[lastPointId]].lat
+        },${selectedPoints[selectedPointIds[lastPointId]].lng}`;
+
+        directionsService.route(
+          {
+            origin,
+            destination,
+            optimizeWaypoints: true,
+            travelMode: 'DRIVING',
+          },
+          (response, status) => {
+            const encoded = response.routes[0].overview_polyline;
+            const decoded = polyUtil.decode(encoded);
+            const coordinateOptimized =
+              decoded &&
+              decoded.map(item => ({
+                lng: item[1],
+                lat: item[0],
+              }));
+            setOptimizedTrip(coordinateOptimized);
+          }
+        );
+      }
+    },
+    [setOptimizedTrip, selectedPointIds, selectedPoints]
+  );
+
+  useEffect(() => {
+    if (rest.modeMap === 'optimized' && (window as any).google) {
+      const directionsService = new (window as any).google.maps.DirectionsService();
+      calculateAndDisplayRoute(directionsService);
+    }
+  }, [calculateAndDisplayRoute, rest.modeMap]);
+
   return (
     <div className={classes.mapView}>
       <MapCard
