@@ -78,7 +78,8 @@ class HistoryPath extends React.Component<Props> {
       changeModeViewMap,
       modeMap: currentModeMap,
     } = this.props;
-    if (historyLogIds.length !== currentHistoryLogIds.length) {
+    if (historyLogIds !== currentHistoryLogIds) {
+      this.removeLayerOptimized();
       this.removeLayer();
       this.renderPath(nextProps);
     }
@@ -95,7 +96,12 @@ class HistoryPath extends React.Component<Props> {
       this.animatedPoint.setLatLng([lat, lng]);
     }
 
-    if (currentModeMap !== modeMap && modeMap === 'actual') {
+    if (
+      !!this.pathOptimized &&
+      !!this.decoratorOptimized &&
+      currentModeMap !== modeMap &&
+      modeMap === 'actual'
+    ) {
       map.removeLayer(this.pathOptimized);
       map.removeLayer(this.decoratorOptimized);
       this.pathOptimized = null;
@@ -105,17 +111,15 @@ class HistoryPath extends React.Component<Props> {
       this.steps = steps;
       map.removeLayer(this.logsPath);
       map.removeLayer(this.decorator);
-      this.animatedPoint && map.removeLayer(this.animatedPoint);
       Object.values(this.points).map(p => map.removeLayer(p));
       this.logsPath = null;
-      this.animatedPoint = null;
       this.tempCoordinates = [];
       this.counter = 1;
       this.renderPath(nextProps);
       thisPlaying && togglePlaying(true);
     }
     // reset path & markers
-    if (historyLogIds.length !== currentHistoryLogIds.length) {
+    if (historyLogIds !== currentHistoryLogIds) {
       if (this.logsPath) {
         map.removeLayer(this.logsPath);
         map.removeLayer(this.decorator);
@@ -153,7 +157,10 @@ class HistoryPath extends React.Component<Props> {
         }
       }
     }
-    if (currentCoordinateOptimized !== coordinateOptimized) {
+    if (
+      currentCoordinateOptimized !== coordinateOptimized &&
+      modeMap === 'optimized'
+    ) {
       this.renderPathOptimized(coordinateOptimized, map);
     }
   }

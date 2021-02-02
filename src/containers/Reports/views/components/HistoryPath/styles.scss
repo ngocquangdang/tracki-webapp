@@ -4,6 +4,7 @@
   background-color: white;
   width: 8px !important;
   height: 8px !important;
+  z-index: 1 !important;
 
   &.leaflet-marker-icon {
     margin-left: -4px !important;

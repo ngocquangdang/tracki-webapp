@@ -105,6 +105,7 @@ function ReportViewPC(props: Props) {
   const onChangeModeViewMap = value => {
     rest.changeModeViewMap(value);
   };
+  const handleReplay = () => setCounter(0);
   return viewMode === 'trip' ? (
     <div className={classes.containerTrip}>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
@@ -150,6 +151,7 @@ function ReportViewPC(props: Props) {
               onChangeCounter={onChangeCounter}
               steps={steps}
               onChangeControl={onChangeModeViewMap}
+              onReplay={handleReplay}
             />
           )}
         </React.Fragment>

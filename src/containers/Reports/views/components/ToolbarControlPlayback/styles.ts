@@ -51,7 +51,21 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 10px',
+    marginRight: 15,
+    '& > span': {
+      color: theme.palette.primary.main,
+    },
+  },
+  iconBtnRefresh: {
+    cursor: 'pointer',
+    border: '2px solid #168449',
+    borderRadius: '50%',
+    width: 40,
+    height: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 15,
     '& > span': {
       color: theme.palette.primary.main,
     },
