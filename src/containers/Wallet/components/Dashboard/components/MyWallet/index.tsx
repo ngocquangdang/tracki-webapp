@@ -6,6 +6,7 @@ import Card from '../Card';
 
 // style
 import { useStyles } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 // interface
 interface Props {
@@ -33,11 +34,15 @@ export default function MyWallet(props: Props) {
   } = props;
   const { point = 0, my_wallet = 0 } = myWallet;
 
-  const onMyWallet = () => onChangeTab(1);
+  const onMyWallet = () => {
+    onChangeTab(1);
+    firebaseLogEventRequest('dashboard_screen', 'select_my_wallet');
+  };
 
   const onShowMyPoint = () => {
     setHiddenHeader('hidden');
     setViewPage('my_point');
+    firebaseLogEventRequest('dashboard_screen', 'select_my_point');
   };
 
   return (
