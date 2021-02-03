@@ -15,6 +15,7 @@ import { useStyles, Menu } from './styles';
 // component
 import { Spin } from '@Components/Icon';
 import MyPoint from '../components/Dashboard/components/MypointScreen';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 const Dashboard = dynamic(() => import('../components/Dashboard'));
 const MyWallet = dynamic(() => import('../components/MyWallet'));
 const FriendInvite = dynamic(() => import('../components/FriendInvite'));
@@ -96,8 +97,35 @@ function WalletDashboard(props: Props) {
 
   const [currentTab, setCurrentTab] = useState(0);
 
+  const getLogFirebaseSelectTab = (tab: number) => {
+    switch (tab) {
+      case 1:
+        firebaseLogEventRequest('wallet_page', 'my_wallet_screen');
+        break;
+      case 2:
+        firebaseLogEventRequest('wallet_page', 'friend_invite_screen');
+        break;
+      case 3:
+        firebaseLogEventRequest('wallet_page', 'notification_screen');
+        break;
+      case 4:
+        firebaseLogEventRequest('wallet_page', 'daily_bonus_screen');
+        break;
+      case 5:
+        firebaseLogEventRequest('wallet_page', 'spin_win_screen');
+        break;
+      case 6:
+        firebaseLogEventRequest('wallet_page', 'hourly_gift_screen');
+        break;
+      default:
+        firebaseLogEventRequest('wallet_page', 'dashboard_screen');
+        break;
+    }
+  };
+
   const onClickTab = (r: ROUTE) => () => {
     setCurrentTab(r.index);
+    getLogFirebaseSelectTab(r.index);
   };
 
   const onChangeTab = (tab: number) => setCurrentTab(tab);
