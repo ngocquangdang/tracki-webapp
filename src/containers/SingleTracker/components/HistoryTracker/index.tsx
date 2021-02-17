@@ -122,6 +122,10 @@ function HistoryTracker(props: Props) {
                         setFieldValue('map_view', true);
                         setFieldValue('seven_day_report', false);
                         setFieldValue('alert_history_report', false);
+                        firebaseLogEventRequest(
+                          'history_device',
+                          'history_device_select_map_view'
+                        );
                       }}
                     />
                     <FormControlLabel
@@ -134,6 +138,10 @@ function HistoryTracker(props: Props) {
                         setFieldValue('map_view', false);
                         setFieldValue('seven_day_report', true);
                         setFieldValue('alert_history_report', false);
+                        firebaseLogEventRequest(
+                          'history_device',
+                          'history_device_select_7_days_report'
+                        );
                       }}
                     />
                     <FormControlLabel
@@ -146,6 +154,10 @@ function HistoryTracker(props: Props) {
                         setFieldValue('map_view', false);
                         setFieldValue('seven_day_report', false);
                         setFieldValue('alert_history_report', true);
+                        firebaseLogEventRequest(
+                          'history_device',
+                          'history_device_select_alert_history_report'
+                        );
                       }}
                     />
                   </RadioGroup>

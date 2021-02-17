@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
 import dropin from 'braintree-web-drop-in';
 import * as apiServices from './index';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 declare global {
   interface Window {
@@ -55,6 +56,10 @@ const paymentService = () => {
               if (dropIn.isPaymentMethodRequestable()) {
                 switch (event.type) {
                   case 'PayPalAccount':
+                    firebaseLogEventRequest(
+                      'payment_form',
+                      'payment_method_paypal'
+                    );
                     requestPaymentMethod(dropIn)
                       .then(payload => {
                         payload$.next({ type: 'payload', payload });
@@ -62,6 +67,10 @@ const paymentService = () => {
                       .catch(console.error);
                     break;
                   case 'CreditCard':
+                    firebaseLogEventRequest(
+                      'payment_form',
+                      'payment_method_credit_card'
+                    );
                     payload$.next({ type: 'available' });
                     break;
                 }

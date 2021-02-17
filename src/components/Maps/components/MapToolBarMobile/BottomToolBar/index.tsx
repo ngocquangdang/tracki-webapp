@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import clsx from 'clsx';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 import { useInjectSaga } from '@Utils/injectSaga';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import saga from '@Containers/SingleTracker/store/sagas';
 import {
   ToolBar,
@@ -67,14 +68,32 @@ export default function BottomToolBar(props: Props) {
         beepType: 1,
         devices: [tracker.device_id],
       });
+      firebaseLogEventRequest('device_detail', 'send_beep_device');
     } else {
       onRenewTrackerPage();
+    }
+  };
+
+  const firebaseLog = (type: string) => {
+    switch (type) {
+      case 'geofenceListView':
+        firebaseLogEventRequest('geofence_page', '');
+        break;
+      case 'settingsView':
+        firebaseLogEventRequest('settings_page', '');
+        break;
+      case 'historyView':
+        firebaseLogEventRequest('device_detail', 'history_device');
+        break;
+      default:
+        break;
     }
   };
 
   const changeView = (view: string) => () => {
     if (tracker.status === 'active' || view === 'settingsView') {
       onChangeView(view);
+      firebaseLog(view);
     } else {
       onRenewTrackerPage();
     }

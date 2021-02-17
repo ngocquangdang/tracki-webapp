@@ -10,9 +10,13 @@ import {
 import { GoPrimitiveDot } from 'react-icons/go';
 
 import { AiOutlineDashboard } from 'react-icons/ai';
+import { FaRegQuestionCircle } from 'react-icons/fa';
+
 import { SkeletonTracker } from '@Components/Skeletons';
 import { ITracker } from '@Interfaces';
 import { getAddress } from '@Utils/helper';
+import { firebaseLogEventRequest } from '@Utils/firebase';
+
 import {
   Card,
   Item,
@@ -47,7 +51,6 @@ import {
   TooltipStyle,
   TimeActiveMobile,
 } from './styles';
-import { FaRegQuestionCircle } from 'react-icons/fa';
 
 interface Prop {
   isLoading?: boolean;
@@ -95,6 +98,7 @@ function DetailTrackerCard(props: Prop) {
         forceGpsRead: true,
         sendGsmBeforeLock: true,
       });
+    firebaseLogEventRequest('device_detail', 'get_current_location');
   };
 
   const callApiGetAddress = useCallback(async () => {
@@ -111,6 +115,7 @@ function DetailTrackerCard(props: Prop) {
   const onRenewTrackerPage = e => {
     e.stopPropagation();
     Router.push(`/trackers/${tracker.device_id}/renew`);
+    firebaseLogEventRequest('trackers_page', 'renew_tracker');
   };
 
   const renderContentPC = () => {
