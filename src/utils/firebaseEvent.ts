@@ -73,6 +73,9 @@ export const firebaseEnvent = {
     add_tracker: {
       description: 'Go to Add Device page',
     },
+    renew_tracker: {
+      description: '',
+    },
   },
   device_detail: {
     back_device_list: {
@@ -307,6 +310,9 @@ export const firebaseEnvent = {
     history_device_wiew_history: {
       description: 'View History on map',
     },
+    history_device_select_map_view: {},
+    history_device_select_7_days_report: {},
+    history_device_select_alert_history_report: {},
   },
   geofences_device: {
     back_devcie_detail: {
@@ -526,5 +532,24 @@ export const firebaseEnvent = {
     select_date: {},
   },
   //-------------- end wallet page -------------//
-  add_tracker_page: {},
+  add_tracker_page: {
+    tracker_plan_1_month: {},
+    tracker_plan_6_month: {},
+    tracker_plan_12_month: {},
+    tracker_plan_24_month: {},
+    add_device_image_select: {},
+    add_device_infomation_skip: {},
+  },
+
+  payment_form: {
+    payment_method_credit_card: {},
+    payment_method_paypal: {},
+  },
+
+  fast_tracking_subscription: {
+    fast_tracking_3s: {},
+    fast_tracking_5s: {},
+    fast_tracking_10s: {},
+    fast_tracking_30s: {},
+  },
 };

@@ -23,6 +23,7 @@ import {
   Text,
 } from './styles';
 import { SkeletonPaymentForm } from '@Components/Skeletons';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   t(key: string, format?: object): string;
@@ -109,9 +110,29 @@ export default function Step2(props: Props) {
   const [disablePayment, setDisableSubmitCard] = useState(true);
   const [isLoadingGateway, setLoadingGateway] = useState(true);
 
+  const getFirebaseLog = (id: number) => {
+    switch (id) {
+      case 256:
+        firebaseLogEventRequest('add_tracker_page', 'tracker_plan_1_month');
+        break;
+      case 263:
+        firebaseLogEventRequest('add_tracker_page', 'tracker_plan_6_month');
+        break;
+      case 259:
+        firebaseLogEventRequest('add_tracker_page', 'tracker_plan_12_month');
+        break;
+      case 269:
+        firebaseLogEventRequest('add_tracker_page', 'tracker_plan_24_month');
+        break;
+      default:
+        break;
+    }
+  };
+
   const onChangePaymentPlan = (id: number, index) => () => {
     setShowOtherPlan(true);
     setPaymentPlan(id);
+    getFirebaseLog(id);
 
     if (trackerPlan[index].paymentPlatform === 'PREPAID') {
       updateStore({ ...formData, selectedPlan: trackerPlan[index] });

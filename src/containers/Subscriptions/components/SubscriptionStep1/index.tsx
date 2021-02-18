@@ -16,6 +16,7 @@ import {
   ContentMessageItem,
   useStyles,
 } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   onClickItemMessage(dataMessaga, selectCountry): void;
@@ -87,6 +88,15 @@ function SubscriptionStep1(props) {
   const onClickItemMessageHandle = selectedPlan => () => {
     updateSubscriptionStore({ ...formData, selectedPlan });
     onUpdateStep(2);
+    return formData.subscriptionType === 'sms'
+      ? firebaseLogEventRequest(
+          'sms_plan_item_selected',
+          `sms_plan_${selectedPlan.smsLimit}_sms`
+        )
+      : firebaseLogEventRequest(
+          'fast_tracking_subscription',
+          `fast_tracking_${selectedPlan.fastTrackSeconds}s`
+        );
   };
 
   return (
