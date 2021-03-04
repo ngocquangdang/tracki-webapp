@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import { emailSchema } from '../../../schema';
 
 import { useStyles, Notifi } from './styles';
@@ -22,6 +23,7 @@ export default function EmailForm(props) {
 
   const classes = useStyles();
   const onSubmit = value => {
+    firebaseLogEventRequest('add_new_contact_modal', 'add_contact_type_email');
     addContactPageRequest(
       { name: value.name, type, address: value.email },
       onClose

@@ -32,11 +32,13 @@ import {
   makeSelectTrackerPlans,
   makeSelectTrackers,
 } from '@Containers/Trackers/store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function AddTrackerContainer(props: any) {
   useInjectSaga({ key: 'addtracker', saga });
   useInjectReducer({ key: 'addtracker', reducer });
 
+  firebaseLogEventRequest('add_tracker_page', '');
   return <AddTrackerForm {...props} />;
 }
 

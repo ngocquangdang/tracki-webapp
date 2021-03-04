@@ -7,6 +7,7 @@ import ClaimPointModal from '@Containers/Wallet/components/ClaimPointModal';
 
 // styles
 import { useStyles, Coin, Day } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 // interface
 interface Props {
@@ -33,7 +34,10 @@ export default function GiveCoin(props: Props) {
 
   const [cointSelected, setCointSelected] = useState<number | string>('');
 
-  const onGetCoint = () => setCointSelected(ClaimDate[0].coin);
+  const onGetCoint = () => {
+    setCointSelected(ClaimDate[0].coin);
+    firebaseLogEventRequest('dashboard_screen', 'claim_point');
+  };
 
   const getCointSuccess = () => setCointSelected('');
 
@@ -50,7 +54,7 @@ export default function GiveCoin(props: Props) {
           {ClaimDate.map(item => (
             <Day key={item.day} isMobile={isMobile}>
               <Coin isClaimed={item.status === 'claimed'}>
-                <img src="./images/coin.svg" alt="" className={classes.img} />
+                <img src="/images/coin.svg" alt="" className={classes.img} />
                 <p className={classes.coinPoint}>{item.coin}</p>
               </Coin>
               <div

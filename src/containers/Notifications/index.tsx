@@ -26,6 +26,7 @@ import {
   makeSelectNotifications,
   makeSelectNotificationsIds,
 } from './store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const NotificationViewPC = dynamic(() => import('./views/ViewPC'));
 const NotificationViewMobile = dynamic(() => import('./views/ViewMobile'));
@@ -43,6 +44,7 @@ function NotificationView(props) {
   } = props;
 
   useEffect(() => {
+    firebaseLogEventRequest('notification_page', '');
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
   useEffect(() => {
@@ -55,9 +57,9 @@ function NotificationView(props) {
     }
   }, [fetchNotificationRequest, profile]);
   return rest.isMobile ? (
-    <NotificationViewMobile {...rest} />
+    <NotificationViewMobile {...props} />
   ) : (
-    <NotificationViewPC {...rest} />
+    <NotificationViewPC {...props} />
   );
 }
 

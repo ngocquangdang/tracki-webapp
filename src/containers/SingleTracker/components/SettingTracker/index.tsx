@@ -92,6 +92,7 @@ import {
 import FastTrackingMode from '@Containers/TrackingModes';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 interface Props {
   handleClose(): void;
   t(key: string): string;
@@ -185,6 +186,7 @@ function SettingTracker(props: Props) {
   const speed_unit = profile?.preferences?.speed_unit;
 
   useEffect(() => {
+    firebaseLogEventRequest('settings_device', '');
     if (trackerSettings && tracker) {
       // const {
       //   sample_rate,
@@ -207,6 +209,10 @@ function SettingTracker(props: Props) {
   }, [tracker, trackerSettings]);
 
   const onSubmitForm = (values: any) => {
+    firebaseLogEventRequest(
+      'settings_device',
+      'settings_device_update_setting'
+    );
     const { infoTracker, speed_unit } = values;
     const {
       tracking_mode,
@@ -243,6 +249,7 @@ function SettingTracker(props: Props) {
   };
 
   const onOpenModalSubscription = () => {
+    firebaseLogEventRequest('settings_device', 'settings_device_subscriptions');
     const data = {
       device_id: tracker.device_id,
       page: 1,
@@ -258,10 +265,12 @@ function SettingTracker(props: Props) {
   };
 
   const onCloseBatteryMode = () => {
+    firebaseLogEventRequest('tracking_mode', 'close_tracking_mode_modal');
     setOpenBatteryMode(false);
   };
 
   const onOpenBatteryMode = () => {
+    firebaseLogEventRequest('tracking_mode', 'settings_device_tracking_mode');
     setOpenBatteryMode(true);
   };
   const onChangeImage = (e: any) => {
@@ -283,6 +292,7 @@ function SettingTracker(props: Props) {
   };
 
   const onShowSelectContact = value => {
+    firebaseLogEventRequest('settings_device', `add_contact_${value}`);
     getContactListRequest(profile.id);
     getContactAssignedRequest(infoTracker.device_id);
     setShowSelectContat(!isShowSelectContact);
@@ -299,17 +309,38 @@ function SettingTracker(props: Props) {
   };
 
   const onClickIncrease = () => {
+    firebaseLogEventRequest('subscriptions_modal', 'alert_limit_subscription');
     Router.push(`/trackers/${tracker.device_id}/subscription/sms`);
   };
 
   const onClickFastTracking = () => {
+    firebaseLogEventRequest(
+      'subscriptions_modal',
+      'fast_tracking_subscription'
+    );
     Router.push(`/trackers/${tracker.device_id}/subscription/fast-tracking`);
   };
 
   const handleCancelSubscription = () => {
+    firebaseLogEventRequest('subscriptions_modal', 'cancel_subscription');
     const bubbleChat: any = document.getElementById('chatIframe');
     setOpenSubsription(false);
     bubbleChat.style.height = '530px';
+  };
+
+  const onBatteryMode = () => {
+    firebaseLogEventRequest(
+      'settings_device',
+      'settings_device_setup_geofence'
+    );
+  };
+
+  const onClose = () => {
+    firebaseLogEventRequest(
+      'settings_device',
+      'settings_device_cancel_setting'
+    );
+    handleClose();
   };
 
   return (
@@ -422,6 +453,12 @@ function SettingTracker(props: Props) {
                     <RadioGroup
                       value={values.speed_unit}
                       onChange={e => {
+                        firebaseLogEventRequest(
+                          'settings_device',
+                          e.target.value === 'kph'
+                            ? 'settings_device_select_kph'
+                            : 'settings_device_select_mph'
+                        );
                         setFieldValue(
                           'speed_unit',
                           (values.speed_unit = e.target.value)
@@ -487,6 +524,12 @@ function SettingTracker(props: Props) {
                           values.infoTracker?.speed_limit.enable || false
                         }
                         onChange={e => {
+                          firebaseLogEventRequest(
+                            'settings_device',
+                            e.target.checked
+                              ? 'activate_speed_alert'
+                              : 'deactivate_speed_alert'
+                          );
                           setFieldValue('infoTracker.speed_limit', {
                             ...values.infoTracker?.speed_limit,
                             enable: e.target.checked,
@@ -522,12 +565,18 @@ function SettingTracker(props: Props) {
                       <Switch
                         checked={values.infoTracker?.moving_start || false}
                         value={values.infoTracker?.moving_start}
-                        onChange={e =>
+                        onChange={e => {
+                          firebaseLogEventRequest(
+                            'settings_device',
+                            e.target.checked
+                              ? 'activate_start_moving_alert'
+                              : 'deactivate_start_moving_alert'
+                          );
                           setFieldValue(
                             'infoTracker.moving_start',
                             e.target.checked
-                          )
-                        }
+                          );
+                        }}
                         color="primary"
                       />
                     </OptionRight>
@@ -560,12 +609,18 @@ function SettingTracker(props: Props) {
                       <Switch
                         checked={values.infoTracker?.low_battery}
                         value={values.infoTracker?.low_battery}
-                        onChange={e =>
+                        onChange={e => {
+                          firebaseLogEventRequest(
+                            'settings_device',
+                            e.target.checked
+                              ? 'activate_low_battery'
+                              : 'deactivate_low_battery'
+                          );
                           setFieldValue(
                             'infoTracker.low_battery',
                             e.target.checked
-                          )
-                        }
+                          );
+                        }}
                         color="primary"
                       />
                     </OptionRight>
@@ -592,12 +647,18 @@ function SettingTracker(props: Props) {
                       <Switch
                         checked={values.infoTracker?.device_beep_sound}
                         value={values.infoTracker?.device_beep_sound}
-                        onChange={e =>
+                        onChange={e => {
+                          firebaseLogEventRequest(
+                            'settings_device',
+                            e.target.checked
+                              ? 'activate_device_beeper'
+                              : 'deactivate_device_beeper'
+                          );
                           setFieldValue(
                             'infoTracker.device_beep_sound',
                             e.target.checked
-                          )
-                        }
+                          );
+                        }}
                         color="primary"
                       />
                     </OptionRight>
@@ -615,12 +676,18 @@ function SettingTracker(props: Props) {
                       <Switch
                         checked={values.infoTracker?.zone_entry || false}
                         value={values.infoTracker?.zone_entry}
-                        onChange={e =>
+                        onChange={e => {
+                          firebaseLogEventRequest(
+                            'settings_device',
+                            e.target.checked
+                              ? 'activate_geofence_entry_alert'
+                              : 'deactivate_geofence_entry_alert'
+                          );
                           setFieldValue(
                             'infoTracker.zone_entry',
                             e.target.checked
-                          )
-                        }
+                          );
+                        }}
                         color="primary"
                       />
                     </OptionRight>
@@ -638,18 +705,24 @@ function SettingTracker(props: Props) {
                       <Switch
                         checked={values.infoTracker?.zone_exit || false}
                         value={values.infoTracker?.zone_exit}
-                        onChange={e =>
+                        onChange={e => {
+                          firebaseLogEventRequest(
+                            'settings_device',
+                            e.target.checked
+                              ? 'activate_geofence_exit_alert'
+                              : 'deactivate_geofence_exit_alert'
+                          );
                           setFieldValue(
                             'infoTracker.zone_exit',
                             e.target.checked
-                          )
-                        }
+                          );
+                        }}
                         color="primary"
                       />
                     </OptionRight>
                   </SwitchGroupLast>
                 </ContainerPadding>
-                <ContainerButtonModal>
+                <ContainerButtonModal onClick={onBatteryMode}>
                   <Text>Setup Geo-Fences</Text>
                   <OptionRight>
                     <AiOutlineQuestionCircle
@@ -666,7 +739,7 @@ function SettingTracker(props: Props) {
                     isLoading={isRequesting}
                     text={t('common:cancel')}
                     type="button"
-                    onClick={handleClose}
+                    onClick={onClose}
                   />
                   <Button
                     className={`${classes.btn} ${classes.margin}`}

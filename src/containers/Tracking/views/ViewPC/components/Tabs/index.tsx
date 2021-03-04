@@ -8,6 +8,7 @@ import TrackersSelected from '../MultiView/TrackersSelected';
 import { useStyles } from './styles';
 import HeatMap from '../HeatMap';
 import { TAB_KEYS } from '@Containers/Tracking/store/constants';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   isMobile: boolean;
@@ -40,12 +41,29 @@ export default function TabsPC(props: Props) {
   const classes = useStyles();
   const [currentTab, setTab] = useState(0);
 
+  const firebaseLogEvent = (key: number) => {
+    switch (key) {
+      case 1:
+        firebaseLogEventRequest('tracking_page', 'tracking_heat_map');
+        break;
+      case 2:
+        firebaseLogEventRequest('tracking_page', 'tracking_multi_view');
+        break;
+      case 3:
+        firebaseLogEventRequest('tracking_page', 'tracking_multi_screen');
+        break;
+      default:
+        firebaseLogEventRequest('tracking_page', 'tracking_sigle_view');
+        break;
+    }
+  };
   const onChangeTab = (event: any, newValue: any) => {
     if (isLoading) {
       return;
     }
     setTab(newValue);
     changeTrackingView(TAB_KEYS[newValue]);
+    firebaseLogEvent(newValue);
   };
 
   return (

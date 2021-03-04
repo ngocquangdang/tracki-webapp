@@ -19,6 +19,7 @@ import { Button } from '@Components/buttons';
 
 // style
 import { useStyles } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 // interface
 interface Props {
@@ -37,8 +38,30 @@ export default function InviteFriend(props: Props) {
   const { referral_code = 'XXXXXXXXXX' } = myWallet;
   const [modalType, setModalType] = useState('');
 
-  const onInviteFriend = () => onChangeTab(2);
-  const onShowModal = type => () => setModalType(type);
+  const onInviteFriend = () => {
+    onChangeTab(2);
+    firebaseLogEventRequest('dashboard_screen', 'see_more_invite_friend');
+  };
+
+  const getFirebaseLogEvent = (type: string) => {
+    switch (type) {
+      case 'share':
+        firebaseLogEventRequest('dashboard_screen', 'share_referal_code');
+        break;
+      case 'qrCode':
+        firebaseLogEventRequest('dashboard_screen', 'new_qr_referal_code');
+        break;
+      default:
+        firebaseLogEventRequest('dashboard_screen', 'copy_referal_code');
+        break;
+    }
+  };
+
+  const onShowModal = (type: string) => () => {
+    setModalType(type);
+    getFirebaseLogEvent(type);
+  };
+
   const onCloseModal = () => setModalType('');
 
   return (
@@ -103,7 +126,7 @@ export default function InviteFriend(props: Props) {
         <div className={classes.copyContainer}>
           <div className={classes.userInfo}>
             <img
-              src="./images/tracki-device.png"
+              src="/images/tracki-device.png"
               alt=""
               className={classes.img}
             />

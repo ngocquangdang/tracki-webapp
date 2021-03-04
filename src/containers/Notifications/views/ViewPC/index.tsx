@@ -18,6 +18,7 @@ import { MainLayout } from '@Layouts';
 import { ALARM_TYPES, SORT_BY_OPTION } from '../../store/constants';
 
 import NotificationCardDetail from './components/NotificationCardDetail';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import {
   useStyles,
   NotificationContainer,
@@ -99,6 +100,7 @@ export default function Notification(props: Props) {
   };
 
   const onClickExportCsv = () => {
+    firebaseLogEventRequest('notification_page', 'export_csv_notifcation');
     console.log('export csv');
   };
 
@@ -108,6 +110,7 @@ export default function Notification(props: Props) {
       limit: 500,
       page: 1,
     });
+    firebaseLogEventRequest('notification_page', 'filter_report_notification');
   };
 
   const handleChangeRowsPerPage = event => {
@@ -116,6 +119,10 @@ export default function Notification(props: Props) {
   };
 
   const onChangeDateTime = obj => {
+    firebaseLogEventRequest(
+      'notification_page',
+      'select_date_range_notification'
+    );
     const { fromDate, toDate } = obj || dateTime;
     setDateTime(obj);
     const filterNotificationsByDate = notificationsIds.filter(
@@ -137,6 +144,10 @@ export default function Notification(props: Props) {
   };
 
   const onChangeSortBy = (value: string) => {
+    firebaseLogEventRequest(
+      'notification_page',
+      `sort_notification_by_${value}`
+    );
     if (value === 'old' || value === 'new') {
       const sortedNotificationsByDate = notificationsIds
         .slice()
@@ -157,7 +168,52 @@ export default function Notification(props: Props) {
     setSortBy(value);
   };
 
+  const sendFirebaseNotificationType = (type: string) => {
+    switch (type) {
+      case 'MOVEMENT':
+        firebaseLogEventRequest(
+          'select_alarm_type_notification',
+          'alarm_notification_start_moing_type'
+        );
+        break;
+      case 'SPEED':
+        firebaseLogEventRequest(
+          'select_alarm_type_notification',
+          'alarm_notification_speed_violation_type'
+        );
+        break;
+      case 'GEOZONE':
+        firebaseLogEventRequest(
+          'select_alarm_type_notification',
+          'alarm_notification_geofence_crossed_type'
+        );
+        break;
+      case 'BATTERY':
+        firebaseLogEventRequest(
+          'select_alarm_type_notification',
+          'alarm_notification_low_battery_alert_type'
+        );
+        break;
+      case 'SOS':
+        firebaseLogEventRequest(
+          'select_alarm_type_notification',
+          'alarm_notification_sos_type'
+        );
+        break;
+      default:
+        firebaseLogEventRequest(
+          'select_alarm_type_notification',
+          'alarm_notification_all_type'
+        );
+        break;
+    }
+  };
   const onChangeAlarmType = (value: string) => {
+    sendFirebaseNotificationType(value);
+    firebaseLogEventRequest(
+      'notification_page',
+      'select_alarm_type_notification'
+    );
     setAlarmType(value);
     const filterType = notificationsIds.filter(item =>
       notifications[item]?.alarm_type.includes(value)
@@ -253,7 +309,7 @@ export default function Notification(props: Props) {
               <TableHead>
                 <TableRow>
                   <TableCell className={classes.header}>
-                    <div className={classes.textHeader}>Notfications</div>
+                    <div className={classes.textHeader}>Notifications</div>
                     <div className={classes.rightItemHead}>
                       <SortOption>
                         <SelectOption

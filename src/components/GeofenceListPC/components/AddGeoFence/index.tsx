@@ -20,6 +20,7 @@ import { ADD_GEO_SCHEMA } from './schema';
 import { useStyles } from './styles';
 import { GEOFENCE_DEFAULT } from '../../constant';
 import { getSizeOfGefence } from '@Components/Maps/Leaflet/components/Helpers';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   isMobile?: boolean;
@@ -62,8 +63,11 @@ function AddGeoFence(props: Props) {
   useEffect(() => {
     if (!cloneSelectedGeofence) {
       setCloneGeofence(selectedGeofence);
+      firebaseLogEventRequest('edit_geofence', '');
     }
-
+    if (newGeofence) {
+      firebaseLogEventRequest('add_geofence', '');
+    }
     const newData = {
       ...GEOFENCE_DEFAULT,
       ...selectedGeofence,
@@ -73,9 +77,13 @@ function AddGeoFence(props: Props) {
   }, [selectedGeofence, newGeofence, cloneSelectedGeofence]);
 
   const onSubmitForm = (values: any) => {
-    selectedGeofence
-      ? saveGeofenceRequestAction(selectedGeofence.id, values)
-      : createNewGeofenceRequestAction({ ...newGeofence, name: values.name });
+    if (selectedGeofence) {
+      saveGeofenceRequestAction(selectedGeofence.id, values);
+      firebaseLogEventRequest('edit_geofence', 'update_clone_geofence');
+    } else {
+      createNewGeofenceRequestAction({ ...newGeofence, name: values.name });
+      firebaseLogEventRequest('add_geofence', 'create_new_geofence');
+    }
     handleClose();
     changeMapAction('DEFAULT');
   };
@@ -89,10 +97,12 @@ function AddGeoFence(props: Props) {
 
   const onCloseAdd = () => {
     if (newGeofence) {
+      firebaseLogEventRequest('add_geofence', 'cancel_new_geofence');
       removeGeofence(newGeofence.id);
       resetNewGeofenceAction();
     }
     if (cloneSelectedGeofence) {
+      firebaseLogEventRequest('edit_geofence', 'edit_geofence');
       removeGeofence(cloneSelectedGeofence.id);
       updateGeofence(cloneSelectedGeofence.id, cloneSelectedGeofence);
     }
@@ -101,6 +111,7 @@ function AddGeoFence(props: Props) {
   };
 
   const onChangeTypeGeofence = (type: string) => () => {
+    firebaseLogEventRequest('add_geofence', `geofence_${type}_shape`);
     const newAction = `create_${type}`.toUpperCase();
     changeMapAction(newAction);
     if (selectedGeofence && selectedGeofence.type !== type) {
@@ -114,6 +125,8 @@ function AddGeoFence(props: Props) {
   };
 
   const onChangeColorGeofence = (color: string) => {
+    firebaseLogEventRequest('add_geofence', `select_geofence_color_${color}`);
+
     // update color
     if (selectedGeofence && selectedGeofence.color !== color) {
       removeGeofence(selectedGeofence.id);

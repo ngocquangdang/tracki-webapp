@@ -21,19 +21,29 @@ import ILoginPage from '../interfaces';
 import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 export default function Login(props: ILoginPage.IProps) {
   const { t, resetErrorAction } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
+  firebaseLogEventRequest('login_page', '');
+
   const handleOpenModal = () => {
     setOpen(true);
     resetErrorAction();
+    firebaseLogEventRequest('login_page', 'chat_with_support');
   };
   const handleCloseModal = () => {
     setOpen(false);
   };
+
+  const onCreateNewAccount = () => {
+    resetErrorAction();
+    firebaseLogEventRequest('login_page', 'create_account');
+  };
+
   return (
     <AuthLayout>
       <Container>
@@ -48,7 +58,7 @@ export default function Login(props: ILoginPage.IProps) {
               className={classes.blackBtn}
               variant="outlined"
               text={t('auth:create_new_tracki_account')}
-              onClick={() => resetErrorAction()}
+              onClick={onCreateNewAccount}
             />
           </Link>
         </Content>

@@ -1,5 +1,6 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import moment from 'moment';
+import { lineDistance } from '@turf/turf';
 
 import * as types from '../constants';
 import * as apiServices from '../services';
@@ -276,7 +277,7 @@ function* fetchHistoryTripSaga(action) {
       );
     }
 
-    const trips = historyData.reduce(
+    let trips = historyData.reduce(
       (obj, curTrip) => {
         if (obj.tripIds.length < 1) {
           obj.trips = {
@@ -314,8 +315,24 @@ function* fetchHistoryTripSaga(action) {
         tripIds: [],
       }
     );
-
-    yield put(actions.fetchHistoryTripSucceed(trips));
+    const opts = { units: 'kilometers' as any };
+    let tripIds = [] as any;
+    if (trips.tripIds.length > 0) {
+      tripIds = trips.tripIds.filter(id => {
+        const { points, pointIds } = trips.trips[id];
+        const lnglats = pointIds.map(id => [points[id].lng, points[id].lat]);
+        const feature = {
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: lnglats,
+          },
+        } as any;
+        const distance = lineDistance(feature, opts);
+        return distance > 0.03;
+      });
+    }
+    yield put(actions.fetchHistoryTripSucceed({ tripIds, trips: trips.trips }));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

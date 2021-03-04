@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import BarChartIcon from '@material-ui/icons/BarChart';
-
+import dynamic from 'next/dynamic';
 //components
 import { SideBarInnerPC } from '@Components/sidebars';
-import Map from '@Components/Maps';
-import MapToolBars from '@Components/Maps/components/MapToolBar';
 
 import Tabs from './components/Tabs';
 import OverviewReport from './components/Overview';
 import HistoryReport from './components/History';
 import ReportStops from './components/Stops';
 import ReportSpeeds from './components/Speed';
+import ToolbarControlPlayback from '../components/ToolbarControlPlayback';
 //styles
 import { useStyles } from './styles';
 
+const MapCard = dynamic(
+  () => import('@Containers/Reports/views/components/MapCard'),
+  {
+    ssr: false,
+  }
+);
 interface Props {
   isMobile: boolean;
   trackers: object;
@@ -27,6 +32,12 @@ interface Props {
   fetchHistoryLogs(data: object): void;
   fetchHistorySpeeds(data: object): void;
   fetchHistoryTrips(data: object): void;
+  setPointSelected(point: object): void;
+  setOptimizedTrip(coordinate: any): void;
+  changeModeViewMap(modeMap: string): void;
+  coordinateOptimized: number[];
+  selectedPoints: object;
+  selectedPointIds: number[];
   historyStops: object;
   historyStopIds: object;
   profile: any;
@@ -42,6 +53,7 @@ interface Props {
   isFetchingDataStop: boolean;
   isFetchingTracker: boolean;
   isFetchingTrips: boolean;
+  modeMap: string;
   t(key: string, format?: object): string;
   [data: string]: any;
 }
@@ -66,17 +78,34 @@ function ReportViewPC(props: Props) {
     historyStopIds,
     isFetchingDataStop,
     t,
+    selectedPoints,
+    selectedPointIds,
+    coordinateOptimized,
     ...rest
   } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
+  const [isPlaying, setTogglePlaying] = useState(false);
+  const [steps, setSteps] = useState(1000);
+  const [counter, setCounter] = useState(0);
+
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 100);
   };
-  const openSideBar = () => setOpenSidebar(true);
 
+  const togglePlaying = () => setTogglePlaying(!isPlaying);
+  const onChangeSpeeds = steps => {
+    setSteps(steps);
+  };
+  const onChangeCounter = value => {
+    setCounter(value);
+  };
+  const onChangeModeViewMap = value => {
+    rest.changeModeViewMap(value);
+  };
+  const handleReplay = () => setCounter(0);
   return viewMode === 'trip' ? (
     <div className={classes.containerTrip}>
       <SideBarInnerPC opened={isOpenSidebar} onChange={toggleSideBar}>
@@ -86,17 +115,45 @@ function ReportViewPC(props: Props) {
           trackers={trackers}
           trackerIds={trackerIds}
           viewMode={viewMode}
+          changeReportView={changeReportView}
+          selectedPoints={selectedPoints}
+          selectedPointIds={selectedPointIds}
         />
       </SideBarInnerPC>
       <div className={classes.mapView}>
         <React.Fragment>
-          <Map
+          <MapCard
+            mapId="mapHistory"
+            historyLogs={selectedPoints}
+            historyLogIds={selectedPointIds}
+            isPlaying={isPlaying}
+            togglePlaying={togglePlaying}
             mapType="leaflet"
-            openSideBar={openSideBar}
-            isTracking={true}
-            {...props}
+            t={t}
+            isMobile={false}
+            viewMode={viewMode}
+            counter={counter}
+            steps={steps}
+            onChangeCounter={onChangeCounter}
+            coordinateOptimized={coordinateOptimized}
+            changeModeViewMap={rest.changeModeViewMap}
+            modeMap={rest.modeMap}
+            // currentPointId={currentPointId}
           />
-          <MapToolBars t={t} />
+          {selectedPointIds.length > 0 && (
+            <ToolbarControlPlayback
+              isOpenSidebar={isOpenSidebar}
+              togglePlaying={togglePlaying}
+              isPlaying={isPlaying}
+              onChangeSpeeds={onChangeSpeeds}
+              valControl={rest.modeMap}
+              counter={counter}
+              onChangeCounter={onChangeCounter}
+              steps={steps}
+              onChangeControl={onChangeModeViewMap}
+              onReplay={handleReplay}
+            />
+          )}
         </React.Fragment>
       </div>
     </div>

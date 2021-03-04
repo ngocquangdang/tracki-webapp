@@ -17,6 +17,7 @@ import {
 } from '@Containers/App/store/actions';
 
 import { ToolBar, MenuItem, ItemText, Icon, Text, useStyles } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const StyledMenu = withStyles({
   paper: {
@@ -73,6 +74,25 @@ function MapToolBarMobile(props: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const ontTogleTrackerName = () => {
+    firebaseLogEventRequest(
+      'main_page',
+      !showTrackerName
+        ? 'show_tracker_name_map_tool'
+        : 'hidden_tracker_name_map_tool'
+    );
+    toggleTrackerName();
+  };
+
+  const onToggleGeofence = () => {
+    firebaseLogEventRequest(
+      'main_page',
+      !showGeofences ? 'show_geofences_map_tool' : 'hidden_geofence_map_tool'
+    );
+    toggleGeofences();
+  };
+
   return (
     <ToolBar>
       <Button
@@ -107,7 +127,7 @@ function MapToolBarMobile(props: Props) {
           </Icon>
         </MenuItem>
         <MenuItem
-          onClick={toggleTrackerName}
+          onClick={ontTogleTrackerName}
           className={anchorEl ? '' : classes.fullWidth}
         >
           <ItemText
@@ -124,7 +144,7 @@ function MapToolBarMobile(props: Props) {
           </Icon>
         </MenuItem>
         <MenuItem
-          onClick={toggleGeofences}
+          onClick={onToggleGeofence}
           className={anchorEl ? '' : classes.fullWidth}
         >
           <ItemText

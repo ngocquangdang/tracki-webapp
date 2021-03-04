@@ -17,6 +17,7 @@ import {
 } from './store/actions';
 
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import {
   makeSelectErrors,
   makeSelectContacts,
@@ -33,6 +34,7 @@ function ContactView(props) {
   const { fetchUserRequestedAction, isMobile } = props;
 
   useEffect(() => {
+    firebaseLogEventRequest('contact_page', '');
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 

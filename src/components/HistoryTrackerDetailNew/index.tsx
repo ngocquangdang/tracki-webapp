@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Slide, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { ArrowBackIos as ArrowBackIosIcon } from '@material-ui/icons';
@@ -8,6 +8,7 @@ import { Button } from '@Components/buttons';
 import TrackerTimeline from '@Components/TrackerTimeline';
 import HistoryChart from '@Components/HistoryChart';
 import { ITracker } from '@Interfaces';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import { useStyles } from './styles';
 
 interface Prop {
@@ -42,7 +43,10 @@ function HistoryTrackerDetail(props: Prop) {
     toDate: moment().unix(),
   });
 
+  useEffect(() => firebaseLogEventRequest('history_device', ''), []);
+
   const onChangeDateTime = obj => {
+    firebaseLogEventRequest('history_device', 'history_device_select_date');
     setDateTime(obj);
     getHistory(obj);
   };
@@ -60,11 +64,23 @@ function HistoryTrackerDetail(props: Prop) {
   };
 
   const onClickViewHistory = () => {
+    firebaseLogEventRequest('history_device', 'history_device_wiew_history');
     getHistory(null);
   };
 
+  const getFirebaseLogHistoryType = type => {
+    switch (type) {
+      case 1:
+        return 'history_device_select_wifi_type';
+      case 2:
+        return 'history_device_select_gps_wifi_type';
+      default:
+        return 'history_device_select_gps_type';
+    }
+  };
   const onChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = (e.target as HTMLInputElement).value;
+    firebaseLogEventRequest('history_device', getFirebaseLogHistoryType(value));
     setTypeOfHistory(+value);
   };
 

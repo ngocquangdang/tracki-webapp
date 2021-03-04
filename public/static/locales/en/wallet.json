@@ -82,5 +82,5 @@
   "payment_via": "Payment: via {{paymentType}}",
   "cash_in_from": "Cash In from",
   "total_amount_cashed_in": "Total Amount Cashed In",
-  "add_to_your_wallet": "Add to your wallet",
+  "add_to_your_wallet": "Add to your wallet"
 }

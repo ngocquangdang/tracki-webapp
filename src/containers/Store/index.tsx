@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -9,6 +9,7 @@ import { changeStoreView } from '@Containers/Store/store/actions';
 import { useInjectReducer } from '@Utils/injectReducer';
 import storeReducer from './store/reducers';
 import { makeSelectViewMode, makeIsLoading } from './store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 import View from './view';
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
 function StoreContainer(props: Props) {
   useInjectReducer({ key: 'store', reducer: storeReducer });
 
+  useEffect(() => firebaseLogEventRequest('stores_page', ''), []);
   return <View {...props} />;
 }
 

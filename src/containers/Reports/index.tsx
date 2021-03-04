@@ -16,6 +16,9 @@ import {
   fetchNotificationUnreadRequest,
   fetchHistorySpeedsRequest,
   fetchHistoryTripRequest,
+  setPointSelected,
+  setOptimizedTrip,
+  changeModeViewMap,
 } from './store/actions';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 
@@ -42,7 +45,13 @@ import {
   makeSelectHistoryTripIds,
   makeSelectHistoryTrips,
   makeSelectFetchingHistoryTrips,
+  makeSelectTripPointsSelected,
+  makeSelectTripPointIdsSelected,
+  makeSelectTripSteps,
+  makeSelectTripOptimized,
+  makeSelectTripModeMapView,
 } from './store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 
@@ -65,6 +74,7 @@ function ReportsContainer(props) {
 
   useEffect(() => {
     fetchUserRequestedAction();
+    firebaseLogEventRequest('reports_page', '');
   }, [fetchUserRequestedAction]);
 
   return <View {...rest} />;
@@ -91,6 +101,11 @@ const mapStateToProps = createStructuredSelector({
   isFetchingTrips: makeSelectFetchingHistoryTrips(),
   trips: makeSelectHistoryTrips(),
   tripIds: makeSelectHistoryTripIds(),
+  selectedPoints: makeSelectTripPointsSelected(),
+  selectedPointIds: makeSelectTripPointIdsSelected(),
+  steps: makeSelectTripSteps(),
+  coordinateOptimized: makeSelectTripOptimized(),
+  modeMap: makeSelectTripModeMapView(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -104,6 +119,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   fetchHistorySpeeds: (data: object) =>
     dispatch(fetchHistorySpeedsRequest(data)),
   fetchHistoryTrips: (data: object) => dispatch(fetchHistoryTripRequest(data)),
+  setPointSelected: (point: object) => dispatch(setPointSelected(point)),
+  setOptimizedTrip: (coordinate: any) => dispatch(setOptimizedTrip(coordinate)),
+  changeModeViewMap: (modeMap: string) => dispatch(changeModeViewMap(modeMap)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

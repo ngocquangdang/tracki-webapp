@@ -42,7 +42,7 @@ export default function EarnPoint(props: Props) {
               <div>
                 <p className={classes.title}>{advs[id].adv_name}</p>
                 <div className={`${classes.flexBox} ${classes.cointLine}`}>
-                  <img src="./images/coin-points.svg" alt="" />
+                  <img src="/images/coin-points.svg" alt="" />
                   <p className={`${classes.flexBox} ${classes.coin}`}>
                     {advs[id].point}
                   </p>{' '}
@@ -101,7 +101,7 @@ function DrawerContainer(props) {
           <div>
             <p className={classes.title}>{advs[id].adv_name}</p>
             <div className={`${classes.flexBox} ${classes.cointLine}`}>
-              <img src="./images/coin-points.svg" alt="" />
+              <img src="/images/coin-points.svg" alt="" />
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {advs[id].point}
               </p>{' '}

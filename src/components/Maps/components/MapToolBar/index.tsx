@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { MdMyLocation, MdLayers, MdBorderStyle } from 'react-icons/md';
 import { FaStreetView } from 'react-icons/fa';
-import { Tooltip, ClickAwayListener } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import { Add, Remove, Refresh } from '@material-ui/icons';
 import clsx from 'clsx';
 
@@ -27,6 +27,7 @@ import {
   useStyles,
   IconButtonStyle,
 } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   mapTile: string;
@@ -54,13 +55,43 @@ function MapToolBars(props: Props) {
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
 
-  const onZoomClick = (zoom: number) => () => window.mapEvents.onZoom(zoom);
-  const getCurrentLocation = () => window.mapEvents.getUseLocation();
-  const onShowLayer = () => setShowLayerPanel(!showLayerPanel);
-  const onCloseLayer = () => setShowLayerPanel(false);
+  const onZoomClick = (zoom: number, zoom_type: string) => () => {
+    window.mapEvents.onZoom(zoom);
+    firebaseLogEventRequest('main_page', `${zoom_type}_map_tool`);
+  };
+  const getCurrentLocation = () => {
+    window.mapEvents.getUseLocation();
+    firebaseLogEventRequest('main_page', 'get_current_location_map_tool');
+  };
+  const onShowLayer = () => {
+    setShowLayerPanel(!showLayerPanel);
+    firebaseLogEventRequest('main_page', 'show_layer_map_tool');
+  };
+  const onCloseLayer = () => {
+    setShowLayerPanel(false);
+    firebaseLogEventRequest('main_page', 'close_layer_map_tool');
+  };
   const onReset = () => {
     resetMap();
     window.mapEvents.reset();
+    firebaseLogEventRequest('main_page', 'reset_map_map_tool');
+  };
+
+  const onToggleTrackerName = () => {
+    firebaseLogEventRequest(
+      'main_page',
+      !showTrackerName
+        ? 'show_tracker_name_map_tool'
+        : 'hidden_tracker_name_map_tool'
+    );
+    toggleTrackerName();
+  };
+  const onToggleGeofence = () => {
+    firebaseLogEventRequest(
+      'main_page',
+      !showGeofences ? 'show_geofences_map_tool' : 'hidden_geofence_map_tool'
+    );
+    toggleGeofences();
   };
 
   return (
@@ -73,7 +104,7 @@ function MapToolBars(props: Props) {
         >
           <IconButtonStyle
             className={clsx(classes.button, classes.borderRadiusTop)}
-            onClick={onZoomClick(0.5)}
+            onClick={onZoomClick(0.5, 'zoom_in')}
           >
             <Add />
           </IconButtonStyle>
@@ -85,7 +116,7 @@ function MapToolBars(props: Props) {
         >
           <IconButtonStyle
             className={clsx(classes.button, classes.borderRadiusBottom)}
-            onClick={onZoomClick(-0.5)}
+            onClick={onZoomClick(-0.5, 'zoom_out')}
           >
             <Remove />
           </IconButtonStyle>
@@ -100,26 +131,28 @@ function MapToolBars(props: Props) {
           <MdMyLocation />
         </IconButtonStyle>
       </Tooltip>
-      <ClickAwayListener onClickAway={onCloseLayer}>
-        <div>
-          <Tooltip
-            title={<span>{t('common:layer')}</span>}
-            placement="left"
-            arrow
+      {/* <ClickAwayListener onClickAway={onCloseLayer}> */}
+      <div>
+        <Tooltip
+          title={<span>{t('common:layer')}</span>}
+          placement="left"
+          arrow
+        >
+          <IconButtonStyle
+            onClick={showLayerPanel ? onCloseLayer : onShowLayer}
           >
-            <IconButtonStyle onClick={onShowLayer}>
-              <MdLayers />
-            </IconButtonStyle>
-          </Tooltip>
-          <MapTiles
-            t={t}
-            mapTile={mapTile}
-            changeMapTile={changeMapTile}
-            onClose={onCloseLayer}
-            className={showLayerPanel ? classes.display : ''}
-          />
-        </div>
-      </ClickAwayListener>
+            <MdLayers />
+          </IconButtonStyle>
+        </Tooltip>
+        <MapTiles
+          t={t}
+          mapTile={mapTile}
+          changeMapTile={changeMapTile}
+          onClose={onCloseLayer}
+          className={showLayerPanel ? classes.display : ''}
+        />
+      </div>
+      {/* </ClickAwayListener> */}
       <Tooltip
         title={
           <span>
@@ -132,7 +165,7 @@ function MapToolBars(props: Props) {
         arrow
       >
         <IconButtonStyle
-          onClick={toggleTrackerName}
+          onClick={onToggleTrackerName}
           className={clsx({ [classes.active]: showTrackerName })}
         >
           <Text>A</Text>
@@ -150,7 +183,7 @@ function MapToolBars(props: Props) {
         arrow
       >
         <IconButtonStyle
-          onClick={toggleGeofences}
+          onClick={onToggleGeofence}
           className={clsx({ [classes.active]: showGeofences })}
         >
           <MdBorderStyle />

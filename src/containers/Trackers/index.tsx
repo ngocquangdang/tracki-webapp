@@ -50,6 +50,7 @@ import profileSaga from '@Containers/AccountSetting/store/sagas';
 import profileReducer from '@Containers/AccountSetting/store/reducers';
 import View from './view';
 import { makeSelectUserProfile } from '@Containers/AccountSetting/store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   trackerId?: any;
@@ -75,6 +76,7 @@ function TrackersContainer(props: Props) {
 
   useEffect(() => {
     fetchUserRequestedAction();
+    firebaseLogEventRequest('trackers_page', '');
   }, [fetchUserRequestedAction]);
 
   return <View {...rest} />;

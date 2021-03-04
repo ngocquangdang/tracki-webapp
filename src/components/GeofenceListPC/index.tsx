@@ -35,6 +35,7 @@ import {
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
 import { GEOFENCE_DEFAULT } from './constant';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   geofenceIds: number[] | null;
@@ -82,12 +83,15 @@ function ListGeoFence(props: Props) {
   const classes = useStyles();
   const [showAddPanel, setShowPanel] = useState(false);
 
+  firebaseLogEventRequest('geofence_page', '');
+
   const onClosePanel = () => {
     setShowPanel(false);
     editGeofenceAction(null);
   };
 
   const onOpenPanel = () => {
+    firebaseLogEventRequest('geofence_page', 'add_geofence');
     setShowPanel(true);
     createNewGeofence({ ...GEOFENCE_DEFAULT, id: uniqueId('new_geo_') });
     changeMapAction(MAP_ACTIONS.CREATE_RECTANGLE);

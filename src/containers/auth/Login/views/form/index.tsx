@@ -9,6 +9,7 @@ import ILoginPage from '../../interfaces';
 
 import { Form, Label, useStyles, Message, SwitchGroup } from './styles';
 import { Switch } from '@material-ui/core';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const initialValuesForm = {
   username: '',
@@ -27,8 +28,17 @@ function LoginForm(props: ILoginPage.IProps) {
   const classes = useStyles();
   const submitForm = (values: ILoginPage.IStateLogin) => {
     loginRequestAction(values);
+    firebaseLogEventRequest('login_page', 'enter_email');
+    firebaseLogEventRequest('login_page', 'enter_password');
+    firebaseLogEventRequest('login_page', 'login');
   };
   // const resetError = () => resetErrorMessage();
+
+  const onForgotPassword = () => {
+    firebaseLogEventRequest('login_page', 'forgot_password');
+    resetErrorAction();
+  };
+
   return (
     <Formik
       initialValues={initialValuesForm}
@@ -39,6 +49,7 @@ function LoginForm(props: ILoginPage.IProps) {
         values,
         errors: errorsForm,
         handleChange,
+        setFieldValue,
         handleSubmit,
         handleBlur,
         touched,
@@ -102,9 +113,7 @@ function LoginForm(props: ILoginPage.IProps) {
             onClick={() => resetErrorAction()}
           />
           <Link href="/forgot-password">
-            <Label onClick={() => resetErrorAction()}>
-              {t('forgot_password')}?
-            </Label>
+            <Label onClick={onForgotPassword}>{t('forgot_password')}?</Label>
           </Link>
         </Form>
       )}

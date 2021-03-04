@@ -6,12 +6,12 @@ import { ListItemStyle, useStyles } from './styles';
 
 //interface
 interface Props {
-  onSelectedId?: (id: number) => void;
+  onSelectedId?: (id: number, paymentType: string) => void;
   t(key: string, format?: object): string;
   transaction: {
-    paymentType?: string;
+    paymentType: string;
     to?: string;
-    id?: number;
+    id: number;
     from?: string;
     status?: string;
     total?: string;
@@ -24,14 +24,17 @@ function TransactionCard(props: Props) {
 
   const { transaction, t, onSelectedId } = props;
 
-  const handleSelectedId = id => () => {
-    onSelectedId && onSelectedId(id);
+  const handleSelectedId = (id: number, paymentType: string) => () => {
+    onSelectedId && onSelectedId(id, paymentType);
     return;
   };
 
   return (
     <ListItemStyle button>
-      <div className={classes.item} onClick={handleSelectedId(transaction.id)}>
+      <div
+        className={classes.item}
+        onClick={handleSelectedId(transaction.id, transaction.paymentType)}
+      >
         <div>
           <p className={`${classes.title} ${classes.mr0} ${classes.mb5}`}>
             {transaction.paymentType}

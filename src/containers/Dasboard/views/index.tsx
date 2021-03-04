@@ -36,6 +36,7 @@ import {
 
 import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const DashboardPC = dynamic(() => import('./DashboardPC'), { ssr: false });
 const DashboardSP = dynamic(() => import('./DashboardSP'), { ssr: false });
@@ -49,6 +50,7 @@ function Dashboard(props) {
   const { fetchUserRequestedAction, isMobile } = props;
 
   useEffect(() => {
+    firebaseLogEventRequest('dashboard_page', '');
     fetchUserRequestedAction();
   }, [fetchUserRequestedAction]);
 

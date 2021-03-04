@@ -31,6 +31,7 @@ import {
   makeSelectPointHistory,
   makeSelectWallet,
 } from './store/selectors';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   getMyWallletRequest: (id: number) => void;
@@ -65,6 +66,7 @@ function WalletContainer(props: Props) {
   } = props;
 
   useEffect(() => {
+    firebaseLogEventRequest('wallet_page', '');
     getMyWallletRequest(1);
     getAdvertimentRequest();
     getPointHistoryRequest(1);

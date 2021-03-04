@@ -19,6 +19,7 @@ import {
   IconSos,
   Content,
 } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 export default function TrackersContainer(props: any) {
   const {
@@ -34,7 +35,10 @@ export default function TrackersContainer(props: any) {
   const [isOpenSidebar, setOpenSidebar] = useState(true);
   const [isAlertSos, setAlertSos] = useState(false);
   const toggleSideBar = () => {
+    isOpenSidebar &&
+      firebaseLogEventRequest('main_page', 'tongle_close_sidebar');
     if (!isOpenSidebar) {
+      firebaseLogEventRequest('main_page', 'tongle_open_sidebar');
       if (rest.selectedTrackerId) {
         const { lat, lng } = rest.trackers[rest.selectedTrackerId];
         if (!!lat && !!lng) {
@@ -100,6 +104,7 @@ export default function TrackersContainer(props: any) {
   const openSideBar = () => setOpenSidebar(true);
 
   const handleClickBack = () => {
+    firebaseLogEventRequest('device_detail', 'back_device_list');
     onResetSelectedTrackerID();
     window.history.pushState({}, '', '/trackers');
     const obj = rest.trackers || {};

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import { ViewPC, ViewMobile } from './views';
 import { MainLayout } from '@Layouts';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   getHistoryTracker(data: object): void;
@@ -20,6 +21,7 @@ function View(props: Props) {
 
   useEffect(() => {
     if (trackerId && trackers[trackerId.toString()] && !isSelected) {
+      firebaseLogEventRequest('trackers_page', 'device_detail');
       selectTrackerAction(trackerId);
       setIsSelected(true);
     }

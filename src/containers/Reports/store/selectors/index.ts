@@ -52,6 +52,21 @@ const makeSelectHistoryTrips = () =>
 const makeSelectFetchingHistoryTrips = () =>
   createSelector(reportState, state => state?.isFetchingTrips);
 
+const makeSelectTripPointsSelected = () =>
+  createSelector(reportState, state => state?.trips?.selectPoints);
+
+const makeSelectTripPointIdsSelected = () =>
+  createSelector(reportState, state => state?.trips?.selectPointIds);
+
+const makeSelectTripSteps = () =>
+  createSelector(reportState, state => state?.trips?.steps);
+
+const makeSelectTripOptimized = () =>
+  createSelector(reportState, state => state?.trips?.coordinateOptimized);
+
+const makeSelectTripModeMapView = () =>
+  createSelector(reportState, state => state?.trips?.modeMap);
+
 export {
   makeSelectNotifications,
   makeSelectNotificationsIds,
@@ -69,4 +84,9 @@ export {
   makeSelectHistoryTripIds,
   makeSelectHistoryTrips,
   makeSelectFetchingHistoryTrips,
+  makeSelectTripPointsSelected,
+  makeSelectTripPointIdsSelected,
+  makeSelectTripSteps,
+  makeSelectTripOptimized,
+  makeSelectTripModeMapView,
 };

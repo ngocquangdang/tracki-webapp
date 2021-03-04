@@ -7,6 +7,7 @@ import {
   TextInput,
   useStyles,
 } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   children: any;
@@ -19,7 +20,13 @@ interface Props {
 export default function TabPanel(props: Props) {
   const classes = useStyles();
   const { children, value, index, placeholder, onSearch, ...other } = props;
-  const debounceSearch = debounce((v: string) => onSearch(v), 300);
+  const debounceSearch = debounce((v: string) => {
+    firebaseLogEventRequest(
+      value === 1 ? 'geofence_page' : 'trackers_page',
+      value === 1 ? 'search_geofence' : 'search_device'
+    );
+    onSearch(v);
+  }, 300);
 
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>

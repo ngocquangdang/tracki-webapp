@@ -16,6 +16,12 @@ interface Props {
   togglePlaying: any;
   map: any;
   currentPointId: any;
+  steps?: number;
+  counter?: number;
+  onChangeCounter(value?: any): void;
+  changeModeViewMap(modeMap?: string): void;
+  coordinateOptimized?: number[];
+  modeMap?: string;
   t(key: string, format?: object): string;
 }
 
@@ -29,14 +35,19 @@ class HistoryPath extends React.Component<Props> {
   steps: any;
   animatedPoint: any;
   frameAnimation: any;
+  pathOptimized: any;
+  decoratorOptimized: any;
+
   constructor(props) {
     super(props);
     this.points = {};
     this.logsPath = null;
+    this.pathOptimized = null;
     this.decorator = null;
+    this.decoratorOptimized = null;
     this.animatedPoint = null;
-    this.counter = 0;
-    this.steps = 500;
+    this.counter = this.props.counter || 0;
+    this.steps = this.props.steps || 500;
     this.tempCoordinates = [];
   }
 
@@ -45,7 +56,15 @@ class HistoryPath extends React.Component<Props> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { historyLogIds, isPlaying, currentPointId } = nextProps;
+    const {
+      historyLogIds,
+      isPlaying,
+      currentPointId,
+      steps,
+      counter,
+      coordinateOptimized,
+      modeMap,
+    } = nextProps;
     const {
       historyLogIds: currentHistoryLogIds,
       isPlaying: thisPlaying,
@@ -53,23 +72,71 @@ class HistoryPath extends React.Component<Props> {
       togglePlaying,
       historyLogs,
       currentPointId: thisPointId,
+      steps: currentSteps,
+      counter: currentCounter,
+      coordinateOptimized: currentCoordinateOptimized,
+      changeModeViewMap,
+      modeMap: currentModeMap,
     } = this.props;
-    if (historyLogIds.length !== currentHistoryLogIds.length) {
+    if (historyLogIds !== currentHistoryLogIds) {
+      this.removeLayerOptimized();
       this.removeLayer();
       this.renderPath(nextProps);
     }
+    if (!isPlaying && counter !== currentCounter) {
+      this.counter = counter;
+      const coordinate = this.tempCoordinates[this.counter];
+      const [lng, lat] = coordinate;
+      if (!this.animatedPoint) {
+        const moveIcon = this.getMarkerIcon(null);
+        this.animatedPoint = L.marker([lat, lng], { icon: moveIcon }).addTo(
+          map
+        );
+      }
+      this.animatedPoint.setLatLng([lat, lng]);
+    }
+
+    if (
+      !!this.pathOptimized &&
+      !!this.decoratorOptimized &&
+      currentModeMap !== modeMap &&
+      modeMap === 'actual'
+    ) {
+      map.removeLayer(this.pathOptimized);
+      map.removeLayer(this.decoratorOptimized);
+      this.pathOptimized = null;
+    }
+
+    if (steps !== currentSteps) {
+      this.steps = steps;
+      map.removeLayer(this.logsPath);
+      map.removeLayer(this.decorator);
+      Object.values(this.points).map(p => map.removeLayer(p));
+      this.logsPath = null;
+      this.tempCoordinates = [];
+      this.counter = 1;
+      this.renderPath(nextProps);
+      thisPlaying && togglePlaying(true);
+    }
     // reset path & markers
-    if (historyLogIds.length !== currentHistoryLogIds.length) {
+    if (historyLogIds !== currentHistoryLogIds) {
       if (this.logsPath) {
         map.removeLayer(this.logsPath);
         map.removeLayer(this.decorator);
+
         this.animatedPoint && map.removeLayer(this.animatedPoint);
         Object.values(this.points).map(p => map.removeLayer(p));
-        this.logsPath = null;
+
         this.animatedPoint = null;
         this.tempCoordinates = [];
         this.counter = 1;
         this.renderPath(nextProps);
+        changeModeViewMap('actual');
+      }
+      if (this.pathOptimized) {
+        map.removeLayer(this.pathOptimized);
+        map.removeLayer(this.decoratorOptimized);
+        this.pathOptimized = null;
       }
       thisPlaying && togglePlaying(false);
     }
@@ -90,6 +157,12 @@ class HistoryPath extends React.Component<Props> {
         }
       }
     }
+    if (
+      currentCoordinateOptimized !== coordinateOptimized &&
+      modeMap === 'optimized'
+    ) {
+      this.renderPathOptimized(coordinateOptimized, map);
+    }
   }
 
   componentWillUnmount() {
@@ -99,6 +172,16 @@ class HistoryPath extends React.Component<Props> {
       this.pointTracking = undefined;
     }
   }
+
+  removeLayerOptimized = () => {
+    const { map } = this.props;
+    if (this.pathOptimized) {
+      map.removeLayer(this.pathOptimized);
+    }
+    if (this.decoratorOptimized) {
+      map.removeLayer(this.decoratorOptimized);
+    }
+  };
 
   removeLayer = () => {
     const { map } = this.props;
@@ -123,9 +206,8 @@ class HistoryPath extends React.Component<Props> {
     if (this.tempCoordinates.length > 0) {
       const { map, togglePlaying } = this.props;
       const coordinate = this.tempCoordinates[this.counter];
-
       // update location
-      if (this.counter <= this.steps && coordinate) {
+      if (coordinate) {
         const [lng, lat] = coordinate;
         if (!this.animatedPoint) {
           const moveIcon = this.getMarkerIcon(null);
@@ -135,6 +217,7 @@ class HistoryPath extends React.Component<Props> {
         }
         this.animatedPoint.setLatLng([lat, lng]);
         this.counter += 1;
+        this.props.onChangeCounter(this.counter);
         this.frameAnimation = requestAnimationFrame(this.moveMarker);
       } else {
         // remove if play completed
@@ -175,6 +258,32 @@ class HistoryPath extends React.Component<Props> {
         ${datetime ? this.markerTitle(datetime) : ''}
       </div>`;
     return new L.DivIcon({ html: elm, className: 'custom-div-icon' });
+  };
+
+  renderPathOptimized = (coordinateOptimized, map) => {
+    if (coordinateOptimized.length > 0) {
+      this.pathOptimized = L.polyline(coordinateOptimized, {
+        color: '#c3620f',
+        weight: 2,
+      });
+      this.pathOptimized.addTo(map);
+      this.decoratorOptimized = L.polylineDecorator(this.pathOptimized, {
+        patterns: [
+          {
+            offset: 0,
+            repeat: 40,
+            symbol: L.Symbol.arrowHead({
+              pixelSize: 6,
+              pathOptions: {
+                color: '#c3620f',
+                fillColor: '#c3620f',
+                opacity: 1,
+              },
+            }),
+          },
+        ],
+      }).addTo(map);
+    }
   };
 
   renderPath = props => {

@@ -6,7 +6,7 @@ export const APP_ENV = process.env.NODE_ENV;
 export const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 export const UNWIREDLABS_API_KEY = 'pk.a0f053ebb725270fc511806062e6e489';
-export const GOOGLE_API_KEY = 'AIzaSyCLPMp9ZWD527YApQ0I9LgqWitPok798rA';
+export const GOOGLE_API_KEY = 'AIzaSyC6Nk_PFcJ2ucfRJ4C8-4sqVNyN9d-q61I';
 export const MAPBOX_API_KEY =
   'pk.eyJ1IjoibGlrZWd1aXRhciIsImEiOiJjajN6a2ppYTQwMmN3MndxbTkzNGR0cThuIn0.HU8h498IT6jCya-G2_lczQ';
 
@@ -19,3 +19,13 @@ export const MQTT_PASSWORD = process.env.NEXT_PUBLIC_MQTT_PASSWORD;
 export const MQTT_HOST = process.env.NEXT_PUBLIC_MQTT_HOST;
 export const MQTT_PORT = process.env.NEXT_PUBLIC_MQTT_PORT;
 export const GEOBOT_URL = process.env.NEXT_PUBLIC_GEOBOT_URL;
+
+//firebase
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN;
+export const DATABASE_URL = process.env.NEXT_PUBLIC_DATABASE_URL;
+export const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
+export const STORAGE_BUCKET = process.env.NEXT_PUBLIC_STORAGE_BUCKET;
+export const MESSENGIN_SENDER_ID = process.env.NEXT_PUBLIC_MESSENGIN_SENDER_ID;
+export const APP_ID = process.env.NEXT_PUBLIC_APP_ID;
+export const MESUAREMENT_ID = process.env.NEXT_PUBLIC_MESUAREMENT_ID;

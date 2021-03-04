@@ -6,6 +6,7 @@ import Card from '../Card';
 
 // style
 import { useStyles } from './styles';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 // interface
 interface Props {
@@ -33,11 +34,15 @@ export default function MyWallet(props: Props) {
   } = props;
   const { point = 0, my_wallet = 0 } = myWallet;
 
-  const onMyWallet = () => onChangeTab(1);
+  const onMyWallet = () => {
+    onChangeTab(1);
+    firebaseLogEventRequest('dashboard_screen', 'select_my_wallet');
+  };
 
   const onShowMyPoint = () => {
     setHiddenHeader('hidden');
     setViewPage('my_point');
+    firebaseLogEventRequest('dashboard_screen', 'select_my_point');
   };
 
   return (
@@ -52,7 +57,7 @@ export default function MyWallet(props: Props) {
         {isMobile && (
           <div className={classes.userInfo}>
             <img
-              src="./images/tracki-device.png"
+              src="/images/tracki-device.png"
               alt=""
               className={classes.img}
             />
@@ -64,7 +69,7 @@ export default function MyWallet(props: Props) {
             <p className={classes.title}>{t('wallet:my_points')}</p>
             <div className={classes.flexBox}>
               <img
-                src="./images/coin-points.svg"
+                src="/images/coin-points.svg"
                 alt=""
                 className={classes.bigCoin}
               />
@@ -93,13 +98,13 @@ function FooterCard(props: any) {
   return (
     <div className={classes.footer}>
       <img
-        src="./images/coin-points.svg"
+        src="/images/coin-points.svg"
         alt=""
         className={classes.normalCoin}
       />
       {t('wallet:redeem_my_poin')}
       <ChevronRightIcon />
-      <img src="./images/money.svg" alt="" className={classes.moneyIcon} />
+      <img src="/images/money.svg" alt="" className={classes.moneyIcon} />
     </div>
   );
 }

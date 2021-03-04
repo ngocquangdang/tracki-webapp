@@ -4,15 +4,19 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 
 // component
 import SettingsIcon from '@material-ui/icons/Settings';
 import { CashInIcon, CashOutIcon } from '@Components/Icon';
-import { getTransactionDetailRequest } from '@Containers/Wallet/store/actions';
+import {
+  getTransactionDetailRequest,
+  setHiddenHeader,
+} from '@Containers/Wallet/store/actions';
 import { makeSelectTransaction } from '@Containers/Wallet/store/selectors';
 import { Button } from '@Components/buttons';
-import TransactionCard from './TransactionCard';
-import TransacrtionCardSkeleton from './TransactionCardSkeleton';
+import TransactionCard from '../TransactionCard';
+import TransacrtionCardSkeleton from '../TransactionCardSkeleton';
 import SelectOption from '@Components/selections';
 import DateTimePicker from '@Components/DateTimePicker';
 
@@ -31,6 +35,7 @@ interface Props {
     transactions: object;
     isRequestTransaction: boolean;
   };
+  setHiddenHeader: (type: string) => void;
 }
 
 // component Wallet
@@ -39,6 +44,7 @@ function MyWallet(props: Props) {
 
   const { t, getTransactionDetailRequest, transaction } = props;
   const { transactionIds = [], transactions = {} } = transaction;
+  const route = useRouter();
 
   const [page, setPage] = useState(1);
   const [isLoadMore, setIsLoadMore] = useState(false);
@@ -46,6 +52,7 @@ function MyWallet(props: Props) {
     fromDate: moment().unix(),
     toDate: moment().unix(),
   });
+  // const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
     getTransactionDetailRequest();
@@ -61,6 +68,11 @@ function MyWallet(props: Props) {
 
   const onChangeDateTime = obj => {
     setDateTime(obj);
+  };
+
+  const onSelectedId = (id: number, paymentType: string) => {
+    route.push(route.route + `/${id}/${paymentType}`);
+    // setHiddenHeader('hidden');
   };
 
   const rowPerPage = transactionIds.slice(0, page * 10);
@@ -129,7 +141,12 @@ function MyWallet(props: Props) {
           </div>
           <div>
             {rowPerPage.map(id => (
-              <TransactionCard transaction={transactions[id]} key={id} t={t} />
+              <TransactionCard
+                transaction={transactions[id]}
+                key={id}
+                t={t}
+                onSelectedId={onSelectedId}
+              />
             ))}
           </div>
           {isLoadMore &&
@@ -155,6 +172,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDisPatchToProps = dispatch => {
   return {
     getTransactionDetailRequest: () => dispatch(getTransactionDetailRequest()),
+    setHiddenHeader: (type: string) => dispatch(setHiddenHeader(type)),
   };
 };
 

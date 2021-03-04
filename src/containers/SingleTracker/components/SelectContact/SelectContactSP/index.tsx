@@ -16,6 +16,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { InputAdornment } from '@material-ui/core';
 import AddNewContact from '@Containers/AddNewContact';
 import { ITracker } from '@Interfaces';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface Props {
   isMobile: boolean;
@@ -58,6 +59,7 @@ export default function SelectContactSP(props: Props) {
   const [initContactSelected, setInitContactSelected] = useState<any>([]);
 
   useEffect(() => {
+    firebaseLogEventRequest('contact_list_sidebar', '');
     if (contactAssignedIds.length > 0) {
       const contactSlectedByEventType = contactAssignedIds.filter(item =>
         contactAssigneds[item].eventTypes.includes(eventTypes)
@@ -69,11 +71,16 @@ export default function SelectContactSP(props: Props) {
 
   const [showAddContact, setShowAddContact] = useState(false);
 
-  const debounceSearch = debounce((v: string) => onSearch(v), 300);
+  const debounceSearch = debounce((v: string) => {
+    onSearch(v);
+    firebaseLogEventRequest('contact_list_sidebar', 'search_contact');
+  }, 300);
   const onShowAddContact = () => {
+    firebaseLogEventRequest('contact_list_sidebar', 'add_new_contact');
     setShowAddContact(true);
   };
   const onHiddenAddContact = () => {
+    firebaseLogEventRequest('add_new_contact_modal', 'close_add_contact_modal');
     setShowAddContact(false);
   };
 
@@ -98,6 +105,10 @@ export default function SelectContactSP(props: Props) {
   };
 
   const onSubmit = () => {
+    firebaseLogEventRequest(
+      'contact_list_sidebar',
+      `assign_contact_${eventTypes}`
+    );
     const addContactAssign = getAddData(initContactSelected, contactSelected);
     const removeContactAssign = getRemoveData(
       initContactSelected,

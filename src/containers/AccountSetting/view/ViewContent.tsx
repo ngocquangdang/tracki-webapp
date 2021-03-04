@@ -28,6 +28,7 @@ import {
 } from './styles';
 import UserDatails from '../interfaces';
 import { LANGUAGES, DATE_SETTINGS } from '../store/definitions';
+import { firebaseLogEventRequest } from '@Utils/firebase';
 
 interface SettingState {
   language: {
@@ -82,6 +83,21 @@ export default function AccountSetting(props: any) {
   }, [profile]);
 
   const onSubmitForm = (value: UserDatails.IStateUser) => {
+    if (value.first_name !== userProfile.first_name)
+      firebaseLogEventRequest(
+        'settings_page',
+        'setting_page_update_first_name'
+      );
+    if (value.last_name !== userProfile.last_name)
+      firebaseLogEventRequest('settings_page', 'setting_page_update_last_name');
+    if (value.phone !== userProfile.phone)
+      firebaseLogEventRequest('settings_page', 'setting_page_update_phone');
+    if (value.phone_code !== userProfile.phone_code)
+      firebaseLogEventRequest(
+        'settings_page',
+        'setting_page_update_phone_code'
+      );
+
     const dataUpdatePreferences = {
       always_alert_contacts: false,
       date_format: value.date_format,
@@ -109,7 +125,7 @@ export default function AccountSetting(props: any) {
       `+${value.phone_code}${value.phone}`
     );
     const isValidPhone = phoneNumber?.isValid();
-
+    firebaseLogEventRequest('settings_page', 'update_settings');
     if (isValidPhone) {
       updateInfoUser(dataUpdateUser);
       updatePrefrence(dataUpdatePreferences);
@@ -199,7 +215,15 @@ export default function AccountSetting(props: any) {
                   <SubTitle>{t('speed_unit')}</SubTitle>
                   <RadioGroup
                     value={values.speed_unit}
-                    onChange={e => handleChange('speed_unit')(e.target.value)}
+                    onChange={e => {
+                      handleChange('speed_unit')(e.target.value);
+                      firebaseLogEventRequest(
+                        'settings_page',
+                        e.target.value === 'kph'
+                          ? 'setting_page_select_kph'
+                          : 'setting_page_select_mph'
+                      );
+                    }}
                     name="speed_unit"
                     style={{ flexDirection: 'row' }}
                   >
@@ -222,7 +246,13 @@ export default function AccountSetting(props: any) {
                       options={DATE_SETTINGS}
                       label={t('auth:date_format')}
                       value={values.date_format}
-                      onChangeOption={handleChange('date_format')}
+                      onChangeOption={e => {
+                        handleChange('date_format')(e);
+                        firebaseLogEventRequest(
+                          'settings_page',
+                          'setting_page_select_date_format'
+                        );
+                      }}
                     />
                   </div>
                 </SelectGroup>
@@ -259,6 +289,12 @@ export default function AccountSetting(props: any) {
                     value={values.email_notifications}
                     onChange={e => {
                       setFieldValue('email_notifications', e.target.checked);
+                      firebaseLogEventRequest(
+                        'settings_page',
+                        e.target.checked
+                          ? 'activate_email_notification'
+                          : 'deactivate_email_notification'
+                      );
                     }}
                     color="primary"
                   />
@@ -268,9 +304,15 @@ export default function AccountSetting(props: any) {
                   <Switch
                     checked={values.push_notifications}
                     value={values.push_notifications}
-                    onChange={e =>
-                      setFieldValue('push_notifications', e.target.checked)
-                    }
+                    onChange={e => {
+                      setFieldValue('push_notifications', e.target.checked);
+                      firebaseLogEventRequest(
+                        'settings_page',
+                        e.target.checked
+                          ? 'activate_app_notification'
+                          : 'deactivate_app_notification'
+                      );
+                    }}
                     onBlur={handleBlur('push_notifications')}
                     name="push_notifications"
                     color="primary"
@@ -281,7 +323,13 @@ export default function AccountSetting(props: any) {
                     options={LANGUAGES}
                     label={t('auth:select_language')}
                     value={values.language}
-                    onChangeOption={handleChange('language')}
+                    onChangeOption={value => {
+                      handleChange('language')(value);
+                      firebaseLogEventRequest(
+                        'settings_page',
+                        'setting_page_select_language'
+                      );
+                    }}
                     name="language"
                   />
                 </div>

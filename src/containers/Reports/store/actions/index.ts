@@ -79,3 +79,18 @@ export const changeReportViewMode = (viewMode: string) => ({
   type: types.CHANGE_REPORT_VIEW_MODE,
   payload: { viewMode },
 });
+
+export const setPointSelected = (point: object) => ({
+  type: types.SET_POINT_SELECTED,
+  payload: { point },
+});
+
+export const setOptimizedTrip = (data: number[]) => ({
+  type: types.SET_OPTIMIZED_TRIP,
+  payload: { data },
+});
+
+export const changeModeViewMap = (modeMap: string) => ({
+  type: types.CHANGE_MODE_VIEW_MAP,
+  payload: { modeMap },
+});
