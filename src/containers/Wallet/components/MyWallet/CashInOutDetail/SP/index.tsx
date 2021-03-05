@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import clsx from 'clsx';
 import { Button } from '@Components/buttons';
 
@@ -8,6 +8,7 @@ import { SideBarOutside } from '@Components/sidebars';
 
 //style
 import { useStyles } from './styles';
+import { useRouter } from 'next/router';
 
 //interface
 interface Props {
@@ -18,17 +19,18 @@ interface Props {
   type: string;
 }
 
-function CashOutDetail(props: Props) {
+function CashInOutDetail(props: Props) {
   const classes = useStyles();
+  const routes = useRouter();
 
-  const { show, onClose, t, transaction, type } = props;
+  const { t, transaction, type } = props;
 
-  const handleClose = () => onClose();
+  const handleClose = () => routes.back();
 
   return (
     <SideBarOutside
-      title={t(`wallet:${type}_details`)}
-      show={show}
+      title={t('wallet:cash_out_details')}
+      show={true}
       handleClose={handleClose}
       isMobile={true}
       isNotSave={true}
@@ -144,7 +146,7 @@ function CashOutDetail(props: Props) {
               {t('wallet:transaction_date')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
-              {moment(transaction?.updatedAt * 1000).format('LLL') || '[N/A]'}
+              {/* {moment(transaction?.updatedAt * 1000).format('LLL') || '[N/A]'} */}
             </p>
           </div>
         </div>
@@ -189,4 +191,4 @@ function CashOutDetail(props: Props) {
   );
 }
 
-export default CashOutDetail;
+export default CashInOutDetail;

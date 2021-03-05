@@ -7,6 +7,7 @@ import Card from '../Card';
 // style
 import { useStyles } from './styles';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+import { useRouter } from 'next/router';
 
 // interface
 interface Props {
@@ -23,11 +24,12 @@ interface Props {
 
 export default function MyWallet(props: Props) {
   const classes = useStyles();
+  const routes = useRouter();
 
   const {
     t,
     myWallet,
-    onChangeTab,
+    // onChangeTab,
     isMobile,
     setHiddenHeader,
     setViewPage,
@@ -35,7 +37,8 @@ export default function MyWallet(props: Props) {
   const { point = 0, my_wallet = 0 } = myWallet;
 
   const onMyWallet = () => {
-    onChangeTab(1);
+    // onChangeTab(1);
+    routes.push('/wallet/my-wallet');
     firebaseLogEventRequest('dashboard_screen', 'select_my_wallet');
   };
 

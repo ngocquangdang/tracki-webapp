@@ -82,5 +82,14 @@
   "payment_via": "Payment: via {{paymentType}}",
   "cash_in_from": "Cash In from",
   "total_amount_cashed_in": "Total Amount Cashed In",
-  "add_to_your_wallet": "Add to your wallet"
+  "add_to_your_wallet": "Add to your wallet",
+  "cash_in_to_my_wallet": "Cash In to My Wallet",
+  "select_cash_in_my_value": "Select Cash In Value",
+  "cash_in_amount": "Cash In Amount",
+  "payment_method": "Payment Method",
+  "total_amount_to_cash_in": "Total Amount to Cashin In Payment",
+  "no_payment_method": "No Payment Method Selected",
+  "select_payment_method": "Select Payment Method",
+  "add_new_payment_method": "Add New Payment Method",
+  "pay_now": "Pay Now"
 }

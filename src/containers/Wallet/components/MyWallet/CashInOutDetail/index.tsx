@@ -3,7 +3,7 @@ import React from 'react';
 const CashOutPC = dynamic(() => import('./PC'));
 const CashOutSP = dynamic(() => import('./SP'));
 
-function CashOut(props) {
+function CashInOutDetail(props) {
   const { isMobile } = props;
 
   return (
@@ -11,4 +11,4 @@ function CashOut(props) {
   );
 }
 
-export default CashOut;
+export default CashInOutDetail;

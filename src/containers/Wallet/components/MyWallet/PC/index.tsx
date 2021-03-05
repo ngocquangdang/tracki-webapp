@@ -44,7 +44,7 @@ function MyWallet(props: Props) {
 
   const { t, getTransactionDetailRequest, transaction } = props;
   const { transactionIds = [], transactions = {} } = transaction;
-  const route = useRouter();
+  const routes = useRouter();
 
   const [page, setPage] = useState(1);
   const [isLoadMore, setIsLoadMore] = useState(false);
@@ -71,9 +71,11 @@ function MyWallet(props: Props) {
   };
 
   const onSelectedId = (id: number, paymentType: string) => {
-    route.push(route.route + `/${id}/${paymentType}`);
+    routes.push(routes.route + `/${id}/${paymentType}`);
     // setHiddenHeader('hidden');
   };
+  const onCashIn = () => routes.push(routes.route + '/cash-in');
+  const onCashOut = () => routes.push(routes.route + '/cash-out');
 
   const rowPerPage = transactionIds.slice(0, page * 10);
 
@@ -103,11 +105,11 @@ function MyWallet(props: Props) {
             </div>
             <div className={classes.item}>
               <div className={classes.footer}>
-                <div className={classes.cash}>
+                <div className={classes.cash} onClick={onCashIn}>
                   <CashInIcon />
                   <p>{t('wallet:cash_in')}</p>
                 </div>
-                <div className={classes.cash}>
+                <div className={classes.cash} onClick={onCashOut}>
                   <CashOutIcon />
                   <p>{t('wallet:cash_out')}</p>
                 </div>

@@ -74,6 +74,7 @@ export default function MyPoint(props: Props) {
     <DetailPageContainer
       title={t('wallet:my_points')}
       onClick={onBackDashBoard}
+      isBorder
     >
       <div className={classes.container}>
         <div className={`${classes.header} ${classes.paddingContainer}`}>

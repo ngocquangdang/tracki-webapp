@@ -18,7 +18,7 @@ interface Props {
   transaction: any;
 }
 
-function CashOut(props: Props) {
+function CashInOutDetail(props: Props) {
   const classes = useStyles();
 
   const { isMobile, t, transaction = {} } = props;
@@ -33,6 +33,7 @@ function CashOut(props: Props) {
       <DetailPageContainer
         title={t('wallet:cash_out_details')}
         onClick={onBack}
+        isBorder
       >
         <div className={classes.container}>
           <div
@@ -193,4 +194,4 @@ function CashOut(props: Props) {
     </MainLayout>
   );
 }
-export default CashOut;
+export default CashInOutDetail;

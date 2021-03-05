@@ -2,7 +2,7 @@ import { IPage } from '@Interfaces';
 import { NextPage } from 'next';
 import React from 'react';
 
-import View from '@Containers/Wallet/components/MyWallet/CashInOutDetail';
+import View from '@Containers/Wallet/components/MyWallet/CashIn';
 import { compose } from 'redux';
 import withAuth from '@Components/hocs/withAuth';
 import { withTranslation } from '@Server/i18n';

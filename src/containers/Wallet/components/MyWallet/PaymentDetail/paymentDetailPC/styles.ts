@@ -2,9 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: 56,
-    backgroundColor: '#f1f1f1',
-    height: 'calc(100% - 56px)',
+    padding: '35px 71px',
   },
   bgFFF: {
     backgroundColor: '#fff',
@@ -78,6 +76,9 @@ const useStyles = makeStyles(theme => ({
       background: theme.palette.primary.main,
       color: '#fff',
     },
+  },
+  icon: {
+    color: theme.palette.secondary.main,
   },
 }));
 

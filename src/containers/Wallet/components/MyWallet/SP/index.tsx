@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import SettingsIcon from '@material-ui/icons/Settings';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 // component
 import { CashInIcon, CashOutIcon } from '@Components/Icon';
@@ -14,8 +14,6 @@ import { Button } from '@Components/buttons';
 import TransactionCard from '../TransactionCard';
 import TransacrtionCardSkeleton from '../TransactionCardSkeleton';
 import Transaction from './Transactions';
-import CashOutDetail from './CashoutDetail';
-import PaymentDetail from './paymentDetail';
 
 // styles
 import { useStyles } from './styles';
@@ -40,6 +38,7 @@ const ROW_PER_PAGE = 5;
 // component Wallet
 function MyWalletSP(props: Props) {
   const classes = useStyles();
+  const routes = useRouter();
 
   const { t, getTransactionDetailRequest, transaction } = props;
   const { transactionIds = [], transactions = {} } = transaction;
@@ -47,7 +46,6 @@ function MyWalletSP(props: Props) {
   const [page, setPage] = useState(1);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [isSeeMore, setIsSeeMore] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
     getTransactionDetailRequest();
@@ -65,10 +63,9 @@ function MyWalletSP(props: Props) {
 
   const onSeeMore = () => setIsSeeMore(true);
   const onCloseSeeMore = () => setIsSeeMore(false);
-  const onSelectedId = id => {
-    setSelectedId(id);
+  const onSelectedId = (id: number, paymentType: string) => {
+    routes.push(routes.route + `/${id}/${paymentType}`);
   };
-  const onCloseDetail = () => setSelectedId('');
 
   const rowPerPage = transactionIds.slice(0, page * ROW_PER_PAGE);
 
@@ -160,26 +157,6 @@ function MyWalletSP(props: Props) {
         show={isSeeMore}
         transactionIds={transactionIds}
         transactions={transactions}
-      />
-      <CashOutDetail
-        show={transactions[selectedId]?.paymentType === 'cash_out'}
-        t={t}
-        onClose={onCloseDetail}
-        transaction={transactions[selectedId]}
-        type="cash_out"
-      />
-      <PaymentDetail
-        show={transactions[selectedId]?.paymentType === 'payment'}
-        t={t}
-        onClose={onCloseDetail}
-        transaction={transactions[selectedId]}
-      />
-      <CashOutDetail
-        show={transactions[selectedId]?.paymentType === 'cash_in'}
-        t={t}
-        onClose={onCloseDetail}
-        transaction={transactions[selectedId]}
-        type="cash_in"
       />
     </div>
   );
