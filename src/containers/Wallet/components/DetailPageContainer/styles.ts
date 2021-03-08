@@ -13,8 +13,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     position: 'relative',
-    margin: 0,
-    marginRight: '30%',
+    margin: 'auto',
     fontSize: 42,
     fontWeight: 300,
     color: '#1a1a1a',

@@ -51,8 +51,14 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10,
   },
   btn: {
-    width: 500,
-    margin: 'auto',
+    width: '100%',
+    margin: '15px 0',
+  },
+  borderbottom: {
+    borderBottom: '1px solid #e0e0e0',
+  },
+  pb15: {
+    paddingBottom: 15,
   },
 }));
 

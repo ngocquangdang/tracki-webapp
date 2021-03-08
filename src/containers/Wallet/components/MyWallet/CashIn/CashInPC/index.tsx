@@ -7,12 +7,12 @@ import clsx from 'clsx';
 //Component
 import { MainLayout } from '@Layouts';
 import DetailPageContainer from '../../../DetailPageContainer';
+import CashInCard from '../../CashInOutCard';
+import PaymentModal from '../PaymentModal';
+import { Button } from '@Components/buttons';
 
 //style
 import { useStyles } from './styles';
-import CashInCard from './CashInCard';
-import PaymentModal from './PaymentModal';
-import { Button } from '@Components/buttons';
 
 const CASH_VALUES = [
   { id: 1, value: 10 },
@@ -27,7 +27,11 @@ const CASH_VALUES = [
   { id: 10, value: 2000 },
 ];
 
-function CashInPC(props) {
+interface Props {
+  t(key: string, value?: object);
+}
+
+function CashInPC(props: Props) {
   const classes = useStyles();
   const routes = useRouter();
 

@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
   spaceBetween: {
     justifyContent: 'space-between',
   },
+  center: {
+    justifyContent: 'center',
+  },
   fs32: {
     fontSize: 32,
   },
@@ -51,8 +54,32 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10,
   },
   btn: {
-    width: 500,
-    margin: 'auto',
+    width: '100%',
+    margin: '15px 0',
+  },
+  borderbottom: {
+    borderBottom: '1px solid #e0e0e0',
+  },
+  pb15: {
+    paddingBottom: 15,
+  },
+  h192: {
+    height: 192,
+  },
+  anmount: {
+    fontSize: 50,
+    fontWeight: 500,
+  },
+  col: {
+    flexDirection: 'column',
+  },
+  icon: {
+    marginRight: 6,
+    width: 17,
+    height: 17,
+  },
+  grayColor: {
+    color: '#666666',
   },
 }));
 

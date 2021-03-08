@@ -69,6 +69,9 @@ function MyWalletSP(props: Props) {
 
   const rowPerPage = transactionIds.slice(0, page * ROW_PER_PAGE);
 
+  const onCashIn = () => routes.push(routes.route + '/cash-in');
+  const onCashOut = () => routes.push(routes.route + '/cash-out');
+
   return (
     <div className={classes.container}>
       <div className={`${classes.header}`}>
@@ -100,11 +103,11 @@ function MyWalletSP(props: Props) {
           <div className={classes.item}>
             <div className={classes.footer}>
               <div className={classes.cash}>
-                <CashInIcon />
+                <CashInIcon onClick={onCashIn} />
                 <p>{t('wallet:cash_in')}</p>
               </div>
               <div className={classes.cash}>
-                <CashOutIcon />
+                <CashOutIcon onClick={onCashOut} />
                 <p>{t('wallet:cash_out')}</p>
               </div>
             </div>

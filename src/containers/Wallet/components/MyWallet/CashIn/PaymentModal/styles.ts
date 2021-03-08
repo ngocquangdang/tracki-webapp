@@ -20,6 +20,16 @@ const useStyles = makeStyles(theme => ({
   colorActive: {
     color: theme.palette.primary.main,
   },
+  img: {
+    width: 42,
+    height: 42,
+  },
+  mrr15: {
+    marginRight: 15,
+  },
+  btn: {
+    marginTop: 25,
+  },
 }));
 
 export { useStyles };
