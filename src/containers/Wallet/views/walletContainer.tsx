@@ -15,7 +15,6 @@ import { useStyles, Menu } from './styles';
 
 // component
 import { Spin } from '@Components/Icon';
-import MyPoint from '../components/Dashboard/components/MypointScreen';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 const Dashboard = dynamic(() => import('../components/Dashboard'));
 const MyWallet = dynamic(() => import('../components/MyWallet/PC'));
@@ -86,15 +85,7 @@ const ITEM = [
 
 function WalletDashboard(props: Props) {
   const classes = useStyles();
-  const {
-    t,
-    isMobile,
-    hiddenHeader,
-    page,
-    pointHistory,
-    setHiddenHeader,
-    setViewPage,
-  } = props;
+  const { t, isMobile, hiddenHeader, page } = props;
   const router = useRouter();
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -203,15 +194,6 @@ function WalletDashboard(props: Props) {
           {currentTab === 5 && <SpinWin />}
           {currentTab === 6 && <HourlyGifts />}
         </div>
-      )}
-
-      {page === 'my_point' && (
-        <MyPoint
-          t={t}
-          pointHistory={pointHistory}
-          setHiddenHeader={setHiddenHeader}
-          setViewPage={setViewPage}
-        />
       )}
     </div>
   );

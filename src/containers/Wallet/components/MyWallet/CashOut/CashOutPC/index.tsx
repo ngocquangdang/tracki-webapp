@@ -61,7 +61,7 @@ function CashOutPC(props: Props) {
                 <ArrowForwardIosIcon onClick={onTogglePayment} />
               </div>
             </CashInCard>
-            <CashInCard title={t('wallet:cash_in_amount')}>
+            <CashInCard title={t('wallet:cash_out_amount')}>
               <>
                 <div
                   className={clsx(

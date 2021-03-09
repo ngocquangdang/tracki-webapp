@@ -18,33 +18,22 @@ interface Props {
   t(key: string, format?: object): string;
   onChangeTab: (id: number) => void;
   isMobile?: boolean;
-  setHiddenHeader: (type: string) => void;
-  setViewPage: (page: string) => void;
 }
 
 export default function MyWallet(props: Props) {
   const classes = useStyles();
   const routes = useRouter();
 
-  const {
-    t,
-    myWallet,
-    // onChangeTab,
-    isMobile,
-    setHiddenHeader,
-    setViewPage,
-  } = props;
+  const { t, myWallet, isMobile } = props;
   const { point = 0, my_wallet = 0 } = myWallet;
 
   const onMyWallet = () => {
-    // onChangeTab(1);
     routes.push('/wallet/my-wallet');
     firebaseLogEventRequest('dashboard_screen', 'select_my_wallet');
   };
 
   const onShowMyPoint = () => {
-    setHiddenHeader('hidden');
-    setViewPage('my_point');
+    routes.push('/wallet/my-point');
     firebaseLogEventRequest('dashboard_screen', 'select_my_point');
   };
 

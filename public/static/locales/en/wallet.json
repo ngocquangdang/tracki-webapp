@@ -99,5 +99,7 @@
   "confirm": "Confirm",
   "cash_out_description": "Please allow 1 - 5 working days for this transaction to process the cash out",
   "amount_to_cash_out": "Amount to Cash Out",
-  "cash_out_successful": "Cash Out Successful"
+  "cash_out_successful": "Cash Out Successful",
+  "cash_out_amount": "Cash Out Amount",
+  "cash_out_fee_description": ""
 }
