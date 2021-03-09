@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   header: {
     display: 'flex',
     alignItems: 'center',
-    position: 'relative',
+    justifyContent: 'center',
     height: 70,
     [theme.breakpoints.down('sm')]: {
       display: 'none',
@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     display: 'flex',
     alignItems: 'center',
+    marginRight: 20,
   },
   container: {
     marginTop: 10,
@@ -77,8 +78,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Menu = styled.div`
-  position: absolute;
-  left: 376px;
   display: flex;
   align-items: center;
   &:before {
