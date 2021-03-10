@@ -9,6 +9,10 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     margin: '0 auto',
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      width: '100%',
+    },
   },
   leftBox: {
     flex: 0.75,
@@ -17,6 +21,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     boxShadow: '0 8px 14px 0 rgba(0, 0, 0, 0.12)',
     border: '1px solid #e0e0e0',
+    [theme.breakpoints.down('sm')]: {
+      boxShadow: 'none',
+      marginRight: 0,
+    },
   },
   rightBox: {
     flex: 0.25,
@@ -24,11 +32,17 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     boxShadow: '0 8px 14px 0 rgba(0, 0, 0, 0.12)',
     border: '1px solid #e0e0e0',
+    [theme.breakpoints.down('sm')]: {
+      boxShadow: 'none',
+    },
   },
   sectionBanner: {
     height: '50%',
     backgroundImage: 'linear-gradient(245deg, #08884c 100%, #4bbc7f)',
     position: 'relative',
+    [theme.breakpoints.down('sm')]: {
+      backgroundImage: 'linear-gradient(217deg, #ffbf69, #ff578c)',
+    },
   },
   contentBanner: {
     padding: 20,
@@ -51,6 +65,11 @@ const useStyles = makeStyles(theme => ({
   referImg: {
     width: 300,
     height: 300,
+    [theme.breakpoints.down('sm')]: {
+      width: 150,
+      height: 150,
+      marginBottom: 20,
+    },
   },
   text: {
     fontWeight: 300,
@@ -59,10 +78,17 @@ const useStyles = makeStyles(theme => ({
     fontSize: 32,
     fontWeight: 500,
     lineHeight: 1.2,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 26,
+      marginBottom: 15,
+    },
   },
   textSize16: {
     fontSize: 16,
     lineHeight: 1.2,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15,
+    },
   },
   textGrey: {
     color: '#666666',
@@ -73,6 +99,7 @@ const useStyles = makeStyles(theme => ({
     color: '#1976d2',
     fontSize: 14,
     lineHeight: 1.2,
+    cursor: 'pointer',
     '& > svg': {
       marginRight: 5,
     },
@@ -82,14 +109,27 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     lineHeight: 1.2,
   },
+  textSize15: {
+    fontSize: 15,
+    lineHeight: 1.2,
+  },
+  textSize20: {
+    fontSize: 20,
+  },
   textCenter: {
     textAlign: 'center',
+  },
+  textRed: {
+    color: '#cc2c2c',
   },
   mb20: {
     marginBottom: 20,
   },
   mt20: {
     marginTop: 20,
+  },
+  bold: {
+    fontWeight: 500,
   },
   btnMain: {
     marginBottom: 7,
@@ -98,13 +138,22 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.16)',
     backgroundImage: 'linear-gradient(98deg, #ffda8f, #ffba31 100%)',
     [theme.breakpoints.down('sm')]: {
-      width: 292,
+      marginTop: 15,
+      width: '85%',
+      color: '#fff',
+      backgroundImage: 'none',
+      backgroundColor: '#168449',
     },
   },
   mainBanner: {
     height: '80%',
     width: '80%',
     margin: '0 auto',
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column-reverse',
+      alignItems: 'center',
+    },
   },
   boxReferalCode: {
     width: 345,
@@ -122,6 +171,9 @@ const useStyles = makeStyles(theme => ({
     bottom: -50,
     left: 100,
     color: '#1a1a1a',
+    [theme.breakpoints.down('sm')]: {
+      boxShadow: 'none',
+    },
   },
   sectionInvite: {
     padding: 65,

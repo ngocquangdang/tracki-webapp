@@ -31,6 +31,58 @@ const ITEMS = [
   },
 ];
 
+const ACCOUNTS = [
+  {
+    image: '/images/img-user@2x.jpg',
+    name: 'John',
+    status: 'actived',
+    totalActived: 3,
+    cash: 30,
+  },
+  {
+    image: '/images/img-user2@2x.jpg',
+    name: 'Joanna',
+    status: 'actived',
+    totalActived: 2,
+    cash: 40,
+  },
+  {
+    image: '/images/img-user@2x.jpg',
+    name: 'Daniel',
+    status: 'actived',
+    totalActived: 4,
+    cash: 50,
+  },
+  {
+    image: '/images/img-user2@2x.jpg',
+    name: 'Jacob',
+    status: 'actived',
+    totalActived: 1,
+    cash: 60,
+  },
+  {
+    image: '/images/img-user@2x.jpg',
+    name: 'Balmond',
+    status: 'registed',
+    totalActived: 0,
+    cash: 0,
+  },
+  {
+    image: '/images/img-user2@2x.jpg',
+    name: 'Rain',
+    status: 'actived',
+    totalActived: 6,
+    cash: 30,
+  },
+  {
+    image: '/images/img-user@2x.jpg',
+    name: 'Raymond',
+    status: 'registed',
+    totalActived: 0,
+    cash: 0,
+  },
+];
+
 const ItemInvite = ({ data }) => {
   const classes = useStyles();
   return (
@@ -49,19 +101,28 @@ const ItemInvite = ({ data }) => {
   );
 };
 
-const RowAccount = () => {
+const RowAccount = ({ data }) => {
   const classes = useStyles();
+  const { image, name, status, totalActived, cash } = data;
   return (
     <div className={classes.boxItem}>
       <div className={classes.flexCenter}>
-        <Image background="/images/img-user@2x.jpg" />
+        <Image background={image} />
         <div className={classes.ml10}>
-          <div>John</div>
-          <div>Tracki Activated</div>
+          <div className={classes.textSize16}>{name}</div>
+          <div
+            className={clsx(classes.textSize15, classes.textGrey, {
+              [classes.textRed]: status === 'registed',
+            })}
+          >
+            {status === 'registed'
+              ? 'Registered,  No Device'
+              : `Tracki Activated x${totalActived}`}
+          </div>
         </div>
       </div>
       <div className={clsx(classes.flexCenter, classes.green)}>
-        <div>$100</div>
+        <div className={clsx(classes.textSize20, classes.bold)}>${cash}</div>
       </div>
     </div>
   );
@@ -83,13 +144,7 @@ function FriendInvite(props: Props) {
                 />
                 <span className={classes.text}>Scan My QR Code</span>
               </div>
-              <div
-                className={clsx(
-                  classes.flexRow,
-                  classes.mt20,
-                  classes.mainBanner
-                )}
-              >
+              <div className={clsx(classes.mt20, classes.mainBanner)}>
                 <div className={classes.flexColCenter}>
                   <div className={clsx(classes.textSize32, classes.textCenter)}>
                     Invite your Friends and Earn Unlimited Cash!
@@ -134,12 +189,12 @@ function FriendInvite(props: Props) {
         </div>
         <div className={classes.rightBox}>
           <div className={classes.headerList}>
-            <div>Total Invited Friends (7)</div>
+            <div>Total Invited Friends ({ACCOUNTS.length})</div>
             <HelpOutlineIcon className={classes.helpIcon} />
           </div>
           <div className={classes.listItem}>
-            {ITEMS.map((item, index) => (
-              <RowAccount key={index} />
+            {ACCOUNTS.map((item, index) => (
+              <RowAccount key={index} data={item} />
             ))}
           </div>
         </div>
