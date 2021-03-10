@@ -101,14 +101,7 @@ function CashInSP(props: Props) {
             {payment ? payment : t('wallet:no_payment_method')}
           </p>
         </div>
-        <div
-          className={clsx(
-            classes.border,
-            classes.pd15,
-            classes.mb10,
-            classes.card
-          )}
-        >
+        <div className={clsx(classes.pd15, classes.card)}>
           <div
             className={clsx(classes.mb10, classes.flex, classes.spaceBetween)}
           >

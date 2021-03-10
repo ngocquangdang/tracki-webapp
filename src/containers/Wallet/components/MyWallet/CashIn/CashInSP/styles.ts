@@ -4,9 +4,10 @@ const useStyles = makeStyles(theme => ({
   cashInContainer: {
     marginTop: 56,
     backgroundColor: '#e9e9e9',
+    height: '100%',
   },
   cashInContent: {
-    padding: '0 15px',
+    padding: '7px 15px',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',

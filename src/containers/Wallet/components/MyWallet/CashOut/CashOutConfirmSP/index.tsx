@@ -51,13 +51,10 @@ function CashOutConfirmSP(props: Props) {
             )}
           >
             <p className={clsx(classes.mr0, classes.fs15)}>
-              {t('wallet:total_amount_cashed_out')}
+              {t('wallet:amount_to_cash_out')}
             </p>
-            <p className={clsx(classes.mr0, classes.fs15, classes.colorActive)}>
-              ${0}
-            </p>
+            <p className={clsx(classes.mr0, classes.fs14)}>${0}</p>
           </div>
-
           <div
             className={clsx(
               classes.flexBox,
@@ -67,22 +64,25 @@ function CashOutConfirmSP(props: Props) {
             )}
           >
             <p className={clsx(classes.mr0, classes.fs15)}>
-              {t('wallet:amount_to_cash_out')}
+              {t('wallet:cash_out_fee')}
             </p>
-            <p className={clsx(classes.mr0, classes.fs14)}>${0}</p>
+            <p className={clsx(classes.mr0, classes.fs14)}>
+              {t('wallet:free')}
+            </p>
           </div>
           <div
             className={clsx(
               classes.flexBox,
               classes.spaceBetween,
-              classes.pd15
+              classes.pd15,
+              classes.borderbottom
             )}
           >
             <p className={clsx(classes.mr0, classes.fs15)}>
-              {t('wallet:cash_out_fee')}
+              {t('wallet:total_amount_cashed_out')}
             </p>
-            <p className={clsx(classes.mr0, classes.fs14)}>
-              {t('wallet:free')}
+            <p className={clsx(classes.mr0, classes.fs15, classes.colorActive)}>
+              ${0}
             </p>
           </div>
         </div>

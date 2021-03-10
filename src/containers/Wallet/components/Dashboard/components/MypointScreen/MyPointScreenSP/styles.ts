@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   moneyIcon: {
     width: 31,
     height: 26,
-    marginLeft: 5,
+    marginLeft: 'auto',
   },
   titleCard: {
     padding: '15px 20px',
@@ -147,9 +147,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     color: theme.palette.secondary.main,
     backgroundColor: '#f4f5f6',
-    [theme.breakpoints.down('sm')]: {
-      width: 292,
-    },
     '&:hover': {
       background: theme.palette.primary.main,
       color: '#fff',

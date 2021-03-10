@@ -23,7 +23,7 @@ function CashOutSuccessfulSP(props: Props) {
 
   return (
     <SideBarOutside
-      title={t('wallet:cash_out_confirmation')}
+      title={t('wallet:cash_out_details')}
       show={true}
       handleClose={onBack}
       isMobile={true}
@@ -46,7 +46,7 @@ function CashOutSuccessfulSP(props: Props) {
           <p
             className={`${classes.mr0} ${classes.primaryColor} ${classes.fz15}`}
           >
-            {t('wallet:in_progress')}
+            {t('wallet:cash_out')} {t('wallet:in_progress')}
           </p>
         </div>
         <div className={clsx(classes.mb10, classes.bgFFF)}>

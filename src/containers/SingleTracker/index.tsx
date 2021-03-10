@@ -133,7 +133,6 @@ function SingleTracker(props: Props) {
   }, [isBeep, resetBeep, showSnackbar]);
   // const [loadingBeeo];
   const onCloseChildView = () => {
-    firebaseLogEventRequest(`${currentChildView}_device`, 'back_devcie_detail');
     updateChildView(null);
   };
 

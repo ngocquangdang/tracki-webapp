@@ -2,8 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: 56,
-    height: 'calc(100% - 56px)',
+    padding: '35px 71px',
   },
   bgfff: {
     backgroundColor: '#fff',
