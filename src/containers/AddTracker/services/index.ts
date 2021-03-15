@@ -15,7 +15,8 @@ export const setPrepaidPlanToDevice = async (
   plan_id
 ) => {
   return await axiosClient.put(
-    `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${device_id}/plan/${plan_id}/activate/prepaid`
+    `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${device_id}/plan/${plan_id}/activate/prepaid`,
+    { name: 'challenge', required: false }
   );
 };
 

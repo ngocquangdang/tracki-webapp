@@ -67,44 +67,7 @@ export default function RenewPayment(props: Props) {
     isRequesting,
   } = props;
 
-  const dataPlan = {
-    256: {
-      month: 1,
-      priceOneMonth: 19.95,
-      subScript: `${t('tracker:one_month_subcription')} 8000-220-4999`,
-    },
-    263: {
-      month: 6,
-      save: 20,
-      priceOneMonth: 16.6,
-      priceFullMonth: 99.6,
-      subScript: `${t('tracker:prepaid_for', {
-        month: 6,
-        price: 99.6,
-      })}`,
-      most_popular: true,
-    },
-    259: {
-      month: 12,
-      save: 72,
-      priceOneMonth: 13.95,
-      priceFullMonth: 167.4,
-      subScript: `${t('tracker:prepaid_for', {
-        month: 12,
-        price: 167.4,
-      })}`,
-    },
-    269: {
-      month: 24,
-      save: 239.4,
-      priceOneMonth: 9.95,
-      priceFullMonth: 239.4,
-      subScript: `${t('tracker:prepaid_for', {
-        month: 24,
-        price: 239.4,
-      })}`,
-    },
-  };
+  const { planIds = [], plans = {} } = trackerPlan;
 
   const planItem = [
     `${t('tracker:coverage_subcription')}`,
@@ -128,21 +91,29 @@ export default function RenewPayment(props: Props) {
     setShowOtherPlan(true);
     setPaymentPlan(id);
 
-    if (trackerPlan[index].paymentPlatform === 'PREPAID') {
-      updateStore({ ...formData, selectedPlan: trackerPlan[index] });
-    } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
-      updateStore({ ...formData, selectedPlan: trackerPlan[index] });
+    if (plans[id].paymentPlatform === 'PREPAID') {
+      updateStore({ ...formData, selectedPlan: plans[id] });
+      setLoadingPaymentgateway();
+      // BraintreePaymentGateway(plans[id], account_id, setLoadingPaymentgateway);
+    } else if (plans[id].paymentPlatform === 'NONCE') {
+      updateStore({ ...formData, selectedPlan: plans[id] });
       setDisableSubmitCard(true);
-      BraintreePaymentGateway(
-        trackerPlan[index],
-        account_id,
-        setLoadingPaymentgateway
-      );
+      BraintreePaymentGateway(plans[id], account_id, setLoadingPaymentgateway);
     }
   };
 
   const onPaymentSubmit = () => {
-    braintreeDropinAction(formData, updateStepChild);
+    if (plans[paymentPlan].paymentPlatform === 'PREPAID') {
+      const paymentInfo = {
+        nonce: '',
+        plan_id: paymentPlan,
+        email: formData.email || 'trackimo.home@gmail.com',
+        first_name: formData.firstName || 'Trackimo',
+        last_name: formData.lastName || 'home',
+      };
+      return renewDeviceAction(formData, account_id, paymentInfo);
+    }
+    return braintreeDropinAction(formData, updateStepChild);
   };
 
   const setLoadingPaymentgateway = () => {
@@ -271,38 +242,24 @@ export default function RenewPayment(props: Props) {
                 {isRequesting || trackerPlan === [] ? (
                   <CircularProgress />
                 ) : (
-                  trackerPlan.map((card, index) => (
+                  planIds.map((id, index) => (
                     <Card
-                      className={getCardClass(card.id)}
-                      key={card.id}
-                      onClick={onChangePaymentPlan(card.id, index)}
+                      className={getCardClass(id)}
+                      key={id}
+                      onClick={onChangePaymentPlan(id, index)}
                     >
                       <CardHeaderStyle
-                        title={`${dataPlan[card.id]?.month} ${
-                          dataPlan[card.id]?.month === 1
+                        title={`${plans[id]?.months} ${
+                          plans[id]?.months === 1
                             ? t('tracker:month')
                             : t('tracker:months')
                         }`}
                         className={classes.headerCard}
                       />
                       <CardContent>
-                        <CardDescription>
-                          <strong>${dataPlan[card.id]?.priceOneMonth}</strong>/
-                          {t('tracker:month')}
-                          {dataPlan[card.id]?.subScript}
-                          <br />
-                          <strong
-                            style={{
-                              display: `${
-                                dataPlan[card.id]?.save ? 'block' : 'none'
-                              }`,
-                            }}
-                          >
-                            {t('tracker:save')} ${dataPlan[card.id]?.save}
-                          </strong>
-                        </CardDescription>
+                        <CardDescription>{plans[id].name}</CardDescription>
                       </CardContent>
-                      <Paner mostPopular={dataPlan[card.id]?.most_popular}>
+                      <Paner mostPopular={plans[id]?.most_popular}>
                         {isMobile ? '20%' : t('tracker:most_popular')}
                       </Paner>
                     </Card>
