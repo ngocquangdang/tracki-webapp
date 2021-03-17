@@ -24,7 +24,7 @@ function LoginForm(props: ILoginPage.IProps) {
   const [user, setUser] = useState({
     username: '',
     password: '',
-    remember_me: true,
+    remember_me: false,
   });
 
   useEffect(() => {
@@ -85,7 +85,8 @@ function LoginForm(props: ILoginPage.IProps) {
             }
             onBlur={handleBlur('username')}
             variant="outlined"
-            autoComplete="off"
+            // autoComplete="off"
+            autoComplete={!user.remember_me ? 'new-password' : 'new-input'}
             InputLabelProps={{ shrink: true }}
           />
           <PasswordInput
