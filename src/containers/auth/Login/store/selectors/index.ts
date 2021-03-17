@@ -7,7 +7,7 @@ const makeSelectErrors = () =>
   createSelector(authState, state => state.errors.errors || {});
 
 const makeSelectErrorMessage = () =>
-  createSelector(authState, state => state.errors.message);
+  createSelector(authState, state => state.errors);
 
 const makeSelectIsRequesting = () => {
   return createSelector(authState, state => state.isRequesting);

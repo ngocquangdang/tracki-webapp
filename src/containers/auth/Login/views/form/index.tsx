@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Link from 'next/link';
 
@@ -11,12 +11,6 @@ import { Form, Label, useStyles, Message, SwitchGroup } from './styles';
 import { Switch } from '@material-ui/core';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
-const initialValuesForm = {
-  username: '',
-  password: '',
-  remember_me: true,
-};
-
 function LoginForm(props: ILoginPage.IProps) {
   const {
     t,
@@ -26,11 +20,31 @@ function LoginForm(props: ILoginPage.IProps) {
     errorMessage,
   } = props;
   const classes = useStyles();
+
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+    remember_me: true,
+  });
+
+  useEffect(() => {
+    const rememeber = localStorage.getItem('remember_me');
+    setUser({
+      username: '',
+      password: '',
+      remember_me: rememeber === 'true',
+    });
+  }, []);
+
+  useEffect(() => {
+    // userf.current.focus();
+  }, []);
   const submitForm = (values: ILoginPage.IStateLogin) => {
     loginRequestAction(values);
     firebaseLogEventRequest('login_page', 'enter_email');
     firebaseLogEventRequest('login_page', 'enter_password');
     firebaseLogEventRequest('login_page', 'login');
+    localStorage.setItem('remember_me', values.remember_me + '');
   };
   // const resetError = () => resetErrorMessage();
 
@@ -41,9 +55,10 @@ function LoginForm(props: ILoginPage.IProps) {
 
   return (
     <Formik
-      initialValues={initialValuesForm}
+      initialValues={user}
       onSubmit={submitForm}
       validationSchema={LoginSchema}
+      enableReinitialize
     >
       {({
         values,
@@ -74,7 +89,7 @@ function LoginForm(props: ILoginPage.IProps) {
             InputLabelProps={{ shrink: true }}
           />
           <PasswordInput
-            id="password"
+            id="xxxxx-password"
             className={classes.margin}
             label={t('password')}
             name="password"
@@ -87,18 +102,24 @@ function LoginForm(props: ILoginPage.IProps) {
             onChange={handleChange('password')}
             onBlur={handleBlur('password')}
             variant="outlined"
-            autoComplete="off"
             InputLabelProps={{ shrink: true }}
+            autoComplete={!user.remember_me ? 'new-password' : 'new-input'}
           />
+
           {errorMessage && (
-            <Message className={classes.errorText}>{errorMessage}</Message>
+            <Message className={classes.errorText}>
+              {errorMessage.message_key === 'exception_user_invalid_password' ||
+              errorMessage.message_key === 'exception_user_nameNotFound'
+                ? t('tracker:invalid_email_or_password')
+                : errorMessage.message}
+            </Message>
           )}
           <SwitchGroup>
             <span>{t('auth:remember_me')}</span>
             <Switch
               checked={values.remember_me}
               value={values.remember_me}
-              onChange={handleChange}
+              onChange={handleChange('remember_me')}
               name="remember_me"
               color="primary"
             />

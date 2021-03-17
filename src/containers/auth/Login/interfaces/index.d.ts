@@ -2,7 +2,7 @@ import { WithTranslation } from 'next-i18next';
 
 declare namespace ILoginPage {
   interface IProps extends WithTranslation {
-    errorMessage: string;
+    errorMessage: any;
     errors: {
       username: string;
       password: string;
@@ -22,6 +22,7 @@ declare namespace ILoginPage {
   interface IStateLogin {
     username: string;
     password: string;
+    remember_me: boolean;
   }
 
   interface IStateChatUs {
