@@ -94,7 +94,7 @@ export default function RenewPayment(props: Props) {
     if (plans[id].paymentPlatform === 'PREPAID') {
       updateStore({ ...formData, selectedPlan: plans[id] });
       setLoadingPaymentgateway();
-      // BraintreePaymentGateway(plans[id], account_id, setLoadingPaymentgateway);
+      BraintreePaymentGateway(plans[id], account_id, setLoadingPaymentgateway);
     } else if (plans[id].paymentPlatform === 'NONCE') {
       updateStore({ ...formData, selectedPlan: plans[id] });
       setDisableSubmitCard(true);

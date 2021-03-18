@@ -59,8 +59,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(braintreeDropInRequestAction(formData, callback)),
   fetchTrackersRequestedAction: account_id =>
     dispatch(fetchTrackersRequestedAction(account_id)),
-  renewDeviceAction: (formData, account_id, paymentData) =>
-    dispatch(renewDeviceRequestAction(formData, account_id, paymentData)),
+  renewDeviceAction: (formData, account_id, paymentData, imei) =>
+    dispatch(renewDeviceRequestAction(formData, account_id, paymentData, imei)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

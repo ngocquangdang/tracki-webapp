@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { ActionType } from '@Interfaces';
-import * as types from '../constances';
+import * as types from '../constants';
 
 export const initialState = {
   errors: {},
@@ -14,6 +14,7 @@ export const initialState = {
     order: '',
     icon_url: '',
     selectedPlan: [],
+    bt_response: '',
   },
   token: '',
   account_id: 0,
@@ -73,9 +74,22 @@ const AddTrackerReducer = (
           order: '',
           icon_url: '',
           selectedPlan: [],
+          bt_response: '',
         };
         draft.assigned = '';
         draft.trackerPlan = [];
+        break;
+      case types.NEW_CHANNEL_SALE_SUCCESSED:
+        draft.formData = {
+          ...draft.formData,
+          bt_response: 'approved',
+        };
+        break;
+      case types.NEW_CHANNEL_SALE_FAILED:
+        draft.formData = {
+          ...draft.formData,
+          bt_response: 'declined',
+        };
         break;
       default:
         break;

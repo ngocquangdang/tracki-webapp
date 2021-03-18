@@ -12,10 +12,11 @@ export const checkDeviceAssigned = async data => {
 export const setPrepaidPlanToDevice = async (
   account_id,
   device_id,
-  plan_id
+  plan_id,
+  imei
 ) => {
   return await axiosClient.put(
-    `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${device_id}/plan/${plan_id}/activate/prepaid`,
+    `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${device_id}/plan/${plan_id}/activate/prepaid?imeiLast4Digits=${imei}`,
     { name: 'challenge', required: false }
   );
 };
@@ -75,4 +76,12 @@ export const uploadImage = async (
     `v3/accounts/${accountId}/devices/${trackerId}/icon`,
     formdata
   );
+};
+
+export const newChanelSale = async data => {
+  return await axiosClient.post(`v3/user/channelsales`, data);
+};
+
+export const updateChanelSale = async data => {
+  return await axiosClient.put(`v3/user/channelsales`, data);
 };

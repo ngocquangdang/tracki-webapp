@@ -9,8 +9,8 @@ import { SideBarOutside } from '@Components/sidebars';
 
 import { useStyles } from './styles';
 import { Button } from '@Components/buttons';
-import CashOutConfirmSP from '../CashOutConfirmSP';
-import CashOutSuccessfulSP from '../CashOutSuccessfulSP';
+import CashOutConfirmSP from './CashOutConfirmSP';
+import CashOutSuccessfulSP from './CashOutSuccessfulSP';
 
 interface Props {
   t(key: string, value?: object);

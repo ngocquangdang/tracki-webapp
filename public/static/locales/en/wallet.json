@@ -101,5 +101,10 @@
   "amount_to_cash_out": "Amount to Cash Out",
   "cash_out_successful": "Cash Out Successful",
   "cash_out_amount": "Cash Out Amount",
-  "cash_out_fee_description": "Applies to successful withdrawal only"
+  "cash_out_fee_description": "Applies to successful withdrawal only",
+  "confirm_cash_in": "Confirm Cash In",
+  "amount_to_cash_in": "Amount to Cash In",
+  "about_cash_in_from": "You are about to Cash In from",
+  "cash_in_success": "Cash In Successful",
+  "cash_in_fee": "Cash In Fee"
 }

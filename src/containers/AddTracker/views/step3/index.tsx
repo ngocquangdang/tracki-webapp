@@ -21,7 +21,7 @@ import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 import { TrackerDetail } from '../../schema';
 // import SelectOption from '@Components/selections';
-import { LOCATION_UPDATE_OPTIONS } from '../../store/constances';
+import { LOCATION_UPDATE_OPTIONS } from '../../store/constants';
 
 interface Props {
   t(key: string, format?: object): string;

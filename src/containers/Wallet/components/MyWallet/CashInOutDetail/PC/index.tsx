@@ -21,7 +21,7 @@ interface Props {
 function CashInOutDetail(props: Props) {
   const classes = useStyles();
 
-  const { isMobile, t, transaction = {} } = props;
+  const { t, transaction = {} } = props;
   const router = useRouter();
 
   const onBack = () => {
@@ -29,7 +29,7 @@ function CashInOutDetail(props: Props) {
   };
 
   return (
-    <MainLayout isMobile={isMobile} hasFooter={false}>
+    <MainLayout hasFooter={false}>
       <DetailPageContainer
         title={t('wallet:cash_out_details')}
         onClick={onBack}

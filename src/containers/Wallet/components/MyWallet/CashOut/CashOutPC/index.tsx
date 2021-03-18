@@ -12,8 +12,8 @@ import { useStyles } from './styles';
 import PaymentModal from '../../CashIn/PaymentModal';
 import { Button } from '@Components/buttons';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import CashOutConfirm from '../CashOutConfirm';
-import CashOutSuccessfull from '../CashOutSuccessfull';
+import CashOutConfirm from './CashOutConfirm';
+import CashOutSuccessfull from './CashOutSuccessfull';
 
 interface Props {
   t(key: string, value?: object);
