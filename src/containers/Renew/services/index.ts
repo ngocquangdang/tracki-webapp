@@ -39,8 +39,7 @@ export const setRenewalBraintreePlanToDevice = async (
   braintreeForm
 ) => {
   return await axiosClient.put(
-    `${ASSIGNED_ENDPOINT}
-      /activation/accounts/${account_id}/devices/${deviceId}/plan/${planId}/renew/braintree`,
+    `${ASSIGNED_ENDPOINT}/activation/accounts/${account_id}/devices/${deviceId}/plan/${planId}/renew/braintree`,
     braintreeForm
   );
 };

@@ -33,6 +33,7 @@ function TextFieldComp(props: Props) {
       value={value}
       InputProps={{
         className: classes.heightInput,
+        // autoComplete: 'new-password',
       }}
       onChange={onChange}
       FormHelperTextProps={{ classes: { root: classes.errorRoot } }}

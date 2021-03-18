@@ -19,15 +19,23 @@ function* getRenewDevicePlanSaga(action: ActionType) {
   try {
     const account_id = yield call(apiServices.getUserInfo);
     console.log(action.payload);
-    const res = yield call(
+    const { data } = yield call(
       apiServices.getRenewalDevicePlansGroupNonce,
       action.payload
     );
+    const formatData = data.planDTOList.reduce(
+      (obj, item) => {
+        obj.plans = { ...obj.plans, [item.id]: item };
+        obj.planIds.push(item.id);
+        return obj;
+      },
+      {
+        planIds: [],
+        plans: {},
+      }
+    );
     yield put(
-      getDevicePlanSuccesAction(
-        res.data?.planDTOList,
-        account_id.data?.account_id
-      )
+      getDevicePlanSuccesAction(formatData, account_id.data?.account_id)
     );
   } catch (error) {
     const { data = {} } = { ...error };

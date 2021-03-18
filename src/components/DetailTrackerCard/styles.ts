@@ -302,8 +302,9 @@ const useStyles = makeStyles(theme => ({
   },
   batteryTime: {
     fontSize: 12,
-    color: '#b7b7b7',
+    color: '#1a1a1a',
     marginTop: 3,
+    textAlign: 'center',
   },
   batteryTimeMobile: {
     fontSize: 9,
