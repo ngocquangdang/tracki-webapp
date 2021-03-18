@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 
 //component
 import { SideBarOutside } from '@Components/sidebars';
@@ -9,8 +10,8 @@ import TransactionCard from '../../TransactionCard';
 
 // style
 import { useStyles } from './styles';
-import CashOutDetail from '../CashoutDetail';
-import PaymentDetail from '../paymentDetail';
+// import CashOutDetail from '../CashoutDetail';
+// import PaymentDetail from '../paymentDetail';
 
 // interface
 interface Props {
@@ -24,13 +25,13 @@ interface Props {
 // Transaction Component
 function Transaction(props: Props) {
   const classes = useStyles();
+  const routes = useRouter();
 
-  const { t, onClose, show, transactionIds = [], transactions = {} } = props;
+  const { t, show, transactionIds = [], transactions = {} } = props;
   const [dateTime, setDateTime] = useState({
     fromDate: moment().unix(),
     toDate: moment().unix(),
   });
-  const [selectedId, setSelectedId] = useState('');
 
   const getTransactionIspending = transactionIds.filter(
     (i: number) => transactions[i].status === 'pending'
@@ -41,19 +42,16 @@ function Transaction(props: Props) {
   );
 
   const handleClose = () => {
-    onClose();
-    setSelectedId('');
+    routes.back();
   };
 
   const onChangeDateTime = obj => {
     setDateTime(obj);
   };
 
-  const onSelectedId = id => {
-    setSelectedId(id);
+  const onSelectedId = (id: number, paymentType: string) => {
+    routes.push(routes.route + `/${id}/${paymentType}`);
   };
-
-  const onCloseDetail = () => setSelectedId('');
 
   return (
     <>
@@ -117,26 +115,6 @@ function Transaction(props: Props) {
           </div>
         </div>
       </SideBarOutside>
-      <CashOutDetail
-        show={transactions[selectedId]?.paymentType === 'cash_out'}
-        t={t}
-        onClose={onCloseDetail}
-        transaction={transactions[selectedId]}
-        type="cash_out"
-      />
-      <PaymentDetail
-        show={transactions[selectedId]?.paymentType === 'payment'}
-        t={t}
-        onClose={onCloseDetail}
-        transaction={transactions[selectedId]}
-      />
-      <CashOutDetail
-        show={transactions[selectedId]?.paymentType === 'cash_in'}
-        t={t}
-        onClose={onCloseDetail}
-        transaction={transactions[selectedId]}
-        type="cash_in"
-      />
     </>
   );
 }

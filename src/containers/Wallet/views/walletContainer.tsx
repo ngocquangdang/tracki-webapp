@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
@@ -7,6 +7,7 @@ import FlagIcon from '@material-ui/icons/Flag';
 import { FaGift } from 'react-icons/fa';
 import { BiWalletAlt } from 'react-icons/bi';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { Tab, Tabs } from '@material-ui/core';
 
 // style
@@ -14,10 +15,9 @@ import { useStyles, Menu } from './styles';
 
 // component
 import { Spin } from '@Components/Icon';
-import MyPoint from '../components/Dashboard/components/MypointScreen';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 const Dashboard = dynamic(() => import('../components/Dashboard'));
-const MyWallet = dynamic(() => import('../components/MyWallet'));
+const MyWallet = dynamic(() => import('../components/MyWallet/PC'));
 const FriendInvite = dynamic(() => import('../components/FriendInvite'));
 const Notification = dynamic(() => import('../components/Notification'));
 const DailyBonus = dynamic(() => import('../components/DailyBonus'));
@@ -85,46 +85,58 @@ const ITEM = [
 
 function WalletDashboard(props: Props) {
   const classes = useStyles();
-  const {
-    t,
-    isMobile,
-    hiddenHeader,
-    page,
-    pointHistory,
-    setHiddenHeader,
-    setViewPage,
-  } = props;
+  const { t, isMobile, hiddenHeader, page } = props;
+  const router = useRouter();
 
   const [currentTab, setCurrentTab] = useState(0);
+
+  useEffect(() => {
+    switch (router.pathname) {
+      case '/wallet/my-wallet':
+        setCurrentTab(1);
+        break;
+
+      default:
+        setCurrentTab(0);
+        break;
+    }
+  }, [router]);
 
   const getLogFirebaseSelectTab = (tab: number) => {
     switch (tab) {
       case 1:
         firebaseLogEventRequest('wallet_page', 'my_wallet_screen');
+        router.push('/wallet/my-wallet');
         break;
       case 2:
         firebaseLogEventRequest('wallet_page', 'friend_invite_screen');
+        router.push('/wallet/invite');
         break;
       case 3:
         firebaseLogEventRequest('wallet_page', 'notification_screen');
+        router.push('/wallet/notifications');
         break;
       case 4:
         firebaseLogEventRequest('wallet_page', 'daily_bonus_screen');
+        router.push('/wallet/daily_bonus');
         break;
       case 5:
         firebaseLogEventRequest('wallet_page', 'spin_win_screen');
+        router.push('/wallet/spinner');
         break;
       case 6:
         firebaseLogEventRequest('wallet_page', 'hourly_gift_screen');
+        router.push('/wallet/hourly_gift');
         break;
       default:
         firebaseLogEventRequest('wallet_page', 'dashboard_screen');
+        router.push('/wallet');
         break;
     }
   };
 
   const onClickTab = (r: ROUTE) => () => {
-    setCurrentTab(r.index);
+    // setCurrentTab(r.index);
     getLogFirebaseSelectTab(r.index);
   };
 
@@ -182,15 +194,6 @@ function WalletDashboard(props: Props) {
           {currentTab === 5 && <SpinWin />}
           {currentTab === 6 && <HourlyGifts />}
         </div>
-      )}
-
-      {page === 'my_point' && (
-        <MyPoint
-          t={t}
-          pointHistory={pointHistory}
-          setHiddenHeader={setHiddenHeader}
-          setViewPage={setViewPage}
-        />
       )}
     </div>
   );

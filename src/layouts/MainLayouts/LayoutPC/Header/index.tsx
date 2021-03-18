@@ -86,15 +86,18 @@ const routes = [
 export default function Header() {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState(0);
-  const { route } = useRouter();
+  const route = useRouter();
 
   useEffect(() => {
-    let tabIndex = routes.findIndex(r => r.link === route);
+    let tabIndex = routes.findIndex(r => route.route.includes(r.link));
     if (tabIndex === -1) {
-      if (route.includes('change-password')) {
+      if (route.route.includes('change-password')) {
         tabIndex = 6;
       }
-      if (route.includes('geofences') || route.includes('trackers')) {
+      if (
+        route.route.includes('geofences') ||
+        route.route.includes('trackers')
+      ) {
         tabIndex = 0;
       }
     }

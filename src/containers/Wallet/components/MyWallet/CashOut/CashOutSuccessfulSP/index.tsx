@@ -1,35 +1,31 @@
 import React from 'react';
-import moment from 'moment';
+import { useRouter } from 'next/router';
 import clsx from 'clsx';
+
+import { SideBarOutside } from '@Components/sidebars';
 import { Button } from '@Components/buttons';
 
-// component
-import { SideBarOutside } from '@Components/sidebars';
-
-//style
 import { useStyles } from './styles';
 
-//interface
 interface Props {
-  t(key: string, format?: object): string;
-  onClose: () => void;
-  show: boolean;
-  transaction: any;
-  type: string;
+  t(key: string, value?: object);
+  payment?: string;
+  transaction?: any;
 }
 
-function CashOutDetail(props: Props) {
+function CashOutSuccessfulSP(props: Props) {
   const classes = useStyles();
+  const routes = useRouter();
 
-  const { show, onClose, t, transaction, type } = props;
+  const { t, transaction } = props;
 
-  const handleClose = () => onClose();
+  const onBack = () => routes.back();
 
   return (
     <SideBarOutside
       title={t('wallet:cash_out_details')}
-      show={show}
-      handleClose={handleClose}
+      show={true}
+      handleClose={onBack}
       isMobile={true}
       isNotSave={true}
     >
@@ -44,34 +40,21 @@ function CashOutDetail(props: Props) {
             classes.mb10
           )}
         >
-          <p
-            className={`${classes.total} ${classes.mr0} ${
-              type === 'cash_in' && classes.primaryColor
-            }`}
-          >
-            {type === 'cash_in' ? '+' : '-'}${transaction?.total || '0.00'}
+          <p className={`${classes.total} ${classes.mr0} `}>
+            - ${transaction?.total || '0.00'}
           </p>
           <p
             className={`${classes.mr0} ${classes.primaryColor} ${classes.fz15}`}
           >
-            {type === 'cash_out'
-              ? `${t('wallet:cash_out')} 
-                ${
-                  transaction?.status === 'pending'
-                    ? t('wallet:in_progress')
-                    : t('wallet:successful')
-                }`
-              : t('wallet:add_to_your_wallet')}
+            {t('wallet:cash_out')} {t('wallet:in_progress')}
           </p>
         </div>
         <div className={clsx(classes.mb10, classes.bgFFF)}>
           <div className={clsx(classes.cardItem, classes.borderBottom)}>
             <p className={clsx(classes.mr0, classes.w500, classes.mb5)}>
-              {type === 'cash_out'
-                ? t('wallet:cash_out_from_to', {
-                    from: transaction?.from || '[N/A]',
-                  })
-                : t('wallet:cash_in_from')}
+              {t('wallet:cash_out_from_to', {
+                from: transaction?.from || '[N/A]',
+              })}
             </p>
             <p className={clsx(classes.mr0, classes.fz14, classes.flexBox)}>
               <img
@@ -82,23 +65,6 @@ function CashOutDetail(props: Props) {
               Union Bank of the Philippines (UnionBank)
             </p>
           </div>
-          {type === 'cash_out' && (
-            <div
-              className={clsx(
-                classes.cardItem,
-                classes.borderBottom,
-                classes.flexBox,
-                classes.spaceBetween
-              )}
-            >
-              <p className={clsx(classes.mr0, classes.w500)}>
-                {t('wallet:cash_out_fee')}
-              </p>
-              <p className={clsx(classes.mr0, classes.fz15)}>
-                ${transaction?.fee || '0.00'}
-              </p>
-            </div>
-          )}
 
           <div
             className={clsx(
@@ -109,9 +75,23 @@ function CashOutDetail(props: Props) {
             )}
           >
             <p className={clsx(classes.mr0, classes.w500)}>
-              {type === 'cash_out'
-                ? t('wallet:total_amount_cashed_out')
-                : t('wallet:total_amount_cashed_in')}
+              {t('wallet:cash_out_fee')}
+            </p>
+            <p className={clsx(classes.mr0, classes.fz15)}>
+              ${transaction?.fee || '0.00'}
+            </p>
+          </div>
+
+          <div
+            className={clsx(
+              classes.cardItem,
+              classes.borderBottom,
+              classes.flexBox,
+              classes.spaceBetween
+            )}
+          >
+            <p className={clsx(classes.mr0, classes.w500)}>
+              {t('wallet:total_amount_cashed_out')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
               ${transaction?.total || '0.00'}
@@ -144,7 +124,7 @@ function CashOutDetail(props: Props) {
               {t('wallet:transaction_date')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
-              {moment(transaction?.updatedAt * 1000).format('LLL') || '[N/A]'}
+              {/* {moment(transaction?.updatedAt * 1000).format('LLL') || '[N/A]'} */}
             </p>
           </div>
         </div>
@@ -173,7 +153,7 @@ function CashOutDetail(props: Props) {
               {t('wallet:wallet_transaction')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
-              {type === 'cash_in' ? '+' : '-'}${transaction?.total || '0.00'}
+              - ${transaction?.total || '0.00'}
             </p>
           </div>
         </div>
@@ -181,7 +161,7 @@ function CashOutDetail(props: Props) {
           <Button
             classes={clsx(classes.btnBackground)}
             text="OK"
-            onClick={handleClose}
+            onClick={onBack}
           />
         </div>
       </div>
@@ -189,4 +169,4 @@ function CashOutDetail(props: Props) {
   );
 }
 
-export default CashOutDetail;
+export default CashOutSuccessfulSP;

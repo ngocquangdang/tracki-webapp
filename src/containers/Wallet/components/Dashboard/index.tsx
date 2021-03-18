@@ -78,8 +78,6 @@ function Dashboard(props: Props) {
     smsPlan,
     onChangeTab,
     isMobile,
-    setHiddenHeader,
-    setViewPage,
   } = props;
   return (
     <>
@@ -89,8 +87,6 @@ function Dashboard(props: Props) {
           t={t}
           onChangeTab={onChangeTab}
           isMobile={isMobile}
-          setHiddenHeader={setHiddenHeader}
-          setViewPage={setViewPage}
         />
         <ClaimCoin myWallet={myWallet} t={t} isMobile={isMobile} />
         <InviteFriend

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import clsx from 'clsx';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { useRouter } from 'next/router';
 
 // component
 import { SideBarOutside } from '@Components/sidebars';
@@ -9,7 +10,7 @@ import { Button } from '@Components/buttons';
 
 //style
 import { useStyles } from './styles';
-import TransactionInfo from '../TransactionInfo';
+import TransactionInfo from '../TransactionInfoSP';
 
 //interface
 interface Props {
@@ -21,11 +22,12 @@ interface Props {
 
 function PaymentDetail(props: Props) {
   const classes = useStyles();
+  const routes = useRouter();
 
-  const { show, onClose, t, transaction } = props;
+  const { t, transaction } = props;
   const [isTransactioninfo, setIsTransactionInfo] = useState(false);
 
-  const handleClose = () => onClose();
+  const handleClose = () => routes.back();
 
   const onCloseTransaction = () => setIsTransactionInfo(false);
   const onTransactionInfo = () => setIsTransactionInfo(true);
@@ -34,7 +36,7 @@ function PaymentDetail(props: Props) {
     <>
       <SideBarOutside
         title={t('wallet:payment_details')}
-        show={show}
+        show={true}
         handleClose={handleClose}
         isMobile={true}
         isNotSave={true}

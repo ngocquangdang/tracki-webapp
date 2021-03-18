@@ -126,7 +126,7 @@ export default function InviteFriend(props: Props) {
         <div className={classes.copyContainer}>
           <div className={classes.userInfo}>
             <img
-              src="./images/tracki-device.png"
+              src="/images/tracki-device.png"
               alt=""
               className={classes.img}
             />
