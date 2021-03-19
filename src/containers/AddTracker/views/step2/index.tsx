@@ -53,46 +53,46 @@ export default function Step2(props: Props) {
     updateStepChild,
   } = props;
 
-  const { planIds = [], plans = {} } = trackerPlan;
+  const { planIds = [], plans = {}, id } = trackerPlan;
 
-  // const dataPlan = {
-  //   256: {
-  //     month: 1,
-  //     priceOneMonth: 19.95,
-  //     subScript: `${t('tracker:one_month_subcription')} 8000-220-4999`,
-  //   },
-  //   263: {
-  //     month: 6,
-  //     save: 20,
-  //     priceOneMonth: 16.6,
-  //     priceFullMonth: 99.6,
-  //     subScript: `${t('tracker:prepaid_for', {
-  //       month: 6,
-  //       price: 99.6,
-  //     })}`,
-  //     most_popular: true,
-  //   },
-  //   259: {
-  //     month: 12,
-  //     save: 72,
-  //     priceOneMonth: 13.95,
-  //     priceFullMonth: 167.4,
-  //     subScript: `${t('tracker:prepaid_for', {
-  //       month: 12,
-  //       price: 167.4,
-  //     })}`,
-  //   },
-  //   269: {
-  //     month: 24,
-  //     save: 239.4,
-  //     priceOneMonth: 9.95,
-  //     priceFullMonth: 239.4,
-  //     subScript: `${t('tracker:prepaid_for', {
-  //       month: 24,
-  //       price: 239.4,
-  //     })}`,
-  //   },
-  // };
+  const dataPlan = {
+    256: {
+      month: 1,
+      priceOneMonth: 19.95,
+      subScript: `${t('tracker:one_month_subcription')} 8000-220-4999`,
+    },
+    263: {
+      month: 6,
+      save: 20,
+      priceOneMonth: 16.6,
+      priceFullMonth: 99.6,
+      subScript: `${t('tracker:prepaid_for', {
+        month: 6,
+        price: 99.6,
+      })}`,
+      most_popular: true,
+    },
+    259: {
+      month: 12,
+      save: 72,
+      priceOneMonth: 13.95,
+      priceFullMonth: 167.4,
+      subScript: `${t('tracker:prepaid_for', {
+        month: 12,
+        price: 167.4,
+      })}`,
+    },
+    269: {
+      month: 24,
+      save: 239.4,
+      priceOneMonth: 9.95,
+      priceFullMonth: 239.4,
+      subScript: `${t('tracker:prepaid_for', {
+        month: 24,
+        price: 239.4,
+      })}`,
+    },
+  };
 
   const planItem = [
     `${t('tracker:coverage_subcription')}`,
@@ -207,60 +207,63 @@ export default function Step2(props: Props) {
         )}
       </Header>
       <GroupCard>
-        {planIds.map((id, index) => (
-          // <Card
-          //   className={getCardClass(card.id)}
-          //   key={card.id}
-          //   onClick={onChangePaymentPlan(card.id, index)}
-          // >
-          //   <CardHeaderStyle
-          //     title={`${dataPlan[card.id]?.month} ${
-          //       dataPlan[card.id]?.month === 1
-          //         ? t('tracker:month')
-          //         : t('tracker:months')
-          //     }`}
-          //     className={classes.headerCard}
-          //   />
-          //   <CardContent>
-          //     <CardDescription>
-          //       <strong>${dataPlan[card.id]?.priceOneMonth}</strong>/
-          //       {t('tracker:month')}
-          //       {dataPlan[card.id]?.subScript}
-          //       <br />
-          //       <strong
-          //         style={{
-          //           display: `${dataPlan[card.id]?.save ? 'block' : 'none'}`,
-          //         }}
-          //       >
-          //         {t('tracker:save')} ${dataPlan[card.id]?.save}
-          //       </strong>
-          //     </CardDescription>
-          //   </CardContent>
-          //   <Paner mostPopular={dataPlan[card.id]?.most_popular}>
-          //     {isMobile ? '20%' : t('tracker:most_popular')}
-          //   </Paner>
-          // </Card>
-          <Card
-            className={getCardClass(id)}
-            key={id}
-            onClick={onChangePaymentPlan(id, index)}
-          >
-            <CardHeaderStyle
-              title={`${plans[id]?.months} ${
-                plans[id]?.months === 1
-                  ? t('tracker:month')
-                  : t('tracker:months')
-              }`}
-              className={classes.headerCard}
-            />
-            <CardContent>
-              <CardDescription>{plans[id].name}</CardDescription>
-            </CardContent>
-            <Paner mostPopular={plans[id]?.most_popular}>
-              {isMobile ? '20%' : t('tracker:most_popular')}
-            </Paner>
-          </Card>
-        ))}
+        {id === 69 ? (
+          <>
+            {planIds.map((id, index) => (
+              <Card
+                className={getCardClass(id)}
+                key={id}
+                onClick={onChangePaymentPlan(id, index)}
+              >
+                <CardHeaderStyle
+                  title={`${dataPlan[id]?.month} ${
+                    dataPlan[id]?.month === 1
+                      ? t('tracker:month')
+                      : t('tracker:months')
+                  }`}
+                  className={classes.headerCard}
+                />
+                <CardContent>
+                  <CardDescription>
+                    <strong>${dataPlan[id]?.priceOneMonth}</strong>/
+                    {t('tracker:month')}
+                    {dataPlan[id]?.subScript}
+                    <br />
+                    <strong
+                      style={{
+                        display: `${dataPlan[id]?.save ? 'block' : 'none'}`,
+                      }}
+                    >
+                      {t('tracker:save')} ${dataPlan[id]?.save}
+                    </strong>
+                  </CardDescription>
+                </CardContent>
+                <Paner mostPopular={dataPlan[id]?.most_popular}>
+                  {isMobile ? '20%' : t('tracker:most_popular')}
+                </Paner>
+              </Card>
+            ))}
+          </>
+        ) : (
+          planIds.map((id, index) => (
+            <Card
+              className={getCardClass(id)}
+              key={id}
+              onClick={onChangePaymentPlan(id, index)}
+            >
+              <CardHeaderStyle
+                title={plans[id].name}
+                className={classes.headerCard}
+              />
+              <CardContent>
+                <CardDescription>{plans[id].caption}</CardDescription>
+              </CardContent>
+              <Paner mostPopular={plans[id]?.most_popular}>
+                {isMobile ? '20%' : t('tracker:most_popular')}
+              </Paner>
+            </Card>
+          ))
+        )}
       </GroupCard>
 
       <Letter className={`${isShowOtherPlan ? classes.hidden : ''}`}>

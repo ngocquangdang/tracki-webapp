@@ -14,7 +14,10 @@ const paymentService = () => {
     buttonSelector,
     data,
     selectedPlan,
-    account_id
+    account_id,
+    showSnackbar,
+    setLoadingPaymentgateway,
+    setDisableSubmitCard
   ) => {
     let payload$ = new Subject();
     let dropIn;
@@ -22,6 +25,7 @@ const paymentService = () => {
       .getTokenForPayment(data, selectedPlan.id, account_id)
       .then(token => {
         payload$.next({ type: 'token' });
+        setLoadingPaymentgateway();
         dropin
           .create({
             authorization: token.data,
@@ -51,6 +55,7 @@ const paymentService = () => {
           .then(instance => {
             dropIn = instance;
             payload$.next({ type: 'available' });
+            setDisableSubmitCard(false);
             dropIn.on('paymentMethodRequestable', event => {
               if (dropIn.isPaymentMethodRequestable()) {
                 switch (event.type) {
@@ -82,12 +87,20 @@ const paymentService = () => {
             dropIn.on('noPaymentMethodRequestable', () => {
               // console.log(TAG, 'event - noPaymentMethodRequestable');
               payload$.next({ type: 'notAvailable' });
+              setDisableSubmitCard(true);
             });
             window.dropinIntance = dropIn || {};
           })
           .catch(error => error);
       })
-      .catch(error => error);
+      .catch(error => {
+        const { ...response } = { ...error };
+        setLoadingPaymentgateway();
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: response.data.message,
+        });
+      });
 
     return payload$;
   };

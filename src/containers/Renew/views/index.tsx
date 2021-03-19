@@ -9,6 +9,7 @@ import { FiChevronLeft } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
 import { Button } from '@Components/buttons';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 import { paymentService } from '../services/payment';
 import LayoutConfirm from './components';
@@ -51,6 +52,7 @@ interface Props {
   braintreeDropinAction(formData, callback): void;
   renewDeviceAction(formData, account_id, paymentData): void;
   isRequesting: boolean;
+  showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 export default function RenewPayment(props: Props) {
@@ -65,9 +67,53 @@ export default function RenewPayment(props: Props) {
     braintreeDropinAction,
     renewDeviceAction,
     isRequesting,
+    showSnackbar,
   } = props;
 
-  const { planIds = [], plans = {} } = trackerPlan;
+  const { planIds = [], plans = {}, id } = trackerPlan;
+
+  const dataPlan = {
+    256: {
+      id: 256,
+      month: 1,
+      priceOneMonth: 19.95,
+      subScript: `${t('tracker:one_month_subcription')} 8000-220-4999`,
+    },
+    263: {
+      id: 263,
+      month: 6,
+      save: 20,
+      priceOneMonth: 16.6,
+      priceFullMonth: 99.6,
+      subScript: `${t('tracker:prepaid_for', {
+        month: 6,
+        price: 99.6,
+      })}`,
+      most_popular: true,
+    },
+    259: {
+      id: 259,
+      month: 12,
+      save: 72,
+      priceOneMonth: 13.95,
+      priceFullMonth: 167.4,
+      subScript: `${t('tracker:prepaid_for', {
+        month: 12,
+        price: 167.4,
+      })}`,
+    },
+    269: {
+      id: 269,
+      month: 24,
+      save: 239.4,
+      priceOneMonth: 9.95,
+      priceFullMonth: 239.4,
+      subScript: `${t('tracker:prepaid_for', {
+        month: 24,
+        price: 239.4,
+      })}`,
+    },
+  };
 
   const planItem = [
     `${t('tracker:coverage_subcription')}`,
@@ -93,12 +139,22 @@ export default function RenewPayment(props: Props) {
 
     if (plans[id].paymentPlatform === 'PREPAID') {
       updateStore({ ...formData, selectedPlan: plans[id] });
-      setLoadingPaymentgateway();
-      BraintreePaymentGateway(plans[id], account_id, setLoadingPaymentgateway);
+      setLoadingGateway(true);
+      BraintreePaymentGateway(
+        plans[id],
+        account_id,
+        setLoadingPaymentgateway,
+        showSnackbar
+      );
     } else if (plans[id].paymentPlatform === 'NONCE') {
       updateStore({ ...formData, selectedPlan: plans[id] });
       setDisableSubmitCard(true);
-      BraintreePaymentGateway(plans[id], account_id, setLoadingPaymentgateway);
+      BraintreePaymentGateway(
+        plans[id],
+        account_id,
+        setLoadingPaymentgateway,
+        showSnackbar
+      );
     }
   };
 
@@ -122,35 +178,19 @@ export default function RenewPayment(props: Props) {
   function BraintreePaymentGateway(
     selectedPlan,
     account_id,
-    setLoadingPaymentgateway
+    setLoadingPaymentgateway,
+    showSnackbar
   ) {
-    let subscriberBraintreeNonce;
-    paymentService()
-      .initBraintreeDropIn(
-        '#dropin-container',
-        '#submit-payment-button',
-        formData,
-        selectedPlan,
-        account_id
-      )
-      .subscribe((event: any) => {
-        switch (event.type) {
-          case 'token':
-            setLoadingPaymentgateway();
-            break;
-          case 'available':
-            setDisableSubmitCard(false);
-            break;
-          case 'notAvailable':
-            setDisableSubmitCard(true);
-            break;
-          case 'payload':
-            if (subscriberBraintreeNonce) {
-              subscriberBraintreeNonce.unsubscribe();
-            }
-            break;
-        }
-      });
+    paymentService().initBraintreeDropIn(
+      '#dropin-container',
+      '#submit-payment-button',
+      formData,
+      selectedPlan,
+      account_id,
+      showSnackbar,
+      setLoadingPaymentgateway,
+      setDisableSubmitCard
+    );
   }
 
   const onNextStepChild = (stepChild: string) => () => {
@@ -242,28 +282,69 @@ export default function RenewPayment(props: Props) {
                 {isRequesting || trackerPlan === [] ? (
                   <CircularProgress />
                 ) : (
-                  planIds.map((id, index) => (
-                    <Card
-                      className={getCardClass(id)}
-                      key={id}
-                      onClick={onChangePaymentPlan(id, index)}
-                    >
-                      <CardHeaderStyle
-                        title={`${plans[id]?.months} ${
-                          plans[id]?.months === 1
-                            ? t('tracker:month')
-                            : t('tracker:months')
-                        }`}
-                        className={classes.headerCard}
-                      />
-                      <CardContent>
-                        <CardDescription>{plans[id].name}</CardDescription>
-                      </CardContent>
-                      <Paner mostPopular={plans[id]?.most_popular}>
-                        {isMobile ? '20%' : t('tracker:most_popular')}
-                      </Paner>
-                    </Card>
-                  ))
+                  <>
+                    {id === 69 ? (
+                      <>
+                        {planIds.map((id, index) => (
+                          <Card
+                            className={getCardClass(id)}
+                            key={id}
+                            onClick={onChangePaymentPlan(id, index)}
+                          >
+                            <CardHeaderStyle
+                              title={`${dataPlan[id]?.month} ${
+                                dataPlan[id]?.month === 1
+                                  ? t('tracker:month')
+                                  : t('tracker:months')
+                              }`}
+                              className={classes.headerCard}
+                            />
+                            <CardContent>
+                              <CardDescription>
+                                <strong>${dataPlan[id]?.priceOneMonth}</strong>/
+                                {t('tracker:month')}
+                                {dataPlan[id]?.subScript}
+                                <br />
+                                <strong
+                                  style={{
+                                    display: `${
+                                      dataPlan[id]?.save ? 'block' : 'none'
+                                    }`,
+                                  }}
+                                >
+                                  {t('tracker:save')} ${dataPlan[id]?.save}
+                                </strong>
+                              </CardDescription>
+                            </CardContent>
+                            <Paner mostPopular={dataPlan[id]?.most_popular}>
+                              {isMobile ? '20%' : t('tracker:most_popular')}
+                            </Paner>
+                          </Card>
+                        ))}
+                      </>
+                    ) : (
+                      planIds.map((id, index) => (
+                        <Card
+                          className={getCardClass(id)}
+                          key={id}
+                          onClick={onChangePaymentPlan(id, index)}
+                        >
+                          <CardHeaderStyle
+                            title={plans[id].name}
+                            className={classes.headerCard}
+                          />
+                          <CardContent>
+                            <CardDescription>
+                              {plans[id].caption}
+                            </CardDescription>
+                          </CardContent>
+                          <Paner mostPopular={plans[id]?.most_popular}>
+                            {isMobile ? '20%' : t('tracker:most_popular')}
+                          </Paner>
+                        </Card>
+                      ))
+                    )}
+                  </>
                 )}
               </GroupCard>
 

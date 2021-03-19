@@ -24,6 +24,8 @@ import {
   makeSelectFormData,
   makeSelectNewDeviceInfo,
 } from './store/selectors';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 
 function RenewTrackerContainer(props: any) {
   useInjectSaga({ key: 'renewtracker', saga });
@@ -61,6 +63,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(fetchTrackersRequestedAction(account_id)),
   renewDeviceAction: (formData, account_id, paymentData, imei) =>
     dispatch(renewDeviceRequestAction(formData, account_id, paymentData, imei)),
+  showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
