@@ -32,6 +32,7 @@ function* getRenewDevicePlanSaga(action: ActionType) {
       {
         planIds: [],
         plans: {},
+        id: data.id,
       }
     );
     yield put(

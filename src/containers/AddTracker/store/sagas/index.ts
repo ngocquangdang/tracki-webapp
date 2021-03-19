@@ -1,7 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { ActionType } from '@Interfaces';
 import * as apiServices from '../../services';
-import * as types from '../constances';
+import * as types from '../constants';
 
 import {
   checkDeviceAssignedSuccesAction,
@@ -13,23 +13,34 @@ import {
   braintreeDropInFailAction,
   updateStore,
   braintreeDropInSuccesAction,
+  newChannelSaleSuccesAction,
+  newChannelSaleFailAction,
+  newChannelSaleRequestAction,
+  updateChannelSaleSuccesAction,
+  updateChannelSaleFailAction,
+  updateChannelSaleRequestAction,
 } from '../actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import { fetchTrackersRequestedAction } from '@Containers/Trackers/store/actions';
 
 function* checkDeviceAssignedSaga(action: ActionType) {
+  const { data, callback } = action.payload;
   try {
-    const res = yield call(
-      apiServices.checkDeviceAssigned,
-      action.payload.data
-    );
+    const res = yield call(apiServices.checkDeviceAssigned, data);
     if (res.data.assigned === 'false') {
-      yield action.payload.callback(true);
+      const payload = {
+        device_id: data.device_id,
+        channel_name: 'AMAZON',
+        order_id: '0',
+        last_4_digit_imei: data.imei,
+      };
+      yield put(newChannelSaleRequestAction(payload));
       yield put(checkDeviceAssignedSuccesAction(res.data));
+      yield callback(true);
       return;
     }
     if (res.data.assigned === 'true') {
-      yield action.payload.callback(false);
+      yield callback(false);
       yield put(checkDeviceAssignedSuccesAction(res.data));
       return;
     }
@@ -42,7 +53,7 @@ function* checkDeviceAssignedSaga(action: ActionType) {
         {}
       ),
     };
-    yield action.payload.callback(false);
+    yield callback(false);
     yield put(checkDeviceAssignedFailAction(payload));
   }
 }
@@ -50,12 +61,21 @@ function* checkDeviceAssignedSaga(action: ActionType) {
 function* getDevicePlanSaga(action: ActionType) {
   try {
     const account_id = yield call(apiServices.getUserInfo);
-    const res = yield call(apiServices.getTrackerPlan, action.payload);
+    const { data } = yield call(apiServices.getTrackerPlan, action.payload);
+    const formatData = data.planDTOList.reduce(
+      (obj, item) => {
+        obj.plans = { ...obj.plans, [item.id]: item };
+        obj.planIds.push(item.id);
+        return obj;
+      },
+      {
+        planIds: [],
+        plans: {},
+        id: data.id,
+      }
+    );
     yield put(
-      getDevicePlanSuccesAction(
-        res.data?.planDTOList,
-        account_id.data?.account_id
-      )
+      getDevicePlanSuccesAction(formatData, account_id.data?.account_id)
     );
   } catch (error) {
     const { data = {} } = { ...error };
@@ -100,7 +120,8 @@ function* braintreeDropinSaga(action: ActionType) {
         apiServices.setPrepaidPlanToDevice,
         userData.account_id,
         parseInt(formData.device_id),
-        formData.selectedPlan.id
+        formData.selectedPlan.id,
+        formData.imei
       );
       yield put(fetchTrackersRequestedAction(userData.account_id));
     } else if (formData.selectedPlan.paymentPlatform === 'NONCE') {
@@ -118,6 +139,7 @@ function* braintreeDropinSaga(action: ActionType) {
         snackMessage: 'Add New Device Succeed',
       })
     );
+    yield put(updateChannelSaleRequestAction(formData));
     yield put(updateStore({ ...formData, creditCard }));
     yield put(braintreeDropInSuccesAction(action.payload));
     yield callback();
@@ -199,6 +221,34 @@ function* personalizeDeviceSaga(action: ActionType) {
   }
 }
 
+function* newChanelSaleSaga(action: ActionType) {
+  const { data } = action.payload;
+  try {
+    yield call(apiServices.newChanelSale, data);
+    yield put(newChannelSaleSuccesAction());
+  } catch (error) {
+    yield put(newChannelSaleFailAction(error));
+  }
+}
+
+function* updateChanelSaleSaga(action: ActionType) {
+  const { data } = action.payload;
+  const { bt_response, device_id, selectedPlan } = data;
+  try {
+    const payload = {
+      device_id,
+      channel_name: 'AMAZON',
+      order_id: '0',
+      selectedPlan: selectedPlan.id,
+      bt_response,
+    };
+
+    yield call(apiServices.updateChanelSale, payload);
+    yield put(updateChannelSaleSuccesAction());
+  } catch (error) {
+    yield put(updateChannelSaleFailAction(error));
+  }
+}
 export default function* watcher() {
   yield takeLatest(
     types.CHECK_DEVICEID_ASSIGNED_REQUESTED,
@@ -210,4 +260,6 @@ export default function* watcher() {
     types.UPDATE_PERSONALIZE_DEVICE_REQUESTED,
     personalizeDeviceSaga
   );
+  yield takeLatest(types.NEW_CHANNEL_SALE_REQUESTED, newChanelSaleSaga);
+  yield takeLatest(types.UPDATE_CHANNEL_SALE_REQUESTED, updateChanelSaleSaga);
 }

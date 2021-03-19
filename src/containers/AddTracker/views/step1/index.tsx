@@ -165,7 +165,9 @@ export default function Step1(props: Props) {
               <Notifi
                 className={errorMessage !== '' ? '' : classes.displayNone}
               >
-                Invalid Tracker Id or IMEI
+                {errorMessage !== ''
+                  ? errorMessage
+                  : 'Invalid Tracker Id or IMEI'}
               </Notifi>
               <Button
                 color="primary"

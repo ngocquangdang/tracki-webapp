@@ -58,13 +58,19 @@ export function updateStore(payload: any) {
   };
 }
 
-export function renewDeviceRequestAction(formData, account_id, paymentData) {
+export function renewDeviceRequestAction(
+  formData,
+  account_id,
+  paymentData,
+  imei
+) {
   return {
     type: types.RENEW_DEVICE_REQUESTED,
     payload: {
       formData,
       account_id,
       paymentData,
+      imei,
     },
   };
 }

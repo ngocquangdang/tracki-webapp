@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 import DetailPageContainer from '@Containers/Wallet/components/DetailPageContainer';
-import CashInCard from '../../CashInOutCard';
+import CashInCard from '../../../CashInOutCard';
 
 import { useStyles } from './styles';
 import { Button } from '@Components/buttons';

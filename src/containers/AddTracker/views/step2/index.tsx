@@ -53,6 +53,8 @@ export default function Step2(props: Props) {
     updateStepChild,
   } = props;
 
+  const { planIds = [], plans = {}, id } = trackerPlan;
+
   const dataPlan = {
     256: {
       month: 1,
@@ -134,15 +136,15 @@ export default function Step2(props: Props) {
     setPaymentPlan(id);
     getFirebaseLog(id);
 
-    if (trackerPlan[index].paymentPlatform === 'PREPAID') {
-      updateStore({ ...formData, selectedPlan: trackerPlan[index] });
+    if (plans[id].paymentPlatform === 'PREPAID') {
+      updateStore({ ...formData, selectedPlan: plans[id] });
       onNextStep();
-    } else if (trackerPlan[index].paymentPlatform === 'NONCE') {
-      updateStore({ ...formData, selectedPlan: trackerPlan[index] });
+    } else if (plans[id].paymentPlatform === 'NONCE') {
+      updateStore({ ...formData, selectedPlan: plans[id] });
       BraintreePaymentGateway(
         formData,
-        trackerPlan[index],
-        trackerPlan[index].id,
+        plans[id],
+        plans[id].id,
         account_id,
         setLoadingPaymentgateway,
         setDisableSubmitCard,
@@ -205,40 +207,63 @@ export default function Step2(props: Props) {
         )}
       </Header>
       <GroupCard>
-        {trackerPlan.map((card, index) => (
-          <Card
-            className={getCardClass(card.id)}
-            key={card.id}
-            onClick={onChangePaymentPlan(card.id, index)}
-          >
-            <CardHeaderStyle
-              title={`${dataPlan[card.id]?.month} ${
-                dataPlan[card.id]?.month === 1
-                  ? t('tracker:month')
-                  : t('tracker:months')
-              }`}
-              className={classes.headerCard}
-            />
-            <CardContent>
-              <CardDescription>
-                <strong>${dataPlan[card.id]?.priceOneMonth}</strong>/
-                {t('tracker:month')}
-                {dataPlan[card.id]?.subScript}
-                <br />
-                <strong
-                  style={{
-                    display: `${dataPlan[card.id]?.save ? 'block' : 'none'}`,
-                  }}
-                >
-                  {t('tracker:save')} ${dataPlan[card.id]?.save}
-                </strong>
-              </CardDescription>
-            </CardContent>
-            <Paner mostPopular={dataPlan[card.id]?.most_popular}>
-              {isMobile ? '20%' : t('tracker:most_popular')}
-            </Paner>
-          </Card>
-        ))}
+        {id === 69 ? (
+          <>
+            {planIds.map((id, index) => (
+              <Card
+                className={getCardClass(id)}
+                key={id}
+                onClick={onChangePaymentPlan(id, index)}
+              >
+                <CardHeaderStyle
+                  title={`${dataPlan[id]?.month} ${
+                    dataPlan[id]?.month === 1
+                      ? t('tracker:month')
+                      : t('tracker:months')
+                  }`}
+                  className={classes.headerCard}
+                />
+                <CardContent>
+                  <CardDescription>
+                    <strong>${dataPlan[id]?.priceOneMonth}</strong>/
+                    {t('tracker:month')}
+                    {dataPlan[id]?.subScript}
+                    <br />
+                    <strong
+                      style={{
+                        display: `${dataPlan[id]?.save ? 'block' : 'none'}`,
+                      }}
+                    >
+                      {t('tracker:save')} ${dataPlan[id]?.save}
+                    </strong>
+                  </CardDescription>
+                </CardContent>
+                <Paner mostPopular={dataPlan[id]?.most_popular}>
+                  {isMobile ? '20%' : t('tracker:most_popular')}
+                </Paner>
+              </Card>
+            ))}
+          </>
+        ) : (
+          planIds.map((id, index) => (
+            <Card
+              className={getCardClass(id)}
+              key={id}
+              onClick={onChangePaymentPlan(id, index)}
+            >
+              <CardHeaderStyle
+                title={plans[id].name}
+                className={classes.headerCard}
+              />
+              <CardContent>
+                <CardDescription>{plans[id].caption}</CardDescription>
+              </CardContent>
+              <Paner mostPopular={plans[id]?.most_popular}>
+                {isMobile ? '20%' : t('tracker:most_popular')}
+              </Paner>
+            </Card>
+          ))
+        )}
       </GroupCard>
 
       <Letter className={`${isShowOtherPlan ? classes.hidden : ''}`}>

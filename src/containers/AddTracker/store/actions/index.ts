@@ -1,4 +1,4 @@
-import * as types from '../constances';
+import * as types from '../constants';
 
 export function checkDeviceAssignedRequestAction(payload: any, callback: any) {
   return {
@@ -189,5 +189,52 @@ export function asignedDeciveFailAction(payload: any) {
 export function resetStoreAddTracker() {
   return {
     type: types.RESET_STORE_ADD_TRACKER,
+  };
+}
+
+// new channel sales action
+export function newChannelSaleRequestAction(data) {
+  return {
+    type: types.NEW_CHANNEL_SALE_REQUESTED,
+    payload: {
+      data,
+    },
+  };
+}
+
+export function newChannelSaleSuccesAction() {
+  return {
+    type: types.NEW_CHANNEL_SALE_SUCCESSED,
+  };
+}
+
+export function newChannelSaleFailAction(payload: any) {
+  return {
+    type: types.NEW_CHANNEL_SALE_FAILED,
+    payload,
+  };
+}
+
+// update channel sales action
+
+export function updateChannelSaleRequestAction(data) {
+  return {
+    type: types.UPDATE_CHANNEL_SALE_REQUESTED,
+    payload: {
+      data,
+    },
+  };
+}
+
+export function updateChannelSaleSuccesAction() {
+  return {
+    type: types.UPDATE_CHANNEL_SALE_SUCCESSED,
+  };
+}
+
+export function updateChannelSaleFailAction(payload: any) {
+  return {
+    type: types.UPDATE_CHANNEL_SALE_FAILED,
+    payload,
   };
 }
