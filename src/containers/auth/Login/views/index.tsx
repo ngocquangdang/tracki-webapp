@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/client';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import { FaGooglePlusG } from 'react-icons/fa';
 
 import { AuthLayout } from '@Layouts';
 import { Button } from '@Components/buttons';
-
 import {
   Container,
   Footer,
@@ -24,11 +26,28 @@ import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
 export default function Login(props: ILoginPage.IProps) {
-  const { t, resetErrorAction } = props;
+  const { t, resetErrorAction, loginSocialNetworkRequestAction } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [session] = useSession();
 
   firebaseLogEventRequest('login_page', '');
+
+  useEffect(() => {
+    if (session && session.accessToken) {
+      const configData = {
+        accessToken:
+          'EAADr8F9pl4cBAPe46RZBGiMKXkr0L9PIxr2CKBSVWGnOUJT8aaPa0PuZBfnke8oILfDW5YJcs8BZBVxCY6KNzUr8Q9OTCUJBE0a1cIkiZAbVZAvceErtrigHB1ybOO7porPTwZBZA0JkdpsoNM82Gc5I1Da4hOrj5wn0tgCdcK7GoSDKeObGmMmSn93mv9kg7CGfyYGp8wrhJDS1MjkDznMZAwqqpOPEOMMZD',
+        whiteLabel:
+          process.env.NEXT_PUBLIC_API_URL === 'https://api.dev.tracki.com/api'
+            ? 'TRACKI'
+            : 'TRACKI',
+        client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
+        redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
+      };
+      loginSocialNetworkRequestAction(session.accessToken.provider, configData);
+    }
+  }, [session, loginSocialNetworkRequestAction]);
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -53,6 +72,23 @@ export default function Login(props: ILoginPage.IProps) {
           <Description>{t('login_description')}</Description>
           <LoginForm {...props} />
           <Line>{t('or')}</Line>
+
+          <Link href="/api/auth/signin/facebook">
+            <Button
+              className={classes.fbButton}
+              variant="outlined"
+              text="Login with Facebook"
+              startIcon={<FacebookIcon className={classes.fbIcon} />}
+            />
+          </Link>
+          <Link href="/api/auth/signin/google">
+            <Button
+              className={classes.ggButton}
+              variant="outlined"
+              text="Login with Google"
+              startIcon={<FaGooglePlusG size={28} />}
+            />
+          </Link>
           <Link href="/create-account">
             <Button
               className={classes.blackBtn}
@@ -61,6 +97,8 @@ export default function Login(props: ILoginPage.IProps) {
               onClick={onCreateNewAccount}
             />
           </Link>
+          {!!session && <p>Signed in as {session.user.email} </p>}
+          <iframe src="/api/auth/session" />
         </Content>
         <Footer>
           <Contact>

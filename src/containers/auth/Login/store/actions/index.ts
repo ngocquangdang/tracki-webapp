@@ -32,3 +32,10 @@ export function loginFailAction(errors: PayloadType) {
 export function resetErrorMessage() {
   return { type: types.RESET_ERROR_MESSAGE };
 }
+
+export function loginSocialNetworkRequestAction(socialType: string, bodyData) {
+  return {
+    type: types.LOGIN_VIA_SOCIAL_NETWORK_REQUESTED,
+    payload: { socialType, bodyData },
+  };
+}

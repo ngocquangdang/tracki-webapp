@@ -13,6 +13,7 @@ declare namespace ILoginPage {
     loginRequestAction(data: IStateLogin): void;
     chatusRequestAction(data: IStateChatUs): void;
     resetErrorAction(): void;
+    loginSocialNetworkRequestAction(socialtype: string, data): void;
   }
 
   interface InitialProps {

@@ -28,18 +28,12 @@ const options = {
     Providers.Google({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+      authorizationUrl:
+        'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
     Providers.Facebook({
-      clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET,
-    }),
-    Providers.Twitter({
-      clientId: process.env.TWITTER_ID,
-      clientSecret: process.env.TWITTER_SECRET,
-    }),
-    Providers.GitHub({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: '259417625433991',
+      clientSecret: '5e984f1c1f1fde7f7773a953587216db',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -54,7 +48,7 @@ const options = {
     // Use JSON Web Tokens for session instead of database sessions.
     // This option can be used with or without a database for users/accounts.
     // Note: `jwt` is automatically set to `true` if no database is specified.
-    // jwt: false,
+    jwt: true,
     // Seconds - How long until an idle session expires and is no longer valid.
     // maxAge: 30 * 24 * 60 * 60, // 30 days
     // Seconds - Throttle how frequently to write to database to extend a session.
@@ -73,7 +67,7 @@ const options = {
 
   // JSON Web Token options
   jwt: {
-    // secret: 'my-secret-123', // Recommended (but auto-generated if not specified)
+    secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
     // Custom encode/decode functions for signing + encryption can be specified.
     // if you want to override what is in the JWT or how it is signed.
     // encode: async ({ secret, key, token, maxAge }) => {},
@@ -81,12 +75,15 @@ const options = {
     // Easily add custom to the JWT. It is updated every time it is accessed.
     // This is encrypted and signed by default and may contain sensitive information
     // as long as a reasonable secret is defined.
-    /*
-    set: async (token) => {
-      token.customJwtProperty = "ABC123"
-      return token
-    }
-    */
+    signingKey: { kty: 'oct', kid: '--', alg: 'HS256', k: '--' },
+    verificationOptions: {
+      algorithms: ['HS256'],
+    },
+    encryption: true,
+    // set: async token => {
+    //   token.customJwtProperty = 'ABC123';
+    //   return token;
+    // },
   },
 
   // Control which users / accounts can sign in
@@ -107,9 +104,21 @@ const options = {
     // verifyRequest: '/api/auth/verify-request', // Used for check email page
     // newUser: null // If set, new users will be directed here on first sign in
   },
-
+  callbacks: {
+    async signIn(user, account, profile) {
+      return true;
+    },
+    async redirect(url, baseUrl) {},
+    async session(session, token) {
+      session.accessToken = token.account;
+      return session;
+    },
+    async jwt(token, isNewUser) {
+      return token;
+    },
+  },
   // Additional options
-  // secret: 'abcdef123456789' // Recommended (but auto-generated if not specified)
+  secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
   debug: true, // Use this option to enable debug messages in the console
 };
 
