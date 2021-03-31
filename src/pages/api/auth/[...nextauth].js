@@ -33,8 +33,8 @@ const options = {
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
     Providers.Facebook({
-      clientId: '259417625433991',
-      clientSecret: '5e984f1c1f1fde7f7773a953587216db',
+      clientId: '193982315586524',
+      clientSecret: '34a4da0fd0b79c048c9d90dcb7c7063d',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
