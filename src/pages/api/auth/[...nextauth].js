@@ -26,8 +26,9 @@ const options = {
       profileUrl: 'https://legacy-app.trackimo.com/api/v3/user',
     },
     Providers.Google({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId:
+        '146989380702-1vbclr1869p70ec0veqf4b62jj93cuhp.apps.googleusercontent.com',
+      clientSecret: 'IkrCgkp9P0t1Qf6qpAHbZcmK',
       authorizationUrl:
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
