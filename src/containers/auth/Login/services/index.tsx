@@ -10,6 +10,7 @@ import {
 const LOGIN_ENDPOINT = '/internal/v2/user/login';
 const OAUTH_AUTHORIZE_ENDPOINT = '/v3/oauth2/auth';
 const OAUTH_TOKEN_ENDPOINT = '/v3/oauth2/token';
+const LOGIN_SOCIAL = '/v1/social/login/';
 
 export const login = async (body: ILoginPage.IStateLogin) => {
   await axiosClient.post(
@@ -54,6 +55,16 @@ export const loginGeobotTracki = async (
       refreshToken,
       expiresIn,
     },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+export const loginSocialNetWork = async (socialType: string, bodyData) => {
+  await axiosClient.post(
+    LOGIN_SOCIAL + socialType,
+    { ...bodyData },
     {
       withCredentials: true,
     }

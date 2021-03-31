@@ -43,6 +43,50 @@ function* loginSaga(action: ActionType) {
   }
 }
 
+function* loginSocialNetworkSaga(action: ActionType) {
+  const { socialType, bodyData } = action.payload;
+
+  try {
+    const response = yield call(
+      apiServices.loginSocialNetWork,
+      socialType,
+      bodyData
+    );
+
+    if (response.status) {
+      yield put(loginSuccessAction(response.data));
+      CookieInstance.setCookie(
+        process.env.COOKIE_NAME || 'token',
+        response.data.access_token
+      );
+      CookieInstance.setCookie('refreshToken', response.data.refresh_token);
+      yield call(
+        apiServices.loginGeobotTracki,
+        CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
+        response.data.refresh_token,
+        response.data.expires_in
+      );
+      sendMessageToGeobot('AUTHENTICATE_TOKEN_CRM');
+      AxiosClient.setHeader(response.data.access_token);
+      window.location.replace('/trackers');
+    }
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+      errors: (data.errors || []).reduce(
+        (obj: object, e: any) => ({ ...obj, [e.property_name]: e.message }),
+        {}
+      ),
+    };
+    yield put(loginFailAction(payload));
+  }
+}
+
 export default function* loginWatcher() {
   yield takeLatest(types.LOGIN_REQUESTED, loginSaga);
+  yield takeLatest(
+    types.LOGIN_VIA_SOCIAL_NETWORK_REQUESTED,
+    loginSocialNetworkSaga
+  );
 }

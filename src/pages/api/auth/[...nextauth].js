@@ -26,16 +26,14 @@ const options = {
       profileUrl: 'https://legacy-app.trackimo.com/api/v3/user',
     },
     Providers.Google({
-      // clientId: 'copper-actor-280013',
-      clientId:
-        '246990656708-8lofplqha84coakhpfq1sgtv5ro2o5lo.apps.googleusercontent.com',
-      clientSecret: 'Y4ppNudCXv1a4hDQPPp-dwM3',
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
       authorizationUrl:
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
     Providers.Facebook({
-      clientId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-      clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_SECRET,
+      clientId: '259417625433991',
+      clientSecret: '5e984f1c1f1fde7f7773a953587216db',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -110,18 +108,8 @@ const options = {
     async signIn(user, account, profile) {
       return true;
     },
-    async redirect(url, baseUrl) {
-      if (url === '/api/auth/signin') {
-        return Promise.resolve('/api/xxx/jwt');
-      }
-      return Promise.resolve('/');
-    },
+    async redirect(url, baseUrl) {},
     async session(session, token) {
-      console.log(
-        '🚀 ~ file: [...nextauth].js ~ line 121 ~ session ~ session, toke',
-        session,
-        token
-      );
       session.accessToken = token.account;
       return session;
     },

@@ -39,6 +39,7 @@ export function* logoutSaga() {
   );
   CookieInstance.removeCookie(process.env.COOKIE_NAME || 'token');
   CookieInstance.removeCookie('refreshToken');
+  CookieInstance.removeCookie('next-auth.session-token');
   if (res) {
     yield put(actions.logoutSucceedAction());
     window.location.replace('/');

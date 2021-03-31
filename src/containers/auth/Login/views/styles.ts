@@ -157,6 +157,36 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.primary.contrastText,
     },
   },
+  fbButton: {
+    background: '#3b5999',
+    width: '100%',
+    border: '0',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+    marginBottom: '1rem',
+    '&:hover': {
+      backgroundColor: '#3b5999',
+      color: '#fff',
+      boxShadow: '0 0 3px 3px rgba(#3b5998,.3)',
+    },
+  },
+  ggButton: {
+    background: '#db4c3e',
+    width: '100%',
+    border: '0',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+    color: '#fff',
+    marginBottom: '1rem',
+    '&:hover': {
+      backgroundColor: '#db4c3e',
+      color: '#fff',
+      boxShadow: '0 0 3px 3px rgba(#3b5998,.3)',
+    },
+  },
+  fbIcon: {
+    width: 27,
+    height: 27,
+    padding: 0,
+  },
   errorText: {
     textAlign: 'center',
     color: theme.palette.error.main,
