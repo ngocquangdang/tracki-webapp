@@ -1,9 +1,11 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
+// const Side = 'https://ac17b106b94b.ngrok.io';
+const Side = 'https://dev.tracki.com';
+
 const options = {
-  // site: 'https://ac17b106b94b.ngrok.io',
-  site: 'https://dev.tracki.com',
+  site: Side,
   providers: [
     // Providers.Email({
     //   // SMTP connection string or nodemailer configuration object https://nodemailer.com/
@@ -36,6 +38,7 @@ const options = {
     Providers.Facebook({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
+      callbackUrl: `${Side}/api/auth/callback/facebook`,
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
