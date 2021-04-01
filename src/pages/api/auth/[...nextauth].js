@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 const options = {
+  // site: 'https://ac17b106b94b.ngrok.io',
   site: 'https://dev.tracki.com',
   providers: [
     // Providers.Email({
@@ -35,7 +36,6 @@ const options = {
     Providers.Facebook({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
-      redirect_uri: 'dev.tracki.com/api/auth/callback/facebook',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -110,14 +110,14 @@ const options = {
     async signIn(user, account, profile) {
       return true;
     },
-    // async redirect(url, baseUrl) {
-    //   console.log(
-    //     '🚀 ~ file: [...nextauth].js ~ line 113 ~ redirect ~ url, baseUrl',
-    //     url,
-    //     baseUrl
-    //   );
-    //   return baseUrl;
-    // },
+    async redirect(url, baseUrl) {
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 113 ~ redirect ~ url, baseUrl',
+        url,
+        baseUrl
+      );
+      return url;
+    },
     async session(session, token) {
       session.accessToken = token.account;
       return session;
