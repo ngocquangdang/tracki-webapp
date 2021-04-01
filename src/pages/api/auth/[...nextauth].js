@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 const options = {
-  site: 'https://dev.tracki.com/',
+  site: 'https://dev.tracki.com',
   providers: [
     // Providers.Email({
     //   // SMTP connection string or nodemailer configuration object https://nodemailer.com/
@@ -110,14 +110,14 @@ const options = {
     async signIn(user, account, profile) {
       return true;
     },
-    async redirect(url, baseUrl) {
-      console.log(
-        '🚀 ~ file: [...nextauth].js ~ line 113 ~ redirect ~ url, baseUrl',
-        url,
-        baseUrl
-      );
-      return baseUrl;
-    },
+    // async redirect(url, baseUrl) {
+    //   console.log(
+    //     '🚀 ~ file: [...nextauth].js ~ line 113 ~ redirect ~ url, baseUrl',
+    //     url,
+    //     baseUrl
+    //   );
+    //   return baseUrl;
+    // },
     async session(session, token) {
       session.accessToken = token.account;
       return session;
