@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 // const Side = 'https://ac17b106b94b.ngrok.io';
-const Side = 'https://dev.tracki.com';
+const Side = 'https://dev2.tracki.com';
 
 const options = {
   site: Side,
@@ -119,7 +119,7 @@ const options = {
         url,
         baseUrl
       );
-      return url;
+      return baseUrl;
     },
     async session(session, token) {
       session.accessToken = token.account;
@@ -127,6 +127,16 @@ const options = {
     },
     async jwt(token, isNewUser) {
       return token;
+    },
+    async error(error, redirect, redirectUrl) {
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 132 ~ error ~ error, redirect',
+        error,
+        redirect
+      );
+      console.log('NEW Error callback: ', redirectUrl);
+
+      return;
     },
   },
   // Additional options
