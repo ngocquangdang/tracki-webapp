@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 const options = {
-  site: process.env.VERCEL_URL,
+  site: 'https://dev.tracki.com/',
   providers: [
     // Providers.Email({
     //   // SMTP connection string or nodemailer configuration object https://nodemailer.com/
@@ -35,6 +35,7 @@ const options = {
     Providers.Facebook({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
+      redirect_uri: 'dev.tracki.com/api/auth/callback/facebook',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -101,7 +102,7 @@ const options = {
   pages: {
     // signin: '/login', // Displays signin buttons
     // signout: '/api/auth/signout', // Displays form with sign out button
-    // error: '/api/auth/error', // Error code passed in query string as ?error=
+    error: '/api/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/api/auth/verify-request', // Used for check email page
     // newUser: null // If set, new users will be directed here on first sign in
   },
@@ -110,6 +111,11 @@ const options = {
       return true;
     },
     async redirect(url, baseUrl) {
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 113 ~ redirect ~ url, baseUrl',
+        url,
+        baseUrl
+      );
       return baseUrl;
     },
     async session(session, token) {
