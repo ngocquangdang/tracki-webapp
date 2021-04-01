@@ -38,7 +38,6 @@ const options = {
     Providers.Facebook({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
-      callbackUrl: `${Side}/api/auth/callback/facebook`,
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -72,7 +71,7 @@ const options = {
 
   // JSON Web Token options
   jwt: {
-    secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
+    // secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
     // Custom encode/decode functions for signing + encryption can be specified.
     // if you want to override what is in the JWT or how it is signed.
     // encode: async ({ secret, key, token, maxAge }) => {},
@@ -80,11 +79,11 @@ const options = {
     // Easily add custom to the JWT. It is updated every time it is accessed.
     // This is encrypted and signed by default and may contain sensitive information
     // as long as a reasonable secret is defined.
-    signingKey: { kty: 'oct', kid: '--', alg: 'HS256', k: '--' },
-    verificationOptions: {
-      algorithms: ['HS256'],
-    },
-    encryption: true,
+    // signingKey: { kty: 'oct', kid: '--', alg: 'HS256', k: '--' },
+    // verificationOptions: {
+    //   algorithms: ['HS256'],
+    // },
+    // encryption: true,
     // set: async token => {
     //   token.customJwtProperty = 'ABC123';
     //   return token;
@@ -105,14 +104,23 @@ const options = {
   pages: {
     // signin: '/login', // Displays signin buttons
     // signout: '/api/auth/signout', // Displays form with sign out button
-    error: '/api/auth/error', // Error code passed in query string as ?error=
+    // error: '/api/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/api/auth/verify-request', // Used for check email page
     // newUser: null // If set, new users will be directed here on first sign in
   },
   callbacks: {
+    async signIn(user, account, profile) {
+      return true;
+    },
+    // async redirect(url, baseUrl) {
+    //   return url.startsWith(baseUrl) ? url : baseUrl;
+    // },
     async session(session, token) {
       session.accessToken = token.account;
       return session;
+    },
+    async jwt(token, isNewUser) {
+      return token;
     },
   },
   // Additional options
