@@ -30,6 +30,8 @@ const AddTrackerReducer = (
       case types.GET_TOKEN_FOR_PAYMENT_REQUESTED:
       case types.UPDATE_PERSONALIZE_DEVICE_REQUESTED:
         draft.isRequesting = true;
+        draft.errors = {};
+        draft.errorsMessage = '';
         break;
       case types.CHECK_DEVICEID_ASSIGNED_SUCCESSED:
         draft.assigned = payload.assigned;

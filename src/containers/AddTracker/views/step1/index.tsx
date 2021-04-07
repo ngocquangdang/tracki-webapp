@@ -55,7 +55,10 @@ export default function Step1(props: Props) {
   // const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
   const onSubmit = (value: any) => {
-    checkDeviceAssignedAction(value, onNextStep);
+    checkDeviceAssignedAction(
+      { ...value, device_id: value.device_id.trim(), imei: value.imei.trim() },
+      onNextStep
+    );
     updateStore(value);
     getDevicePlanAction(value);
   };
