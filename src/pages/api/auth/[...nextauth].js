@@ -2,10 +2,10 @@ import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
 // const Side = 'https://ac17b106b94b.ngrok.io';
-const Side = 'https://dev.tracki.com';
+// const Side = 'https://dev.tracki.com';
 
 const options = {
-  site: Side,
+  // site: 'https://25dda1de678d.ngrok.io',
   providers: [
     // Providers.Email({
     //   // SMTP connection string or nodemailer configuration object https://nodemailer.com/
@@ -34,10 +34,31 @@ const options = {
       clientSecret: 'IkrCgkp9P0t1Qf6qpAHbZcmK',
       authorizationUrl:
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
+      idToken: true,
+      profile: profile => {
+        console.log('🚀 ~ file: [...nextauth].js ~ line 39 ~ profile', profile);
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          provider: 'google',
+        };
+      },
     }),
     Providers.Facebook({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
+      // idToken: true,
+      // profile: profile => {
+      //   console.log('🚀 ~ file: [...nextauth].js ~ line 53 ~ profile', profile);
+      //   return {
+      //     id: profile.sub,
+      //     name: profile.name,
+      //     email: profile.email,
+      //     image: profile.picture,
+      //   };
+      // },
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -53,41 +74,14 @@ const options = {
     // This option can be used with or without a database for users/accounts.
     // Note: `jwt` is automatically set to `true` if no database is specified.
     jwt: true,
-    // Seconds - How long until an idle session expires and is no longer valid.
-    // maxAge: 30 * 24 * 60 * 60, // 30 days
-    // Seconds - Throttle how frequently to write to database to extend a session.
-    // Use it to limit write operations. Set to 0 to always update the database.
-    // Note: This option is ignored if using JSON Web Tokens
-    // updateAge: 24 * 60 * 60, // 24 hours
-    // Easily add custom properties to response from `/api/auth/session`.
-    // Note: This should not return any sensitive information.
-    /*
-    get: async (session) => {
-      session.customSessionProperty = "ABC123"
-      return session
-    }
-    */
   },
 
   // JSON Web Token options
   jwt: {
     // secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
-    // Custom encode/decode functions for signing + encryption can be specified.
-    // if you want to override what is in the JWT or how it is signed.
-    // encode: async ({ secret, key, token, maxAge }) => {},
-    // decode: async ({ secret, key, token, maxAge }) => {},
-    // Easily add custom to the JWT. It is updated every time it is accessed.
-    // This is encrypted and signed by default and may contain sensitive information
-    // as long as a reasonable secret is defined.
-    // signingKey: { kty: 'oct', kid: '--', alg: 'HS256', k: '--' },
-    // verificationOptions: {
-    //   algorithms: ['HS256'],
-    // },
     // encryption: true,
-    // set: async token => {
-    //   token.customJwtProperty = 'ABC123';
-    //   return token;
-    // },
+    // signingKey: process.env.JWT_SIGNING_KEY,
+    // encryptionKey: process.env.JWT_ENCRYPTION_KEY,
   },
 
   // Control which users / accounts can sign in
@@ -101,13 +95,7 @@ const options = {
 
   // You can define custom pages to override the built-in pages
   // The routes shown here are the default URLs that will be used.
-  pages: {
-    // signin: '/login', // Displays signin buttons
-    // signout: '/api/auth/signout', // Displays form with sign out button
-    // error: '/api/auth/error', // Error code passed in query string as ?error=
-    // verifyRequest: '/api/auth/verify-request', // Used for check email page
-    // newUser: null // If set, new users will be directed here on first sign in
-  },
+  pages: {},
   callbacks: {
     async signIn(user, account, profile) {
       return true;
@@ -116,10 +104,19 @@ const options = {
     //   return url.startsWith(baseUrl) ? url : baseUrl;
     // },
     async session(session, token) {
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 119 ~ session ~ session, token',
+        session,
+        token
+      );
       session.accessToken = token.account;
       return session;
     },
-    async jwt(token, isNewUser) {
+    async jwt(token, user, account, profile, isNewUser, idToken) {
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 116 ~ jwt ~ idToken',
+        idToken
+      );
       return token;
     },
   },
