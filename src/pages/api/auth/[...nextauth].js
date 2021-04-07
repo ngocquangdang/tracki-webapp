@@ -36,7 +36,6 @@ const options = {
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
       idToken: true,
       profile: profile => {
-        console.log('🚀 ~ file: [...nextauth].js ~ line 39 ~ profile', profile);
         return {
           id: profile.sub,
           name: profile.name,
@@ -49,16 +48,6 @@ const options = {
     Providers.Facebook({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
-      // idToken: true,
-      // profile: profile => {
-      //   console.log('🚀 ~ file: [...nextauth].js ~ line 53 ~ profile', profile);
-      //   return {
-      //     id: profile.sub,
-      //     name: profile.name,
-      //     email: profile.email,
-      //     image: profile.picture,
-      //   };
-      // },
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
@@ -104,11 +93,6 @@ const options = {
     //   return url.startsWith(baseUrl) ? url : baseUrl;
     // },
     async session(session, token) {
-      console.log(
-        '🚀 ~ file: [...nextauth].js ~ line 119 ~ session ~ session, token',
-        session,
-        token
-      );
       session.accessToken = token.account;
       return session;
     },
