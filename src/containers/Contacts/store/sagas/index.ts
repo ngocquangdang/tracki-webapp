@@ -27,6 +27,7 @@ import { makeSelectContacts } from '../selector';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
 import { fetchTrackersRequestedAction } from '@Containers/Trackers/store/actions';
+import { isArray } from 'lodash';
 
 function* getContactListSaga(action: ActionType) {
   const { account_id } = action.payload;
@@ -174,13 +175,11 @@ function* updateContactSaga(action: ActionType) {
 }
 
 function* getContactAssignedSaga(action) {
-  const { device_id } = action.payload;
+  const { device_id, account_id } = action.payload;
   try {
-    const profile = yield select(makeSelectProfile());
-
     const { data } = yield call(
       apiServices.contactAssigned,
-      profile.account_id,
+      account_id,
       device_id
     );
     const contactAssigned = data.contactAssignments.reduce(
@@ -216,7 +215,7 @@ function* addContactAssignSaga(action) {
       profile.account_id,
       device_id,
       data,
-      eventType
+      isArray(eventType) ? { ...eventType } : eventType
     );
     yield put(
       showSnackbar({

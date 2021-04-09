@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { uniqueId } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -36,7 +36,10 @@ import {} from '@Containers/SingleTracker/store/actions';
 import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
-import { makeSelectLoading } from '@Containers/App/store/selectors';
+import {
+  makeSelectLoading,
+  makeSelectProfile,
+} from '@Containers/App/store/selectors';
 import {
   makeSelectGeofenceIds,
   makeSelectEditGeofenceId,
@@ -55,8 +58,11 @@ import {
   addContactAssignedRequestedAction,
   removeContactAssignedRequestedAction,
   searchContactRequestedAction,
+  getContactAssignedRequestedAction,
 } from '@Containers/Contacts/store/actions';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+import { useInjectSaga } from '@Utils/injectSaga';
+import saga from '@Containers/Contacts/store/sagas';
 
 interface Props {
   tracker: ITracker;
@@ -92,8 +98,12 @@ interface Props {
   errors: any;
 }
 
+const eventType = 'geozone';
+
 function SingleTrackerGeofences(props: Props) {
   const classes = useStyles();
+  useInjectSaga({ key: 'contacts', saga });
+
   const {
     show,
     tracker,
@@ -311,6 +321,7 @@ function SingleTrackerGeofences(props: Props) {
           addContactPageRequest={addContactPageRequest}
           tracker={tracker}
           errors={errors}
+          eventTypes={eventType}
         />
       </div>
     </Slide>
@@ -345,6 +356,8 @@ const mapDispatchToProps = dispatch => ({
   removeContactRequest: (data, eventType) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
+  getContactAssignedRequest: (device_id: number, account_id: number) =>
+    getContactAssignedRequestedAction(device_id, account_id),
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -357,6 +370,7 @@ const mapStateToProps = createStructuredSelector({
   contactAssigneds: makeSelectcontactAssigneds(),
   contactAssignedIds: makeSelectcontactAssignedIds(),
   errors: makeSelectErrors(),
+  profile: makeSelectProfile(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
