@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { uniqueId } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
