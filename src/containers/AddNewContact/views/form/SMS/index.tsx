@@ -15,6 +15,7 @@ const initialData = {
 export default function SMSForm(props) {
   const classes = useStyles();
   const [code, setCode] = useState(1);
+  const [textErrorPhone, setTextErrorPhone] = useState('');
   const {
     t,
     type,
@@ -22,10 +23,15 @@ export default function SMSForm(props) {
     isRequesting,
     onClose,
     errors,
+    listContactPhone,
   } = props;
 
   const onSubmit = value => {
     const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
+    if (listContactPhone.includes(phoneNumber?.number)) {
+      setTextErrorPhone(t('contact:contact_already'));
+      return;
+    }
     firebaseLogEventRequest('add_new_contact_modal', 'add_contact_type_phone');
     addContactPageRequest(
       { name: value.name, type, address: phoneNumber?.number },
@@ -82,7 +88,7 @@ export default function SMSForm(props) {
                 onChangeInput={(code: any) => setCode(code)}
                 searchStyle={{ width: '93%', height: '35px' }}
               />
-              <Notifi>{errors.code}</Notifi>
+              <Notifi>{errors.code || textErrorPhone}</Notifi>
               <Button
                 classes={`${classes.fullWidth} ${classes.btn}`}
                 text={t('auth:add_contact')}

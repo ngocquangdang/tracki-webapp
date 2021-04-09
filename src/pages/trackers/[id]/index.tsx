@@ -14,7 +14,10 @@ const SingleTrackerView: NextPage<IPage.InitialProps> = (props: Props) => {
 };
 
 SingleTrackerView.getInitialProps = async (): Promise<IPage.InitialProps> => {
-  return { namespacesRequired: ['common'] };
+  return { namespacesRequired: ['common', 'contact'] };
 };
 
-export default compose(withAuth, withTranslation('common'))(SingleTrackerView);
+export default compose(
+  withAuth,
+  withTranslation(['common', 'contact'])
+)(SingleTrackerView);

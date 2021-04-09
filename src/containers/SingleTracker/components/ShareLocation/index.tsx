@@ -63,7 +63,6 @@ function ShareLocation(props: Props) {
   const handleDeactiveLink = () => {
     props.deactiveLinkShare();
     setRenderDetail(false);
-    handleClose();
   };
   const linkDomain = window.location.host;
   const linkShareLocation = `${

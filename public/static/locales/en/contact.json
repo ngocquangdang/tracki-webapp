@@ -4,5 +4,6 @@
   "search_contact": "Search Contact",
   "row_per_page": "Rows per page",
   "add": "Add",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "contact_already": "Contact address already exists for this account"
 }
