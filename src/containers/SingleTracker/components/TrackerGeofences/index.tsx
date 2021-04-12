@@ -18,7 +18,7 @@ import { GEOFENCE_DEFAULT } from '@Components/GeofenceListPC/constant';
 import { MAP_ACTIONS } from '@Components/Maps/constant';
 import { Button } from '@Components/buttons';
 import TabPanel from '@Components/TabPanel';
-import { ITracker } from '@Interfaces';
+import { ITracker, IGeofence } from '@Interfaces';
 import {
   linkTrackersRequestAction,
   unlinkTrackersRequestAction,
@@ -32,8 +32,6 @@ import {
   createGeofenceRequestAction,
   resetNewGeofenceAction,
 } from '@Containers/Trackers/store/actions';
-import {} from '@Containers/SingleTracker/store/actions';
-import { useStyles } from './styles';
 
 import { changeMapAction } from '@Containers/App/store/actions';
 import {
@@ -45,7 +43,6 @@ import {
   makeSelectEditGeofenceId,
   makeSelectNewGeofence,
 } from '@Containers/Trackers/store/selectors';
-import { IGeofence } from '@Interfaces';
 import { makeSelectErrors } from '@Containers/AddTracker/store/selectors';
 import {
   makeSelectContacts,
@@ -61,8 +58,8 @@ import {
   getContactAssignedRequestedAction,
 } from '@Containers/Contacts/store/actions';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-import { useInjectSaga } from '@Utils/injectSaga';
-import saga from '@Containers/Contacts/store/sagas';
+
+import { useStyles } from './styles';
 
 interface Props {
   tracker: ITracker;
@@ -90,19 +87,19 @@ interface Props {
   getContactListRequestAction(account_id: number): void;
   addContactPageRequest(data, callback): void;
   [data: string]: any;
-  removeContactRequest(data, eventType): void;
-  addContactPageRequest(data, callback): void;
+  removeContactRequest(data, eventType, callack): void;
+  removeContactRequest(data, eventType, callack): void;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
   searchContactRequest(v): void;
   errors: any;
+  getContactAssigned(device_id, account_id, callback): void;
 }
 
 const eventType = 'geozone';
 
 function SingleTrackerGeofences(props: Props) {
   const classes = useStyles();
-  useInjectSaga({ key: 'contacts', saga });
 
   const {
     show,
@@ -135,6 +132,8 @@ function SingleTrackerGeofences(props: Props) {
     contactAssigneds,
     contactAssignedIds,
     errors,
+    getContactAssigned,
+    profile,
   } = props;
 
   const [currentTab, setCurrentTab] = useState(0);
@@ -154,7 +153,6 @@ function SingleTrackerGeofences(props: Props) {
     switch (key) {
       case 0:
         return 'linked_geofence_edit_geofence';
-
       default:
         return 'unlinked_geofence_edit_geofence';
     }
@@ -198,6 +196,7 @@ function SingleTrackerGeofences(props: Props) {
   const onAddContact = () => {
     firebaseLogEventRequest('geofences_device', 'add_geofence');
     // getContactListRequestAction();
+    getContactAssigned(tracker.device_id, profile.account_id, onClickBack);
     setShowSelectContactPanel(true);
   };
 
@@ -351,13 +350,13 @@ const mapDispatchToProps = dispatch => ({
   //   dispatch(getContactListRequestAction(account_id)),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
-  addContactRequest: (data, eventType) =>
-    dispatch(addContactAssignedRequestedAction(data, eventType)),
-  removeContactRequest: (data, eventType) =>
-    dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  addContactRequest: (data, eventType, callack) =>
+    dispatch(addContactAssignedRequestedAction(data, eventType, callack)),
+  removeContactRequest: (data, eventType, callack) =>
+    dispatch(removeContactAssignedRequestedAction(data, eventType, callack)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
-  getContactAssignedRequest: (device_id: number, account_id: number) =>
-    getContactAssignedRequestedAction(device_id, account_id),
+  getContactAssigned: (device_id, account_id, callback) =>
+    dispatch(getContactAssignedRequestedAction(device_id, account_id)),
 });
 
 const mapStateToProps = createStructuredSelector({

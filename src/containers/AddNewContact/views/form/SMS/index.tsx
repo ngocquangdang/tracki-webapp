@@ -23,7 +23,6 @@ export default function SMSForm(props) {
     onClose,
     errors,
   } = props;
-
   const onSubmit = value => {
     const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
     firebaseLogEventRequest('add_new_contact_modal', 'add_contact_type_phone');
