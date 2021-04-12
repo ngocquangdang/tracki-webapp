@@ -106,7 +106,7 @@ interface Props {
   contacts: object;
   contactIds: Array<number>;
   searchContactRequest(v): void;
-  getContactAssignedRequest(device_id): void;
+  getContactAssignedRequest(device_id, account_id): void;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
   addContactRequest(data, eventType): void;
@@ -294,7 +294,7 @@ function SettingTracker(props: Props) {
   const onShowSelectContact = value => {
     firebaseLogEventRequest('settings_device', `add_contact_${value}`);
     getContactListRequest(profile.id);
-    getContactAssignedRequest(infoTracker.device_id);
+    getContactAssignedRequest(infoTracker.device_id, profile.id);
     setShowSelectContat(!isShowSelectContact);
     setEventype(value);
   };
@@ -831,8 +831,8 @@ const mapDispatchToProps = dispatch => ({
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
-  getContactAssignedRequest: (device_id: number) =>
-    dispatch(getContactAssignedRequestedAction(device_id)),
+  getContactAssignedRequest: (device_id: number, account_id: number) =>
+    dispatch(getContactAssignedRequestedAction(device_id, account_id)),
   addContactRequest: (data, eventType) =>
     dispatch(addContactAssignedRequestedAction(data, eventType)),
   removeContactRequest: (data, eventType) =>

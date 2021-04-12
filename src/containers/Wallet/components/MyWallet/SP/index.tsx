@@ -175,8 +175,9 @@ const mapDisPatchToProps = dispatch => {
 };
 
 const withConnect = connect(mapStateToProps, mapDisPatchToProps);
-export default compose(withConnect, memo)(MyWalletSP) as React.ComponentType<
-  IT
->;
+export default compose(
+  withConnect,
+  memo
+)(MyWalletSP) as React.ComponentType<IT>;
 
 // export default MyWalletSP;

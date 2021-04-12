@@ -40,7 +40,7 @@ export const addContactAssign = async (
   return await data.map(contact_id => {
     return axiosClient.put(
       `v3/accounts/${account_id}/devices/${device_id}/contacts/${contact_id}`,
-      [eventType]
+      [eventType === 'geozone' ? `${eventType}_${contact_id}` : eventType]
     );
   });
 };

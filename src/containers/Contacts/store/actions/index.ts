@@ -112,12 +112,15 @@ export const editContactFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const getContactAssignedRequestedAction = device_id => ({
-  type: types.GET_CONTACT_ASSIGNED_REQUESTED,
-  payload: {
-    device_id,
-  },
-});
+export const getContactAssignedRequestedAction = (device_id, account_id) => {
+  return {
+    type: types.GET_CONTACT_ASSIGNED_REQUESTED,
+    payload: {
+      device_id,
+      account_id,
+    },
+  };
+};
 
 export const getContactAssignedSucceedAction = payload => ({
   type: types.GET_CONTACT_ASSIGNED_SUCCESSED,
