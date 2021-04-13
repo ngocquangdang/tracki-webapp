@@ -93,7 +93,7 @@ interface Props {
   contactAssignedIds: Array<number>;
   searchContactRequest(v): void;
   errors: any;
-  getContactAssigned(device_id, account_id, callback): void;
+  getContactAssigned(device_id, account_id): void;
 }
 
 const eventType = 'geozone';
@@ -196,7 +196,7 @@ function SingleTrackerGeofences(props: Props) {
   const onAddContact = () => {
     firebaseLogEventRequest('geofences_device', 'add_geofence');
     // getContactListRequestAction();
-    getContactAssigned(tracker.device_id, profile.account_id, onClickBack);
+    getContactAssigned(tracker.device_id, profile.account_id);
     setShowSelectContactPanel(true);
   };
 
@@ -355,7 +355,7 @@ const mapDispatchToProps = dispatch => ({
   removeContactRequest: (data, eventType, callack) =>
     dispatch(removeContactAssignedRequestedAction(data, eventType, callack)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
-  getContactAssigned: (device_id, account_id, callback) =>
+  getContactAssigned: (device_id, account_id) =>
     dispatch(getContactAssignedRequestedAction(device_id, account_id)),
 });
 
