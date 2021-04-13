@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme => ({
   inputProps: {
     backgroundColor: 'red',
   },
+  textError: {
+    color: 'red',
+  },
   timePicker: {
     marginRight: '10px',
   },
