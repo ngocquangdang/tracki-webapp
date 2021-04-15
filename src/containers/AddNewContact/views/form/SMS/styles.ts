@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Notifi = styled.p`
   color: #ff0000;
   text-align: center;
+  margin: 5px;
 `;
 
 const useStyles = makeStyles(theme => ({

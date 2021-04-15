@@ -185,7 +185,7 @@ export default function DateTimePicker(props: Props) {
                   'aria-label': 'change date',
                 }}
                 color="primary"
-                minDate={dateTime.fromDate}
+                minDate={dateTime.fromDate * 1000}
                 maxDate={moment(new Date())}
               />
             </ThemeProvider>

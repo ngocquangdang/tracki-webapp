@@ -181,6 +181,8 @@ export default function SelectContactPC(props: Props) {
           />
         </Save>
         <AddNewContact
+          contacts={contacts}
+          contactIds={contactIds}
           showAddContact={showAddContact}
           onClose={onHiddenAddContact}
           addContactPageRequest={addContactPageRequest}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
@@ -19,13 +19,19 @@ export default function EmailForm(props) {
     isRequesting,
     onClose,
     errors,
+    listContactEmail,
   } = props;
 
   const classes = useStyles();
+  const [textErrorEmail, setTextErrorEmail] = useState('');
   const onSubmit = value => {
+    if (listContactEmail.includes(value.email)) {
+      setTextErrorEmail(t('contact:contact_already'));
+      return;
+    }
     firebaseLogEventRequest('add_new_contact_modal', 'add_contact_type_email');
     addContactPageRequest(
-      { name: value.name, type, address: value.email },
+      { name: value.name.trim(), type, address: value.email },
       onClose
     );
   };
@@ -68,7 +74,7 @@ export default function EmailForm(props) {
                   errorsForm.email && touched.email ? t(errorsForm.email) : ''
                 }
               />
-              <Notifi>{errors.code}</Notifi>
+              <Notifi>{errors.code || textErrorEmail}</Notifi>
               <Button
                 className={`${classes.fullWidth} ${classes.btn}`}
                 text={t('auth:add_contact')}
