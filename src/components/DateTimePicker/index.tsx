@@ -56,8 +56,10 @@ export default function DateTimePicker(props: Props) {
   const [dateOptions, setDateOption] = useState<any>('');
   const [isDateRange, showDateRange] = useState(false);
   const [isSpecificDate, showSpecificDate] = useState(false);
+  const [textError, setTextError] = useState('');
 
   const handleChangeOption = value => {
+    setTextError('');
     setDateOption(value);
     showDateRange(value === 'date_range');
     showSpecificDate(value === 'specific_date');
@@ -99,6 +101,7 @@ export default function DateTimePicker(props: Props) {
   };
 
   const onChangeSpecificDate = date => {
+    setTextError('');
     onChange({
       fromDate: moment(date).unix(),
       toDate: moment(date).unix(),
@@ -106,17 +109,26 @@ export default function DateTimePicker(props: Props) {
   };
 
   const onChangeHourFrom = date => {
-    onChange({
-      fromDate: moment(date).unix(),
-      toDate: dateTime.toDate,
-    });
+    if (dateTime.toDate < moment(date).unix()) {
+      setTextError('Time from should be less than Time to');
+    } else {
+      onChange({
+        fromDate: moment(date).unix(),
+        toDate: dateTime.toDate,
+      });
+    }
   };
 
   const onChangeHourTo = date => {
-    onChange({
-      fromDate: dateTime.fromDate,
-      toDate: moment(date).unix(),
-    });
+    if (dateTime.fromDate > moment(date).unix()) {
+      setTextError('Time from should be less than Time to');
+    } else {
+      setTextError('');
+      onChange({
+        fromDate: dateTime.fromDate,
+        toDate: moment(date).unix(),
+      });
+    }
   };
 
   return (
@@ -182,63 +194,65 @@ export default function DateTimePicker(props: Props) {
       )}
 
       {isSpecificDate && (
-        <PickerProvider libInstance={moment} utils={DateUtils}>
-          <ThemeProvider
-            theme={isBlackView ? themePickerDateBlackView : themePickerDate}
-          >
-            <div
-              className={
-                isHistory
-                  ? classes.containerSpecificTimeHistory
-                  : classes.containerSpecificTime
-              }
+        <>
+          <PickerProvider libInstance={moment} utils={DateUtils}>
+            <ThemeProvider
+              theme={isBlackView ? themePickerDateBlackView : themePickerDate}
             >
-              <DatePicker
-                autoOk
-                disableToolbar
-                variant="inline"
-                inputVariant="outlined"
-                label="Specific Date and Hours"
-                format="dd/MM/yyyy"
-                value={dateTime.fromDate * 1000}
-                onChange={onChangeSpecificDate}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-                maxDate={moment(new Date())}
-                // minDate={dateTime.fromDate * 1000}
-                className={isHistory ? '' : classes.marginRight}
-              />
               <div
                 className={
                   isHistory
-                    ? classes.controlTimePickerHistory
-                    : classes.controlTimePicker
+                    ? classes.containerSpecificTimeHistory
+                    : classes.containerSpecificTime
                 }
               >
-                <TimePicker
-                  label="Time from"
-                  placeholder="08:00 AM"
+                <DatePicker
+                  autoOk
+                  disableToolbar
                   variant="inline"
-                  mask="__:__ _M"
                   inputVariant="outlined"
+                  label="Specific Date and Hours"
+                  format="dd/MM/yyyy"
                   value={dateTime.fromDate * 1000}
-                  onChange={onChangeHourFrom}
-                  className={classes.timePicker}
+                  onChange={onChangeSpecificDate}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                  maxDate={moment(new Date())}
+                  className={isHistory ? '' : classes.marginRight}
                 />
-                <TimePicker
-                  label="Time to"
-                  placeholder="08:00 AM"
-                  variant="dialog"
-                  inputVariant="outlined"
-                  mask="__:__ _M"
-                  value={dateTime.toDate * 1000}
-                  onChange={onChangeHourTo}
-                />
+                <div
+                  className={
+                    isHistory
+                      ? classes.controlTimePickerHistory
+                      : classes.controlTimePicker
+                  }
+                >
+                  <TimePicker
+                    label="Time from"
+                    placeholder="08:00 AM"
+                    variant="inline"
+                    mask="__:__ _M"
+                    inputVariant="outlined"
+                    value={dateTime.fromDate * 1000}
+                    onChange={onChangeHourFrom}
+                    className={classes.timePicker}
+                  />
+                  <TimePicker
+                    label="Time to"
+                    placeholder="08:00 AM"
+                    variant="dialog"
+                    inputVariant="outlined"
+                    mask="__:__ _M"
+                    value={dateTime.toDate * 1000}
+                    onChange={onChangeHourTo}
+                  />
+                </div>
               </div>
-            </div>
-          </ThemeProvider>
-        </PickerProvider>
+            </ThemeProvider>
+          </PickerProvider>
+          <div className={classes.textError}>{textError}</div>
+        </>
       )}
       {isHistory ? (
         <div

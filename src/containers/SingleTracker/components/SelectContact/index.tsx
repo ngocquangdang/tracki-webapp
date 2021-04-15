@@ -14,8 +14,8 @@ interface Props {
   contactIds: Array<number>;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
-  addContactRequest(data, eventTypes): void;
-  removeContactRequest(data, eventTypes): void;
+  addContactRequest(data, eventTypes, callback): void;
+  removeContactRequest(data, eventTypes, callback): void;
   eventTypes?: string;
   addContactPageRequest(data, callback): void;
   t(key: string): string;

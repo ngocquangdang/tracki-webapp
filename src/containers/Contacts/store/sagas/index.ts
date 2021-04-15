@@ -26,7 +26,7 @@ import {
 import { makeSelectContacts } from '../selector';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { makeSelectTrackerId } from '@Containers/Trackers/store/selectors';
-import { fetchTrackersRequestedAction } from '@Containers/Trackers/store/actions';
+import { isArray } from 'lodash';
 
 function* getContactListSaga(action: ActionType) {
   const { account_id } = action.payload;
@@ -174,13 +174,11 @@ function* updateContactSaga(action: ActionType) {
 }
 
 function* getContactAssignedSaga(action) {
-  const { device_id } = action.payload;
+  const { device_id, account_id } = action.payload;
   try {
-    const profile = yield select(makeSelectProfile());
-
     const { data } = yield call(
       apiServices.contactAssigned,
-      profile.account_id,
+      account_id,
       device_id
     );
     const contactAssigned = data.contactAssignments.reduce(
@@ -206,7 +204,7 @@ function* getContactAssignedSaga(action) {
 }
 
 function* addContactAssignSaga(action) {
-  const { data, eventType } = action.payload;
+  const { data, eventType, callback } = action.payload;
   try {
     const profile = yield select(makeSelectProfile());
     const device_id = yield select(makeSelectTrackerId());
@@ -216,7 +214,7 @@ function* addContactAssignSaga(action) {
       profile.account_id,
       device_id,
       data,
-      eventType
+      isArray(eventType) ? { ...eventType } : eventType
     );
     yield put(
       showSnackbar({
@@ -224,16 +222,17 @@ function* addContactAssignSaga(action) {
         snackMessage: 'Assign Contact Success',
       })
     );
-    yield put(fetchTrackersRequestedAction(profile.account_id));
+    yield callback();
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
     yield put(addContactAssignedFailedAction(payload));
+    yield callback();
   }
 }
 
 function* removeContactAssignSaga(action) {
-  const { data, eventType } = action.payload;
+  const { data, eventType, callback } = action.payload;
 
   try {
     const profile = yield select(makeSelectProfile());
@@ -251,11 +250,12 @@ function* removeContactAssignSaga(action) {
         snackMessage: 'Remove Contact Success',
       })
     );
-    yield put(fetchTrackersRequestedAction(profile.account_id));
+    yield callback();
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
     yield put(removeContactAssignedFailedAction(payload));
+    yield callback();
   }
 }
 export default function* appWatcher() {

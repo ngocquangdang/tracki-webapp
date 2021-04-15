@@ -14,7 +14,10 @@ const ForgotPasswordFromSchema = Yup.object().shape({
     .required('required'),
 });
 const EmailFormSchema = Yup.object().shape({
-  email: Yup.string().email('email_invalid').required('required'),
+  email: Yup.string()
+    .email('email_invalid')
+    .required('required')
+    .trim('required'),
 });
 const CodeFormSchema = Yup.object().shape({
   code: Yup.string().required('required'),

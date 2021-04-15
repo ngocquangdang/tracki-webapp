@@ -49,7 +49,7 @@ function MyWalletSP(props: Props) {
 
   useEffect(() => {
     getTransactionDetailRequest();
-  }, []);
+  }, [getTransactionDetailRequest]);
 
   const onBack = () => Router.back();
 

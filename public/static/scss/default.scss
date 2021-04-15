@@ -50,7 +50,7 @@ input:-webkit-autofill:active {
       box-shadow: 0 0 0 0;
     }
     & + div.flag-dropdown::before {
-      content: 'Phone Number' !important;
+      content: '';
       color: gray !important;
       left: 8px;
     }

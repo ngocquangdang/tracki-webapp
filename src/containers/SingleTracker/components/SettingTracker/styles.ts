@@ -38,6 +38,8 @@ const ImageTracker = styled.div`
   display: flex;
   cursor: pointer;
   justify-content: center;
+  width: fit-content;
+  margin: auto;
 `;
 const UploadImage = styled.div`
   width: 57px;

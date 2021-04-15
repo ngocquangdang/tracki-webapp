@@ -25,7 +25,6 @@ export default function SMSForm(props) {
     errors,
     listContactPhone,
   } = props;
-
   const onSubmit = value => {
     const phoneNumber = parsePhoneNumberFromString(`+${code}${value.phone}`);
     if (listContactPhone.includes(phoneNumber?.number)) {

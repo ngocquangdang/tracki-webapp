@@ -26,8 +26,8 @@ interface Props {
   contactIds: any;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
-  addContactRequest(data, eventTypes): void;
-  removeContactRequest(data, eventTypes): void;
+  addContactRequest(data, eventTypes, callback): void;
+  removeContactRequest(data, eventTypes, callback): void;
   eventTypes?: string;
   addContactPageRequest(data, callback): void;
   t(key: string): string;
@@ -54,14 +54,23 @@ export default function SelectContactPC(props: Props) {
   } = props;
 
   const [contactSelected, setContactSelected] = useState<any>([]);
+
   const [initContactSelected, setInitContactSelected] = useState<any>([]);
 
   useEffect(() => {
     firebaseLogEventRequest('contact_list_sidebar', '');
     if (contactAssignedIds.length > 0) {
-      const contactSlectedByEventType = contactAssignedIds.filter(item =>
-        contactAssigneds[item].eventTypes.includes(eventTypes)
-      );
+      let contactSlectedByEventType;
+      if (eventTypes === 'geozone') {
+        contactSlectedByEventType = contactAssignedIds.filter(item =>
+          contactAssigneds[item].eventTypes.includes(eventTypes + `_${item}`)
+        );
+      } else {
+        contactSlectedByEventType = contactAssignedIds.filter(item =>
+          contactAssigneds[item].eventTypes.includes(eventTypes)
+        );
+      }
+
       setContactSelected(contactSlectedByEventType);
       setInitContactSelected(contactSlectedByEventType);
     }
@@ -113,10 +122,10 @@ export default function SelectContactPC(props: Props) {
       contactSelected
     );
     if (addContactAssign.length > 0) {
-      addContactRequest(addContactAssign, eventTypes);
+      addContactRequest(addContactAssign, eventTypes, handleClose);
     }
     if (removeContactAssign.length > 0) {
-      removeContactRequest(removeContactAssign, eventTypes);
+      removeContactRequest(removeContactAssign, eventTypes, handleClose);
     }
   };
 
