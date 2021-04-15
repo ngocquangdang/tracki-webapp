@@ -132,9 +132,13 @@ export const getContactAssignedFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const addContactAssignedRequestedAction = (data, eventType) => ({
+export const addContactAssignedRequestedAction = (
+  data,
+  eventType,
+  callback
+) => ({
   type: types.ADD_CONTACT_ASSIGNED_REQUESTED,
-  payload: { data, eventType },
+  payload: { data, eventType, callback },
 });
 
 export const addContactAssignedSucceedAction = payload => ({
@@ -147,11 +151,16 @@ export const addContactAssignedFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const removeContactAssignedRequestedAction = (data, eventType) => ({
+export const removeContactAssignedRequestedAction = (
+  data,
+  eventType,
+  callback
+) => ({
   type: types.REMOVE_CONTACT_ASSIGNED_REQUESTED,
   payload: {
     data,
     eventType,
+    callback,
   },
 });
 

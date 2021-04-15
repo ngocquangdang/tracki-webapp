@@ -109,8 +109,8 @@ interface Props {
   getContactAssignedRequest(device_id, account_id): void;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
-  addContactRequest(data, eventType): void;
-  removeContactRequest(data, eventType): void;
+  addContactRequest(data, eventType, callback): void;
+  removeContactRequest(data, eventType, callback): void;
   addContactPageRequest(data, callback): void;
   errors: any;
   profile: any;
@@ -136,6 +136,8 @@ function SettingTracker(props: Props) {
   const [openBatteryMode, setOpenBatteryMode] = useState(false);
   const [isShowSelectContact, setShowSelectContat] = useState(false);
   const [eventType, setEventype] = useState('');
+  const [error, setError] = useState('');
+
   const classes = useStyles();
   const {
     handleClose,
@@ -187,6 +189,7 @@ function SettingTracker(props: Props) {
 
   useEffect(() => {
     firebaseLogEventRequest('settings_device', '');
+    setError('');
     if (trackerSettings && tracker) {
       // const {
       //   sample_rate,
@@ -218,6 +221,7 @@ function SettingTracker(props: Props) {
       tracking_mode,
       device_name,
       device_id,
+      speed_limit,
       ...preferences
     } = infoTracker;
     // const [
@@ -240,6 +244,13 @@ function SettingTracker(props: Props) {
       },
       file: imageFile.file,
     };
+    setError('');
+    if (speed_limit.enable && speed_limit.value === 0) {
+      return showSnackbar({
+        snackMessage: 'To get speed alert, you must enter a speed',
+        snackType: 'error',
+      });
+    }
     props.updateSettings(
       tracker.settings_id,
       bodyRequest,
@@ -274,7 +285,18 @@ function SettingTracker(props: Props) {
     setOpenBatteryMode(true);
   };
   const onChangeImage = (e: any) => {
+    setError('');
     const file = e.target.files[0];
+    if (!file) return;
+    if (
+      (file && !file.type.includes('image/img')) ||
+      !file.type.includes('image/png') ||
+      !file.type.includes('image/jpeg')
+    ) {
+      setError('File type is not supported');
+      setImage('');
+      return;
+    }
     setLoading(true);
 
     const reader = new FileReader();
@@ -356,7 +378,7 @@ function SettingTracker(props: Props) {
           <input
             id="imageIcon"
             type="file"
-            accept="image/*"
+            accept=".jpg, .jpeg, .png"
             style={{ display: 'none' }}
             onChange={onChangeImage}
           />
@@ -375,6 +397,7 @@ function SettingTracker(props: Props) {
             </UploadImage>
           </ImageWrapper>
         </ImageTracker>
+        <p className={classes.errorText}>{error}</p>
         <Formik
           initialValues={{ infoTracker, speed_unit }}
           onSubmit={onSubmitForm}
@@ -398,6 +421,9 @@ function SettingTracker(props: Props) {
                     onChange={handleChange('infoTracker.device_name')}
                     onBlur={handleBlur('infoTracker.device_name')}
                     variant="outlined"
+                    errorInput={
+                      !values.infoTracker?.device_name ? 'Required' : ''
+                    }
                   />
                   <TextInput
                     label={t('tracker:tracker_id')}
@@ -833,10 +859,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addContactRequestAction(data, callback)),
   getContactAssignedRequest: (device_id: number, account_id: number) =>
     dispatch(getContactAssignedRequestedAction(device_id, account_id)),
-  addContactRequest: (data, eventType) =>
-    dispatch(addContactAssignedRequestedAction(data, eventType)),
-  removeContactRequest: (data, eventType) =>
-    dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  addContactRequest: (data, eventType, callback) =>
+    dispatch(addContactAssignedRequestedAction(data, eventType, callback)),
+  removeContactRequest: (data, eventType, callback) =>
+    dispatch(removeContactAssignedRequestedAction(data, eventType, callback)),
   getDeviceSMSCounterRequest: (device_id: number) =>
     dispatch(getDeviceSMSCounterRequestedAction(device_id)),
   getDeviceSubscripttionRequest: data =>

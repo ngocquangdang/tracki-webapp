@@ -27,8 +27,8 @@ interface Props {
   contactIds: Array<number>;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
-  addContactRequest(data, eventTypes): void;
-  removeContactRequest(data, eventTypes): void;
+  addContactRequest(data, eventTypes, callback): void;
+  removeContactRequest(data, eventTypes, callback): void;
   eventTypes?: string;
   addContactPageRequest(data, callback): void;
   t(key: string): string;
@@ -115,10 +115,10 @@ export default function SelectContactSP(props: Props) {
       contactSelected
     );
     if (addContactAssign.length > 0) {
-      addContactRequest(addContactAssign, eventTypes);
+      addContactRequest(addContactAssign, eventTypes, handleClose);
     }
     if (removeContactAssign.length > 0) {
-      removeContactRequest(removeContactAssign, eventTypes);
+      removeContactRequest(removeContactAssign, eventTypes, handleClose);
     }
   };
 
