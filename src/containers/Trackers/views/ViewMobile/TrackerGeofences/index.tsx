@@ -63,7 +63,8 @@ interface Props {
   changeMapAction(mapAction: string): void;
   getContactListRequestAction(account_id: number): void;
   [data: string]: any;
-  removeContactRequest(data, eventType): void;
+  removeContactRequest(data, eventType, callback): void;
+  addContactRequest(data, eventType, callback): void;
   addContactPageRequest(data, callback): void;
   contactAssigneds: object;
   contactAssignedIds: Array<number>;
@@ -315,10 +316,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getContactListRequestAction(account_id)),
   addContactPageRequest: (data, callback) =>
     dispatch(addContactRequestAction(data, callback)),
-  addContactRequest: (data, eventType) =>
-    dispatch(addContactAssignedRequestedAction(data, eventType)),
-  removeContactRequest: (data, eventType) =>
-    dispatch(removeContactAssignedRequestedAction(data, eventType)),
+  addContactRequest: (data, eventType, callback) =>
+    dispatch(addContactAssignedRequestedAction(data, eventType, callback)),
+  removeContactRequest: (data, eventType, callback) =>
+    dispatch(removeContactAssignedRequestedAction(data, eventType, callback)),
   searchContactRequest: v => dispatch(searchContactRequestedAction(v)),
 });
 
