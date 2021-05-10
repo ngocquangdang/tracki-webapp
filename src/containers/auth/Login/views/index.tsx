@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { useSession, signIn, signOut } from 'next-auth/client';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import { FaGooglePlusG } from 'react-icons/fa';
+// import { useSession, signIn, signOut } from 'next-auth/client';
+// import FacebookIcon from '@material-ui/icons/Facebook';
+// import { FaGooglePlusG } from 'react-icons/fa';
 
 import { AuthLayout } from '@Layouts';
 import { Button } from '@Components/buttons';
@@ -24,51 +24,49 @@ import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-import axios from 'axios';
 
 export default function Login(props: ILoginPage.IProps) {
-  const { t, resetErrorAction, loginSocialNetworkRequestAction } = props;
+  const { t, resetErrorAction } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [session] = useSession();
 
   firebaseLogEventRequest('login_page', '');
 
-  useEffect(() => {
-    if (session && session.accessToken) {
-      const configData = {
-        accessToken: session.accessToken,
-        whiteLabel:
-          process.env.NEXT_PUBLIC_API_URL === 'https://api.dev.tracki.com/api'
-            ? 'TRACKI'
-            : 'TRACKIMO',
-        client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
-        redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
-      };
-      loginSocialNetworkRequestAction(session.accessToken.provider, configData);
-    }
-  }, [session, loginSocialNetworkRequestAction]);
+  // useEffect(() => {
+  //   if (session && session.accessToken) {
+  //     const configData = {
+  //       accessToken: session.accessToken,
+  //       whiteLabel:
+  //         process.env.NEXT_PUBLIC_API_URL === 'https://api.dev.tracki.com/api'
+  //           ? 'TRACKI'
+  //           : 'TRACKIMO',
+  //       client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
+  //       redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
+  //     };
+  //     loginSocialNetworkRequestAction(session.accessToken.provider, configData);
+  //   }
+  // }, [session, loginSocialNetworkRequestAction]);
 
-  useEffect(() => {
-    async function getToken() {
-      const { data } = await axios.get('api/jwt', {
-        withCredentials: true,
-      });
-      if (data) {
-        const configData = {
-          accessToken: data,
-          whiteLabel:
-            process.env.NEXT_PUBLIC_API_URL === 'https://api.dev.tracki.com/api'
-              ? 'TRACKI'
-              : 'TRACKIMO',
-          client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
-          redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
-        };
-        loginSocialNetworkRequestAction('facebook', configData);
-      }
-    }
-    getToken();
-  }, []);
+  // useEffect(() => {
+  //   async function getToken() {
+  //     const { data } = await axios.get('api/jwt', {
+  //       withCredentials: true,
+  //     });
+  //     if (data) {
+  //       const configData = {
+  //         accessToken: data,
+  //         whiteLabel:
+  //           process.env.NEXT_PUBLIC_API_URL === 'https://api.dev.tracki.com/api'
+  //             ? 'TRACKI'
+  //             : 'TRACKIMO',
+  //         client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
+  //         redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
+  //       };
+  //       loginSocialNetworkRequestAction('facebook', configData);
+  //     }
+  //   }
+  //   getToken();
+  // }, []);
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -93,7 +91,7 @@ export default function Login(props: ILoginPage.IProps) {
           <Description>{t('login_description')}</Description>
           <LoginForm {...props} />
           <Line>{t('or')}</Line>
-          <Button
+          {/* <Button
             className={classes.fbButton}
             variant="outlined"
             text="Login with Facebook"
@@ -106,7 +104,7 @@ export default function Login(props: ILoginPage.IProps) {
             text="Login with Google"
             startIcon={<FaGooglePlusG size={28} />}
             onClick={() => signIn('google')}
-          />
+          /> */}
           <Link href="/create-account">
             <Button
               className={classes.blackBtn}
@@ -115,9 +113,9 @@ export default function Login(props: ILoginPage.IProps) {
               onClick={onCreateNewAccount}
             />
           </Link>
-          {!!session && <p>Signed in as {session.user.email} </p>}
+          {/* {!!session && <p>Signed in as {session.user.email} </p>}
           {!!session && <p onClick={signOut}>Sign out</p>}
-          <iframe src="/api/auth/session" />
+          <iframe src="/api/auth/session" /> */}
         </Content>
         <Footer>
           <Contact>
