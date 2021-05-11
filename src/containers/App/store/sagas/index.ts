@@ -43,7 +43,7 @@ export function* logoutSaga() {
   yield put(actions.logoutFailedAction());
 }
 
-function* LgoutGeobotSaga() {
+function* LogoutGeobotSaga() {
   try {
     yield call(
       apiServices.logoutGeobotTracki,
@@ -59,5 +59,5 @@ function* LgoutGeobotSaga() {
 export default function* appWatcher() {
   yield takeLatest(types.GET_PROFILE_REQUESTED, fetchProfileSaga);
   yield takeLatest(types.LOGOUT, logoutSaga);
-  yield takeLatest(types.LOGOUT_GEO_BOT, LgoutGeobotSaga);
+  yield takeLatest(types.LOGOUT_GEO_BOT, LogoutGeobotSaga);
 }
