@@ -31,24 +31,33 @@ function* fetchProfileSaga() {
 export function* logoutSaga() {
   // const res = yield call(apiServices.logout);
   const res = true;
-  yield call(
-    apiServices.logoutGeobotTracki,
-    CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
-    CookieInstance.getCookie('refreshToken'),
-    -8640000
-  );
   CookieInstance.removeCookie(process.env.COOKIE_NAME || 'token');
   CookieInstance.removeCookie('refreshToken');
   CookieInstance.removeCookie('next-auth.session-token');
   if (res) {
     yield put(actions.logoutSucceedAction());
     window.location.replace('/');
+    yield put(actions.logoutGeobotRequestAction());
     return;
   }
   yield put(actions.logoutFailedAction());
 }
 
+function* LgoutGeobotSaga() {
+  try {
+    yield call(
+      apiServices.logoutGeobotTracki,
+      CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
+      CookieInstance.getCookie('refreshToken'),
+      -8640000
+    );
+  } catch (error) {
+    yield put(actions.logoutGeobotFailedAction());
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_PROFILE_REQUESTED, fetchProfileSaga);
   yield takeLatest(types.LOGOUT, logoutSaga);
+  yield takeLatest(types.LOGOUT_GEO_BOT, LgoutGeobotSaga);
 }

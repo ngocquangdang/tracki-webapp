@@ -4,7 +4,13 @@ import { ActionType } from '@Interfaces/index';
 import AxiosClient from '@Utils/axios';
 import CookieInstance from '@Utils/cookie';
 
-import { loginSuccessAction, loginFailAction } from '../actions';
+import {
+  loginSuccessAction,
+  loginFailAction,
+  loginGeoBotSuccessAction,
+  loginGeoBotFailAction,
+  loginGeoBotRequestAction,
+} from '../actions';
 import * as apiServices from '../../services';
 import * as types from '../definitions';
 import { sendMessageToGeobot } from '@Utils/helper';
@@ -20,15 +26,10 @@ function* loginSaga(action: ActionType) {
         response.data.access_token
       );
       CookieInstance.setCookie('refreshToken', response.data.refresh_token);
-      yield call(
-        apiServices.loginGeobotTracki,
-        CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
-        response.data.refresh_token,
-        response.data.expires_in
-      );
-      sendMessageToGeobot('AUTHENTICATE_TOKEN_CRM');
+
       AxiosClient.setHeader(response.data.access_token);
       window.location.replace('/trackers');
+      yield put(loginGeoBotRequestAction(response));
     }
   } catch (error) {
     const { data = {} } = { ...error };
@@ -60,15 +61,10 @@ function* loginSocialNetworkSaga(action: ActionType) {
         response.data.access_token
       );
       CookieInstance.setCookie('refreshToken', response.data.refresh_token);
-      yield call(
-        apiServices.loginGeobotTracki,
-        CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
-        response.data.refresh_token,
-        response.data.expires_in
-      );
-      sendMessageToGeobot('AUTHENTICATE_TOKEN_CRM');
+
       AxiosClient.setHeader(response.data.access_token);
       window.location.replace('/trackers');
+      yield put(loginGeoBotRequestAction(response));
     }
   } catch (error) {
     const { data = {} } = { ...error };
@@ -83,10 +79,28 @@ function* loginSocialNetworkSaga(action: ActionType) {
   }
 }
 
+function* loginGeobotSaga(action) {
+  const {
+    data: { response },
+  } = action.payload;
+  try {
+    yield call(
+      apiServices.loginGeobotTracki,
+      CookieInstance.getEncryptedCookie(process.env.COOKIE_NAME || 'token'),
+      response.data.refresh_token,
+      response.data.expires_in
+    );
+    sendMessageToGeobot('AUTHENTICATE_TOKEN_CRM');
+    yield put(loginGeoBotSuccessAction());
+  } catch (error) {
+    yield put(loginGeoBotFailAction(error));
+  }
+}
 export default function* loginWatcher() {
   yield takeLatest(types.LOGIN_REQUESTED, loginSaga);
   yield takeLatest(
     types.LOGIN_VIA_SOCIAL_NETWORK_REQUESTED,
     loginSocialNetworkSaga
   );
+  yield takeLatest(types.LOGIN_GEO_BOT_REQUESTED, loginGeobotSaga);
 }

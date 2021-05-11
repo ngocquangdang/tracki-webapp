@@ -44,6 +44,24 @@ export const logoutFailedAction = () => {
   };
 };
 
+export const logoutGeobotRequestAction = () => {
+  return {
+    type: types.LOGOUT_GEO_BOT,
+  };
+};
+
+export const logoutGeobotSucceedAction = () => {
+  return {
+    type: types.LOGOUT_GEO_BOT_SUCCEED,
+  };
+};
+
+export const logoutGeobotFailedAction = () => {
+  return {
+    type: types.LOGOUT_GEO_BOT_FAILED,
+  };
+};
+
 export const resetMapAction = () => ({
   type: types.RESET_MAP,
 });
