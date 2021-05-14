@@ -4,14 +4,8 @@ import clsx from 'clsx';
 import { useStyles } from './styles';
 
 function HistoryInfo(props) {
-  const {
-    fromDate,
-    toDate,
-    totalDuration,
-    distance,
-    maxSpeed,
-    avgSpeed,
-  } = props;
+  const { fromDate, toDate, totalDuration, distance, maxSpeed, avgSpeed } =
+    props;
   const classes = useStyles();
   return (
     <div className={clsx(classes.sectionInfo, classes.flexCol)}>

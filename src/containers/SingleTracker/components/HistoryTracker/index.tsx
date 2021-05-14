@@ -34,14 +34,8 @@ interface Props {
 
 function HistoryTracker(props: Props) {
   const classes = useStyles();
-  const {
-    handleClose,
-    t,
-    onClickViewHistory,
-    isMobile,
-    show,
-    isRequesting,
-  } = props;
+  const { handleClose, t, onClickViewHistory, isMobile, show, isRequesting } =
+    props;
   const [history, setHistory] = useState({
     map_view: true,
     seven_day_report: false,

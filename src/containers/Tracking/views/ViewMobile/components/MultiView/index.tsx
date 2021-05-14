@@ -19,13 +19,8 @@ interface Props {
 }
 
 export default function MultiView(props: Props) {
-  const {
-    isMultiScreen,
-    trackers,
-    trackingIds,
-    settings,
-    refreshLocation,
-  } = props;
+  const { isMultiScreen, trackers, trackingIds, settings, refreshLocation } =
+    props;
   const [showCard, setShowCard] = useState(true);
   const classes = useStyles();
   const trackerIds = Object.keys(trackers);

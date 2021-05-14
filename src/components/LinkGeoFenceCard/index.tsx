@@ -32,9 +32,8 @@ interface Props {
 }
 
 export default function LinkGeofenceCard(props: Props) {
-  const [anchorMenuEl, setAnchorMenuEl] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorMenuEl, setAnchorMenuEl] =
+    React.useState<null | HTMLElement>(null);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [showMoreAction, setShowMoreAction] = React.useState(false);
   const {

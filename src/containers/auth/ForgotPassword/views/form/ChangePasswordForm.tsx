@@ -16,14 +16,8 @@ const initialPassword = {
 };
 
 export default function ChangePasswordForm(props: IForgotPage.IProps) {
-  const {
-    t,
-    errors,
-    isRequesting,
-    email,
-    code,
-    confirmPasswordRequestAction,
-  } = props;
+  const { t, errors, isRequesting, email, code, confirmPasswordRequestAction } =
+    props;
   const classes = useStyles();
   const submitForm = (value: any) => {
     if (email && code) {

@@ -43,14 +43,8 @@ interface SettingState {
 
 export default function AccountSetting(props: any) {
   const classes = useStyles();
-  const {
-    t,
-    profile,
-    errors,
-    isRequesting,
-    updatePrefrence,
-    updateInfoUser,
-  } = props;
+  const { t, profile, errors, isRequesting, updatePrefrence, updateInfoUser } =
+    props;
   const [userProfile, updateUserProfile] = useState<UserDatails.IStateUser>({
     email: '',
     first_name: '',

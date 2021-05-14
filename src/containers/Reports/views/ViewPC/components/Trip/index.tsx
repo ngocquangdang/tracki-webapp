@@ -105,7 +105,9 @@ export default function ReportTrip(props: Props) {
 
   useEffect(() => {
     if (modeMap === 'optimized' && (window as any).google) {
-      const directionsService = new (window as any).google.maps.DirectionsService();
+      const directionsService = new (
+        window as any
+      ).google.maps.DirectionsService();
       calculateAndDisplayRoute(directionsService);
     }
   }, [calculateAndDisplayRoute, modeMap]);

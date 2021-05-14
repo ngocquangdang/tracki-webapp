@@ -43,10 +43,8 @@ class TrackerHistoryPath extends React.Component<Props> {
 
   componentWillReceiveProps(nextProps) {
     const { history, pointTrackingIndex, map, isMobile } = nextProps;
-    const {
-      history: thisHistory,
-      pointTrackingIndex: thisPointTrackingIndex,
-    } = this.props;
+    const { history: thisHistory, pointTrackingIndex: thisPointTrackingIndex } =
+      this.props;
 
     if (Object.keys(history).length !== Object.keys(thisHistory).length) {
       this.removeLayer();
@@ -85,8 +83,7 @@ class TrackerHistoryPath extends React.Component<Props> {
     if (point && !this.pointTracking) {
       const icon = new L.DivIcon({
         className: 'point-tracking',
-        html:
-          '<div class="wrapper"><div class="outer"><div class="inner"></div></div></div>',
+        html: '<div class="wrapper"><div class="outer"><div class="inner"></div></div></div>',
       });
       this.pointTracking = L.marker(point, { icon }).addTo(map);
     }

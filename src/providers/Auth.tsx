@@ -24,9 +24,8 @@ export const AuthProvider = ({
   children: ReactNode;
   authenticated: boolean;
 }): ReactElement => {
-  const [isAuthenticated, setAuthenticated] = React.useState<boolean>(
-    authenticated
-  );
+  const [isAuthenticated, setAuthenticated] =
+    React.useState<boolean>(authenticated);
   return (
     <AuthContext.Provider
       value={{

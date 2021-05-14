@@ -21,12 +21,8 @@ interface Props {
 }
 
 export default function TrackerTimeline(props: Props) {
-  const {
-    histories,
-    historyIds,
-    pointTrackingIndex,
-    changePointTracking,
-  } = props;
+  const { histories, historyIds, pointTrackingIndex, changePointTracking } =
+    props;
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const showIds = historyIds.slice(0, 5 * page).filter(id => !!id);

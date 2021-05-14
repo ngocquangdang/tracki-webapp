@@ -19,14 +19,8 @@ interface Props {
 }
 
 function MapToolBars(props: Props) {
-  const {
-    mapTile,
-    isMobile,
-    t,
-    changeMapTile,
-    myLocationClick,
-    changeZoom,
-  } = props;
+  const { mapTile, isMobile, t, changeMapTile, myLocationClick, changeZoom } =
+    props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
 

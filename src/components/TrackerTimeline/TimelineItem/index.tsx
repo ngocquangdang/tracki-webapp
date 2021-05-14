@@ -23,13 +23,8 @@ interface Props {
 }
 
 export default function TrackerTimeline(props: Props) {
-  const {
-    history,
-    pointIndex,
-    isTracking,
-    changePointTracking,
-    isShowDate,
-  } = props;
+  const { history, pointIndex, isTracking, changePointTracking, isShowDate } =
+    props;
   const [address, setAddress] = useState('');
   const classes = useStyles();
 

@@ -5,7 +5,7 @@ import React from 'react';
 import View from '@Containers/Wallet';
 import { compose } from 'redux';
 import withAuth from '@Components/hocs/withAuth';
-import { withTranslation } from '@Server/i18n';
+import { withTranslation } from '../../../server/i18n';
 
 const Wallet: NextPage<IPage.InitialProps> = props => {
   return <View {...props} />;
