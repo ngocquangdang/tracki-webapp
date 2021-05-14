@@ -133,6 +133,15 @@ const useStyles = makeStyles(theme => ({
   btn: {
     margin: '15px 0',
   },
+  fastTrackgroup: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 10,
+    justifyContent: 'space-evenly',
+  },
+  fastTrackSelected: {
+    background: 'rgb(15, 92, 51)',
+  },
 }));
 const CardHeaderStyle = withStyles(theme => ({
   title: {

@@ -11,7 +11,8 @@ import getInjectors from './reducerInjectors';
  * @param {function} reducer A reducer that will be injected
  *
  */
-export default ({ key, reducer }: any) =>
+const injectReducer =
+  ({ key, reducer }: any) =>
   (WrappedComponent: any) => {
     class ReducerInjector extends React.Component {
       static WrappedComponent = WrappedComponent;
@@ -44,3 +45,4 @@ const useInjectReducer = ({ key, reducer }: any) => {
 };
 
 export { useInjectReducer };
+export default injectReducer;
