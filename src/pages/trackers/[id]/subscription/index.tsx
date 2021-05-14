@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { withTranslation } from '@Server/i18n';
 import { IPage } from '@Interfaces';
 import withAuth from '@Components/hocs/withAuth';
-import ViewSubscription from '@Containers/Subscriptions';
+import ViewSubscription from '../../../../containers/Subscriptions';
 
 const Subscription: NextPage = (props: any) => {
   return <ViewSubscription {...props} />;

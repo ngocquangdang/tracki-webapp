@@ -91,12 +91,8 @@ class LeafletTool extends React.Component<Props> {
   vertexEditing = event => {
     console.log('vertexEditing', event);
     const { poly } = event;
-    const {
-      editGeofence,
-      newGeofence,
-      updateNewGeofence,
-      updateGeofence,
-    } = this.props;
+    const { editGeofence, newGeofence, updateNewGeofence, updateGeofence } =
+      this.props;
 
     if (newGeofence) {
       updateNewGeofence({
@@ -117,12 +113,8 @@ class LeafletTool extends React.Component<Props> {
   };
 
   createGeofence = e => {
-    const {
-      updateNewGeofence,
-      mapAction,
-      updateGeofence,
-      editGeofence,
-    } = this.props;
+    const { updateNewGeofence, mapAction, updateGeofence, editGeofence } =
+      this.props;
     const { layerType, layer } = e;
     let data;
     if (layerType === 'circle') {

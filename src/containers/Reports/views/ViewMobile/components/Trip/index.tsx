@@ -116,7 +116,9 @@ function ReportTripMobile(props: Props) {
 
   useEffect(() => {
     if (rest.modeMap === 'optimized' && (window as any).google) {
-      const directionsService = new (window as any).google.maps.DirectionsService();
+      const directionsService = new (
+        window as any
+      ).google.maps.DirectionsService();
       calculateAndDisplayRoute(directionsService);
     }
   }, [calculateAndDisplayRoute, rest.modeMap]);

@@ -29,11 +29,8 @@ export default function TrackingMode(props: Props) {
   useEffect(() => {
     firebaseLogEventRequest('tracking_mode', 'full_tracking_mode');
     if (trackerSettings) {
-      const {
-        sample_rate,
-        samples_per_report,
-        tracking_measurment,
-      } = trackerSettings.preferences.tracking_mode;
+      const { sample_rate, samples_per_report, tracking_measurment } =
+        trackerSettings.preferences.tracking_mode;
       setModeType(
         `${sample_rate}_${samples_per_report}_${tracking_measurment}`
       );
@@ -69,11 +66,8 @@ export default function TrackingMode(props: Props) {
     );
 
     setModeType(e.target.value);
-    const [
-      sample_rate,
-      samples_per_report,
-      tracking_measurment,
-    ] = e.target.value.split('_');
+    const [sample_rate, samples_per_report, tracking_measurment] =
+      e.target.value.split('_');
 
     const bodyRequest = {
       ...trackerSettings,

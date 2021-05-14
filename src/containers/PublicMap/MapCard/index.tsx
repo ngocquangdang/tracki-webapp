@@ -117,13 +117,8 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    const {
-      mapId,
-      trackers,
-      isMultiScreen,
-      isMobile,
-      isMultiView,
-    } = this.props;
+    const { mapId, trackers, isMultiScreen, isMobile, isMultiView } =
+      this.props;
     const { mapCenter, mapZoom } = this.state;
     const mapTile = this.getMapTile(isMultiScreen, mapId);
     let center = mapCenter;

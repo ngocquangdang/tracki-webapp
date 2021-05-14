@@ -16,15 +16,8 @@ interface Props {
 }
 
 export default function SelectOption(props: Props) {
-  const {
-    options,
-    label,
-    value,
-    onChangeOption,
-    name,
-    isBlackView,
-    ...rest
-  } = props;
+  const { options, label, value, onChangeOption, name, isBlackView, ...rest } =
+    props;
   const classes = useStyles();
   const handleChange = (event: any) => {
     onChangeOption(event.target.value);

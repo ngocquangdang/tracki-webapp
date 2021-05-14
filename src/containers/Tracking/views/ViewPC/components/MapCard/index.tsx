@@ -397,11 +397,8 @@ class MapCard extends React.Component<IProps, IState> {
   };
 
   onChangeOption = (value: string | number) => {
-    const {
-      selectedTrackerId,
-      trackingIds,
-      changeTrackersTracking,
-    } = this.props;
+    const { selectedTrackerId, trackingIds, changeTrackersTracking } =
+      this.props;
     const selectedIndex = trackingIds.findIndex(
       id => id.toString() === selectedTrackerId?.toString()
     );

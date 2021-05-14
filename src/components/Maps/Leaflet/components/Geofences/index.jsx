@@ -21,12 +21,8 @@ class Geofences extends React.Component {
 
   onDragEnd = geoId => evt => {
     console.log('___dragEND GEO_ID', geoId, evt);
-    const {
-      geofences,
-      newGeofence,
-      updateGeofence,
-      updateNewGeofence,
-    } = this.props;
+    const { geofences, newGeofence, updateGeofence, updateNewGeofence } =
+      this.props;
 
     evt.target.editing.enable();
     let preferences = { trigger: 'BOTH' };

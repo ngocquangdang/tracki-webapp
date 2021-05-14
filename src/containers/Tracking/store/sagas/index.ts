@@ -28,14 +28,8 @@ function* changeTrackingViewSaga(action) {
 function* getHistoryTrackerSaga(action) {
   try {
     const { account_id } = yield select(makeSelectProfile());
-    const {
-      trackerId,
-      fromDate,
-      toDate,
-      limit,
-      page,
-      type,
-    } = action.payload.data;
+    const { trackerId, fromDate, toDate, limit, page, type } =
+      action.payload.data;
 
     const { data: historyData } = yield call(
       apiServices.getHistoryTracker,

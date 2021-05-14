@@ -13,15 +13,8 @@ interface Props {
 }
 
 function TextFieldComp(props: Props) {
-  const {
-    name,
-    value,
-    label,
-    errorInput,
-    onChange,
-    className,
-    ...rest
-  } = props;
+  const { name, value, label, errorInput, onChange, className, ...rest } =
+    props;
   const classes = useStyles();
 
   return (

@@ -23,14 +23,8 @@ interface Props {
 }
 
 function TrackingSingleView(props: Props) {
-  const {
-    tracker,
-    viewMode,
-    t,
-    settings,
-    getHistoryTracker,
-    refreshLocation,
-  } = props;
+  const { tracker, viewMode, t, settings, getHistoryTracker, refreshLocation } =
+    props;
   const [currentView, setCurrentView] = useState('');
   const classes = useStyles();
 

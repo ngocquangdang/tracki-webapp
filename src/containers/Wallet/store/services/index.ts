@@ -304,8 +304,7 @@ export const getTransactionDetail = () => {
       total: 100.0,
       orders: [
         {
-          name:
-            'Wireless WiFi DoorBell Smart Video Phone Door Visual Ring Intercom Secure Camera',
+          name: 'Wireless WiFi DoorBell Smart Video Phone Door Visual Ring Intercom Secure Camera',
           price: '49.95',
           qty: 1,
           id: 111,
