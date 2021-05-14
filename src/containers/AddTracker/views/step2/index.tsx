@@ -24,6 +24,7 @@ import {
 } from './styles';
 import { SkeletonPaymentForm } from '@Components/Skeletons';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+import clsx from 'clsx';
 
 interface Props {
   t(key: string, format?: object): string;
@@ -94,6 +95,12 @@ export default function Step2(props: Props) {
     },
   };
 
+  const fastTrackGroups = [
+    { title: '5 sec', type: 'track_5_sec_' },
+    { title: '15 sec', type: 'track_15_sec_' },
+    { title: '30 sec', type: 'track_30_sec_' },
+    { title: '1 min', type: 'track_1_min_' },
+  ];
   const planItem = [
     `${t('tracker:coverage_subcription')}`,
     `${t('tracker:gps_tracking_subcription')}`,
@@ -111,6 +118,9 @@ export default function Step2(props: Props) {
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [disablePayment, setDisableSubmitCard] = useState(true);
   const [isLoadingGateway, setLoadingGateway] = useState(true);
+  const [fastTrackGroupSelected, setfastTrackGroup] = useState(
+    fastTrackGroups[0].type
+  );
 
   const getFirebaseLog = (id: number) => {
     switch (id) {
@@ -188,6 +198,92 @@ export default function Step2(props: Props) {
     setPaymentPlan(null);
     setShowOtherPlan(false);
   };
+
+  const onSelectFastrackgroup = id => () => {
+    setfastTrackGroup(id);
+  };
+
+  const renderCard = id => {
+    switch (id) {
+      case 69:
+        return planIds.map((id, index) => (
+          <Card
+            className={getCardClass(id)}
+            key={id}
+            onClick={onChangePaymentPlan(id, index)}
+          >
+            <CardHeaderStyle
+              title={`${dataPlan[id]?.month} ${
+                dataPlan[id]?.month === 1
+                  ? t('tracker:month')
+                  : t('tracker:months')
+              }`}
+              className={classes.headerCard}
+            />
+            <CardContent>
+              <CardDescription>
+                <strong>${dataPlan[id]?.priceOneMonth}</strong>/
+                {t('tracker:month')}
+                {dataPlan[id]?.subScript}
+                <br />
+                <strong
+                  style={{
+                    display: `${dataPlan[id]?.save ? 'block' : 'none'}`,
+                  }}
+                >
+                  {t('tracker:save')} ${dataPlan[id]?.save}
+                </strong>
+              </CardDescription>
+            </CardContent>
+            <Paner mostPopular={dataPlan[id]?.most_popular}>
+              {isMobile ? '20%' : t('tracker:most_popular')}
+            </Paner>
+          </Card>
+        ));
+      case 90:
+        return planIds
+          .filter(i =>
+            plans[i].stripeId.toLowerCase().includes(fastTrackGroupSelected)
+          )
+          .map((id, index) => (
+            <Card
+              className={getCardClass(id)}
+              key={id}
+              onClick={onChangePaymentPlan(id, index)}
+            >
+              <CardHeaderStyle
+                title={plans[id].name}
+                className={classes.headerCard}
+              />
+              <CardContent>
+                <CardDescription>{plans[id].caption}</CardDescription>
+              </CardContent>
+              <Paner mostPopular={plans[id]?.most_popular}>
+                {isMobile ? '20%' : t('tracker:most_popular')}
+              </Paner>
+            </Card>
+          ));
+      default:
+        return planIds.map((id, index) => (
+          <Card
+            className={getCardClass(id)}
+            key={id}
+            onClick={onChangePaymentPlan(id, index)}
+          >
+            <CardHeaderStyle
+              title={plans[id].name}
+              className={classes.headerCard}
+            />
+            <CardContent>
+              <CardDescription>{plans[id].caption}</CardDescription>
+            </CardContent>
+            <Paner mostPopular={plans[id]?.most_popular}>
+              {isMobile ? '20%' : t('tracker:most_popular')}
+            </Paner>
+          </Card>
+        ));
+    }
+  };
   return (
     <div>
       <Header>
@@ -206,66 +302,26 @@ export default function Step2(props: Props) {
           </Image>
         )}
       </Header>
-      <GroupCard>
-        {id === 69 ? (
-          <>
-            {planIds.map((id, index) => (
-              <Card
-                className={getCardClass(id)}
-                key={id}
-                onClick={onChangePaymentPlan(id, index)}
-              >
-                <CardHeaderStyle
-                  title={`${dataPlan[id]?.month} ${
-                    dataPlan[id]?.month === 1
-                      ? t('tracker:month')
-                      : t('tracker:months')
-                  }`}
-                  className={classes.headerCard}
-                />
-                <CardContent>
-                  <CardDescription>
-                    <strong>${dataPlan[id]?.priceOneMonth}</strong>/
-                    {t('tracker:month')}
-                    {dataPlan[id]?.subScript}
-                    <br />
-                    <strong
-                      style={{
-                        display: `${dataPlan[id]?.save ? 'block' : 'none'}`,
-                      }}
-                    >
-                      {t('tracker:save')} ${dataPlan[id]?.save}
-                    </strong>
-                  </CardDescription>
-                </CardContent>
-                <Paner mostPopular={dataPlan[id]?.most_popular}>
-                  {isMobile ? '20%' : t('tracker:most_popular')}
-                </Paner>
-              </Card>
-            ))}
-          </>
-        ) : (
-          planIds.map((id, index) => (
-            <Card
-              className={getCardClass(id)}
-              key={id}
-              onClick={onChangePaymentPlan(id, index)}
-            >
-              <CardHeaderStyle
-                title={plans[id].name}
-                className={classes.headerCard}
-              />
-              <CardContent>
-                <CardDescription>{plans[id].caption}</CardDescription>
-              </CardContent>
-              <Paner mostPopular={plans[id]?.most_popular}>
-                {isMobile ? '20%' : t('tracker:most_popular')}
-              </Paner>
-            </Card>
-          ))
-        )}
-      </GroupCard>
+      <div className={classes.fastTrackgroup}>
+        {id === 90 &&
+          !isShowOtherPlan &&
+          fastTrackGroups.map((item, index) => (
+            <Button
+              key={index}
+              color="primary"
+              type="submit"
+              variant="contained"
+              text={item.title}
+              onClick={onSelectFastrackgroup(item.type)}
+              className={clsx({
+                [classes.fastTrackSelected]:
+                  item.type === fastTrackGroupSelected,
+              })}
+            />
+          ))}
+      </div>
 
+      <GroupCard>{renderCard(id)}</GroupCard>
       <Letter className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <Lable>{t('tracker:dear_customer')}</Lable>
         <Lable>{t('tracker:content_letter')}</Lable>

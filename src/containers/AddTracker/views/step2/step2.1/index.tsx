@@ -27,6 +27,8 @@ export default function PaymentConfirmContainer(props: Props) {
 
       case 269:
         return `$ ${Math.round(9.95 * 24 * 100) / 100}`;
+      default:
+        return formData.selectedPlan.caption;
     }
   };
   const planUntil = (month: number, type) => {
@@ -50,6 +52,8 @@ export default function PaymentConfirmContainer(props: Props) {
         return planUntil(1, 'y');
       case 269:
         return planUntil(2, 'y');
+      default:
+        return formData.selectedPlan.name;
     }
   };
   return (
