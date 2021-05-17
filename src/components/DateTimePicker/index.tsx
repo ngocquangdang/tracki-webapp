@@ -57,6 +57,8 @@ export default function DateTimePicker(props: Props) {
   const [isDateRange, showDateRange] = useState(false);
   const [isSpecificDate, showSpecificDate] = useState(false);
   const [textError, setTextError] = useState('');
+  const [fromDateError, setFromDateError] = useState('');
+  const [toDateError, setToDateError] = useState('');
 
   const handleChangeOption = value => {
     setTextError('');
@@ -87,17 +89,27 @@ export default function DateTimePicker(props: Props) {
   };
 
   const onChangeDateFrom = date => {
-    onChange({
-      fromDate: moment(date).unix(),
-      toDate: dateTime.toDate,
-    });
+    if (dateTime.toDate < moment(date).unix()) {
+      return setFromDateError('From date should be less than To date');
+    } else {
+      setFromDateError('');
+      return onChange({
+        fromDate: moment(date).unix(),
+        toDate: dateTime.toDate,
+      });
+    }
   };
 
   const onChangeDateTo = date => {
-    onChange({
-      fromDate: dateTime.fromDate,
-      toDate: moment(date).unix(),
-    });
+    if (dateTime.fromDate > moment(date).unix()) {
+      return setToDateError('From date should be less than To date');
+    } else {
+      setToDateError('');
+      return onChange({
+        fromDate: dateTime.fromDate,
+        toDate: moment(date).unix(),
+      });
+    }
   };
 
   const onChangeSpecificDate = date => {
@@ -167,6 +179,8 @@ export default function DateTimePicker(props: Props) {
                 }}
                 maxDate={moment()}
                 className={classes.dateFrom}
+                error={!!fromDateError}
+                helperText={fromDateError}
               />
             </ThemeProvider>
             <ThemeProvider
@@ -187,6 +201,8 @@ export default function DateTimePicker(props: Props) {
                 color="primary"
                 minDate={dateTime.fromDate * 1000}
                 maxDate={moment(new Date())}
+                error={!!toDateError}
+                helperText={toDateError}
               />
             </ThemeProvider>
           </div>

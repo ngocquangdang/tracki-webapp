@@ -125,5 +125,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo,
-  withTranslation(['common', 'auth', 'tracker', 'batterymode'])
+  withTranslation(['common', 'auth', 'tracker', 'batterymode', 'contact'])
 )(TrackersContainer) as React.ComponentType;
