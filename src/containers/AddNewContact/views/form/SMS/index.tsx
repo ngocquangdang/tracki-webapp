@@ -78,7 +78,7 @@ export default function SMSForm(props) {
                 onBlur={handleBlur('phone')}
                 value={values.phone}
                 errorInput={
-                  errorsForm.phone && touched.phone
+                  errorsForm.phone
                     ? t(errorsForm.phone)
                     : values.phone && !isValidPhone
                     ? t('auth:wrong_phone_format')
