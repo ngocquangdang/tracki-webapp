@@ -9,12 +9,12 @@ export const emailSchema = Yup.object().shape({
 });
 
 export const smsSchema = Yup.object().shape({
-  name: Yup.string().trim().required('auth:required'),
+  name: Yup.string().trim('auth:required').required('auth:required'),
   phone: Yup.string()
+    .trim('auth:required')
     .matches(/^[0-9]{1,2}[0-9]*$/, {
       message: 'auth:wrong_phone_format',
       excludeEmptyString: true,
     })
-    .trim()
     .required('auth:required'),
 });
