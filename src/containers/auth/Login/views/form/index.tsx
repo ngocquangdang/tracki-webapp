@@ -107,7 +107,9 @@ function LoginForm(props: ILoginPage.IProps) {
               {errorMessage.message_key === 'exception_user_invalid_password' ||
               errorMessage.message_key === 'exception_user_nameNotFound'
                 ? t('tracker:invalid_email_or_password')
-                : errorMessage.message}
+                : +errorMessage.code === 500
+                ? 'Account does not exist'
+                : ''}
             </Message>
           )}
           <SwitchGroup>
