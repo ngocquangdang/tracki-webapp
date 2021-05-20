@@ -10,7 +10,7 @@ import { useStyles } from './styles';
 interface IProps {
   open: boolean;
   closeModal: () => void;
-  t: any;
+  t(key: string, option?: object): string;
   value: number;
   saveValue: (value: number) => () => void;
 }
@@ -39,7 +39,6 @@ function EditCashModal(props: IProps) {
     >
       <div className={classes.container}>
         <TextField
-          style={{ color: `'#1a1a1a·!important'` }}
           className={classes.inputNumber}
           label="Number"
           type="number"
