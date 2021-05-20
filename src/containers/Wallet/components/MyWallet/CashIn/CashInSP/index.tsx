@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { SideBarOutside } from '@Components/sidebars';
 import { Button } from '@Components/buttons';
 import PaymentModal from '../PaymentModal';
+import EditCashModal from '../CashInPC/compoments/EditCashModal';
 
 //style
 import { useStyles } from './styles';
@@ -14,7 +15,7 @@ const CASH_VALUES = [
   { id: 1, value: 10 },
   { id: 2, value: 30 },
   { id: 3, value: 50 },
-  { id: 4, value: 110 },
+  { id: 4, value: 100 },
   { id: 5, value: 250 },
   { id: 6, value: 300 },
   { id: 7, value: 500 },
@@ -35,12 +36,17 @@ function CashInSP(props: Props) {
   const [anmount, setAnmount] = useState(0);
   const [ispaymentModal, setIsPaymentModal] = useState(false);
   const [payment, setPayment] = useState('');
+  const [isEditCashModal, setIsEditCashModal] = useState(false);
 
   const onBack = () => routes.back();
 
   const onSelectedAnmount = value => () => setAnmount(value);
   const onTogglePayment = () => setIsPaymentModal(true);
-  const onToggleClose = () => setIsPaymentModal(false);
+  const onToggleEditCash = () => setIsEditCashModal(true);
+  const onToggleClose = () => {
+    setIsPaymentModal(false);
+    setIsEditCashModal(false);
+  };
   const onSetPayemt = () => setPayment('xxx');
   console.log(
     '🚀 ~ file: index.tsx ~ line 42 ~ CashInPC ~ onSetPayemt',
@@ -81,7 +87,7 @@ function CashInSP(props: Props) {
               </div>
             ))}
           </div>
-          <div className={classes.pd15}>
+          <div className={classes.pd15} onClick={onToggleEditCash}>
             <p className={clsx(classes.title)}>{t('wallet:cash_in_amount')}</p>
             <div
               className={clsx(classes.fs32, {
@@ -128,6 +134,15 @@ function CashInSP(props: Props) {
       </div>
       {ispaymentModal && (
         <PaymentModal open={ispaymentModal} closeModal={onToggleClose} t={t} />
+      )}
+      {isEditCashModal && (
+        <EditCashModal
+          open={isEditCashModal}
+          closeModal={onToggleClose}
+          t={t}
+          value={anmount}
+          saveValue={onSelectedAnmount}
+        />
       )}
     </SideBarOutside>
   );

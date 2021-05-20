@@ -9,6 +9,7 @@ import DetailPageContainer from '../../../../../DetailPageContainer';
 import CashInCard from '../../../../CashInOutCard';
 import PaymentModal from '../../../PaymentModal';
 import { Button } from '@Components/buttons';
+import EditCashModal from '../EditCashModal';
 
 //style
 import { useStyles } from './styles';
@@ -17,7 +18,7 @@ const CASH_VALUES = [
   { id: 1, value: 10 },
   { id: 2, value: 30 },
   { id: 3, value: 50 },
-  { id: 4, value: 110 },
+  { id: 4, value: 100 },
   { id: 5, value: 250 },
   { id: 6, value: 300 },
   { id: 7, value: 500 },
@@ -39,12 +40,17 @@ function CashInContainer(props: Props) {
   const [anmount, setAnmount] = useState(0);
   const [ispaymentModal, setIsPaymentModal] = useState(false);
   const [payment, setPayment] = useState('');
+  const [isEditCashModal, setIsEditCashModal] = useState(false);
 
   const onBack = () => routes.back();
 
   const onSelectedAnmount = value => () => setAnmount(value);
   const onTogglePayment = () => setIsPaymentModal(true);
-  const onToggleClose = () => setIsPaymentModal(false);
+  const onToggleEditCash = () => setIsEditCashModal(true);
+  const onToggleClose = () => {
+    setIsPaymentModal(false);
+    setIsEditCashModal(false);
+  };
   const onSetPayemt = () => setPayment('xxx');
   console.log(
     '🚀 ~ file: index.tsx ~ line 42 ~ CashInPC ~ onSetPayemt',
@@ -52,7 +58,6 @@ function CashInContainer(props: Props) {
   );
 
   const onPayment = () => setScreenKey(1);
-
   return (
     <>
       <DetailPageContainer
@@ -93,7 +98,9 @@ function CashInContainer(props: Props) {
               >
                 ${anmount}
               </div>
-              <CreateIcon />
+              <div onClick={onToggleEditCash}>
+                <CreateIcon />
+              </div>
             </div>
           </CashInCard>
           <CashInCard title={t('wallet:payment_method')}>
@@ -129,6 +136,15 @@ function CashInContainer(props: Props) {
       </DetailPageContainer>
       {ispaymentModal && (
         <PaymentModal open={ispaymentModal} closeModal={onToggleClose} t={t} />
+      )}
+      {isEditCashModal && (
+        <EditCashModal
+          open={isEditCashModal}
+          closeModal={onToggleClose}
+          t={t}
+          value={anmount}
+          saveValue={onSelectedAnmount}
+        />
       )}
     </>
   );
