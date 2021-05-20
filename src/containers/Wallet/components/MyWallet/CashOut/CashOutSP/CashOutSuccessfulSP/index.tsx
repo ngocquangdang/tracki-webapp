@@ -8,8 +8,12 @@ import { Button } from '@Components/buttons';
 import { useStyles } from './styles';
 
 interface Props {
-  t(key: string, value?: object);
-  payment?: string;
+  t(key: string, value?: object): string;
+  payment: {
+    name: string;
+    urlImg: string;
+  };
+  anmount: number;
   transaction?: any;
 }
 
@@ -17,7 +21,7 @@ function CashOutSuccessfulSP(props: Props) {
   const classes = useStyles();
   const routes = useRouter();
 
-  const { t, transaction } = props;
+  const { t, transaction, anmount, payment } = props;
 
   const onBack = () => routes.back();
 
@@ -41,7 +45,7 @@ function CashOutSuccessfulSP(props: Props) {
           )}
         >
           <p className={`${classes.total} ${classes.mr0} `}>
-            - ${transaction?.total || '0.00'}
+            -${transaction?.total || anmount}.00
           </p>
           <p
             className={`${classes.mr0} ${classes.primaryColor} ${classes.fz15}`}
@@ -56,14 +60,20 @@ function CashOutSuccessfulSP(props: Props) {
                 from: transaction?.from || '[N/A]',
               })}
             </p>
-            <p className={clsx(classes.mr0, classes.fz14, classes.flexBox)}>
-              <img
-                src="/images/philipinbank.svg"
-                alt=""
-                className={classes.img}
-              />{' '}
-              Union Bank of the Philippines (UnionBank)
-            </p>
+            <div className={classes.wrapperPayment}>
+              {payment.urlImg && (
+                <div className={classes.wrapperImage}>
+                  <img
+                    src={payment.urlImg}
+                    alt=""
+                    className={classes.imagePayment}
+                  />
+                </div>
+              )}
+              <div>
+                {payment.name ? payment.name : t('wallet:no_payment_method')}
+              </div>
+            </div>
           </div>
 
           <div
@@ -94,7 +104,7 @@ function CashOutSuccessfulSP(props: Props) {
               {t('wallet:total_amount_cashed_out')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
-              ${transaction?.total || '0.00'}
+              ${transaction?.total || anmount}.00
             </p>
           </div>
         </div>
@@ -153,7 +163,7 @@ function CashOutSuccessfulSP(props: Props) {
               {t('wallet:wallet_transaction')}
             </p>
             <p className={clsx(classes.mr0, classes.fz15)}>
-              - ${transaction?.total || '0.00'}
+              -${transaction?.total || anmount}.00
             </p>
           </div>
         </div>

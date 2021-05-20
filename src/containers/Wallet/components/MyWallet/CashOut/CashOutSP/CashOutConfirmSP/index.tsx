@@ -10,7 +10,11 @@ import { useStyles } from './styles';
 
 interface Props {
   t(key: string, value?: object);
-  payment?: string;
+  payment: {
+    name: string;
+    urlImg: string;
+  };
+  anmount: number;
   onChangeTab: (tab: number) => void;
 }
 
@@ -18,7 +22,7 @@ function CashOutConfirmSP(props: Props) {
   const classes = useStyles();
   const routes = useRouter();
 
-  const { t, payment = '', onChangeTab } = props;
+  const { t, payment, onChangeTab, anmount } = props;
 
   const onBack = () => routes.back();
 
@@ -36,9 +40,20 @@ function CashOutConfirmSP(props: Props) {
             <p className={clsx(classes.mr0, classes.fs15)}>
               {t('wallet:cash_out_from_to', { from: 'Tracki' })}
             </p>
-            <p className={clsx(classes.mr0, classes.fs14)}>
-              {payment ? payment : t('wallet:no_payment_method')}
-            </p>
+            <div className={classes.wrapperPayment}>
+              {payment.urlImg && (
+                <div className={classes.wrapperImage}>
+                  <img
+                    src={payment.urlImg}
+                    alt=""
+                    className={classes.imagePayment}
+                  />
+                </div>
+              )}
+              <div>
+                {payment.name ? payment.name : t('wallet:no_payment_method')}
+              </div>
+            </div>
           </div>
         </div>
         <div className={clsx(classes.card)}>
@@ -53,7 +68,7 @@ function CashOutConfirmSP(props: Props) {
             <p className={clsx(classes.mr0, classes.fs15)}>
               {t('wallet:amount_to_cash_out')}
             </p>
-            <p className={clsx(classes.mr0, classes.fs14)}>${0}</p>
+            <p className={clsx(classes.mr0, classes.fs14)}>${anmount}.00</p>
           </div>
           <div
             className={clsx(
@@ -82,7 +97,7 @@ function CashOutConfirmSP(props: Props) {
               {t('wallet:total_amount_cashed_out')}
             </p>
             <p className={clsx(classes.mr0, classes.fs15, classes.colorActive)}>
-              ${0}
+              ${anmount}.00
             </p>
           </div>
         </div>

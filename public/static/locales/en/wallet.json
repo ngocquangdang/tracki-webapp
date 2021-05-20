@@ -92,7 +92,7 @@
   "select_payment_method": "Select Payment Method",
   "add_new_payment_method": "Add New Payment Method",
   "pay_now": "Pay Now",
-  "withdraw_current_balance": "Withdraw current balance ($ {{anmount}} )",
+  "withdraw_current_balance": "Withdraw current balance (${{anmount}}.00)",
   "free": "Free",
   "next": "Next",
   "cash_out_confirmation": "Cash Out Confirmation",

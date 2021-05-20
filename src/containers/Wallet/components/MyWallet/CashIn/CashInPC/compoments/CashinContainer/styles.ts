@@ -54,6 +54,21 @@ const useStyles = makeStyles(theme => ({
     width: 500,
     margin: 'auto',
   },
+  wrapperPayment: {
+    display: 'flex',
+  },
+  wrapperImage: {
+    marginRight: 10,
+  },
+  imagePayment: {
+    width: 20,
+    height: 20,
+  },
+  iconCashOut: {
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
 }));
 
 export { useStyles };
