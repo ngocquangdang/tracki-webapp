@@ -106,5 +106,8 @@
   "amount_to_cash_in": "Amount to Cash In",
   "about_cash_in_from": "You are about to Cash In from",
   "cash_in_success": "Cash In Successful",
-  "cash_in_fee": "Cash In Fee"
+  "cash_in_fee": "Cash In Fee",
+  "edit_cash_value": "Edit Cash In Value",
+  "save_cash_value": "Save cash value",
+  "cash_in_successful": "Cash In Successful"
 }

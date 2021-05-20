@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Modal from '@Components/modals';
 import { ListItem } from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
 
+import Modal from '@Components/modals';
 import { Button } from '@Components/buttons';
 
 import { useStyles } from './styles';
