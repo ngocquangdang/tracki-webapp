@@ -72,19 +72,17 @@ function CashOutPC(props: Props) {
             >
               <div className={clsx(classes.flex, classes.spaceBetween)}>
                 <div className={classes.wrapperPayment}>
-                  <div className={classes.wrapperImage}>
-                    {payment.urlImg && (
+                  {payment.urlImg && (
+                    <div className={classes.wrapperImage}>
                       <img
                         src={payment.urlImg}
                         alt=""
                         className={classes.imagePayment}
                       />
-                    )}
-                  </div>
-                  <div>
-                    {payment.name
-                      ? payment.name
-                      : t('wallet:no_payment_method')}
+                    </div>
+                  )}
+                  <div className={classes.paymentName}>
+                    {payment.name || t('wallet:no_payment_method')}
                   </div>
                 </div>
                 <ArrowForwardIosIcon

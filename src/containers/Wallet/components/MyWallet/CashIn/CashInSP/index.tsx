@@ -26,12 +26,12 @@ const CASH_VALUES = [
 
 const listPayment = [
   {
-    urlImg: `"/images/philipinbank.svg"`,
-    name: `"xxx"`,
+    urlImg: '/images/philipinbank.svg',
+    name: 'xxx',
   },
   {
-    urlImg: `"/images/paypal.png"`,
-    name: `"yyy"`,
+    urlImg: '/images/paypal.png',
+    name: 'yyy',
   },
 ];
 
@@ -115,17 +115,17 @@ function CashInSP(props: Props) {
         >
           <div className={clsx(classes.flex)}>{t('wallet:payment_method')}</div>
           <div className={classes.wrapperPayment}>
-            <div className={classes.wrapperImage}>
-              {payment.urlImg && (
+            {payment.urlImg && (
+              <div className={classes.wrapperImage}>
                 <img
                   src={payment.urlImg}
                   alt=""
                   className={classes.imagePayment}
                 />
-              )}
-            </div>
-            <div>
-              {payment.name ? payment.name : t('wallet:no_payment_method')}
+              </div>
+            )}
+            <div className={classes.paymentName}>
+              {payment.name || t('wallet:no_payment_method')}
             </div>
           </div>
         </div>

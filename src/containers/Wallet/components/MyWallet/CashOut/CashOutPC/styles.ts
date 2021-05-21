@@ -62,13 +62,19 @@ const useStyles = makeStyles(theme => ({
   },
   wrapperPayment: {
     display: 'flex',
+    alignItems: 'center',
   },
   wrapperImage: {
-    marginRight: 10,
+    marginRight: 6,
+    width: 20,
+    height: 20,
   },
   imagePayment: {
     width: 20,
     height: 20,
+  },
+  paymentName: {
+    fontSize: 14,
   },
   iconCashOut: {
     '&:hover': {

@@ -77,10 +77,16 @@ const useStyles = makeStyles(theme => ({
   },
   wrapperPayment: {
     display: 'flex',
+    alignItems: 'center',
     marginTop: 5,
   },
   wrapperImage: {
-    marginRight: 10,
+    marginRight: 6,
+    width: 20,
+    height: 20,
+  },
+  paymentName: {
+    fontSize: 14,
   },
   imagePayment: {
     width: 20,

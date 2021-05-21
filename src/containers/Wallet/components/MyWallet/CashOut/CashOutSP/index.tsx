@@ -102,10 +102,8 @@ function CashOutSP(props: Props) {
                         />
                       </div>
                     )}
-                    <div>
-                      {payment.name
-                        ? payment.name
-                        : t('wallet:no_payment_method')}
+                    <div className={classes.paymentName}>
+                      {payment.name || t('wallet:no_payment_method')}
                     </div>
                   </div>
                 </div>

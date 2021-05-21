@@ -14,12 +14,12 @@ interface Props {
 
 const listPayment = [
   {
-    urlImg: `"/images/philipinbank.svg"`,
-    name: `"xxx"`,
+    urlImg: '/images/philipinbank.svg',
+    name: 'xxx',
   },
   {
-    urlImg: `"/images/paypal.png"`,
-    name: `"yyy"`,
+    urlImg: '/images/paypal.png',
+    name: 'yyy',
   },
 ];
 
