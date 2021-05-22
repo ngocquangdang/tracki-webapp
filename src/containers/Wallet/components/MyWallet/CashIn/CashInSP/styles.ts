@@ -79,6 +79,23 @@ const useStyles = makeStyles(theme => ({
   borderbottom: {
     borderBottom: '1px solid #e0e0e0',
   },
+  wrapperPayment: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  wrapperImage: {
+    marginRight: 6,
+    width: 20,
+    height: 20,
+  },
+  paymentName: {
+    fontSize: 14,
+  },
+  imagePayment: {
+    width: 20,
+    height: 20,
+  },
 }));
 
 export { useStyles };

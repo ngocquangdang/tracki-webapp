@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ListItem } from '@material-ui/core';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -10,16 +10,36 @@ import { Button } from '@Components/buttons';
 
 import { useStyles } from './styles';
 
-interface Props {
+interface IProps {
   open: boolean;
   closeModal: () => void;
-  t(key: string, format?: object);
+  t(key: string, format?: object): string;
+  listPayment: {
+    urlImg: string;
+    name: string;
+  }[];
+  onConfirmPayment: (value: object) => () => void;
+  paymentCash: {
+    urlImg: string;
+    name: string;
+  };
 }
 
-function PaymentModal(props) {
+function PaymentModal(props: IProps) {
   const classes = useStyles();
+  const { open, closeModal, t, listPayment, onConfirmPayment, paymentCash } =
+    props;
 
-  const { open, closeModal, t } = props;
+  const [payment, setPayment] = useState(paymentCash);
+
+  const onSelectPayment = value => () => {
+    setPayment(value);
+  };
+
+  const onClickConfirm = () => {
+    onConfirmPayment(payment)();
+    closeModal();
+  };
 
   return (
     <Modal
@@ -28,41 +48,31 @@ function PaymentModal(props) {
       handleClose={closeModal}
     >
       <div className={classes.container}>
-        <ListItem
-          button
-          className={clsx(
-            classes.border,
-            classes.itemStyle,
-            classes.spaceBetween
-          )}
-        >
-          <div className={classes.flex}>
-            <img
-              src="/images/philipinbank.svg"
-              alt=""
-              className={clsx(classes.img, classes.mrr15)}
-            />
-            xxx
-          </div>
-        </ListItem>
-        <ListItem
-          button
-          className={clsx(
-            classes.border,
-            classes.itemStyle,
-            classes.spaceBetween
-          )}
-        >
-          <div className={classes.flex}>
-            <img
-              src="/images/paypal.png"
-              alt=""
-              className={clsx(classes.img, classes.mrr15)}
-            />
-            xxx
-          </div>
-          <CheckCircleIcon className={classes.colorActive} />
-        </ListItem>
+        {listPayment &&
+          listPayment.map(item => (
+            <ListItem
+              key={item.name}
+              button
+              className={clsx(
+                classes.border,
+                classes.itemStyle,
+                classes.spaceBetween
+              )}
+              onClick={onSelectPayment(item)}
+            >
+              <div className={classes.flex}>
+                <img
+                  src={item.urlImg}
+                  alt=""
+                  className={clsx(classes.img, classes.mrr15)}
+                />
+                {item.name}
+              </div>
+              {payment.name === item.name && (
+                <CheckCircleIcon className={classes.colorActive} />
+              )}
+            </ListItem>
+          ))}
         <ListItem
           button
           className={clsx(classes.border, classes.itemStyle, classes.flex)}
@@ -76,6 +86,7 @@ function PaymentModal(props) {
             color="primary"
             fullWidth
             variant="contained"
+            onClick={onClickConfirm}
           />
         </div>
       </div>

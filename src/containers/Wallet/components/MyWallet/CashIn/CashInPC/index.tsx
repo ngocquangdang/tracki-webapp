@@ -12,6 +12,17 @@ interface Props {
   t(key: string, value?: object);
 }
 
+const listPayment = [
+  {
+    urlImg: '/images/philipinbank.svg',
+    name: 'xxx',
+  },
+  {
+    urlImg: '/images/paypal.png',
+    name: 'yyy',
+  },
+];
+
 function CashInPC(props: Props) {
   const { t } = props;
 
@@ -28,7 +39,13 @@ function CashInPC(props: Props) {
           <CashInSuccessfull t={t} formData={{}} setScreenKey={setScreenKey} />
         );
       default:
-        return <CashInContainer t={t} setScreenKey={setScreenKey} />;
+        return (
+          <CashInContainer
+            t={t}
+            setScreenKey={setScreenKey}
+            listPayment={listPayment}
+          />
+        );
     }
   };
 

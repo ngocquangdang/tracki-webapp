@@ -6,47 +6,70 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 // import CreateIcon from '@material-ui/icons/Create';
 
 import { SideBarOutside } from '@Components/sidebars';
-
-import { useStyles } from './styles';
 import { Button } from '@Components/buttons';
 import CashOutConfirmSP from './CashOutConfirmSP';
 import CashOutSuccessfulSP from './CashOutSuccessfulSP';
+import PaymentModal from '../../CashIn/PaymentModal';
+import EditCashModal from '../../CashIn/CashInPC/compoments/EditCashModal';
+import { useStyles } from './styles';
 
 interface Props {
   t(key: string, value?: object);
   payment?: string;
-  anmount?: number;
 }
 
+const listPayment = [
+  {
+    urlImg: '/images/philipinbank.svg',
+    name: 'xxx',
+  },
+  {
+    urlImg: '/images/paypal.png',
+    name: 'yyy',
+  },
+];
+
 function CashOutSP(props: Props) {
-  const { t, payment = '', anmount = 0 } = props;
+  const { t } = props;
   const classes = useStyles();
   const routes = useRouter();
 
   const [ispaymentModal, setIsPaymentModal] = useState(false);
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 26 ~ CashOutSP ~ ispaymentModal',
-    ispaymentModal
-  );
   const [tab, setTab] = useState(0);
+  const [isEditCashModal, setIsEditCashModal] = useState(false);
+  const [anmount, setAnmount] = useState(0);
+  const [payment, setPayment] = useState({
+    name: '',
+    urlImg: '',
+  });
 
   const onBack = () => routes.back();
-
+  const onSelectedAnmount = value => () => setAnmount(value);
+  const onConfirmPayment = value => () => setPayment(value);
   const onTogglePayment = () => setIsPaymentModal(true);
-  const onToggleClose = () => setIsPaymentModal(false);
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 32 ~ CashOutSP ~ onToggleClose',
-    onToggleClose
-  );
+  const onToggleEditCash = () => setIsEditCashModal(true);
+  const onToggleClose = () => {
+    setIsPaymentModal(false);
+    setIsEditCashModal(false);
+  };
 
   const onChangeTab = (tab: number) => () => setTab(tab);
 
   const onRender = (tab: number) => {
     switch (tab) {
       case 1:
-        return <CashOutConfirmSP t={t} onChangeTab={onChangeTab} />;
+        return (
+          <CashOutConfirmSP
+            anmount={anmount}
+            payment={payment}
+            t={t}
+            onChangeTab={onChangeTab}
+          />
+        );
       case 2:
-        return <CashOutSuccessfulSP t={t} />;
+        return (
+          <CashOutSuccessfulSP t={t} anmount={anmount} payment={payment} />
+        );
       default:
         return (
           <SideBarOutside
@@ -63,19 +86,28 @@ function CashOutSP(props: Props) {
                   classes.spaceBetween,
                   classes.card
                 )}
+                onClick={onTogglePayment}
               >
                 <div>
                   <p className={clsx(classes.mr0, classes.fs15, classes.mb5)}>
                     {t('wallet:cash_out_from_to', { from: 'Tracki' })}
                   </p>
-                  <p className={clsx(classes.mr0, classes.fs14)}>
-                    {payment ? payment : t('wallet:no_payment_method')}
-                  </p>
+                  <div className={classes.wrapperPayment}>
+                    {payment.urlImg && (
+                      <div className={classes.wrapperImage}>
+                        <img
+                          src={payment.urlImg}
+                          alt=""
+                          className={classes.imagePayment}
+                        />
+                      </div>
+                    )}
+                    <div className={classes.paymentName}>
+                      {payment.name || t('wallet:no_payment_method')}
+                    </div>
+                  </div>
                 </div>
-                <ArrowForwardIosIcon
-                  onClick={onTogglePayment}
-                  className={classes.icon}
-                />
+                <ArrowForwardIosIcon className={classes.icon} />
               </div>
               <div className={classes.card}>
                 <p className={clsx(classes.mr0, classes.fs18)}>
@@ -88,6 +120,7 @@ function CashOutSP(props: Props) {
                     classes.borderbottom,
                     classes.pb15
                   )}
+                  onClick={onToggleEditCash}
                 >
                   <div
                     className={clsx(classes.fs40, {
@@ -107,7 +140,9 @@ function CashOutSP(props: Props) {
                         color="primary"
                       />
                     }
-                    label={t('wallet:withdraw_current_balance', { anmount: 0 })}
+                    label={t('wallet:withdraw_current_balance', {
+                      anmount: anmount,
+                    })}
                   />
                 </div>
               </div>
@@ -136,7 +171,7 @@ function CashOutSP(props: Props) {
                     {t('wallet:total_amount_cashed_out')}
                   </p>
                   <p className={clsx(classes.colorActive, classes.mr0)}>
-                    $0.00
+                    ${anmount}.00
                   </p>
                 </div>
                 <div className={classes.btn}>
@@ -150,6 +185,25 @@ function CashOutSP(props: Props) {
                 </div>
               </div>
             </div>
+            {ispaymentModal && (
+              <PaymentModal
+                open={ispaymentModal}
+                closeModal={onToggleClose}
+                t={t}
+                listPayment={listPayment}
+                onConfirmPayment={onConfirmPayment}
+                paymentCash={payment}
+              />
+            )}
+            {isEditCashModal && (
+              <EditCashModal
+                open={isEditCashModal}
+                closeModal={onToggleClose}
+                t={t}
+                value={anmount}
+                saveValue={onSelectedAnmount}
+              />
+            )}
           </SideBarOutside>
         );
     }

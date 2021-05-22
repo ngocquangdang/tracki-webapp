@@ -66,6 +66,22 @@ const useStyles = makeStyles(theme => ({
   mb5: {
     marginBottom: 5,
   },
+  wrapperPayment: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  wrapperImage: {
+    marginRight: 6,
+    width: 20,
+    height: 20,
+  },
+  paymentName: {
+    fontSize: 14,
+  },
+  imagePayment: {
+    width: 20,
+    height: 20,
+  },
 }));
 
 export { useStyles };

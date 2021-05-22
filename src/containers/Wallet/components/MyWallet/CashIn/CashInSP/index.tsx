@@ -24,8 +24,19 @@ const CASH_VALUES = [
   { id: 10, value: 2000 },
 ];
 
+const listPayment = [
+  {
+    urlImg: '/images/philipinbank.svg',
+    name: 'xxx',
+  },
+  {
+    urlImg: '/images/paypal.png',
+    name: 'yyy',
+  },
+];
+
 interface Props {
-  t(key: string, value?: object);
+  t(key: string, value?: object): string;
 }
 
 function CashInSP(props: Props) {
@@ -35,7 +46,10 @@ function CashInSP(props: Props) {
   const { t } = props;
   const [anmount, setAnmount] = useState(0);
   const [ispaymentModal, setIsPaymentModal] = useState(false);
-  const [payment, setPayment] = useState('');
+  const [payment, setPayment] = useState({
+    name: '',
+    urlImg: '',
+  });
   const [isEditCashModal, setIsEditCashModal] = useState(false);
 
   const onBack = () => routes.back();
@@ -47,11 +61,8 @@ function CashInSP(props: Props) {
     setIsPaymentModal(false);
     setIsEditCashModal(false);
   };
-  const onSetPayemt = () => setPayment('xxx');
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 42 ~ CashInPC ~ onSetPayemt',
-    onSetPayemt
-  );
+
+  const onConfirmPayment = value => () => setPayment(value);
 
   return (
     <SideBarOutside
@@ -103,9 +114,20 @@ function CashInSP(props: Props) {
           onClick={onTogglePayment}
         >
           <div className={clsx(classes.flex)}>{t('wallet:payment_method')}</div>
-          <p className={clsx(classes.fs14, classes.mr0)}>
-            {payment ? payment : t('wallet:no_payment_method')}
-          </p>
+          <div className={classes.wrapperPayment}>
+            {payment.urlImg && (
+              <div className={classes.wrapperImage}>
+                <img
+                  src={payment.urlImg}
+                  alt=""
+                  className={classes.imagePayment}
+                />
+              </div>
+            )}
+            <div className={classes.paymentName}>
+              {payment.name || t('wallet:no_payment_method')}
+            </div>
+          </div>
         </div>
         <div className={clsx(classes.pd15, classes.card)}>
           <div
@@ -133,7 +155,14 @@ function CashInSP(props: Props) {
         </div>
       </div>
       {ispaymentModal && (
-        <PaymentModal open={ispaymentModal} closeModal={onToggleClose} t={t} />
+        <PaymentModal
+          open={ispaymentModal}
+          closeModal={onToggleClose}
+          t={t}
+          onConfirmPayment={onConfirmPayment}
+          paymentCash={payment}
+          listPayment={listPayment}
+        />
       )}
       {isEditCashModal && (
         <EditCashModal

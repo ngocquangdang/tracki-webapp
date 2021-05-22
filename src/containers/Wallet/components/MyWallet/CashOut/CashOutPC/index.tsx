@@ -1,23 +1,36 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import clsx from 'clsx';
 import CreateIcon from '@material-ui/icons/Create';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
+import clsx from 'clsx';
 
 import { MainLayout } from '@Layouts';
 import DetailPageContainer from '@Containers/Wallet/components/DetailPageContainer';
 import CashInCard from '../../CashInOutCard';
 
-import { useStyles } from './styles';
 import PaymentModal from '../../CashIn/PaymentModal';
 import { Button } from '@Components/buttons';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
 import CashOutConfirm from './CashOutConfirm';
 import CashOutSuccessfull from './CashOutSuccessfull';
+import EditCashModal from '../../CashIn/CashInPC/compoments/EditCashModal';
+
+import { useStyles } from './styles';
 
 interface Props {
   t(key: string, value?: object);
 }
+
+const listPayment = [
+  {
+    urlImg: '/images/philipinbank.svg',
+    name: 'xxx',
+  },
+  {
+    urlImg: '/images/paypal.png',
+    name: 'yyy',
+  },
+];
 
 function CashOutPC(props: Props) {
   const routes = useRouter();
@@ -25,22 +38,23 @@ function CashOutPC(props: Props) {
 
   const { t } = props;
   const [anmount, setAnmount] = useState(0);
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 26 ~ CashOutPC ~ setAnmount',
-    setAnmount
-  );
   const [ispaymentModal, setIsPaymentModal] = useState(false);
-  const [payment, setPayment] = useState('');
   const [tab, setTab] = useState(0);
+  const [isEditCashModal, setIsEditCashModal] = useState(false);
+  const [payment, setPayment] = useState({
+    name: '',
+    urlImg: '',
+  });
 
   const onBack = () => routes.back();
+  const onSelectedAnmount = value => () => setAnmount(value);
   const onTogglePayment = () => setIsPaymentModal(true);
-  const onToggleClose = () => setIsPaymentModal(false);
-  const onSetPayemt = () => setPayment('xxx');
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 42 ~ CashInPC ~ onSetPayemt',
-    onSetPayemt
-  );
+  const onToggleEditCash = () => setIsEditCashModal(true);
+  const onToggleClose = () => {
+    setIsPaymentModal(false);
+    setIsEditCashModal(false);
+  };
+  const onConfirmPayment = value => () => setPayment(value);
 
   const onChangeTab = (tab: number) => () => setTab(tab);
 
@@ -57,8 +71,24 @@ function CashOutPC(props: Props) {
               title={t('wallet:cash_out_from_to', { from: 'Tracki' })}
             >
               <div className={clsx(classes.flex, classes.spaceBetween)}>
-                <div>{payment ? payment : t('wallet:no_payment_method')}</div>
-                <ArrowForwardIosIcon onClick={onTogglePayment} />
+                <div className={classes.wrapperPayment}>
+                  {payment.urlImg && (
+                    <div className={classes.wrapperImage}>
+                      <img
+                        src={payment.urlImg}
+                        alt=""
+                        className={classes.imagePayment}
+                      />
+                    </div>
+                  )}
+                  <div className={classes.paymentName}>
+                    {payment.name || t('wallet:no_payment_method')}
+                  </div>
+                </div>
+                <ArrowForwardIosIcon
+                  className={classes.iconCashOut}
+                  onClick={onTogglePayment}
+                />
               </div>
             </CashInCard>
             <CashInCard title={t('wallet:cash_out_amount')}>
@@ -76,9 +106,14 @@ function CashOutPC(props: Props) {
                       [classes.colorActive]: anmount !== 0,
                     })}
                   >
-                    ${anmount}
+                    ${anmount}.00
                   </div>
-                  <CreateIcon />
+                  <div
+                    className={classes.iconCashOut}
+                    onClick={onToggleEditCash}
+                  >
+                    <CreateIcon />
+                  </div>
                 </div>
                 <div>
                   <FormControlLabel
@@ -89,7 +124,7 @@ function CashOutPC(props: Props) {
                         color="primary"
                       />
                     }
-                    label={t('wallet:withdraw_current_balance', { anmount: 0 })}
+                    label={t('wallet:withdraw_current_balance', { anmount })}
                   />
                 </div>
               </>
@@ -109,7 +144,9 @@ function CashOutPC(props: Props) {
                 <p className={clsx(classes.w500, classes.mr0)}>
                   {t('wallet:total_amount_cashed_out')}
                 </p>
-                <p className={clsx(classes.colorActive, classes.mr0)}>$0.00</p>
+                <p
+                  className={clsx(classes.colorActive, classes.mr0)}
+                >{`$${anmount}.00`}</p>
               </div>
               <div className={classes.btn}>
                 <Button
@@ -125,13 +162,40 @@ function CashOutPC(props: Props) {
         </DetailPageContainer>
       )}
       {ispaymentModal && (
-        <PaymentModal open={ispaymentModal} closeModal={onToggleClose} t={t} />
+        <PaymentModal
+          open={ispaymentModal}
+          closeModal={onToggleClose}
+          t={t}
+          onConfirmPayment={onConfirmPayment}
+          paymentCash={payment}
+          listPayment={listPayment}
+        />
       )}
       {tab === 1 && (
-        <CashOutConfirm t={t} formData={{}} onChangeTab={onChangeTab} />
+        <CashOutConfirm
+          t={t}
+          anmount={anmount}
+          payment={payment}
+          onChangeTab={onChangeTab}
+        />
       )}
       {tab === 2 && (
-        <CashOutSuccessfull t={t} formData={{}} onChangeTab={onChangeTab} />
+        <CashOutSuccessfull
+          t={t}
+          anmount={anmount}
+          formData={{}}
+          payment={payment}
+          onChangeTab={onChangeTab}
+        />
+      )}
+      {isEditCashModal && (
+        <EditCashModal
+          open={isEditCashModal}
+          closeModal={onToggleClose}
+          t={t}
+          value={anmount}
+          saveValue={onSelectedAnmount}
+        />
       )}
     </MainLayout>
   );

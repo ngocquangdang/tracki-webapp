@@ -10,8 +10,12 @@ import { useStyles } from './styles';
 import { Button } from '@Components/buttons';
 
 interface Props {
-  t(key: string, value?: object);
-  formData: any;
+  t(key: string, value?: object): string;
+  anmount: number;
+  payment: {
+    name: string;
+    urlImg: string;
+  };
   onChangeTab: (tab: number) => void;
 }
 
@@ -19,8 +23,7 @@ function CashOutConfirm(props: Props) {
   const routes = useRouter();
   const classes = useStyles();
 
-  const { t, formData, onChangeTab } = props;
-  const { payment = '', anmount = 0 } = formData;
+  const { t, onChangeTab, anmount, payment } = props;
 
   const onBack = () => routes.back();
 
@@ -43,13 +46,26 @@ function CashOutConfirm(props: Props) {
           )}
         >
           <p className={clsx(classes.anmount, classes.mr0, classes.mb10)}>
-            ${anmount}
+            ${anmount}.00
           </p>
           <p className={classes.mr0}>{t('wallet:amount_to_cash_out')}</p>
         </div>
         <CashInCard title={t('wallet:cash_out_from_to', { from: 'Tracki' })}>
           <div className={clsx(classes.flex, classes.spaceBetween)}>
-            <div>{payment ? payment : t('wallet:no_payment_method')}</div>
+            <div className={classes.wrapperPayment}>
+              {payment.urlImg && (
+                <div className={classes.wrapperImage}>
+                  <img
+                    src={payment.urlImg}
+                    alt=""
+                    className={classes.imagePayment}
+                  />
+                </div>
+              )}
+              <div className={classes.paymentName}>
+                {payment.name || t('wallet:no_payment_method')}
+              </div>
+            </div>
           </div>
         </CashInCard>
         <div className={clsx(classes.border, classes.pd15, classes.mb10)}>
@@ -63,7 +79,9 @@ function CashOutConfirm(props: Props) {
             <p className={clsx(classes.w500, classes.mr0)}>
               {t('wallet:total_amount_cashed_out')}
             </p>
-            <p className={clsx(classes.colorActive, classes.mr0)}>$0.00</p>
+            <p
+              className={clsx(classes.colorActive, classes.mr0)}
+            >{`$${anmount}.00`}</p>
           </div>
           <div className={classes.btn}>
             <Button

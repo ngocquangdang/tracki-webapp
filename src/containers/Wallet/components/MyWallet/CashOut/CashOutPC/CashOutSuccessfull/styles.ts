@@ -75,6 +75,22 @@ const useStyles = makeStyles(theme => ({
   redText: {
     color: '#cc2c2c',
   },
+  wrapperPayment: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  wrapperImage: {
+    marginRight: 6,
+    width: 20,
+    height: 20,
+  },
+  paymentName: {
+    fontSize: 14,
+  },
+  imagePayment: {
+    width: 20,
+    height: 20,
+  },
 }));
 
 export { useStyles };

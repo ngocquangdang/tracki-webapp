@@ -30,16 +30,23 @@ const CASH_VALUES = [
 interface Props {
   t(key: string, value?: object);
   setScreenKey: (key: number) => void;
+  listPayment: {
+    name: string;
+    urlImg: string;
+  }[];
 }
 
 function CashInContainer(props: Props) {
   const classes = useStyles();
   const routes = useRouter();
 
-  const { t, setScreenKey } = props;
+  const { t, setScreenKey, listPayment } = props;
   const [anmount, setAnmount] = useState(0);
   const [ispaymentModal, setIsPaymentModal] = useState(false);
-  const [payment, setPayment] = useState('');
+  const [payment, setPayment] = useState({
+    name: '',
+    urlImg: '',
+  });
   const [isEditCashModal, setIsEditCashModal] = useState(false);
 
   const onBack = () => routes.back();
@@ -51,11 +58,8 @@ function CashInContainer(props: Props) {
     setIsPaymentModal(false);
     setIsEditCashModal(false);
   };
-  const onSetPayemt = () => setPayment('xxx');
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 42 ~ CashInPC ~ onSetPayemt',
-    onSetPayemt
-  );
+
+  const onConfirmPayment = value => () => setPayment(value);
 
   const onPayment = () => setScreenKey(1);
   return (
@@ -99,14 +103,30 @@ function CashInContainer(props: Props) {
                 ${anmount}
               </div>
               <div onClick={onToggleEditCash}>
-                <CreateIcon />
+                <CreateIcon className={classes.iconCashOut} />
               </div>
             </div>
           </CashInCard>
           <CashInCard title={t('wallet:payment_method')}>
             <div className={clsx(classes.flex, classes.spaceBetween)}>
-              <div>{payment ? payment : t('wallet:no_payment_method')}</div>
-              <ArrowForwardIosIcon onClick={onTogglePayment} />
+              <div className={classes.wrapperPayment}>
+                {payment.urlImg && (
+                  <div className={classes.wrapperImage}>
+                    <img
+                      src={payment.urlImg}
+                      alt="payment"
+                      className={classes.imagePayment}
+                    />
+                  </div>
+                )}
+                <div className={classes.paymentName}>
+                  {payment.name || t('wallet:no_payment_method')}
+                </div>
+              </div>
+              <ArrowForwardIosIcon
+                className={classes.iconCashOut}
+                onClick={onTogglePayment}
+              />
             </div>
           </CashInCard>
           <div className={clsx(classes.border, classes.pd15, classes.mb10)}>
@@ -135,7 +155,14 @@ function CashInContainer(props: Props) {
         </div>
       </DetailPageContainer>
       {ispaymentModal && (
-        <PaymentModal open={ispaymentModal} closeModal={onToggleClose} t={t} />
+        <PaymentModal
+          open={ispaymentModal}
+          closeModal={onToggleClose}
+          t={t}
+          onConfirmPayment={onConfirmPayment}
+          paymentCash={payment}
+          listPayment={listPayment}
+        />
       )}
       {isEditCashModal && (
         <EditCashModal

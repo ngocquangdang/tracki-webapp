@@ -60,6 +60,27 @@ const useStyles = makeStyles(theme => ({
   pb15: {
     paddingBottom: 15,
   },
+  wrapperPayment: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  wrapperImage: {
+    marginRight: 6,
+    width: 20,
+    height: 20,
+  },
+  imagePayment: {
+    width: 20,
+    height: 20,
+  },
+  paymentName: {
+    fontSize: 14,
+  },
+  iconCashOut: {
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
 }));
 
 export { useStyles };
