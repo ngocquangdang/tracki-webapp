@@ -129,6 +129,8 @@ interface SMSCounter {
   smsLimit: number;
 }
 
+const typeFiles = ['image/jpg', 'image/png', 'image/jpeg'];
+
 function SettingTracker(props: Props) {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
@@ -288,13 +290,9 @@ function SettingTracker(props: Props) {
     setError('');
     const file = e.target.files[0];
     if (!file) return;
-    if (
-      (file && !file.type.includes('image/img')) ||
-      !file.type.includes('image/png') ||
-      !file.type.includes('image/jpeg')
-    ) {
+    if (file && !typeFiles.includes(file.type)) {
       setError('File type is not supported');
-      setImage('');
+      setImage({});
       return;
     }
     setLoading(true);
@@ -378,7 +376,7 @@ function SettingTracker(props: Props) {
           <input
             id="imageIcon"
             type="file"
-            accept=".jpg, .jpeg, .png"
+            accept="image/jpg, image/jpeg, image/png"
             style={{ display: 'none' }}
             onChange={onChangeImage}
           />
