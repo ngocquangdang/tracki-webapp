@@ -124,6 +124,7 @@ export default function DateTimePicker(props: Props) {
     if (dateTime.toDate < moment(date).unix()) {
       setTextError('Time from should be less than Time to');
     } else {
+      setTextError('');
       onChange({
         fromDate: moment(date).unix(),
         toDate: dateTime.toDate,
