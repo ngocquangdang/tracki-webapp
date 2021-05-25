@@ -253,6 +253,12 @@ function SettingTracker(props: Props) {
         snackType: 'error',
       });
     }
+    if (!device_name) {
+      return showSnackbar({
+        snackMessage: 'Device name is required',
+        snackType: 'error',
+      });
+    }
     props.updateSettings(
       tracker.settings_id,
       bodyRequest,
