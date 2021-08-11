@@ -355,6 +355,7 @@ function SettingTracker(props: Props) {
   };
 
   const onBatteryMode = () => {
+    console.log('aaaaa');
     firebaseLogEventRequest(
       'settings_device',
       'settings_device_setup_geofence'

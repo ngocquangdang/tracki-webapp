@@ -260,7 +260,7 @@ export default function DashboardContainer(props) {
             <SelectOption
               name=""
               options={trackerList}
-              label={'Sellect Tracker'}
+              label={'Select Tracker'}
               value={trackerSelected}
               onChangeOption={changeSelectTracker}
             />

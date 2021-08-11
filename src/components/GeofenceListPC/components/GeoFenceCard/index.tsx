@@ -30,8 +30,9 @@ interface Props {
 }
 
 export default function GeofenceCard(props: Props) {
-  const [anchorMenuEl, setAnchorMenuEl] =
-    React.useState<null | HTMLElement>(null);
+  const [anchorMenuEl, setAnchorMenuEl] = React.useState<null | HTMLElement>(
+    null
+  );
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [showAddDevicePanel, setShowAddDevicePanel] = React.useState(false);
   const {

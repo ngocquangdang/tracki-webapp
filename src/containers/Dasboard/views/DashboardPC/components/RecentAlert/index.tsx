@@ -85,7 +85,7 @@ export default function RecentAlertComponent(props) {
               <td
                 className={`${classes.font14} ${classes.fullWidth} ${classes.noAlert} `}
               >
-                Have not Alert of Device
+                Device has no Alerts
               </td>
             </tr>
           )}

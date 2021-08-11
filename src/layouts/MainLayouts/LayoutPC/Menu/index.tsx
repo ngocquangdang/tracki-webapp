@@ -59,6 +59,8 @@ function CustomizedMenus(props: any) {
     logoutRequestAction();
   };
   const gotoLink = (link: string) => () => Router.push(link);
+  const gotoSupportSite = () => () =>
+    window.location.assign('https://tracki.com/pages/contact-us');
 
   return (
     <div className={classes.flexBox}>
@@ -96,7 +98,7 @@ function CustomizedMenus(props: any) {
         open={Boolean(anchorEl)}
         onClose={closeMenu}
       >
-        <StyledMenuItem>
+        <StyledMenuItem onClick={gotoSupportSite}>
           <ListItemIcon className={classes.menuItemIcon}>
             <CallIcon className={classes.menuIcon} />
           </ListItemIcon>
