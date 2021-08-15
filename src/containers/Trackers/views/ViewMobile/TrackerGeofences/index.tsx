@@ -107,9 +107,8 @@ function TrackerGeofencesMobile(props: Props) {
   // const [selectedTrackerId, setSelectedTrackerId] = useState<number | null>(
   //   null
   // );
-  const [selectedGeofenceId, setSelectedGeofenceId] = useState<number | null>(
-    null
-  );
+  const [selectedGeofenceId, setSelectedGeofenceId] =
+    useState<number | null>(null);
 
   const onCloseCurrentView = () => {
     setCurrentView('');
