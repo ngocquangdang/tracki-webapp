@@ -88,3 +88,8 @@ export const toggleGeofenceAction = () => ({
 export const toggleTrackerNameAction = () => ({
   type: types.TOGGLE_TRACKER_NAME,
 });
+
+export const changeGoogleStreetViewAction = (view: string) => ({
+  type: types.CHANGE_GOOGLE_STREET_VIEW,
+  payload: { view },
+});

@@ -18,6 +18,7 @@ const filterContactByType = (
   contacts: object,
   typeContact: string
 ) =>
+  contactIds &&
   contactIds
     .filter(
       contactId =>

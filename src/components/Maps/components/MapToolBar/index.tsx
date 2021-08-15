@@ -17,6 +17,7 @@ import {
   changeMapTileAction,
   toggleGeofenceAction,
   toggleTrackerNameAction,
+  changeMapView,
 } from '@Containers/App/store/actions';
 import MapTiles from '../MapTiles';
 
@@ -38,6 +39,7 @@ interface Props {
   resetMap(): void;
   toggleGeofences(): void;
   toggleTrackerName(): void;
+  changeGoogleStreetView(view: string): void;
   [data: string]: any;
 }
 
@@ -51,6 +53,7 @@ function MapToolBars(props: Props) {
     toggleTrackerName,
     resetMap,
     changeMapTile,
+    changeGoogleStreetView,
   } = props;
   const classes = useStyles();
   const [showLayerPanel, setShowLayerPanel] = useState(false);
@@ -92,6 +95,10 @@ function MapToolBars(props: Props) {
       !showGeofences ? 'show_geofences_map_tool' : 'hidden_geofence_map_tool'
     );
     toggleGeofences();
+  };
+
+  const onChangeGoogleStreetView = (view: string) => {
+    changeGoogleStreetView(view);
   };
 
   return (
@@ -194,7 +201,7 @@ function MapToolBars(props: Props) {
         placement="left"
         arrow
       >
-        <IconButtonStyle>
+        <IconButtonStyle onClick={() => onChangeGoogleStreetView('abc')}>
           <FaStreetView />
         </IconButtonStyle>
       </Tooltip>
@@ -218,6 +225,7 @@ const mapDispatchToProps = dispatch => ({
   resetMap: () => dispatch(resetMapAction()),
   toggleGeofences: () => dispatch(toggleGeofenceAction()),
   toggleTrackerName: () => dispatch(toggleTrackerNameAction()),
+  changeGoogleStreetView: (view: string) => dispatch(changeMapView(view)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

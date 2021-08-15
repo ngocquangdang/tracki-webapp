@@ -141,7 +141,7 @@
   "generate_link_share": "Generate a link to share tracker's location. Select the length of period of which the link will be active.",
   "period_link": "Period the Link is Active",
   "generate_link": "Generate Link",
-  "description_share_link_please": "Please note: anyone who has the link will be able to see the location of this device until you explicitly 'unshare' it.",
+  "description_share_link_please": "Please note: anyone who has the link will be able to see the location of this device until you 'Deactivate' it.",
   "share_tracker_loaction": "Share Tracker Location",
   "beep_device": "Beep Device",
   "last_update": "Last Updated",
