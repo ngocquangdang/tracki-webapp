@@ -8,10 +8,68 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 import { useStyles } from './styles';
 
-export default function Hibernate(props) {
+const HIBERNATE_OPTION = [
+  {
+    label: 'Update location every 2 hours',
+    key: '120',
+    value: '120',
+    text: '12 to 15 days battery life',
+  },
+  {
+    label: 'Update location every 3 hours',
+    key: '180',
+    value: '180',
+    text: '15 to 18 days battery life',
+  },
+  {
+    label: 'Update location every 4 hours',
+    key: '240',
+    value: '240',
+    text: '18 to 22 days battery life',
+  },
+  {
+    label: 'Update location every 6 hours',
+    key: '360',
+    value: '360',
+    text: '22 to 26 days battery life',
+  },
+  {
+    label: 'Update location every 8 hours',
+    key: '480',
+    value: '480',
+    text: '26 to 30 days battery life',
+  },
+  {
+    label: 'Update location every 12 hours',
+    key: '720',
+    value: '720',
+    text: '50 to 60 days battery life',
+  },
+  {
+    label: 'Update location every 24 hours',
+    key: '1440',
+    value: '1440',
+    text: '75 to 90 days battery life',
+  },
+];
+interface Props {
+  trackingModeRequest(settingId, setting): void;
+  trackerSettings: any;
+}
+
+export default function Hibernate(props: Props) {
   const classes = useStyles();
-  const [wakeUpMode, setWakeUpMode] = useState('auto');
+  const [wakeUpMode, setWakeUpMode] = useState('');
   const [showSubNotification, setShowSubNotification] = useState('');
+
+  const { trackingModeRequest, trackerSettings } = props;
+
+  useEffect(() => {
+    if (trackerSettings) {
+      const { sleep } = trackerSettings.preferences.scheduled_sleep;
+      setWakeUpMode(String(sleep));
+    }
+  }, [trackerSettings]);
 
   useEffect(() => firebaseLogEventRequest('hibernation_battery_mode', ''), []);
 
@@ -31,6 +89,17 @@ export default function Hibernate(props) {
       getFirebaseEventHibernate(e.target.value)
     );
     setWakeUpMode(e.target.value);
+    const body = {
+      ...trackerSettings,
+      preferences: {
+        ...trackerSettings.preferences,
+        scheduled_sleep: {
+          ...trackerSettings.preferences.scheduled_sleep,
+          sleep: Number(e.target.value),
+        },
+      },
+    };
+    trackingModeRequest(trackerSettings.id, body);
   };
 
   const onShowSubNotifi = (typeNotify: string) => () =>
@@ -132,7 +201,7 @@ export default function Hibernate(props) {
           <div className={classes.radiobutton}>
             <FormControlLabel
               key="auto"
-              value="auto"
+              value="0"
               control={<Radio color="primary" />}
               label="Full Change Mode"
             />
@@ -143,28 +212,19 @@ export default function Hibernate(props) {
           <p className={classes.selection}>
             Select interval to wake up while a hibernation mode:
           </p>
-          <div className={classes.radiobutton}>
-            <FormControlLabel
-              key="120"
-              value="120"
-              control={<Radio color="primary" />}
-              label="Update location every 2 hours"
-            />
-            <span className={classes.subOption}>
-              12 to 15 days battery life
-            </span>
-          </div>
-          <div className={classes.radiobutton}>
-            <FormControlLabel
-              key="180"
-              value="180"
-              control={<Radio color="primary" />}
-              label="Update location every 3 hours"
-            />
-            <span className={classes.subOption}>
-              12 to 15 days battery life
-            </span>
-          </div>
+          {HIBERNATE_OPTION.map(({ label, value, key, text }, index) => {
+            return (
+              <div className={classes.radiobutton} key={index.toString()}>
+                <FormControlLabel
+                  key={key}
+                  value={value}
+                  control={<Radio color="primary" />}
+                  label={label}
+                />
+                <span className={classes.subOption}>{text}</span>
+              </div>
+            );
+          })}
         </RadioGroup>
       </div>
     </div>
