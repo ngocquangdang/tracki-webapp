@@ -151,6 +151,8 @@ function SingleTracker(props: Props) {
         };
         getDeviceSubscripttionRequest(devcieData);
       }
+    } else if (view === 'notifications') {
+      Router.push(`/notifications`);
     } else {
       onRenewTrackerPage();
     }
