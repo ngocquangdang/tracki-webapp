@@ -59,7 +59,7 @@ function CustomizedMenus(props: any) {
     logoutRequestAction();
   };
   const gotoLink = (link: string) => () => Router.push(link);
-  const gotoSupportSite = () => () =>
+  const gotoSupportSite = () =>
     window.location.assign('https://tracki.com/pages/contact-us');
 
   return (
