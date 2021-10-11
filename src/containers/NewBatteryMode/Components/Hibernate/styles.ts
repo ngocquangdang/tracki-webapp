@@ -33,6 +33,8 @@ const useStyles = makeStyles(theme => ({
   },
   hibernateOption: {
     marginTop: 15,
+    overflowY: 'scroll',
+    maxHeight: 250,
   },
   radiobutton: {
     display: 'flex',

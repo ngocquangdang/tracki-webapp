@@ -31,8 +31,8 @@ export default function TrackingModes(props: Props) {
     handleCloseModal,
     // t,
     trackerSettings,
-    // tracker,
-    // extendsBatteryModeRequest,
+    tracker,
+    extendsBatteryModeRequest,
     showSnackbar,
     // isRequesting,
     trackingModeRequest,
@@ -80,7 +80,11 @@ export default function TrackingModes(props: Props) {
             showSnackbar={showSnackbar}
             isRequesting={isRequesting}
           /> */}
-          <NewBatteryMode />
+          <NewBatteryMode
+            trackerSettings={trackerSettings}
+            trackingModeRequest={trackingModeRequest}
+            showSnackbar={showSnackbar}
+          />
         </TabPanel>
       </>
     </Modal>
