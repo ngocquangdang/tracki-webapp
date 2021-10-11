@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
       color: '#666',
     },
   },
+  linkVideo:{
+    '&:hover': {
+      textDecoration: 'none',
+    },
   coin: {
     color: '#e9a213',
   },
