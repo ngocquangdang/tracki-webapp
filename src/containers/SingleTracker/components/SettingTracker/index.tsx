@@ -238,6 +238,9 @@ function SettingTracker(props: Props) {
       preferences: {
         ...trackerSettings.preferences,
         ...preferences,
+        speed_limit: {
+          ...speed_limit,
+        },
         // tracking_mode: {
         //   sample_rate: +sample_rate,
         //   samples_per_report: +samples_per_report,
