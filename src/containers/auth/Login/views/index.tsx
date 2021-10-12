@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import Link from 'next/link';
 // import { useSession, signIn, signOut } from 'next-auth/client';
 // import FacebookIcon from '@material-ui/icons/Facebook';
@@ -24,6 +25,8 @@ import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+
+const handleTime = moment().utc().format('YYYY');
 
 export default function Login(props: ILoginPage.IProps) {
   const { t, resetErrorAction } = props;
@@ -119,7 +122,7 @@ export default function Login(props: ILoginPage.IProps) {
         </Content>
         <Footer>
           <Contact>
-            <Signature>© 2020 Tracki. All rights reserved.</Signature>
+            <Signature>© {handleTime} Tracki. All rights reserved.</Signature>
             <GroupButton>
               <Button color="primary" text={t('call_us')} />
               <Button
