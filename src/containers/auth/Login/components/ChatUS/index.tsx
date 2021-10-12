@@ -32,14 +32,15 @@ export default function ChatUs(props: ILoginPage.IProps) {
             label="Name"
             name="name"
             value={values.name}
-            onChange={handleChange}
+            onChange={handleChange('name')}
             variant="outlined"
           />
           <PhoneNumberInput
             label="Phone Number"
+            name="phonenumber"
             defaultCountry={'us'}
             variant="outlined"
-            onChange={handleChange}
+            onChange={handleChange('phonenumber')}
             value={values.phonenumber}
             searchStyle={{ width: '93%', height: '35px' }}
           />
@@ -47,7 +48,7 @@ export default function ChatUs(props: ILoginPage.IProps) {
             label="Email"
             name="username"
             value={values.username}
-            onChange={handleChange}
+            onChange={handleChange('username')}
             variant="outlined"
           />
           <Button
