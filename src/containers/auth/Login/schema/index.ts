@@ -12,7 +12,12 @@ export const LoginSchema = Yup.object().shape({
     .required('required'),
 });
 export const ChatUsSchema = Yup.object().shape({
-  name: Yup.string().required('required'),
-  username: Yup.string().email('email_invalid').required('required'),
-  phonenumber: Yup.string().required('require'),
+  name: Yup.string().max(20, 'too_long').required('required'),
+  username: Yup.string()
+    .max(40, 'too_long')
+    .email('email_invalid')
+    .required('required'),
+  phonenumber: Yup.string()
+    .matches(/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/, 'Invalid phone number')
+    .required('required'),
 });

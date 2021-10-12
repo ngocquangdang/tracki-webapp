@@ -62,5 +62,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: '100%',
   },
+  errorText: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
+  },
 }));
 export { Form, PhoneNumber, useStyles };
