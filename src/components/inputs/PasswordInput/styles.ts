@@ -40,7 +40,7 @@ const TextInput = withStyles(theme => ({
       textAlign: 'right',
     },
     '& .MuiOutlinedInput-input': {
-      padding: '15.5px 14px',
+      padding: '15.5px 50px 15.5px 14px',
     },
   },
 }))(TextField);

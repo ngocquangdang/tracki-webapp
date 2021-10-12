@@ -71,7 +71,7 @@ export default function ChangePassword(props: any) {
                 <Title>{t('auth:New Password')}</Title>
                 <div className={classes.media}>
                   <PasswordInput
-                    label={t('auth:New password')}
+                    label={t('auth:New Password')}
                     name="password"
                     value={values.new_password}
                     onChange={handleChange('new_password')}
