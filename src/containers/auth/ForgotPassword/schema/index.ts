@@ -21,6 +21,8 @@ const EmailFormSchema = Yup.object().shape({
     .trim('required'),
 });
 const CodeFormSchema = Yup.object().shape({
-  code: Yup.string().required('required'),
+  code: Yup.string()
+    .matches(/^\b\d{5}$/, 'Invalid code')
+    .required('required'),
 });
 export { ForgotPasswordFromSchema, EmailFormSchema, CodeFormSchema };
