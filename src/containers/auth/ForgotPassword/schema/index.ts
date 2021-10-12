@@ -15,6 +15,7 @@ const ForgotPasswordFromSchema = Yup.object().shape({
 });
 const EmailFormSchema = Yup.object().shape({
   email: Yup.string()
+    .max(40, 'too_long')
     .email('email_invalid')
     .required('required')
     .trim('required'),
