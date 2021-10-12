@@ -106,7 +106,7 @@ function LoginForm(props: ILoginPage.IProps) {
             <Message className={classes.errorText}>
               {errorMessage.message_key === 'exception_user_invalid_password' ||
               errorMessage.message_key === 'exception_user_nameNotFound'
-                ? t('tracker:invalid_email_or_password')
+                ? t('tracker:Invalid email or password')
                 : +errorMessage.code === 500
                 ? t('auth:error_500')
                 : ''}
