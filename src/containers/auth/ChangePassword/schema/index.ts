@@ -5,13 +5,13 @@ const ForgotPasswordFromSchema = Yup.object().shape({
   new_password: Yup.string()
     .matches(
       /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-      'invalid_password_format'
+      'invalid_password'
     )
     .max(25, 'too_long')
     .required('required'),
   confirm_password: Yup.string()
     .max(25, 'too_long')
-    .oneOf([Yup.ref('new_password')], `passwords_did_not_match`)
+    .oneOf([Yup.ref('new_password')], `password_not_matching`)
     .required('required'),
 });
 export { ForgotPasswordFromSchema };
