@@ -23,9 +23,6 @@ import EmailFrom from './form/EmailForm';
 import CodeFrom from './form/CodeForm';
 import ForgotPasswordForm from './form/ChangePasswordForm';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-import moment from 'moment';
-
-const currentTime = moment().utc().format('YYYY');
 
 function ForgotPassword(props: IForgotPage.IProps) {
   const { t, email, code, resetStore } = props;
@@ -83,7 +80,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
         </Content>
         <Footer>
           <Contact>
-            <Signature>© {currentTime} Tracki. All rights reserved.</Signature>
+            <Signature>© 2021 Tracki. All rights reserved.</Signature>
             <GroupButton>
               <Button color="primary" text={t('call_us')} />
               <Button color="primary" text={t('chat_us')} />
