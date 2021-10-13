@@ -26,8 +26,6 @@ import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
-const handleTime = moment().utc().format('YYYY');
-
 export default function Login(props: ILoginPage.IProps) {
   const { t, resetErrorAction } = props;
   const classes = useStyles();
@@ -122,7 +120,7 @@ export default function Login(props: ILoginPage.IProps) {
         </Content>
         <Footer>
           <Contact>
-            <Signature>© {handleTime} Tracki. All rights reserved.</Signature>
+            <Signature>© 2021 Tracki. All rights reserved.</Signature>
             <GroupButton>
               <Button color="primary" text={t('call_us')} />
               <Button

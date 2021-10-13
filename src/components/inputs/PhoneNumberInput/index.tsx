@@ -3,7 +3,6 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css';
 import { TextInput } from '../index';
 import { PhoneNumber } from './styles';
-
 interface Props {
   value: string | number;
   name?: string;
@@ -35,6 +34,7 @@ export default function PhoneNumberInputComp(props: Props) {
         onChange={onChangeInput}
         {...rest}
         inputProps={{ disabled: true }}
+        buttonStyle={{ left: 5 }}
       />
       <TextInput
         label=""

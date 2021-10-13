@@ -18,6 +18,6 @@ export const ChatUsSchema = Yup.object().shape({
     .email('email_invalid')
     .required('required'),
   phonenumber: Yup.string()
-    .matches(/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/, 'Invalid phone number')
+    .matches(/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/, 'invalid_phone_number')
     .required('required'),
 });

@@ -76,7 +76,7 @@ export default function ChatUs(props: ILoginPage.IProps) {
           {errorMessage && (
             <p className={classes.errorText}>
               {errorMessage.message_key === 'exception_user_nameNotFound'
-                ? t('tracker:Invalid email or phone')
+                ? t('tracker:invalid_email_or_phone')
                 : +errorMessage.code === 500
                 ? t('auth:error_500')
                 : ''}
