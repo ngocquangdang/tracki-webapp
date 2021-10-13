@@ -35,6 +35,8 @@ export default function PhoneNumberInputComp(props: Props) {
         onChange={onChangeInput}
         {...rest}
         inputProps={{ disabled: true }}
+        buttonStyle={{ left: 5 }}
+        searchPlaceholder="Search"
       />
       <TextInput
         label=""
