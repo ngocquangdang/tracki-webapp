@@ -60,6 +60,7 @@ export default function ChatUs(props: ILoginPage.IProps) {
                 : errors.phonenumber
             }
             searchStyle={{ width: '93%', height: '35px' }}
+            buttonStyle={{ left: 5 }}
           />
           <TextInput
             label="Email"
