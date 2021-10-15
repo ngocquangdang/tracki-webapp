@@ -11,7 +11,7 @@ const ForgotPasswordFromSchema = Yup.object().shape({
     .required('required'),
   confirm_password: Yup.string()
     .max(25, 'too_long')
-    .oneOf([Yup.ref('new_password')], `password_not_matching`)
+    .oneOf([Yup.ref('new_password')], 'password_not_matching')
     .required('required'),
 });
 export { ForgotPasswordFromSchema };
