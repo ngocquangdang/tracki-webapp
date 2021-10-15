@@ -57,6 +57,8 @@ function RegisterFormStep3(props: IRegisterPage.IProps) {
               }
               searchStyle={{ width: '93%', height: '35px' }}
               onChangeInput={(code: any) => setCode(code)}
+              buttonStyle={{ left: 5 }}
+              searchPlaceholder="Search"
             />
             <Button
               className={`${classes.margin} ${classes.btnContinue}`}

@@ -20,8 +20,14 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SingUpSchemaStep2 = Yup.object().shape({
-  first_name: Yup.string().max(50, 'too_long').required('required'),
-  last_name: Yup.string().max(50, 'too_long').required('required'),
+  first_name: Yup.string()
+    .matches(/^\S*$/, 'auth:invalid_name')
+    .max(50, 'too_long')
+    .required('required'),
+  last_name: Yup.string()
+    .matches(/^\S*$/, 'auth:invalid_name')
+    .max(50, 'too_long')
+    .required('required'),
 });
 
 const SingUpSchemaStep3 = Yup.object().shape({

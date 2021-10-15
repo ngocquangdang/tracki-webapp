@@ -31,9 +31,13 @@ const TextInput = withStyles(theme => ({
       },
     },
     '& > .MuiFormHelperText-root.Mui-error': {
-      textAlign: 'right',
-      marginLeft: '0px',
+      // position: 'absolute',
+      // top: '50px',
+    },
+    '& .MuiFormHelperText-root': {
       marginRight: '0px',
+      marginLeft: '0px',
+      textAlign: 'right',
     },
     '& .MuiOutlinedInput-input': {
       padding: '15.5px 14px',
@@ -51,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       marginTop: 10,
-      marginBottom: 5,
+      marginBottom: 10,
     },
   },
   errorRoot: {
