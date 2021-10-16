@@ -74,15 +74,13 @@ export default function ChatUs(props: ILoginPage.IProps) {
             }
             variant="outlined"
           />
-          {errorMessage && (
+          {/* {errorMessage && (
             <p className={classes.errorText}>
               {errorMessage.message_key === 'exception_user_nameNotFound'
                 ? t('tracker:invalid_email_or_phone')
-                : +errorMessage.code === 500
-                ? t('auth:error_500')
                 : ''}
             </p>
-          )}
+          )} */}
           <Button
             className={`${classes.margin} ${classes.btn}`}
             color="primary"
