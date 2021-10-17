@@ -56,7 +56,7 @@ function MyWallet(props: Props) {
 
   useEffect(() => {
     getTransactionDetailRequest();
-  }, []);
+  }, [getTransactionDetailRequest]);
 
   const onGetMore = () => {
     setIsLoadMore(true);
