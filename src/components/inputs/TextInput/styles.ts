@@ -8,7 +8,7 @@ const TextInput = withStyles(theme => ({
       color: '#1a1a1a',
     },
     '& .Mui-disabled': {
-      color: '#bcbcbc',
+      color: '#a9a9a9',
       '&:hover fieldset': {
         borderColor: '#bcbcbc',
       },
