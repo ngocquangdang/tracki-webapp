@@ -1,6 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import Router from 'next/router';
 import { ActionType } from '@Interfaces/index';
+import { showSnackbar } from '@Containers/Snackbar/store/actions';
 import {
   updatePasswordFailAction,
   updatePasswordSuccesAction,
@@ -12,6 +13,12 @@ function* updatePasswordSaga(action: ActionType) {
   try {
     yield call(apiServices.updatePassword, action.payload);
     yield put(updatePasswordSuccesAction(action.payload));
+    yield put(
+      showSnackbar({
+        snackType: 'success',
+        snackMessage: 'Change Password Success',
+      })
+    );
     yield Router.push('/settings');
   } catch (error) {
     const { data = {} } = { ...error };
