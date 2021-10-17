@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import Link from 'next/link';
 // import { useSession, signIn, signOut } from 'next-auth/client';
 // import FacebookIcon from '@material-ui/icons/Facebook';
@@ -119,7 +120,7 @@ export default function Login(props: ILoginPage.IProps) {
         </Content>
         <Footer>
           <Contact>
-            <Signature>© 2020 Tracki. All rights reserved.</Signature>
+            <Signature>© 2021 Tracki. All rights reserved.</Signature>
             <GroupButton>
               <Button color="primary" text={t('call_us')} />
               <Button
