@@ -13,6 +13,7 @@ import {
   PlayArrow as PlayIcon,
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
+import { Link } from '@material-ui/core';
 
 import { logoutRequestAction } from '@Containers/App/store/actions';
 import { useStyles, StyledMenuItem } from './styles';
@@ -59,7 +60,7 @@ function CustomizedMenus(props: any) {
     logoutRequestAction();
   };
   const gotoLink = (link: string) => () => Router.push(link);
-  const gotoSupportSite = () => () =>
+  const gotoSupportSite = () =>
     window.location.assign('https://tracki.com/pages/contact-us');
 
   return (
@@ -116,15 +117,20 @@ function CustomizedMenus(props: any) {
           </ListItemIcon>
           <ListItemText primary="User Agreement" className={classes.menuText} />
         </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon className={classes.menuItemIcon}>
-            <PlayIcon className={classes.menuIcon} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Video Tutorials"
-            className={classes.menuText}
-          />
-        </StyledMenuItem>
+        <Link
+          href="https://tracki.com/pages/setup"
+          className={classes.linkVideo}
+        >
+          <StyledMenuItem>
+            <ListItemIcon className={classes.menuItemIcon}>
+              <PlayIcon className={classes.menuIcon} />
+            </ListItemIcon>
+            <ListItemText
+              primary="Video Tutorials"
+              className={classes.menuText}
+            />
+          </StyledMenuItem>
+        </Link>
         <StyledMenuItem onClick={handleLogout}>
           <ListItemIcon className={classes.menuItemIcon}>
             <LogoutIcon className={classes.menuIcon} />

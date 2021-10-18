@@ -16,12 +16,13 @@ const useStyles = makeStyles(theme => ({
     height: 55,
     color: '#b7b7b7',
     minHeight: 'auto',
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       height: 45,
       fontSize: 14,
       lineHeight: '17px',
       color: '#999',
-      width: '50%',
+      width: '100%',
       maxWidth: '100%',
     },
   },
@@ -32,6 +33,7 @@ const TabStyle = withStyles(theme => ({
     '& > *:first-child': {
       marginBottom: '0 !important',
       marginRight: '6px',
+      width: '100%',
     },
   },
 }))(Tab);

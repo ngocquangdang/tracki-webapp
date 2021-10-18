@@ -44,6 +44,9 @@ function* updatePrefrenceSaga(action: ActionType) {
   try {
     yield call(apiServices.updatePrefrence, account_id, action.payload.data);
     yield put(updatePrefrenceSuccessAction(action.payload.data));
+    yield put(
+      showSnackbar({ snackType: 'success', snackMessage: 'Saved success' })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

@@ -204,6 +204,8 @@ export default function AccountSetting(props: any) {
                   }
                   onChangeInput={handleChange('phone_code')}
                   searchStyle={{ width: '93%', height: '35px' }}
+                  buttonStyle={{ left: 5 }}
+                  searchPlaceholder="Search"
                 />
                 <SelectGroup>
                   <SubTitle>{t('speed_unit')}</SubTitle>

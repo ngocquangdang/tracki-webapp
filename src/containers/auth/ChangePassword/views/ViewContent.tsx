@@ -68,10 +68,10 @@ export default function ChangePassword(props: any) {
                   />
                   <Line />
                 </div>
-                <Title>{t('auth:password')}</Title>
+                <Title>{t('auth:new_password')}</Title>
                 <div className={classes.media}>
                   <PasswordInput
-                    label={t('auth:password')}
+                    label={t('auth:new_password')}
                     name="password"
                     value={values.new_password}
                     onChange={handleChange('new_password')}
@@ -83,7 +83,7 @@ export default function ChangePassword(props: any) {
                     }
                   />
                   <PasswordInput
-                    label={t('auth:confirm_new_password')}
+                    label={t('auth:confirm_password')}
                     name="confirm_password"
                     value={values.confirm_password}
                     onChange={handleChange('confirm_password')}

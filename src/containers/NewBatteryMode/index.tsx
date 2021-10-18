@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Tabs } from '@material-ui/core';
 import TabPanel from './tabPanel';
 
-import { Hibernate, Timer, Scheduler } from './Components';
-
+import { Hibernate } from './Components';
 import { useStyles, TabStyle } from './styles';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-export default function NewBatteryMode(props) {
+interface Props {
+  trackingModeRequest(settingId, setting): void;
+  trackerSettings: any;
+}
+
+export default function NewBatteryMode(props: Props) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
+  const { trackingModeRequest, trackerSettings } = props;
 
   useEffect(
     () => firebaseLogEventRequest('tracking_mode', 'battery_saver_mode'),
@@ -45,18 +51,21 @@ export default function NewBatteryMode(props) {
         variant="scrollable"
       >
         <TabStyle label="Hibernate" className={classes.tabItem} />
-        <TabStyle label="Timer" className={classes.tabItem} />
-        <TabStyle label="Scheduler" className={classes.tabItem} />
+        {/* <TabStyle label="Timer" className={classes.tabItem} /> */}
+        {/* <TabStyle label="Scheduler" className={classes.tabItem} /> */}
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Hibernate />
+        <Hibernate
+          trackingModeRequest={trackingModeRequest}
+          trackerSettings={trackerSettings}
+        />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* <TabPanel value={value} index={1}>
         <Timer />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Scheduler />
-      </TabPanel>
+      </TabPanel> */}
     </>
   );
 }

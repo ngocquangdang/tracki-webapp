@@ -137,7 +137,10 @@ function SingleTracker(props: Props) {
   };
 
   const onOpenChildView = (view: string) => () => {
-    if (tracker.status === 'active' || view === 'settings') {
+    if (
+      (tracker.status === 'active' && view !== 'notifications') ||
+      view === 'settings'
+    ) {
       firebaseLogEventRequest('device_detail', `${view}_device`);
       updateChildView(view);
       if (view === 'history') {

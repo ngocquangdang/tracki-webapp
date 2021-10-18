@@ -119,7 +119,7 @@ export default function Login(props: ILoginPage.IProps) {
         </Content>
         <Footer>
           <Contact>
-            <Signature>© 2020 Tracki. All rights reserved.</Signature>
+            <Signature>© 2021 Tracki. All rights reserved.</Signature>
             <GroupButton>
               <Button color="primary" text={t('call_us')} />
               <Button

@@ -3,15 +3,29 @@ import React, { useEffect, useState } from 'react';
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
+import { HIBERNATE_OPTION } from '@Containers/NewBatteryMode/store/constants';
+
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 import { useStyles } from './styles';
+interface Props {
+  trackingModeRequest(settingId, setting): void;
+  trackerSettings: any;
+}
 
-export default function Hibernate(props) {
+export default function Hibernate(props: Props) {
+  const { trackingModeRequest, trackerSettings } = props;
   const classes = useStyles();
-  const [wakeUpMode, setWakeUpMode] = useState('auto');
+  const [wakeUpMode, setWakeUpMode] = useState('');
   const [showSubNotification, setShowSubNotification] = useState('');
+
+  useEffect(() => {
+    if (trackerSettings) {
+      const { sleep } = trackerSettings.preferences.scheduled_sleep;
+      setWakeUpMode(String(sleep));
+    }
+  }, [trackerSettings]);
 
   useEffect(() => firebaseLogEventRequest('hibernation_battery_mode', ''), []);
 
@@ -31,6 +45,17 @@ export default function Hibernate(props) {
       getFirebaseEventHibernate(e.target.value)
     );
     setWakeUpMode(e.target.value);
+    const body = {
+      ...trackerSettings,
+      preferences: {
+        ...trackerSettings.preferences,
+        scheduled_sleep: {
+          ...trackerSettings.preferences.scheduled_sleep,
+          sleep: Number(e.target.value),
+        },
+      },
+    };
+    trackingModeRequest(trackerSettings.id, body);
   };
 
   const onShowSubNotifi = (typeNotify: string) => () =>
@@ -132,7 +157,7 @@ export default function Hibernate(props) {
           <div className={classes.radiobutton}>
             <FormControlLabel
               key="auto"
-              value="auto"
+              value="0"
               control={<Radio color="primary" />}
               label="Full Change Mode"
             />
@@ -143,28 +168,19 @@ export default function Hibernate(props) {
           <p className={classes.selection}>
             Select interval to wake up while a hibernation mode:
           </p>
-          <div className={classes.radiobutton}>
-            <FormControlLabel
-              key="120"
-              value="120"
-              control={<Radio color="primary" />}
-              label="Update location every 2 hours"
-            />
-            <span className={classes.subOption}>
-              12 to 15 days battery life
-            </span>
-          </div>
-          <div className={classes.radiobutton}>
-            <FormControlLabel
-              key="180"
-              value="180"
-              control={<Radio color="primary" />}
-              label="Update location every 3 hours"
-            />
-            <span className={classes.subOption}>
-              12 to 15 days battery life
-            </span>
-          </div>
+          {HIBERNATE_OPTION.map(({ label, value, key, text }) => {
+            return (
+              <div className={classes.radiobutton} key={key.toString()}>
+                <FormControlLabel
+                  key={key}
+                  value={value}
+                  control={<Radio color="primary" />}
+                  label={label}
+                />
+                <span className={classes.subOption}>{text}</span>
+              </div>
+            );
+          })}
         </RadioGroup>
       </div>
     </div>
