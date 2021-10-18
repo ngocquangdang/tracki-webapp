@@ -31,8 +31,6 @@ export default function TrackingModes(props: Props) {
     handleCloseModal,
     // t,
     trackerSettings,
-    //tracker,
-    //extendsBatteryModeRequest,
     showSnackbar,
     // isRequesting,
     trackingModeRequest,
