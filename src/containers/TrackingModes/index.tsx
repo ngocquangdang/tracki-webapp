@@ -81,7 +81,6 @@ export default function TrackingModes(props: Props) {
           <NewBatteryMode
             trackerSettings={trackerSettings}
             trackingModeRequest={trackingModeRequest}
-            showSnackbar={showSnackbar}
           />
         </TabPanel>
       </>

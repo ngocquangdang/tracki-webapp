@@ -2,21 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Tabs } from '@material-ui/core';
 import TabPanel from './tabPanel';
 
-import { Hibernate, Timer, Scheduler } from './Components';
-import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
+import { Hibernate } from './Components';
 import { useStyles, TabStyle } from './styles';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 interface Props {
   trackingModeRequest(settingId, setting): void;
   trackerSettings: any;
-  showSnackbar(data: SNACK_PAYLOAD): void;
 }
 
 export default function NewBatteryMode(props: Props) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
-  const { trackingModeRequest, trackerSettings, showSnackbar } = props;
+  const { trackingModeRequest, trackerSettings } = props;
 
   useEffect(
     () => firebaseLogEventRequest('tracking_mode', 'battery_saver_mode'),
@@ -60,7 +58,6 @@ export default function NewBatteryMode(props: Props) {
         <Hibernate
           trackingModeRequest={trackingModeRequest}
           trackerSettings={trackerSettings}
-          showSnackbar={showSnackbar}
         />
       </TabPanel>
       {/* <TabPanel value={value} index={1}>
