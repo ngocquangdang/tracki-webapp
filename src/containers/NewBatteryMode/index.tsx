@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Tabs } from '@material-ui/core';
 import TabPanel from './tabPanel';
 
-import { Hibernate, Timer, Scheduler } from './Components';
+import { Hibernate } from './Components';
 import { useStyles, TabStyle } from './styles';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 interface Props {
   trackingModeRequest(settingId, setting): void;
-  trackerSettings: any,
+  trackerSettings: any;
 }
 
 export default function NewBatteryMode(props: Props) {
