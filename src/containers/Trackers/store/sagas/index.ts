@@ -265,6 +265,12 @@ function* linkTrackersSaga(action) {
       });
     });
     yield put(actions.updateTrackersLinkedGeofence(newTrackers));
+    yield put(
+      showSnackbar({
+        snackMessage: 'Linked success',
+        snackType: 'success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -290,6 +296,12 @@ function* unlinkTrackersSaga(action) {
       });
     });
     yield put(actions.updateTrackersUnlinkGeofence(newTrackers));
+    yield put(
+      showSnackbar({
+        snackMessage: 'Unlinked success',
+        snackType: 'success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
