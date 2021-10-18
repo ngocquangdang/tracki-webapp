@@ -120,16 +120,16 @@ function CustomizedMenus(props: any) {
         <Link
           href="https://tracki.com/pages/setup"
           className={classes.linkVideo}
-       >
+        >
           <StyledMenuItem>
             <ListItemIcon className={classes.menuItemIcon}>
-            <PlayIcon className={classes.menuIcon} />
-           </ListItemIcon>
+              <PlayIcon className={classes.menuIcon} />
+            </ListItemIcon>
             <ListItemText
               primary="Video Tutorials"
               className={classes.menuText}
             />
-         </StyledMenuItem>
+          </StyledMenuItem>
         </Link>
         <StyledMenuItem onClick={handleLogout}>
           <ListItemIcon className={classes.menuItemIcon}>
