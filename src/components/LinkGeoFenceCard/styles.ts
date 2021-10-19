@@ -126,7 +126,6 @@ const ListItemStyle = withStyles(() => ({
   root: {
     cursor: 'default',
     height: 56,
-    width: '70%',
     paddingLeft: 10,
     marginBottom: 10,
   },
