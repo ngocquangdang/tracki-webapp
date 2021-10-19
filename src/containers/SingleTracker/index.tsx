@@ -272,6 +272,7 @@ function SingleTracker(props: Props) {
         show={currentChildView === 'settings'}
         tracker={tracker}
         isMobile={false}
+        changeView={updateChildView}
       />
       <HistoryTrackerDetail
         tracker={tracker}

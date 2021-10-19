@@ -122,6 +122,7 @@ interface Props {
   extendsBatteryModeRequest(settingId, setting): void;
   showSnackbar(data: SNACK_PAYLOAD): void;
   trackingModeRequest(settingId, setting): void;
+  changeView(view: string): void;
 }
 
 interface SMSCounter {
@@ -167,6 +168,7 @@ function SettingTracker(props: Props) {
     extendsBatteryModeRequest,
     showSnackbar,
     trackingModeRequest,
+    changeView,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -180,6 +182,7 @@ function SettingTracker(props: Props) {
       unit: 'kph',
     },
     moving_start: false,
+    gsm_sleep_mode: false,
     low_battery: false,
     device_beep_sound: false,
     zone_entry: false,
@@ -203,6 +206,7 @@ function SettingTracker(props: Props) {
         device_id: tracker.device_id || 0,
         speed_limit: trackerSettings.preferences.speed_limit,
         moving_start: trackerSettings.preferences.moving_start || false,
+        gsm_sleep_mode: trackerSettings.preferences.gsm_sleep_mode || false,
         low_battery: trackerSettings.preferences.low_battery || false,
         device_beep_sound:
           trackerSettings.preferences.device_beep_sound || false,
@@ -224,6 +228,7 @@ function SettingTracker(props: Props) {
       device_name,
       device_id,
       speed_limit,
+      gsm_sleep_mode,
       ...preferences
     } = infoTracker;
     // const [
@@ -231,7 +236,7 @@ function SettingTracker(props: Props) {
     //   samples_per_report,
     //   tracking_measurment,
     // ] = tracking_mode.split('_');
-    const bodyRequest = {
+    let bodyRequest = {
       id: tracker.settings_id,
       device_name,
       device_id,
@@ -249,6 +254,16 @@ function SettingTracker(props: Props) {
       },
       file: imageFile.file,
     };
+    if (tracker && tracker.features.gsm_sleep_mode !== 'not-supported') {
+      bodyRequest = {
+        ...bodyRequest,
+        preferences: {
+          ...bodyRequest.preferences,
+          gsm_sleep_mode,
+        },
+      };
+    }
+
     setError('');
     if (speed_limit.enable && speed_limit.value === 0) {
       return showSnackbar({
@@ -362,6 +377,7 @@ function SettingTracker(props: Props) {
       'settings_device',
       'settings_device_setup_geofence'
     );
+    changeView('geofences');
   };
 
   const onClose = () => {
@@ -614,6 +630,31 @@ function SettingTracker(props: Props) {
                       />
                     </OptionRight>
                   </SwitchGroup>
+                  {tracker &&
+                    tracker.features.gsm_sleep_mode !== 'not-supported' && (
+                      <SwitchGroup>
+                        <span>{t('tracker:sleep_when_not_moving')}</span>
+                        <OptionRight>
+                          <Switch
+                            checked={values.infoTracker?.gsm_sleep_mode}
+                            value={values.infoTracker?.gsm_sleep_mode}
+                            onChange={e => {
+                              // firebaseLogEventRequest(
+                              //   'settings_device',
+                              //   e.target.checked
+                              //     ? 'activate_gsm_sleep_mode'
+                              //     : 'deactivate_gsm_sleep_mode'
+                              // );
+                              setFieldValue(
+                                'infoTracker.gsm_sleep_mode',
+                                e.target.checked
+                              );
+                            }}
+                            color="primary"
+                          />
+                        </OptionRight>
+                      </SwitchGroup>
+                    )}
                   <SwitchGroup>
                     <span>{t('tracker:low_battery_alert')}</span>
                     <OptionRight>

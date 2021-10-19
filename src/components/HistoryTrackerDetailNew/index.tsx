@@ -48,7 +48,7 @@ function HistoryTrackerDetail(props: Prop) {
   const onChangeDateTime = obj => {
     firebaseLogEventRequest('history_device', 'history_device_select_date');
     setDateTime(obj);
-    getHistory(obj);
+    // getHistory(obj);
   };
 
   const getHistory = obj => {

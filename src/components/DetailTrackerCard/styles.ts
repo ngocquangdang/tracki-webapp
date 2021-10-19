@@ -45,7 +45,7 @@ const Text = styled.div`
 `;
 const TrackerStatus = styled.div`
   display: flex;
-  height: ${(props: Props) => (props.isHistory ? '36px' : '52px')};
+  height: ${(props: Props) => (props.isHistory ? '45px' : '52px')};
   background-color: #ffffff;
   flex-direction: row;
   font-size: 12px;
@@ -71,10 +71,10 @@ const BatteryTracker = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 0.75;
+  flex: 1;
 `;
 const StatusTracker = styled.div`
-  flex: 1.25;
+  flex: 1;
   border-right: 1px solid #e0e0e0;
   padding: 0 8px;
   display: flex;
@@ -138,8 +138,8 @@ const ImageWrapper = styled.div`
   margin-right: 16px;
 `;
 const Image = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 100px;
   margin: auto;
   object-fit: contain;
