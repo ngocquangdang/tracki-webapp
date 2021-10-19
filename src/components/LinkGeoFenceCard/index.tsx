@@ -29,7 +29,6 @@ interface Props {
   onAddGeofenceToDevices?(id: number): void;
   removeGeofence(id: number): void;
   [data: string]: any;
-  isFormat?: boolean;
 }
 
 export default function LinkGeofenceCard(props: Props) {
@@ -42,7 +41,6 @@ export default function LinkGeofenceCard(props: Props) {
     geofence,
     t,
     isLinked,
-    isFormat,
     removeGeofence,
     unLinkGeofence,
     addContact,
@@ -101,11 +99,6 @@ export default function LinkGeofenceCard(props: Props) {
     isMobile ? setShowMoreAction(true) : openMenu(e);
   };
 
-  const formatText = (text: string, fontSize: number, maxWidth: number) =>
-    text.length * fontSize > maxWidth
-      ? `${text.slice(0, Math.floor(maxWidth / fontSize))}...`
-      : text;
-
   const closeMoreAction = () => setShowMoreAction(false);
 
   const onCloseConfirm = () => setShowConfirm(false);
@@ -126,12 +119,7 @@ export default function LinkGeofenceCard(props: Props) {
             <Image src={`/images/geo_${geofence.type}.svg`} alt="" />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText
-          primary={
-            isFormat ? formatText(geofence.name, 14, 200) : geofence.name
-          }
-          className={clsx(classes.text)}
-        />
+        <ListItemText primary={geofence.name} className={clsx(classes.text)} />
         {showMoreAction ? (
           <Slide
             in={showMoreAction}

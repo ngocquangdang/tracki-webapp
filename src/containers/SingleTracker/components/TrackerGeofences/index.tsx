@@ -256,7 +256,6 @@ function SingleTrackerGeofences(props: Props) {
                   unLinkGeofence={unlinkTrackers}
                   editGeofence={editGeofence}
                   removeGeofence={removeGeofenceRequestAction}
-                  isFormat={true}
                 />
               ))}
             </div>
