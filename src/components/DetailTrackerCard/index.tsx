@@ -169,7 +169,7 @@ function DetailTrackerCard(props: Prop) {
                     : tracker.time
                     ? `${moment(tracker.time * 1000).fromNow()} at ${moment(
                         tracker.time * 1000
-                      ).format('MMM DD, YYYY A')}`
+                      ).format('MMM DD, YYYY hh A')}`
                     : '---'}
                 </TimeActive>
               </Time>

@@ -62,6 +62,12 @@ function* updateTrackerSettingSaga(action) {
     yield put(actions.fetchTrackerSettingsRequestedAction(settingId));
     yield put(actions.updateTrackerAction(tracker.device_id, tracker));
     // yield put(getUserRequestAction(account_id));
+    yield put(
+      showSnackbar({
+        snackMessage: 'Saved success',
+        snackType: 'success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

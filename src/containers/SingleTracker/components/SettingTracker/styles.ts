@@ -91,7 +91,7 @@ const SwitchGroupLast = styled(SwitchGroup)`
   border-bottom: none;
 `;
 const TextDescription1 = styled.p`
-  font-size: 10px;
+  font-size: 13px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

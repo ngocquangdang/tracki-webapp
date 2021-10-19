@@ -33,6 +33,8 @@ const useStyles = makeStyles(() => ({
   text: {
     color: TEXT_COLOR,
     '& span': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
       fontSize: 14,
       lineHeight: '17px',
     },
@@ -124,6 +126,8 @@ const Image = styled.img`
 `;
 const ListItemStyle = withStyles(() => ({
   root: {
+    whiteSpace: 'nowrap',
+    maxWidth: '70%',
     cursor: 'default',
     height: 56,
     paddingLeft: 10,
