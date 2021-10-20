@@ -32,11 +32,19 @@ export default function SelectOption(props: Props) {
         value={value}
         className={classes.menuItem}
       >
-        {options?.map((item, index: number) => (
-          <MenuItem value={item.value} key={index} className={classes.menuItem}>
-            {item.content}
-          </MenuItem>
-        ))}
+        {options ? (
+          options.map((item, index: number) => (
+            <MenuItem
+              value={item.value}
+              key={index}
+              className={classes.menuItem}
+            >
+              {item.content}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem className={classes.menuItem}>No Tracker is added</MenuItem>
+        )}
       </Select>
     </SelectFormBlackView>
   ) : (
@@ -49,11 +57,19 @@ export default function SelectOption(props: Props) {
         value={value}
         className={classes.menuItem}
       >
-        {options?.map((item, index: number) => (
-          <MenuItem value={item.value} key={index} className={classes.menuItem}>
-            {item.content}
-          </MenuItem>
-        ))}
+        {options ? (
+          options.map((item, index: number) => (
+            <MenuItem
+              value={item.value}
+              key={index}
+              className={classes.menuItem}
+            >
+              {item.content}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem className={classes.menuItem}>No Tracker is added</MenuItem>
+        )}
       </Select>
     </SelectForm>
   );

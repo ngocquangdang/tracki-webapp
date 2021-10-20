@@ -46,6 +46,9 @@ const OptionViewDatePicker = styled.div`
   padding-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
 `;
+const MessageError = styled.div`
+  margin-top: 10px;
+`;
 const PaginationStyle = withStyles(theme => ({
   root: {
     paddingRight: 30,
@@ -154,6 +157,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  errorText: {
+    textAlign: 'center',
+    fontSize: 12,
+    color: theme.palette.error.main,
+  },
 }));
 
 export {
@@ -168,4 +176,5 @@ export {
   SortOption,
   OptionView,
   OptionViewDatePicker,
+  MessageError,
 };

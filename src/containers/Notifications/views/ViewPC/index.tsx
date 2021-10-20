@@ -31,6 +31,7 @@ import {
   SortOption,
   OptionView,
   OptionViewDatePicker,
+  MessageError,
 } from './styles';
 
 interface Notifications {
@@ -82,7 +83,7 @@ export default function Notification(props: Props) {
 
   const [isDateRange, setDateRange] = useState(false);
   const [dataFilter, setDataFilter] = useState(true);
-
+  const [textError, setTextError] = useState('');
   const [trackerName, setTrackerName] = useState('');
 
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
@@ -105,6 +106,10 @@ export default function Notification(props: Props) {
   };
 
   const onClickViewPort = () => {
+    if (trackerName === '') {
+      setTextError('tracker_is_invalid');
+      return;
+    }
     fetchNotificationRequest({
       alarm_types: 'all',
       limit: 500,
@@ -225,6 +230,7 @@ export default function Notification(props: Props) {
   };
 
   const onChangeTracker = value => {
+    setTextError('');
     const filterTracker = notificationsIds.filter(
       item => notifications[item]?.device_id === value
     );
@@ -274,6 +280,11 @@ export default function Notification(props: Props) {
                 value={trackerName}
                 onChangeOption={onChangeTracker}
               />
+              {!!textError && (
+                <MessageError className={classes.errorText}>
+                  {t(`notifications:${textError}`)}
+                </MessageError>
+              )}
             </OptionView>
             <OptionView>
               <SelectOption
