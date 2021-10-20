@@ -89,6 +89,9 @@ export default function DateTimePicker(props: Props) {
   };
 
   const onChangeDateFrom = date => {
+    if (!date) {
+      return setFromDateError('Invalid date type');
+    }
     if (dateTime.toDate < moment(date).unix()) {
       return setFromDateError('From date should be less than To date');
     } else {
@@ -101,6 +104,9 @@ export default function DateTimePicker(props: Props) {
   };
 
   const onChangeDateTo = date => {
+    if (!date) {
+      return setFromDateError('Invalid date type');
+    }
     if (dateTime.fromDate > moment(date).unix()) {
       return setToDateError('From date should be less than To date');
     } else {

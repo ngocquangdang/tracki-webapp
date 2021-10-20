@@ -199,14 +199,14 @@ function DetailTrackerCard(props: Prop) {
             {isHistory && locationPointTracking ? (
               <LatLong isHistory={true}>
                 <LatText>Lat: {locationPointTracking.lat}</LatText>
-                <LongText>Lon: {locationPointTracking.lng}</LongText>
+                <LongText>Long: {locationPointTracking.lng}</LongText>
               </LatLong>
             ) : (
               tracker.lat &&
               tracker.lng && (
                 <LatLong>
                   <LatText>Lat: {tracker.lat}</LatText>
-                  <LongText>Lon: {tracker.lng}</LongText>
+                  <LongText>Long: {tracker.lng}</LongText>
                 </LatLong>
               )
             )}
