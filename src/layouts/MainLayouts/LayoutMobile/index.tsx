@@ -20,6 +20,7 @@ interface Props {
 function MainLayoutMobile(props: Props) {
   const { header, hasFooter = true, trackers, ...rest } = props;
   const [isSetting, showSetting] = useState(false);
+  const [currentView, setCurrentView] = useState('');
   const [selectedId, setSelectId] = useState<number | null>(null);
   const classes = useStyles();
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -28,10 +29,12 @@ function MainLayoutMobile(props: Props) {
   const onClickSetting = (id: number) => {
     setOpenSidebar(false);
     showSetting(true);
+    setCurrentView('settingsView');
     setSelectId(id);
   };
   const handleCloseSetting = () => {
     showSetting(false);
+    setCurrentView('');
     setOpenSidebar(true);
   };
 
@@ -69,10 +72,12 @@ function MainLayoutMobile(props: Props) {
       {isSetting && trackers && selectedId !== null && (
         <SettingTracker
           t={rest.t}
-          show={isSetting}
+          //show={isSetting}
+          show={currentView === 'settingsView'}
           tracker={trackers[selectedId]}
           handleClose={handleCloseSetting}
           isMobile={true}
+          changeView={setCurrentView}
         />
       )}
       <div
