@@ -149,6 +149,14 @@ export const firebaseEnvent = {
     add_contact_low_battery_alert: {
       description: 'Go to Contact list Sidebar',
     },
+    activate_gsm_sleep_mode: {
+      description:
+        'Sleep when not moving on Device Toggle, when was previously turned OFF.',
+    },
+    deactivate_gsm_sleep_mode: {
+      description:
+        'Sleep when not moving on Device Toggle, when was previously turned ON.',
+    },
     activate_low_battery: {
       description:
         'Low Battery Alert Toggle, when was previously turned off. Add contact icons appears',

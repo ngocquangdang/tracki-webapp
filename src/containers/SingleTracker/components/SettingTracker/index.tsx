@@ -639,12 +639,12 @@ function SettingTracker(props: Props) {
                             checked={values.infoTracker?.gsm_sleep_mode}
                             value={values.infoTracker?.gsm_sleep_mode}
                             onChange={e => {
-                              // firebaseLogEventRequest(
-                              //   'settings_device',
-                              //   e.target.checked
-                              //     ? 'activate_gsm_sleep_mode'
-                              //     : 'deactivate_gsm_sleep_mode'
-                              // );
+                              firebaseLogEventRequest(
+                                'settings_device',
+                                e.target.checked
+                                  ? 'activate_gsm_sleep_mode'
+                                  : 'deactivate_gsm_sleep_mode'
+                              );
                               setFieldValue(
                                 'infoTracker.gsm_sleep_mode',
                                 e.target.checked
