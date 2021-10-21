@@ -143,7 +143,11 @@ function AddGeoFence(props: Props) {
 
   return (
     <SideBarOutside
-      title={t('tracker:add_geofence')}
+      title={
+        selectedGeofence
+          ? t('tracker:edit_geofence')
+          : t('tracker:add_geofence')
+      }
       show={props.show}
       direction="right"
       handleClose={onCloseAdd}
@@ -252,7 +256,9 @@ function AddGeoFence(props: Props) {
                 </div>
                 <div className={classes.saveBtnWrap}>
                   <Button
-                    text={t('common:save')}
+                    text={
+                      selectedGeofence ? t('common:update') : t('common:save')
+                    }
                     onClick={handleSubmit}
                     color="primary"
                     fullWidth

@@ -5,7 +5,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { uniqueId } from 'lodash';
 
-import { Container, Content, Footer, ListItem, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  ListItem,
+  useStyles,
+  Message,
+} from './styles';
 import { Button } from '@Components/buttons';
 import { SkeletonTracker } from '@Components/Skeletons';
 import GeoFence from './components/GeoFenceCard';
@@ -121,6 +128,9 @@ function ListGeoFence(props: Props) {
                 />
               ))
             : [1, 2].map(i => <SkeletonTracker key={i} />)}
+          {geofenceIds?.length === 0 && (
+            <Message>{t('tracker:no_tracker_found')}</Message>
+          )}
         </ListItem>
       </Content>
       <Footer>

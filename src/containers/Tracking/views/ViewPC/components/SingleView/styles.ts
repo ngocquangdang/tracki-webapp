@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme => ({
     height: 50,
     backgroundColor: theme.palette.primary.main,
   },
+  skeContainer: {
+    margin: 10,
+  },
 }));
 
 export { useStyles };

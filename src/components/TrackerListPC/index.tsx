@@ -2,7 +2,14 @@ import React from 'react';
 import Router from 'next/router';
 import { FiPlus } from 'react-icons/fi';
 
-import { Container, Content, Footer, ListItem, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  ListItem,
+  useStyles,
+  Message,
+} from './styles';
 import { Button } from '@Components/buttons';
 import TrackerCard from '@Components/TrackerCard';
 import { SkeletonTracker } from '@Components/Skeletons';
@@ -46,6 +53,9 @@ export default function ListDevice(props: Props) {
                   />
                 ))
               : [1, 2].map(i => <SkeletonTracker key={i} />)}
+            {trackerIds?.length === 0 && (
+              <Message>{t('tracker:no_tracker_found')}</Message>
+            )}
           </ListItem>
         </Content>
         <Footer>

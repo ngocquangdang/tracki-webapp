@@ -16,8 +16,8 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 const Image = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   border-radius: 100px;
   margin: auto;
   object-fit: contain;

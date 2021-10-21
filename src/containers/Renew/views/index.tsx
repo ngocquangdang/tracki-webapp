@@ -249,7 +249,7 @@ export default function RenewPayment(props: Props) {
           classes={classes.backNav}
           startIcon={<FiChevronLeft size={28} />}
           text={stepChild !== '' || !isMobile ? 'back' : 'Renew Tracker'}
-          onClick={Router.back}
+          onClick={() => Router.back()}
         />
         <Link href="/">
           <Logo src="/images/logo.png" alt="" />

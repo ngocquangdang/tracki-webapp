@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 
 import TrackerDetailCard from '@Components/DetailTrackerCard';
 import TrackerCard from '@Components/TrackerCard';
+import { SkeletonTracker } from '@Components/Skeletons';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { useStyles } from './styles';
 
@@ -70,20 +71,27 @@ export default function SingleView(props: Props) {
       />
       <p className={classes.text}>{t('tracker:select_device')}</p>
       <div className={classes.list}>
-        {trackerIds.map(id => (
-          <div key={id} className={classes.trackeItem}>
-            {selectedTrackerId?.toString() === id && (
-              <div className={classes.selectedTracker} />
-            )}
-            <TrackerCard
-              t={t}
-              isChecked={selectedTrackerId?.toString() === id}
-              tracker={trackers[id]}
-              isTracking={true}
-              onClickTracker={onSelectTracker}
-            />
-          </div>
-        ))}
+        {trackerIds &&
+          trackerIds.map(id => (
+            <div key={id} className={classes.trackeItem}>
+              {selectedTrackerId?.toString() === id && (
+                <div className={classes.selectedTracker} />
+              )}
+              <TrackerCard
+                t={t}
+                isChecked={selectedTrackerId?.toString() === id}
+                tracker={trackers[id]}
+                isTracking={true}
+                onClickTracker={onSelectTracker}
+              />
+            </div>
+          ))}
+        {trackerIds.length === 0 &&
+          [1, 2, 3, 4].map((item: number) => (
+            <div className={classes.skeContainer} key={item.toString()}>
+              <SkeletonTracker />
+            </div>
+          ))}
       </div>
     </div>
   );
