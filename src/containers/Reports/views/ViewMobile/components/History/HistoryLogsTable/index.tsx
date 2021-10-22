@@ -27,7 +27,7 @@ function HistoryLogsTable(props) {
           />
         ))
       ) : (
-        <div className={classes.flexCenter}>No found records</div>
+        <div className={classes.flexCenter}>No records found</div>
       )}
     </div>
   );

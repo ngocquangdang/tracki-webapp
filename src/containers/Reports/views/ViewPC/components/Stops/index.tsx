@@ -35,6 +35,7 @@ interface Props {
 export default function ReportStops(props: Props) {
   const {
     fetchHistoryStop,
+    isFetchingDataStop,
     historyStops,
     historyStopIds,
     trackerIds,
@@ -89,7 +90,7 @@ export default function ReportStops(props: Props) {
   //handle change date time
   const onChangeDateTime = obj => {
     setDateTime(obj);
-    if (trackerId !== '') {
+    if (trackerId !== '' && obj.fromDate < obj.toDate) {
       fetchHistoryStop({
         trackerId: trackerId,
         query: `from=${obj.fromDate}&to=${obj.toDate}&limit=2000&page=1&type=2`,
@@ -178,6 +179,7 @@ export default function ReportStops(props: Props) {
             text="View Report"
             className={`${classes.btn}`}
             onClick={onClickViewPort}
+            isLoading={isFetchingDataStop}
           />
         </div>
       </div>
