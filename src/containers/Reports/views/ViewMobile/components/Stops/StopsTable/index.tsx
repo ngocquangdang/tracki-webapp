@@ -28,7 +28,7 @@ function StopsTable(props) {
           />
         ))
       ) : (
-        <div className={classes.flexCenter}>No records found</div>
+        <div className={classes.flexCenter}>{t('common:no_records_found')}</div>
       )}
     </div>
   );
