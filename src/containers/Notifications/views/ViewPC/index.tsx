@@ -106,7 +106,7 @@ export default function Notification(props: Props) {
   };
 
   const onClickViewPort = () => {
-    if (trackerName === '') {
+    if (!trackerName) {
       setTextError('tracker_is_invalid');
       return;
     }
