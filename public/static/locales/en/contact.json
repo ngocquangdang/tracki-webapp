@@ -7,5 +7,6 @@
   "edit": "Edit",
   "cancel": "Cancel",
   "contact_already": "Contact address already exists for this account",
-  "not_data": "Not data found"
+  "not_data": "Not data found",
+  "no_tracker_is_added": "No Tracker is added"
 }

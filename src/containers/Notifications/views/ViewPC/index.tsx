@@ -274,6 +274,7 @@ export default function Notification(props: Props) {
           <ListOptionView>
             <OptionView>
               <SelectOption
+                t={t}
                 name="select_tracker"
                 options={TRACKER_NAME}
                 label={t('notifications:select_tracker')}
@@ -288,6 +289,7 @@ export default function Notification(props: Props) {
             </OptionView>
             <OptionView>
               <SelectOption
+                t={t}
                 name="alarm_type"
                 options={ALARM_TYPES}
                 label={t('notifications:select_type')}
@@ -324,6 +326,7 @@ export default function Notification(props: Props) {
                     <div className={classes.rightItemHead}>
                       <SortOption>
                         <SelectOption
+                          t={t}
                           name="sort_by"
                           options={SORT_BY_OPTION}
                           label={t('notifications:sort_by')}

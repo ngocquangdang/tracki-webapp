@@ -13,11 +13,20 @@ interface Props {
   name?: string;
   onChangeOption(event: string): void;
   isBlackView?: boolean;
+  t(key: string): string;
 }
 
 export default function SelectOption(props: Props) {
-  const { options, label, value, onChangeOption, name, isBlackView, ...rest } =
-    props;
+  const {
+    options,
+    label,
+    value,
+    onChangeOption,
+    name,
+    isBlackView,
+    t,
+    ...rest
+  } = props;
   const classes = useStyles();
   const handleChange = (event: any) => {
     onChangeOption(event.target.value);
@@ -43,7 +52,9 @@ export default function SelectOption(props: Props) {
             </MenuItem>
           ))
         ) : (
-          <MenuItem className={classes.menuItem}>No Tracker is added</MenuItem>
+          <MenuItem className={classes.menuItem}>
+            {t('contact:no_tracker_is_added')}
+          </MenuItem>
         )}
       </Select>
     </SelectFormBlackView>
@@ -68,7 +79,9 @@ export default function SelectOption(props: Props) {
             </MenuItem>
           ))
         ) : (
-          <MenuItem className={classes.menuItem}>No Tracker is added</MenuItem>
+          <MenuItem className={classes.menuItem}>
+            {t('contact:no_tracker_is_added')}
+          </MenuItem>
         )}
       </Select>
     </SelectForm>
