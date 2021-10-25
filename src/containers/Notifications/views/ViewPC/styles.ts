@@ -158,9 +158,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   errorText: {
-    textAlign: 'center',
     fontSize: 12,
     color: theme.palette.error.main,
+    position: 'absolute',
+    left: 70,
   },
 }));
 

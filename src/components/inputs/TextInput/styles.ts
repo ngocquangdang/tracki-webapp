@@ -31,13 +31,13 @@ const TextInput = withStyles(theme => ({
       },
     },
     '& > .MuiFormHelperText-root.Mui-error': {
-      // position: 'absolute',
-      // top: '50px',
+      position: 'absolute',
+      top: '50px',
     },
     '& .MuiFormHelperText-root': {
-      marginRight: '0px',
-      marginLeft: '0px',
-      textAlign: 'right',
+      // marginRight: '0px',
+      // marginLeft: '0px',
+      // textAlign: 'right',
     },
     '& .MuiOutlinedInput-input': {
       padding: '15.5px 14px',
