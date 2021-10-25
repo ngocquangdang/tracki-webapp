@@ -71,21 +71,20 @@ export default function SingleView(props: Props) {
       />
       <p className={classes.text}>{t('tracker:select_device')}</p>
       <div className={classes.list}>
-        {trackerIds &&
-          trackerIds.map(id => (
-            <div key={id} className={classes.trackeItem}>
-              {selectedTrackerId?.toString() === id && (
-                <div className={classes.selectedTracker} />
-              )}
-              <TrackerCard
-                t={t}
-                isChecked={selectedTrackerId?.toString() === id}
-                tracker={trackers[id]}
-                isTracking={true}
-                onClickTracker={onSelectTracker}
-              />
-            </div>
-          ))}
+        {trackerIds.map(id => (
+          <div key={id} className={classes.trackeItem}>
+            {selectedTrackerId?.toString() === id && (
+              <div className={classes.selectedTracker} />
+            )}
+            <TrackerCard
+              t={t}
+              isChecked={selectedTrackerId?.toString() === id}
+              tracker={trackers[id]}
+              isTracking={true}
+              onClickTracker={onSelectTracker}
+            />
+          </div>
+        ))}
         {trackerIds.length === 0 &&
           [1, 2, 3, 4].map((item: number) => (
             <div className={classes.skeContainer} key={item.toString()}>
