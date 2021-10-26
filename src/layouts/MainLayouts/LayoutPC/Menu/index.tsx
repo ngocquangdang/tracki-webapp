@@ -65,7 +65,7 @@ function CustomizedMenus(props: any) {
 
   return (
     <div className={classes.flexBox}>
-      <div
+      {/* <div
         className={`${classes.myWallet} ${classes.flexBox}`}
         onClick={gotoLink('/wallet')}
       >
@@ -77,7 +77,7 @@ function CustomizedMenus(props: any) {
           <img src="/images/wallet.png" alt="" className={classes.icon} />
           <p>$24.55</p>
         </div>
-      </div>
+      </div> */}
 
       <Button
         aria-controls="customized-menu"

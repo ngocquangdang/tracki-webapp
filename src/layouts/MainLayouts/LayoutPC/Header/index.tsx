@@ -9,12 +9,12 @@ import {
   Contacts as ContactsIcon,
   BarChart as BarChartIcon,
   Settings as SettingsIcon,
-  ShoppingBasket as ShoppingBasketIcon,
+  // ShoppingBasket as ShoppingBasketIcon,
 } from '@material-ui/icons';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { WalletIcon } from '@Components/Icon';
+// import { WalletIcon } from '@Components/Icon';
 
 import Menu from '../Menu';
 import { useStyles } from './styles';
@@ -69,18 +69,18 @@ const routes = [
     icon: <SettingsIcon />,
     link: '/settings',
   },
-  {
-    index: 7,
-    label: 'Store',
-    icon: <ShoppingBasketIcon />,
-    link: '/store',
-  },
-  {
-    index: 8,
-    label: 'Wallet',
-    icon: <WalletIcon />,
-    link: '/wallet',
-  },
+  // {
+  //   index: 7,
+  //   label: 'Store',
+  //   icon: <ShoppingBasketIcon />,
+  //   link: '/store',
+  // },
+  // {
+  //   index: 8,
+  //   label: 'Wallet',
+  //   icon: <WalletIcon />,
+  //   link: '/wallet',
+  // },
 ];
 
 export default function Header() {
