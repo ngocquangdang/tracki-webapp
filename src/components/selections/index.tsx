@@ -13,7 +13,7 @@ interface Props {
   name?: string;
   onChangeOption(event: string): void;
   isBlackView?: boolean;
-  t(key: string): string;
+  t(key: string, format?: object): string;
 }
 
 export default function SelectOption(props: Props) {

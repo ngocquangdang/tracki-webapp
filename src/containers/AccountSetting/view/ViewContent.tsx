@@ -238,6 +238,7 @@ export default function AccountSetting(props: any) {
                   </RadioGroup>
                   <div className={classes.selectOption}>
                     <SelectOption
+                      t={t}
                       name="date_format"
                       options={DATE_SETTINGS}
                       label={t('auth:date_format')}
@@ -316,6 +317,7 @@ export default function AccountSetting(props: any) {
                 </SwitchGroup>
                 <div className={classes.media}>
                   <SelectOption
+                    t={t}
                     options={LANGUAGES}
                     label={t('auth:select_language')}
                     value={values.language}

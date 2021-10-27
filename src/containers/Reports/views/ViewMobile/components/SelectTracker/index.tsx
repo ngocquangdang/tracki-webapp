@@ -96,6 +96,7 @@ function SelectTracker(props: Props) {
           <div className={classes.list}>
             <div className={classes.formSelect}>
               <SelectOption
+                t={t}
                 name="select_tracker"
                 options={TRACKER_NAME}
                 label="Select Tracker"
@@ -106,6 +107,7 @@ function SelectTracker(props: Props) {
             </div>
             <div className={classes.formSelect}>
               <DateTimePicker
+                t={t}
                 isMobile={false}
                 dateTime={dateTime}
                 onChange={onChangeDateTime}

@@ -47,6 +47,7 @@ export default function ReportTrip(props: Props) {
     modeMap,
     setOptimizedTrip,
     isFetchingTrips,
+    t,
   } = props;
   const classes = useStyles();
 
@@ -146,6 +147,7 @@ export default function ReportTrip(props: Props) {
       <div className={classes.flexCol}>
         <div className={classes.rowLeft}>
           <SelectOption
+            t={t}
             name="select_tracker"
             options={TRACKER_NAME}
             label="Select Tracker"
@@ -156,6 +158,7 @@ export default function ReportTrip(props: Props) {
         </div>
         <div className={classes.datePicker}>
           <DateTimePicker
+            t={t}
             isMobile={false}
             dateTime={dateTime}
             onChange={onChangeDateTime}

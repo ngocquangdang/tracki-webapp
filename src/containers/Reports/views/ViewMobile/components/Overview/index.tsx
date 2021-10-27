@@ -43,6 +43,7 @@ function OverviewReportMobile(props: Props) {
     isFetchingDataNoti,
     isFetchingDataStop,
     isFetchingTracker,
+    t,
   } = props;
 
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
@@ -107,6 +108,7 @@ function OverviewReportMobile(props: Props) {
             ) : (
               <div className={classes.selection}>
                 <SelectOption
+                  t={t}
                   name="select_tracker"
                   options={TRACKER_NAME}
                   label="Select Tracker"
