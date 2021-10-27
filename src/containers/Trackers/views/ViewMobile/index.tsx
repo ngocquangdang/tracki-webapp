@@ -180,6 +180,7 @@ export default function ViewHomeMobile(props: Props) {
               tracker={tracker}
               handleClose={onCloseView}
               isMobile={true}
+              changeView={setCurrentView}
             />
             <TrackerGeofences
               show={currentView === 'geofenceListView'}

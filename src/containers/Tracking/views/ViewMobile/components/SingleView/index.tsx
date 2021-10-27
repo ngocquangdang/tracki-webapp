@@ -71,6 +71,7 @@ function TrackingSingleView(props: Props) {
             tracker={tracker}
             handleClose={onCloseView}
             isMobile={true}
+            changeView={setCurrentView}
           />
           <TrackerGeofences
             show={currentView === 'geofenceListView'}
