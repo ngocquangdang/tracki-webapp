@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'red',
   },
   textError: {
+    marginTop: '15px',
     color: 'red',
   },
   timePicker: {
@@ -38,9 +39,14 @@ const useStyles = makeStyles(theme => ({
   },
   controlTimePicker: {
     display: 'flex',
+    flexDirection: 'column',
+  },
+  displayFlex: {
+    display: 'flex',
   },
   controlTimePickerHistory: {
     display: 'flex',
+    flexDirection: 'column',
     marginTop: '15px',
   },
   timeFrom: {
@@ -49,6 +55,10 @@ const useStyles = makeStyles(theme => ({
   },
   selectOption: {
     width: '100%',
+    marginRight: 15,
+  },
+  selectOptionReport: {
+    width: '70%',
     marginRight: 15,
   },
   inLine: {
