@@ -88,7 +88,7 @@ export default function EmailForm(props) {
               />
               <Button
                 className={`${classes.fullWidth} ${classes.btnPrimary}`}
-                text={t('auth:add')}
+                text={t('auth:edit')}
                 isLoading={isRequesting}
                 color="primary"
                 type="submit"

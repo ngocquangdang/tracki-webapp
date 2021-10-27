@@ -1,8 +1,11 @@
 import * as Yup from 'yup';
 
 export const emailSchema = Yup.object().shape({
-  name: Yup.string().required('required'),
-  email: Yup.string().email('email_invalid').required('required'),
+  name: Yup.string().max(25, 'too_long').required('required'),
+  email: Yup.string()
+    .email('email_invalid')
+    .max(40, 'too_long')
+    .required('required'),
 });
 
 export const smsSchema = Yup.object().shape({

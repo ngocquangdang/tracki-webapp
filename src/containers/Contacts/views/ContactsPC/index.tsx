@@ -245,6 +245,14 @@ export default function Contact(props: Props) {
                     </TableRow>
                   );
                 })}
+                {initialContactIds.length === 0 && (
+                  <TableRow style={{ height: 5 }}>
+                    <TableCell className={`${classes.color} ${classes.col1}`}>
+                      <div>{t('contact:not_data')}</div>
+                    </TableCell>
+                  </TableRow>
+                )}
+
                 <TableRow style={{ height: 5 }}>
                   <TableCell />
                 </TableRow>
