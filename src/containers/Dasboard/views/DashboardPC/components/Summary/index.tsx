@@ -55,6 +55,7 @@ export default function SummaryComponent(props) {
       <HeaderCard>
         <SelectGroup>
           <DateTimePicker
+            t={t}
             isMobile={false}
             dateTime={dateTime}
             onChange={onChangeDateTime}

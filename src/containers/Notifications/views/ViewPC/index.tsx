@@ -299,6 +299,7 @@ export default function Notification(props: Props) {
             </OptionView>
             <OptionViewDatePicker isDateRange={isDateRange}>
               <DateTimePicker
+                t={t}
                 isMobile={false}
                 dateTime={dateTime}
                 onChange={onChangeDateTime}

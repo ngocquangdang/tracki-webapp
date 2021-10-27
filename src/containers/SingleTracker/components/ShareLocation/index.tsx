@@ -149,6 +149,7 @@ function ShareLocation(props: Props) {
             return (
               <Content onSubmit={handleSubmit}>
                 <SelectOption
+                  t={t}
                   name="duration"
                   options={SHARE_LOCATION_OPTIONS}
                   label={t('tracker:period_link')}
