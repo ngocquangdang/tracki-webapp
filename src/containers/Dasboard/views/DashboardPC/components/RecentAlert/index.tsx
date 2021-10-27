@@ -91,9 +91,11 @@ export default function RecentAlertComponent(props) {
           )}
         </tbody>
         <tfoot>
-          <tr className={classes.footer} onClick={onUpdateRowPerPage}>
-            <td>{t('dashboard:load_more_alerts')}</td>
-          </tr>
+          {alarmIds && alarmIds.length > 0 && (
+            <tr className={classes.footer} onClick={onUpdateRowPerPage}>
+              <td>{t('dashboard:load_more_alerts')}</td>
+            </tr>
+          )}
         </tfoot>
       </table>
     </>

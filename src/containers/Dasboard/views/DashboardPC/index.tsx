@@ -21,6 +21,7 @@ import {
   Title,
   IconDashboard,
   useStyles,
+  Message,
 } from './styles';
 
 import RecentAlertConponent from './components/RecentAlert';
@@ -75,6 +76,7 @@ export default function DashboardContainer(props) {
   ]);
   const [trackerSelected, setTrackerSelected] = useState(trackerList[0]?.value);
   const [trips, setTrip] = useState(0);
+  const [txtError, setTxtError] = useState('');
   const { alarms } = alarmsTracker || {};
   const { alarmIds } = alarmsTracker || [];
   const [distance, setDistance] = useState(0);
@@ -94,35 +96,35 @@ export default function DashboardContainer(props) {
   const deviceInfo = [
     {
       title: t('dashboard:current_address'),
-      data: currentAddress || '-',
+      data: currentAddress || '[N/A]',
     },
     {
       title: t('dashboard:total_time_travel'),
-      data: '-',
+      data: '[N/A]',
     },
     {
       title: t('dashboard:odometer'),
-      data: '-',
+      data: '[N/A]',
     },
     {
       title: t('dashboard:total_trip'),
-      data: '-',
+      data: '[N/A]',
     },
     {
       title: t('dashboard:maximum_speed'),
-      data: '-',
+      data: '[N/A]',
     },
     {
       title: t('dashboard:tracker_contenction'),
-      data: trackers[parseInt(trackerSelected)]?.location_type || '-',
+      data: trackers[parseInt(trackerSelected)]?.location_type || '[N/A]',
     },
     {
       title: t('dashboard:total_fuel_consumption'),
-      data: '-',
+      data: '[N/A]',
     },
     {
       title: t('dashboard:maximum_altitued'),
-      data: '-',
+      data: '[N/A]',
     },
   ];
 
@@ -168,6 +170,7 @@ export default function DashboardContainer(props) {
   const changeSelectTracker = device_id => {
     setTrackerSelected(device_id);
     changeTrackersTracking([device_id]);
+    setTxtError('');
   };
 
   useEffect(() => {
@@ -221,6 +224,7 @@ export default function DashboardContainer(props) {
             value={trackerSelected}
             onChangeOption={changeSelectTracker}
           />
+          {txtError && <Message>{t(`dashboard:${txtError}`)}</Message>}
         </DeviceSelection>
       </HeaderDashboard>
       <ContainerDashboard>
@@ -241,6 +245,7 @@ export default function DashboardContainer(props) {
               summary={summary}
               {...props}
               tracker={trackers[parseInt(trackerSelected)]}
+              error={setTxtError}
             />
           </SummaryCard>
           <RecentAlertCard>

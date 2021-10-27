@@ -52,7 +52,7 @@ const DetailSummary = styled.div`
 `;
 
 const SelectGroup = styled.div`
-  width: 240px;
+  width: 60%;
 `;
 
 const Description = styled.div`

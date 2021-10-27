@@ -18,7 +18,8 @@ import {
 
 export default function SummaryComponent(props) {
   const classes = useStyles();
-  const { summary, tracker, t, getHistoryTracker, getAlarmsTracker } = props;
+  const { summary, tracker, t, getHistoryTracker, getAlarmsTracker, error } =
+    props;
 
   const [dateTime, setDateTime] = useState({
     fromDate: moment().unix(),
@@ -27,6 +28,10 @@ export default function SummaryComponent(props) {
 
   const onChangeDateTime = obj => {
     setDateTime(obj);
+    if (!tracker) {
+      error('invalid_tracker');
+      return;
+    }
     getHistory(obj);
     if (getAlarmsTracker) {
       getAlarmsTracker({
