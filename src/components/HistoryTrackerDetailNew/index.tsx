@@ -36,6 +36,7 @@ function HistoryTrackerDetail(props: Prop) {
     pointTrackingIndex,
     onClose,
     changePointTracking,
+    t,
   } = props;
   const [typeOfHistory, setTypeOfHistory] = useState(0);
   const [dateTime, setDateTime] = useState({
@@ -104,6 +105,7 @@ function HistoryTrackerDetail(props: Prop) {
         <div className={classes.filterWrapper}>
           <div className={classes.selectOption}>
             <DateTimePicker
+              t={t}
               isMobile={false}
               dateTime={dateTime}
               onChange={onChangeDateTime}

@@ -83,5 +83,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo,
-  withTranslation(['common', 'auth', 'tracker'])
+  withTranslation(['common', 'auth', 'tracker', 'notifications'])
 )(NotificationView) as React.ComponentType;

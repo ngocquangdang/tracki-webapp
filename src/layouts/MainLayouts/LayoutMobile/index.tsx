@@ -35,6 +35,7 @@ function MainLayoutMobile(props: Props) {
   const handleCloseSetting = () => {
     setCurrentView('');
     showSetting(false);
+    setCurrentView('');
     setOpenSidebar(true);
   };
 
@@ -72,6 +73,7 @@ function MainLayoutMobile(props: Props) {
       {isSetting && trackers && selectedId !== null && (
         <SettingTracker
           t={rest.t}
+          //show={isSetting}
           show={currentView === 'settingsView'}
           tracker={trackers[selectedId]}
           handleClose={handleCloseSetting}

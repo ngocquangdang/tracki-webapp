@@ -127,6 +127,7 @@ function ReportSpeedMobile(props: Props) {
         <Header isDateRange={isDateRange}>
           <div className={classes.containOption}>
             <SelectOption
+              t={t}
               name="select_tracker"
               options={TRACKER_NAME}
               label="Select Tracker"
@@ -141,6 +142,7 @@ function ReportSpeedMobile(props: Props) {
             }
           >
             <DateTimePicker
+              t={t}
               isMobile={true}
               dateTime={dateTime}
               onChange={onChangeDateTime}
@@ -159,6 +161,7 @@ function ReportSpeedMobile(props: Props) {
           <div className={classes.flexRow}>
             <div className={classes.sort}>
               <SelectOption
+                t={t}
                 name="sort_by"
                 options={SORT_BY_OPTION}
                 label="Sort By"

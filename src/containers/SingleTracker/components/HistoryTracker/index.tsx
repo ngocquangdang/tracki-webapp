@@ -158,6 +158,7 @@ function HistoryTracker(props: Props) {
                 </SelectGroup>
                 <div className={classes.selectOption}>
                   <DateTimePicker
+                    t={t}
                     isMobile={false}
                     dateTime={dateTime}
                     onChange={onChangeDateTime}

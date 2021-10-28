@@ -189,6 +189,7 @@ export default function BatterySleepMode(props: Props) {
               {values.enable && (
                 <div className={`${classes.modeOption} ${classes.width}`}>
                   <SelectOption
+                    t={t}
                     name={'select_mode'}
                     options={EXTENDED_BATTERY}
                     label={t('batterymode:select_mode')}

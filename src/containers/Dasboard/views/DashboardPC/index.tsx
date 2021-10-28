@@ -215,6 +215,7 @@ export default function DashboardContainer(props) {
         </TitleDashBoard>
         <DeviceSelection>
           <SelectOption
+            t={t}
             name=""
             options={trackerList}
             label={'Select Tracker'}
