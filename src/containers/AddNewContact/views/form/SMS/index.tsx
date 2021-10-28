@@ -64,7 +64,7 @@ export default function SMSForm(props) {
                 name="code"
                 value={values.name}
                 onChange={handleChange('name')}
-                onBlur={handleBlur('name')}
+                // onBlur={handleBlur('name')}
                 variant="outlined"
                 errorInput={
                   errorsForm.name && touched.name ? t(errorsForm.name) : ''
@@ -75,7 +75,7 @@ export default function SMSForm(props) {
                 defaultCountry="us"
                 variant="outlined"
                 onChange={handleChange('phone')}
-                onBlur={handleBlur('phone')}
+                //onBlur={handleBlur('phone')}
                 value={values.phone}
                 errorInput={
                   errorsForm.phone

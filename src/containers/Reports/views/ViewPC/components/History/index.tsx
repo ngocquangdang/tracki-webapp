@@ -249,6 +249,7 @@ export default function HistoryLogs(props: Props) {
         <div className={classes.flexRow}>
           <div className={classes.containOption}>
             <SelectOption
+              t={t}
               name="select_tracker"
               options={TRACKER_NAME}
               label="Select Tracker"
@@ -259,6 +260,7 @@ export default function HistoryLogs(props: Props) {
           </div>
           <OptionViewDatePicker isDateRange={isDateRange}>
             <DateTimePicker
+              t={t}
               isMobile={false}
               dateTime={dateTime}
               onChange={onChangeDateTime}
@@ -322,6 +324,7 @@ export default function HistoryLogs(props: Props) {
                   <div className={classes.rightItemHead}>
                     <div className={classes.sortOtion}>
                       <SelectOption
+                        t={t}
                         name="sort_by"
                         options={SORT_BY_OPTION}
                         label="Sort By"

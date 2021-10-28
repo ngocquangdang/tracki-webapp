@@ -25,7 +25,7 @@ interface Props {
 }
 
 function Footer(props: Props) {
-  const { t, trackerId, mapTile, changeMapTile } = props;
+  const { t, mapTile, changeMapTile } = props;
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,76 +34,69 @@ function Footer(props: Props) {
 
   return (
     <div className={classes.footer}>
-      {trackerId ? (
-        <div> hihi</div>
-      ) : (
-        <>
-          <div className={classes.navLink}>
-            <Link href="/notifications">
-              <LinkStyle
-                color="secondary"
-                className={classes.linkBtnMobile}
-                underline="none"
-              >
-                {<NotificationsIcon />} {t('common:notifications')}
-              </LinkStyle>
-            </Link>
+      <div className={classes.navLink}>
+        <Link href="/notifications">
+          <LinkStyle
+            color="secondary"
+            className={classes.linkBtnMobile}
+            underline="none"
+          >
+            {<NotificationsIcon />} {t('common:notifications')}
+          </LinkStyle>
+        </Link>
+      </div>
+      <div className={classes.navLink}>
+        <Link href="/">
+          <LinkStyle
+            color="secondary"
+            className={classes.linkBtnMobile}
+            underline="none"
+          >
+            {<MyLocationIcon />} {t('common:current_location')}
+          </LinkStyle>
+        </Link>
+      </div>
+      <div className={classes.navLink}>
+        <Link href="/trackers">
+          <LinkStyle
+            color="secondary"
+            className={classes.linkBtnMobile}
+            underline="none"
+          >
+            {<NearMeIcon />} {t('common:view_all')}
+          </LinkStyle>
+        </Link>
+      </div>
+      <div className={classes.navLink}>
+        <LinkStyle
+          color="secondary"
+          className={classes.linkBtnMobile}
+          underline="none"
+          href="https://tracki.com/products/tracki-gps-tracker"
+        >
+          {<ShoppingBasketIcon />} {t('common:store')}
+        </LinkStyle>
+      </div>
+      <ClickAwayListener onClickAway={onCloseLayer}>
+        <div className={classes.navLink}>
+          <div onClick={!isOpen ? onShowLayer : undefined}>
+            <LinkStyle
+              color="secondary"
+              className={classes.linkBtnMobile}
+              underline="none"
+            >
+              {<LayerIcon />} {t('common:map_type')}
+            </LinkStyle>
           </div>
-          <div className={classes.navLink}>
-            <Link href="/dashboard">
-              <LinkStyle
-                color="secondary"
-                className={classes.linkBtnMobile}
-                underline="none"
-              >
-                {<MyLocationIcon />} {t('common:current_location')}
-              </LinkStyle>
-            </Link>
-          </div>
-          <div className={classes.navLink}>
-            <Link href="/trackers">
-              <LinkStyle
-                color="secondary"
-                className={classes.linkBtnMobile}
-                underline="none"
-              >
-                {<NearMeIcon />} {t('common:view_all')}
-              </LinkStyle>
-            </Link>
-          </div>
-          <div className={classes.navLink}>
-            <Link href="/tracking">
-              <LinkStyle
-                color="secondary"
-                className={classes.linkBtnMobile}
-                underline="none"
-              >
-                {<ShoppingBasketIcon />} {t('common:store')}
-              </LinkStyle>
-            </Link>
-          </div>
-          <ClickAwayListener onClickAway={onCloseLayer}>
-            <div className={classes.navLink}>
-              <div onClick={!isOpen ? onShowLayer : undefined}>
-                <LinkStyle
-                  color="secondary"
-                  className={classes.linkBtnMobile}
-                  underline="none"
-                >
-                  {<LayerIcon />} {t('common:map_type')}
-                </LinkStyle>
-              </div>
-              <MapTiles
-                t={t}
-                mapTile={mapTile}
-                changeMapTile={changeMapTile}
-                onClose={onCloseLayer}
-                className={isOpen ? classes.display : ''}
-              />
-            </div>
-          </ClickAwayListener>
-        </>
-      )}
+          <MapTiles
+            t={t}
+            mapTile={mapTile}
+            changeMapTile={changeMapTile}
+            onClose={onCloseLayer}
+            className={isOpen ? classes.display : ''}
+          />
+        </div>
+      </ClickAwayListener>
     </div>
   );
 }

@@ -96,6 +96,7 @@ export default function HeatMap(props: Props) {
       />
       <div className={classes.formSelect}>
         <DateTimePicker
+          t={t}
           isMobile={false}
           dateTime={dateTime}
           onChange={onChangeDateTime}

@@ -107,6 +107,7 @@ function NotificationMobile(props) {
       <ListOptionView isDateRange={isDateRange}>
         <OptionView isDateRange={isDateRange}>
           <SelectOption
+            t={t}
             name="alarm_type"
             options={ALARM_TYPES}
             label={t('notifications:select_type')}
@@ -117,6 +118,7 @@ function NotificationMobile(props) {
         </OptionView>
         <DatePicker isDateRange={isDateRange}>
           <DateTimePicker
+            t={t}
             isMobile={true}
             dateTime={dateTime}
             onChange={onChangeDateTime}

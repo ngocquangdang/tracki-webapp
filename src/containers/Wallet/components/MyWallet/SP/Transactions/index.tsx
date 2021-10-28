@@ -68,6 +68,7 @@ function Transaction(props: Props) {
           >
             <div className={classes.selection}>
               <SelectOption
+                t={t}
                 options={[]}
                 label="Select Transaction"
                 value={0}
@@ -76,6 +77,7 @@ function Transaction(props: Props) {
             </div>
             <div className={classes.selection}>
               <DateTimePicker
+                t={t}
                 isMobile={false}
                 dateTime={dateTime}
                 onChange={onChangeDateTime}
