@@ -129,7 +129,7 @@ function ListGeoFence(props: Props) {
               ))
             : [1, 2].map(i => <SkeletonTracker key={i} />)}
           {geofenceIds?.length === 0 && (
-            <Message>{t('tracker:no_tracker_found')}</Message>
+            <Message>{t('tracker:no_geofence_found')}</Message>
           )}
         </ListItem>
       </Content>
