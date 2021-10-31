@@ -35,6 +35,7 @@ const OptionView = styled.div`
   width: 258px;
   padding-right: 15px;
   max-width: 258px;
+  position: relative;
 `;
 const SortOption = styled.div`
   width: 193px;
@@ -47,7 +48,7 @@ const OptionViewDatePicker = styled.div`
     props.isDateRange ? '15px' : '0'};
 `;
 const MessageError = styled.div`
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 const PaginationStyle = withStyles(theme => ({
   root: {
@@ -161,7 +162,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     color: theme.palette.error.main,
     position: 'absolute',
-    left: 70,
+    right: 14,
   },
 }));
 
