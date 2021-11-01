@@ -113,22 +113,23 @@ function ListGeoFence(props: Props) {
     <Container>
       <Content>
         <ListItem>
-          {geofenceIds
-            ? geofenceIds.map(id => (
-                // eslint-disable-next-line react/jsx-indent
-                <GeoFence
-                  key={id}
-                  geofence={geofences[id]}
-                  t={t}
-                  selectedGeofenceId={selectedGeofenceId}
-                  selectGeofence={selectGeofenceIdAction}
-                  updateGeofence={saveGeofenceRequestAction}
-                  editGeofence={editGeofence}
-                  removeGeofence={removeGeofenceRequestAction}
-                />
-              ))
-            : [1, 2].map(i => <SkeletonTracker key={i} />)}
-          {geofenceIds?.length === 0 && (
+          {isRequesting ? (
+            [1, 2].map(i => <SkeletonTracker key={i} />)
+          ) : geofenceIds && geofenceIds.length > 0 ? (
+            geofenceIds.map(id => (
+              // eslint-disable-next-line react/jsx-indent
+              <GeoFence
+                key={id}
+                geofence={geofences[id]}
+                t={t}
+                selectedGeofenceId={selectedGeofenceId}
+                selectGeofence={selectGeofenceIdAction}
+                updateGeofence={saveGeofenceRequestAction}
+                editGeofence={editGeofence}
+                removeGeofence={removeGeofenceRequestAction}
+              />
+            ))
+          ) : (
             <Message>{t('tracker:no_geofence_found')}</Message>
           )}
         </ListItem>
