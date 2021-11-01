@@ -37,5 +37,6 @@
   "combo_deals": "Compo Deals",
   "select_coupon": "Select Coupon",
   "total": "Total",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+  "no_records_found": "No records found"
 }

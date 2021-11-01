@@ -40,6 +40,7 @@ export default function ReportSpeeds(props: Props) {
     trackerIds,
     trackers,
     t,
+    isFetchingHistorySpeed,
   } = props;
   const classes = useStyles();
 
@@ -180,6 +181,7 @@ export default function ReportSpeeds(props: Props) {
             text="View Report"
             className={`${classes.btn}`}
             onClick={onClickViewPort}
+            isLoading={isFetchingHistorySpeed}
           />
         </div>
       </div>

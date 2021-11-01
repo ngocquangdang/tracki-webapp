@@ -276,6 +276,7 @@ export default function HistoryLogs(props: Props) {
             text="View Report"
             className={`${classes.btn}`}
             onClick={onClickViewPort}
+            isLoading={isFetchingHistoryLogs}
           />
         </div>
       </div>
