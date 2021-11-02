@@ -23,6 +23,7 @@
   "limit_month_use": "This month you used",
   "add_tracker": "Add Tracker",
   "no_geofence_found": "No Geofence found",
+  "no_tracker_found": "No Tracker found",
   "add_tracker_subcription": "Let's setup your tracking device",
   "add_tracker_successed": "Device Setup Successfully",
   "add_tracker_description": "Enter Device ID, can be found on the side of the box or under the battery of the device.",

@@ -20,10 +20,11 @@ interface Props {
   trackerIds: Array<string | number>;
   onClickTracker(id: number): void;
   t(key: string): string;
+  isFetchingTracker?: boolean;
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds, onClickTracker, t } = props;
+  const { trackers, trackerIds, onClickTracker, t, isFetchingTracker } = props;
   const classes = useStyles();
 
   const onAddtracker = () => {
@@ -42,18 +43,19 @@ export default function ListDevice(props: Props) {
       <Container>
         <Content>
           <ListItem>
-            {trackerIds
-              ? trackerIds.map(id => (
-                  // eslint-disable-next-line react/jsx-indent
-                  <TrackerCard
-                    t={t}
-                    key={id}
-                    tracker={trackers[id]}
-                    onClickTracker={handleClickTracker}
-                  />
-                ))
-              : [1, 2].map(i => <SkeletonTracker key={i} />)}
-            {trackerIds?.length === 0 && (
+            {isFetchingTracker ? (
+              [1, 2].map(i => <SkeletonTracker key={i} />)
+            ) : trackerIds && trackerIds.length > 0 ? (
+              trackerIds.map(id => (
+                // eslint-disable-next-line react/jsx-indent
+                <TrackerCard
+                  t={t}
+                  key={id}
+                  tracker={trackers[id]}
+                  onClickTracker={handleClickTracker}
+                />
+              ))
+            ) : (
               <Message>{t('tracker:no_tracker_found')}</Message>
             )}
           </ListItem>
