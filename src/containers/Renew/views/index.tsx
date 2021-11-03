@@ -241,6 +241,9 @@ export default function RenewPayment(props: Props) {
     setPaymentPlan(null);
     setShowOtherPlan(false);
   };
+
+  const onBack = () => Router.back();
+
   return (
     <Container stepChild={stepChild}>
       <HeaderNav>
@@ -249,7 +252,7 @@ export default function RenewPayment(props: Props) {
           classes={classes.backNav}
           startIcon={<FiChevronLeft size={28} />}
           text={stepChild !== '' || !isMobile ? 'back' : 'Renew Tracker'}
-          onClick={Router.back}
+          onClick={onBack}
         />
         <Link href="/">
           <Logo src="/images/logo.png" alt="" />

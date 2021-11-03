@@ -16,6 +16,7 @@ import {
   makeSelectBeep,
   makeSelectAlerts,
   makeSelectAlertsIds,
+  makeSelectIsFetchingTracker,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
@@ -95,6 +96,7 @@ const mapStateToProps = createStructuredSelector({
   isBeep: makeSelectBeep(),
   alerts: makeSelectAlerts(),
   alertsIds: makeSelectAlertsIds(),
+  isFetchingTracker: makeSelectIsFetchingTracker(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   IconButton,
@@ -33,6 +33,7 @@ export default function GeofenceCard(props: Props) {
   const [anchorMenuEl, setAnchorMenuEl] =
     React.useState<null | HTMLElement>(null);
   const [showConfirm, setShowConfirm] = React.useState(false);
+  const [enabled, setEnabled] = React.useState(false);
   const [showAddDevicePanel, setShowAddDevicePanel] = React.useState(false);
   const {
     geofence,
@@ -51,6 +52,10 @@ export default function GeofenceCard(props: Props) {
   const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorMenuEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    setEnabled(geofence.enabled);
+  }, [geofence]);
 
   const closeMenu = () => {
     setAnchorMenuEl(null);
@@ -74,8 +79,10 @@ export default function GeofenceCard(props: Props) {
     }
   };
 
-  const toggleGeofence = () =>
+  const toggleGeofence = () => {
     updateGeofence(geofence.id, { enabled: !geofence.enabled });
+    setEnabled(!enabled);
+  };
 
   const onClickEdit = () => {
     firebaseLogEventRequest('geofence_page', 'edit_geofence');
@@ -133,7 +140,7 @@ export default function GeofenceCard(props: Props) {
         <ListItemSecondaryAction className={classes.actions}>
           {isDisabled && <Status>{t('tracker:deactive')}</Status>}
           <Switch
-            checked={!!geofence.enabled}
+            checked={!!enabled}
             onChange={toggleGeofence}
             color="primary"
             disabled={isDisabled}

@@ -33,6 +33,13 @@ const useStyles = makeStyles(() => ({
   },
   text: {
     color: TEXT_COLOR,
+    whiteSpace: 'nowrap',
+    maxWidth: '70%',
+    '& span': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      lineHeight: '17px',
+    },
   },
   textActive: {
     color: ACTIVE_COLOR,

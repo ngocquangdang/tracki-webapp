@@ -5,7 +5,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { uniqueId } from 'lodash';
 
-import { Container, Content, Footer, ListItem, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  ListItem,
+  useStyles,
+  Message,
+} from './styles';
 import { Button } from '@Components/buttons';
 import { SkeletonTracker } from '@Components/Skeletons';
 import GeoFence from './components/GeoFenceCard';
@@ -106,21 +113,25 @@ function ListGeoFence(props: Props) {
     <Container>
       <Content>
         <ListItem>
-          {geofenceIds
-            ? geofenceIds.map(id => (
-                // eslint-disable-next-line react/jsx-indent
-                <GeoFence
-                  key={id}
-                  geofence={geofences[id]}
-                  t={t}
-                  selectedGeofenceId={selectedGeofenceId}
-                  selectGeofence={selectGeofenceIdAction}
-                  updateGeofence={saveGeofenceRequestAction}
-                  editGeofence={editGeofence}
-                  removeGeofence={removeGeofenceRequestAction}
-                />
-              ))
-            : [1, 2].map(i => <SkeletonTracker key={i} />)}
+          {isRequesting ? (
+            [1, 2].map(i => <SkeletonTracker key={i} />)
+          ) : geofenceIds && geofenceIds.length > 0 ? (
+            geofenceIds.map(id => (
+              // eslint-disable-next-line react/jsx-indent
+              <GeoFence
+                key={id}
+                geofence={geofences[id]}
+                t={t}
+                selectedGeofenceId={selectedGeofenceId}
+                selectGeofence={selectGeofenceIdAction}
+                updateGeofence={saveGeofenceRequestAction}
+                editGeofence={editGeofence}
+                removeGeofence={removeGeofenceRequestAction}
+              />
+            ))
+          ) : (
+            <Message>{t('tracker:no_geofence_found')}</Message>
+          )}
         </ListItem>
       </Content>
       <Footer>
