@@ -34,6 +34,18 @@ const Image = styled.img`
   object-fit: contain;
   margin-right: 16px;
 `;
+const Message = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  padding: 8px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #666666;
+  font-weight: 400;
+  line-height: 19px;
+`;
 const ItemInfo = styled.div``;
 const Name = styled.p`
   margin: 4px 0;
@@ -106,4 +118,5 @@ export {
   CardDetail,
   TimeActive,
   useStyles,
+  Message,
 };

@@ -224,6 +224,12 @@ function* saveGeofenceSaga(action) {
     isLinked
       ? yield put(actions.linkTrackersRequestAction(geoId, [trackerId]))
       : yield put(actions.unlinkTrackersRequestAction(geoId, [trackerId]));
+    yield put(
+      showSnackbar({
+        snackMessage: 'Saved success',
+        snackType: 'success',
+      })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = { ...data };
@@ -275,6 +281,12 @@ function* linkTrackersSaga(action) {
     const { data = {} } = { ...error };
     const payload = { ...data };
     yield put(actions.linkTrackersFailAction(payload));
+    yield put(
+      showSnackbar({
+        snackMessage: payload.message,
+        snackType: 'error',
+      })
+    );
   }
 }
 

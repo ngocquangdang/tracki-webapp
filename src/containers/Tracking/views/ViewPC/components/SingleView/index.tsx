@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 
 import TrackerDetailCard from '@Components/DetailTrackerCard';
 import TrackerCard from '@Components/TrackerCard';
+import { SkeletonTracker } from '@Components/Skeletons';
 import { LEAFLET_PADDING_OPTIONS } from '@Components/Maps/constant';
 import { useStyles } from './styles';
 
@@ -84,6 +85,12 @@ export default function SingleView(props: Props) {
             />
           </div>
         ))}
+        {trackerIds.length === 0 &&
+          [1, 2, 3, 4].map((item: number) => (
+            <div className={classes.skeContainer} key={item.toString()}>
+              <SkeletonTracker />
+            </div>
+          ))}
       </div>
     </div>
   );
