@@ -33,7 +33,9 @@ const SingUpSchemaStep3 = Yup.object().shape({
 const SingUpSchemaStep4 = Yup.object().shape({
   zip: Yup.string()
     .matches(/^[0-9]{5,6}(?:-[0-9]{4})?$/, 'auth:wrong_zip_format')
-    .required('required'),
+    .required('required')
+    .max(6, 'too_long')
+    .min(4, 'too_short'),
 });
 
 export {

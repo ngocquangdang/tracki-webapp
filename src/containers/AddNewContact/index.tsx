@@ -28,6 +28,7 @@ interface Props {
   addContactPageRequest(data, callback): void;
   t(key: string, format?: object): string;
   isMobile: boolean;
+  errors: object;
   [data: string]: any;
 }
 
@@ -94,4 +95,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo
-)(AddContactContainer) as React.ComponentType;
+)(AddContactContainer) as React.ComponentType<Props>;
