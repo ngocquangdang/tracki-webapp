@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   display: {
     display: 'block !important',
     position: 'absolute',
-   // top: 'unset',
+    // top: 'unset',
   },
   iconScale: {
     fontSize: '17px',
@@ -94,9 +94,9 @@ const useStyles = makeStyles(theme => ({
   tranform: {
     transform: 'rotate(85deg)',
   },
-  maptypePosition:{
+  maptypePosition: {
     position: 'relative',
-  }
+  },
 }));
 const IconButtonStyle = withStyles(theme => ({
   root: {

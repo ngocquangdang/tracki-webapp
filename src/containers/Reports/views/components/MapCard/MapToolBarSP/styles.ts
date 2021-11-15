@@ -77,9 +77,9 @@ const useStyles = makeStyles(theme => ({
     display: 'block !important',
     position: 'absolute',
   },
-  maptypePosition:{
+  maptypePosition: {
     position: 'relative',
-  }
+  },
 }));
 const IconButtonStyle = withStyles(theme => ({
   root: {
