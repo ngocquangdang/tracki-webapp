@@ -101,7 +101,7 @@ function MapToolBars(props: Props) {
         </IconButtonStyle>
       </Tooltip>
       <ClickAwayListener onClickAway={onCloseLayer}>
-        <div>
+        <div className={classes.maptypePosition}>
           <Tooltip
             title={<span>{t('common:layer')}</span>}
             placement="left"
