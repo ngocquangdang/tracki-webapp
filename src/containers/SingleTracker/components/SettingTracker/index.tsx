@@ -310,6 +310,7 @@ function SettingTracker(props: Props) {
     setOpenBatteryMode(true);
   };
   const onChangeImage = (e: any) => {
+    console.log(imageFile, 'imageFile');
     setError('');
     const file = e.target.files[0];
     if (!file) return;
@@ -324,8 +325,10 @@ function SettingTracker(props: Props) {
     reader.onloadend = () => {
       setLoading(false);
       setImage({ result: reader.result, file: file });
+      console.log(imageFile, 'imageFile2');
     };
     reader.readAsDataURL(file);
+    console.log(imageFile, 'imageFile5');
   };
 
   const onClickImage = () => document.getElementById('imageIcon')?.click();
@@ -386,7 +389,7 @@ function SettingTracker(props: Props) {
     );
     handleClose();
   };
-
+  console.log(imageFile, 'imageCoddd');
   return (
     <SideBarOutside
       title="Settings"
