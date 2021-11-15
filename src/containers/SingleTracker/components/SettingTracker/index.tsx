@@ -310,7 +310,6 @@ function SettingTracker(props: Props) {
     setOpenBatteryMode(true);
   };
   const onChangeImage = (e: any) => {
-    console.log('onchangeimageFile', imageFile);
     setError('');
     const file = e.target.files[0];
     if (!file) return;
@@ -323,7 +322,6 @@ function SettingTracker(props: Props) {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      console.log('on', imageFile);
       setLoading(false);
       setImage({ result: reader.result, file: file });
     };
@@ -388,8 +386,6 @@ function SettingTracker(props: Props) {
     );
     handleClose();
   };
-
-  console.log('imageFile', imageFile);
 
   return (
     <SideBarOutside
