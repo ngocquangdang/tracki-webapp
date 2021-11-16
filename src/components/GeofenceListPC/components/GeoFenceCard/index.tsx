@@ -27,6 +27,7 @@ interface Props {
   removeGeofence(id: number | string): void;
   updateGeofence(id: number, data: object): void;
   [data: string]: any;
+  updateSwitch(): void;
 }
 
 export default function GeofenceCard(props: Props) {
@@ -44,6 +45,7 @@ export default function GeofenceCard(props: Props) {
     selectedGeofenceId,
     editGeofence,
     removeGeofence,
+    updateSwitch,
   } = props;
   const classes = useStyles();
   const isActive = selectedGeofenceId === geofence.id;
@@ -80,6 +82,7 @@ export default function GeofenceCard(props: Props) {
   };
 
   const toggleGeofence = () => {
+    updateSwitch();
     updateGeofence(geofence.id, { enabled: !geofence.enabled });
     setEnabled(!enabled);
   };

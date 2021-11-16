@@ -89,6 +89,7 @@ function ListGeoFence(props: Props) {
   } = props;
   const classes = useStyles();
   const [showAddPanel, setShowPanel] = useState(false);
+  const [isSwitch, setSwitch] = useState(false);
 
   firebaseLogEventRequest('geofence_page', '');
 
@@ -109,11 +110,15 @@ function ListGeoFence(props: Props) {
     editGeofenceAction(geoId);
   };
 
+  const updateSwitch = () => {
+    setSwitch(true);
+  };
+
   return (
     <Container>
       <Content>
         <ListItem>
-          {isRequesting ? (
+          {isRequesting && !isSwitch ? (
             [1, 2].map(i => <SkeletonTracker key={i} />)
           ) : geofenceIds && geofenceIds.length > 0 ? (
             geofenceIds.map(id => (
@@ -122,6 +127,7 @@ function ListGeoFence(props: Props) {
                 key={id}
                 geofence={geofences[id]}
                 t={t}
+                updateSwitch={updateSwitch}
                 selectedGeofenceId={selectedGeofenceId}
                 selectGeofence={selectGeofenceIdAction}
                 updateGeofence={saveGeofenceRequestAction}

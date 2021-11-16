@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
   containerSpecificTime: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   containerSpecificTimeHistory: {
     display: 'flex',
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   controlTimePicker: {
     display: 'flex',
-    flexDirection: 'column',
+    //flexDirection: 'column',
   },
   displayFlex: {
     display: 'flex',
@@ -58,12 +59,13 @@ const useStyles = makeStyles(theme => ({
     marginRight: 15,
   },
   selectOptionReport: {
-    width: '70%',
+    width: '50%',
     marginRight: 15,
   },
   inLine: {
     display: 'flex',
     width: '100%',
+    alignItems: 'center',
   },
   marginRight: {
     marginRight: 10,

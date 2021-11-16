@@ -32,9 +32,9 @@ const ListOptionView = styled.div`
   margin-top: 20px;
 `;
 const OptionView = styled.div`
-  width: 258px;
+  width: 200px;
   padding-right: 15px;
-  max-width: 258px;
+  max-width: 220px;
   position: relative;
 `;
 const SortOption = styled.div`
