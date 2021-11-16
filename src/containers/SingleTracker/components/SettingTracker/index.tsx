@@ -345,6 +345,7 @@ function SettingTracker(props: Props) {
   const handleShowTooltip = type => () => {
     setIsOpenTooltip(type);
   };
+  
   const handleTooltipClose = () => () => {
     setTimeout(() => {
       setIsOpenTooltip(null);
