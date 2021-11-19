@@ -25,8 +25,11 @@ export default function SummaryComponent(props) {
     toDate: moment().unix(),
   });
 
+  const [isDateStatus, setDateStatus] = useState(true);
+
   const onChangeDateTime = obj => {
     setDateTime(obj);
+    setDateStatus(false);
     getHistory(obj);
     if (getAlarmsTracker) {
       getAlarmsTracker({
@@ -61,6 +64,7 @@ export default function SummaryComponent(props) {
             onChange={onChangeDateTime}
             isHistory={true}
           />
+          {isDateStatus && <div className={classes.badgeDate} />}
         </SelectGroup>
         <Description>{t('dashboard:summary_description')}</Description>
       </HeaderCard>

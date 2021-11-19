@@ -14,6 +14,7 @@ const TitleDashBoard = styled.div`
 `;
 
 const DeviceSelection = styled.div`
+  position: relative;
   width: 280px;
 `;
 
@@ -194,6 +195,15 @@ const useStyles = makeStyles(theme => ({
   },
   margin: {
     margin: 0,
+  },
+  badge: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#ed1f24',
+    position: 'absolute',
+    borderRadius: '50%',
+    right: -2,
+    bottom: 45,
   },
 }));
 
