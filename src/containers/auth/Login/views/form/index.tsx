@@ -12,13 +12,7 @@ import { Switch } from '@material-ui/core';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function LoginForm(props: ILoginPage.IProps) {
-  const {
-    t,
-    loginRequestAction,
-    resetErrorAction,
-    errors,
-    errorMessage,
-  } = props;
+  const { t, loginRequestAction, resetErrorAction, errors, errorMessage } = props;
   const classes = useStyles();
 
   const [user, setUser] = useState({
