@@ -12,8 +12,13 @@ import { Switch } from '@material-ui/core';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
 function LoginForm(props: ILoginPage.IProps) {
-  const { t, loginRequestAction, resetErrorAction, errors, errorMessage } =
-    props;
+  const {
+    t,
+    loginRequestAction,
+    resetErrorAction,
+    errors,
+    errorMessage,
+  } = props;
   const classes = useStyles();
 
   const [user, setUser] = useState({
@@ -109,6 +114,8 @@ function LoginForm(props: ILoginPage.IProps) {
                 ? t('tracker:invalid_email_or_password')
                 : +errorMessage.code === 500
                 ? t('auth:error_500')
+                : +errorMessage.code === 403
+                ? t('auth:error_403')
                 : ''}
             </Message>
           )}
