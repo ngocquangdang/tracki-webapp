@@ -289,7 +289,7 @@ class HistoryPath extends React.Component<Props> {
   renderPath = props => {
     const { historyLogs, historyLogIds, map, isMobile } = props;
     const path =
-      historyLogIds.length > 0 &&
+      historyLogIds?.length > 0 &&
       historyLogIds
         .filter(id => !!historyLogs[id].lat)
         .sort((a, b) => a - b)

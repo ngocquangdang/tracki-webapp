@@ -12,7 +12,7 @@ import { ToolBar, ZoomButton, useStyles, IconButtonStyle } from './styles';
 
 import { changeMapTileAction } from '@Containers/App/store/actions';
 import { makeSelectMapTile } from '@Containers/App/store/selectors';
-import { AiOutlineExpandAlt } from 'react-icons/ai';
+// import { AiOutlineExpandAlt } from 'react-icons/ai';
 
 interface Props {
   mapTile: string;
@@ -52,9 +52,9 @@ function MapToolBars(props: Props) {
   const onShowLayer = () => setShowLayerPanel(!showLayerPanel);
   const onCloseLayer = () => setShowLayerPanel(false);
 
-  const onFullScreen = () => {
-    console.log('___onFullScreen');
-  };
+  // const onFullScreen = () => {
+  //   console.log('___onFullScreen');
+  // };
 
   return (
     <ToolBar>
@@ -85,11 +85,11 @@ function MapToolBars(props: Props) {
         </Tooltip>
       </ZoomButton>
 
-      <IconButtonStyle onClick={onFullScreen}>
+      {/* <IconButtonStyle onClick={onFullScreen}>
         <AiOutlineExpandAlt
           className={`${classes.iconScale} ${classes.tranform}`}
         />
-      </IconButtonStyle>
+      </IconButtonStyle> */}
 
       <Tooltip
         title={<span>{t('common:my_location')}</span>}

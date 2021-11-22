@@ -123,6 +123,7 @@ export default function ReportTrip(props: Props) {
 
   //handle change date time
   const onChangeDateTime = obj => {
+    setPointSelected({});
     setDateTime(obj);
     if (trackerId !== '') {
       fetchHistoryTrips({
@@ -134,6 +135,7 @@ export default function ReportTrip(props: Props) {
   };
 
   const onChangeTracker = value => {
+    setPointSelected({});
     fetchHistoryTrips({
       trackerId: value,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
