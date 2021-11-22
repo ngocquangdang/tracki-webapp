@@ -145,7 +145,7 @@ export default function MainForm(props: any) {
   };
 
   return (
-    <AddTrackerLayout stepChild={stepChild}>
+    <AddTrackerLayout stepChild={stepChild} steps={steps}>
       {stepChild !== '' ? (
         renderStep()
       ) : added && !isMobile ? (
