@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 
 import {
@@ -36,6 +36,7 @@ interface Props {
     order: string;
   };
   isMobile: boolean;
+  updateStepChild: Function;
 }
 
 export default function Step1(props: Props) {
@@ -50,10 +51,11 @@ export default function Step1(props: Props) {
     errorMessage,
     formData,
     isMobile,
+    updateStepChild,
   } = props;
   const classes = useStyles();
   // const [isOpenTooltip, setIsOpenTooltip] = useState(false);
-
+  // const [txtError, setTxtError] = useState(errorMessage);
   const onSubmit = (value: any) => {
     checkDeviceAssignedAction(
       { ...value, device_id: value.device_id.trim(), imei: value.imei.trim() },
@@ -62,6 +64,11 @@ export default function Step1(props: Props) {
     updateStore(value);
     getDevicePlanAction(value);
   };
+
+  useEffect(() => {
+    updateStepChild('add_tracker');
+  }, [updateStepChild]);
+
   return (
     <>
       <ScanQR className={isMobile ? '' : classes.hidden}>

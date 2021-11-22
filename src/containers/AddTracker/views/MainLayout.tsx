@@ -16,6 +16,10 @@ export default function AddTrackerContainer(props: Props) {
   const { stepChild, children } = props;
   const classes = useStyles();
 
+  const handleBack = () => {
+    Router.back();
+  };
+
   return (
     <Container stepChild={stepChild}>
       <Header>
@@ -23,8 +27,8 @@ export default function AddTrackerContainer(props: Props) {
           variant="text"
           classes={classes.backBtn}
           startIcon={<FiChevronLeft size={28} />}
-          text={stepChild !== '' ? 'back' : 'Add Tracker'}
-          onClick={Router.back}
+          text={stepChild !== '' ? 'Back' : 'Add Tracker'}
+          onClick={handleBack}
         />
         <Link href="/">
           <Logo src="/images/logo.png" alt="" />
