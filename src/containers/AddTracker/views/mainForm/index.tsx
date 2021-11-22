@@ -84,7 +84,13 @@ export default function MainForm(props: any) {
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <Step1 {...props} onNextStep={onNextStep1} />;
+        return (
+          <Step1
+            {...props}
+            updateStepChild={onUpdateStepChild}
+            onNextStep={onNextStep1}
+          />
+        );
       case 1:
         return (
           <Step2
@@ -139,7 +145,7 @@ export default function MainForm(props: any) {
   };
 
   return (
-    <AddTrackerLayout stepChild={stepChild}>
+    <AddTrackerLayout stepChild={stepChild} steps={steps}>
       {stepChild !== '' ? (
         renderStep()
       ) : added && !isMobile ? (

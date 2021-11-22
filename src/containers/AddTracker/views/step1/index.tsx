@@ -53,7 +53,6 @@ export default function Step1(props: Props) {
   } = props;
   const classes = useStyles();
   // const [isOpenTooltip, setIsOpenTooltip] = useState(false);
-
   const onSubmit = (value: any) => {
     checkDeviceAssignedAction(
       { ...value, device_id: value.device_id.trim(), imei: value.imei.trim() },
@@ -62,6 +61,7 @@ export default function Step1(props: Props) {
     updateStore(value);
     getDevicePlanAction(value);
   };
+
   return (
     <>
       <ScanQR className={isMobile ? '' : classes.hidden}>

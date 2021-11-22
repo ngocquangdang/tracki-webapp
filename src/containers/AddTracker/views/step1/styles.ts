@@ -35,6 +35,8 @@ const ToolTip = styled.div`
 const Notifi = styled.p`
   color: #ff0000;
   text-align: center;
+  font-size: 12px;
+  margin: 5px 0px 10px;
 `;
 const ScanQR = styled.div``;
 const QRImage = styled.div`
