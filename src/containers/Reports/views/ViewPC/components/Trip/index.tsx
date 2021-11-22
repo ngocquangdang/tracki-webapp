@@ -106,9 +106,7 @@ export default function ReportTrip(props: Props) {
 
   useEffect(() => {
     if (modeMap === 'optimized' && (window as any).google) {
-      const directionsService = new (
-        window as any
-      ).google.maps.DirectionsService();
+      const directionsService = new (window as any).google.maps.DirectionsService();
       calculateAndDisplayRoute(directionsService);
     }
   }, [calculateAndDisplayRoute, modeMap]);
@@ -123,6 +121,7 @@ export default function ReportTrip(props: Props) {
 
   //handle change date time
   const onChangeDateTime = obj => {
+    setPointSelected({});
     setDateTime(obj);
     if (trackerId !== '') {
       fetchHistoryTrips({
@@ -134,6 +133,7 @@ export default function ReportTrip(props: Props) {
   };
 
   const onChangeTracker = value => {
+    setPointSelected({});
     fetchHistoryTrips({
       trackerId: value,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
