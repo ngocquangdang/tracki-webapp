@@ -5,7 +5,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { uniqueId } from 'lodash';
 
-import { Container, Content, Footer, ListItem, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  ListItem,
+  useStyles,
+  Message,
+} from './styles';
 import { Button } from '@Components/buttons';
 import { SkeletonTracker } from '@Components/Skeletons';
 import GeoFence from './components/GeoFenceCard';
@@ -82,6 +89,7 @@ function ListGeoFence(props: Props) {
   } = props;
   const classes = useStyles();
   const [showAddPanel, setShowPanel] = useState(false);
+  const [isSwitch, setSwitch] = useState(false);
 
   firebaseLogEventRequest('geofence_page', '');
 
@@ -102,25 +110,34 @@ function ListGeoFence(props: Props) {
     editGeofenceAction(geoId);
   };
 
+  const updateSwitch = () => {
+    setSwitch(true);
+  };
+
   return (
     <Container>
       <Content>
         <ListItem>
-          {geofenceIds
-            ? geofenceIds.map(id => (
-                // eslint-disable-next-line react/jsx-indent
-                <GeoFence
-                  key={id}
-                  geofence={geofences[id]}
-                  t={t}
-                  selectedGeofenceId={selectedGeofenceId}
-                  selectGeofence={selectGeofenceIdAction}
-                  updateGeofence={saveGeofenceRequestAction}
-                  editGeofence={editGeofence}
-                  removeGeofence={removeGeofenceRequestAction}
-                />
-              ))
-            : [1, 2].map(i => <SkeletonTracker key={i} />)}
+          {isRequesting && !isSwitch ? (
+            [1, 2].map(i => <SkeletonTracker key={i} />)
+          ) : geofenceIds && geofenceIds.length > 0 ? (
+            geofenceIds.map(id => (
+              // eslint-disable-next-line react/jsx-indent
+              <GeoFence
+                key={id}
+                geofence={geofences[id]}
+                t={t}
+                updateSwitch={updateSwitch}
+                selectedGeofenceId={selectedGeofenceId}
+                selectGeofence={selectGeofenceIdAction}
+                updateGeofence={saveGeofenceRequestAction}
+                editGeofence={editGeofence}
+                removeGeofence={removeGeofenceRequestAction}
+              />
+            ))
+          ) : (
+            <Message>{t('tracker:no_geofence_found')}</Message>
+          )}
         </ListItem>
       </Content>
       <Footer>

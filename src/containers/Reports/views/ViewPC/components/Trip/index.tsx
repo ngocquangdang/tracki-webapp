@@ -47,6 +47,7 @@ export default function ReportTrip(props: Props) {
     modeMap,
     setOptimizedTrip,
     isFetchingTrips,
+    t,
   } = props;
   const classes = useStyles();
 
@@ -122,6 +123,7 @@ export default function ReportTrip(props: Props) {
 
   //handle change date time
   const onChangeDateTime = obj => {
+    setPointSelected({});
     setDateTime(obj);
     if (trackerId !== '') {
       fetchHistoryTrips({
@@ -133,6 +135,7 @@ export default function ReportTrip(props: Props) {
   };
 
   const onChangeTracker = value => {
+    setPointSelected({});
     fetchHistoryTrips({
       trackerId: value,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
@@ -146,6 +149,7 @@ export default function ReportTrip(props: Props) {
       <div className={classes.flexCol}>
         <div className={classes.rowLeft}>
           <SelectOption
+            t={t}
             name="select_tracker"
             options={TRACKER_NAME}
             label="Select Tracker"
@@ -156,6 +160,7 @@ export default function ReportTrip(props: Props) {
         </div>
         <div className={classes.datePicker}>
           <DateTimePicker
+            t={t}
             isMobile={false}
             dateTime={dateTime}
             onChange={onChangeDateTime}

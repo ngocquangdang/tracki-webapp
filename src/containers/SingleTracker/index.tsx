@@ -213,15 +213,15 @@ function SingleTracker(props: Props) {
             />
             <Title onClick={onClickBack}>Back</Title>
           </Header>
+          <DetailTrackerCard
+            isMobile={false}
+            tracker={tracker}
+            t={t}
+            settings={settings[tracker.settings_id]}
+            profile={profile}
+            refreshLocation={refreshLocation}
+          />
           <Card key={tracker.device_id}>
-            <DetailTrackerCard
-              isMobile={false}
-              tracker={tracker}
-              t={t}
-              settings={settings[tracker.settings_id]}
-              profile={profile}
-              refreshLocation={refreshLocation}
-            />
             <TrackerMenu>
               <TrackerMenuUp>
                 {renderBlock(

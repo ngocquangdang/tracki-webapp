@@ -53,6 +53,7 @@ const DetailSummary = styled.div`
 
 const SelectGroup = styled.div`
   width: 60%;
+  position: relative;
 `;
 
 const Description = styled.div`
@@ -72,6 +73,15 @@ const HeaderCard = styled.div`
 const useStyles = makeStyles(theme => ({
   unitSize: {
     fontSize: 21,
+  },
+  badgeDate: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#ed1f24',
+    position: 'absolute',
+    right: -2,
+    top: -3,
+    borderRadius: '50%',
   },
 }));
 

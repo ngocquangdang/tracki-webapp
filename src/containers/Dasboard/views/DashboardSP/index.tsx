@@ -263,10 +263,12 @@ export default function DashboardContainer(props) {
               label={'Select Tracker'}
               value={trackerSelected}
               onChangeOption={changeSelectTracker}
+              t={t}
             />
           </DeviceSelection>
           <SelectGroup>
             <DateTimePicker
+              t={t}
               isMobile={false}
               dateTime={dateTime}
               onChange={onChangeDateTime}

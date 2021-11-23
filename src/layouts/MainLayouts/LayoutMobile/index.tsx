@@ -33,6 +33,7 @@ function MainLayoutMobile(props: Props) {
     setSelectId(id);
   };
   const handleCloseSetting = () => {
+    setCurrentView('');
     showSetting(false);
     setCurrentView('');
     setOpenSidebar(true);

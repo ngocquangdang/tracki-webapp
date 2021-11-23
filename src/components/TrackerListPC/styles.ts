@@ -45,6 +45,18 @@ const Time = styled.div`
   font-size: 12px;
   color: #b7b7b7;
 `;
+const Message = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  padding: 8px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #666666;
+  font-weight: 400;
+  line-height: 19px;
+`;
 const CardDetail = styled.div``;
 const TimeActive = styled.span`
   font-size: 12px;
@@ -106,4 +118,5 @@ export {
   CardDetail,
   TimeActive,
   useStyles,
+  Message,
 };

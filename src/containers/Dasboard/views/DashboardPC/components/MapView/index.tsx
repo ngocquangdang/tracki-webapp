@@ -44,7 +44,9 @@ export default function MapViewComponent(props) {
             }
           />{' '}
           {t('dashboard:online')} | {t('dashboard:last_update')}
-          {moment(trackerSelected?.time * 1000).format('lll')}
+          {trackerSelected
+            ? moment(trackerSelected.time * 1000).format('lll')
+            : 'N/A'}
         </Description>
       </HeaderCard>
       <ContentCard>

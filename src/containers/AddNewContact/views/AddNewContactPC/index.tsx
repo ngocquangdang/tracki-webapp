@@ -9,7 +9,6 @@ import { Type } from './styles';
 
 export default function AddNewContactPC(props) {
   const { showAddContact, onClose, t } = props;
-
   const [type, setChangeType] = useState('EMAIL');
 
   useEffect(() => firebaseLogEventRequest('add_new_contact_modal', ''), []);

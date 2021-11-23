@@ -19,7 +19,7 @@ const WIFI_STATUS = [
 
 export default function AddScheduler(props) {
   const classes = useStyles();
-  const { isAddScheduler, handleCloseAddScheduler, onInitialData } = props;
+  const { isAddScheduler, handleCloseAddScheduler, onInitialData, t } = props;
   const [wifiStatus, setWifiStatus] = useState('ON');
   const [daySelected, setDaySelected] = useState<Array<string>>([]);
   const [schedulerName, setSchedulerName] = useState('');
@@ -77,6 +77,7 @@ export default function AddScheduler(props) {
             <p>Turn Wifi</p>
             <FormControl>
               <SelectOption
+                t={t}
                 options={WIFI_STATUS}
                 value={wifiStatus}
                 onChangeOption={handleChangeOption}

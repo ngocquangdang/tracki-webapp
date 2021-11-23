@@ -31,7 +31,7 @@ interface DateTime {
 interface Props {
   isMobile?: boolean;
   isHistory?: boolean;
-  t?(key: string, format?: object): string;
+  t(key: string, format?: object): string;
   dateTime: DateTime;
   onChange(dateTime: DateTime): void;
   showDescriptionTime?: boolean;
@@ -50,6 +50,7 @@ export default function DateTimePicker(props: Props) {
     showDescriptionTime,
     onChange,
     onSelectOption,
+    t,
   } = props;
   const classes = useStyles();
 
@@ -90,6 +91,10 @@ export default function DateTimePicker(props: Props) {
 
   const onChangeDateFrom = date => {
     if (dateTime.toDate < moment(date).unix()) {
+      onChange({
+        fromDate: moment(date).unix(),
+        toDate: dateTime.toDate,
+      });
       return setFromDateError('From date should be less than To date');
     } else {
       setFromDateError('');
@@ -146,8 +151,13 @@ export default function DateTimePicker(props: Props) {
 
   return (
     <div className={isHistory ? '' : classes.inLine}>
-      <div className={classes.selectOption}>
+      <div
+        className={
+          isHistory ? classes.selectOption : classes.selectOptionReport
+        }
+      >
         <SelectOption
+          t={t}
           name="date_option"
           options={DATE_OPTIONS}
           label="Select Date"
@@ -245,30 +255,33 @@ export default function DateTimePicker(props: Props) {
                       : classes.controlTimePicker
                   }
                 >
-                  <TimePicker
-                    label="Time from"
-                    placeholder="08:00 AM"
-                    variant="inline"
-                    mask="__:__ _M"
-                    inputVariant="outlined"
-                    value={dateTime.fromDate * 1000}
-                    onChange={onChangeHourFrom}
-                    className={classes.timePicker}
-                  />
-                  <TimePicker
-                    label="Time to"
-                    placeholder="08:00 AM"
-                    variant="dialog"
-                    inputVariant="outlined"
-                    mask="__:__ _M"
-                    value={dateTime.toDate * 1000}
-                    onChange={onChangeHourTo}
-                  />
+                  <div className={classes.displayFlex}>
+                    <TimePicker
+                      label="Time from"
+                      placeholder="08:00 AM"
+                      // variant="inline"
+                      variant="dialog"
+                      mask="__:__ _M"
+                      inputVariant="outlined"
+                      value={dateTime.fromDate * 1000}
+                      onChange={onChangeHourFrom}
+                      className={classes.timePicker}
+                    />
+                    <TimePicker
+                      label="Time to"
+                      placeholder="08:00 AM"
+                      variant="dialog"
+                      inputVariant="outlined"
+                      mask="__:__ _M"
+                      value={dateTime.toDate * 1000}
+                      onChange={onChangeHourTo}
+                    />
+                  </div>
+                  <div className={classes.textError}>{textError}</div>
                 </div>
               </div>
             </ThemeProvider>
           </PickerProvider>
-          <div className={classes.textError}>{textError}</div>
         </>
       )}
       {isHistory ? (

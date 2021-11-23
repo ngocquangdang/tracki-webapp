@@ -22,11 +22,11 @@ function PasswordFieldComp(props: Props) {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (
+  //   event: React.MouseEvent<HTMLButtonElement>
+  // ) => {
+  //   event.preventDefault();
+  // };
   return (
     <FormInput>
       <TextInput
@@ -47,7 +47,7 @@ function PasswordFieldComp(props: Props) {
         className={classes.icon}
         aria-label="toggle password visibility"
         onClick={handleClickShowPassword}
-        onMouseDown={handleMouseDownPassword}
+        // onMouseDown={handleMouseDownPassword}
         edge="end"
       >
         {showPassword ? <Visibility /> : <VisibilityOff />}

@@ -140,7 +140,7 @@ function ReportViewPC(props: Props) {
             modeMap={rest.modeMap}
             // currentPointId={currentPointId}
           />
-          {selectedPointIds.length > 0 && (
+          {selectedPointIds?.length > 0 && (
             <ToolbarControlPlayback
               isOpenSidebar={isOpenSidebar}
               togglePlaying={togglePlaying}

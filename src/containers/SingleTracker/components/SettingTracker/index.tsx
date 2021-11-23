@@ -169,6 +169,7 @@ function SettingTracker(props: Props) {
     showSnackbar,
     trackingModeRequest,
     changeView,
+    updateSettings,
   } = props;
 
   const [isOpenTooltip, setIsOpenTooltip] = useState(null);
@@ -236,6 +237,7 @@ function SettingTracker(props: Props) {
     //   samples_per_report,
     //   tracking_measurment,
     // ] = tracking_mode.split('_');
+
     let bodyRequest = {
       id: tracker.settings_id,
       device_name,
@@ -252,6 +254,7 @@ function SettingTracker(props: Props) {
         //   tracking_measurment,
         // },
       },
+
       file: imageFile.file,
     };
     if (tracker && tracker.features.gsm_sleep_mode !== 'not-supported') {
@@ -277,12 +280,8 @@ function SettingTracker(props: Props) {
         snackType: 'error',
       });
     }
-    props.updateSettings(
-      tracker.settings_id,
-      bodyRequest,
-      speed_unit,
-      handleClose
-    );
+
+    updateSettings(tracker.settings_id, bodyRequest, speed_unit, handleClose);
   };
 
   const onOpenModalSubscription = () => {
@@ -346,6 +345,7 @@ function SettingTracker(props: Props) {
   const handleShowTooltip = type => () => {
     setIsOpenTooltip(type);
   };
+
   const handleTooltipClose = () => () => {
     setTimeout(() => {
       setIsOpenTooltip(null);
@@ -410,7 +410,7 @@ function SettingTracker(props: Props) {
               <CircularProgress className={classes.loading} color="secondary" />
             )}
             {tracker.icon_url || imageFile.result ? (
-              <Image background={tracker.icon_url || imageFile.result} />
+              <Image background={imageFile.result || tracker.icon_url} />
             ) : (
               <DefaultImage background={'/images/image-device.png'} />
             )}

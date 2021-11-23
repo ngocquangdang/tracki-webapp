@@ -4,7 +4,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 const OptionViewDatePicker = styled.div`
   width: ${(props: { isDateRange: boolean }) =>
-    props.isDateRange ? '50%' : '258px'};
+    props.isDateRange ? '55%' : '258px'};
   margin-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
   position: relative;
@@ -117,7 +117,7 @@ const useStyles = makeStyles(theme => ({
     height: 10,
     backgroundColor: '#ed1f24',
     position: 'absolute',
-    right: 12,
+    right: 105,
     top: -3,
     borderRadius: '50%',
   },

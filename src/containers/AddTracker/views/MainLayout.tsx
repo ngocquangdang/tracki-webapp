@@ -10,11 +10,16 @@ import { FiChevronLeft } from 'react-icons/fi';
 interface Props {
   stepChild: string;
   children: any;
+  steps: any;
 }
 
 export default function AddTrackerContainer(props: Props) {
-  const { stepChild, children } = props;
+  const { stepChild, children, steps } = props;
   const classes = useStyles();
+
+  const handleBack = () => {
+    Router.back();
+  };
 
   return (
     <Container stepChild={stepChild}>
@@ -23,8 +28,8 @@ export default function AddTrackerContainer(props: Props) {
           variant="text"
           classes={classes.backBtn}
           startIcon={<FiChevronLeft size={28} />}
-          text={stepChild !== '' ? 'back' : 'Add Tracker'}
-          onClick={Router.back}
+          text={stepChild !== '' || steps.length > 0 ? 'Back' : 'Add Tracker'}
+          onClick={handleBack}
         />
         <Link href="/">
           <Logo src="/images/logo.png" alt="" />

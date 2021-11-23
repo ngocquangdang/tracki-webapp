@@ -14,5 +14,6 @@
   "sos_alert": "SOS alert",
   "left_click": "Left Click",
   "right_click": "Right Click",
-  "notification_report": "Notification & History Report"
+  "notification_report": "Notification & History Report",
+  "tracker_is_invalid": "Tracker has not been added yet"
 }

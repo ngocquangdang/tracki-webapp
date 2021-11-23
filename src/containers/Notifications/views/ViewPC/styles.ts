@@ -32,9 +32,10 @@ const ListOptionView = styled.div`
   margin-top: 20px;
 `;
 const OptionView = styled.div`
-  width: 258px;
+  width: 200px;
   padding-right: 15px;
-  max-width: 258px;
+  max-width: 220px;
+  position: relative;
 `;
 const SortOption = styled.div`
   width: 193px;
@@ -45,6 +46,9 @@ const OptionViewDatePicker = styled.div`
     props.isDateRange ? '80%' : '258px'};
   padding-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
+`;
+const MessageError = styled.div`
+  margin-top: 5px;
 `;
 const PaginationStyle = withStyles(theme => ({
   root: {
@@ -154,6 +158,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  errorText: {
+    fontSize: 12,
+    color: theme.palette.error.main,
+    position: 'absolute',
+    right: 14,
+  },
 }));
 
 export {
@@ -168,4 +178,5 @@ export {
   SortOption,
   OptionView,
   OptionViewDatePicker,
+  MessageError,
 };

@@ -2,7 +2,14 @@ import React from 'react';
 import Router from 'next/router';
 import { FiPlus } from 'react-icons/fi';
 
-import { Container, Content, Footer, ListItem, useStyles } from './styles';
+import {
+  Container,
+  Content,
+  Footer,
+  ListItem,
+  useStyles,
+  Message,
+} from './styles';
 import { Button } from '@Components/buttons';
 import TrackerCard from '@Components/TrackerCard';
 import { SkeletonTracker } from '@Components/Skeletons';
@@ -13,10 +20,11 @@ interface Props {
   trackerIds: Array<string | number>;
   onClickTracker(id: number): void;
   t(key: string): string;
+  isFetchingTracker?: boolean;
 }
 
 export default function ListDevice(props: Props) {
-  const { trackers, trackerIds, onClickTracker, t } = props;
+  const { trackers, trackerIds, onClickTracker, t, isFetchingTracker } = props;
   const classes = useStyles();
 
   const onAddtracker = () => {
@@ -35,17 +43,21 @@ export default function ListDevice(props: Props) {
       <Container>
         <Content>
           <ListItem>
-            {trackerIds
-              ? trackerIds.map(id => (
-                  // eslint-disable-next-line react/jsx-indent
-                  <TrackerCard
-                    t={t}
-                    key={id}
-                    tracker={trackers[id]}
-                    onClickTracker={handleClickTracker}
-                  />
-                ))
-              : [1, 2].map(i => <SkeletonTracker key={i} />)}
+            {isFetchingTracker ? (
+              [1, 2].map(i => <SkeletonTracker key={i} />)
+            ) : trackerIds && trackerIds.length > 0 ? (
+              trackerIds.map(id => (
+                // eslint-disable-next-line react/jsx-indent
+                <TrackerCard
+                  t={t}
+                  key={id}
+                  tracker={trackers[id]}
+                  onClickTracker={handleClickTracker}
+                />
+              ))
+            ) : (
+              <Message>{t('tracker:no_tracker_found')}</Message>
+            )}
           </ListItem>
         </Content>
         <Footer>

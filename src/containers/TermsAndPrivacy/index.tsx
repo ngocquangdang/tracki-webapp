@@ -46,7 +46,7 @@ function TermsAndPrivacy(props: Props) {
   return (
     <Container>
       <Header>
-        <Link href="/">
+        <Link href="/trackers">
           <Button
             variant="text"
             classes={classes.backBtn}

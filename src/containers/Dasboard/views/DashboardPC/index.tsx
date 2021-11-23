@@ -81,6 +81,7 @@ export default function DashboardContainer(props) {
   const { alarmIds } = alarmsTracker || [];
   const [distance, setDistance] = useState(0);
   const [currentAddress, setCurrentAddress] = useState(null);
+  const [isBadge, setBadge] = useState(true);
 
   const callApiGetAddress = useCallback(async () => {
     if (trackers[parseInt(trackerSelected)]) {
@@ -171,6 +172,7 @@ export default function DashboardContainer(props) {
     setTrackerSelected(device_id);
     changeTrackersTracking([device_id]);
     setTxtError('');
+    setBadge(false);
   };
 
   useEffect(() => {
@@ -218,6 +220,7 @@ export default function DashboardContainer(props) {
         </TitleDashBoard>
         <DeviceSelection>
           <SelectOption
+            t={t}
             name=""
             options={trackerList}
             label={'Select Tracker'}
@@ -225,6 +228,7 @@ export default function DashboardContainer(props) {
             onChangeOption={changeSelectTracker}
           />
           {txtError && <Message>{t(`dashboard:${txtError}`)}</Message>}
+          {isBadge && <div className={classes.badge} />}
         </DeviceSelection>
       </HeaderDashboard>
       <ContainerDashboard>
