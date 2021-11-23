@@ -43,7 +43,7 @@ const SortOption = styled.div`
 `;
 const OptionViewDatePicker = styled.div`
   width: ${(props: { isDateRange: boolean }) =>
-    props.isDateRange ? '80%' : '258px'};
+    props.isDateRange ? 'auto' : '258px'};
   padding-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
 `;
@@ -163,6 +163,9 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.error.main,
     position: 'absolute',
     right: 14,
+  },
+  widthM: {
+    width: '20px',
   },
 }));
 

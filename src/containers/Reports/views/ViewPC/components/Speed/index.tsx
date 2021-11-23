@@ -19,7 +19,7 @@ import SelectOption from '@Components/selections';
 import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
 import RowTable from './SpeedTable';
 //styles
-import { useStyles, PaginationStyle, OptionViewDatePicker } from './styles';
+import { useStyles, PaginationStyle, OptionViewDatePicker, MessageError } from './styles';
 
 interface Props {
   trackers: object;
@@ -55,6 +55,8 @@ export default function ReportSpeeds(props: Props) {
   });
 
   const [initialHistoryLogIds, setInitHistoryLogIds] = useState([]);
+  const [isClearOption, setClearOption] = useState(false);
+  const [textError, setTextError] = useState('');
 
   // show badge if not select tracker or datetime
   const [isBadge, setBadge] = useState(true);
@@ -77,10 +79,29 @@ export default function ReportSpeeds(props: Props) {
   };
   // press viewport call API get data history
   const onClickViewPort = () => {
+    if (!trackerId) {
+      setTextError('tracker_is_invalid');
+      return;
+    }
     fetchHistorySpeeds({
       trackerId: trackerId,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
+  };
+  // clear filter
+  const onClearFilter = () => {
+    setClearOption(true);
+    setTrackerId('');
+    setDateTime({
+      fromDate: moment().unix(),
+      toDate: moment().unix(),
+    });
+    setDateRange(false);
+    setBadge(true);
+  };
+
+  const hanhleClearOption = () => {
+    setClearOption(false);
   };
   // change row per page
   const handleChangeRowsPerPage = event => {
@@ -123,6 +144,7 @@ export default function ReportSpeeds(props: Props) {
   };
 
   const onChangeTracker = value => {
+    setTextError('');
     setBadge(false);
     fetchHistorySpeeds({
       trackerId: value,
@@ -161,6 +183,11 @@ export default function ReportSpeeds(props: Props) {
               value={trackerId}
               onChangeOption={onChangeTracker}
             />
+            {!!textError && (
+              <MessageError className={classes.errorText}>
+                {t(`notifications:${textError}`)}
+              </MessageError>
+            )}
             {isBadge && <div className={classes.badge} />}
           </div>
           <OptionViewDatePicker isDateRange={isDateRange}>
@@ -172,9 +199,19 @@ export default function ReportSpeeds(props: Props) {
               isHistory={false}
               onSelectOption={onSelectOption}
               isGetOnSelectOption={true}
+              isClear={isClearOption}
+              onClear={hanhleClearOption}
             />
             {isBadge && <div className={classes.badgeDate} />}
           </OptionViewDatePicker>
+          <Button
+            variant="contained"
+            color="primary"
+            text="Clear"
+            className={`${classes.btn}`}
+            onClick={onClearFilter}
+          />
+          <div className={classes.widthM} />
           <Button
             variant="contained"
             color="primary"

@@ -85,6 +85,7 @@ export default function Notification(props: Props) {
   const [dataFilter, setDataFilter] = useState(true);
   const [textError, setTextError] = useState('');
   const [trackerName, setTrackerName] = useState('');
+  const [isClearOption, setClearOption] = useState(false);
 
   const TRACKER_NAME = trackerIds?.reduce((result, item) => {
     result.push({ value: item, content: trackers[item].device_name });
@@ -116,6 +117,23 @@ export default function Notification(props: Props) {
       page: 1,
     });
     firebaseLogEventRequest('notification_page', 'filter_report_notification');
+  };
+
+  // clear filter
+  const onClearFilter = () => {
+    setClearOption(true);
+    setTrackerName('');
+    setAlarmType(ALARM_TYPES[0].value);
+    setDateTime({
+      fromDate: moment().unix(),
+      toDate: moment().unix(),
+    });
+    setDataFilter(true);
+    setDateRange(false);
+  };
+
+  const hanhleClearOption = () => {
+    setClearOption(false);
   };
 
   const handleChangeRowsPerPage = event => {
@@ -306,8 +324,18 @@ export default function Notification(props: Props) {
                 isHistory={false}
                 onSelectOption={onSelectOption}
                 isGetOnSelectOption={true}
+                isClear={isClearOption}
+                onClear={hanhleClearOption}
               />
             </OptionViewDatePicker>
+            <Button
+              variant="contained"
+              color="primary"
+              text={t('notifications:clear')}
+              className={`${classes.btn}`}
+              onClick={onClearFilter}
+            />
+            <div className={classes.widthM} />
             <Button
               variant="contained"
               color="primary"

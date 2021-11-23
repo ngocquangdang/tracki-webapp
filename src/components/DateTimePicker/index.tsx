@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import DateUtils from '@date-io/date-fns';
 import { ThemeProvider } from '@material-ui/styles';
@@ -38,6 +38,8 @@ interface Props {
   onSelectOption?: any;
   isGetOnSelectOption?: boolean;
   isBlackView?: boolean;
+  isClear?: boolean;
+  onClear?(isClear: boolean): void;
 }
 
 export default function DateTimePicker(props: Props) {
@@ -51,6 +53,8 @@ export default function DateTimePicker(props: Props) {
     onChange,
     onSelectOption,
     t,
+    isClear,
+    onClear,
   } = props;
   const classes = useStyles();
 
@@ -62,6 +66,9 @@ export default function DateTimePicker(props: Props) {
   const [toDateError, setToDateError] = useState('');
 
   const handleChangeOption = value => {
+    if (onClear) {
+      onClear(false);
+    }
     setTextError('');
     setDateOption(value);
     showDateRange(value === 'date_range');
@@ -149,6 +156,12 @@ export default function DateTimePicker(props: Props) {
     }
   };
 
+  useEffect(() => {
+    if (isClear) {
+      setDateOption('');
+    }
+  }, [isClear]);
+
   return (
     <div className={isHistory ? '' : classes.inLine}>
       <div
@@ -166,7 +179,7 @@ export default function DateTimePicker(props: Props) {
           isBlackView={isBlackView}
         />
       </div>
-      {isDateRange && (
+      {isDateRange && !isClear && (
         <PickerProvider libInstance={moment} utils={DateUtils}>
           <div
             className={clsx(classes.datePickerControl, {
@@ -220,7 +233,7 @@ export default function DateTimePicker(props: Props) {
         </PickerProvider>
       )}
 
-      {isSpecificDate && (
+      {isSpecificDate && !isClear && (
         <>
           <PickerProvider libInstance={moment} utils={DateUtils}>
             <ThemeProvider
