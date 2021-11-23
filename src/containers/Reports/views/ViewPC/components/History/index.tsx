@@ -266,9 +266,9 @@ export default function HistoryLogs(props: Props) {
   }, [historyLogIds, historyLogs, trackerId]);
 
   const { 
-    duration = '0h', 
-    distance = 0, 
-    maxSpeed = 0, 
+    duration = '0h',
+    distance = 0,
+    maxSpeed = 0,
     avgSpeed = 0,
   } = callTrip() || {};
 
