@@ -25,7 +25,12 @@ import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
 import RowTable from './RowTable';
 import HistoryInfo from './HistoryInfo';
 //styles
-import { useStyles, PaginationStyle, OptionViewDatePicker, MessageError } from './styles';
+import {
+  useStyles,
+  PaginationStyle,
+  OptionViewDatePicker,
+  MessageError,
+} from './styles';
 const HistoryPath = dynamic(() => import('./HistoryPath'), { ssr: false });
 
 interface Props {
