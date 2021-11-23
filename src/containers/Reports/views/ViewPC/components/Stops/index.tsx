@@ -19,7 +19,12 @@ import SelectOption from '@Components/selections';
 import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
 import RowTable from './RowTable';
 //styles
-import { useStyles, PaginationStyle, OptionViewDatePicker, MessageError } from './styles';
+import {
+  useStyles,
+  PaginationStyle,
+  OptionViewDatePicker,
+  MessageError,
+} from './styles';
 
 interface Props {
   trackers: object;

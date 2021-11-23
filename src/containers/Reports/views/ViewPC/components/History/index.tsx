@@ -265,8 +265,12 @@ export default function HistoryLogs(props: Props) {
     }
   }, [historyLogIds, historyLogs, trackerId]);
 
-  const { duration = '0h', distance = 0, maxSpeed = 0, avgSpeed = 0 } =
-    callTrip() || {};
+  const { 
+    duration = '0h', 
+    distance = 0, 
+    maxSpeed = 0, 
+    avgSpeed = 0,
+  } = callTrip() || {};
 
   return (
     <div className={classes.container}>
