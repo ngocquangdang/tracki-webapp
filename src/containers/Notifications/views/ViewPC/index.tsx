@@ -53,6 +53,7 @@ interface Props {
   t(key: string, format?: object): string;
   notifications: Notifications;
   notificationsIds: number[];
+  isLoading?: boolean;
 }
 
 export default function Notification(props: Props) {
@@ -63,6 +64,7 @@ export default function Notification(props: Props) {
     trackerIds,
     trackers,
     t,
+    isLoading,
   } = props;
   const classes = useStyles();
 
@@ -115,6 +117,7 @@ export default function Notification(props: Props) {
       limit: 500,
       page: 1,
     });
+    notificationsIds.length === 0 ? setDataFilter(false) : setDataFilter(true);
     firebaseLogEventRequest('notification_page', 'filter_report_notification');
   };
 
@@ -314,6 +317,7 @@ export default function Notification(props: Props) {
               text={t('notifications:view_report')}
               className={`${classes.btn}`}
               onClick={onClickViewPort}
+              isLoading={isLoading}
             />
           </ListOptionView>
         </HeaderNotification>
