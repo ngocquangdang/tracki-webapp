@@ -117,7 +117,7 @@ export default function Notification(props: Props) {
       limit: 500,
       page: 1,
     });
-    notificationsIds.length > 0 && setIsDataFilter(true);
+    setIsDataFilter(true);
     firebaseLogEventRequest('notification_page', 'filter_report_notification');
   };
 
