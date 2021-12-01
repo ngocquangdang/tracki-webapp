@@ -374,13 +374,15 @@ export default function Notification(props: Props) {
                     </Fragment>
                   );
                 })}
-                {isDataFilter ? null : (
-                  <TableRow>
-                    <TableCell className={classes.dataFilter}>
-                      {t('notifications:no_data')}
-                    </TableCell>
-                  </TableRow>
-                )}
+                {isDataFilter
+                  ? null
+                  : !isDataFilter && (
+                      <TableRow>
+                        <TableCell className={classes.dataFilter}>
+                          {t('notifications:no_data')}
+                        </TableCell>
+                      </TableRow>
+                    )}
               </TableBody>
               <TableFooter className={classes.footer}>
                 <tr>
