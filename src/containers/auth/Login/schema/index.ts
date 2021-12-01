@@ -6,10 +6,7 @@ export const LoginSchema = Yup.object().shape({
     .max(40, 'too_long')
     .email('email_invalid')
     .required('required'),
-  password: Yup.string()
-    .min(1, 'too_short')
-    .max(25, 'too_long')
-    .required('required'),
+  password: Yup.string().min(1, 'too_short').required('required'),
 });
 export const ChatUsSchema = Yup.object().shape({
   name: Yup.string().max(20, 'too_long').required('required'),

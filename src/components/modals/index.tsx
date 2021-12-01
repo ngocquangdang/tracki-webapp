@@ -40,7 +40,7 @@ export default function TransitionsModal(props: Props) {
               <Close />
             </IconButton>
           </Header>
-          {props.children}
+          <div className={classes.content}>{props.children}</div>
         </div>
       </Fade>
     </Modal>

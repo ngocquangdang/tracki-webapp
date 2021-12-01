@@ -5,6 +5,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 7px;
 `;
 
 const Title = styled.span`
@@ -46,6 +47,10 @@ const useStyles = makeStyles(theme => ({
       margin: '5px',
       width: '360px',
     },
+  },
+  content: {
+    maxHeight: 550,
+    overflowY: 'auto',
   },
 }));
 
