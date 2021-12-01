@@ -53,6 +53,7 @@ interface Props {
   t(key: string, format?: object): string;
   notifications: Notifications;
   notificationsIds: number[];
+  isLoading?: boolean;
 }
 
 export default function Notification(props: Props) {
@@ -63,6 +64,7 @@ export default function Notification(props: Props) {
     trackerIds,
     trackers,
     t,
+    isLoading,
   } = props;
   const classes = useStyles();
 
@@ -82,7 +84,7 @@ export default function Notification(props: Props) {
   });
 
   const [isDateRange, setDateRange] = useState(false);
-  const [dataFilter, setDataFilter] = useState(true);
+  const [isDataFilter, setIsDataFilter] = useState(true);
   const [textError, setTextError] = useState('');
   const [trackerName, setTrackerName] = useState('');
 
@@ -115,6 +117,7 @@ export default function Notification(props: Props) {
       limit: 500,
       page: 1,
     });
+    setIsDataFilter(true);
     firebaseLogEventRequest('notification_page', 'filter_report_notification');
   };
 
@@ -136,8 +139,8 @@ export default function Notification(props: Props) {
         moment(notifications[item]?.created).unix() >= fromDate.valueOf()
     );
     filterNotificationsByDate.length === 0
-      ? setDataFilter(false)
-      : setDataFilter(true);
+      ? setIsDataFilter(false)
+      : setIsDataFilter(true);
 
     setInitialNotificationsIds(filterNotificationsByDate);
   };
@@ -223,7 +226,7 @@ export default function Notification(props: Props) {
     const filterType = notificationsIds.filter(item =>
       notifications[item]?.alarm_type.includes(value)
     );
-    filterType.length === 0 ? setDataFilter(false) : setDataFilter(true);
+    filterType.length === 0 ? setIsDataFilter(false) : setIsDataFilter(true);
     value === 'all'
       ? setInitialNotificationsIds(notificationsIds)
       : setInitialNotificationsIds(filterType);
@@ -234,7 +237,7 @@ export default function Notification(props: Props) {
     const filterTracker = notificationsIds.filter(
       item => notifications[item]?.device_id === value
     );
-    filterTracker.length === 0 ? setDataFilter(false) : setDataFilter(true);
+    filterTracker.length === 0 ? setIsDataFilter(false) : setIsDataFilter(true);
     setInitialNotificationsIds(filterTracker);
     setTrackerName(value);
   };
@@ -314,6 +317,7 @@ export default function Notification(props: Props) {
               text={t('notifications:view_report')}
               className={`${classes.btn}`}
               onClick={onClickViewPort}
+              isLoading={isLoading}
             />
           </ListOptionView>
         </HeaderNotification>
@@ -370,7 +374,7 @@ export default function Notification(props: Props) {
                     </Fragment>
                   );
                 })}
-                {dataFilter ? null : (
+                {!isDataFilter && (
                   <TableRow>
                     <TableCell className={classes.dataFilter}>
                       {t('notifications:no_data')}

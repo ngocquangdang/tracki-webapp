@@ -25,6 +25,7 @@ import { fetchNotficationRequest } from './store/actions';
 import {
   makeSelectNotifications,
   makeSelectNotificationsIds,
+  makeSelectNotificationsIsLoading,
 } from './store/selectors';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
@@ -70,6 +71,7 @@ const mapStateToProps = createStructuredSelector({
   settings: makeSelectTrackerSettings(),
   notifications: makeSelectNotifications(),
   notificationsIds: makeSelectNotificationsIds(),
+  isLoading: makeSelectNotificationsIsLoading(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

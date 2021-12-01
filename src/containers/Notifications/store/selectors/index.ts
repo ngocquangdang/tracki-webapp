@@ -8,5 +8,11 @@ const makeSelectNotifications = () =>
   createSelector(notificationsState, state => state?.notifications);
 const makeSelectNotificationsIds = () =>
   createSelector(notificationsState, state => state?.notificationsIds);
+const makeSelectNotificationsIsLoading = () =>
+  createSelector(notificationsState, state => state?.isLoading);
 
-export { makeSelectNotifications, makeSelectNotificationsIds };
+export {
+  makeSelectNotifications,
+  makeSelectNotificationsIds,
+  makeSelectNotificationsIsLoading,
+};
