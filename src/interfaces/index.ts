@@ -70,6 +70,7 @@ export interface TrackingDataTypes {
   histories: object;
   historyIds: object;
   alarms: object;
+  isLoading: boolean;
 }
 
 export interface WalletDataType {
