@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
 
 const Container = styled.div`
   display: flex;
@@ -28,15 +27,9 @@ const Progress = styled.div`
   z-index: 1000;
   height: 100%;
   width: 100%;
-  background-color: grey;
+  background-color: #a9a9a9;
   margin-left: 400px;
   opacity: 0.4;
 `;
-
-const useStyles = makeStyles(theme => ({
-  loading: {
-    color: `${theme.palette.text.primary} !important`,
-  },
-}));
 
 export { Container, MapView, Progress, useStyles };

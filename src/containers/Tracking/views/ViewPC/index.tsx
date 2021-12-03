@@ -5,7 +5,7 @@ import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from './components/Tabs';
-import { Container, MapView, Progress, useStyles } from './styles';
+import { Container, MapView, Progress } from './styles';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 import { CircularProgress } from '@material-ui/core';
 
@@ -33,7 +33,6 @@ interface Props {
 export default function TrackingContainer(props: Props) {
   const { onResetSelectedTrackerID, isLoadingTracking, ...rest } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
-  const clx = useStyles();
 
   const toggleSideBar = () => {
     setOpenSidebar(!isOpenSidebar);
@@ -70,7 +69,7 @@ export default function TrackingContainer(props: Props) {
             <MapToolBars t={rest.t} />
             {isLoadingTracking && (
               <Progress>
-                <CircularProgress size={50} className={clx.loading} />
+                <CircularProgress size={50} color="primary" />
               </Progress>
             )}
           </React.Fragment>
