@@ -115,7 +115,7 @@ function SingleTracker(props: Props) {
     showSnackbar,
     profile,
     refreshLocation,
-    getDeviceSubscripttionRequest,
+    // getDeviceSubscripttionRequest,
   } = props;
 
   const [currentChildView, updateChildView] = useState<string | null>(null);
@@ -146,14 +146,14 @@ function SingleTracker(props: Props) {
       if (view === 'history') {
         changeMapView('tracker_history');
       }
-      if (view === 'settings') {
-        const devcieData = {
-          device_id: tracker.device_id,
-          page: 1,
-          size: 10,
-        };
-        getDeviceSubscripttionRequest(devcieData);
-      }
+      // if (view === 'settings') {
+      //   const devcieData = {
+      //     device_id: tracker.device_id,
+      //     page: 1,
+      //     size: 10,
+      //   };
+      //   getDeviceSubscripttionRequest(devcieData);
+      // }
     } else if (view === 'notifications') {
       Router.push(`/notifications`);
     } else {

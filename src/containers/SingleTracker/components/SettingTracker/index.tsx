@@ -164,7 +164,7 @@ function SettingTracker(props: Props) {
     devcieSubscription,
     smsCounter,
     getDeviceSMSCounterRequest,
-    getDeviceSubscripttionRequest,
+    // getDeviceSubscripttionRequest,
     extendsBatteryModeRequest,
     showSnackbar,
     trackingModeRequest,
@@ -286,13 +286,13 @@ function SettingTracker(props: Props) {
 
   const onOpenModalSubscription = () => {
     firebaseLogEventRequest('settings_device', 'settings_device_subscriptions');
-    const data = {
-      device_id: tracker.device_id,
-      page: 1,
-      size: 10,
-    };
+    // const data = {
+    //   device_id: tracker.device_id,
+    //   page: 1,
+    //   size: 10,
+    // };
     getDeviceSMSCounterRequest(tracker.device_id);
-    getDeviceSubscripttionRequest(data);
+    // getDeviceSubscripttionRequest(data);
     setOpenSubsription(true);
   };
 
@@ -837,6 +837,7 @@ function SettingTracker(props: Props) {
         t={t}
         smsCounter={smsCounter}
         devcieSubscription={devcieSubscription}
+        currentPlan={tracker.current_device_plan}
       />
       <FastTrackingMode
         showModal={openBatteryMode}

@@ -99,16 +99,12 @@ function normalizeTrackers(data: { devices: Array<any> }) {
   const newDevices = data?.devices || [];
   const tracker = newDevices.reduce(
     (result, d) => {
-      const { current_device_plan, active_device_plans, ...rest } = d;
-      const trackerPlans = active_device_plans.reduce((arr, i) => {
-        result.trackerPlans[i.id] = i;
-        return [...arr, i.id];
-      }, []);
-      result.trackers[d.device_id] = {
-        ...rest,
-        current_device_plan: current_device_plan?.id,
-        active_device_plans: trackerPlans,
-      };
+      const { current_device_plan } = d;
+      // const trackerPlans = active_device_plans.reduce((arr, i) => {
+      //   result.trackerPlans[i.id] = i;
+      //   return [...arr, i.id];
+      // }, []);
+      result.trackers[d.device_id] = d;
       if (current_device_plan) {
         result.trackerPlans[current_device_plan.id] = current_device_plan;
       }
