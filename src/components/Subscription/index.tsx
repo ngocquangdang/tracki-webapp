@@ -13,6 +13,7 @@ interface Props {
   onCloseSubscription(): void;
   smsCounter?: SMSCounter;
   devcieSubscription?: any;
+  currentPlan?: CurrentPlan;
 }
 
 interface SMSCounter {
@@ -20,6 +21,10 @@ interface SMSCounter {
   smsLimit: number;
 }
 
+interface CurrentPlan {
+  activated: number;
+  name?: string;
+}
 function SubscriptionModal(props: Props) {
   const {
     t,
@@ -29,9 +34,9 @@ function SubscriptionModal(props: Props) {
     onClickCancel,
     onCloseSubscription,
     smsCounter,
-    devcieSubscription,
+    currentPlan,
   } = props;
-  const { data } = devcieSubscription;
+
   const classes = useStyles();
 
   return (
@@ -44,21 +49,14 @@ function SubscriptionModal(props: Props) {
         <WrapTitle>
           <Title>{t('tracker:device_active')}: </Title>
           <SubTitle>
-            {data && data.length > 0 && data[0]?.plans
-              ? moment(data[0]?.plans[0]?.activation_date).format('LL')
+            {currentPlan?.activated
+              ? moment(currentPlan.activated).format('LL')
               : ''}
           </SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:current_plan')}: </Title>
-          <SubTitle>
-            {data && data.length > 0 && data[0].plans
-              ? data[0].plans[0].name.split(' ')[2]
-              : ''}{' '}
-            {data && data.length > 0 && data[0]?.plans
-              ? data[0].plans[0].name.split(' ')[3]
-              : ''}
-          </SubTitle>
+          <SubTitle>{currentPlan?.name || ''}</SubTitle>
         </WrapTitle>
         <WrapTitle>
           <Title>{t('tracker:limit_month_use')}: </Title>
