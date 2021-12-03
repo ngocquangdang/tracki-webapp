@@ -33,10 +33,10 @@ const Progress = styled.div`
   opacity: 0.4;
 `;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   loading: {
-    color: 'white',
+    color: `${theme.palette.text.primary} !important`,
   },
-});
+}));
 
 export { Container, MapView, Progress, useStyles };
