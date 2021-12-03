@@ -22,13 +22,14 @@ const MapView = styled.div`
 const Progress = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 300px;
+  justify-content: center;
   position: absolute;
   z-index: 1000;
   height: 100%;
   width: 100%;
   background-color: #a9a9a9;
   margin-left: 400px;
+  padding-right: 400px;
   opacity: 0.4;
 `;
 
