@@ -68,7 +68,7 @@ export default function TrackingContainer(props: Props) {
             />
             <MapToolBars t={rest.t} />
             {isLoadingTracking && (
-              <Progress isFull={!isOpenSidebar}>
+              <Progress isFull={isOpenSidebar}>
                 <CircularProgress size={50} color="primary" />
               </Progress>
             )}

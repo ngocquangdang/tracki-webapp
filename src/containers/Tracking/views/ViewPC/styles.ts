@@ -28,8 +28,8 @@ const Progress = styled.div`
   height: 100%;
   width: 100%;
   background-color: #a9a9a9;
-  margin-left: ${(p: Props) => (p.isFull ? '0x' : '400px')};
-  padding-right: ${(p: Props) => (p.isFull ? '0px' : '400px')};
+  margin-left: ${(p: Props) => (p.isFull ? '400x' : '0px')};
+  padding-right: ${(p: Props) => (p.isFull ? '400px' : '0px')};
   opacity: 0.4;
 `;
 
