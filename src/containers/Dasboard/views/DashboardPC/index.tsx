@@ -166,6 +166,7 @@ export default function DashboardContainer(props) {
   }, [trackers, trackerIds, changeTrackersTracking]);
 
   const changeSelectTracker = device_id => {
+    setCurrentAddress(null);
     setTrackerSelected(device_id);
     changeTrackersTracking([device_id]);
   };
