@@ -32,4 +32,4 @@ const Progress = styled.div`
   opacity: 0.4;
 `;
 
-export { Container, MapView, Progress, useStyles };
+export { Container, MapView, Progress };
