@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  Switch,
+  // Switch,
   IconButton,
   Menu,
   MenuItem,
@@ -34,18 +34,18 @@ export default function GeofenceCard(props: Props) {
   const [anchorMenuEl, setAnchorMenuEl] =
     React.useState<null | HTMLElement>(null);
   const [showConfirm, setShowConfirm] = React.useState(false);
-  const [enabled, setEnabled] = React.useState(false);
+  // const [enabled, setEnabled] = React.useState(false);
   const [showAddDevicePanel, setShowAddDevicePanel] = React.useState(false);
   const {
     geofence,
     t,
     isMobile,
     selectGeofence,
-    updateGeofence,
+    // updateGeofence,
     selectedGeofenceId,
     editGeofence,
     removeGeofence,
-    updateSwitch,
+    // updateSwitch,
   } = props;
   const classes = useStyles();
   const isActive = selectedGeofenceId === geofence.id;
@@ -55,9 +55,9 @@ export default function GeofenceCard(props: Props) {
     setAnchorMenuEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    setEnabled(geofence.enabled);
-  }, [geofence]);
+  // useEffect(() => {
+  //   setEnabled(geofence.enabled);
+  // }, [geofence]);
 
   const closeMenu = () => {
     setAnchorMenuEl(null);
@@ -81,11 +81,11 @@ export default function GeofenceCard(props: Props) {
     }
   };
 
-  const toggleGeofence = () => {
-    updateSwitch();
-    updateGeofence(geofence.id, { enabled: !geofence.enabled });
-    setEnabled(!enabled);
-  };
+  // const toggleGeofence = () => {
+  //   updateSwitch();
+  //   updateGeofence(geofence.id, { enabled: !geofence.enabled });
+  //   setEnabled(!enabled);
+  // };
 
   const onClickEdit = () => {
     firebaseLogEventRequest('geofence_page', 'edit_geofence');
@@ -142,12 +142,12 @@ export default function GeofenceCard(props: Props) {
         />
         <ListItemSecondaryAction className={classes.actions}>
           {isDisabled && <Status>{t('tracker:deactive')}</Status>}
-          <Switch
+          {/* <Switch
             checked={!!enabled}
             onChange={toggleGeofence}
             color="primary"
             disabled={isDisabled}
-          />
+          /> */}
           <IconButton onClick={openMenu} className={classes.iconBtn}>
             <MoreVertIcon />
           </IconButton>
