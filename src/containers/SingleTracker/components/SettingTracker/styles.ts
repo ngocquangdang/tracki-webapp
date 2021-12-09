@@ -272,6 +272,14 @@ const useStyles = makeStyles(theme => ({
   trackingModeIcon: {
     margin: 0,
   },
+  questionModal: {
+    maxWidth: 330,
+  },
+  containerModal: {
+    marginTop: 16,
+    paddingTop: 10,
+    borderTop: `1px solid ${theme.palette.text.secondary}`,
+  },
 }));
 
 const LimitInput = withStyles(theme => ({

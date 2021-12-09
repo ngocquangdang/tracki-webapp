@@ -19,6 +19,7 @@ import { isNumber } from 'lodash';
 import { makeSelectLoading } from '@Containers/App/store/selectors';
 
 import SideBarOutside from '@Components/sidebars/SideBarOutside';
+import Modal from '@Components/modals';
 // import SelectOption from '@Components/selections';
 import { Button } from '@Components/buttons';
 import { TextInput } from '@Components/inputs';
@@ -46,7 +47,6 @@ import {
   Container,
   useStyles,
   AdornmentStyle,
-  TooltipStyle,
   DefaultImage,
   Warning,
   ContainerPaddingButton,
@@ -140,6 +140,11 @@ function SettingTracker(props: Props) {
   const [isShowSelectContact, setShowSelectContat] = useState(false);
   const [eventType, setEventype] = useState('');
   const [error, setError] = useState('');
+  const [questionMark, setQuestionMark] = useState({
+    title: '',
+    description: '',
+    isOpen: false,
+  });
 
   const classes = useStyles();
   const {
@@ -172,7 +177,6 @@ function SettingTracker(props: Props) {
     updateSettings,
   } = props;
 
-  const [isOpenTooltip, setIsOpenTooltip] = useState(null);
   const trackerSettings = settings[tracker?.settings_id];
   const [infoTracker, setInfoTracker] = useState({
     device_name: '',
@@ -342,14 +346,14 @@ function SettingTracker(props: Props) {
     setEventype(value);
   };
 
-  const handleShowTooltip = type => () => {
-    setIsOpenTooltip(type);
+  const handleShowTooltip = (title: string, description: string) => (): any => {
+    console.log(title, 'ty');
+    setQuestionMark({ title: title, description: description, isOpen: true });
+    // setIsOpenTooltip(type);
   };
 
-  const handleTooltipClose = () => () => {
-    setTimeout(() => {
-      setIsOpenTooltip(null);
-    }, 3000);
+  const handleTooltipClose = () => {
+    setQuestionMark({ title: '', description: '', isOpen: false });
   };
 
   const onClickIncrease = () => {
@@ -549,21 +553,17 @@ function SettingTracker(props: Props) {
                         }}
                         variant="outlined"
                       />
-                      <TooltipStyle
-                        open={isOpenTooltip === 'speed_limit_alert'}
-                        onClose={handleTooltipClose()}
-                        title="Add people to receive email or SMS alerts when the device exceeds the speed set here. Speed must be set to more than 0 (Zero)"
-                        // placement="right"
-                        arrow
+                      <AdornmentStyle
+                        position="end"
+                        onClick={handleShowTooltip(
+                          'speed_limit_alert',
+                          'Add people to receive email or SMS alerts when the device exceeds the speed set here. Speed must be set to more than 0 (Zero)'
+                        )}
                       >
-                        <AdornmentStyle position="end">
-                          <AiOutlineQuestionCircle
-                            onClick={handleShowTooltip('speed_limit_alert')}
-                            className={`${classes.questionIcon} ${classes.speedLimit}`}
-                          />
-                        </AdornmentStyle>
-                      </TooltipStyle>
-
+                        <AiOutlineQuestionCircle
+                          className={`${classes.questionIcon} ${classes.speedLimit}`}
+                        />
+                      </AdornmentStyle>
                       <PersonAddIcon
                         onClick={() => onShowSelectContact('speed_limit')}
                         className={classes.personAddIcon}
@@ -591,22 +591,16 @@ function SettingTracker(props: Props) {
                   <SwitchGroup>
                     <span>{t('tracker:speed_moving_alert')}</span>
                     <OptionRight>
-                      <TooltipStyle
-                        open={isOpenTooltip === 'speed_moving_alert'}
-                        onClose={handleTooltipClose()}
-                        title={
-                          'Add people to receive email or SMS alerts when this tracker starts moving'
-                        }
-                        // placement="right"
-                        arrow
-                      >
-                        <AdornmentStyle position="end">
-                          <AiOutlineQuestionCircle
-                            onClick={handleShowTooltip('speed_moving_alert')}
-                            className={`${classes.questionIcon} ${classes.speedLimit}`}
-                          />
-                        </AdornmentStyle>
-                      </TooltipStyle>
+                      <AdornmentStyle position="end">
+                        <AiOutlineQuestionCircle
+                          onClick={handleShowTooltip(
+                            'speed_moving_alert',
+                            'Add people to receive email or SMS alerts when this tracker starts moving'
+                          )}
+                          className={`${classes.questionIcon} ${classes.speedLimit}`}
+                        />
+                      </AdornmentStyle>
+
                       <PersonAddIcon
                         onClick={() => onShowSelectContact('moving_start')}
                         className={classes.personAddIcon}
@@ -658,24 +652,16 @@ function SettingTracker(props: Props) {
                   <SwitchGroup>
                     <span>{t('tracker:low_battery_alert')}</span>
                     <OptionRight>
-                      <TooltipStyle
-                        open={isOpenTooltip === 'low_battery_alert'}
-                        onClose={handleTooltipClose()}
-                        title={
-                          'Add people to receive email or SMS alerts when battery on this device runs low'
-                        }
-                        // placement="right"
-                        arrow
-                      >
-                        <AdornmentStyle position="end">
-                          <AiOutlineQuestionCircle
-                            onClick={handleShowTooltip(
-                              'infoTracker.low_battery_alert'
-                            )}
-                            className={`${classes.questionIcon} ${classes.speedLimit}`}
-                          />
-                        </AdornmentStyle>
-                      </TooltipStyle>
+                      <AdornmentStyle position="end">
+                        <AiOutlineQuestionCircle
+                          onClick={handleShowTooltip(
+                            'low_battery_alert',
+                            'Add people to receive email or SMS alerts when battery on this device runs low'
+                          )}
+                          className={`${classes.questionIcon} ${classes.speedLimit}`}
+                        />
+                      </AdornmentStyle>
+
                       <PersonAddIcon
                         onClick={() => onShowSelectContact('low_battery')}
                         className={classes.personAddIcon}
@@ -702,22 +688,16 @@ function SettingTracker(props: Props) {
                   <SwitchGroup>
                     <span>{t('tracker:enable_beeper')}</span>
                     <OptionRight>
-                      <TooltipStyle
-                        open={isOpenTooltip === 'enable_beeper'}
-                        onClose={handleTooltipClose()}
-                        title={
-                          'This switch will enable/disable the beeper on the device. There is a tiny beeper inside the tracker that you can send beep to from the app. The beeper will also beep on the device itself when the battery runs low'
-                        }
-                        // placement="right"
-                        arrow
-                      >
-                        <AdornmentStyle position="end">
-                          <AiOutlineQuestionCircle
-                            onClick={handleShowTooltip('enable_beeper')}
-                            className={`${classes.questionIcon} ${classes.speedLimit}`}
-                          />
-                        </AdornmentStyle>
-                      </TooltipStyle>
+                      <AdornmentStyle position="end">
+                        <AiOutlineQuestionCircle
+                          onClick={handleShowTooltip(
+                            'enable_beeper',
+                            'This switch will enable/disable the beeper on the device. There is a tiny beeper inside the tracker that you can send beep to from the app. The beeper will also beep on the device itself when the battery runs low'
+                          )}
+                          className={`${classes.questionIcon} ${classes.speedLimit}`}
+                        />
+                      </AdornmentStyle>
+
                       <Switch
                         checked={values.infoTracker?.device_beep_sound}
                         value={values.infoTracker?.device_beep_sound}
@@ -805,7 +785,6 @@ function SettingTracker(props: Props) {
                     <NavigateNextIcon className={classes.iconNext} />{' '}
                   </OptionRight>
                 </ContainerButtonModal>
-
                 <ContainerPaddingButton>
                   <Button
                     className={`${classes.btnCancle} ${classes.margin}`}
@@ -828,6 +807,14 @@ function SettingTracker(props: Props) {
           }}
         </Formik>
       </Container>
+      <Modal
+        title={t(`tracker:${questionMark.title}`)}
+        open={questionMark.isOpen}
+        handleClose={handleTooltipClose}
+        className={classes.questionModal}
+      >
+        <div className={classes.containerModal}>{questionMark.description}</div>
+      </Modal>
       <SubscriptionModal
         onClickIncrease={onClickIncrease}
         onClickFastTracking={onClickFastTracking}
