@@ -132,6 +132,17 @@ interface SMSCounter {
 
 const typeFiles = ['image/jpg', 'image/png', 'image/jpeg'];
 
+const questionMarkObj = {
+  speed_limit_alert:
+    'Add people to receive email or SMS alerts when the device exceeds the speed set here. Speed must be set to more than 0 (Zero)',
+  speed_moving_alert:
+    'Add people to receive email or SMS alerts when this tracker starts moving',
+  low_battery_alert:
+    'Add people to receive email or SMS alerts when battery on this device runs low',
+  enable_beeper:
+    'This switch will enable/disable the beeper on the device. There is a tiny beeper inside the tracker that you can send beep to from the app. The beeper will also beep on the device itself when the battery runs low',
+};
+
 function SettingTracker(props: Props) {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImage] = useState<any>({});
@@ -346,10 +357,12 @@ function SettingTracker(props: Props) {
     setEventype(value);
   };
 
-  const handleShowTooltip = (title: string, description: string) => (): any => {
-    console.log(title, 'ty');
-    setQuestionMark({ title: title, description: description, isOpen: true });
-    // setIsOpenTooltip(type);
+  const handleShowTooltip = (title: string) => (): any => {
+    setQuestionMark({
+      title: title,
+      description: questionMarkObj[title],
+      isOpen: true,
+    });
   };
 
   const handleTooltipClose = () => {
@@ -555,10 +568,7 @@ function SettingTracker(props: Props) {
                       />
                       <AdornmentStyle
                         position="end"
-                        onClick={handleShowTooltip(
-                          'speed_limit_alert',
-                          'Add people to receive email or SMS alerts when the device exceeds the speed set here. Speed must be set to more than 0 (Zero)'
-                        )}
+                        onClick={handleShowTooltip('speed_limit_alert')}
                       >
                         <AiOutlineQuestionCircle
                           className={`${classes.questionIcon} ${classes.speedLimit}`}
@@ -593,10 +603,7 @@ function SettingTracker(props: Props) {
                     <OptionRight>
                       <AdornmentStyle position="end">
                         <AiOutlineQuestionCircle
-                          onClick={handleShowTooltip(
-                            'speed_moving_alert',
-                            'Add people to receive email or SMS alerts when this tracker starts moving'
-                          )}
+                          onClick={handleShowTooltip('speed_moving_alert')}
                           className={`${classes.questionIcon} ${classes.speedLimit}`}
                         />
                       </AdornmentStyle>
@@ -654,10 +661,7 @@ function SettingTracker(props: Props) {
                     <OptionRight>
                       <AdornmentStyle position="end">
                         <AiOutlineQuestionCircle
-                          onClick={handleShowTooltip(
-                            'low_battery_alert',
-                            'Add people to receive email or SMS alerts when battery on this device runs low'
-                          )}
+                          onClick={handleShowTooltip('low_battery_alert')}
                           className={`${classes.questionIcon} ${classes.speedLimit}`}
                         />
                       </AdornmentStyle>
@@ -690,10 +694,7 @@ function SettingTracker(props: Props) {
                     <OptionRight>
                       <AdornmentStyle position="end">
                         <AiOutlineQuestionCircle
-                          onClick={handleShowTooltip(
-                            'enable_beeper',
-                            'This switch will enable/disable the beeper on the device. There is a tiny beeper inside the tracker that you can send beep to from the app. The beeper will also beep on the device itself when the battery runs low'
-                          )}
+                          onClick={handleShowTooltip('enable_beeper')}
                           className={`${classes.questionIcon} ${classes.speedLimit}`}
                         />
                       </AdornmentStyle>

@@ -277,7 +277,7 @@ const useStyles = makeStyles(theme => ({
   },
   containerModal: {
     marginTop: 16,
-    paddingTop: 10,
+    padding: '10px 10px 0 10px',
     borderTop: `1px solid ${theme.palette.text.secondary}`,
   },
 }));
