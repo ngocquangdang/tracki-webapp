@@ -36,7 +36,7 @@ const TextInput = withStyles(theme => ({
       right: 0,
     },
     '& .MuiFormHelperText-root': {
-      // marginRight: '0px',
+      marginRight: '0px',
       // marginLeft: '0px',
       // textAlign: 'right',
     },
