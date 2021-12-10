@@ -31,6 +31,9 @@ const makeSelectAlarmTracker = () =>
 const makeSelectPointTracking = () =>
   createSelector(trackingState, state => state.pointTrackingIndex);
 
+const makeSelecIsLoadingTracking = () =>
+  createSelector(trackingState, state => state.isLoading);
+
 export {
   makeSelectPointTracking,
   makeSelectHistories,
@@ -40,4 +43,5 @@ export {
   makeSelectTrackerHistories,
   makeSelectTrackerHistoryIds,
   makeSelectAlarmTracker,
+  makeSelecIsLoadingTracking,
 };

@@ -15,6 +15,7 @@ interface Props {
   onResetSelectedTrackerID(): void;
   getHistoryTracker(data: object): void;
   refreshLocation(data: object): void;
+  isLoadingTracking: boolean;
   [data: string]: any;
 }
 

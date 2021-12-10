@@ -38,6 +38,7 @@ import {
   makeSelectTrackerIdsTracking,
   makeSelectViewMode,
   makeSelectTrackerHistories,
+  makeSelecIsLoadingTracking,
 } from './store/selectors';
 import View from './view';
 import { firebaseLogEventRequest } from '@Utils/firebase';
@@ -59,6 +60,7 @@ interface Props {
   onResetSelectedTrackerID(): void;
   getHistoryTracker(data: object): void;
   refreshLocation(data: object): void;
+  isLoadingTracking: boolean;
   [data: string]: any;
 }
 
@@ -98,6 +100,7 @@ const mapStateToProps = createStructuredSelector({
   viewMode: makeSelectViewMode(),
   trackerIds: makeSelectTrackerIds(),
   trackerHistories: makeSelectTrackerHistories(),
+  isLoadingTracking: makeSelecIsLoadingTracking(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

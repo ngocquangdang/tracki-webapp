@@ -5,8 +5,9 @@ import { SideBarInnerPC } from '@Components/sidebars';
 import Map from '@Components/Maps';
 import MapToolBars from '@Components/Maps/components/MapToolBar';
 import Tabs from './components/Tabs';
-import { Container, MapView } from './styles';
+import { Container, MapView, Progress } from './styles';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+import { CircularProgress } from '@material-ui/core';
 
 const MultiView = dynamic(() => import('./components/MultiView'), {
   ssr: false,
@@ -25,11 +26,12 @@ interface Props {
   onResetSelectedTrackerID(): void;
   getHistoryTracker(data: object): void;
   refreshLocation(data: object): void;
+  isLoadingTracking: boolean;
   [data: string]: any;
 }
 
 export default function TrackingContainer(props: Props) {
-  const { onResetSelectedTrackerID, ...rest } = props;
+  const { onResetSelectedTrackerID, isLoadingTracking, ...rest } = props;
   const [isOpenSidebar, setOpenSidebar] = useState(true);
 
   const toggleSideBar = () => {
@@ -65,6 +67,11 @@ export default function TrackingContainer(props: Props) {
               {...rest}
             />
             <MapToolBars t={rest.t} />
+            {isLoadingTracking && (
+              <Progress isFull={isOpenSidebar}>
+                <CircularProgress size={50} color="primary" />
+              </Progress>
+            )}
           </React.Fragment>
         )}
         {isMultiView && (
