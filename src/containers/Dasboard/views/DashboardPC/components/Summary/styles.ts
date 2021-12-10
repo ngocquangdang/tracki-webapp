@@ -52,8 +52,8 @@ const DetailSummary = styled.div`
 `;
 
 const SelectGroup = styled.div`
+  width: 60%;
   position: relative;
-  width: 240px;
 `;
 
 const Description = styled.div`

@@ -80,6 +80,13 @@ const IconDashboard = styled.div`
 
 const CardTitle = styled.div``;
 
+const Message = styled.div`
+  position: absolute;
+  margin: 2px 60px;
+  font-size: 12px;
+  color: #999999;
+`;
+
 const Card = styled.div`
   flex: 1;
   display: flex;
@@ -229,4 +236,5 @@ export {
   DataView,
   SubCard,
   SummaryDate,
+  Message,
 };

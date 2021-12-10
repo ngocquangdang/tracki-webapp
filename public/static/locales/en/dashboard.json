@@ -26,5 +26,6 @@
   "description": "DESCRIPTION",
   "address": "ADDRESS",
   "load_more_alerts": "Load More Alert",
-  "summary_description": "Showing summary per Day"
+  "summary_description": "Showing summary per Day",
+  "invalid_tracker": "Invalid Tracker"
 }
