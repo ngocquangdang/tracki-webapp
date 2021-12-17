@@ -105,11 +105,8 @@ export default function TrackingMode(props: Props) {
     );
 
     setModeType(e.target.value);
-    const [
-      sample_rate,
-      samples_per_report,
-      tracking_measurment,
-    ] = e.target.value.split('_');
+    const [ sample_rate, samples_per_report, tracking_measurment ] 
+      = e.target.value.split('_');
 
     const bodyRequest = {
       ...trackerSettings,
