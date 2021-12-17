@@ -37,7 +37,7 @@ export default function TrackingMode(props: Props) {
         trackerSettings.preferences.tracking_mode;
       setModeType(
         `${sample_rate}_${samples_per_report}_${tracking_measurment}`
-        );
+      );
     }
   }, [trackerSettings]);
 
