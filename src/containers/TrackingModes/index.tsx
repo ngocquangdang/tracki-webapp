@@ -31,6 +31,7 @@ export default function TrackingModes(props: Props) {
     handleCloseModal,
     // t,
     trackerSettings,
+    tracker,
     showSnackbar,
     // isRequesting,
     trackingModeRequest,
@@ -39,7 +40,6 @@ export default function TrackingModes(props: Props) {
   const [value, setValue] = useState(0);
 
   useEffect(() => firebaseLogEventRequest('tracking_mode', ''), []);
-
   const handleChange = (event, newValue: any) => {
     setValue(newValue);
   };
@@ -67,6 +67,7 @@ export default function TrackingModes(props: Props) {
             trackerSettings={trackerSettings}
             trackingModeRequest={trackingModeRequest}
             showSnackbar={showSnackbar}
+            tracker={tracker}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

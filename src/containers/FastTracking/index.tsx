@@ -5,7 +5,6 @@ import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
 const TRACKING_MODE_OPTION = [
-  { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
   { key: '1_1_minutes', value: 'Update location every 1 minute' },
   { key: '2_1_minutes', value: 'Update location every 2 minutes' },
   { key: '5_1_minutes', value: 'Update location every 5 minutes' },
@@ -19,12 +18,17 @@ const TRACKING_MODE_OPTION = [
 interface Props {
   trackingModeRequest(settingId, setting): void;
   trackerSettings: any;
+  tracker: any;
   showSnackbar(data: SNACK_PAYLOAD): void;
 }
 export default function TrackingMode(props: Props) {
   const classes = useStyles();
-  const { trackingModeRequest, trackerSettings, showSnackbar } = props;
+  const { trackingModeRequest, trackerSettings, showSnackbar, tracker } = props;
 
+  const [trackiModeOption, setTrackiModeOption] = useState([
+    { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
+    ...TRACKING_MODE_OPTION,
+  ]);
   const [modetype, setModeType] = useState('');
   useEffect(() => {
     firebaseLogEventRequest('tracking_mode', 'full_tracking_mode');
@@ -36,6 +40,38 @@ export default function TrackingMode(props: Props) {
       );
     }
   }, [trackerSettings]);
+
+  useEffect(() => {
+    if (!tracker.features.tracking_seconds) {
+      if (tracker.features.minimal_tracking_interval_for_second === 5) {
+        setTrackiModeOption([
+          { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
+          { key: '5_1_seconds', value: 'Update location every 5 seconds' },
+          { key: '15_1_seconds', value: 'Update location every 15 seconds' },
+          { key: '30_1_seconds', value: 'Update location every 30 seconds' },
+          ...TRACKING_MODE_OPTION,
+        ]);
+      } else if (tracker.features.minimal_tracking_interval_for_second === 15) {
+        setTrackiModeOption([
+          { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
+          { key: '15_1_seconds', value: 'Update location every 15 seconds' },
+          { key: '30_1_seconds', value: 'Update location every 30 seconds' },
+          ...TRACKING_MODE_OPTION,
+        ]);
+      } else if (tracker.features.minimal_tracking_interval_for_second === 30) {
+        setTrackiModeOption([
+          { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
+          { key: '30_1_seconds', value: 'Update location every 30 seconds' },
+          ...TRACKING_MODE_OPTION,
+        ]);
+      } else if (tracker.features.minimal_tracking_interval_for_second === 60) {
+        setTrackiModeOption([
+          { key: '0_1_minutes', value: 'Turn Off Automatic Update' },
+          ...TRACKING_MODE_OPTION,
+        ]);
+      }
+    }
+  }, [tracker]);
 
   const getFirebaseEvent = type => {
     switch (type) {
@@ -106,7 +142,7 @@ export default function TrackingMode(props: Props) {
         onChange={handleChangeMode}
         name="speed_unit"
       >
-        {TRACKING_MODE_OPTION.map(mode => (
+        {trackiModeOption.map(mode => (
           <FormControlLabel
             key={mode.key}
             value={mode.key}
