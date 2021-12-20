@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
   inLine: {
     display: 'flex',
     width: '100%',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   marginRight: {
     marginRight: 10,

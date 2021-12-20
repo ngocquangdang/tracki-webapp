@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import DateUtils from '@date-io/date-fns';
 import { ThemeProvider } from '@material-ui/styles';
@@ -156,11 +156,11 @@ export default function DateTimePicker(props: Props) {
     }
   };
 
-  useEffect(() => {
-    if (isClear) {
-      setDateOption('');
-    }
-  }, [isClear]);
+  // useEffect(() => {
+  //   if (isClear) {
+  //     setDateOption('');
+  //   }
+  // }, [isClear]);
 
   return (
     <div className={isHistory ? '' : classes.inLine}>
