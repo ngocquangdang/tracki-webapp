@@ -25,7 +25,12 @@ import { SORT_BY_OPTION, headers } from '@Containers/Reports/store/constants';
 import RowTable from './RowTable';
 import HistoryInfo from './HistoryInfo';
 //styles
-import { useStyles, PaginationStyle, OptionViewDatePicker } from './styles';
+import {
+  useStyles,
+  PaginationStyle,
+  OptionViewDatePicker,
+  MessageError,
+} from './styles';
 const HistoryPath = dynamic(() => import('./HistoryPath'), { ssr: false });
 
 interface Props {
@@ -66,6 +71,8 @@ export default function HistoryLogs(props: Props) {
   );
   const [initialHistoryLogIds, setInitHistoryLogIds] = useState([]);
   const [dateTo, setDateTo] = useState(moment(new Date()).valueOf());
+  const [textError, setTextError] = useState('');
+  const [isClearOption, setClearOption] = useState(false);
 
   const [isPlaying, setTogglePlaying] = useState(false);
   const [currentPointId, setCurrentPointId] = useState(null);
@@ -91,11 +98,32 @@ export default function HistoryLogs(props: Props) {
   };
   // press viewport call API get data history
   const onClickViewPort = () => {
+    if (!trackerId) {
+      setTextError('tracker_is_invalid');
+      return;
+    }
     setIsFetching(true);
     fetchHistoryLogs({
       trackerId: trackerId,
       query: `from=${dateTime.fromDate}&to=${dateTime.toDate}&limit=2000&page=1&type=2`,
     });
+  };
+  // clear filter
+  const onClickClearFilter = () => {
+    setClearOption(true);
+    setTrackerId('');
+    setDateTime({
+      fromDate: moment().unix(),
+      toDate: moment().unix(),
+    });
+    setDateFrom(moment().subtract(30, 'days').valueOf());
+    setDateTo(moment(new Date()).valueOf());
+    setDateRange(false);
+    setBadge(true);
+  };
+
+  const hanhleClearOption = () => {
+    setClearOption(false);
   };
   // change row per page
   const handleChangeRowsPerPage = event => {
@@ -166,6 +194,7 @@ export default function HistoryLogs(props: Props) {
   };
 
   const onChangeTracker = value => {
+    setTextError('');
     setBadge(false);
     fetchHistoryLogs({
       trackerId: value,
@@ -256,6 +285,11 @@ export default function HistoryLogs(props: Props) {
               value={trackerId}
               onChangeOption={onChangeTracker}
             />
+            {!!textError && (
+              <MessageError className={classes.errorText}>
+                {t(`notifications:${textError}`)}
+              </MessageError>
+            )}
             {isBadge && <div className={classes.badge} />}
           </div>
           <OptionViewDatePicker isDateRange={isDateRange}>
@@ -267,9 +301,19 @@ export default function HistoryLogs(props: Props) {
               isHistory={false}
               onSelectOption={onSelectOption}
               isGetOnSelectOption={true}
+              isClear={isClearOption}
+              onClear={hanhleClearOption}
             />
             {isBadge && <div className={classes.badgeDate} />}
           </OptionViewDatePicker>
+          <Button
+            variant="contained"
+            color="primary"
+            text="Clear"
+            className={`${classes.btn}`}
+            onClick={onClickClearFilter}
+          />
+          <div className={classes.widthM} />
           <Button
             variant="contained"
             color="primary"

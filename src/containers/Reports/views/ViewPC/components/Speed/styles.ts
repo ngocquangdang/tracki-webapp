@@ -4,10 +4,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 const OptionViewDatePicker = styled.div`
   width: ${(props: { isDateRange: boolean }) =>
-    props.isDateRange ? '60%' : '258px'};
+    props.isDateRange ? 'auto' : '258px'};
   margin-right: ${(props: { isDateRange: boolean }) =>
     props.isDateRange ? '15px' : '0'};
   position: relative;
+`;
+const MessageError = styled.div`
+  margin-top: 5px;
 `;
 const PaginationStyle = withStyles(theme => ({
   root: {
@@ -117,7 +120,7 @@ const useStyles = makeStyles(theme => ({
     height: 10,
     backgroundColor: '#ed1f24',
     position: 'absolute',
-    right: 72,
+    right: 105,
     top: -3,
     borderRadius: '50%',
   },
@@ -134,6 +137,16 @@ const useStyles = makeStyles(theme => ({
     width: '98.5%',
     margin: '0 10px',
   },
+  errorText: {
+    fontSize: 12,
+    color: theme.palette.error.main,
+    position: 'absolute',
+    right: 0,
+    bottom: -12,
+  },
+  widthM: {
+    width: '20px',
+  },
 }));
 
-export { useStyles, PaginationStyle, OptionViewDatePicker };
+export { useStyles, PaginationStyle, OptionViewDatePicker, MessageError };
