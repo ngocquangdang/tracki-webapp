@@ -1,0 +1,22 @@
+{
+  "description_amazon_pay": "Após tocar, você será redirecionado para a Amazon para concluir sua compra com segurança.",
+  "description_paypal_pay_mobile": "Após tocar, você será redirecionado para o Paypal para concluir sua compra com segurança.",
+  "description_paypal_pay_pc": "A maneira mais segura e fácil de pagar",
+  "credit_card": "Cartão de crédito",
+  "credit_card_number": "Número do cartão de crédito",
+  "credit_card_expiration_date": "Data de validade",
+  "credit_card_cvv": "CVV",
+  "credit_card_name": "Nome no cartão",
+  "credit_card_pay_now": "Pagar agora",
+  "credit_card_proceed": "Prosseguir com o Pagamento",
+  "choose_payment": "Escolha uma forma de pagamento",
+  "payment_opton": "Opção de Pagamento",
+  "all_transaction": "Todas as transações são seguras e criptografadas.",
+  "choose_another_payment": "Escolha outra forma de pagamento",
+  "choose_country_code": "Escolha um código de país para alertas de texto",
+  "select_country_code": "Selecione o código do país",
+  "select_monthly_alert": "Selecione o limite mensal de alerta de texto",
+  "monthly": "Mensal",
+  "change_plan": "Alterar Plano",
+  "text_plan": "Plano"
+}

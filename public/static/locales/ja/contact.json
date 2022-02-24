@@ -1,0 +1,12 @@
+{
+  "contact_list": "連絡先リスト",
+  "add_new_contact": "新しい連絡先を追加",
+  "search_contact": "連絡先の検索",
+  "row_per_page": "ページあたりの行数",
+  "add": "追加",
+  "edit": "編集",
+  "cancel": "キャンセル",
+  "contact_already": "このアカウントの連絡先アドレスは既に存在します",
+  "not_data": "データが見つかりません",
+  "no_tracker_is_added": "トラッカーは追加されません"
+}

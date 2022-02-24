@@ -26,7 +26,7 @@ function MainLayout(props: Props) {
     );
   }
 
-  return <LayoutPC>{children}</LayoutPC>;
+  return <LayoutPC t={children.props.t}>{children}</LayoutPC>;
 }
 
 export { MainLayout };

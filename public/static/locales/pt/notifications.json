@@ -1,0 +1,19 @@
+{
+  "notification": "Notificações",
+  "view_report": "Ver Relatório",
+  "sort_by": "Classificar por",
+  "export_csv": "Exportar CSV",
+  "select_tracker": "Selecionar Rastreador",
+  "select_type": "Selecionar Tipo",
+  "no_data": "Nenhum dado encontrado",
+  "item_per_page": "Itens por página:",
+  "speed_violation": "Violação de velocidade",
+  "geo_fence_crossed": "Cerca geográfica cruzada",
+  "start_moving": "Começar a se mover",
+  "low_battery": "Bateria fraca",
+  "sos_alert": "Alerta SOS",
+  "left_click": "Clique esquerdo",
+  "right_click": "Clique com o botão direito",
+  "notification_report": "Relatório de Notificações e Histórico",
+  "tracker_is_invalid": "O rastreador ainda não foi adicionado"
+}

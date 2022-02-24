@@ -97,33 +97,45 @@ function* fetchTrackersSaga(action) {
 
 function normalizeTrackers(data: { devices: Array<any> }) {
   const newDevices = data?.devices || [];
-  const tracker = newDevices.reduce(
-    (result, d) => {
-      const { current_device_plan } = d;
-      // const trackerPlans = active_device_plans.reduce((arr, i) => {
-      //   result.trackerPlans[i.id] = i;
-      //   return [...arr, i.id];
-      // }, []);
-      result.trackers[d.device_id] = d;
-      if (current_device_plan) {
-        result.trackerPlans[current_device_plan.id] = current_device_plan;
+  const tracker = newDevices
+    .sort((a, b) => {
+      var nameA = a.device_name.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.device_name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
       }
-      result.trackerIds.push(d.device_id);
-      return result;
-    },
-    {
-      trackers: {},
-      trackerIds: [],
-      trackerPlans: {},
-      selectedTrackerId: null,
-      fences: {},
-      contacts: {},
-      contactIds: [],
-      contactAssigneds: {},
-      contactAssignedIds: [],
-      settings: {},
-    }
-  );
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    })
+    .reduce(
+      (result, d) => {
+        const { current_device_plan } = d;
+        // const trackerPlans = active_device_plans.reduce((arr, i) => {
+        //   result.trackerPlans[i.id] = i;
+        //   return [...arr, i.id];
+        // }, []);
+        result.trackers[d.device_id] = d;
+        if (current_device_plan) {
+          result.trackerPlans[current_device_plan.id] = current_device_plan;
+        }
+        result.trackerIds.push(d.device_id);
+        return result;
+      },
+      {
+        trackers: {},
+        trackerIds: [],
+        trackerPlans: {},
+        selectedTrackerId: null,
+        fences: {},
+        contacts: {},
+        contactIds: [],
+        contactAssigneds: {},
+        contactAssignedIds: [],
+        settings: {},
+      }
+    );
   return tracker;
 }
 

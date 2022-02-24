@@ -1,0 +1,22 @@
+{
+  "description_amazon_pay": "بعد النقر ، ستتم إعادة توجيهك إلى أمازون لإكمال عملية الشراء بأمان.",
+  "description_paypal_pay_mobile": "بعد النقر ، ستتم إعادة توجيهك إلى Paypal لإكمال عملية الشراء بأمان.",
+  "description_paypal_pay_pc": "الطريقة الأسهل والأكثر أمانًا للدفع",
+  "credit_card": "بطاقة ائتمان",
+  "credit_card_number": "رقم البطاقة الائتمانية",
+  "credit_card_expiration_date": "تاريخ إنتهاء الصلاحية",
+  "credit_card_cvv": "CVV",
+  "credit_card_name": "اسم على بطاقة",
+  "credit_card_pay_now": "ادفع الآن",
+  "credit_card_proceed": "Proceed with Payment",
+  "choose_payment": "المضي قدما في الدفع",
+  "payment_opton": "خيار الدفع",
+  "all_transaction": "جميع المعاملات آمنة ومشفرة.",
+  "choose_another_payment": "اختر طريقة أخرى للدفع",
+  "choose_country_code": "اختر رمز البلد للتنبيهات النصية",
+  "select_country_code": "حدد رمز الدولة",
+  "select_monthly_alert": "Select Monthly text alert limit",
+  "monthly": "شهريا",
+  "change_plan": "خطة التغيير",
+  "text_plan": "يخطط"
+}
