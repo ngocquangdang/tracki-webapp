@@ -35,7 +35,7 @@ const PaginationStyle = withStyles(theme => ({
     right: '-5px',
     color: '#1a1a1a',
   },
-}))(TablePagination);
+}))(TablePagination) as any;
 
 const useStyles = makeStyles(theme => ({
   container: {

@@ -38,7 +38,7 @@ const PaginationStyle = withStyles(theme => ({
   spacer: {
     flex: 0,
   },
-}))(TablePagination);
+}))(TablePagination) as any;
 
 const useStyles = makeStyles(theme => ({
   container: {
