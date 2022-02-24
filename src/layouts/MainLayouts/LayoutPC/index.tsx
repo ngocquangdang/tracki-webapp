@@ -6,7 +6,7 @@ import { Content } from './style';
 export default function MainLayout(props: any) {
   return (
     <MainWrapper>
-      <Header />
+      <Header {...props} />
       <Content>{props.children}</Content>
     </MainWrapper>
   );

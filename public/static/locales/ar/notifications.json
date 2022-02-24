@@ -1,0 +1,19 @@
+{
+  "notification": "الإشعارات",
+  "view_report": "عرض التقرير",
+  "sort_by": "فرز حسب",
+  "export_csv": "تصدير بتنسيق CSV",
+  "select_tracker": "حدد Tracker",
+  "select_type": "حدد نوع",
+  "no_data": "لم يتم العثور على أي بيانات",
+  "item_per_page": "العناصر في كل صفحة:",
+  "speed_violation": "انتهاك السرعة",
+  "geo_fence_crossed": "عبرت الجغرافية السياج",
+  "start_moving": "بدء التحرك",
+  "low_battery": "البطارية ضعيفة",
+  "sos_alert": "تنبيه SOS",
+  "left_click": "انقر بزر الفأرة الأيسر",
+  "right_click": "انقر على اليمين",
+  "notification_report": "Notification & History Report",
+  "tracker_is_invalid": "لم يتم إضافة المقتفي بعد"
+}

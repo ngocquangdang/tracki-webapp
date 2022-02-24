@@ -83,7 +83,7 @@ const routes = [
   // },
 ];
 
-export default function Header() {
+export default function Header(props: any) {
   const classes = useStyles();
   const [currentTab, setCurrentTab] = useState(0);
   const route = useRouter();

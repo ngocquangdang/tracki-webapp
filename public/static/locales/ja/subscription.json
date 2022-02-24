@@ -1,0 +1,22 @@
+{
+  "description_amazon_pay": "タップすると,Amazonにリダイレクトされ,安全に購入を完了します。",
+  "description_paypal_pay_mobile": "タップすると,Paypalにリダイレクトされ,安全に購入を完了します。",
+  "description_paypal_pay_pc": "より安全で簡単な支払い方法",
+  "credit_card": "クレジットカード",
+  "credit_card_number": "クレジットカード番号",
+  "credit_card_expiration_date": "有効期限",
+  "credit_card_cvv": "CVV",
+  "credit_card_name": "カードの名前",
+  "credit_card_pay_now": "今すぐ支払う",
+  "credit_card_proceed": "支払いを続行します",
+  "choose_payment": "支払い方法を選択してください",
+  "payment_opton": "支払いオプション",
+  "all_transaction": "すべてのトランザクションは安全で暗号化されています。",
+  "choose_another_payment": "別の支払い方法を選択してください",
+  "choose_country_code": "テキストアラートの国コードを選択してください",
+  "select_country_code": "国コードを選択",
+  "select_monthly_alert": "毎月のテキストアラート制限を選択",
+  "monthly": "毎月",
+  "change_plan": "変更計画",
+  "text_plan": "計画"
+}

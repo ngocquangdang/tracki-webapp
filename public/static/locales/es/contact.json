@@ -1,0 +1,12 @@
+{
+  "contact_list": "Lista de contactos",
+  "add_new_contact": "Agregar Nuevo Contacto",
+  "search_contact": "Buscar contacto",
+  "row_per_page": "Filas por página",
+  "add": "Agregar",
+  "edit": "Editar",
+  "cancel": "Cancelar",
+  "contact_already": "La dirección de contacto ya existe para esta cuenta",
+  "not_data": "No se encontraron datos",
+  "no_tracker_is_added": "No se agregó ningún rastreador"
+}

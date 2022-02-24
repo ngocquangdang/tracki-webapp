@@ -29,6 +29,7 @@ import {
 import UserDatails from '../interfaces';
 import { LANGUAGES, DATE_SETTINGS } from '../store/definitions';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+import NextI18NextInstance from '@Server/i18n';
 
 interface SettingState {
   language: {
@@ -59,6 +60,8 @@ export default function AccountSetting(props: any) {
     language: 'en',
   });
 
+  const { useTranslation } = NextI18NextInstance;
+  const { i18n } = useTranslation();
   useEffect(() => {
     const phoneNumber = parsePhoneNumberFromString(`${profile?.phone}`);
     updateUserProfile({
@@ -77,6 +80,7 @@ export default function AccountSetting(props: any) {
   }, [profile]);
 
   const onSubmitForm = (value: UserDatails.IStateUser) => {
+    i18n.changeLanguage(value.language);
     if (value.first_name !== userProfile.first_name)
       firebaseLogEventRequest(
         'settings_page',

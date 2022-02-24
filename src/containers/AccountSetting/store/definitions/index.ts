@@ -20,8 +20,20 @@ export const LANGUAGES = [
     content: 'English (USA)',
   },
   {
-    value: 'sp',
+    value: 'es',
     content: 'Spanish',
+  },
+  {
+    value: 'pt',
+    content: 'Portuguese',
+  },
+  {
+    value: 'ja',
+    content: 'Japanese',
+  },
+  {
+    value: 'ar',
+    content: 'Arabic',
   },
 ];
 

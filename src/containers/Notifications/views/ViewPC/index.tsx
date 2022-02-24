@@ -131,7 +131,7 @@ export default function Notification(props: Props) {
       fromDate: moment().unix(),
       toDate: moment().unix(),
     });
-    setDataFilter(true);
+    setIsDataFilter(true);
     setDateRange(false);
   };
 

@@ -26,6 +26,8 @@ const nextConfig = {
     API_KEY: process.env.API_KEY,
     STATIC_PATH: process.env.STATIC_PATH,
   },
+  webpack5: false,
+  swcMinify: true,
 };
 
 module.exports = withConfig(

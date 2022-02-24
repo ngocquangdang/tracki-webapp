@@ -4,7 +4,7 @@ import NextI18Next from 'next-i18next';
 
 const NextI18NextInstance = new NextI18Next({
   defaultLanguage: 'en',
-  otherLanguages: ['es', 'tr'],
+  otherLanguages: ['en', 'es', 'pt', 'tr', 'ja', 'ar'],
   interpolation: {
     escapeValue: false, // react already safes from xss,
     format: (value, format) => {
