@@ -245,6 +245,7 @@ function SettingTracker(props: Props) {
       device_id,
       speed_limit,
       gsm_sleep_mode,
+      low_battery,
       ...preferences
     } = infoTracker;
     // const [
@@ -262,6 +263,10 @@ function SettingTracker(props: Props) {
         ...preferences,
         speed_limit: {
           ...speed_limit,
+        },
+        low_battery_preferences: {
+          ...trackerSettings.preferences.low_battery_preferences,
+          enabled: low_battery,
         },
         // tracking_mode: {
         //   sample_rate: +sample_rate,
