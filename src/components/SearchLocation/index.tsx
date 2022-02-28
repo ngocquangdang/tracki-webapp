@@ -120,6 +120,7 @@ function SearchLocation(props: Props) {
             return props.gotoLocation(latLng);
           }
           window.mapEvents.setCenterFlyTo(latLng, { zoom: 15 });
+          // window.mapEvents.setLocation(latLng);
         })
         .catch(error => console.error('Error', error));
     }

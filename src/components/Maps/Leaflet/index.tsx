@@ -59,6 +59,13 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
     }
   };
 
+  // setLocation = latlnt => {
+  //   // this.map.removeLayer(window.locationMarker);
+  //   const icon = new L.DivIcon({ className: 'map-user-location-dot' });
+  //   L.marker(latlnt, { icon }).addTo(this.map);
+  //   window.locationMarker = latlnt;
+  // };
+
   componentDidMount() {
     const { mapCenter, mapZoom } = this.state;
     this.map = L.map('map').setView(mapCenter, mapZoom);
@@ -81,6 +88,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
 
     window.mapEvents.changeLayer = this.changeTileLayer;
     window.mapEvents.removeMarker = this.removeMarker;
+    window.mapEvents.setLocation = this.setLocation;
 
     window.mapEvents.reset = () => {
       // this.changeTileLayer('streets-v11');
