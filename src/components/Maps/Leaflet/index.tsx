@@ -88,7 +88,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
 
     window.mapEvents.changeLayer = this.changeTileLayer;
     window.mapEvents.removeMarker = this.removeMarker;
-    window.mapEvents.setLocation = this.setLocation;
+    // window.mapEvents.setLocation = this.setLocation;
 
     window.mapEvents.reset = () => {
       // this.changeTileLayer('streets-v11');
