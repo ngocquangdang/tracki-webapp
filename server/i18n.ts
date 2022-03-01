@@ -8,7 +8,7 @@ import NextI18Next from 'next-i18next';
 const NextI18NextInstance = new NextI18Next({
   defaultLanguage: 'en',
   otherLanguages: ['en', 'es', 'pt', 'tr', 'ja', 'ar'],
-  // localePath: path.resolve('./public/static/locales/'),
+  // localePath: path.resolve('./public/locales/'),
   interpolation: {
     escapeValue: false, // react already safes from xss,
     format: (value, format) => {

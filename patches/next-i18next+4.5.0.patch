@@ -1,5 +1,5 @@
 diff --git a/node_modules/next-i18next/dist/commonjs/config/create-config.js b/node_modules/next-i18next/dist/commonjs/config/create-config.js
-index 2a31c95..c1d7520 100644
+index 2a31c95..36fc8c0 100644
 --- a/node_modules/next-i18next/dist/commonjs/config/create-config.js
 +++ b/node_modules/next-i18next/dist/commonjs/config/create-config.js
 @@ -35,7 +35,7 @@ var dedupe = function dedupe(names) {
@@ -7,7 +7,32 @@ index 2a31c95..c1d7520 100644
  };
  
 -var STATIC_LOCALE_PATH = 'static/locales';
-+var STATIC_LOCALE_PATH = 'public/static/locales';
++var STATIC_LOCALE_PATH = 'locales';
  
  var createConfig = function createConfig(userConfig) {
    if (typeof userConfig.localeSubpaths === 'string') {
+@@ -73,6 +73,11 @@ var createConfig = function createConfig(userConfig) {
+     if (typeof combinedConfig.defaultNS === 'string') {
+       var defaultFile = "/".concat(defaultLanguage, "/").concat(combinedConfig.defaultNS, ".").concat(localeExtension);
+       var defaultNSPath = path.join(process.cwd(), localePath, defaultFile);
++      console.log("🚀 ~ file: create-config.js ~ line 76 ~ createConfig ~ path", path)
++      console.log("🚀 ~ file: create-config.js ~ line 76 ~ createConfig ~ defaultFile", defaultFile)
++      console.log("🚀 ~ file: create-config.js ~ line 76 ~ createConfig ~ process.cwd()", process.cwd())
++      console.log("🚀 ~ file: create-config.js ~ line 76 ~ createConfig ~ localePath", localePath)
++      console.log("🚀 ~ file: create-config.js ~ line 76 ~ createConfig ~ defaultNSPath", defaultNSPath)
+       var defaultNSExists = fs.existsSync(defaultNSPath);
+ 
+       if (!defaultNSExists) {
+diff --git a/node_modules/next-i18next/dist/commonjs/config/default-config.js b/node_modules/next-i18next/dist/commonjs/config/default-config.js
+index 775c419..1630671 100644
+--- a/node_modules/next-i18next/dist/commonjs/config/default-config.js
++++ b/node_modules/next-i18next/dist/commonjs/config/default-config.js
+@@ -12,7 +12,7 @@ var _utils = require("../utils");
+ var DEFAULT_LANGUAGE = 'en';
+ var OTHER_LANGUAGES = [];
+ var DEFAULT_NAMESPACE = 'common';
+-var LOCALE_PATH = 'public/static/locales';
++var LOCALE_PATH = 'public/locales';
+ var LOCALE_STRUCTURE = '{{lng}}/{{ns}}';
+ var LOCALE_EXTENSION = 'json';
+ var defaultConfig = {
