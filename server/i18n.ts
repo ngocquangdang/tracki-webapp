@@ -3,11 +3,12 @@ import NextI18Next from 'next-i18next';
 // #endregion Global Imports
 
 const path = require('path');
-path.resolve('./public/static/locales/');
+// path.resolve('./public/static/locales/');
 
 const NextI18NextInstance = new NextI18Next({
   defaultLanguage: 'en',
   otherLanguages: ['en', 'es', 'pt', 'tr', 'ja', 'ar'],
+  localePath: path.resolve('./public/static/locales/'),
   interpolation: {
     escapeValue: false, // react already safes from xss,
     format: (value, format) => {
