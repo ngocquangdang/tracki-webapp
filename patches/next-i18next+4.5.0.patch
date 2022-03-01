@@ -1,0 +1,13 @@
+diff --git a/node_modules/next-i18next/dist/commonjs/config/create-config.js b/node_modules/next-i18next/dist/commonjs/config/create-config.js
+index 2a31c95..c1d7520 100644
+--- a/node_modules/next-i18next/dist/commonjs/config/create-config.js
++++ b/node_modules/next-i18next/dist/commonjs/config/create-config.js
+@@ -35,7 +35,7 @@ var dedupe = function dedupe(names) {
+   });
+ };
+ 
+-var STATIC_LOCALE_PATH = 'static/locales';
++var STATIC_LOCALE_PATH = 'public/static/locales';
+ 
+ var createConfig = function createConfig(userConfig) {
+   if (typeof userConfig.localeSubpaths === 'string') {
