@@ -78,7 +78,7 @@ class LeafletMap extends React.Component<IMap.IProps, IMap.IState> {
       this.setState({ userLocation: e.latlng });
     });
     this.map.on('click', e => {
-      console.log('___MAP CLICKEDD', e);
+      console.log('___MAP CLICKEDDD', e);
     });
 
     // this.map.addControl(geolocate);
