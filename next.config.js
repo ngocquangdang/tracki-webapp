@@ -4,6 +4,7 @@ const withSass = require('@zeit/next-sass');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const nextRuntimeDotenv = require('next-runtime-dotenv');
 const withImages = require('next-images');
+const { i18n } = require('./next-i18next.config');
 
 const withConfig = nextRuntimeDotenv({ public: ['API_URL', 'API_KEY'] });
 
@@ -26,6 +27,7 @@ const nextConfig = {
     API_KEY: process.env.API_KEY,
     STATIC_PATH: process.env.STATIC_PATH,
   },
+  i18n,
   webpack5: false,
   swcMinify: true,
 };

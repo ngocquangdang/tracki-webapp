@@ -32,12 +32,12 @@ export default function withConditionalRedirect<CP = {}, IP = CP>({
   serverCondition,
   location,
 }: {
-  WrappedComponent: NextPage<CP, IP>;
+  WrappedComponent;
   clientCondition(): boolean;
   serverCondition(ctx: CookiesPageContext): boolean;
   location: string;
 }): NextPage<CP, IP> {
-  const WithConditionalRedirectWrapper: NextPage<CP, IP> = props => {
+  const WithConditionalRedirectWrapper = props => {
     const router = useRouter();
     const redirectCondition = clientCondition();
     if (isBrowser() && redirectCondition) {
@@ -49,7 +49,9 @@ export default function withConditionalRedirect<CP = {}, IP = CP>({
     return <WrappedComponent {...props} />;
   };
 
-  WithConditionalRedirectWrapper.getInitialProps = async (ctx): Promise<IP> => {
+  WithConditionalRedirectWrapper.getServerSideProps = async (
+    ctx
+  ): Promise<IP> => {
     if (!isBrowser() && ctx.res) {
       if (serverCondition(ctx as CookiesPageContext)) {
         ctx.res.writeHead(302, { Location: location });
@@ -58,8 +60,8 @@ export default function withConditionalRedirect<CP = {}, IP = CP>({
     }
 
     const componentProps =
-      WrappedComponent.getInitialProps &&
-      (await WrappedComponent.getInitialProps(ctx));
+      WrappedComponent.getServerSideProps &&
+      (await WrappedComponent.getServerSideProps(ctx));
 
     return { ...(componentProps as IP) };
   };

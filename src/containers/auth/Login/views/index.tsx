@@ -24,9 +24,13 @@ import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
+import { useTranslation } from 'next-i18next';
 
 export default function Login(props: ILoginPage.IProps) {
-  const { t, resetErrorAction } = props;
+  const { resetErrorAction } = props;
+  const xxx = useTranslation('tracker');
+  console.log('🚀 ~ file: index.tsx ~ line 33 ~ Login ~ xxx', xxx);
+  const { t } = xxx;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -89,7 +93,7 @@ export default function Login(props: ILoginPage.IProps) {
           <Logo src="/images/logo.png" alt="" />
           <Title>{t('login_into_tracki')}</Title>
           <Description>{t('login_description')}</Description>
-          <LoginForm {...props} />
+          <LoginForm {...props} t={t} />
           <Line>{t('or')}</Line>
           {/* <Button
             className={classes.fbButton}

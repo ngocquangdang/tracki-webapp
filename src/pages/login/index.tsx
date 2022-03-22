@@ -1,17 +1,25 @@
 import React from 'react';
-import { NextPage } from 'next';
-import { withTranslation } from '@Server/i18n';
+// import { NextPage } from 'next';
+// import { withTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import LoginContainer from '@Containers/auth/Login';
-import { IPage } from '@Interfaces';
-import withoutAuth from '@Components/hocs/withoutAuth';
+// import { IPage } from '@Interfaces';
+// import withoutAuth from '@Components/hocs/withoutAuth';
 
-const Login: NextPage = props => {
+const Login = props => {
+  console.log('🚀 ~ file: index.tsx ~ line 11 ~ props', props);
   return <LoginContainer {...props} />;
 };
 
-Login.getInitialProps = async (): Promise<IPage.InitialProps> => {
-  return { namespacesRequired: ['auth'] };
-};
+export default Login;
 
-export default withoutAuth(withTranslation('auth')(Login));
+Login.getServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['auth', 'tracker'])),
+      // Will be passed to the page component as props
+    },
+    redirect: '/',
+  };
+};

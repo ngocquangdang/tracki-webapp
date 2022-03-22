@@ -5,7 +5,9 @@ import { createStructuredSelector } from 'reselect';
 
 import { useInjectReducer } from '@Utils/injectReducer';
 import { useInjectSaga } from '@Utils/injectSaga';
-import { withTranslation } from '@Server/i18n';
+import { withTranslation } from 'next-i18next';
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import saga from './store/sagas';
 import reducer from './store/reducers';
 import {

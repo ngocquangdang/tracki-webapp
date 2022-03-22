@@ -87,7 +87,7 @@ function LoginForm(props: ILoginPage.IProps) {
           <PasswordInput
             id="xxxxx-password"
             className={classes.margin}
-            label={t('password')}
+            label={t('auth:password')}
             name="password"
             errorInput={
               errorsForm.password && touched.password

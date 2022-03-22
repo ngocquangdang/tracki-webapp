@@ -1,12 +1,12 @@
 import React from 'react';
-import App, { AppInitialProps, AppContext } from 'next/app';
+import App, { AppInitialProps } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Provider } from 'next-auth/client';
 import cookie from 'cookie';
 import Header from 'next/head';
 
 import { theme } from '@Definitions/styled';
-import { appWithTranslation } from '@Server/i18n';
+import { appWithTranslation } from 'next-i18next';
 import {
   AppWithStore,
   CookieMessage,
@@ -31,9 +31,9 @@ class WebApp extends App<AppWithStore & Props> {
   static async getInitialProps({
     Component,
     ctx,
-  }: AppContext): Promise<AppInitialProps & AppInitialPropsWithAuth & Props> {
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
+  }): Promise<AppInitialProps & AppInitialPropsWithAuth & Props> {
+    const pageProps = Component.getServerSideProps
+      ? await Component.getServerSideProps(ctx)
       : {};
 
     let authenticated = false;
