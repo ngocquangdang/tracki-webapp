@@ -1,7 +1,7 @@
 import React from 'react';
 // import { NextPage } from 'next';
 // import { withTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import LoginContainer from '@Containers/auth/Login';
 // import { IPage } from '@Interfaces';
@@ -12,14 +12,17 @@ const Login = props => {
   return <LoginContainer {...props} />;
 };
 
+Login.getInitialProps = async () => {
+  return { namespacesRequired: ['auth'] };
+};
 export default Login;
 
-Login.getServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['auth', 'tracker'])),
-      // Will be passed to the page component as props
-    },
-    redirect: '/',
-  };
-};
+// Login.getServerSideProps = async ({ locale }) => {
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(locale, ['auth', 'tracker'])),
+//       // Will be passed to the page component as props
+//     },
+//     redirect: '/',
+//   };
+// };
