@@ -32,8 +32,8 @@ class WebApp extends App<AppWithStore & Props> {
     Component,
     ctx,
   }): Promise<AppInitialProps & AppInitialPropsWithAuth & Props> {
-    const pageProps = Component.getServerSideProps
-      ? await Component.getServerSideProps(ctx)
+    const pageProps = Component.getInitialProps
+      ? await Component.getInitialProps(ctx)
       : {};
 
     let authenticated = false;
