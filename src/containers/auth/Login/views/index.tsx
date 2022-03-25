@@ -24,13 +24,12 @@ import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-// import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 
 export default function Login(props: ILoginPage.IProps) {
-  const { resetErrorAction, t } = props;
+  const { resetErrorAction } = props;
 
-  // const xxx = useTranslation('auth');
-  // const { t } = xxx;
+  const { t } = useTranslation('auth');
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 

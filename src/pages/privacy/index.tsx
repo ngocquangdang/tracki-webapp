@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
-import { withTranslation } from '@Server/i18n';
+import { withTranslation } from 'next-i18next';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import TermsAndPrivacy from '@Containers/TermsAndPrivacy';

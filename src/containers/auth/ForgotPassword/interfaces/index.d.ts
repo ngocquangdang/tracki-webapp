@@ -1,4 +1,4 @@
-import { WithTranslation } from '@Server/i18n';
+import { WithTranslation } from 'next-i18next';
 
 import { PayloadType } from '@Interfaces';
 

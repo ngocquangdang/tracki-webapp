@@ -21,8 +21,8 @@ import {
 import ILoginPage from './interfaces';
 
 import View from './views';
-import { withTranslation } from '@Server/i18n';
-// import { withTranslation } from '@Server/i18n';
+import { withTranslation } from 'next-i18next';
+// import { withTranslation } from 'next-i18next';
 
 function Login(props: ILoginPage.IProps) {
   useInjectSaga({ key: 'auth', saga });

@@ -19,10 +19,10 @@ import { GEOBOT_URL } from '@Definitions/app';
 import { AuthProvider } from '../../providers/Auth';
 import Snackbar from '@Containers/Snackbar';
 import { isMobileView } from '@Utils/helper';
-// import nextI18NextConfig from '../../../next-i18next.config';
+import nextI18NextConfig from '../../../next-i18next.config';
 
 import '@Static/scss/main.scss';
-import { appWithTranslation } from '@Server/i18n';
+import { appWithTranslation } from 'next-i18next';
 
 interface Props {
   isMobile: boolean;
@@ -101,4 +101,6 @@ class WebApp extends App<AppWithStore & Props> {
   }
 }
 
-export default wrapper.withRedux(appWithTranslation(WebApp));
+export default wrapper.withRedux(
+  appWithTranslation(WebApp as any, nextI18NextConfig)
+);

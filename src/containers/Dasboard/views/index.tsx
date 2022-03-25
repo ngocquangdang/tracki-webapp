@@ -14,7 +14,7 @@ import {
 import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withTranslation } from '@Server/i18n';
+import { withTranslation } from 'next-i18next';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { useInjectSaga } from '@Utils/injectSaga';

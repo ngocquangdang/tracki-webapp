@@ -6,5 +6,7 @@ module.exports = {
     locales: ['en', 'de', 'ar', 'ja', 'es', 'pt', 'tr'],
     localeDetection: false,
     use: [initReactI18next],
+    serializeConfig: false,
   },
+  react: { useSuspense: false }, //this li
 };

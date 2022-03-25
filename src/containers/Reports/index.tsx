@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { withTranslation } from '@Server/i18n';
+import { withTranslation } from 'next-i18next';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 //useInject

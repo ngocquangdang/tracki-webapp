@@ -1,4 +1,4 @@
-// import { withTranslation } from '@Server/i18n';
+// import { withTranslation } from 'next-i18next';
 
 import { WithTranslation } from 'next-i18next';
 
