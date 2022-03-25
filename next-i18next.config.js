@@ -1,4 +1,4 @@
-// const path = require('path');
+const path = require('path');
 
 module.exports = {
   i18n: {
@@ -6,8 +6,6 @@ module.exports = {
     locales: ['en', 'de', 'ar', 'ja', 'es', 'pt', 'tr'],
     localeDetection: false,
     serializeConfig: false,
-    // localePath: path.resolve('./public/locales'),
-    // localePath: './public/static/locales',
+    localePath: path.resolve('./public/static/locales')
   },
-  localePath: './public/static/locales',
 };
