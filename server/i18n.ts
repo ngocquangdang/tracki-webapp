@@ -6,6 +6,7 @@ const NextI18NextInstance = new NextI18Next({
   defaultLanguage: 'en',
   otherLanguages: ['es', 'tr'],
   localePath: typeof window === 'undefined' ? 'public/locales' : 'locales',
+  ignoreRoutes: [],
   interpolation: {
     escapeValue: false, // react already safes from xss,
     format: (value, format) => {
