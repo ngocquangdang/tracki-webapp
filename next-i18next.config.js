@@ -6,6 +6,8 @@ module.exports = {
     locales: ['en', 'de', 'ar', 'ja', 'es', 'pt', 'tr'],
     // localeDetection: false,
     serializeConfig: false,
-    localePath: path.resolve('./public/static/locales'),
+    ...(typeof window === undefined && {
+      localePath: path.resolve('./public/locales'),
+    }),
   },
 };
