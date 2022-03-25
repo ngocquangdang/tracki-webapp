@@ -21,7 +21,6 @@ import {
 import ILoginPage from './interfaces';
 
 import View from './views';
-import { withTranslation } from 'next-i18next';
 // import { withTranslation } from 'next-i18next';
 
 function Login(props: ILoginPage.IProps) {
@@ -49,6 +48,6 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,
-  memo,
-  withTranslation('auth')
+  memo
+  // withTranslation('auth')
 )(Login) as React.ComponentType;
