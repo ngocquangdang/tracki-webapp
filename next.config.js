@@ -28,9 +28,9 @@ const nextConfig = {
     STATIC_PATH: process.env.STATIC_PATH,
   },
   i18n,
-  reactStrictMode: true,
+  // reactStrictMode: true,
   webpack5: false,
-  swcMinify: true,
+  // swcMinify: true,
 };
 
 module.exports = withConfig(
