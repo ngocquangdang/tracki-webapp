@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { withTranslation } from 'next-i18next';
+// import { withTranslation } from '@Server/i18n';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import {
@@ -34,6 +34,7 @@ import {
 import { Button } from '@Components/buttons';
 import TrackerCard from '@Components/TrackerCard';
 import { SkeletonTracker } from '@Components/Skeletons';
+import { withTranslation } from '@Server/i18n';
 
 type Props = {
   isLoading: boolean;

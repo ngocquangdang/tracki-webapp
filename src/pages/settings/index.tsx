@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 
-import { withTranslation } from 'next-i18next';
+import { withTranslation } from '@Server/i18n';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 // import { IPage } from '@Interfaces';

@@ -21,6 +21,8 @@ import {
 import ILoginPage from './interfaces';
 
 import View from './views';
+import { withTranslation } from '@Server/i18n';
+// import { withTranslation } from '@Server/i18n';
 
 function Login(props: ILoginPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
@@ -45,22 +47,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-// export async function getServerSideProps({ locale }) {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale, ['auth'])),
-//       // Will be passed to the page component as props
-//     },
-//   };
-// }
-
-export default compose(withConnect, memo)(Login) as React.ComponentType;
-
-// export function getServerSideProps({ locale }) {
-//   return {
-//     props: {
-//       ...serverSideTranslations(locale, ['auth']),
-//       // Will be passed to the page component as props
-//     },
-//   };
-// }
+export default compose(
+  withConnect,
+  memo,
+  withTranslation('auth')
+)(Login) as React.ComponentType;

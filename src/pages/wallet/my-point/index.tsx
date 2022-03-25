@@ -6,7 +6,7 @@ import React from 'react';
 import View from '@Containers/Wallet/components/Dashboard/components/MypointScreen';
 import { compose } from 'redux';
 import withAuth from '@Components/hocs/withAuth';
-import { withTranslation } from 'next-i18next';
+import { withTranslation } from '@Server/i18n';
 
 const Wallet: NextPage<IPage.InitialProps> = props => {
   return <View {...props} />;

@@ -1,4 +1,4 @@
-import { WithTranslation } from 'next-i18next';
+import { WithTranslation } from '@Server/i18n';
 
 declare namespace IPage {
   interface IProps extends WithTranslation {}

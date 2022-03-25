@@ -1,7 +1,7 @@
 import { IPage } from '@Interfaces';
 import { NextPage } from 'next';
 import React from 'react';
-import { withTranslation } from 'next-i18next';
+import { withTranslation } from '@Server/i18n';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { compose } from 'redux';

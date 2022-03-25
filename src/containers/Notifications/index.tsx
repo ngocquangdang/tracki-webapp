@@ -5,7 +5,7 @@ import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { withTranslation } from 'next-i18next';
+import { withTranslation } from '@Server/i18n';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { useInjectSaga } from '@Utils/injectSaga';

@@ -1,4 +1,4 @@
-import { WithTranslation } from 'next-i18next';
+import { WithTranslation } from '@Server/i18n';
 
 import { PayloadType } from '@Interfaces';
 
@@ -18,6 +18,7 @@ declare namespace IForgotPage {
     confirmPasswordRequestAction(data: PayloadType): void;
     resetErrorAction(): void;
     resetStore(): void;
+    t: any;
   }
 
   interface InitialProps {
