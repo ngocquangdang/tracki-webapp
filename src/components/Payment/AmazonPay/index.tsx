@@ -19,11 +19,11 @@ function AmazonPay(props: Props) {
     <Fade in unmountOnExit mountOnEnter>
       <Container>
         <ContainerCheckoutLogo>
-          <Logo src="/images/logo-amazon.png" />
+          <Logo src="static/images/logo-amazon.png" />
         </ContainerCheckoutLogo>
         <Checkout>
           <CheckoutLogo
-            src="/images/amazon-checkout.png"
+            src="static/images/amazon-checkout.png"
             onClick={onClickAmazonPay}
           />
           <Text>{t('subscription:description_amazon_pay')}</Text>

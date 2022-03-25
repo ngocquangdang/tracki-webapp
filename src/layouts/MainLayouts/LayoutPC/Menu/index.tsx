@@ -70,11 +70,11 @@ function CustomizedMenus(props: any) {
         onClick={gotoLink('/wallet')}
       >
         <div className={`${classes.coin} ${classes.flexBox}`}>
-          <img src="/images/coin-points.svg" alt="" className={classes.icon} />
+          <img src="static/images/coin-points.svg" alt="" className={classes.icon} />
           <p className={classes.cointNumber}>{5000}</p>
         </div>
         <div className={`${classes.wallet} ${classes.flexBox}`}>
-          <img src="/images/wallet.png" alt="" className={classes.icon} />
+          <img src="static/images/wallet.png" alt="" className={classes.icon} />
           <p>$24.55</p>
         </div>
       </div> */}

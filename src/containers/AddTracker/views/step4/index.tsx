@@ -42,7 +42,7 @@ export default function CongratulationContainer(props) {
             {formData.icon_url ? (
               <ImageDevice background={formData.icon_url} />
             ) : (
-              <img src="/images/tracki-device.png" alt="" />
+              <img src="static/images/tracki-device.png" alt="" />
             )}
           </CongratulationIcon>
           <CongratulationTracker>{formData.device_name}</CongratulationTracker>

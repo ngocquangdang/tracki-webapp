@@ -98,7 +98,7 @@ const Row = props => {
                   <img
                     className={classes.iconBatteryRote}
                     alt=""
-                    src="/images/icon-battery.png"
+                    src="static/images/icon-battery.png"
                   />
                   <span>{data?.battery || '--'}%</span>
                 </div>

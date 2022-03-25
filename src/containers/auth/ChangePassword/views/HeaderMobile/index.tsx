@@ -16,7 +16,7 @@ export default function Header() {
         text={'Change Password'}
         onClick={Router.back}
       />
-      <Logo src="/images/logo.png" className={classes.logo} alt="" />
+      <Logo src="static/images/logo.png" className={classes.logo} alt="" />
     </HeaderMobile>
   );
 }

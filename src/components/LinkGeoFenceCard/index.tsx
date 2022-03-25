@@ -170,7 +170,7 @@ export default function LinkGeofenceCard(props: Props) {
             {isLinked && (
               <Button
                 text={t('tracker:contact')}
-                startIcon={<img src="/images/add_contact.svg" alt="" />}
+                startIcon={<img src="static/images/add_contact.svg" alt="" />}
                 onClick={onAddContact}
                 className={classes.actionBtn}
               />
@@ -179,7 +179,7 @@ export default function LinkGeofenceCard(props: Props) {
               text={isLinked ? t('tracker:unlink') : t('tracker:link')}
               startIcon={
                 isLinked ? (
-                  <img src="/images/unlink.svg" alt="" />
+                  <img src="static/images/unlink.svg" alt="" />
                 ) : (
                   <IoIosLink />
                 )
@@ -189,7 +189,7 @@ export default function LinkGeofenceCard(props: Props) {
             />
             <Button
               text={t('tracker:edit')}
-              startIcon={<img src="/images/edit.svg" alt="" />}
+              startIcon={<img src="static/images/edit.svg" alt="" />}
               onClick={editClick}
               className={classes.actionBtn}
             />

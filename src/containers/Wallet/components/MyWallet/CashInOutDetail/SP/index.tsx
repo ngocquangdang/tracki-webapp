@@ -77,7 +77,7 @@ function CashInOutDetail(props: Props) {
             </p>
             <p className={clsx(classes.mr0, classes.fz14, classes.flexBox)}>
               <img
-                src="/images/philipinbank.svg"
+                src="static/images/philipinbank.svg"
                 alt=""
                 className={classes.img}
               />{' '}

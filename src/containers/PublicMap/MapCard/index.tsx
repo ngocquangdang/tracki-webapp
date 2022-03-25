@@ -188,7 +188,7 @@ class MapCard extends React.Component<IProps, IState> {
       elm.innerHTML = `
       <div class='icon-red'>
         <span class='inner'></span>
-        <div class='marker-pin' style='background-image:url("/images/icon-marker.svg")'>
+        <div class='marker-pin' style='background-image:url("static/images/icon-marker.svg")'>
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`

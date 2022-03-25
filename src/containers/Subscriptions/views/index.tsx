@@ -104,7 +104,7 @@ function Subscription(props: Props) {
           />
         </Link>
         <Link href="/">
-          <Logo src="/images/logo.png" className={classes.logo2} alt="" />
+          <Logo src="static/images/logo.png" className={classes.logo2} alt="" />
         </Link>
       </Header>
       <Content>

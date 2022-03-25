@@ -67,10 +67,10 @@ function PaymentOption(props: Props) {
                 <SubText>{t('subscription:credit_card')}</SubText>
               </ControlPayment>
               <ControlPayment onClick={() => setOption(3)}>
-                <Logo src="/images/logo-paypal.png" />
+                <Logo src="static/images/logo-paypal.png" />
               </ControlPayment>
               <ControlPayment onClick={() => setOption(4)}>
-                <Logo src="/images/logo-amazon.png" />
+                <Logo src="static/images/logo-amazon.png" />
               </ControlPayment>
             </OptionPay>
             <TextFooter>{t('subscription:all_transaction')}</TextFooter>

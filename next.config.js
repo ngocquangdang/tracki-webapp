@@ -30,7 +30,7 @@ const nextConfig = {
   i18n,
   // reactStrictMode: true,
   webpack5: false,
-  // swcMinify: true,
+  swcMinify: true,
 };
 
 module.exports = withConfig(

@@ -89,7 +89,7 @@ const ItemInvite = ({ data }) => {
     <div className={classes.boxItem}>
       <div className={classes.flexCenter}>
         <div className={clsx(classes.imgDollar, classes.flexCenter)}>
-          <img src="/images/icon-dollar.svg" alt="" />
+          <img src="static/images/icon-dollar.svg" alt="" />
         </div>
         <div className={classes.ml10}>{`Invite ${data.number} Friend`}</div>
       </div>
@@ -138,7 +138,7 @@ function FriendInvite(props: Props) {
             <div className={classes.contentBanner}>
               <div className={clsx(classes.flexRow, classes.mb20)}>
                 <img
-                  src="/images/qrcode-baseline.svg"
+                  src="static/images/qrcode-baseline.svg"
                   alt=""
                   className={classes.qrImg}
                 />
@@ -160,7 +160,7 @@ function FriendInvite(props: Props) {
                   />
                 </div>
                 <img
-                  src="/images/refer@2x.png"
+                  src="static/images/refer@2x.png"
                   alt=""
                   className={classes.referImg}
                 />

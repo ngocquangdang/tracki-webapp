@@ -49,7 +49,7 @@ export default function MyWallet(props: Props) {
         {isMobile && (
           <div className={classes.userInfo}>
             <img
-              src="/images/tracki-device.png"
+              src="static/images/tracki-device.png"
               alt=""
               className={classes.img}
             />
@@ -61,7 +61,7 @@ export default function MyWallet(props: Props) {
             <p className={classes.title}>{t('wallet:my_points')}</p>
             <div className={classes.flexBox}>
               <img
-                src="/images/coin-points.svg"
+                src="static/images/coin-points.svg"
                 alt=""
                 className={classes.bigCoin}
               />
@@ -90,13 +90,13 @@ function FooterCard(props: any) {
   return (
     <div className={classes.footer}>
       <img
-        src="/images/coin-points.svg"
+        src="static/images/coin-points.svg"
         alt=""
         className={classes.normalCoin}
       />
       {t('wallet:redeem_my_poin')}
       <ChevronRightIcon />
-      <img src="/images/money.svg" alt="" className={classes.moneyIcon} />
+      <img src="static/images/money.svg" alt="" className={classes.moneyIcon} />
     </div>
   );
 }

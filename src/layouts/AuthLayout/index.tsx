@@ -23,7 +23,7 @@ export default function AuthLayout(props: any) {
         <Background className={classes.media}>
           <Layout></Layout>
           <Description>
-            <Logo src="/images/logo-white.png" alt="" />
+            <Logo src="static/images/logo-white.png" alt="" />
             <Title>3G Real-Time Worldwide GPS Tracker</Title>
             <SubLogo>
               There is no easier way to track people, <br /> cars or property in

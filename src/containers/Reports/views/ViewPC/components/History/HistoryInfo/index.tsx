@@ -18,7 +18,7 @@ function HistoryInfo(props) {
     <div className={clsx(classes.infoHistory, classes.flexRowCenter)}>
       <div className={clsx(classes.pr, classes.flexRowCenter)}>
         <div className={classes.imageWrapper}>
-          <Image background="/images/image-device.png" />
+          <Image background="static/images/image-device.png" />
         </div>
         <span className={classes.textFont15}>{deviceName}</span>
       </div>

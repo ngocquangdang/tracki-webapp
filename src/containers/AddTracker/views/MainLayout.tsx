@@ -32,7 +32,7 @@ export default function AddTrackerContainer(props: Props) {
           onClick={handleBack}
         />
         <Link href="/">
-          <Logo src="/images/logo.png" alt="" />
+          <Logo src="static/images/logo.png" alt="" />
         </Link>
       </Header>
       <Content>{children}</Content>

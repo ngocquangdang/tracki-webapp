@@ -267,7 +267,10 @@ function DetailTrackerCard(props: Prop) {
                 className={classes.iconRefresh}
                 onClick={onRefreshClick}
               />
-              <IconZoom src="/images/icon-zoom.svg" onClick={onZoomClick} />
+              <IconZoom
+                src="static/images/icon-zoom.svg"
+                onClick={onZoomClick}
+              />
             </RightItem>
           </Item>
         </TrackerInfomation>
@@ -289,7 +292,7 @@ function DetailTrackerCard(props: Prop) {
       <TrackerStatus isMobile={isMobile} isHistory={isHistory}>
         <BatteryTracker>
           <div>
-            <IconBattery src="/images/icon-battery.png" />
+            <IconBattery src="static/images/icon-battery.png" />
             <span
               className={
                 isMobile
