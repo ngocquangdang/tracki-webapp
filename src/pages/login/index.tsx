@@ -13,12 +13,25 @@ const Login = props => {
   return <LoginContainer {...props} />;
 };
 
-export default Login;
+// export const getServerSideProps = withoutAuth((context): any => {
+//   return {
+//     props: {
+//       ...serverSideTranslations(
+//         // context?.locale as string,
+//         'en',
+//         ['auth'],
+//         nextI18NextConfig
+//       ),
+//     },
+//   };
+// });
 
-export const getServerSideProps = async ({ locale }) => {
+export const getServerSideProps = async ({ locale }: any) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ['auth'], nextI18NextConfig)),
     },
   };
 };
+
+export default Login;

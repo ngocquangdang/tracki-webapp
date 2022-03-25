@@ -7,7 +7,7 @@ module.exports = {
     localeDetection: false,
     serializeConfig: false,
     // localePath: path.resolve('./public/locales'),
-    localePath: './public/locales',
+    // localePath: './public/static/locales',
   },
-  localePath: './public/locales',
+  localePath: './public/static/locales',
 };

@@ -1,0 +1,10 @@
+{
+  "extended_battery": "拡張バッテリースリープモード",
+  "sleep_mode": "スリープモードのオン/オフ",
+  "select_mode": "モードの選択",
+  "save_changes": "変更を保存",
+  "instructions": "指示",
+  "battery_description": "このモードで6か月のバッテリー寿命を得るには, オプションの磁気防水バッテリーエクステンダーを使用できます。",
+  "buy_here": "ここで購入",
+  "tap_to_show": "タップして表示"
+}
