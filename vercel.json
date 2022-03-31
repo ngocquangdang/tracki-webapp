@@ -30,5 +30,10 @@
       "destination": "/404",
       "statusCode": 404
     }
+  ],
+
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/", "status": 404, "dest": "/login" }
   ]
 }
