@@ -5,7 +5,6 @@ import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { withTranslation } from 'next-i18next';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { useInjectSaga } from '@Utils/injectSaga';
@@ -85,6 +84,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,
-  memo,
-  withTranslation(['common', 'auth', 'tracker', 'notifications'])
+  memo
 )(NotificationView) as React.ComponentType;

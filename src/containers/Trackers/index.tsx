@@ -3,9 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-// import { withTranslation } from 'next-i18next';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 import { makeSelectMapTile } from '@Containers/App/store/selectors';
 import {
   makeSelectTrackers,
@@ -19,6 +16,9 @@ import {
   makeSelectAlerts,
   makeSelectAlertsIds,
   makeSelectIsFetchingTracker,
+  makeSelectSubAccount,
+  makeSelectIsFetchingSubAccount,
+  makeSelectDeviceSubAccountId,
 } from '@Containers/Trackers/store/selectors';
 import { fetchUserRequestedAction } from '@Containers/App/store/actions';
 import { getHistoryTrackerRequest } from '@Containers/Tracking/store/actions';
@@ -33,6 +33,7 @@ import {
   refreshLocationRequestAction,
   getSOSalertTrackerRequestAction,
   readSOSalertRequestAction,
+  assignmentSubAccountRequestedAction,
 } from '@Containers/Trackers/store/actions';
 import {
   resetBeepAction,
@@ -99,11 +100,15 @@ const mapStateToProps = createStructuredSelector({
   alerts: makeSelectAlerts(),
   alertsIds: makeSelectAlertsIds(),
   isFetchingTracker: makeSelectIsFetchingTracker(),
+  subAccount: makeSelectSubAccount(),
+  isFetchingSubAccount: makeSelectIsFetchingSubAccount(),
+  selectedSubAccountId: makeSelectDeviceSubAccountId(),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
-  selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
+  selectTrackerAction: (id: number, subAccountId: number | null) =>
+    dispatch(selectTrackerIdAction(id, subAccountId)),
   searchTrackersRequest: (search: string | null) =>
     dispatch(searchTrackersRequestedAction(search)),
   onResetSelectedTrackerID: () => dispatch(resetSelectedTrackerIdAction()),
@@ -122,6 +127,14 @@ const mapDispatchToProps = (dispatch: any) => ({
   getSOSalertTracker: (data: object) =>
     dispatch(getSOSalertTrackerRequestAction(data)),
   readSOSalert: (data: object) => dispatch(readSOSalertRequestAction(data)),
+  assignmentSubAccountRequestedAction: (
+    accountId: number,
+    trackerIds: number[],
+    callback: () => void
+  ) =>
+    dispatch(
+      assignmentSubAccountRequestedAction(accountId, trackerIds, callback)
+    ),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
@@ -129,5 +142,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 export default compose(
   withConnect,
   memo
-  // withTranslation(['common', 'auth', 'tracker', 'batterymode', 'contact'])
 )(TrackersContainer) as React.ComponentType;

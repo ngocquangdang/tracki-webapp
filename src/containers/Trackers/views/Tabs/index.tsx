@@ -22,6 +22,9 @@ export default function TabsPC(props: Props) {
     searchGeofencesAction,
     t,
     isFetchingTracker,
+    isFetchingSubAccount,
+    subAccount,
+    assignmentSubAccountRequestedAction,
   } = props;
   const classes = useStyles();
   const [currentTab, setTab] = useState(0);
@@ -66,6 +69,9 @@ export default function TabsPC(props: Props) {
           trackerIds={trackerIds}
           onClickTracker={selectTrackerAction}
           isFetchingTracker={isFetchingTracker}
+          isFetchingSubAccount={isFetchingSubAccount}
+          subAccount={subAccount}
+          getAssignmentSubAccount={assignmentSubAccountRequestedAction}
         />
       </TabPanel>
       <TabPanel

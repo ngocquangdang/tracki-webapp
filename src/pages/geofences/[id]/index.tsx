@@ -5,18 +5,17 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { withTranslation } from 'next-i18next';
 
 import { IPage } from '@Interfaces';
-// import withAuth from '@Components/hocs/withAuth';
+import withAuth from '@Components/hocs/withAuth';
 import TrackersContainer from '@Containers/Trackers';
 import nextI18nextConfig from 'next-i18next.config';
 
 interface Props {}
 
-const ns = ['common', 'auth', 'tracker', 'batterymode', 'contact'];
+const ns = ['common'];
 
 const SingleTrackerView: NextPage<IPage.InitialProps> = (props: Props) => {
   return <TrackersContainer {...props} />;
 };
-
 export const getServerSideProps = async ({ locale }: any) => {
   return {
     props: {
@@ -25,4 +24,4 @@ export const getServerSideProps = async ({ locale }: any) => {
   };
 };
 
-export default compose(withTranslation(ns))(SingleTrackerView);
+export default compose(withAuth, withTranslation(ns))(SingleTrackerView);

@@ -14,8 +14,6 @@ import {
 import { selectTrackerIdAction } from '@Containers/Trackers/store/actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withTranslation } from 'next-i18next';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { useInjectSaga } from '@Utils/injectSaga';
 import { useInjectReducer } from '@Utils/injectReducer';
@@ -39,8 +37,8 @@ import trackersSaga from '@Containers/Trackers/store/sagas';
 import trackersReducer from '@Containers/Trackers/store/reducers';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 
-const DashboardPC = dynamic(() => import('./DashboardPC'), { ssr: false });
-const DashboardSP = dynamic(() => import('./DashboardSP'), { ssr: false });
+const DashboardPC = dynamic(() => import('./DashboardPC'));
+const DashboardSP = dynamic(() => import('./DashboardSP'));
 
 function Dashboard(props) {
   useInjectSaga({ key: 'tracker', saga: trackersSaga });
@@ -74,7 +72,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchUserRequestedAction: () => dispatch(fetchUserRequestedAction()),
-  selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
+  selectTrackerAction: (id: number, subAccountId: number | null) =>
+    dispatch(selectTrackerIdAction(id, subAccountId)),
   getHistoryTracker: (data: object) => dispatch(getHistoryTrackerRequest(data)),
   getAlarmsTracker: (data: object) => dispatch(getAlarmTrackerRequest(data)),
   changeTrackersTracking: (ids: number[]) =>
@@ -83,8 +82,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-  memo,
-  withTranslation(['common', 'auth', 'tracker'])
-)(Dashboard) as React.ComponentType;
+export default compose(withConnect, memo)(Dashboard) as React.ComponentType;

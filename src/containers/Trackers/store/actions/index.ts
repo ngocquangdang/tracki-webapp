@@ -85,9 +85,12 @@ export const searchGeofencesFailedAction = (error: object) => ({
   payload: { error },
 });
 
-export const selectTrackerIdAction = (selectedTrackerId: number) => ({
+export const selectTrackerIdAction = (
+  selectedTrackerId: number,
+  subAccountId: number | null
+) => ({
   type: types.SELECTED_TRACKER,
-  payload: { selectedTrackerId },
+  payload: { selectedTrackerId, subAccountId },
 });
 
 export const resetSelectedTrackerIdAction = () => ({
@@ -282,5 +285,38 @@ export const readSOSalertSucceed = (data: object) => ({
 });
 export const readSOSalertFailed = (error: object) => ({
   type: types.READ_SOS_ALERT_TRACKER_FAILED,
+  payload: { error },
+});
+
+export const assignmentSubAccountRequestedAction = (
+  accountId: number,
+  trackerIds: number[],
+  callback: () => void
+) => ({
+  type: types.ASSIGNMENT_TRACKER_SUB_ACCOUNT_REQUESTED,
+  payload: { accountId, trackerIds, callback },
+});
+
+export const assignmentSubAccountSucceedAction = (setting: object) => {
+  return {
+    type: types.ASSIGNMENT_TRACKER_SUB_ACCOUNT_SUCCEED,
+    payload: { setting },
+  };
+};
+
+export const assignmentSubAccountFailedAction = (error: object) => ({
+  type: types.ASSIGNMENT_TRACKER_SUB_ACCOUNT_FAILED,
+  payload: { error },
+});
+
+export const getFullDeviceDetailSucceedAction = (setting: object) => {
+  return {
+    type: types.GET_FULL_DEVICE_DETAIL_SUCCEED,
+    payload: { setting },
+  };
+};
+
+export const getFullDeviceDetailFailedAction = (error: object) => ({
+  type: types.GET_FULL_DEVICE_DETAIL_FAILED,
   payload: { error },
 });

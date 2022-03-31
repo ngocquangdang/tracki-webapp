@@ -6,7 +6,7 @@ const Content = styled.div`
   overflow-y: auto;
   width: 100%;
   @media (max-width: 959.95px) {
-    height: 100%;
+    /* height: 100%; */
   }
 `;
 

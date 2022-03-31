@@ -139,7 +139,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(fetchTrackersRequestedAction(data)),
   searchTrackersRequest: (search: string | null) =>
     dispatch(searchTrackersRequestedAction(search)),
-  selectTrackerAction: (id: number) => dispatch(selectTrackerIdAction(id)),
+  selectTrackerAction: (id: number, subAccountId: number | null) =>
+    dispatch(selectTrackerIdAction(id, subAccountId)),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

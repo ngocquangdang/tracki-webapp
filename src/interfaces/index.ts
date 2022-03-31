@@ -40,6 +40,8 @@ export interface TrackerDataTypes {
     trackerPlans: object | null;
     selectedTrackerId: number | null;
     settings: object;
+    subAccount: object;
+    selectedSubAccountId: number | null;
     [data: string]: any;
   };
   geofence: {
@@ -59,6 +61,7 @@ export interface TrackerDataTypes {
   dataSendBeep: object | null;
   isBeep: boolean | null;
   isFetchingTracker: boolean | null;
+  isFetchingSubAccount: boolean | null;
   errors: object | null;
 }
 

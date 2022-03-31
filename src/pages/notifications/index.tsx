@@ -10,6 +10,8 @@ import withAuth from '@Components/hocs/withAuth';
 import View from '@Containers/Notifications';
 import nextI18nextConfig from 'next-i18next.config';
 
+const ns = ['common', 'auth', 'tracker', 'notifications'];
+
 const Notification: NextPage<IPage.InitialProps> = props => {
   return <View {...props} />;
 };
@@ -17,17 +19,10 @@ const Notification: NextPage<IPage.InitialProps> = props => {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(
-        locale,
-        ['common', 'notifications'],
-        nextI18nextConfig
-      )),
+      ...(await serverSideTranslations(locale, ns, nextI18nextConfig)),
       // Will be passed to the page component as props
     },
   };
 }
 
-export default compose(
-  withAuth,
-  withTranslation(['common', 'notifications'])
-)(Notification);
+export default compose(withAuth, withTranslation(ns))(Notification);

@@ -61,6 +61,15 @@ const makeSelectTrackerPlans = () =>
 const makeSelectIsFetchingTracker = () =>
   createSelector(globalState, state => state.isFetchingTracker);
 
+const makeSelectSubAccount = () =>
+  createSelector(globalState, state => state.tracker.subAccount);
+
+const makeSelectIsFetchingSubAccount = () =>
+  createSelector(globalState, state => state.tracker.isFetchingTracker);
+
+const makeSelectDeviceSubAccountId = () =>
+  createSelector(globalState, state => state.tracker.selectedSubAccountId);
+
 export {
   makeSelectTrackers,
   makeSelectTrackerIds,
@@ -81,4 +90,7 @@ export {
   makeSelectAlertsIds,
   makeSelectTrackerPlans,
   makeSelectIsFetchingTracker,
+  makeSelectSubAccount,
+  makeSelectIsFetchingSubAccount,
+  makeSelectDeviceSubAccountId,
 };

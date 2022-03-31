@@ -4,17 +4,15 @@ import { compose } from 'redux';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { withTranslation } from 'next-i18next';
 
-import { IPage } from '@Interfaces';
-// import withAuth from '@Components/hocs/withAuth';
-import TrackersContainer from '@Containers/Trackers';
+// import { IPage } from '@Interfaces';
+import withAuth from '@Components/hocs/withAuth';
+import ViewSubscription from '@Containers/Subscriptions';
 import nextI18nextConfig from 'next-i18next.config';
 
-interface Props {}
+const ns = ['common', 'subscription', 'tracker'];
 
-const ns = ['common', 'auth', 'tracker', 'batterymode', 'contact'];
-
-const SingleTrackerView: NextPage<IPage.InitialProps> = (props: Props) => {
-  return <TrackersContainer {...props} />;
+const Subscription: NextPage = (props: any) => {
+  return <ViewSubscription {...props} />;
 };
 
 export const getServerSideProps = async ({ locale }: any) => {
@@ -24,5 +22,4 @@ export const getServerSideProps = async ({ locale }: any) => {
     },
   };
 };
-
-export default compose(withTranslation(ns))(SingleTrackerView);
+export default compose(withAuth, withTranslation(ns))(Subscription);

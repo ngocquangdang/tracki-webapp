@@ -17,13 +17,64 @@ import { makeSelectTrackers, makeSelectGeofences } from '../selectors';
 import { makeSelectProfile } from '@Containers/App/store/selectors';
 import { updateContactListSucceedAction } from '@Containers/Contacts/store/actions';
 import { showSnackbar } from '@Containers/Snackbar/store/actions';
+import { concat } from 'lodash';
 
+function handelAssignmentData(tracker, data) {
+  return data.reduce((result, item) => {
+    const { fences, device_id, geozones, settings, contacts } = item;
+    // fence reduce
+    result.fences = fences.reduce((objFences, fItem) => {
+      objFences[fItem.id] = fItem;
+      result.trackers[device_id].fences = [
+        ...(result.trackers[device_id].fences || []),
+        fItem.id,
+      ];
+      return objFences;
+    }, result.fences);
+
+    // contact reduce
+    result.contacts = contacts.reduce((objContacts, cItem) => {
+      objContacts[cItem.id] = cItem;
+      result.trackers[device_id].contacts = [
+        ...(result.trackers[device_id].contacts || []),
+        cItem.id,
+      ];
+      return objContacts;
+    }, result.contacts);
+
+    // geozones reduce => reference to Geofence list
+    geozones.map(geoItem => {
+      result.trackers[device_id].geozones = [
+        ...(result.trackers[device_id].geozones || []),
+        geoItem.id,
+      ];
+      return geoItem;
+    });
+
+    // settings reduce
+    result.settings[settings.id] = settings;
+    return result;
+  }, tracker);
+}
 function* fetchTrackersSaga(action) {
   try {
     const { accountId } = action.payload;
     const { data } = yield call(apiServices.fetchTrackers, accountId);
     let tracker = normalizeTrackers(data);
-
+    const subAccount = data.descendants.reduce(
+      (obj, item) => {
+        obj.accounts = {
+          ...obj.accounts,
+          [item.account_id]: { ...item, ...normalizeTrackers(item) },
+        };
+        obj.accountIds.push(item.account_id);
+        return obj;
+      },
+      {
+        accounts: {},
+        accountIds: [],
+      }
+    );
     if (tracker.trackerIds.length > 0) {
       const { data: assignmentsData } = yield call(
         apiServices.fetchAssignmentsByTrackerIds,
@@ -31,44 +82,8 @@ function* fetchTrackersSaga(action) {
         tracker.trackerIds
       );
 
-      tracker = assignmentsData.reduce((result, item) => {
-        const { fences, device_id, geozones, settings, contacts } = item;
-        // fence reduce
-        result.fences = fences.reduce((objFences, fItem) => {
-          objFences[fItem.id] = fItem;
-          result.trackers[device_id].fences = [
-            ...(result.trackers[device_id].fences || []),
-            fItem.id,
-          ];
-          return objFences;
-        }, result.fences);
-
-        // contact reduce
-        result.contacts = contacts.reduce((objContacts, cItem) => {
-          objContacts[cItem.id] = cItem;
-          result.trackers[device_id].contacts = [
-            ...(result.trackers[device_id].contacts || []),
-            cItem.id,
-          ];
-          return objContacts;
-        }, result.contacts);
-
-        // geozones reduce => reference to Geofence list
-        geozones.map(geoItem => {
-          result.trackers[device_id].geozones = [
-            ...(result.trackers[device_id].geozones || []),
-            geoItem.id,
-          ];
-          return geoItem;
-        });
-
-        // settings reduce
-        result.settings[settings.id] = settings;
-
-        return result;
-      }, tracker);
+      tracker = yield handelAssignmentData(tracker, assignmentsData);
     }
-
     const {
       contacts,
       contactIds,
@@ -85,7 +100,19 @@ function* fetchTrackersSaga(action) {
         contactAssignedIds,
       })
     );
-    yield put(actions.fetchTrackersSucceedAction(trackerData));
+
+    const listTrackerOfSubAccount = subAccount.accountIds.map(
+      id => subAccount.accounts[id].trackers
+    );
+    const handleObj = {
+      ...trackerData,
+      subAccount,
+      trackers: {
+        ...trackerData.trackers,
+        ...concat([], listTrackerOfSubAccount)[0],
+      },
+    };
+    yield put(actions.fetchTrackersSucceedAction(handleObj));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {
@@ -532,6 +559,59 @@ function* mqttUpdateTrackerSaga(action) {
   yield put(actions.mqttUpdateTrackerSuccessAction(tracker));
 }
 
+function* assignmentTrackerSubAccountSaga(action) {
+  const { accountId, trackerIds, callback } = action.payload;
+  try {
+    const { data: assignmentsData } = yield call(
+      apiServices.fetchAssignmentsByTrackerIds,
+      accountId,
+      trackerIds
+    );
+
+    const newData = yield handelAssignmentData(
+      {
+        fences: {},
+        contacts: {},
+        settings: {},
+      },
+      assignmentsData
+    );
+    yield put(actions.assignmentSubAccountSucceedAction(newData));
+    callback(accountId);
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    yield put(actions.fetchTrackersFailedAction(payload));
+  }
+}
+
+function* fetchFullDetailofDevice(action) {
+  const { selectedTrackerId, subAccountId } = action.payload;
+
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+
+    const { data } = yield call(
+      apiServices.trackerFullDetails,
+      subAccountId || account_id,
+      selectedTrackerId
+    );
+    const formatData = {
+      ...data,
+      ...data.settings,
+    };
+    yield put(actions.getFullDeviceDetailSucceedAction(formatData));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    yield put(actions.getFullDeviceDetailFailedAction(payload));
+  }
+}
+
 export default function* appWatcher() {
   yield takeLatest(types.GET_TRACKERS_REQUESTED, fetchTrackersSaga);
   yield takeLatest(types.GET_GEOFENCES_REQUESTED, fetchGeofencesSaga);
@@ -551,4 +631,9 @@ export default function* appWatcher() {
   yield takeLatest(types.GET_SOS_ALERT_TRACKER_REQUESTED, getSOSalertSaga);
   yield takeLatest(types.READ_SOS_ALERT_TRACKER_REQUESTED, readSOSalertSaga);
   yield takeEvery(types.MQTT_UPDATE_TRACKER, mqttUpdateTrackerSaga);
+  yield takeEvery(
+    types.ASSIGNMENT_TRACKER_SUB_ACCOUNT_REQUESTED,
+    assignmentTrackerSubAccountSaga
+  );
+  yield takeEvery(types.SELECTED_TRACKER, fetchFullDetailofDevice);
 }

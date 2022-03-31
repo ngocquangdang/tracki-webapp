@@ -280,6 +280,10 @@ class TrackerMarker extends React.Component<Props> {
 
   onZoomEnd = () => {
     const { tracker, selectedTrackerId } = this.props;
+    console.log(
+      '🚀 ~ file: index.tsx ~ line 283 ~ TrackerMarker ~ this.props',
+      this.props
+    );
     const marker = window.trackerMarkers[tracker.device_id];
     const element = marker ? marker.getElement() : undefined;
     const isSelected =

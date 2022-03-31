@@ -1,7 +1,22 @@
 import axiosClient from '@Utils/axios';
 
-export const fetchTrackers = async (accountId: number) => {
-  return await axiosClient.get(`v4/accounts/${accountId}/devices/details`);
+export const fetchTrackers = async (
+  accountId: number,
+  page: number = 1,
+  limit: number = 200
+) => {
+  return await axiosClient.get(
+    `v4/accounts/${accountId}/devices/details?page=${page}&limit=${limit}`
+  );
+};
+
+export const trackerFullDetails = async (
+  accountId: number,
+  deviceId: number
+) => {
+  return await axiosClient.get(
+    `v3/accounts/${accountId}/devices/${deviceId}/details/full`
+  );
 };
 
 export const fetchAssignmentsByTrackerIds = async (

@@ -35,7 +35,7 @@ function* getDeviceByTokenSaga(action) {
       }
     );
     yield put(fetchTrackersSucceedAction(trackers));
-    yield put(selectTrackerIdAction(data[0].deviceId));
+    yield put(selectTrackerIdAction(data[0].deviceId, null));
     yield put(getDeviceByTokenSucceedAction(data));
   } catch (error) {
     const { data = {} } = { ...error };

@@ -11,6 +11,11 @@ export const initialState: TrackerDataTypes = {
     trackerPlans: {},
     selectedTrackerId: null,
     settings: {},
+    subAccount: {
+      accounts: {},
+      accountIds: [],
+    },
+    selectedSubAccountId: null,
   },
   geofence: {
     geofences: {},
@@ -29,6 +34,7 @@ export const initialState: TrackerDataTypes = {
   dataSendBeep: {},
   isBeep: false,
   isFetchingTracker: false,
+  isFetchingSubAccount: false,
   errors: null,
 };
 
@@ -54,6 +60,7 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.SELECTED_TRACKER:
         draft.tracker.selectedTrackerId = payload.selectedTrackerId;
+        draft.tracker.selectedSubAccountId = payload.subAccountId;
         break;
       case types.RESET_SELECTED_TRACKER:
         draft.tracker.selectedTrackerId = null;
@@ -202,6 +209,29 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
         break;
       case types.GET_SOS_ALERT_TRACKER_FAILED:
         draft.errors = payload.error;
+        break;
+      case types.ASSIGNMENT_TRACKER_SUB_ACCOUNT_REQUESTED:
+        draft.isFetchingSubAccount = true;
+        break;
+      case types.ASSIGNMENT_TRACKER_SUB_ACCOUNT_SUCCEED:
+        draft.tracker = {
+          ...draft.tracker,
+          settings: {
+            ...draft.tracker.settings,
+            ...payload.setting.settings,
+          },
+        };
+
+        // draft.tracker.trackers = payload.newTrackers;
+        break;
+      case types.GET_FULL_DEVICE_DETAIL_SUCCEED:
+        draft.tracker = {
+          ...draft.tracker,
+          settings: {
+            ...draft.tracker.settings,
+            [payload.setting.id]: payload.setting,
+          },
+        };
         break;
       default:
         break;

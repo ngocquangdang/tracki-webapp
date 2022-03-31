@@ -29,6 +29,7 @@ export default function TrackersContainer(props: any) {
     alertsIds,
     profile,
     trackerIds,
+    selectedSubAccountId,
     ...rest
   } = props;
   const classes = useStyles();
