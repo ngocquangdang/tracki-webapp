@@ -8,7 +8,6 @@
     {
       "source": "/",
       "destination": "/login",
-      "statusCode": 200,
       "permanent": false
     },
     {
