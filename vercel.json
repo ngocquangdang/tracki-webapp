@@ -37,6 +37,6 @@
     }
   ],
   "rewrites":  [
-    {"source": "/", "destination": "/login"}
+    {"source": "/index(.*)", "destination": "/login"}
   ]
 }
