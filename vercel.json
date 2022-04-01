@@ -6,7 +6,7 @@
       "statusCode": 200
     },
     {
-      "source": "/index(.*)",
+      "source": "/",
       "destination": "/login",
       "statusCode": 404
     },
@@ -37,6 +37,6 @@
     }
   ],
   "rewrites":  [
-    {"source": "/index(.*)", "destination": "/login"}
+    {"source": "/", "destination": "/login"}
   ]
 }
