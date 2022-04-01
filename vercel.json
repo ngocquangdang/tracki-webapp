@@ -6,9 +6,10 @@
       "statusCode": 200
     },
     {
-      "source": "/index",
+      "source": "/",
       "destination": "/login",
-      "statusCode": 200
+      "statusCode": 200,
+      "permanent": false
     },
     {
       "source": "/_next/static",
@@ -35,8 +36,5 @@
       "destination": "/404",
       "statusCode": 404
     }
-  ],
-  "rewrites":  [
-    {"source": "/index(.*)", "destination": "/login"}
   ]
 }
