@@ -7,7 +7,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/login",
+      "destination": "/index.html",
       "statusCode": 200
     },
     {
