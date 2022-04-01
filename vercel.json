@@ -1,4 +1,10 @@
 {
+  "builds": [
+    {
+        "src": "./index.js",
+        "use": "@vercel/node"
+    }
+  ],
   "redirects": [
     {
       "source": "/_next",
@@ -6,9 +12,9 @@
       "statusCode": 200
     },
     {
-      "source": "/",
+      "source": "/(.*)",
       "destination": "/login",
-      "statusCode": 404
+      "statusCode": 200
     },
     {
       "source": "/_next/static",
