@@ -6,7 +6,7 @@
       "statusCode": 200
     },
     {
-      "source": "/next/.*",
+      "source": "/_next/(.*)",
       "destination": "/login",
       "statusCode": 404
     },
@@ -37,7 +37,7 @@
     }
   ],
   "routes": [
-    { "src": "/.*", "dest": "/login"}
+    { "src": "/(.*)", "dest": "/login"}
   ],
   "rewrites":  [
     {"source": "/(.*)", "destination": "/login"}
