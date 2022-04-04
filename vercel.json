@@ -6,7 +6,7 @@
       "statusCode": 200
     },
     {
-      "source": "/",
+      "source": "/index(.*)",
       "destination": "/login",
       "permanent": false
     },

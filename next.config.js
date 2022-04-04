@@ -31,7 +31,6 @@ const nextConfig = {
   // reactStrictMode: true,
   webpack5: false,
   swcMinify: true,
-  basePath: '/login',
 };
 
 module.exports = withConfig(
