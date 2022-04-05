@@ -37,10 +37,14 @@ export default function withConditionalRedirect<CP = {}, IP = CP>({
   serverCondition(ctx: CookiesPageContext): boolean;
   location: string;
 }): NextPage<CP, IP> {
+  console.log('cccccccc');
+
   const WithConditionalRedirectWrapper = props => {
     const router = useRouter();
     const redirectCondition = clientCondition();
     if (isBrowser() && redirectCondition) {
+      console.log('asdasdasdadasdasdas');
+
       router.push(location);
       // eslint-disable-next-line react/react-in-jsx-scope
       return <></>;
@@ -50,8 +54,10 @@ export default function withConditionalRedirect<CP = {}, IP = CP>({
   };
 
   WithConditionalRedirectWrapper.xxx = async (ctx): Promise<IP> => {
+    console.log('cccccccasdasdasdasc');
     if (!isBrowser() && ctx.res) {
       if (serverCondition(ctx as CookiesPageContext)) {
+        console.log('cccccccssssc');
         ctx.res.writeHead(302, { Location: location });
         ctx.res.end();
       }

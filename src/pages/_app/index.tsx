@@ -50,6 +50,7 @@ class WebApp extends App<AppWithStore & Props> {
   componentDidMount() {
     const jssStyles = document.querySelector('#jss-server-side');
     const { authenticated } = this.props;
+    console.log("🚀 ~ file: index.tsx ~ line 53 ~ WebApp ~ componentDidMount ~ this.props", this.props)
 
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
