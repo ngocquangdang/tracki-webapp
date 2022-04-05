@@ -43,8 +43,6 @@ export default function withConditionalRedirect<CP = {}, IP = CP>({
     const router = useRouter();
     const redirectCondition = clientCondition();
     if (isBrowser() && redirectCondition) {
-      console.log('asdasdasdadasdasdas');
-
       router.push(location);
       // eslint-disable-next-line react/react-in-jsx-scope
       return <></>;
