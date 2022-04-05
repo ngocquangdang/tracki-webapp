@@ -31,6 +31,15 @@ const nextConfig = {
   // reactStrictMode: true,
   webpack5: false,
   swcMinify: true,
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/login',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withConfig(
