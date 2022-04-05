@@ -35,8 +35,9 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: 'https://dev3.tracki.com/login',
+        destination: '/login',
         permanent: false,
+        locale: false,
       },
     ];
   },
