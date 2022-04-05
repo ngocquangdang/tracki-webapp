@@ -52,7 +52,10 @@ export default function HeaderMobile(props: Props) {
                         }
                       />
                     ) : (
-                      <DefaultImage src={'/images/image-device.png'} alt="" />
+                      <DefaultImage
+                        src={'/static/images/image-device.png'}
+                        alt=""
+                      />
                     )}
                   </ImageWrapper>
                   {

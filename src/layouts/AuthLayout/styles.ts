@@ -12,7 +12,7 @@ const Row = styled.div`
 `;
 const Background = styled.div`
   width: 45%;
-  background: url('/images/turntable.jpg');
+  background: url('/static/images/turntable.jpg');
   position: relative;
   box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.75);
 `;

@@ -6,9 +6,7 @@ const nextRuntimeDotenv = require('next-runtime-dotenv');
 const withImages = require('next-images');
 const { i18n } = require('./next-i18next.config');
 
-const withConfig = nextRuntimeDotenv({
-  public: ['API_URL', 'API_KEY', 'DOMAIN'],
-});
+const withConfig = nextRuntimeDotenv({ public: ['API_URL', 'API_KEY'] });
 
 const nextConfig = {
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -37,7 +35,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: `${process.env.DOMAIN}/login`,
+        destination: 'https://dev3.tracki.com/login',
         permanent: false,
         locale: false,
       },

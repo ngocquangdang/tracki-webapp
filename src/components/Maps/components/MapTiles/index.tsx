@@ -13,15 +13,27 @@ import {
 } from './styles';
 
 const MAP_TILES = [
-  { name: 'street', style: 'streets-v11', image: '/images/whitemap.png' },
-  { name: 'out_door', style: 'outdoors-v11', image: '/images/Terrain.png' },
-  { name: 'light', style: 'light-v10', image: '/images/Satellite.png' },
-  { name: 'dark_map', style: 'dark-v10', image: '/images/DarkMap.png' },
-  { name: 'traffic', style: 'satellite-v9', image: '/images/Traffic.png' },
+  {
+    name: 'street',
+    style: 'streets-v11',
+    image: '/static/images/whitemap.png',
+  },
+  {
+    name: 'out_door',
+    style: 'outdoors-v11',
+    image: '/static/images/Terrain.png',
+  },
+  { name: 'light', style: 'light-v10', image: '/static/images/Satellite.png' },
+  { name: 'dark_map', style: 'dark-v10', image: '/static/images/DarkMap.png' },
+  {
+    name: 'traffic',
+    style: 'satellite-v9',
+    image: '/static/images/Traffic.png',
+  },
   {
     name: 'hybird',
     style: 'satellite-streets-v11',
-    image: '/images/Hybrid.png',
+    image: '/static/images/Hybrid.png',
   },
 ];
 

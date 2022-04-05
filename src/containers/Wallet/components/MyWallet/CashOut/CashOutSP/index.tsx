@@ -20,11 +20,11 @@ interface Props {
 
 const listPayment = [
   {
-    urlImg: '/images/philipinbank.svg',
+    urlImg: '/static/images/philipinbank.svg',
     name: 'xxx',
   },
   {
-    urlImg: '/images/paypal.png',
+    urlImg: '/static/images/paypal.png',
     name: 'yyy',
   },
 ];

@@ -252,8 +252,8 @@ class HistoryPath extends React.Component<Props> {
     elm.innerHTML = `
       <div class='icon-red'>
         <span class='inner'></span>
-        <div class='marker-pin' style='background-image:url(${'/images/icon-marker.svg'})'>
-          <img src='/images/image-device.png' class='image-device'></img>
+        <div class='marker-pin' style='background-image:url(${'/static/images/icon-marker.svg'})'>
+          <img src='/static/images/image-device.png' class='image-device'></img>
         </div>
         ${datetime ? this.markerTitle(datetime) : ''}
       </div>`;

@@ -41,14 +41,14 @@ class TrackerMarker extends React.Component<Props> {
           <span class='inner'></span>
           <div class='marker-pin' style='background-image:url(${
             status === 'active'
-              ? '/images/icon-marker.svg'
-              : '/images/red-marker.svg'
+              ? '/static/images/icon-marker.svg'
+              : '/static/images/red-marker.svg'
           })'
           >
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-              : `<img src='/images/image-device.png' class='image-device'></img>`
+              : `<img src='/static/images/image-device.png' class='image-device'></img>`
           }
           </div>
         <div class=${

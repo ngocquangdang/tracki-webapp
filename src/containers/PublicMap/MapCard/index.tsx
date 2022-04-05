@@ -192,7 +192,7 @@ class MapCard extends React.Component<IProps, IState> {
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-              : `<img src='/images/image-device.png' class='image-device'></img>`
+              : `<img src='/static/images/image-device.png' class='image-device'></img>`
           }
         </div>
        ${this.trackersName(deviceName)}

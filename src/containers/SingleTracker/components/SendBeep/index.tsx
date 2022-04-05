@@ -157,7 +157,9 @@ function SendBeep(props: Props) {
                 {tracker.icon_url ? (
                   <Image background={tracker.icon_url} />
                 ) : (
-                  <DefaultImage background={'/images/image-device.png'} />
+                  <DefaultImage
+                    background={'/static/images/image-device.png'}
+                  />
                 )}
               </ImageWrapper>
               <ItemInfo>

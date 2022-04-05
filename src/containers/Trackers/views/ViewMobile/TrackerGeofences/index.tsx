@@ -179,7 +179,7 @@ function TrackerGeofencesMobile(props: Props) {
               </IconButton>
               <div className={classes.imgWrap}>
                 <img
-                  src={tracker.icon_url || '/images/tracki-device.png'}
+                  src={tracker.icon_url || '/static/images/tracki-device.png'}
                   alt=""
                 />
               </div>

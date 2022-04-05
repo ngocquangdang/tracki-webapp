@@ -86,7 +86,7 @@ function SelectTrackers(props: Props) {
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
                     <img
-                      src={d.icon_url || '/images/tracki-device.png'}
+                      src={d.icon_url || '/static/images/tracki-device.png'}
                       alt=""
                     />
                   </Avatar>

@@ -68,7 +68,7 @@ const Row = props => {
                     <div className={classes.imageWrapperSmall}>
                       <Image
                         background={
-                          data?.icon_url || '/images/image-device.png'
+                          data?.icon_url || '/static/images/image-device.png'
                         }
                         isSmall={true}
                       />
@@ -209,7 +209,9 @@ const Row = props => {
       ) : (
         <div className={classes.flexRow}>
           <div className={classes.imageWrapper}>
-            <Image background={data?.icon_url || '/images/image-device.png'} />
+            <Image
+              background={data?.icon_url || '/static/images/image-device.png'}
+            />
           </div>
           <div className={classes.flexCol}>
             <div className={clsx(classes.textBold, classes.textFont14)}>

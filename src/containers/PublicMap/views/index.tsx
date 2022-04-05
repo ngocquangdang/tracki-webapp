@@ -18,7 +18,7 @@ export default function PublicMapContainer(props) {
     <>
       <Header>
         <Link href="/">
-          <Image src={'/images/logo.png'} alt=""></Image>
+          <Image src={'/static/images/logo.png'} alt=""></Image>
         </Link>
       </Header>
       <Container>
