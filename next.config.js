@@ -37,7 +37,7 @@ const nextConfig = {
         source: '/',
         destination: 'https://dev3.tracki.com/login',
         permanent: false,
-        locale: false,
+        // locale: false,
       },
     ];
   },
