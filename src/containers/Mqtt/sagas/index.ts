@@ -94,7 +94,8 @@ function* subscribeTopic() {
       payload: { trackerIds },
     } = action;
     trackerIds.map(id => {
-      return TrackiMQTTClient.subscribe(`/tracker/${id}/telemetry`);
+      // return TrackiMQTTClient.subscribe(`/tracker/${id}/telemetry`);
+      return TrackiMQTTClient.subscribe(`#`);
     });
   }
 }

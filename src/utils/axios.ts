@@ -18,7 +18,7 @@ class AxiosClient {
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
         'Content-Type': 'application/json',
-        'Accept-Language': 'ja',
+        'Accept-Language': 'en-US;q=0.7,en;q=0.6',
       },
     });
 
@@ -84,6 +84,8 @@ class AxiosClient {
   }
 
   get(resource: string, slug = '', config = {}) {
+    const myHeaders = new Headers(); // Currently empty
+    myHeaders.delete('X-XSRF-TOKEN');
     const requestURL = isEmpty(slug) ? `${resource}` : `${resource}/${slug}`;
     return this.axiosClient.get(
       requestURL,
@@ -92,6 +94,8 @@ class AxiosClient {
   }
 
   post(resource: string, data: object, config = {}) {
+    const myHeaders = new Headers(); // Currently empty
+    myHeaders.delete('X-XSRF-TOKEN');
     return this.axiosClient.post(
       `${resource}`,
       data,
@@ -100,6 +104,8 @@ class AxiosClient {
   }
 
   update(resource: string, data: object, config = {}) {
+    const myHeaders = new Headers(); // Currently empty
+    myHeaders.delete('X-XSRF-TOKEN');
     return this.axiosClient.put(
       `${resource}`,
       data,
@@ -108,6 +114,8 @@ class AxiosClient {
   }
 
   put(resource: string, data: object, config = {}) {
+    const myHeaders = new Headers(); // Currently empty
+    myHeaders.delete('X-XSRF-TOKEN');
     return this.axiosClient.put(
       `${resource}`,
       data,
@@ -116,6 +124,8 @@ class AxiosClient {
   }
 
   patch(resource: string, data: object, config = {}) {
+    const myHeaders = new Headers(); // Currently empty
+    myHeaders.delete('X-XSRF-TOKEN');
     return this.axiosClient.patch(
       `${resource}`,
       data,
@@ -124,6 +134,8 @@ class AxiosClient {
   }
 
   delete(resource: string, data: object, config = {}) {
+    const myHeaders = new Headers(); // Currently empty
+    myHeaders.delete('X-XSRF-TOKEN');
     return this.axiosClient.delete(`${resource}`, {
       params: data,
       ...assign(config, this.axiosClient.defaults.headers),

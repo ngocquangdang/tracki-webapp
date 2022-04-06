@@ -29,3 +29,9 @@ export const getAlarmTracker = async (
     `v3/accounts/${accountId}/devices/${trackerId}/events?alarm_types=${type}&limit=${limit}&page=${page}`
   );
 };
+
+export const getCurrentLocationTracker = async (accountId: number) => {
+  return await axiosClient.get(
+    `v3/accounts/${accountId}/locations?comm_stat=1`
+  );
+};

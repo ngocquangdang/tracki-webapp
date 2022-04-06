@@ -48,3 +48,19 @@ export const getAlarmTrackerFailed = (error: object) => ({
   type: types.GET_ALARM_TRACKER_FAILED,
   payload: { error },
 });
+
+export const getCurrentLocationTrackerRequest = () => {
+  return {
+    type: types.GET_CURRENT_LOCACTION_TRACKER_REQUESTED,
+  };
+};
+
+export const getCurrentLocationTrackerSucceed = (data: any) => ({
+  type: types.GET_CURRENT_LOCACTION_TRACKER_SUCCEED,
+  payload: { data },
+});
+
+export const getCurrentLocationTrackerFailed = (error: object) => ({
+  type: types.GET_CURRENT_LOCACTION_TRACKER_FAILED,
+  payload: { error },
+});

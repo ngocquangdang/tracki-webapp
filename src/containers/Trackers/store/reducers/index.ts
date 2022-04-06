@@ -3,6 +3,7 @@ import produce from 'immer';
 import { ActionType, TrackerDataTypes } from '@Interfaces/index';
 import * as types from '../constants';
 import * as singleTrackerTypes from '@Containers/SingleTracker/store/constants';
+import * as trackingType from '@Containers/Tracking/store/constants';
 
 export const initialState: TrackerDataTypes = {
   tracker: {
@@ -232,6 +233,10 @@ const trackerReducer = (state = initialState, { type, payload }: ActionType) =>
             [payload.setting.id]: payload.setting,
           },
         };
+        break;
+      case trackingType.GET_CURRENT_LOCACTION_TRACKER_SUCCEED:
+        draft.tracker.trackers = payload.data;
+
         break;
       default:
         break;

@@ -30,6 +30,7 @@ import UserDatails from '../interfaces';
 import { LANGUAGES, DATE_SETTINGS } from '../store/definitions';
 import { firebaseLogEventRequest } from '@Utils/firebase';
 import { useRouter } from 'next/router';
+import cookie from '@Utils/cookie';
 
 interface SettingState {
   language: {
@@ -127,6 +128,7 @@ export default function AccountSetting(props: any) {
       updateInfoUser(dataUpdateUser);
       updatePrefrence(dataUpdatePreferences);
     }
+    cookie.setCookie('NEXT_LOCALE', value.language);
     router.replace('/settings', '/settings', { locale: value.language });
   };
 

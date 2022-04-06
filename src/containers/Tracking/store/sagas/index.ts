@@ -135,8 +135,65 @@ function* getAlarmTrackerSaga(action) {
     yield put(actions.getAlarmTrackerFailed(payload));
   }
 }
+
+function* getCurrentLocationTrackerSaga(action) {
+  try {
+    const { account_id } = yield select(makeSelectProfile());
+    const trackers = yield select(makeSelectTrackers());
+
+    const { data } = yield call(
+      apiServices.getCurrentLocationTracker,
+      account_id
+    );
+    const formatLocation = data.reduce((obj, location) => {
+      obj = { ...obj, [location.device_id]: location };
+      return obj;
+    }, {});
+
+    const updateTrackerLocation = Object.keys(trackers).reduce((obj, id) => {
+      obj = {
+        ...obj,
+        [id]: {
+          ...trackers[id],
+          histories: trackers[id].histories
+            ? trackers[id].histories.concat(formatLocation[id])
+            : [
+                {
+                  lat: trackers[id].lat,
+                  lng: trackers[id].lng,
+                  speed: trackers[id].speed,
+                  battery: trackers[id].battery,
+                },
+                formatLocation[id],
+              ],
+        },
+      };
+      return obj;
+    }, {});
+    yield put(actions.getCurrentLocationTrackerSucceed(updateTrackerLocation));
+  } catch (error) {
+    const { data = {} } = { ...error };
+    const payload = {
+      ...data,
+    };
+    if (data.error || data.message) {
+      yield put(
+        showSnackbar({
+          snackType: 'error',
+          snackMessage: data.error || data.message,
+        })
+      );
+    }
+    yield put(actions.getCurrentLocationTrackerFailed(payload));
+  }
+}
+
 export default function* trackingWatcher() {
   yield takeLatest(types.CHANGE_TRACKING_VIEW, changeTrackingViewSaga);
   yield takeLatest(types.GET_HISTORY_TRACKER_REQUESTED, getHistoryTrackerSaga);
   yield takeLatest(types.GET_ALARM_TRACKER_REQUESTED, getAlarmTrackerSaga);
+  yield takeLatest(
+    types.GET_CURRENT_LOCACTION_TRACKER_REQUESTED,
+    getCurrentLocationTrackerSaga
+  );
 }

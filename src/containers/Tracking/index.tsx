@@ -18,6 +18,7 @@ import {
   changeTrackersTracking,
   getHistoryTrackerRequest,
   changeTrackingView,
+  getCurrentLocationTrackerRequest,
 } from '@Containers/Tracking/store/actions';
 import { mqttStart, mqttDisconnect } from '@Containers/Mqtt/actions';
 
@@ -72,19 +73,28 @@ function TrackingContainer(props: Props) {
   useInjectReducer({ key: 'mqtt', reducer: mqttReducer });
   const {
     fetchUserRequestedAction,
-    mqttStart,
     mqttDisconnect,
     trackerIds,
+    mqttStart,
+    getCurrentLocationTracker,
     ...rest
   } = props;
   useEffect(() => {
     firebaseLogEventRequest('tracking_page', '');
     fetchUserRequestedAction();
-    mqttStart();
-    return () => {
-      mqttDisconnect();
-    };
-  }, [fetchUserRequestedAction, mqttStart, mqttDisconnect]);
+    setInterval(() => {
+      getCurrentLocationTracker();
+    }, 5000);
+    // mqttStart();
+    // return () => {
+    //   mqttDisconnect();
+    // };
+  }, [
+    fetchUserRequestedAction,
+    // mqttDisconnect,
+    // mqttStart,
+    getCurrentLocationTracker,
+  ]);
 
   return <View {...rest} isLoading={!trackerIds} />;
 }
@@ -113,6 +123,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   showSnackbar: (data: SNACK_PAYLOAD) => dispatch(showSnackbar(data)),
   refreshLocation: (data: object) =>
     dispatch(refreshLocationRequestAction(data)),
+  getCurrentLocationTracker: () => dispatch(getCurrentLocationTrackerRequest()),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
