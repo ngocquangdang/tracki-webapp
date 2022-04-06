@@ -186,7 +186,7 @@ const LongText = styled.span`
   padding-left: 15px;
 `;
 const IconBattery = styled.img`
-  width: 11 px;
+  width: 11px;
   height: 14px;
   object-fit: contain;
 `;

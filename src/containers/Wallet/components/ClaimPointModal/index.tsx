@@ -24,7 +24,7 @@ export default function ClaimPointModal(props) {
         <p className={`${classes.subTitle}`}>{t('wallet:you_have_received')}</p>
         <div className={`${classes.flexBox} ${classes.cointLine}`}>
           <img
-            src="static/images/coin-points.svg"
+            src="/images/coin-points.svg"
             alt=""
             className={classes.img}
           />

@@ -18,7 +18,7 @@ class AxiosClient {
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
         'Content-Type': 'application/json',
-        'Accept-Language': 'en-US;q=0.7,en;q=0.6',
+        'Accept-Language': 'ja',
       },
     });
 

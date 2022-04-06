@@ -33,49 +33,49 @@ const ITEMS = [
 
 const ACCOUNTS = [
   {
-    image: '/static/images/img-user@2x.jpg',
+    image: '/images/img-user@2x.jpg',
     name: 'John',
     status: 'actived',
     totalActived: 3,
     cash: 30,
   },
   {
-    image: '/static/images/img-user2@2x.jpg',
+    image: '/images/img-user2@2x.jpg',
     name: 'Joanna',
     status: 'actived',
     totalActived: 2,
     cash: 40,
   },
   {
-    image: '/static/images/img-user@2x.jpg',
+    image: '/images/img-user@2x.jpg',
     name: 'Daniel',
     status: 'actived',
     totalActived: 4,
     cash: 50,
   },
   {
-    image: '/static/images/img-user2@2x.jpg',
+    image: '/images/img-user2@2x.jpg',
     name: 'Jacob',
     status: 'actived',
     totalActived: 1,
     cash: 60,
   },
   {
-    image: '/static/images/img-user@2x.jpg',
+    image: '/images/img-user@2x.jpg',
     name: 'Balmond',
     status: 'registed',
     totalActived: 0,
     cash: 0,
   },
   {
-    image: '/static/images/img-user2@2x.jpg',
+    image: '/images/img-user2@2x.jpg',
     name: 'Rain',
     status: 'actived',
     totalActived: 6,
     cash: 30,
   },
   {
-    image: '/static/images/img-user@2x.jpg',
+    image: '/images/img-user@2x.jpg',
     name: 'Raymond',
     status: 'registed',
     totalActived: 0,
@@ -89,7 +89,7 @@ const ItemInvite = ({ data }) => {
     <div className={classes.boxItem}>
       <div className={classes.flexCenter}>
         <div className={clsx(classes.imgDollar, classes.flexCenter)}>
-          <img src="static/images/icon-dollar.svg" alt="" />
+          <img src="/images/icon-dollar.svg" alt="" />
         </div>
         <div className={classes.ml10}>{`Invite ${data.number} Friend`}</div>
       </div>
@@ -138,7 +138,7 @@ function FriendInvite(props: Props) {
             <div className={classes.contentBanner}>
               <div className={clsx(classes.flexRow, classes.mb20)}>
                 <img
-                  src="static/images/qrcode-baseline.svg"
+                  src="/images/qrcode-baseline.svg"
                   alt=""
                   className={classes.qrImg}
                 />
@@ -160,7 +160,7 @@ function FriendInvite(props: Props) {
                   />
                 </div>
                 <img
-                  src="static/images/refer@2x.png"
+                  src="/images/refer@2x.png"
                   alt=""
                   className={classes.referImg}
                 />

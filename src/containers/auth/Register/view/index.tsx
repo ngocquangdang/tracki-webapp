@@ -76,7 +76,7 @@ function RegisterView(props: IRegisterPage.IProps) {
             </Link>
             <Link href="/">
               <Logo
-                src="static/images/logo.png"
+                src="/images/logo.png"
                 className={step === 1 ? classes.logo : classes.logo2}
                 alt=""
               />

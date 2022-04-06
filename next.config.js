@@ -28,19 +28,17 @@ const nextConfig = {
     STATIC_PATH: process.env.STATIC_PATH,
   },
   i18n,
-  // reactStrictMode: true,
   webpack5: false,
   swcMinify: true,
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: 'https://dev3.tracki.com/login',
-        permanent: false,
-        // locale: false,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: 'https://dev3.tracki.com/login',
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = withConfig(

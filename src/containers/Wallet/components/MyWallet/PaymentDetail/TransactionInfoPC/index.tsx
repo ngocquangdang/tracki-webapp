@@ -157,7 +157,7 @@ function OrderCard(props) {
     <div className={clsx(classes.card, classes.flexBox)}>
       <div>
         <img
-          src="static/images/tracki-device.png"
+          src="/images/tracki-device.png"
           alt=""
           className={classes.img}
         />

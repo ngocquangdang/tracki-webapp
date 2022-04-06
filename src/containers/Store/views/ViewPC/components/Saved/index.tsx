@@ -16,7 +16,7 @@ export default function SavedView() {
       <div className={classes.content}>
         <div className={classes.leftItem}>
           <img
-            src="static/images/tracki-device-store.png"
+            src="/images/tracki-device-store.png"
             alt="images"
             className={classes.productImage}
           />

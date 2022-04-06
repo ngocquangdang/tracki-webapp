@@ -127,7 +127,7 @@ function DetailTrackerCard(props: Prop) {
               {tracker.icon_url ? (
                 <Image background={tracker.icon_url} />
               ) : (
-                <DefaultImage background={'/static/images/image-device.png'} />
+                <DefaultImage background={'/images/image-device.png'} />
               )}
             </ImageWrapper>
             <ItemInfo>
@@ -267,10 +267,7 @@ function DetailTrackerCard(props: Prop) {
                 className={classes.iconRefresh}
                 onClick={onRefreshClick}
               />
-              <IconZoom
-                src="static/images/icon-zoom.svg"
-                onClick={onZoomClick}
-              />
+              <IconZoom src="/images/icon-zoom.svg" onClick={onZoomClick} />
             </RightItem>
           </Item>
         </TrackerInfomation>
@@ -292,7 +289,7 @@ function DetailTrackerCard(props: Prop) {
       <TrackerStatus isMobile={isMobile} isHistory={isHistory}>
         <BatteryTracker>
           <div>
-            <IconBattery src="static/images/icon-battery.png" />
+            <IconBattery src="/images/icon-battery.png" />
             <span
               className={
                 isMobile

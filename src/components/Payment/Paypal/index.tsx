@@ -20,11 +20,11 @@ function Paypal(props: Props) {
     <Fade in unmountOnExit mountOnEnter>
       <Container>
         <ContainerCheckoutLogo>
-          <Logo src="static/images/logo-paypal.png" />
+          <Logo src="/images/logo-paypal.png" />
         </ContainerCheckoutLogo>
         <Checkout>
           <CheckoutLogo
-            src="static/images/paypal-checkout.png"
+            src="/images/paypal-checkout.png"
             onClick={onClickPaypal}
           />
           <Text>

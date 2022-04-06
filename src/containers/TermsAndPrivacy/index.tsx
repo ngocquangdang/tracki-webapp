@@ -55,7 +55,7 @@ function TermsAndPrivacy(props: Props) {
           />
         </Link>
         <Link href="/">
-          <Logo src="static/images/logo.png" className={classes.logo} alt="" />
+          <Logo src="/images/logo.png" className={classes.logo} alt="" />
         </Link>
       </Header>
       <Wrapper>

@@ -72,7 +72,7 @@ export default function PurchaseModal(props: Props) {
           {type === 'subscription' && `${name} - Subscription`}
         </p>
         <div className={`${classes.flexBox} ${classes.cointLine}`}>
-          <img src="static/images/coin-points.svg" alt="" />
+          <img src="/images/coin-points.svg" alt="" />
           <p className={`${classes.flexBox} ${classes.coin}`}>{point}</p>{' '}
         </div>
         <Button

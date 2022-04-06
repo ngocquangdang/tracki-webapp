@@ -130,7 +130,7 @@ function TrackerList(props) {
           <div>
             <p className={classes.titleCard}>{trackers[id].name}</p>
             <div className={`${classes.flexBox} ${classes.cointLine}`}>
-              <img src="static/images/coin-points.svg" alt="" />
+              <img src="/images/coin-points.svg" alt="" />
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {trackers[id].point}
               </p>{' '}
@@ -185,7 +185,7 @@ function AccesoryList(props) {
           <div>
             <p className={classes.titleCard}>{accesories[id].name}</p>
             <div className={`${classes.flexBox} ${classes.cointLine}`}>
-              <img src="static/images/coin-points.svg" alt="" />
+              <img src="/images/coin-points.svg" alt="" />
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {accesories[id].point}
               </p>{' '}
@@ -254,7 +254,7 @@ function SubsciptionPlan(props) {
               {item.name} - {t('wallet:subscription')}
             </p>
             <div className={`${classes.flexBox} ${classes.cointLine}`}>
-              <img src="static/images/coin-points.svg" alt="" />
+              <img src="/images/coin-points.svg" alt="" />
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {item.point}
               </p>{' '}
@@ -318,7 +318,7 @@ function SMSPlan(props) {
               {item.sms_limit} SMS Plan - {item.name}
             </p>
             <div className={`${classes.flexBox} ${classes.cointLine}`}>
-              <img src="static/images/coin-points.svg" alt="" />
+              <img src="/images/coin-points.svg" alt="" />
               <p className={`${classes.flexBox} ${classes.coin}`}>
                 {item.point}
               </p>{' '}

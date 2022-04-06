@@ -86,13 +86,13 @@ class TrackerMarker extends React.Component<Props> {
         <span class='inner'></span>
         <div class='marker-pin' style='background-image:url(${
           tracker.status === 'active'
-            ? '/static/images/icon-marker.svg'
-            : '/static/images/red-marker.svg'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
         })'>
           ${
             tracker.icon_url
               ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
-              : `<img src='/static/images/image-device.png' class='image-device'></img>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
           }
         </div>
       ${
@@ -127,13 +127,13 @@ class TrackerMarker extends React.Component<Props> {
         <span class='inner'></span>
         <div class='marker-pin' style='background-image:url(${
           tracker.status === 'active'
-            ? '/static/images/icon-marker.svg'
-            : '/static/images/red-marker.svg'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
         })'>
         ${
           tracker.icon_url
             ? `<div class='image-marker' style='background-image: url(${tracker.icon_url})'></div>`
-            : `<img src='/static/images/image-device.png' class='image-device'></img>`
+            : `<img src='/images/image-device.png' class='image-device'></img>`
         }
         ${
           showTrackerName
@@ -349,13 +349,13 @@ class TrackerMarker extends React.Component<Props> {
         <span class='inner'></span>
         <div class='marker-pin' style='background-image: url(${
           status === 'active'
-            ? '/static/images/icon-marker.svg'
-            : '/static/images/red-marker.svg'
+            ? '/images/icon-marker.svg'
+            : '/images/red-marker.svg'
         })'>
           ${
             icon_url
               ? `<div class='image-marker' style='background-image: url(${icon_url})'></div>`
-              : `<img src='/static/images/image-device.png' class='image-device'></img>`
+              : `<img src='/images/image-device.png' class='image-device'></img>`
           }
         </div>
         ${this.trackerName(device_name || device_id, status)}

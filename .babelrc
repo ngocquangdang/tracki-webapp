@@ -25,7 +25,7 @@
           "@Store": "./src/store",
           "@Services": "./src/services",
           "@Server": "./server",
-          "@Static": "./public/static",
+          "@Static": "./public",
           "@Styled": "./src/styled",
           "@Utils": "./src/utils"
         }

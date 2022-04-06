@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-    <g id="prefix__square-fence" transform="translate(0 -.162)">
-        <g id="prefix__sq" fill="none" stroke="#fff" stroke-width="2px">
-            <path stroke="none" d="M0 0H18V18H0z" transform="translate(0 2.162)"/>
-            <path d="M1 1H17V17H1z" transform="translate(0 2.162)"/>
-        </g>
-        <circle id="prefix__Ellipse_25" cx="3" cy="3" r="3" fill="#fff" data-name="Ellipse 25" transform="translate(14 .162)"/>
-    </g>
-</svg>

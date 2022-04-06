@@ -118,11 +118,7 @@ export default function Header(props: any) {
               className={classes.logoWrapper}
               onClick={onClickTab(routes[0])}
             >
-              <img
-                src={'/static/images/logo.png'}
-                alt=""
-                className={classes.logo}
-              />
+              <img src={'/images/logo.png'} alt="" className={classes.logo} />
             </div>
             <Tabs
               value={currentTab}

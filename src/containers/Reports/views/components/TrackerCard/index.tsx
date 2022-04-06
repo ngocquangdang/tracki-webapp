@@ -14,7 +14,7 @@ function TrackerCard({ data, dateTime }) {
         {data.icon_url ? (
           <Image background={data.icon_url} />
         ) : (
-          <Image background={'/static/images/image-device.png'} />
+          <Image background={'/images/image-device.png'} />
         )}
       </div>
       <div className={classes.flexCol}>

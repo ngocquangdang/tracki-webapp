@@ -99,7 +99,7 @@ export default function SideBarOut(props: Props) {
                   ) : (
                     <Link href="/">
                       <Logo
-                        src="static/images/logo.png"
+                        src="/images/logo.png"
                         className={classes.logo}
                         alt=""
                       />

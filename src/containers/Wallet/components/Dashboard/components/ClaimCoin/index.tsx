@@ -55,7 +55,7 @@ export default function GiveCoin(props: Props) {
             <Day key={item.day} isMobile={isMobile}>
               <Coin isClaimed={item.status === 'claimed'}>
                 <img
-                  src="static/images/coin.svg"
+                  src="/images/coin.svg"
                   alt=""
                   className={classes.img}
                 />

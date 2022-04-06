@@ -434,7 +434,7 @@ function SettingTracker(props: Props) {
             {tracker.icon_url || imageFile.result ? (
               <Image background={imageFile.result || tracker.icon_url} />
             ) : (
-              <DefaultImage background={'/static/images/image-device.png'} />
+              <DefaultImage background={'/images/image-device.png'} />
             )}
             <UploadImage>
               <AiOutlineCamera style={{ color: '#fff' }} />

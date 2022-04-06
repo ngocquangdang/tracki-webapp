@@ -17,7 +17,7 @@ function DetailCarts() {
   return (
     <div className={classes.container}>
       <img
-        src="static/images/tracki-device-store.png"
+        src="/images/tracki-device-store.png"
         alt="images"
         className={classes.productImage}
       />

@@ -255,7 +255,7 @@ export default function RenewPayment(props: Props) {
           onClick={onBack}
         />
         <Link href="/">
-          <Logo src="static/images/logo.png" alt="" />
+          <Logo src="/images/logo.png" alt="" />
         </Link>
       </HeaderNav>
       <Content>
@@ -277,7 +277,7 @@ export default function RenewPayment(props: Props) {
                   />
                 ) : (
                   <Image>
-                    <img src="static/images/cards.png" alt="" />
+                    <img src="/images/cards.png" alt="" />
                   </Image>
                 )}
               </Header>
@@ -364,7 +364,7 @@ export default function RenewPayment(props: Props) {
                 </PlanList>
               </Letter>
               <Image2 className={`${isShowOtherPlan ? classes.hidden : ''}`}>
-                <img src="static/images/guarantee-safe.png" alt="" />
+                <img src="/images/guarantee-safe.png" alt="" />
               </Image2>
               <div className={`${!isShowOtherPlan ? classes.hidden : ''}`}>
                 <div id="dropin-container"></div>

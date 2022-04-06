@@ -115,7 +115,7 @@ export default function Step3(props: Props) {
           </div>
         ) : (
           <div className={classes.elipLocation}>
-            <img src="static/images/tracki-device.png" alt="" />
+            <img src="/images/tracki-device.png" alt="" />
           </div>
         )}
         <input {...getInputProps()} />

@@ -39,7 +39,7 @@ export default function MyPoint(props: Props) {
       case 'free':
         return (
           <img
-            src="static/images/calender.svg"
+            src="/images/calender.svg"
             alt=""
             className={classes.calenderIcon}
           />
@@ -47,7 +47,7 @@ export default function MyPoint(props: Props) {
       case 'invite':
         return (
           <img
-            src="static/images/tracki-device.png"
+            src="/images/tracki-device.png"
             alt=""
             className={classes.img}
           />
@@ -90,7 +90,7 @@ export default function MyPoint(props: Props) {
           >
             <div className={`${classes.flexBox} ${classes.mb10}`}>
               <img
-                src="static/images/coin-points.svg"
+                src="/images/coin-points.svg"
                 alt=""
                 className={classes.bigCoin}
               />
@@ -102,13 +102,13 @@ export default function MyPoint(props: Props) {
           </div>
           <div className={classes.footer}>
             <img
-              src="static/images/coin-points.svg"
+              src="/images/coin-points.svg"
               alt=""
               className={classes.normalCoin}
             />
             {t('wallet:redeem_my_poin')}
             <img
-              src="static/images/money.svg"
+              src="/images/money.svg"
               alt=""
               className={classes.moneyIcon}
             />

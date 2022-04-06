@@ -127,7 +127,7 @@ function OverviewReport(props: Props) {
             <img
               className={classes.iconBattery}
               alt=""
-              src="static/images/icon-battery.png"
+              src="/images/icon-battery.png"
             />
           }
           label="Bettery Level"

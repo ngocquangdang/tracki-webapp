@@ -29,7 +29,7 @@ import {
 import UserDatails from '../interfaces';
 import { LANGUAGES, DATE_SETTINGS } from '../store/definitions';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-// import NextI18NextInstance from 'next-i18next';
+import { useRouter } from 'next/router';
 
 interface SettingState {
   language: {
@@ -59,7 +59,7 @@ export default function AccountSetting(props: any) {
     date_format: '',
     language: 'en',
   });
-
+  const router = useRouter();
   // const { useTranslation } = NextI18NextInstance;
   // const { i18n } = useTranslation();
   useEffect(() => {
@@ -80,7 +80,6 @@ export default function AccountSetting(props: any) {
   }, [profile]);
 
   const onSubmitForm = (value: UserDatails.IStateUser) => {
-    // i18n.changeLanguage(value.language);
     if (value.first_name !== userProfile.first_name)
       firebaseLogEventRequest(
         'settings_page',
@@ -128,6 +127,7 @@ export default function AccountSetting(props: any) {
       updateInfoUser(dataUpdateUser);
       updatePrefrence(dataUpdatePreferences);
     }
+    router.replace('/settings', '/settings', { locale: value.language });
   };
 
   if (!userProfile.email) {

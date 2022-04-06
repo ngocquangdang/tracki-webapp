@@ -10,6 +10,8 @@ import withAuth from '@Components/hocs/withAuth';
 import View from '@Containers/Tracking';
 import nextI18nextConfig from 'next-i18next.config';
 
+const ns = ['common', 'auth', 'tracker'];
+
 const TrackingView: NextPage<IPage.InitialProps> = props => {
   return <View {...props} />;
 };
@@ -17,13 +19,10 @@ const TrackingView: NextPage<IPage.InitialProps> = props => {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'], nextI18nextConfig)),
+      ...(await serverSideTranslations(locale, ns, nextI18nextConfig)),
       // Will be passed to the page component as props
     },
   };
 }
 
-export default compose(
-  withAuth,
-  withTranslation(['common', 'tracker'])
-)(TrackingView);
+export default compose(withAuth, withTranslation(ns))(TrackingView);

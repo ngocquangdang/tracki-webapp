@@ -37,7 +37,7 @@ export default function PointHistory(props: Props) {
       case 'free':
         return (
           <img
-            src="static/images/calender.svg"
+            src="/images/calender.svg"
             alt=""
             className={classes.calenderIcon}
           />
@@ -45,7 +45,7 @@ export default function PointHistory(props: Props) {
       case 'invite':
         return (
           <img
-            src="static/images/tracki-device.png"
+            src="/images/tracki-device.png"
             alt=""
             className={classes.img}
           />
@@ -123,7 +123,7 @@ function DrawerContainer(props) {
       case 'free':
         return (
           <img
-            src="static/images/calender.svg"
+            src="/images/calender.svg"
             alt=""
             className={classes.calenderIcon}
           />
@@ -131,7 +131,7 @@ function DrawerContainer(props) {
       case 'invite':
         return (
           <img
-            src="static/images/tracki-device.png"
+            src="/images/tracki-device.png"
             alt=""
             className={classes.img}
           />

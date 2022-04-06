@@ -68,7 +68,7 @@ const Row = props => {
                     <div className={classes.imageWrapperSmall}>
                       <Image
                         background={
-                          data?.icon_url || '/static/images/image-device.png'
+                          data?.icon_url || '/images/image-device.png'
                         }
                         isSmall={true}
                       />
@@ -210,7 +210,7 @@ const Row = props => {
         <div className={classes.flexRow}>
           <div className={classes.imageWrapper}>
             <Image
-              background={data?.icon_url || '/static/images/image-device.png'}
+              background={data?.icon_url || '/images/image-device.png'}
             />
           </div>
           <div className={classes.flexCol}>
@@ -222,7 +222,7 @@ const Row = props => {
                 <img
                   className={classes.iconBatteryRote}
                   alt=""
-                  src="static/images/icon-battery.png"
+                  src="/images/icon-battery.png"
                 />
                 <span>{data?.battery || '--'}%</span>
               </div>

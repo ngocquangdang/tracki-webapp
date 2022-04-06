@@ -47,7 +47,7 @@ function CreditCard(props: Props) {
             <Text>{t('subscription:credit_card')}</Text>
           </LeftHeader>
           <RightHeader>
-            <ImageCredit src="static/images/credit-card.png" />
+            <ImageCredit src="/images/credit-card.png" />
           </RightHeader>
         </HeaderCredit>
         <Formik

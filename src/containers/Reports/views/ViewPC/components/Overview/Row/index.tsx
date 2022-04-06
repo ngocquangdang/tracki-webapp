@@ -67,9 +67,7 @@ const Row = props => {
             </div>
           ) : (
             <div className={classes.imageWrapper}>
-              <Image
-                background={data.icon_url || '/static/images/image-device.png'}
-              />
+              <Image background={data.icon_url || '/images/image-device.png'} />
             </div>
           )}
 
@@ -100,7 +98,7 @@ const Row = props => {
                   <img
                     className={classes.iconBatteryRote}
                     alt=""
-                    src="static/images/icon-battery.png"
+                    src="/images/icon-battery.png"
                   />
                   <span>{data?.battery || '--'}%</span>
                 </div>

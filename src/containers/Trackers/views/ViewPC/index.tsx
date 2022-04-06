@@ -143,7 +143,7 @@ export default function TrackersContainer(props: any) {
       trackerAlertSos?.map(item => (
         <Fade in={isAlertSos} unmountOnExit mountOnEnter key={item}>
           <ContainerAlert>
-            <IconSos src="static/images/ic-alert-SOS.svg" />
+            <IconSos src="/images/ic-alert-SOS.svg" />
             <ContentAlert>
               <div id="time"></div>
               <Content>

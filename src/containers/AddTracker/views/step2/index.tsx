@@ -298,7 +298,7 @@ export default function Step2(props: Props) {
           />
         ) : (
           <Image>
-            <img src="static/images/cards.png" alt="" />
+            <img src="/images/cards.png" alt="" />
           </Image>
         )}
       </Header>

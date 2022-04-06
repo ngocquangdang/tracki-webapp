@@ -3,9 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { withTranslation } from 'next-i18next';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
 import {
   makeSelectProfile,
   makeSelectMapTile,
@@ -122,6 +119,5 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,
-  memo,
-  withTranslation(['common', 'auth', 'tracker'])
+  memo
 )(TrackingContainer) as React.ComponentType;

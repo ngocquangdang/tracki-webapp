@@ -53,14 +53,14 @@ function ForgotPassword(props: IForgotPage.IProps) {
           </Link>
           <Link href="/login">
             <Logo
-              src="static/images/logo.png"
+              src="/images/logo.png"
               className={classes.logo}
               alt=""
             />
           </Link>
         </Header>
         <Content>
-          <Logo src="static/images/logo.png" alt="" className={classes.logo2} />
+          <Logo src="/images/logo.png" alt="" className={classes.logo2} />
           <Title>{t('auth:forgot_password')}</Title>
           {!email && (
             <SubTitle className={classes.desc1}>

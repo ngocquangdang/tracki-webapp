@@ -24,9 +24,7 @@ export default function CardProduct(props: Props) {
     <tr className={classes.container} onClick={onClickProduct}>
       <th className={classes.content}>
         <Image
-          background={
-            product.images[0]?.src || '/static/images/img-tracker-store.png'
-          }
+          background={product.images[0]?.src || '/images/img-tracker-store.png'}
         />
         <div className={classes.deviceName}>
           {product.name.length > 57
