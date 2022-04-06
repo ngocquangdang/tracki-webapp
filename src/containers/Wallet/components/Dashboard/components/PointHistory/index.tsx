@@ -44,11 +44,7 @@ export default function PointHistory(props: Props) {
         );
       case 'invite':
         return (
-          <img
-            src="/images/tracki-device.png"
-            alt=""
-            className={classes.img}
-          />
+          <img src="/images/tracki-device.png" alt="" className={classes.img} />
         );
       case 'ticket':
         return <AiOutlineGift className={classes.ticketIcon} />;
@@ -130,11 +126,7 @@ function DrawerContainer(props) {
         );
       case 'invite':
         return (
-          <img
-            src="/images/tracki-device.png"
-            alt=""
-            className={classes.img}
-          />
+          <img src="/images/tracki-device.png" alt="" className={classes.img} />
         );
       default:
         break;

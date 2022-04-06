@@ -46,11 +46,7 @@ export default function MyPoint(props: Props) {
         );
       case 'invite':
         return (
-          <img
-            src="/images/tracki-device.png"
-            alt=""
-            className={classes.img}
-          />
+          <img src="/images/tracki-device.png" alt="" className={classes.img} />
         );
       case 'ticket':
         return <TicketIcon className={classes.ticketIcon} />;
@@ -107,11 +103,7 @@ export default function MyPoint(props: Props) {
               className={classes.normalCoin}
             />
             {t('wallet:redeem_my_poin')}
-            <img
-              src="/images/money.svg"
-              alt=""
-              className={classes.moneyIcon}
-            />
+            <img src="/images/money.svg" alt="" className={classes.moneyIcon} />
           </div>
         </div>
       </div>

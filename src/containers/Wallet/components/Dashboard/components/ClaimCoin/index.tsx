@@ -54,11 +54,7 @@ export default function GiveCoin(props: Props) {
           {ClaimDate.map(item => (
             <Day key={item.day} isMobile={isMobile}>
               <Coin isClaimed={item.status === 'claimed'}>
-                <img
-                  src="/images/coin.svg"
-                  alt=""
-                  className={classes.img}
-                />
+                <img src="/images/coin.svg" alt="" className={classes.img} />
                 <p className={classes.coinPoint}>{item.coin}</p>
               </Coin>
               <div

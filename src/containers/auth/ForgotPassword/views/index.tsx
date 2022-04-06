@@ -52,11 +52,7 @@ function ForgotPassword(props: IForgotPage.IProps) {
             />
           </Link>
           <Link href="/login">
-            <Logo
-              src="/images/logo.png"
-              className={classes.logo}
-              alt=""
-            />
+            <Logo src="/images/logo.png" className={classes.logo} alt="" />
           </Link>
         </Header>
         <Content>

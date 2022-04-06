@@ -19,7 +19,7 @@ export default function Index() {
 
     const lang = getCookie('NEXT_LOCALE');
     if (cookieClient.checkCookie(process.env.COOKIE_NAME || 'token')) {
-      router.replace('/tracker', '/tracker', { locale: lang || 'en' });
+      router.replace('/trackers', '/trackers', { locale: lang || 'en' });
       return;
     }
     router.replace('/login', '/login', { locale: lang || 'en' });

@@ -46,11 +46,7 @@ export default function MyPoint(props: Props) {
         );
       case 'invite':
         return (
-          <img
-            src="/images/tracki-device.png"
-            alt=""
-            className={classes.img}
-          />
+          <img src="/images/tracki-device.png" alt="" className={classes.img} />
         );
       case 'ticket':
         return <TicketIcon className={classes.ticketIcon} />;
