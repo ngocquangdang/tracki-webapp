@@ -15,7 +15,7 @@ const TrackerRenew: NextPage<IPage.InitialProps> = props => {
   return <View {...props} />;
 };
 
-export const getStaticProps = async ({ locale }: any) => {
+export const getServerSideProps = async ({ locale }: any) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ns, nextI18nextConfig)),
