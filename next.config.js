@@ -39,16 +39,11 @@ const nextConfig = {
   //     },
   //   ];
   // },
-  // async rewrites() {
-  //   return {
-  //     afterFiles: [
-  //       {
-  //         source: '/trackers/:id/renew',
-  //         destination: '/trackers/[:id]/renew',
-  //       },
-  //     ],
-  //   };
-  // },
+  exportPathMap: async function () {
+    return {
+      '/trackers/[id]/renew': { page: '/post', query: { title: 'renew' } },
+    };
+  },
 };
 
 module.exports = withConfig(
