@@ -155,17 +155,14 @@ function* getCurrentLocationTrackerSaga(action) {
         ...obj,
         [id]: {
           ...trackers[id],
+          ...trackers[id].last_locations.find(
+            location =>
+              location.type.toLowerCase() ===
+              formatLocation[id].type.toLowerCase()
+          ),
           histories: trackers[id].histories
             ? trackers[id].histories.concat(formatLocation[id])
-            : [
-                {
-                  lat: trackers[id].lat,
-                  lng: trackers[id].lng,
-                  speed: trackers[id].speed,
-                  battery: trackers[id].battery,
-                },
-                formatLocation[id],
-              ],
+            : [formatLocation[id]],
         },
       };
       return obj;

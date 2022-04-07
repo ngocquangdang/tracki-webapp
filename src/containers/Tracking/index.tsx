@@ -82,9 +82,7 @@ function TrackingContainer(props: Props) {
   useEffect(() => {
     firebaseLogEventRequest('tracking_page', '');
     fetchUserRequestedAction();
-    setInterval(() => {
-      getCurrentLocationTracker();
-    }, 5000);
+
     // mqttStart();
     // return () => {
     //   mqttDisconnect();
@@ -93,9 +91,13 @@ function TrackingContainer(props: Props) {
     fetchUserRequestedAction,
     // mqttDisconnect,
     // mqttStart,
-    getCurrentLocationTracker,
   ]);
 
+  useEffect(() => {
+    setInterval(() => {
+      getCurrentLocationTracker();
+    }, 7000);
+  }, [getCurrentLocationTracker]);
   return <View {...rest} isLoading={!trackerIds} />;
 }
 

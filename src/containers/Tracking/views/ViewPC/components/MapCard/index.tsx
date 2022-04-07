@@ -82,15 +82,16 @@ class MapCard extends React.Component<IProps, IState> {
 
   moveMarker = tracker => () => {
     const history = tracker.histories || [];
-    const startPoint = history[history.length - 1];
+    const startPoint = history[history.length - 2];
 
     if (this.counter <= this.steps && startPoint) {
       this.counter += 1;
-      this.currentLat = (this.currentLat || startPoint.lat) + this.DELTA_LAT;
-      this.currentLng = (this.currentLng || startPoint.lng) + this.DELTA_LNG;
+      const curLatLng = this.marker._latlng;
+      this.currentLat = (this.currentLat || curLatLng.lat) + this.DELTA_LAT;
+      this.currentLng = (this.currentLng || curLatLng.lng) + this.DELTA_LNG;
       const latlng = {
-        lat: +this.currentLat.toFixed(7),
-        lng: +this.currentLng.toFixed(7),
+        lat: +this.currentLat,
+        lng: +this.currentLng,
       };
 
       if (this.marker) {
@@ -110,7 +111,7 @@ class MapCard extends React.Component<IProps, IState> {
         }
         this.map.setView(latlng);
       }
-      requestAnimationFrame(this.moveMarker(tracker));
+      // requestAnimationFrame(this.moveMarker(tracker));
     } else {
       this.counter = 1;
     }

@@ -38,14 +38,16 @@ class TrackerMarker extends React.Component<Props> {
   moveMarker = tracker => () => {
     const history = tracker.histories || [];
     const startPoint = history[history.length - 1];
-
+    this.currentLat = 0;
+    this.currentLng = 0;
     if (this.counter <= this.steps && startPoint) {
       this.counter += 1;
-      this.currentLat = (this.currentLat || startPoint.lat) + this.DELTA_LAT;
-      this.currentLng = (this.currentLng || startPoint.lng) + this.DELTA_LNG;
+      const curLatLng = window.trackerMarkers[tracker.device_id]._latlng;
+      this.currentLat = (this.currentLat || curLatLng.lat) + this.DELTA_LAT;
+      this.currentLng = (this.currentLng || curLatLng.lng) + this.DELTA_LNG;
       const latlng = {
-        lat: +this.currentLat.toFixed(7),
-        lng: +this.currentLng.toFixed(7),
+        lat: +this.currentLat,
+        lng: +this.currentLng,
       };
 
       if (window.trackerMarkers[tracker.device_id]) {
@@ -67,7 +69,7 @@ class TrackerMarker extends React.Component<Props> {
             : {};
         this.props.map.panInside(latlng, options);
       }
-      requestAnimationFrame(this.moveMarker(tracker));
+      // requestAnimationFrame(this.moveMarker(tracker));
     } else {
       this.counter = 1;
     }
