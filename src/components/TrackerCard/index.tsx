@@ -67,7 +67,7 @@ export default function TrackerCard(props: Props) {
 
   const onRenewTrackerPage = e => {
     e.stopPropagation();
-    Router.push(`/trackers/${tracker.device_id}/renew`);
+    Router.push(`/trackers/[id]/renew`, `/trackers/${tracker.device_id}/renew`);
   };
   return (
     <ListItemStyle
