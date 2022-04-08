@@ -293,12 +293,15 @@ function SingleTracker(props: Props) {
         tracker={tracker}
         t={t}
       />
-      <ShareLocation
-        handleClose={onCloseChildView}
-        t={t}
-        show={currentChildView === 'shareLocation'}
-        isMobile={false}
-      />
+      {currentChildView === 'shareLocation' && (
+        <ShareLocation
+          handleClose={onCloseChildView}
+          t={t}
+          show={currentChildView === 'shareLocation'}
+          isMobile={false}
+          tracker={tracker.device_id}
+        />
+      )}
     </React.Fragment>
   );
 }

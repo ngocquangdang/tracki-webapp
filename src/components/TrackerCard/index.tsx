@@ -88,9 +88,7 @@ export default function TrackerCard(props: Props) {
         </ImageWrapper>
         <ItemInfo>
           <Name>
-            {tracker.device_name !== ''
-              ? tracker.device_name
-              : tracker.device_id}
+            {tracker.device_name ? tracker.device_name : tracker.device_id}
             {tracker.status !== 'active' && (
               <Renew onClick={onRenewTrackerPage}>
                 RENEW

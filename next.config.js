@@ -41,7 +41,7 @@ const nextConfig = {
   // },
   exportPathMap: async function () {
     return {
-      '/trackers/[id]/renew': { page: '/post', query: { title: 'renew' } },
+      '/trackers/[id]/renew': { page: '/trackers', query: {} },
     };
   },
 };

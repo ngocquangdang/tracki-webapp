@@ -97,6 +97,18 @@ function* activeLinkShareLocationSaga(action) {
       action.payload.duration
     );
     yield put(actions.generateLinkShareLocationSucceed(data[0]));
+    const location = JSON.parse(localStorage.getItem('device-share') || 'null');
+    if (location) {
+      localStorage.setItem(
+        'device-share',
+        JSON.stringify({ ...location, [device_id]: data[0] })
+      );
+      return;
+    }
+    localStorage.setItem(
+      'device-share',
+      JSON.stringify({ [device_id]: data[0] })
+    );
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

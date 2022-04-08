@@ -94,9 +94,10 @@ function TrackingContainer(props: Props) {
   ]);
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       getCurrentLocationTracker();
     }, 7000);
+    return () => clearInterval(interval);
   }, [getCurrentLocationTracker]);
   return <View {...rest} isLoading={!trackerIds} />;
 }

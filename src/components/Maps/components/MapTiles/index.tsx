@@ -27,7 +27,7 @@ const MAP_TILES = [
   { name: 'dark_map', style: 'dark-v10', image: '/images/DarkMap.png' },
   {
     name: 'traffic',
-    style: 'satellite-v9',
+    style: 'traffic-day-v2',
     image: '/images/Traffic.png',
   },
   {

@@ -55,11 +55,9 @@ export default function HeaderMobile(props: Props) {
                       <DefaultImage src={'/images/image-device.png'} alt="" />
                     )}
                   </ImageWrapper>
-                  {
-                    rest.children.props.trackers[
-                      rest.children.props.selectedTrackerId
-                    ]?.device_name
-                  }
+                  {rest.children.props.trackers[
+                    rest.children.props.selectedTrackerId
+                  ]?.device_name || rest.children.props.selectedTrackerId}
                 </>
               ) : (
                 'All Trackers'

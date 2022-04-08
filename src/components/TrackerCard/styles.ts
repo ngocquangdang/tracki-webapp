@@ -34,9 +34,11 @@ const DefaultImage = styled.div`
 `;
 const ItemInfo = styled.div`
   text-overflow: ellipsis;
+  @media (max-width: 768px) {
+    max-width: 175px;
+  }
 `;
 const Name = styled.div`
-  display: flex;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -55,6 +57,7 @@ const Renew = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
+  width: fit-content;
 `;
 
 const Time = styled.div`

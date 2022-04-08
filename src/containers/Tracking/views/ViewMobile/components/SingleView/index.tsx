@@ -95,6 +95,7 @@ function TrackingSingleView(props: Props) {
             t={t}
             show={currentView === 'shareLocationView'}
             isMobile={true}
+            tracker={tracker.device_id}
           />
         </React.Fragment>
       )}

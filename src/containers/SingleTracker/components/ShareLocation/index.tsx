@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { useState, Fragment, useRef, useEffect } from 'react';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -43,15 +43,37 @@ interface Props {
   generateLinkSharLoaction(duration: object): void;
   deactiveLinkShare(): void;
   dataLink: DataLink;
+  tracker: number | string;
 }
 
+interface ITokenObject {
+  enabled: boolean;
+  expires: number;
+  token: string;
+}
+
+const defaultShareLocation = {
+  enabled: false,
+  expires: 0,
+  token: '',
+};
 function ShareLocation(props: Props) {
   const classes = useStyles();
-  const { handleClose, t, isMobile, show, isRequesting } = props;
+  const { handleClose, t, isMobile, show, isRequesting, tracker } = props;
   const [isRenderDetail, setRenderDetail] = useState(false);
   const [duration, setDuration] = useState({
     duration: SHARE_LOCATION_OPTIONS[0].value,
   });
+  const [localLocation, setLocalLocation] =
+    useState<ITokenObject>(defaultShareLocation);
+
+  useEffect(() => {
+    const location = JSON.parse(localStorage.getItem('device-share') || '{}');
+    if (Object.keys(location).length && tracker) {
+      if (location[tracker]?.expries < moment().unix() * 1000) return;
+      return setLocalLocation(location[tracker] || defaultShareLocation);
+    }
+  }, [tracker]);
 
   const textInputRef = useRef(null);
   const onSubmitForm = (values: any) => {
@@ -63,16 +85,30 @@ function ShareLocation(props: Props) {
   const handleDeactiveLink = () => {
     props.deactiveLinkShare();
     setRenderDetail(false);
+    const location = JSON.parse(localStorage.getItem('device-share') || '{}');
+    delete location[tracker + ''];
+
+    localStorage.setItem('device-share', JSON.stringify(location));
+    setLocalLocation(defaultShareLocation);
   };
   const linkDomain = window.location.host;
   const linkShareLocation = `${
     props.dataLink?.token
       ? `${linkDomain}/public-map?token=${props.dataLink?.token}`
+      : localLocation.token
+      ? `${linkDomain}/public-map?token=${localLocation.token}`
       : ''
   }`;
-  const codeShareLocation = `<iframe width="853" height="480" src="${linkDomain}/public-map?token=${props.dataLink?.token} frameborder="0" allowfullscreen></iframe>`;
+  const codeShareLocation = `<iframe width="853" height="480" src="${linkDomain}/public-map?token=${
+    props.dataLink?.token || localLocation.token
+  } frameborder="0" allowfullscreen></iframe>`;
   const copyLink = (isCopyLink: boolean) => () => {
     isCopyLink ? copy(linkShareLocation) : copy(codeShareLocation);
+  };
+
+  const onClose = () => {
+    setLocalLocation(defaultShareLocation);
+    handleClose();
   };
 
   const renderDetailShareLocation = () => {
@@ -117,8 +153,10 @@ function ShareLocation(props: Props) {
         <Footer>
           <Title>{t('tracker:generate_link_will_expire')}</Title>
           <StatusDuration>
-            {props.dataLink?.expires
-              ? moment(props.dataLink?.expires).format('DD/MM/YYYY, HH:mm')
+            {props.dataLink?.expires || localLocation.expires
+              ? moment(props.dataLink?.expires || localLocation.expires).format(
+                  'DD/MM/YYYY, HH:mm'
+                )
               : 'Unlimited'}
           </StatusDuration>
           <Description className={classes.description}>
@@ -177,12 +215,16 @@ function ShareLocation(props: Props) {
       title={t('tracker:share_tracker_loaction')}
       show={show}
       direction="right"
-      handleClose={handleClose}
+      handleClose={onClose}
       isMobile={isMobile}
       isLogo={isMobile}
     >
       <Container>
-        {isRenderDetail ? renderDetailShareLocation() : renderShareLocation()}
+        {!isRenderDetail &&
+        localLocation.expires < moment().unix() * 1000 &&
+        !localLocation.token
+          ? renderShareLocation()
+          : renderDetailShareLocation()}
       </Container>
     </SideBarOutside>
   );

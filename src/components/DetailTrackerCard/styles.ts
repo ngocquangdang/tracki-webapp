@@ -211,6 +211,7 @@ const Renew = styled.div`
   font-weight: 900;
   margin-left: 7px;
   cursor: pointer;
+  width: fit-content;
 `;
 const TimeActiveMobile = styled.span`
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25);

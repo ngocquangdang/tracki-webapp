@@ -11,16 +11,16 @@ import {
   // AdornmentStyle,
   // TooltipStyle,
   // ToolTip,
-  ScanQR,
-  QRImage,
-  QR1,
-  QR2,
+  // ScanQR,
+  // QRImage,
+  // QR1,
+  // QR2,
 } from './styles';
 import { TextInput } from '@Components/inputs';
 import { Button } from '@Components/buttons';
 // import { BsQuestionCircle } from 'react-icons/bs';
 import { AddTrackerSchema } from '../../schema';
-import { AiOutlineQrcode } from 'react-icons/ai';
+// import { AiOutlineQrcode } from 'react-icons/ai';
 interface Props {
   t(key: string, format?: object): string;
   onNextStep: Function;
@@ -49,7 +49,7 @@ export default function Step1(props: Props) {
     assigned,
     errorMessage,
     formData,
-    isMobile,
+    // isMobile,
   } = props;
   const classes = useStyles();
   // const [isOpenTooltip, setIsOpenTooltip] = useState(false);
@@ -64,7 +64,7 @@ export default function Step1(props: Props) {
 
   return (
     <>
-      <ScanQR className={isMobile ? '' : classes.hidden}>
+      {/* <ScanQR className={isMobile ? '' : classes.hidden}>
         <Typography>{t('tracker:scan_qr_subscription')}</Typography>
         <QRImage>
           <QR1>
@@ -84,7 +84,7 @@ export default function Step1(props: Props) {
       </ScanQR>
       <div className={`${classes.or} ${isMobile ? '' : classes.hidden}`}>
         or
-      </div>
+      </div> */}
       <Typography>{t('tracker:add_tracker_description')}</Typography>
       <StepOneContainer>
         <Formik

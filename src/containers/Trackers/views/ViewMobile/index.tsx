@@ -204,6 +204,7 @@ export default function ViewHomeMobile(props: Props) {
               t={props.t}
               show={currentView === 'shareLocationView'}
               isMobile={true}
+              tracker={tracker.device_id}
             />
           </React.Fragment>
         )}

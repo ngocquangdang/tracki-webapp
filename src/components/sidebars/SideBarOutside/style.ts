@@ -45,7 +45,6 @@ const WrapTitle = styled.div`
   align-items: center;
   display: flex;
   padding-left: 18px;
-  width: 100%;
   cursor: pointer;
 `;
 const Title = styled.div`
