@@ -24,7 +24,7 @@ export default class MQTTClient {
       connectTimeout: 3 * 1000,
       ...options,
     };
-    this.mqttClient = mqtt.connect(null, this.options);
+    this.mqttClient = mqtt.connect('', this.options);
 
     if (typeof options.debug !== 'undefined' && options.debug) {
       this.attachDebugHandlers();
