@@ -86,6 +86,17 @@ const useStyles = makeStyles(theme => ({
     color: '#168449',
     padding: 0,
     height: 'auto',
+    '&:hover': {
+      background: '#16844921',
+    },
+    '&.groupName': {
+      padding: '7px 15px',
+      marginRight: 15,
+    },
+    '&.selected': {
+      background: '#168449',
+      color: '#fff',
+    },
     '& span svg': {
       fontSize: '32px !important',
     },
@@ -133,14 +144,16 @@ const useStyles = makeStyles(theme => ({
   btn: {
     margin: '15px 0',
   },
-  fastTrackgroup: {
+  flexCenter: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
   },
-  fastTrackSelected: {
-    background: 'rgb(15, 92, 51)',
+  mrb15: {
+    marginBottom: 15,
+  },
+  mrt15: {
+    marginTop: 15,
   },
 }));
 const CardHeaderStyle = withStyles(theme => ({

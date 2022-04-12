@@ -58,24 +58,67 @@ function* checkDeviceAssignedSaga(action: ActionType) {
   }
 }
 
+const groupPlans = (plans = [] as any) => {
+  return plans.reduce(
+    (group, plan) => {
+      const key = plan.name.split(' ');
+      const groupName = key[0].concat(' ', key[1]);
+      group.groupNames = {
+        ...group.groupNames,
+        ...(group.groupNames[groupName]
+          ? {
+              [groupName]: {
+                ids: group.groupNames[groupName].ids.concat(plan.id),
+                name: groupName,
+              },
+            }
+          : {
+              [groupName]: {
+                ids: [plan.id],
+                name: groupName,
+              },
+            }),
+      };
+      group.plans = {
+        ...group.plans,
+        [plan.id]: plan,
+      };
+
+      return group;
+    },
+    {
+      groupNames: {},
+      plans: {},
+    }
+  );
+};
+
 function* getDevicePlanSaga(action: ActionType) {
   try {
     const account_id = yield call(apiServices.getUserInfo);
     const { data } = yield call(apiServices.getTrackerPlan, action.payload);
-    const formatData = data.planDTOList.reduce(
-      (obj, item) => {
-        obj.plans = { ...obj.plans, [item.id]: item };
-        obj.planIds.push(item.id);
-        return obj;
-      },
-      {
-        planIds: [],
-        plans: {},
+    let formatPlans;
+    if (data.id === 90) {
+      formatPlans = {
+        ...groupPlans(data.planDTOList),
         id: data.id,
-      }
-    );
+      };
+    } else {
+      formatPlans = data.planDTOList.reduce(
+        (obj, item) => {
+          obj.plans = { ...obj.plans, [item.id]: item };
+          obj.planIds.push(item.id);
+          return obj;
+        },
+        {
+          planIds: [],
+          plans: {},
+          id: data.id,
+        }
+      );
+    }
     yield put(
-      getDevicePlanSuccesAction(formatData, account_id.data?.account_id)
+      getDevicePlanSuccesAction(formatPlans, account_id.data?.account_id)
     );
   } catch (error) {
     const { data = {} } = { ...error };

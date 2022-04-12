@@ -54,7 +54,7 @@ export default function Step2(props: Props) {
     updateStepChild,
   } = props;
 
-  const { planIds = [], plans = {}, id } = trackerPlan;
+  const { planIds = [], plans = {}, id, groupNames = {} } = trackerPlan;
 
   const dataPlan = {
     256: {
@@ -95,12 +95,6 @@ export default function Step2(props: Props) {
     },
   };
 
-  const fastTrackGroups = [
-    { title: '5 sec', type: 'track_5_sec_' },
-    { title: '15 sec', type: 'track_15_sec_' },
-    { title: '30 sec', type: 'track_30_sec_' },
-    { title: '1 min', type: 'track_1_min_' },
-  ];
   const planItem = [
     `${t('tracker:coverage_subcription')}`,
     `${t('tracker:gps_tracking_subcription')}`,
@@ -118,9 +112,7 @@ export default function Step2(props: Props) {
   const [paymentPlan, setPaymentPlan]: any = useState(null);
   const [disablePayment, setDisableSubmitCard] = useState(true);
   const [isLoadingGateway, setLoadingGateway] = useState(true);
-  const [fastTrackGroupSelected, setfastTrackGroup] = useState(
-    fastTrackGroups[0].type
-  );
+  const [groupNameSelected, setGroupName] = useState('5 SEC');
 
   const getFirebaseLog = (id: number) => {
     switch (id) {
@@ -199,10 +191,6 @@ export default function Step2(props: Props) {
     setShowOtherPlan(false);
   };
 
-  const onSelectFastrackgroup = id => () => {
-    setfastTrackGroup(id);
-  };
-
   const renderCard = id => {
     switch (id) {
       case 69:
@@ -241,46 +229,31 @@ export default function Step2(props: Props) {
           </Card>
         ));
       case 90:
-        return planIds
-          .filter(i =>
-            plans[i].stripeId.toLowerCase().includes(fastTrackGroupSelected)
-          )
-          .map((id, index) => (
-            <Card
-              className={getCardClass(id)}
+        return (
+          groupNames[groupNameSelected] &&
+          groupNames[groupNameSelected].ids.map((id, index) => (
+            <RenderPlanCard
+              id={id}
+              getCardClass={getCardClass}
+              index={index}
+              onChangePaymentPlan={onChangePaymentPlan}
+              plans={plans}
+              t={t}
               key={id}
-              onClick={onChangePaymentPlan(id, index)}
-            >
-              <CardHeaderStyle
-                title={plans[id].name}
-                className={classes.headerCard}
-              />
-              <CardContent>
-                <CardDescription>{plans[id].caption}</CardDescription>
-              </CardContent>
-              <Paner mostPopular={plans[id]?.most_popular}>
-                {isMobile ? '20%' : t('tracker:most_popular')}
-              </Paner>
-            </Card>
-          ));
+            />
+          ))
+        );
       default:
         return planIds.map((id, index) => (
-          <Card
-            className={getCardClass(id)}
+          <RenderPlanCard
+            id={id}
+            getCardClass={getCardClass}
+            index={index}
+            onChangePaymentPlan={onChangePaymentPlan}
+            plans={plans}
+            t={t}
             key={id}
-            onClick={onChangePaymentPlan(id, index)}
-          >
-            <CardHeaderStyle
-              title={plans[id].name}
-              className={classes.headerCard}
-            />
-            <CardContent>
-              <CardDescription>{plans[id].caption}</CardDescription>
-            </CardContent>
-            <Paner mostPopular={plans[id]?.most_popular}>
-              {isMobile ? '20%' : t('tracker:most_popular')}
-            </Paner>
-          </Card>
+          />
         ));
     }
   };
@@ -302,25 +275,23 @@ export default function Step2(props: Props) {
           </Image>
         )}
       </Header>
-      <div className={classes.fastTrackgroup}>
-        {id === 90 &&
-          !isShowOtherPlan &&
-          fastTrackGroups.map((item, index) => (
+      {!isShowOtherPlan && id === 90 && (
+        <div className={clsx(classes.flexCenter, classes.mrb15, classes.mrt15)}>
+          {Object.keys(groupNames).map(groupName => (
             <Button
-              key={index}
-              color="primary"
-              type="submit"
-              variant="contained"
-              text={item.title}
-              onClick={onSelectFastrackgroup(item.type)}
-              className={clsx({
-                [classes.fastTrackSelected]:
-                  item.type === fastTrackGroupSelected,
-              })}
+              key={groupName}
+              variant="text"
+              text={groupName}
+              onClick={() => setGroupName(groupName)}
+              className={clsx(
+                classes.backBtn,
+                ' groupName',
+                groupName === groupNameSelected && ' selected'
+              )}
             />
           ))}
-      </div>
-
+        </div>
+      )}
       <GroupCard>{renderCard(id)}</GroupCard>
       <Letter className={`${isShowOtherPlan ? classes.hidden : ''}`}>
         <Lable>{t('tracker:dear_customer')}</Lable>
@@ -357,5 +328,21 @@ export default function Step2(props: Props) {
         />
       </div>
     </div>
+  );
+}
+
+function RenderPlanCard(props) {
+  const classes = useStyles();
+  const { getCardClass, id, index, plans, onChangePaymentPlan, t } = props;
+  return (
+    <Card className={getCardClass(id)} onClick={onChangePaymentPlan(id, index)}>
+      <CardHeaderStyle title={plans[id].name} className={classes.headerCard} />
+      <CardContent>
+        <CardDescription>{plans[id].caption}</CardDescription>
+      </CardContent>
+      <Paner mostPopular={plans[id]?.most_popular}>
+        {t('tracker:most_popular')}
+      </Paner>
+    </Card>
   );
 }

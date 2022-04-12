@@ -2,6 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { useRouter } from 'next/router';
 
 import RenewTrackerForm from './views';
 import {
@@ -30,12 +31,12 @@ import { SNACK_PAYLOAD } from '@Containers/Snackbar/store/constants';
 function RenewTrackerContainer(props: any) {
   useInjectSaga({ key: 'renewtracker', saga });
   useInjectReducer({ key: 'renewtracker', reducer });
+  const route = useRouter();
 
   const { getDevicePlanAction, updateStore, formData } = props;
 
   useEffect(() => {
-    const path_name = window.location.pathname;
-    const device_id = path_name.split('/')[2];
+    const device_id = route.query.id;
     updateStore({ ...formData, device_id });
     getDevicePlanAction(device_id);
   }, [getDevicePlanAction, updateStore]);

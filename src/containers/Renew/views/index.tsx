@@ -4,6 +4,7 @@ import Link from 'next/link';
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import clsx from 'clsx';
 
 import { FiChevronLeft } from 'react-icons/fi';
 import { MdDone } from 'react-icons/md';
@@ -70,8 +71,7 @@ export default function RenewPayment(props: Props) {
     showSnackbar,
   } = props;
 
-  const { planIds = [], plans = {}, id } = trackerPlan;
-
+  const { planIds = [], plans = {}, id, groupNames = {} } = trackerPlan;
   const dataPlan = {
     256: {
       id: 256,
@@ -132,6 +132,7 @@ export default function RenewPayment(props: Props) {
   const [disablePayment, setDisableSubmitCard] = useState(false);
   const [stepChild, updateStepChild] = useState('');
   const [isLoadingGateway, setLoadingGateway] = useState(true);
+  const [groupNameSelected, setGroupName] = useState('5 SEC');
 
   const onChangePaymentPlan = (id: number, index) => () => {
     setShowOtherPlan(true);
@@ -163,9 +164,9 @@ export default function RenewPayment(props: Props) {
       const paymentInfo = {
         nonce: '',
         plan_id: paymentPlan,
-        email: formData.email || 'trackimo.home@gmail.com',
-        first_name: formData.firstName || 'Trackimo',
-        last_name: formData.lastName || 'home',
+        email: formData.email || '',
+        first_name: formData.firstName || '',
+        last_name: formData.lastName || '',
       };
       return renewDeviceAction(formData, account_id, paymentInfo);
     }
@@ -281,6 +282,29 @@ export default function RenewPayment(props: Props) {
                   </Image>
                 )}
               </Header>
+              {!isShowOtherPlan && id === 90 && (
+                <div
+                  className={clsx(
+                    classes.flexCenter,
+                    classes.mrb15,
+                    classes.mrt15
+                  )}
+                >
+                  {Object.keys(groupNames).map(groupName => (
+                    <Button
+                      key={groupName}
+                      variant="text"
+                      text={groupName}
+                      onClick={() => setGroupName(groupName)}
+                      className={clsx(
+                        classes.backBtn,
+                        ' groupName',
+                        groupName === groupNameSelected && ' selected'
+                      )}
+                    />
+                  ))}
+                </div>
+              )}
               <GroupCard>
                 {isRequesting || trackerPlan === [] ? (
                   <CircularProgress />
@@ -319,32 +343,36 @@ export default function RenewPayment(props: Props) {
                                 </strong>
                               </CardDescription>
                             </CardContent>
-                            <Paner mostPopular={dataPlan[id]?.most_popular}>
+                            {/* <Paner mostPopular={dataPlan[id]?.most_popular}>
                               {isMobile ? '20%' : t('tracker:most_popular')}
-                            </Paner>
+                            </Paner> */}
                           </Card>
                         ))}
                       </>
+                    ) : id === 90 ? (
+                      groupNames[groupNameSelected] &&
+                      groupNames[groupNameSelected].ids.map((id, index) => (
+                        <RenderPlanCard
+                          id={id}
+                          getCardClass={getCardClass}
+                          index={index}
+                          onChangePaymentPlan={onChangePaymentPlan}
+                          plans={plans}
+                          t={t}
+                          key={id}
+                        />
+                      ))
                     ) : (
                       planIds.map((id, index) => (
-                        <Card
-                          className={getCardClass(id)}
+                        <RenderPlanCard
+                          id={id}
+                          getCardClass={getCardClass}
+                          index={index}
+                          onChangePaymentPlan={onChangePaymentPlan}
+                          plans={plans}
+                          t={t}
                           key={id}
-                          onClick={onChangePaymentPlan(id, index)}
-                        >
-                          <CardHeaderStyle
-                            title={plans[id].name}
-                            className={classes.headerCard}
-                          />
-                          <CardContent>
-                            <CardDescription>
-                              {plans[id].caption}
-                            </CardDescription>
-                          </CardContent>
-                          <Paner mostPopular={plans[id]?.most_popular}>
-                            {isMobile ? '20%' : t('tracker:most_popular')}
-                          </Paner>
-                        </Card>
+                        />
                       ))
                     )}
                   </>
@@ -392,5 +420,21 @@ export default function RenewPayment(props: Props) {
         )}
       </Content>
     </Container>
+  );
+}
+
+function RenderPlanCard(props) {
+  const classes = useStyles();
+  const { getCardClass, id, index, plans, onChangePaymentPlan, t } = props;
+  return (
+    <Card className={getCardClass(id)} onClick={onChangePaymentPlan(id, index)}>
+      <CardHeaderStyle title={plans[id].name} className={classes.headerCard} />
+      <CardContent>
+        <CardDescription>{plans[id].caption}</CardDescription>
+      </CardContent>
+      <Paner mostPopular={plans[id]?.most_popular}>
+        {t('tracker:most_popular')}
+      </Paner>
+    </Card>
   );
 }

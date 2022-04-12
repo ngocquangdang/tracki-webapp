@@ -148,6 +148,17 @@ const useStyles = makeStyles(theme => ({
     '& span svg': {
       fontSize: '32px !important',
     },
+    '&:hover': {
+      background: '#16844921',
+    },
+    '&.groupName': {
+      padding: '7px 15px',
+      marginRight: 15,
+    },
+    '&.selected': {
+      background: '#168449',
+      color: '#fff',
+    },
     [theme.breakpoints.down('sm')]: {
       fontSize: 14,
       '& span svg': {
@@ -202,6 +213,17 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     padding: 25,
+  },
+  flexCenter: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mrb15: {
+    marginBottom: 15,
+  },
+  mrt15: {
+    marginTop: 15,
   },
 }));
 const CardHeaderStyle = withStyles(theme => ({
