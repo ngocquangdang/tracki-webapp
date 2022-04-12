@@ -22,6 +22,7 @@ class AxiosClient {
       },
     });
 
+    delete this.axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
     // if (
     //   CookieHandlerInstanfce.checkCookie(process.env.COOKIE_NAME || 'token')
     // ) {
@@ -86,6 +87,7 @@ class AxiosClient {
   get(resource: string, slug = '', config = {}) {
     const myHeaders = new Headers(); // Currently empty
     myHeaders.delete('X-XSRF-TOKEN');
+    delete this.axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
     const requestURL = isEmpty(slug) ? `${resource}` : `${resource}/${slug}`;
     return this.axiosClient.get(
       requestURL,
@@ -96,6 +98,8 @@ class AxiosClient {
   post(resource: string, data: object, config = {}) {
     const myHeaders = new Headers(); // Currently empty
     myHeaders.delete('X-XSRF-TOKEN');
+    delete this.axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
+
     return this.axiosClient.post(
       `${resource}`,
       data,
@@ -106,6 +110,8 @@ class AxiosClient {
   update(resource: string, data: object, config = {}) {
     const myHeaders = new Headers(); // Currently empty
     myHeaders.delete('X-XSRF-TOKEN');
+    delete this.axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
+
     return this.axiosClient.put(
       `${resource}`,
       data,
@@ -116,6 +122,8 @@ class AxiosClient {
   put(resource: string, data: object, config = {}) {
     const myHeaders = new Headers(); // Currently empty
     myHeaders.delete('X-XSRF-TOKEN');
+    delete this.axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
+
     return this.axiosClient.put(
       `${resource}`,
       data,
