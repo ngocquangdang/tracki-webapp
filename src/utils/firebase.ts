@@ -1,6 +1,7 @@
-import firebaseApp from 'firebase/app';
-import firebase from 'firebase';
+import { initializeApp } from 'firebase/app';
+// import firebase from 'firebase';
 import 'firebase/analytics';
+import { getPerformance } from 'firebase/performance';
 
 import {
   API_KEY,
@@ -13,6 +14,7 @@ import {
   STORAGE_BUCKET,
 } from '@Definitions/app';
 import { firebaseEnvent } from './firebaseEvent';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 //interface
 interface Param {
@@ -34,21 +36,38 @@ export const firebaseConfig = {
   measurementId: MESUAREMENT_ID,
 };
 
-if (!firebaseApp.apps.length) {
-  firebaseApp.initializeApp(firebaseConfig);
-  // Check that `window` is in scope for the analytics module!
-  if (typeof window !== 'undefined') {
-    // Enable analytics. https://firebase.google.com/docs/analytics/get-started
-    if ('measurementId' in firebaseConfig) {
-      firebase.analytics();
-      console.log('config analytics success');
-    }
+// if (!firebaseApp.apps.length) {
+//   firebaseApp.initializeApp(firebaseConfig);
+//   // Check that `window` is in scope for the analytics module!
+//   if (typeof window !== 'undefined') {
+//     // Enable analytics. https://firebase.google.com/docs/analytics/get-started
+//     if ('measurementId' in firebaseConfig) {
+//       firebase.analytics();
+//       console.log('config analytics success');
+//     }
+//   }
+// }
+
+// const app = firebase.apps[0];
+// Initialize Firebase
+let analytics;
+let perf;
+const app = initializeApp(firebaseConfig);
+console.log(app.name ? 'Firebase Mode Activated!' : 'Firebase not working :(');
+// Check that `window` is in scope for the analytics module!
+if (typeof window !== 'undefined') {
+  // Enable analytics. https://firebase.google.com/docs/analytics/get-started
+  if ('measurementId' in firebaseConfig) {
+    analytics = getAnalytics(app);
+    perf = getPerformance(app);
+
+    console.log('config analytics success');
   }
 }
 
 function analyticsEvent(name: string, param?: Object): void {
   try {
-    firebase.analytics().logEvent(name, param);
+    logEvent(analytics, name, param);
   } catch (e) {
     console.log('Unable to tag analytics event:', e);
   }
@@ -67,7 +86,4 @@ export const firebaseLogEventRequest = (
   }
 };
 
-const app = firebase.apps[0];
-console.log(app.name ? 'Firebase Mode Activated!' : 'Firebase not working :(');
-
-export { firebase, analyticsEvent };
+export { analyticsEvent, perf };
