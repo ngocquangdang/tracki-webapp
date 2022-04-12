@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, select } from 'redux-saga/effects';
 
 import * as types from '../constants';
 import * as apiServices from '../../services';
@@ -11,11 +11,13 @@ import {
   fetchTrackersSucceedAction,
   selectTrackerIdAction,
 } from '@Containers/Trackers/store/actions';
+import { makeSelectTrackers } from '@Containers/Trackers/store/selectors';
 
 function* getDeviceByTokenSaga(action) {
   const { token } = action.payload;
   try {
     const { data } = yield call(apiServices.getDevicesByToken, token);
+    const trackerss = yield select(makeSelectTrackers());
 
     const trackers = data.reduce(
       (obj, item) => {
@@ -24,8 +26,19 @@ function* getDeviceByTokenSaga(action) {
           device_name: item.deviceName,
           lat: item.geoLocation.latitude,
           lng: item.geoLocation.longitude,
+          ...item,
         };
-        obj.trackers = { ...obj.trackers, [item.deviceId]: formatItem };
+        obj.trackers = {
+          ...obj.trackers,
+          [item.deviceId]: {
+            ...obj.trackers[item.deviceId],
+            ...formatItem,
+            histories: trackerss[item.deviceId]?.histories
+              ? trackerss[item.deviceId].histories.concat(formatItem)
+              : [formatItem],
+          },
+        };
+
         obj.trackerIds.push(item.deviceId);
         return obj;
       },

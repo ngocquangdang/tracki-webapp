@@ -4,6 +4,7 @@ import View from './views';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useInjectSaga } from '@Utils/injectSaga';
+import { useRouter } from 'next/router';
 
 import saga from './store/sagas';
 import reducer from './store/reducers';
@@ -31,19 +32,23 @@ function PublicMap(props) {
   useInjectSaga({ key: 'mqtt', saga: mqttSaga });
   useInjectReducer({ key: 'mqtt', reducer: mqttReducer });
 
-  const { getDeviceByToken, mqttStart, mqttDisconnect } = props;
+  const route = useRouter();
+
+  const { getDeviceByToken } = props;
 
   useEffect(() => {
-    const deviceToken = window.location.search.split('=')[1];
-    getDeviceByToken(deviceToken);
+    const intervalGetDevcie = setInterval(() => {
+      getDeviceByToken(route.query.token);
+    }, 7000);
+    return () => clearInterval(intervalGetDevcie);
   }, [getDeviceByToken]);
 
-  useEffect(() => {
-    mqttStart();
-    return () => {
-      mqttDisconnect();
-    };
-  }, [mqttStart, mqttDisconnect]);
+  // useEffect(() => {
+  //   mqttStart();
+  //   return () => {
+  //     mqttDisconnect();
+  //   };
+  // }, [mqttStart, mqttDisconnect]);
   return <View {...props} />;
 }
 
