@@ -71,7 +71,7 @@ const options = {
     },
   },
   // Additional options
-  secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
+  secret: process.env.SECRET || '123456789ABCDEF', // Recommended (but auto-generated if not specified)
   debug: true, // Use this option to enable debug messages in the console
 };
 
