@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "dev": "nodemon next dev",
-    "build": "npm run build && tsc --project tsconfig.server.json",
+    "build": "next build && tsc --project tsconfig.server.json",
     "build:development": "env-cmd -f environments/.env.development next build",
     "build:preproduction": "env-cmd -f environments/.env.preproduction next build",
     "build:production": "env-cmd -f environments/.env.production npm run build",
