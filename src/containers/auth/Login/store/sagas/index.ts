@@ -54,18 +54,16 @@ function* loginSocialNetworkSaga(action: ActionType) {
       bodyData
     );
 
-    if (response.status) {
-      yield put(loginSuccessAction(response.data));
-      CookieInstance.setCookie(
-        process.env.COOKIE_NAME || 'token',
-        response.data.access_token
-      );
-      CookieInstance.setCookie('refreshToken', response.data.refresh_token);
+    yield put(loginSuccessAction(response.data));
+    CookieInstance.setCookie(
+      process.env.COOKIE_NAME || 'token',
+      response.data.access_token
+    );
+    CookieInstance.setCookie('refreshToken', response.data.refresh_token);
 
-      AxiosClient.setHeader(response.data.access_token);
-      window.location.replace('/trackers');
-      yield put(loginGeoBotRequestAction(response));
-    }
+    AxiosClient.setHeader(response.data.access_token);
+    window.location.replace('/trackers');
+    yield put(loginGeoBotRequestAction(response));
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

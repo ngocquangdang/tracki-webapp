@@ -1,7 +1,7 @@
 import React from 'react';
 import App, { AppInitialProps } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Provider } from 'next-auth/client';
+import { SessionProvider } from 'next-auth/react';
 import cookie from 'cookie';
 import Header from 'next/head';
 
@@ -67,11 +67,11 @@ class WebApp extends App<AppWithStore & Props> {
   render() {
     const { Component, pageProps, authenticated, isMobile } = this.props;
     return (
-      <Provider
-        options={{
-          clientMaxAge: 0,
-          keepAlive: 0,
-        }}
+      <SessionProvider
+        // options={{
+        //   clientMaxAge: 0,
+        //   keepAlive: 0,
+        // }}
         session={pageProps.session}
       >
         <AuthProvider authenticated={authenticated}>
@@ -96,11 +96,9 @@ class WebApp extends App<AppWithStore & Props> {
             <Component {...pageProps} isMobile={isMobile} />
           </ThemeProvider>
         </AuthProvider>
-      </Provider>
+      </SessionProvider>
     );
   }
 }
 
-export default wrapper.withRedux(
-  appWithTranslation(WebApp as any, nextI18NextConfig)
-);
+export default wrapper.withRedux(appWithTranslation(WebApp, nextI18NextConfig));

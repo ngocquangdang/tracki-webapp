@@ -62,7 +62,7 @@ export const loginGeobotTracki = async (
 };
 
 export const loginSocialNetWork = async (socialType: string, bodyData) => {
-  await axiosClient.post(
+  return await axiosClient.post(
     LOGIN_SOCIAL + socialType,
     { ...bodyData },
     {

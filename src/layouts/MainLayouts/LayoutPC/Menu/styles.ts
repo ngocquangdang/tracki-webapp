@@ -5,7 +5,7 @@ const StyledMenuItem = withStyles(() => ({
   root: {
     color: '#1a1a1a',
   },
-}))(MenuItem);
+}))(MenuItem) as any;
 
 const useStyles = makeStyles(theme => ({
   btnRoot: {

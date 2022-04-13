@@ -322,7 +322,7 @@ const ButtonIcon = withStyles(theme => ({
       padding: 0,
     },
   },
-}))(Button);
+}))(Button) as any;
 
 const TooltipStyle = withStyles({
   tooltip: {
@@ -336,7 +336,7 @@ const TooltipStyle = withStyles({
   arrow: {
     color: 'white',
   },
-})(Tooltip);
+})(Tooltip) as any;
 
 export {
   Card,

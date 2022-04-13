@@ -15,6 +15,6 @@ const ButtonStyle = withStyles(theme => ({
     fontSize: 16,
     height: 50,
   },
-}))(Button);
+}))(Button) as any;
 
 export { ButtonStyle, useStyles };

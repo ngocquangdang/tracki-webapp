@@ -13,10 +13,10 @@ const PublicMap: NextPage = props => {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['auth'], nextI18nextConfig)),
+      ...(await serverSideTranslations(locale, ['common '], nextI18nextConfig)),
       // Will be passed to the page component as props
     },
   };
 }
 
-export default withTranslation('auth')(PublicMap);
+export default withTranslation('common ')(PublicMap);

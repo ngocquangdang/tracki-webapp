@@ -1,5 +1,7 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+// import Providers from 'next-auth/providers';
+import GoogleProvider from 'next-auth/providers/google';
+import FacebookProvider from 'next-auth/providers/facebook';
 
 // const Side = 'https://ac17b106b94b.ngrok.io';
 // const Side = 'https://dev.tracki.com';
@@ -7,14 +9,6 @@ import Providers from 'next-auth/providers';
 const options = {
   // site: 'https://25dda1de678d.ngrok.io',
   providers: [
-    // Providers.Email({
-    //   // SMTP connection string or nodemailer configuration object https://nodemailer.com/
-    //   server: process.env.EMAIL_SERVER,
-    //   // Email services often only allow sending email from a valid/verified address
-    //   from: process.env.EMAIL_FROM,
-    // }),
-    // When configuring oAuth providers make sure you enabling requesting
-    // permission to get the users email address (required to sign in)
     {
       id: 'tracki',
       name: 'Tracki',
@@ -28,24 +22,13 @@ const options = {
       accessTokenUrl: 'https://legacy-app.trackimo.com/api/v3/oauth2/token',
       profileUrl: 'https://legacy-app.trackimo.com/api/v3/user',
     },
-    Providers.Google({
-      clientId:
-        '146989380702-1vbclr1869p70ec0veqf4b62jj93cuhp.apps.googleusercontent.com',
-      clientSecret: 'IkrCgkp9P0t1Qf6qpAHbZcmK',
+    GoogleProvider({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
       authorizationUrl:
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
-      idToken: true,
-      profile: profile => {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-          image: profile.picture,
-          provider: 'google',
-        };
-      },
     }),
-    Providers.Facebook({
+    FacebookProvider({
       clientId: '259417625433991',
       clientSecret: '5e984f1c1f1fde7f7773a953587216db',
     }),
@@ -66,42 +49,25 @@ const options = {
   },
 
   // JSON Web Token options
-  jwt: {
-    // secret: process.env.SECRET, // Recommended (but auto-generated if not specified)
-    // encryption: true,
-    // signingKey: process.env.JWT_SIGNING_KEY,
-    // encryptionKey: process.env.JWT_ENCRYPTION_KEY,
-  },
-
-  // Control which users / accounts can sign in
-  // You can use this option in conjuction with OAuth and JWT to control which
-  // accounts can sign in without having to use a database.
-  allowSignin: async (user, account) => {
-    // Return true if user / account is allowed to sign in.
-    // Return false to display an access denied message.
-    return true;
-  },
+  jwt: {},
 
   // You can define custom pages to override the built-in pages
   // The routes shown here are the default URLs that will be used.
   pages: {},
   callbacks: {
-    async signIn(user, account, profile) {
-      return true;
-    },
-    // async redirect(url, baseUrl) {
-    //   return url.startsWith(baseUrl) ? url : baseUrl;
-    // },
-    async session(session, token) {
-      session.accessToken = token.account;
-      return session;
-    },
-    async jwt(token, user, account, profile, isNewUser, idToken) {
-      console.log(
-        '🚀 ~ file: [...nextauth].js ~ line 116 ~ jwt ~ idToken',
-        idToken
-      );
+    async jwt({ token, account }) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+        token.provider = account.provider;
+      }
       return token;
+    },
+    async session({ session, token }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken;
+      session.provider = token.provider;
+      return session;
     },
   },
   // Additional options

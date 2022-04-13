@@ -31,7 +31,7 @@ const ListItemStyle = withStyles(theme => ({
       borderBottom: 'none',
     },
   },
-}))(ListItem);
+}))(ListItem) as any;
 
 const useStyles = makeStyles(theme => ({
   icon: {
