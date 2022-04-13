@@ -17,7 +17,7 @@ interface IProps {
   geofences: object;
   editGeofenceId: number;
   mapAction: string;
-  tracker: ITracker;
+  tracker: ITracker | any;
   classes: any;
   t(key: string, format?: object): string;
   changeMapAction(action: string): void;
@@ -220,4 +220,4 @@ class MapCard extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(style)(MapCard) as any;
+export default withStyles(style)(MapCard);
