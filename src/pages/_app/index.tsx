@@ -1,16 +1,12 @@
 import React from 'react';
-import App, { AppInitialProps } from 'next/app';
+import App from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { SessionProvider } from 'next-auth/react';
 import cookie from 'cookie';
 import Header from 'next/head';
 
 import { theme } from '@Definitions/styled';
-import {
-  AppWithStore,
-  CookieMessage,
-  AppInitialPropsWithAuth,
-} from '@Interfaces';
+import { AppWithStore, CookieMessage } from '@Interfaces';
 import { wrapper } from '@Store';
 import axiosClient from '@Utils/axios';
 import cookieClient from '@Utils/cookie';
@@ -29,10 +25,7 @@ interface Props {
 }
 
 class WebApp extends App<AppWithStore & Props> {
-  static async getInitialProps({
-    Component,
-    ctx,
-  }): Promise<AppInitialProps & AppInitialPropsWithAuth & Props> {
+  static async getInitialProps({ Component, ctx }) {
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
       : {};
