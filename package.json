@@ -8,7 +8,7 @@
     "build": "next build && tsc --project tsconfig.server.json",
     "build:development": "env-cmd -f environments/.env.development next build",
     "build:preproduction": "env-cmd -f environments/.env.preproduction next build",
-    "build:production": "env-cmd -f environments/.env.production npm run build",
+    "build:production": "env-cmd -f environments/.env.production next build",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "test": "jest --coverage",
     "lint": "eslint './{src,pages,server}/**/*' --ext .tsx,.ts --no-error-on-unmatched-pattern",
@@ -17,8 +17,7 @@
     "analyze": "cross-env BUNDLE_ANALYZE=both npm run build",
     "export": "cross-env NODE_ENV=production next export",
     "storybook": "start-storybook -s ./public/static -p 6006",
-    "build-storybook": "build-storybook -s ./public/static  -c .storybook -o .storybookout",
-    "preinstall": "npx npm-force-resolutions"
+    "build-storybook": "build-storybook -s ./public/static  -c .storybook -o .storybookout"
   },
   "dependencies": {
     "@date-io/date-fns": "1.x",
@@ -120,7 +119,7 @@
     "@types/material-ui": "^0.21.7",
     "@types/mqtt": "^2.5.0",
     "@types/next-redux-wrapper": "^3.0.0",
-    "@types/react": "17.0.30",
+    "@types/react": "^16.9.36",
     "@types/react-icons": "^3.0.0",
     "@types/react-redux": "^7.1.9",
     "@types/recompose": "^0.30.7",
@@ -169,7 +168,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint",
+      "pre-commit": "yarn lint",
       "pre-push": ""
     }
   }
