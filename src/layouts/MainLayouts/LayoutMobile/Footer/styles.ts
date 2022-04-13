@@ -48,6 +48,6 @@ const LinkStyle = withStyles(() => ({
     display: 'block',
     textAlign: 'center',
   },
-}))(Link);
+}))(Link) as any;
 
 export { LinkStyle, useStyles };

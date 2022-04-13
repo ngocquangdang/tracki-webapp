@@ -17,7 +17,7 @@ const BackDrop = withStyles(theme => ({
       backdropFilter: 'blur(2px)',
     },
   },
-}))(Backdrop);
+}))(Backdrop) as any;
 
 const useStyles = makeStyles(theme => ({
   modal: {

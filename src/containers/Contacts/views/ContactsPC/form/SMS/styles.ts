@@ -59,6 +59,6 @@ const TextInputStyle = withStyles(theme => ({
       padding: '10.5px 14px',
     },
   },
-}))(TextInput);
+}))(TextInput) as any;
 
 export { useStyles, TextInputStyle };

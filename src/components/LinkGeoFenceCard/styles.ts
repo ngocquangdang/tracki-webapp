@@ -141,6 +141,6 @@ const ListItemStyle = withStyles(() => ({
     border: 'solid 1px #f7f7f7',
     marginBottom: 10,
   },
-}))(ListItem);
+}))(ListItem) as any;
 
 export { Image, useStyles, ListItemStyle };

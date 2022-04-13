@@ -60,7 +60,7 @@ const AdornmentStyle = withStyles(theme => ({
     right: 10,
     fontSize: 19,
   },
-}))(InputAdornment);
+}))(InputAdornment) as any;
 const TooltipStyle = withStyles({
   tooltip: {
     color: '#1a1a1a',
@@ -73,7 +73,7 @@ const TooltipStyle = withStyles({
   arrow: {
     color: 'white',
   },
-})(Tooltip);
+})(Tooltip) as any;
 const useStyles = makeStyles(theme => ({
   marginInput: {
     margin: '9.5px 0',

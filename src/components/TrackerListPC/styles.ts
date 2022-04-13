@@ -101,7 +101,7 @@ const TextInput = withStyles(theme => ({
       padding: '15.5px 14px',
     },
   },
-}))(TextField);
+}))(TextField) as any;
 export {
   Container,
   Content,

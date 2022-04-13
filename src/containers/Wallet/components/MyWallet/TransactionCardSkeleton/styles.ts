@@ -29,6 +29,6 @@ const ListItemStyle = withStyles(theme => ({
       borderTop: 'none',
     },
   },
-}))(ListItem);
+}))(ListItem) as any;
 
 export { useStyles, ListItemStyle };

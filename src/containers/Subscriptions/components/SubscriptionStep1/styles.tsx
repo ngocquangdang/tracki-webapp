@@ -147,7 +147,7 @@ const SelectForm = withStyles(theme => ({
       padding: '15.5px 14px',
     },
   },
-}))(FormControl);
+}))(FormControl) as any;
 
 export {
   TextBold,

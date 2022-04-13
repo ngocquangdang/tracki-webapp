@@ -84,6 +84,6 @@ const LinkStyle = withStyles(theme => ({
     color: '#666666',
     width: '100%',
   },
-}))(Link);
+}))(Link) as any;
 
 export { useStyles, LinkStyle, Item, Icon, Label, MenuButton };

@@ -87,7 +87,7 @@ const TextInput = withStyles(theme => ({
       textAlign: 'start',
     },
   },
-}))(TextField);
+}))(TextField) as any;
 
 const useStyles = makeStyles(theme => ({
   color: {

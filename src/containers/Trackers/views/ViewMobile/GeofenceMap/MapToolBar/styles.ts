@@ -62,6 +62,6 @@ const IconButtonStyle = withStyles(theme => ({
       color: '#ffffff',
     },
   },
-}))(IconButton);
+}))(IconButton) as any;
 
 export { IconButtonStyle, useStyles };

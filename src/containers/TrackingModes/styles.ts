@@ -35,5 +35,5 @@ const TabStyle = withStyles(theme => ({
       marginRight: '6px',
     },
   },
-}))(Tab);
+}))(Tab) as any;
 export { useStyles, TabStyle };

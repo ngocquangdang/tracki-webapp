@@ -88,6 +88,6 @@ const ListItemStyle = withStyles(theme => ({
       marginTop: 16,
     },
   },
-}))(ListItem);
+}))(ListItem) as any;
 
 export { Status, Image, useStyles, ListItemStyle };

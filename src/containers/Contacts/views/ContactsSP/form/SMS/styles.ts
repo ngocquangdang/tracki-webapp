@@ -105,5 +105,5 @@ const TextInputStyle = withStyles(theme => ({
       height: 45,
     },
   },
-}))(TextInput);
+}))(TextInput) as any;
 export { useStyles, TextInputStyle, Icon, WrappContent };

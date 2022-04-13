@@ -95,6 +95,6 @@ const IconButtonStyle = withStyles(theme => ({
       color: '#ffffff',
     },
   },
-}))(IconButton);
+}))(IconButton) as any;
 
 export { ToolBar, IconButtonStyle, ZoomButton, useStyles };

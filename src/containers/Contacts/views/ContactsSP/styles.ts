@@ -120,7 +120,7 @@ const TextInput = withStyles(theme => ({
       border: 0,
     },
   },
-}))(TextField);
+}))(TextField) as any;
 export {
   ContainerPage,
   ContactCard,

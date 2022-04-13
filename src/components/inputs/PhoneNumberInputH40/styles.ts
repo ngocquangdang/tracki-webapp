@@ -105,5 +105,5 @@ const TextInputStyle = withStyles(theme => ({
       margin: 'auto 10px',
     },
   },
-}))(TextInput);
+}))(TextInput) as any;
 export { PhoneNumber, TextInputStyle };

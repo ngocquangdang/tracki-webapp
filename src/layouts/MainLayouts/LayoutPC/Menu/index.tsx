@@ -42,7 +42,7 @@ const StyledMenu = withStyles({
     }}
     {...props}
   />
-));
+)) as any;
 
 function CustomizedMenus(props: any) {
   const { logoutRequestAction } = props;

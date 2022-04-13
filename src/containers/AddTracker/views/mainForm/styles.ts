@@ -115,7 +115,7 @@ const StepperStyle = withStyles(theme => ({
       paddingRight: 15,
     },
   },
-}))(Stepper);
+}))(Stepper) as any;
 const LableStyle = withStyles(theme => ({
   root: {
     '& .MuiStepLabel-label': {
@@ -140,7 +140,7 @@ const LableStyle = withStyles(theme => ({
       height: 26,
     },
   },
-}))(StepLabel);
+}))(StepLabel) as any;
 const StepContentStyle = withStyles(theme => ({
   root: {
     paddingRight: 0,
@@ -149,7 +149,7 @@ const StepContentStyle = withStyles(theme => ({
       paddingLeft: 15.5,
     },
   },
-}))(StepContent);
+}))(StepContent) as any;
 
 export {
   Container,

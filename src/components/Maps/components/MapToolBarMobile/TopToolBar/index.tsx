@@ -44,7 +44,7 @@ const StyledMenu = withStyles({
     }}
     {...props}
   />
-));
+)) as any;
 
 interface Props {
   mapTile: string;

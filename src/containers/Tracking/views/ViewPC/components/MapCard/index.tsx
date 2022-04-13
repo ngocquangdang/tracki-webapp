@@ -482,4 +482,4 @@ class MapCard extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(style)(MapCard);
+export default withStyles(style)(MapCard) as any;

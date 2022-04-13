@@ -39,5 +39,5 @@ const TextInput = withStyles(theme => ({
       textAlign: 'center',
     },
   },
-}))(TextField);
+}))(TextField) as any;
 export { Container, Content, SearchInput, useStyles, TextInput };

@@ -38,7 +38,7 @@ const BootstrapInput = withStyles((theme: Theme) =>
       },
     },
   })
-)(InputBase);
+)(InputBase) as any;
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {

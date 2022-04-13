@@ -164,7 +164,7 @@ const CardHeaderStyle = withStyles(theme => ({
       fontSize: 14,
     },
   },
-}))(CardHeader);
+}))(CardHeader) as any;
 export {
   Header,
   Typography,

@@ -43,7 +43,7 @@ const TextInput = withStyles(theme => ({
       padding: '15.5px 14px',
     },
   },
-}))(TextField);
+}))(TextField) as any;
 
 const useStyles = makeStyles(theme => ({
   heightInput: {

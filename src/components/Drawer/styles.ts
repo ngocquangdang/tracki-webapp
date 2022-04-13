@@ -38,5 +38,5 @@ const DrawerStyle = withStyles(() => ({
   paper: {
     color: '#1a1a1a',
   },
-}))(Drawer);
+}))(Drawer) as any;
 export { useStyles, DrawerStyle };

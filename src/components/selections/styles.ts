@@ -50,7 +50,7 @@ const SelectForm = withStyles(theme => ({
       borderColor: '#1a1a1a',
     },
   },
-}))(FormControl);
+}))(FormControl) as any;
 
 const SelectFormBlackView = withStyles(theme => ({
   root: {
@@ -96,6 +96,6 @@ const SelectFormBlackView = withStyles(theme => ({
       color: 'rgba(255, 255, 255, 0.87)',
     },
   },
-}))(FormControl);
+}))(FormControl) as any;
 
 export { SelectForm, useStyles, SelectFormBlackView };

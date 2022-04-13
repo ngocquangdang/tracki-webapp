@@ -88,7 +88,7 @@ const TooltipStyle = withStyles({
   arrow: {
     color: 'white',
   },
-})(Tooltip);
+})(Tooltip) as any;
 const useStyles = makeStyles(theme => ({
   input: {
     '&::placeholder': {
@@ -155,7 +155,7 @@ const ListItemStyle = withStyles(theme => ({
       borderBottom: 'none',
     },
   },
-}))(ListItem);
+}))(ListItem) as any;
 export {
   ImageWrapper,
   Item,
