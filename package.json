@@ -58,6 +58,7 @@
     "http-proxy-middleware": "^1.0.4",
     "immer": "^7.0.4",
     "invariant": "^2.2.4",
+    "jose": "^4.6.1",
     "leaflet": "^1.6.0",
     "leaflet-draw": "^1.0.4",
     "leaflet-path-drag": "^1.1.0",

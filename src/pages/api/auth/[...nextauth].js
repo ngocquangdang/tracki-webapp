@@ -2,26 +2,40 @@ import NextAuth from 'next-auth';
 // import Providers from 'next-auth/providers';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
-import AplleProvider from 'next-auth/providers/apple';
+import AppleProvider from 'next-auth/providers/apple';
+// import { SignJWT } from 'jose';
 
 // const Side = 'https://dev.tracki.com';
+
+// --kid, --key_id        The key id of the private key
+//     --iss, --team_id       The Apple team ID
+//     --private_key          The private key to use to sign the JWT. (Starts with -----BEGIN PRIVATE KEY-----)
+//     --sub, --client_id     The client id to use in the JWT.
+//     --expires_in           Number of seconds from now when the JWT should expire. Defaults to 6 months.
+//     --exp                  Future date in seconds when the JWT expires
+
+// const iss = process.env.NEXT_PUBLIC_APPLE_TEAM_ID;
+// const sub = process.env.NEXT_PUBLIC_APPLE_ID;
+// const kid = process.env.NEXT_PUBLIC_APPLE_KEY_ID;
+// const expiresIn = 86400 * 180;
+// const exp = Math.ceil(Date.now() / 1000) + expiresIn;
 
 const options = {
   // site: 'https://25dda1de678d.ngrok.io',
   providers: [
-    {
-      id: 'tracki',
-      name: 'Tracki',
-      type: 'oauth',
-      version: '2.0',
-      scope: 'settings devices geozones locations accounts notifications',
-      clientId: '26886fb0-b7e0-44dd-acf0-d0a116c3a0e3',
-      clientSecret: '67e2b1c92bb5877ccb1286ef949531a2',
-      authorizationUrl:
-        'https://legacy-app.trackimo.com/api/v3/ns/oauth2/auth?response_type=code',
-      accessTokenUrl: 'https://legacy-app.trackimo.com/api/v3/oauth2/token',
-      profileUrl: 'https://legacy-app.trackimo.com/api/v3/user',
-    },
+    // {
+    //   id: 'tracki',
+    //   name: 'Tracki',
+    //   type: 'oauth',
+    //   version: '2.0',
+    //   scope: 'settings devices geozones locations accounts notifications',
+    //   clientId: '26886fb0-b7e0-44dd-acf0-d0a116c3a0e3',
+    //   clientSecret: '67e2b1c92bb5877ccb1286ef949531a2',
+    //   authorizationUrl:
+    //     'https://legacy-app.trackimo.com/api/v3/ns/oauth2/auth?response_type=code',
+    //   accessTokenUrl: 'https://legacy-app.trackimo.com/api/v3/oauth2/token',
+    //   profileUrl: 'https://legacy-app.trackimo.com/api/v3/user',
+    // },
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
@@ -32,10 +46,10 @@ const options = {
       clientId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
       clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_SECRET,
     }),
-    AplleProvider({
-      clientId: process.env.NEXT_PUBLIC_APPLE_ID,
-      clientSecret: process.env.NEXT_PUBLIC_APPLE_SECRET,
-      scope: 'name%20email',
+    AppleProvider({
+      clientId: 'com.trackimo.trackiios',
+      clientSecret:
+        'eyJraWQiOiJOODc5RlNDNTU2IiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJMVFdQNTVNTDkyIiwiaWF0IjoxNjIyNTIyMjIxLCJleHAiOjE2MzgwNzQyMjEsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20udHJhY2tpbW8udHJhY2tpaW9zIn0.YLx2FdJDXc4Liq1oWrJ77VCrZcx_ZilfzPjIcODHAwPUfRDREbl2i6wlcOPtLN3DIl_TjmGH7-jCz-z02dzX2g',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
