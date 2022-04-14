@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import { FaGooglePlusG } from 'react-icons/fa';
+import { FaGooglePlusG, FaApple } from 'react-icons/fa';
 
 import { AuthLayout } from '@Layouts';
 import { Button } from '@Components/buttons';
@@ -74,6 +74,13 @@ export default function Login(props: ILoginPage.IProps) {
           <Description>{t('login_description')}</Description>
           <LoginForm {...props} t={t} />
           <Line>{t('or')}</Line>
+          <Button
+            className={classes.appleButton}
+            variant="outlined"
+            text="Login with Apple"
+            startIcon={<FaApple size={28} />}
+            onClick={() => signIn('apple')}
+          />
           <Button
             className={classes.fbButton}
             variant="outlined"

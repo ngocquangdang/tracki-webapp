@@ -182,6 +182,19 @@ const useStyles = makeStyles(theme => ({
       boxShadow: '0 0 3px 3px rgba(#3b5998,.3)',
     },
   },
+  appleButton: {
+    background: '#000',
+    width: '100%',
+    border: '0',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.16)',
+    color: '#fff',
+    marginBottom: '1rem',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
+      boxShadow: '0 0 3px 3px rgba(#3b5998,.3)',
+    },
+  },
   fbIcon: {
     width: 27,
     height: 27,

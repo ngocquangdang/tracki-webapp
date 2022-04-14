@@ -2,8 +2,8 @@ import NextAuth from 'next-auth';
 // import Providers from 'next-auth/providers';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
+import AplleProvider from 'next-auth/providers/apple';
 
-// const Side = 'https://ac17b106b94b.ngrok.io';
 // const Side = 'https://dev.tracki.com';
 
 const options = {
@@ -29,8 +29,13 @@ const options = {
         'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
     FacebookProvider({
-      clientId: '259417625433991',
-      clientSecret: '5e984f1c1f1fde7f7773a953587216db',
+      clientId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+      clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_SECRET,
+    }),
+    AplleProvider({
+      clientId: process.env.NEXT_PUBLIC_APPLE_ID,
+      clientSecret: process.env.NEXT_PUBLIC_APPLE_SECRET,
+      scope: 'name%20email',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
