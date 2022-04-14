@@ -74,6 +74,21 @@ const options = {
   // The routes shown here are the default URLs that will be used.
   pages: {},
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log('xxxxx');
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 78 ~ redirect ~ url',
+        url
+      );
+      console.log(
+        '🚀 ~ file: [...nextauth].js ~ line 78 ~ redirect ~ baseUrl',
+        baseUrl
+      );
+      return baseUrl;
+    },
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
       if (account) {
