@@ -46,7 +46,10 @@ export default function Login(props: ILoginPage.IProps) {
       };
       loginSocialNetworkRequestAction(
         session.data.provider as string,
-        configData
+        {...configData, ...(session.data.provider === 'apple' && {
+        "apple_client_id": "com.trackimo.trackiios",
+        "apple_client_secret_key": "eyJraWQiOiIzWDk5Sjk4VEg2IiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJMVFdQNTVNTDkyIiwiaWF0IjoxNjQ5OTYwODY1LCJleHAiOjE2NjU1MTI4NjUsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20udHJhY2tpbW8udHJhY2tpaW9zIn0.G8eXwOmEX-QJMc_HLQGmpbqXpuZfJMyK1K2A86_jWdJK5G3sjd-7p_oj0ok9YPW6Tj8zLsrczUkMgZsYWR0YzA",
+        "refresh_token": session.data.refreshToken})}
       );
     }
   }, [session, loginSocialNetworkRequestAction]);
