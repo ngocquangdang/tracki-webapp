@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import { FaGooglePlusG, FaApple } from 'react-icons/fa';
+import { useTranslation } from 'next-i18next';
 
 import { AuthLayout } from '@Layouts';
 import { Button } from '@Components/buttons';
@@ -24,7 +25,6 @@ import LoginForm from './form';
 import ChatUs from '../components/ChatUS';
 import Modal from '@Components/modals';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-import { useTranslation } from 'next-i18next';
 
 export default function Login(props: ILoginPage.IProps) {
   const { resetErrorAction, loginSocialNetworkRequestAction } = props;

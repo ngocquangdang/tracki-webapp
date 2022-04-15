@@ -13,6 +13,7 @@ const loginReducer = (state = initialState, { type, payload }: ActionType) =>
   produce(state, draft => {
     switch (type) {
       case types.LOGIN_REQUESTED:
+      case types.LOGIN_VIA_SOCIAL_NETWORK_REQUESTED:
         draft.isRequesting = true;
         break;
       case types.LOGIN_FAILED:

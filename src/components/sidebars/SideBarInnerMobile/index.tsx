@@ -13,6 +13,8 @@ import {
   PlayArrow as PlayIcon,
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
+import { signOut } from 'next-auth/react';
+
 // import { WalletIcon } from '@Components/Icon';
 import { logoutRequestAction } from '@Containers/App/store/actions';
 
@@ -87,12 +89,14 @@ function SideBarMobile(props: Props) {
   const { open, children, logoutRequestAction } = props;
   const classes = useStyles();
 
+  const onLogout = () => {
+    signOut();
+    logoutRequestAction();
+  };
+
   const renderMenuButton = ({ icon, label, link }: MenuType) => {
     return (
-      <Item
-        key={label}
-        onClick={label === 'Logout' ? logoutRequestAction : undefined}
-      >
+      <Item key={label} onClick={label === 'Logout' ? onLogout : undefined}>
         <LinkStyle
           color={'secondary'}
           className={classes.linkBtn}

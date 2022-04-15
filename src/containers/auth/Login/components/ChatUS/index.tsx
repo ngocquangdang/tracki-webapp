@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
+import { useTranslation } from 'next-i18next';
 
 import { TextInput, PhoneNumberInput } from '@Components/inputs';
 import Button from '@Components/buttons/Button';
@@ -14,7 +15,9 @@ const initialValuesForm = {
 };
 
 export default function ChatUs(props: ILoginPage.IProps) {
-  const { chatusRequestAction, resetErrorAction, t, errors } = props;
+  const { t } = useTranslation('auth');
+
+  const { chatusRequestAction, resetErrorAction, errors } = props;
   const classes = useStyles();
   const submitForm = (values: ILoginPage.IStateChatUs) =>
     chatusRequestAction(values);

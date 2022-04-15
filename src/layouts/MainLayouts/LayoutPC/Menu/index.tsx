@@ -14,10 +14,10 @@ import {
   PowerSettingsNew as LogoutIcon,
 } from '@material-ui/icons';
 import { Link } from '@material-ui/core';
+import { signOut } from 'next-auth/react';
 
 import { logoutRequestAction } from '@Containers/App/store/actions';
 import { useStyles, StyledMenuItem } from './styles';
-import { signOut } from 'next-auth/react';
 
 const StyledMenu = withStyles({
   paper: {

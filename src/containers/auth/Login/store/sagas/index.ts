@@ -62,8 +62,8 @@ function* loginSocialNetworkSaga(action: ActionType) {
     CookieInstance.setCookie('refreshToken', response.data.refresh_token);
 
     AxiosClient.setHeader(response.data.access_token);
-    window.location.replace('/trackers');
     yield put(loginGeoBotRequestAction(response));
+    window.location.replace('/trackers');
   } catch (error) {
     const { data = {} } = { ...error };
     const payload = {

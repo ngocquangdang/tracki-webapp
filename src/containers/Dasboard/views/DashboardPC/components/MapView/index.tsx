@@ -43,10 +43,12 @@ export default function MapViewComponent(props) {
                 : classes.secondaryColor
             }
           />{' '}
-          {t('dashboard:online')} | {t('dashboard:last_update')}
-          {trackerSelected
-            ? moment(trackerSelected.time * 1000).format('lll')
-            : 'N/A'}
+          {t('dashboard:online')} |{' '}
+          {t('dashboard:last_update', {
+            date: trackerSelected
+              ? moment(trackerSelected.time * 1000).format('lll')
+              : 'N/A',
+          })}
         </Description>
       </HeaderCard>
       <ContentCard>
