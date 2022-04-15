@@ -44,15 +44,16 @@ export default function Login(props: ILoginPage.IProps) {
         client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
         redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
       };
-      loginSocialNetworkRequestAction(
-        session.data.provider as string,
-        {...configData, ...(session.data.provider === 'apple' && {
-        "apple_client_id": "com.trackimo.trackiios",
-        "apple_client_secret_key": "eyJraWQiOiIzWDk5Sjk4VEg2IiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJMVFdQNTVNTDkyIiwiaWF0IjoxNjQ5OTYwODY1LCJleHAiOjE2NjU1MTI4NjUsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20udHJhY2tpbW8udHJhY2tpaW9zIn0.G8eXwOmEX-QJMc_HLQGmpbqXpuZfJMyK1K2A86_jWdJK5G3sjd-7p_oj0ok9YPW6Tj8zLsrczUkMgZsYWR0YzA",
-        "refresh_token": session.data.refreshToken})}
-      );
+      loginSocialNetworkRequestAction(session.data.provider as string, {
+        ...configData,
+        ...(session.data.provider === 'apple' && {
+          apple_client_id: process.env.NEXT_PUBLIC_APPLE_ID,
+          apple_client_secret_key: process.env.NEXT_PUBLIC_APPLE_SECRET,
+          refresh_token: session.data.refreshToken,
+        }),
+      });
     }
-  }, [session, loginSocialNetworkRequestAction]);
+  }, [session]);
 
   const handleOpenModal = () => {
     setOpen(true);

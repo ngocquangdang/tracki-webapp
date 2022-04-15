@@ -17,7 +17,7 @@ import { Link } from '@material-ui/core';
 
 import { logoutRequestAction } from '@Containers/App/store/actions';
 import { useStyles, StyledMenuItem } from './styles';
-import { getSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 const StyledMenu = withStyles({
   paper: {
@@ -58,10 +58,7 @@ function CustomizedMenus(props: any) {
     setAnchorEl(null);
   };
   const handleLogout = async () => {
-    const currentSession = await getSession();
-    if (currentSession) {
-      return signOut();
-    }
+    signOut();
     logoutRequestAction();
   };
   const gotoLink = (link: string) => () => Router.push(link);
