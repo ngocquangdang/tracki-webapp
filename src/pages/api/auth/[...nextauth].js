@@ -49,7 +49,7 @@ const options = {
     AppleProvider({
       clientId: 'com.trackimo.trackiios',
       clientSecret:
-        'eyJraWQiOiJOODc5RlNDNTU2IiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJMVFdQNTVNTDkyIiwiaWF0IjoxNjIyNTIyMjIxLCJleHAiOjE2MzgwNzQyMjEsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20udHJhY2tpbW8udHJhY2tpaW9zIn0.YLx2FdJDXc4Liq1oWrJ77VCrZcx_ZilfzPjIcODHAwPUfRDREbl2i6wlcOPtLN3DIl_TjmGH7-jCz-z02dzX2g',
+        'eyJraWQiOiIzWDk5Sjk4VEg2IiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJMVFdQNTVNTDkyIiwiaWF0IjoxNjQ5OTYwODY1LCJleHAiOjE2NjU1MTI4NjUsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20udHJhY2tpbW8udHJhY2tpaW9zIn0.G8eXwOmEX-QJMc_HLQGmpbqXpuZfJMyK1K2A86_jWdJK5G3sjd-7p_oj0ok9YPW6Tj8zLsrczUkMgZsYWR0YzA',
     }),
   ],
   // The 'database' option should be a connection string or TypeORM
