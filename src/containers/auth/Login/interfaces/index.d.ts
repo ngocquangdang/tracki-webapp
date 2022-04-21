@@ -1,5 +1,3 @@
-// import { withTranslation } from 'next-i18next';
-
 import { WithTranslation } from 'next-i18next';
 
 declare namespace ILoginPage {
@@ -16,7 +14,6 @@ declare namespace ILoginPage {
     chatusRequestAction(data: IStateChatUs): void;
     resetErrorAction(): void;
     loginSocialNetworkRequestAction(socialtype: string, data): void;
-    t: any;
   }
 
   interface InitialProps {

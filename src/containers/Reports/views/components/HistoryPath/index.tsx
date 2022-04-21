@@ -131,7 +131,7 @@ class HistoryPath extends React.Component<Props> {
         this.tempCoordinates = [];
         this.counter = 1;
         this.renderPath(nextProps);
-        changeModeViewMap('actual');
+        changeModeViewMap && changeModeViewMap('actual');
       }
       if (this.pathOptimized) {
         map.removeLayer(this.pathOptimized);
@@ -217,7 +217,7 @@ class HistoryPath extends React.Component<Props> {
         }
         this.animatedPoint.setLatLng([lat, lng]);
         this.counter += 1;
-        this.props.onChangeCounter(this.counter);
+        this.props.onChangeCounter && this.props.onChangeCounter(this.counter);
         this.frameAnimation = requestAnimationFrame(this.moveMarker);
       } else {
         // remove if play completed

@@ -21,7 +21,6 @@ import {
 import ILoginPage from './interfaces';
 
 import View from './views';
-// import { withTranslation } from 'next-i18next';
 
 function Login(props: ILoginPage.IProps) {
   useInjectSaga({ key: 'auth', saga });
@@ -46,8 +45,4 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-  memo
-  // withTranslation('auth')
-)(Login) as React.ComponentType;
+export default compose(withConnect, memo)(Login) as React.ComponentType;

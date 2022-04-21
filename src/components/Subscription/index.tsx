@@ -30,7 +30,7 @@ function SubscriptionModal(props: Props) {
     t,
     open,
     onClickIncrease,
-    onClickFastTracking,
+    // onClickFastTracking,
     onClickCancel,
     onCloseSubscription,
     smsCounter,
@@ -74,7 +74,7 @@ function SubscriptionModal(props: Props) {
           className={classes.btn}
         />
       </Content>
-      <Content>
+      {/* <Content>
         <WrapTitle>
           <Title>{t('tracker:device_active')}: </Title>
           <SubTitle>-</SubTitle>
@@ -91,7 +91,7 @@ function SubscriptionModal(props: Props) {
           fullWidth={true}
           className={classes.btn}
         />
-      </Content>
+      </Content> */}
       <Button
         onClick={onClickCancel}
         text={t('tracker:cancel_subscription')}

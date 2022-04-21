@@ -37,12 +37,7 @@ export default function Login(props: ILoginPage.IProps) {
   firebaseLogEventRequest('login_page', '');
 
   useEffect(() => {
-    console.log('🚀 ~ file: index.tsx ~ line 36 ~ Login ~ session', session);
     if (session && session.data) {
-      console.log(
-        '🚀 ~ file: index.tsx ~ line 41 ~ useEffect ~ session',
-        session
-      );
       const configData = {
         accessToken: session.data.accessToken,
         whiteLabel: 'TRACKI',
