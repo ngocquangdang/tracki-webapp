@@ -20,6 +20,8 @@ class AxiosClient {
         'Content-Type': 'application/json',
         'Accept-Language': 'en-US;q=0.7,en;q=0.6',
       },
+      xsrfHeaderName: '',
+      xsrfCookieName: '',
     });
 
     delete this.axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
