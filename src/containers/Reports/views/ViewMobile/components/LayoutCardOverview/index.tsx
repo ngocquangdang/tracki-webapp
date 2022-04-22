@@ -1,4 +1,5 @@
 import React from 'react';
+import { uniq } from 'lodash';
 
 import Row from '../Row';
 import UnReadNotiCard from '@Components/Skeletons/Report/ReportCardMobile';
@@ -12,10 +13,12 @@ function Card(props) {
     rightItemHead,
     typeCard,
     datas,
-    dataIds,
+    dataIds = [],
     isFetching,
     t,
   } = props;
+
+  const newListTrackerIds = uniq<number>(dataIds);
 
   const classes = useStyles();
   return (
@@ -34,8 +37,8 @@ function Card(props) {
               <UnReadNotiCard key={index} />
             ))}
           </div>
-        ) : dataIds && dataIds.length > 0 ? (
-          dataIds.map(id => (
+        ) : newListTrackerIds.length > 0 ? (
+          newListTrackerIds.map(id => (
             <Row
               typeCard={typeCard}
               data={datas[id]}

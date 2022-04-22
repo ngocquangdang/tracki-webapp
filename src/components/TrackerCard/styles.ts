@@ -25,7 +25,7 @@ const Image = styled.div`
 `;
 const DefaultImage = styled.div`
   width: 40px;
-  height: 34px;
+  height: 40px;
   margin: auto;
   object-fit: contain;
   background-image: ${(props: { background: string }) =>

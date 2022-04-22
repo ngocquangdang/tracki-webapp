@@ -10,7 +10,6 @@ import ILoginPage from '../../interfaces';
 import { Form, Label, useStyles, Message, SwitchGroup } from './styles';
 import { Switch } from '@material-ui/core';
 import { firebaseLogEventRequest } from '@Utils/firebase';
-// import cookie from '@Utils/cookie';
 
 function LoginForm(props: ILoginPage.IProps) {
   const { t, loginRequestAction, resetErrorAction, errors, errorMessage } =
@@ -32,25 +31,13 @@ function LoginForm(props: ILoginPage.IProps) {
     });
   }, []);
 
-  useEffect(() => {
-    // userf.current.focus();
-  }, []);
   const submitForm = (values: ILoginPage.IStateLogin) => {
-    var cookies = document.cookie.split(';');
-
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i];
-      var eqPos = cookie.indexOf('=');
-      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    }
     loginRequestAction(values);
     firebaseLogEventRequest('login_page', 'enter_email');
     firebaseLogEventRequest('login_page', 'enter_password');
     firebaseLogEventRequest('login_page', 'login');
     localStorage.setItem('remember_me', values.remember_me + '');
   };
-  // const resetError = () => resetErrorMessage();
 
   const onForgotPassword = () => {
     firebaseLogEventRequest('login_page', 'forgot_password');
@@ -68,7 +55,6 @@ function LoginForm(props: ILoginPage.IProps) {
         values,
         errors: errorsForm,
         handleChange,
-        setFieldValue,
         handleSubmit,
         handleBlur,
         touched,
